@@ -1,0 +1,716 @@
+.ERR {
+  display: block;
+  font-weight: bold;
+  color: red;
+}
+
+body {
+  font-family: verdana, arial, helvetica, sans-serif;
+}
+
+h2 {
+  font-weight: bold;
+  font-size:22px;
+  font-family: verdana, arial, helvetica, sans-serif;
+}
+
+table {
+  margin: 1 1 1 1;
+}
+
+th {
+  font-size:15px;
+  color:black;
+  font-family: verdana, arial, helvetica, sans-serif;
+}
+
+input {
+  font-size:15px;
+  margin:0 0 0 0;
+  padding:0px;
+  border:solid 2px #f0f0f0;
+  color:black;
+}
+
+select {
+  margin:0 0 0 0;
+  padding:0px;
+}
+
+option {
+  margin:0 0 0 0;
+  padding:0px;
+  min-height:1em;
+}
+
+input[type=submit] {
+  font-size:20px;
+  padding:5px;
+  border:2px;
+  border-color:white;
+  margin:2px;
+  background-color:#8234C6;
+  color:white;
+}
+
+#smallsubmit {
+  font-size:14px;
+}
+
+#greensubmit {
+  font-size:14px;
+  background-color:green;
+}
+
+#redsubmit {
+  font-size:14px;
+  background-color:red;
+}
+
+.partnavbutton {
+    padding:9.5px 10px;
+    background-color:#a30046;
+    color:white;
+    font-size:18px;
+    margin:0px;
+    transition:background 1s, color 1s;
+    -webkit-transition:background 1s, color 1s; /* Safari */
+}
+.partnavbutton:hover {
+    background-color:#005983;
+}
+
+select {
+  font-size:15px;
+  margin:0 0 0 0;
+  padding:0px;
+  border:solid 2px #f0f0f0;
+  color:black;
+}
+
+textarea {
+  font-size:15px;
+  margin:0 0 0 0;
+  padding:0px;
+  border:solid 2px #f0f0f0;
+  color:black;
+  background-color:#E0E0E0;
+}
+
+.SideTable td {
+  min-width:130px;
+}
+
+.Adv {
+//  display:none;
+}
+
+.NotSide {
+  background-color:khaki;
+}
+
+.NotCSide {
+  background-color:lightpink;
+}
+
+input[type=text] {
+  background-color:#E0E0E0;
+}
+
+input[type=number] {
+  background-color:#E0E0E0;
+}
+
+input[type=password] {
+  background-color:#E0E0E0;
+}
+
+.Stafftd {
+  vertical-align: top;
+}
+
+.BlueBack {
+  background-color:#005983;
+}
+
+.staffform {
+  font-size:15px;
+  color: #005983;
+  background-color:white;
+  padding:0px;
+  border:0px;
+  margin:0 0 0 0;
+}
+
+#staffformid {
+  font-size:18px;
+  color: #005983;
+  background-color:white;
+  padding:0px;
+  border:0px;
+  margin:0 0 0 0;
+}
+
+.Vuse2 {
+  font-size:24px;
+}
+
+.Vuse3 {
+  font-size:15px;
+  margin:20px 0 0 50px;
+
+}
+
+.red {
+  color:red;
+}
+
+.blue {
+  color:blue;
+}
+
+.orange {
+  color:orange;
+}
+
+.brown {
+  color:sienna;
+}
+
+.BEGridWrapper {
+  width: 610px;
+  height: 600px;
+  position: fixed;
+  top 0;
+  left 0;
+  border: 1px solid #000;
+  background: #efefef;
+  overflow: hidden;
+}
+
+.BEGridContainer {
+  overflow-y: auto;
+  overflow-x: auto;
+  height: 600px;
+  width: 610px;
+  border: 1px solid #000;
+}
+
+.GridWrapper {
+  width: 70vw;
+  height: 70vh;
+  position: fixed;
+  top 0;
+  left 0;
+  border: 1px solid #000;
+  background: #efefef;
+  overflow: hidden;
+}
+
+.GridWrapper1 {
+  border: 1px solid #000;
+  background: #efefef;
+  overflow: hidden;
+}
+
+.smalltext {
+  font-size:12px;
+}
+
+.smallertext {
+  font-size:10px;
+}
+
+.GridContainer {
+  overflow-y: auto;
+  overflow-x: auto;
+  height: 70vh;
+  width: 70vw;
+  border: 1px solid #000;
+}
+
+.GridContainer1 {
+  overflow-y: auto;
+  overflow-x: auto;
+  border: 1px solid #000;
+}
+
+.SideListWrapper {
+  width: 350px
+  height: 460px;
+  overflow: hidden;
+  position: fixed;
+  top:0;
+  right:0;
+  border: 1px solid #000;
+}
+
+.SideListContainer {
+  overflow-y: auto;
+  height: 440px;
+  width: 350px;
+}
+
+.SideDrag {
+  background: #EEE;
+  border:1;
+  padding:2px;
+}
+
+.SideSelected {
+  background: #EEE;
+}
+
+.GridSelected {
+  background: #EEE;
+}
+
+.GridDrag {
+  background: #EEE;
+  border:1;
+  padding:2px;
+}
+
+.DPGridDisp {
+  font-size:12px;  
+  background:#eee;
+  min-height:15;
+  min-width:150px;
+}
+
+.DPNamed {
+  font-size:12px;
+  background:#DB0;
+  color:black;
+  min-height:15;
+  min-width:150px;
+}
+
+.DPNotNamed {
+  font-size:12px;
+  background:#FED;
+  color:black;
+  min-height:15;
+  min-width:150px;
+}
+
+tr:nth-child(8n+1) .DPGridDisp {
+  background:white;
+}
+
+tr:nth-child(8n+2) .DPGridDisp {
+  background:white;
+}
+
+tr:nth-child(8n+3) .DPGridDisp {
+  background:white;
+}
+
+tr:nth-child(8n+4) .DPGridDisp {
+  background:white;
+}
+
+.SideName {
+  cursor: pointer;
+}
+
+div.whileDragging {
+    background-image: none;
+    background-color: black;
+    color: white;
+}
+
+.ErrorWrapper {
+  width: 50vw;
+  overflow: hidden;
+  position: fixed;
+  left:0;
+  bottom:0;
+  border: 1px solid #000;
+}
+
+.ErrorContainer {
+  overflow-y: auto;
+  height: 20vh;
+  width: 50vw;
+}
+
+.InfoWrapper {
+  width: 350px
+  height: 300px;
+  overflow: hidden;
+  position: fixed;
+  bottom:0;
+  right:0;
+  border: 1px solid #000;
+}
+
+.InfoContainer {
+  overflow-y: auto;
+  height: 300px;
+  width: 350px;
+}
+
+.DPControls {
+  width: 400px
+  height:200px;
+  position: fixed;
+  left:50vw;
+  bottom:0;
+  border: 1px solid #000;
+}
+
+#Notes_Pane {
+  position: fixed;
+  top:71vh;
+  left: 5;
+  width: 70vw;
+  height:10vh;
+}
+
+input[type=button] {
+  font-size:18px;  
+}
+
+.DPGridGrey {
+  font-size:12px;  
+  background:#999;
+  padding:1 1 1 1;
+}
+
+tr:nth-child(8n+1) .DPGridGrey {
+  background:#aaa;
+}
+
+tr:nth-child(8n+2) .DPGridGrey {
+  background:#aaa;
+}
+
+tr:nth-child(8n+3) .DPGridGrey {
+  background:#aaa;
+}
+
+tr:nth-child(8n+4) .DPGridGrey {
+  background:#aaa;
+}
+
+tr:nth-child(10n+5) .DPGridGrey {
+  background:#aaa;
+}
+
+.DPGridTH {
+  min-width:150px;
+}
+
+
+div.dataTables_wrapper {
+  width: 610px;
+  height: 400px;
+  position: fixed;
+  top 0;
+  left 0;
+  border: 1px solid #000;
+  background: #efefef;
+  overflow: hidden;
+}
+
+.floatright {
+  padding-left:3px;
+  float:right; 
+}
+
+.floatleft {
+  padding-right:3px;
+  float:left; 
+  width: 400px;
+  max-width: 400px;
+}
+
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+.custom-file-input::before {
+#  content: 'Select some files';
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+
+.custom-file-input:hover::before {
+  border-color: black;
+}
+
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+
+.minwidth250 {
+  min-width:250px;
+}
+
+.botrightwrap {
+  position:relative;
+}
+
+.botrightcont {
+  position:absolute;
+  bottom:0;
+  right:0;
+}
+
+.imp {
+  color:red;
+  font-weight: bold;
+}
+
+.BGColour0 { background:#e00; }
+.BGColour1 { background:#0e0; }
+.BGColour2 { background:#00e; }
+.BGColour3 { background:#ee0; }
+.BGColour4 { background:#e0e; }
+.BGColour5 { background:#0ee; }
+.BGColour6 { background:#eaa; }
+.BGColour7 { background:#e00; }
+
+.adrlabbox {
+  width:250px;
+  min-width:250px;
+  max-width:250px;
+  height:154px;
+  min-height:154px;
+  max-height:154px;
+  font-size:14px;
+  overflow:hidden;
+  padding-left:15px;
+  padding-right:15px;
+}
+
+.adrlabels {
+  width:800px;
+  table-layout: fixed;
+  overflow:hidden;
+  margin-bottom:2px;
+  padding: 0 0 0 0;
+#  padding-left:15px;
+#  padding-right:15px;
+}
+
+p {
+  max-width:100%;
+}
+
+#ProgDayHL {
+  background-color:#C274F6;
+  color:#421486;
+}
+
+.WMFF_FAQ {
+  width: 800px;
+  padding: 15px 15px 25px 15px;
+  margin:0 15px 0 0;
+}
+
+.WMFF_FAQ dd {
+  padding: 15px 15px 25px 15px;
+  margin:0 15px 0 0;
+}
+
+.WMFF_FAQ dt {
+  font-weight:bold;
+}
+
+#TLactsel a {
+  background: #005983;
+}
+
+#TLacts li {
+  padding: 3 3 3 3;
+  display:inline-block;
+  font-size:20px;
+  background:#a30046;
+  color:white;
+  margin: 3 3 3 3;
+}
+
+#TLacts a {
+  color:white;
+}
+
+#TLacts a:hover{
+  background: #005983;
+}
+
+input[type='file'] {
+  width: 100px;
+} 
+
+.TL_Minor {
+}
+
+.TL_Major td {
+  font-size:20px;
+}
+
+.TL_Critical td {
+  font-Size:24px;
+  font-weight:bold;
+  color:orange;
+}
+
+.Content900 {
+  width:900px;
+}
+
+.buttonlink {
+  font-size:20px;
+  padding:5px;
+  border:2px;
+  background-color:#8234C6;
+  color:white;
+}
+
+.buttonlink:visited {
+  color:white;
+}
+
+.minittl0 {
+  font-size:18px;
+  margin:0 0 -10px 0;
+  padding:0;
+  text-align:left;
+  color:#005c8f;
+  transition:opacity .5s, filter .5s;
+}
+
+.minittl1 {
+  font-size:20px;
+  margin:0 0 -10px 0;
+  padding:0;
+  text-align:left;
+  color:#005c8f;
+  transition:opacity .5s, filter .5s;
+}
+
+.minittl2 {
+  font-size:22px;
+  margin:0 0 -10px 0;
+  padding:0;
+  text-align:left;
+  color:#005c8f;
+  transition:opacity .5s, filter .5s;
+}
+
+.minittl3 {
+  font-size:24px;
+  margin:0 0 -10px 0;
+  padding:0;
+  text-align:left;
+  color:#005c8f;
+  transition:opacity .5s, filter .5s;
+}
+
+.minittl4 {
+  font-size:26px;
+  margin:0 0 -10px 0;
+  padding:0;
+  text-align:left;
+  color:#005c8f;
+  transition:opacity .5s, filter .5s;
+}
+
+.minittl5 {
+  font-size:28px;
+  margin:0 0 -10px 0;
+  padding:0;
+  text-align:left;
+  color:#005c8f;
+  transition:opacity .5s, filter .5s;
+}
+
+.minittl6 {
+  font-size:30px;
+  margin:0 0 -10px 0;
+  padding:0;
+  text-align:left;
+  color:#005c8f;
+  transition:opacity .5s, filter .5s;
+}
+
+.DevEmail {
+  margin: 20px;
+}
+
+.TSNotSub {
+  background:white;
+}
+
+.TSSubmit {
+  background:yellow;
+}
+
+.TSInvite {
+  background:lightyellow;
+}
+
+.TSDecline {
+  background:red;
+}
+
+.TSConf {
+  background:cyan;
+}
+
+.TSDeposit {
+  background:lightblue;
+}
+
+.TSPaid {
+  background:LightGreen;
+}
+
+.TSNoInsRA {
+  background:orange;
+}
+
+.TSCancel {
+  background:grey;
+}
+
+.TSRefunded {
+  background:grey;
+}
+
+.TSInvoice {
+  background:darkseagreen;
+}
+
+.KeepTogether {
+  float:left;
+}
+
+.MauveTable {
+  border:5;
+  padding:5;
+  background:#9b5ba4; 
+  border-color:#9b5ba4;
+  color:white;
+}
+
+.MauveTable td {
+  color:black; 
+  background:white;
+}
+
+#narrowtable {
+  width:30%;
+}

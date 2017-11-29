@@ -1,0 +1,24 @@
+#galleryflex
+    {
+    column-width:300px;
+    column-left: 350px;
+    column-right: 350px;
+    column-gap: 25px;
+    column-count:5;
+    }
+.galleryarticle
+    {
+    min-width:33%;
+    max-width:100%;
+    max-width:640px;
+    min-width:250px;
+    width:100%;
+    display: inline-block;
+    margin-bottom:25px;
+    }
+.galleryarticleimg
+    {
+    width:100%;
+    border-radius:15px;
+    transition:background-color .5s;
+    }

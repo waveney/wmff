@@ -1,0 +1,6 @@
+
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^satbus\.wimbornefolk\.co\.uk$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.satbus\.wimbornefolk\.co\.uk$
+RewriteRule ^/?$ "http\:\/\/wimbornefolk\.co\.uk\/info\/getting\-here\/saturday" [R=301,L]
+

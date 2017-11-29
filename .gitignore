@@ -1,0 +1,14 @@
+tickets
+oldstuff
+images
+int/Store
+int/OldStore
+int/Insurance
+int/PAspecs
+int/Temp
+int/LogFiles
+int/Archive
+int/Contracts
+!int/*/.htaccess
+!images/icons
+
