@@ -34,20 +34,24 @@ global $db,$THISYEAR,$Coming_Type;
 $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND y.Coming=" . $Coming_Type['Y']);
 $sc = 0;
 if ($ans) {
-$r = $ans->fetch_assoc();
-$sc=$r['Total'];
+  $r = $ans->fetch_assoc();
+  $sc=$r['Total'];
 }
 
 $ans = $db->query("SELECT s.Photo,s.SideId FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.Coming=" . 
 		$Coming_Type['Y'] . " ORDER BY RAND() LIMIT 1");
 if ($ans) {
-$p = $ans->fetch_assoc();
-$Photo = $p['Photo'];
+  $p = $ans->fetch_assoc();
+  $Photo = $p['Photo'];
 } else {
-$Photo = "/images/Hobos-Morris-2016.jpg";
-  }
+  $Photo = "/images/Hobos-Morris-2016.jpg";
+}
   $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.Coming=" . 
 			$Coming_Type['Y'] . " AND s.Importance!=0 ORDER BY RAND() LIMIT 2");
+  if (!$ans) {
+    $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.Coming=" . 
+			$Coming_Type['Y'] . " ORDER BY RAND() LIMIT 2");
+  }
   if ($ans) {
     $stuff = $ans->fetch_assoc();
     if ($stuff['SideId'] == $p['SideId']) {
@@ -108,8 +112,13 @@ $Photo = "/images/Hobos-Morris-2016.jpg";
   } else {
     $Photo = "/images/Hobos-Morris-2016.jpg";
   }
+
   $ans = $db->query("SELECT s.* FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.YearState>0 " . 
 			" AND s.Importance!=0 ORDER BY RAND() LIMIT 2");
+  if (!$ans) {
+    $ans = $db->query("SELECT s.* FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.YearState>0 " . 
+			" ORDER BY RAND() LIMIT 2");
+  }
   if ($ans) {
     $stuff = $ans->fetch_assoc();
     if ($stuff['SideId'] == $p['SideId']) $stuff = $ans->fetch_assoc();
