@@ -58,12 +58,15 @@ if ($ans) {
       $newstuff = $ans->fetch_assoc();
       if ($newstuff) $stuff = $newstuff;
     }
-    echo "<div class=article>";
-    echo "<a href=/int/ShowDance.php?sidenum=" . $stuff['SideId'] . " >";
-    echo "<h2 class=articlettl>" . $stuff['Name'] . "</h2>";
-    echo "<img class=articleimg src=" . $stuff['Photo'] . " alt='Wimborne Minster Folk Festival' /></a>";
-    echo "<p class=articletxt>" . $stuff['Description'] . "\n";
-    echo "</div>";
+    if ($stuff['Photo'] || $stuff['Description']) {
+      echo "<div class=article>";
+      echo "<a href=/int/ShowDance.php?sidenum=" . $stuff['SideId'] . " >";
+      echo "<h2 class=articlettl>" . $stuff['Name'] . "</h2>";
+      if ($stuff['Photo']) echo "<img class=articleimg src=" . $stuff['Photo'] . " alt='Wimborne Minster Folk Festival' />";
+      echo "</a>";
+      if ($stuff['Description']) echo "<p class=articletxt>" . $stuff['Description'] . "\n";
+      echo "</div>";
+    }
   }
 
   echo "<div class=article>";
@@ -122,12 +125,15 @@ if ($ans) {
   if ($ans) {
     $stuff = $ans->fetch_assoc();
     if ($stuff['SideId'] == $p['SideId']) $stuff = $ans->fetch_assoc();
-    echo "<div class=article>";
-    echo "<a href=/int/ShowMusic.php?sidenum=" . $stuff['SideId'] . " >";
-    echo "<h2 class=articlettl>" . $stuff['Name'] . "</h2>";
-    echo "<img class=articleimg src=" . $stuff['Photo'] . " alt='Wimborne Minster Folk Festival' /></a>";
-    echo "<p class=articletxt>" . $stuff['Description'] . "\n";
-    echo "</div>";
+    if ($stuff['Photo'] || $stuff['Description']) {
+      echo "<div class=article>";
+      echo "<a href=/int/ShowMusic.php?sidenum=" . $stuff['SideId'] . " >";
+      echo "<h2 class=articlettl>" . $stuff['Name'] . "</h2>";
+      if ($stuff['Photo']) echo "<img class=articleimg src=" . $stuff['Photo'] . " alt='Wimborne Minster Folk Festival' />";
+      echo "</a>";
+      if ($stuff['Description']) echo "<p class=articletxt>" . $stuff['Description'] . "\n";
+      echo "</div>";
+    }
   }
   echo "<div class=article>";
   echo "<a href=/line-up/music >";
