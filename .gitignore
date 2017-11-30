@@ -1,8 +1,9 @@
+.htaccess
 tickets
 oldstuff
-!int/*/.htaccess
 !images/icons
 images/*.*
+images/Sponsors
 images/Sides
 images/Trade
 images/gallery
