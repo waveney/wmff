@@ -1,6 +1,12 @@
 tickets
 oldstuff
-images
+!int/*/.htaccess
+!images/icons
+images/*.*
+images/Sides
+images/Trade
+images/gallery
+images/images
 int/Store
 int/OldStore
 int/Insurance
@@ -9,6 +15,4 @@ int/Temp
 int/LogFiles
 int/Archive
 int/Contracts
-!int/*/.htaccess
-!images/icons
 
