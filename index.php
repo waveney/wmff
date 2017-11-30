@@ -57,7 +57,7 @@ $Photo = "/images/Hobos-Morris-2016.jpg";
     echo "<div class=article>";
     echo "<a href=/int/ShowDance.php?sidenum=" . $stuff['SideId'] . " >";
     echo "<h2 class=articlettl>" . $stuff['Name'] . "</h2>";
-    echo "<img class=articleimg src=" . $stuff['Photo'] . " alt=Wimborne Minster Folk Festival /></a>";
+    echo "<img class=articleimg src=" . $stuff['Photo'] . " alt='Wimborne Minster Folk Festival' /></a>";
     echo "<p class=articletxt>" . $stuff['Description'] . "\n";
     echo "</div>";
   }
@@ -65,7 +65,7 @@ $Photo = "/images/Hobos-Morris-2016.jpg";
   echo "<div class=article>";
   echo "<a href=/line-up/dance >";
   echo "<h2 class=articlettl>Dancing in 2018</h2>";
-  echo "<img class=articleimg src=$Photo alt=Wimborne Minster Folk Festival /></a>";
+  echo "<img class=articleimg src=$Photo alt='Wimborne Minster Folk Festival' /></a>";
   echo "<p class=articletxt>$sc Dance teams have already confirmed for 2018. Many of your favourite teams and some brand new faces.\n";
   echo "</div>";
 ?>
@@ -116,14 +116,14 @@ $Photo = "/images/Hobos-Morris-2016.jpg";
     echo "<div class=article>";
     echo "<a href=/int/ShowMusic.php?sidenum=" . $stuff['SideId'] . " >";
     echo "<h2 class=articlettl>" . $stuff['Name'] . "</h2>";
-    echo "<img class=articleimg src=" . $stuff['Photo'] . " alt=Wimborne Minster Folk Festival /></a>";
+    echo "<img class=articleimg src=" . $stuff['Photo'] . " alt='Wimborne Minster Folk Festival' /></a>";
     echo "<p class=articletxt>" . $stuff['Description'] . "\n";
     echo "</div>";
   }
   echo "<div class=article>";
   echo "<a href=/line-up/music >";
   echo "<h2 class=articlettl>Music in 2018</h2>";
-  echo "<img class=articleimg src=$Photo alt=Wimborne Minster Folk Festival /></a>";
+  echo "<img class=articleimg src=$Photo alt='Wimborne Minster Folk Festival' /></a>";
   echo "<p class=articletxt>$sc Music acts have already confirmed for 2018.\n";
   echo "</div>";
 ?>
