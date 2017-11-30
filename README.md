@@ -16,3 +16,8 @@ Needs mysql database "wmff" at localhost
 Does not include the data from the database, and most uploaded images under /images
 
 
+Branches:
+master - all code changes to be against this branch
+staging - for extensive tests of a nearly live update for large changes
+live - the live real site
+
