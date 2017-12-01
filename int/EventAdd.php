@@ -193,8 +193,7 @@
     $adv = ($Event['SubEvent']>0?"class=Adv":""); 
     echo "<table width=90% border>\n";
       if (isset($eid) && $eid > 0) {
-        echo "<tr><td>Event Id:<td>";
-        echo $eid . fm_hidden('EventId',$eid);
+        echo "<tr><td>Event Id:" . $eid . fm_hidden('EventId',$eid);
       } else {
         echo fm_hidden('EventId',-1);
       }
