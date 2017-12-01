@@ -1,4 +1,4 @@
-    <link rel="SHORTCUT ICON" href="/images/icon.ico" />
+    <link rel="SHORTCUT ICON" href="/images/icon/icon.ico" />
     <meta name="description" content="Wimborne's annual folk festival takes place in the historic market town of Wimborne Minster in Dorset on the weekend of 8, 9, 10 June 2018.">
     <meta name="keywords" content="wimborne, minster, folk, festival, folk festival, dorset, folkie, fringe, paddock, morris, dance, side, music, concerts, camping, parking, trade, trading, stewards, volunteer, tickets, line up">
     <meta name="copyright" content="Copyright &copy; Wimborne Minster Folk Festival <?php date_default_timezone_set('GMT'); echo date('Y'); ?>"> 
