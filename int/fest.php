@@ -190,7 +190,7 @@ function Add_Help_Table(&$table) {
 function help($fld) {
   global $HelpTable;
   if (!isset($HelpTable[$fld])) return;
-  return " <img src=/images/help.png id=Help4$fld title='" . $HelpTable[$fld] . "'> ";
+  return " <img src=/images/icons/help.png id=Help4$fld title='" . $HelpTable[$fld] . "'> ";
 }
 
 function htmlspec($data) {
