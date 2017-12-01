@@ -15,7 +15,7 @@
 <?php include_once("festcon.php"); ?>
 <script src="/js/jquery-3.2.1.min.js"></script>
 <script src="/js/jquery.typeahead.min.js"></script>
-<link href="/js/jquery.typeahead.min.css" type="text/css" rel="stylesheet" />
+<link href="/css/jquery.typeahead.min.css" type="text/css" rel="stylesheet" />
 <script src="/js/Staff.js"></script>
 </head>
 <body>
