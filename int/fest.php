@@ -352,6 +352,7 @@ function fm_date1($Name,&$data,$field,$extra1='',$extra2='',$field2='') {
 
 function SendEmail($to,$sub,$letter,$headopt='') {
 //  $url = 'http://www.wimbornefolk.org/RemoteEmail.php';
+  if (file_exists('testing')) return;
   $url = 'http://moonblink.info/RemoteEmail.php';
   $data = array('TO' => $to, 'SUBJECT' => $sub, 'CONTENT'=>$letter, 'KEY' => 'UGgugue2eun23@', 'HEADER' => $headopt);
 
