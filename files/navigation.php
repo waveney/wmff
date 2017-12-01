@@ -100,7 +100,7 @@
       echo "<a href=/int/MusicFAQ.php onmouseover=NoHoverSticky()>Music FAQ</a>";
       break;
     case 'Trader':
-      echo "<a href=/int/TraderPahe.php?id=$USERID onmouseover=NoHoverSticky()>Edit Trader Info</a>";
+      echo "<a href=/int/TraderPage.php?id=$USERID onmouseover=NoHoverSticky()>Edit Trader Info</a>";
       echo "<a href=/int/ShowTrade.php?id=$USERID onmouseover=NoHoverSticky()>Public view of Trader</a>";
       echo "<a href=/int/TradeFAQ.php onmouseover=NoHoverSticky()>Trade FAQ</a>";
       break;
