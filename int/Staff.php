@@ -228,7 +228,7 @@
       echo "<li><a href=ListBugs.php>List Bugs/Feature requests</a>\n";
     }
     if (Access('SysAdmin')) echo "<li><a href=General.php>General Settings</a> \n";
-    if (Access('Committee','OldAdmin')) echo "<li><a href=/admin/index.php>Original Admin (James's)</a> \n";
+//    if (Access('Committee','OldAdmin')) echo "<li><a href=/admin/index.php>Original Admin (James's)</a> \n";
     echo "</ul>\n";
 
   echo "</table>\n";
