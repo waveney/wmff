@@ -6,9 +6,12 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
   if ($CatT == '') {
     $CatT = ($Side['IsASide'] ? 'Side' : $Side['IsAnAct'] ? 'Act' : 'Other');
   } else {
-    if ($CatT == 'Side') $Side['IsASide']=1;
-    if ($CatT == 'Act') $Side['IsAnAct']=1;
-    if ($CatT == 'Other') $Side['IsOther']=1;
+    if ($Side['IsASide'] || $Side['IsAnAct'] || $Side['IsOther']) {
+    } else {
+      if ($CatT == 'Side') $Side['IsASide']=1;
+      if ($CatT == 'Act') $Side['IsAnAct']=1;
+      if ($CatT == 'Other') $Side['IsOther']=1;
+    }
   }
 
 
@@ -104,11 +107,11 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
         echo "<td class=NotSide colspan=2>Importance:" . fm_select($Importance, $Side,'Importance');
         echo fm_text('Where found',$Side,'Pre2017',1,'class=NotSide','class=NotSide'); // This sort of info from SideYear in future
 //        echo "<td class=NotSide>Last Checked:" . help('DataCheck'] . "<td class=NotSide>" . $Side['DataCheck'] . "\n";
-        if (Access('SysAdmin')) {
-          echo "<td class=NotSide colspan=3>" . fm_checkbox('Dance Side',$Side,'IsASide');
+//        if (Access('SysAdmin')) {
+          echo "<td class=NotSide colspan=2>" . fm_checkbox('Dance Side',$Side,'IsASide');
 	  echo fm_checkbox('Music Act',$Side,'IsAnAct') . fm_checkbox('Other',$Side,'IsOther');
-	}
-        echo " State:" . fm_select($Side_Statuses,$Side,'SideStatus') . "\n";
+//	}
+        echo "<td class=NotSide>State:" . fm_select($Side_Statuses,$Side,'SideStatus') . "\n";
     } else {
       echo fm_hidden('SideId',$snum);
       echo fm_hidden('Id',$snum);
@@ -310,7 +313,7 @@ var_dump($Sidey);
             echo fm_hidden('WristbandsSent',$Sidey['WristbandsSent']);
           }
         if ($Mstate >= $Cat_Stage['Details']) {
-          echo fm_text('QE Car Park Tickets',$Sidey,'CarPark');
+//          echo fm_text('QE Car Park Tickets',$Sidey,'CarPark');
         }
   
       echo "<tr><td rowspan=5>Coming on:";
@@ -423,14 +426,14 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
     if ($year > $CurYear) {
       if ($Mode && isknown($snum,$CurYear)) 
 	echo "<div class=floatright><h2><a href=$Self?sidenum=$snum&Y=$CurYear>$CurYear</a></h2></div>";  
-      echo "<h2>Music in $year</h2>";
+      echo "<h2>Details in $year</h2>";
     } else if ($year == $THISYEAR) {
       if ($Mode && isknown($snum,$CurYear-1)) 
 	echo "<div class=floatright><h2><a href=$Self?sidenum=$snum&Y=" . ($CurYear-1) . ">" . ($CurYear-1) . "</a></h2></div>";  
-      echo "<h2>Music in $year</h2>";
+      echo "<h2>Details in $year</h2>";
     } else {
       if ($Mode) echo "<div class=floatright><h2><a href=$Self?sidenum=$snum>$THISYEAR</a></h2></div>"; 
-      echo "<h2>Details of Music in $year</h2>";
+      echo "<h2>Details in $year</h2>";
     }
   
     echo fm_hidden('Year',$year);
@@ -441,7 +444,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
 
     if ($Mode) {
       include_once('DocLib.php');
-      $AllMU = Get_AllUsers4Sect('Music',$Sidey['BookedBy']);
+      $AllMU = Get_AllUsers4Sect('Music',$Sidey['BookedBy'],'Other');
       echo "<tr>";  // all NotSide (for now) invite coming, Booked by - list default current user
 	echo "<td class=NotSide>Booked By: " . fm_select($AllMU,$Sidey,'BookedBy',1);
 	Contract_State_Check($Sidey);
@@ -569,9 +572,11 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
   } else if (isset($Sidey['Rider']) && strlen($Sidey['Rider']) > 5) {
     echo "<tr>" . fm_textarea('Additional Riders',$Sidey,'Rider',2,1,'','disabled') ."\n";
   }
+/*
   echo "<tr><td>Parking:";
   if ($HasPark) echo fm_text("For $HasPark",$Sidey,'Parking','','colspan=2');
   echo fm_text('QE Car Park Tickets',$Sidey,'CarPark');
+*/
 
 // Overlaps - When Ready
 
@@ -604,7 +609,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
             echo fm_hidden('WristbandsSent',$Sidey['WristbandsSent']);
           }
         if ($Mstate >= $Cat_Stage['Details']) {
-          echo fm_text('QE Car Park Tickets',$Sidey,'CarPark');
+//          echo fm_text('QE Car Park Tickets',$Sidey,'CarPark');
         }
   
       echo "<tr><td rowspan=5>Coming on:";

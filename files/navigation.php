@@ -20,38 +20,56 @@
 <div class=navigation>
 <a href=/ onmouseover=NoHoverSticky()>Home</a>
 <a href=/news.php onmouseover=NoHoverSticky()>News</a>
-<div class=dropdown onmouseover=HoverSticky(event)>
-  <a href=/line-up>Line Up</a>
+<div class=dropdown onmouseover=NoHoverSticky(event)>
+  <a href=/line-up>Line-up</a>
   <div class=dropdown-content>
      <a href=/line-up/dance>Dance</a>
      <a href=/line-up/music>Music</a>
-<!--
-     <a href=/line-up/Dance.php>Dance</a>
-     <a href=/line-up/Music.php>Music</a>
-     <a href=/line-up/Family.php>Family</a>
-     <a href=/line-up/Ceildih.php>Ceildihs</a>
-     <a href=/line-up/Workshops.php>Workshops</a>
-     <a href=/line-up/Comedy.php>Comedy</a>
-     <a href=/line-up/Craft.php>Craft</a>
-     <a href=/line-up/Sessions.php>Sessions</a>
-     <a href=/line-up/Traders.php>Traders</a>
--->
+     <a href=/line-up/Comedy.php class=NotYet>Comedy</a>
+     <a href=/line-up/Traders.php class=NotYet>Traders</a>
+     <a href=/line-up/Other.php class=NotYet>Family/Other</a>
+  </div>
+</div>
+<div class=dropdown onmouseover=NoHoverSticky(event)>
+  <a href=/Whatson class=NotYet>Whats On</a>
+  <div class=dropdown-content>
+     <a href=/Whatson/Where.php class=NotYet>By Venue</a>
+     <a href=/Whatson/When.php class=NotYet>When</a>
+     <a href=/Whatson/DanceProg.php class=NotYet>Dancing</a>
+     <a href=/Whatson/MuicProg class=NotYet>Music</a>
+     <a href=/Whatson/Special.php class=NotYet>Special Events</a>
+     <a href=/Whatson/Family.php class=NotYet>Family</a>
+     <a href=/Whatson/Ceildihs.php class=NotYet>Ceildihs</a>
+     <a href=/Whatson/Workshops.php class=NotYet>Workshops</a>
+     <a href=/Whatson/Comedy.php class=NotYet>Comedy</a>
+     <a href=/Whatson/Sessions.php class=NotYet>Sessions</a>
+     <a href=/Whatson/Craft.php class=NotYet>Craft</a>
   </div>
 </div>
 <a href=/Tickets.php onmouseover=NoHoverSticky()>Tickets</a>
-<div class=dropdown onmouseover=HoverSticky(event)>
+<div class=dropdown onmouseover=NoHoverSticky(event)>
   <a href=/info>Info</a>
   <div class=dropdown-content>
+     <a href=/Map.php class=NotYet>Festival Map</a>
      <a href=/info/camping>Camping & Parking</a>
      <a href=/info/getting-here>Getting Here</a>
      <a href=/info/sponsorship>Sponsorship</a>
      <a href=/info/stewards>Stewards</a>
      <a href=/info/trade>Trade Stands</a>
+     <a href=/RoadClosure.php class=NotYet>Road Closures</a>
      <a href=/info/thanks>With Thanks</a>
      <a href=/RadioWimborne.php>Radio Wimborne</a>
   </div>
 </div>
-<div class=dropdown onmouseover=HoverSticky(event)>
+<div class=dropdown onmouseover=NoHoverSticky(event)>
+  <a href=/About.php class=NotYet>About</a>
+  <div class=dropdown-content>
+     <a href=/About.php class=NotYet>About the Festival</a>
+     <a href=/Wimborne.php class=NotYet>About Wimborne</a>
+     <a href=/FestivalHistory.php class=NotYet>Festival History</a>
+  </div>
+</div>
+<div class=dropdown onmouseover=NoHoverSticky(event)>
   <a href=/gallery>Gallery</a>
   <div class=dropdown-content>
      <a href=/gallery/2017>2017 Photos</a>
@@ -62,9 +80,9 @@
   </div>
 </div>
 <a href=/contact.php onmouseover=NoHoverSticky()>Contact</a>
-<a href=http://facebook.com/WimborneFolk onmouseover=NoHoverSticky() target=_blank><img class=headericon src=/images/Facebook.png alt=Facebook title="Wimborne Minster Folk Festival on  Facebook"></a>
-<a href=http://twitter.com/WimborneFolk onmouseover=NoHoverSticky() target=_blank><img class=headericon src=/images/Twitter.png alt=Twitter title="Wimborne Minster Folk Festival on Twitter"></a>
-<a href=http://instagram.com/WimborneFolk onmouseover=NoHoverSticky() target=_blank><img class=headericon src=/images/Instagram.png alt="Instagram" title="Wimborne Minster Folk Festival on Instagram"></a>
+<a href=http://facebook.com/WimborneFolk onmouseover=NoHoverSticky() target=_blank><img class=headericon src=/images/icons/Facebook.png alt=Facebook title="Wimborne Minster Folk Festival on  Facebook"></a>
+<a href=http://twitter.com/WimborneFolk onmouseover=NoHoverSticky() target=_blank><img class=headericon src=/images/icons/Twitter.png alt=Twitter title="Wimborne Minster Folk Festival on Twitter"></a>
+<a href=http://instagram.com/WimborneFolk onmouseover=NoHoverSticky() target=_blank><img class=headericon src=/images/icons/Instagram.png alt="Instagram" title="Wimborne Minster Folk Festival on Instagram"></a>
 </div>
 <?php 
   global $USERID;

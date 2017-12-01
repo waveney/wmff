@@ -6,7 +6,10 @@
   global $THISYEAR;
 
   $Last = $THISYEAR-1;
-  $Places = array('General Images'=>'images',"Gallery for $Last"=>"images/gallery/$Last","Gallery for $THISYEAR"=>"images/gallery/$THISYEAR");
+  $Places = array('General Images'=>'images',
+	"Gallery for $Last"=>"images/gallery/$Last",
+	"Gallery for $THISYEAR"=>"images/gallery/$THISYEAR",
+	"Icons"=>"images/icons");
   $Pflip = array_flip($Places);
 
 // var_dump($_POST);

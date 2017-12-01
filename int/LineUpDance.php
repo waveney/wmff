@@ -35,9 +35,9 @@ Click on Side's name for more detail and programme when available.<br>
 //    echo "<th><a href=javascript:sorttable(" . $coln++ . ",'T')>Website</a>\n";
     if (!$Min) echo "<th><a href=javascript:sorttable(" . $coln++ . ",'T')>Photo</a>\n";
 //    echo "<th><a href=javascript:sorttable(" . $coln++ . ",'T')>Video</a>\n";
-//    echo "<th><img src=/images/intIcons/Facebook.jpg>";
-//    echo "<th><img src=/images/intIcons/Twitter.jpg>";
-//    echo "<th><img src=/images/intIcons/Instagram.jpg>";
+//    echo "<th><img src=/images/icons/Facebook.jpg>";
+//    echo "<th><img src=/images/icons/Twitter.jpg>";
+//    echo "<th><img src=/images/icons/Instagram.jpg>";
     echo "</thead><tbody>";
     while ($side = $SideQ->fetch_assoc()) {
       if (strlen($side['Name']) < 2) $side['Name'] .= " PADDED";
@@ -62,7 +62,7 @@ Click on Side's name for more detail and programme when available.<br>
       }
 /*
       if ($side['Video']) {
-	echo "<td><a href=" . videolink($side['Video']) . "><img src=images/intIcons/YouTube.jpg></a></td>";
+	echo "<td><a href=" . videolink($side['Video']) . "><img src=images/icons/YouTube.jpg></a></td>";
       } else {
 	echo "<td>";
       }

@@ -208,7 +208,6 @@ function Select_Act_Come($type=0,$extra='') {
   if ($Come_Loaded) return $Coming;
   $qry = "SELECT s.SideId, s.Name, s.Type FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
 	" AND s.IsAnAct=1 " . $extra . " ORDER BY s.Name";
-//  echo "<!-- " . var_dump($qry) . " -->\n";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
@@ -220,7 +219,25 @@ function Select_Act_Come($type=0,$extra='') {
   return $Coming;
 }
 
-function Select_Act_Come_Day($Day,$xtr='') {
+function Select_Other_Come($type=0,$extra='') {
+  global $db,$YEAR;
+  static $Come_Loaded = 0;
+  static $Coming = array('');
+  if ($Come_Loaded) return $Coming;
+  $qry = "SELECT s.SideId, s.Name, s.Type FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
+	" AND s.IsOther=1 " . $extra . " ORDER BY s.Name";
+  $res = $db->query($qry);
+  if ($res) {
+    while ($row = $res->fetch_assoc()) {
+      if ($type && $tow['Type']) { $x = ""; } else { $x = " ( " . $row['Type'] . " ) "; }
+      $Coming[$row['SideId']] = $row['Name'] . $x;
+    }
+  }
+  $Come_Loaded = 1;
+  return $Coming;
+}
+
+function Select_Act_Come_Day($Day,$xtr='') { // This wont work - currently unused (I hope)
   global $db,$YEAR,$Coming_Type;
   $qry = "SELECT s.*, y.* FROM Sides s, ActYear y " .
 	 "WHERE s.SideId=y.SideId AND y.Year=$YEAR " . " AND y.$Day=1 $xtr ORDER BY s.Name";
@@ -374,5 +391,36 @@ function Contract_State_Check(&$Sidey) {
 function ActYear_Check4_Change(&$Cur,&$now) {
   if ($Cur['TotalFee'] != $now['TotalFee'] || $Cur['OtherPayment'] != $now['OtherPayment'] || $Cur['Rider'] != $now['Rider'] ) return Contract_Changed($now['SideId']);
 }
+
+function Music_Actions($Act,&$Sidey) { // Note Sidey MAY have other records in it >= Side
+  global $Book_States;
+  $NewState = $OldState = $Sidey['YearState'];
+  if (!isset($NewState)) $NewState = 0;
+
+  switch ($Act) {
+    case 'Book':
+      break;
+
+    case 'Cancel':
+      break;
+
+    case 'Decline':
+      break;
+
+    case 'Accept':
+      break;
+
+    case 'Contract':
+      break;
+
+    default:
+      break;
+
+  }
+  if ($OldState != $NewState) {
+    Put_ActYear($Sidey);
+  }
+}
+
 ?>
 

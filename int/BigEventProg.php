@@ -15,9 +15,9 @@
   echo "</head> <body>\n";
 
   include_once("DanceLib.php");
+  include_once("MusicLib.php");
   include_once("ProgLib.php");
   include_once("PartLib.php");
-  include_once("OldLib.php");
   global $YEAR;
 
   if (isset($_GET{'e'})) { $Eid = $_GET{'e'}; } else { Error_Page('Big Event without Event'); };
@@ -31,9 +31,8 @@
 
   $Sides = Select_Come_Day($Day,' AND y.Procession=1 ');
 
-  $Acts = Select_Acts(2); // Warning Munged
-
-  $Others = Get_Other_People_Day($Day);
+  $Acts = Select_Act_Come(0);
+  $Others = Select_Other_Come(0);
 
 // Displays Grid
 function Prog_Grid() {
@@ -112,7 +111,7 @@ function Side_List() {
     $id = $side['SideId'];
     echo "<tr><td draggable=true class='SideName' id=Z0:Side:$id ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event)>";
     echo SName($side) . " (" . trim($side['Type']) . ")<td>";
-    echo "<img src=/images/intIcons/information.png onclick=dispinfo('Side',$id)>";
+    echo "<img src=/images/icons/information.png onclick=dispinfo('Side',$id)>";
     if (!$Event['ExcludeCount']) {
       echo "<td id=SideW$id align=right>" . $side[$DAY . "Dance"] . "<td id=SideH$id align=right>" . $SideCounts[$id];
     }
@@ -126,7 +125,7 @@ function Side_List() {
     echo "<tr><td draggable=true class='SideName' id=Z0:Act:$id ondragstart=drag(event) ondragover=allow(event) ondrop=dropside(event)>";
     echo SName($act);
     if ($act['Type']) echo " (" . trim($act['Type']) . ")<td>";
-    echo "<td><img src=/images/intIcons/information.png onclick=dispinfo('Act',$id)>";
+    echo "<td><img src=/images/icons/information.png onclick=dispinfo('Act',$id)>";
     echo "<td id=ActP$id>";
     if (isset($act['EventOrder'])) echo $act['EventOrder'];
     echo "\n";
@@ -138,7 +137,7 @@ function Side_List() {
     echo "<tr><td draggable=true class='SideName' id=Z0:Other:$id ondragstart=drag(event) ondragover=allow(event) ondrop=dropside(event)>";
     echo SName($Other);
     if ($Other['Type']) echo " (" . trim($Other['Type']) . ")";
-    echo "<td><img src=/images/intIcons/information.png onclick=dispinfo('Other',$id)>";
+    echo "<td><img src=/images/icons/information.png onclick=dispinfo('Other',$id)>";
     echo "<td id=OtherP$id>";
     if (isset($Other['EventOrder'])) echo $Other['EventOrder'];
     echo "\n";
@@ -176,7 +175,7 @@ function Notes_Pane() {
 
 function InfoPane() {
   echo "<div class=InfoWrapper><div class=InfoContainer id=InfoPane>";
-  echo "If you click on a <img src=/images/intIcons/information.png> icon by a side, information about them will be displayed here";
+  echo "If you click on a <img src=/images/icons/information.png> icon by a side, information about them will be displayed here";
   echo "</div></div>\n";
 }
 

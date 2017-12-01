@@ -39,7 +39,8 @@
     $Venue = array();
   }
 
-  echo "<table width=90% border>\n";
+  echo "<div class=floatright><img src=" . $Venue['Image'] . " width=400></div>";
+  echo "<table style='width:70%' border>\n";
     if (isset($vid) && $vid > 0) {
       echo "<tr><td>Venue Id:<td>";
       echo $vid . fm_hidden('VenueId',$vid);
@@ -49,9 +50,10 @@
     echo "<tr>" . fm_text('Short Name', $Venue,'ShortName');
     echo "<tr>" . fm_text('Name',$Venue,'Name',3);
     echo "<tr>" . fm_text('Address',$Venue,'Address',5);
-    echo          fm_text('Post Code',$Venue,'PostCode',1);
     echo "<tr>" . fm_textarea('Description',$Venue,'Description',5,3);
     echo "<tr>" . fm_text('GoogleMap',$Venue,'GoogleMap',1);
+    echo          fm_text('Post Code',$Venue,'PostCode',1);
+    echo "<tr>" . fm_text('Image',$Venue,'Image',1);
     echo "<tr>" . fm_text('Notes',$Venue,'Notes',3);
     echo "<tr><td>Status<td>" . fm_select($Venue_Status,$Venue,'Status');
     echo "<td>" . fm_checkbox('Dance Setup Overlap',$Venue,'SetupOverlap');

@@ -16,7 +16,6 @@
   include("ProgLib.php");
   include("DanceLib.php");
   include("MusicLib.php");
-  include("OldLib.php");
 
   Set_Event_Help();
 
@@ -25,7 +24,7 @@
 
   $SideList=Select_Come();
   $ActList=Select_Act_Come(0);
-  $OtherList=Select_Others(0);
+  $OtherList=Select_Other_Come(0);
   $Venues = Get_Venues(0);
   $Skip = 0;
 

@@ -58,6 +58,7 @@
       include("DanceEdit.php");
       exit;
     case 'Act':
+    case 'Other':
       include("MusicEdit.php");
       exit;
     default:

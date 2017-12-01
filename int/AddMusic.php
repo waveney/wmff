@@ -98,6 +98,8 @@
       if ($snum) Insert_db_post('ActYear',$Sidey,$proc);
       UpdateBand($snum);
     }
+    $type = 'Act';
+    if (!$Side['IsAnAct'] && $Side['IsOther']) $type = 'Other';
 
   } elseif (isset($_GET{'sidenum'})) { /* Link from elsewhere */
     $snum = $_GET{'sidenum'};
@@ -112,21 +114,25 @@
     } else {
       echo "<h2 class=ERR>Could not find Act $snum</h2>\n";
     }
+    $type = 'Act';
+    if (!$Side['IsAnAct'] && $Side['IsOther']) $type = 'Other';
   } else {
     $Sidey = Default_AY();
+    $type = 'Act';
+    if (isset($_GET['t']) && $_GET['t'] =='O') $type = 'Other';
   }
 
-  Show_Part($Side,'Act',1,'AddMusic.php');
-  Show_Music_Year($snum,$Sidey,$YEAR,'Act',1);
+  Show_Part($Side,$type,1,'AddMusic.php');
+  Show_Music_Year($snum,$Sidey,$YEAR,$type,1);
 
   if ($snum > 0) {
     if (Access('SysAdmin')) echo "<div class=floatright><input type=Submit id=smallsubmit name='NewAccessKey' value='New Access Key'></div>\n";
     echo "<Center><input type=Submit name='Update' value='Save Changes'>\n";
-    echo "<a class=buttonlink href=EventAdd.php?Act=$snum>Add an Event</a>";
+//    echo "<a class=buttonlink href=EventAdd.php?Act=$snum>Add an Event</a>";
     echo "</center>\n";
   } else { 
     echo "<Center><input type=Submit name=Create value='Create'></center>\n";
-    echo "Note you can only add an Act to an Event ONCE the Act has been created.<p>\n";
+//    echo "Note you can only add an Act to an Event ONCE the Act has been created.<p>\n";
   }
   echo "</form>\n";
 

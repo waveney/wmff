@@ -103,14 +103,14 @@ function Get_AllUsers($mode=0) { // 0 return login names, 1 return levels
   return ($mode?$AccessC:$cache);
 }
 
-function Get_AllUsers4Sect($Sect,$also=-1) { // Sect = Music, Dance etc, include also even if not for sect
+function Get_AllUsers4Sect($Sect,$also=-1,$Sect2='@@',$Sect3='@@') { // Sect = Music, Dance etc, include also even if not for sect
   global $db;
   $res = $db->query("SELECT * FROM FestUsers ORDER BY UserId");
   $ac = array();
   while ($us = $res->fetch_assoc()) {
     $uid = $us['UserId'];
     $ulog = $us['Login'];
-    if ($us[$Sect] || $uid==$also) $ans[$uid] = $ulog;
+    if ($us[$Sect] || $uid==$also || $us['Sect2'] || $us['Sect3']) $ans[$uid] = $ulog;
   }
   return $ans;
 }

@@ -1,5 +1,8 @@
 <?php // Generic Uploading code
 
+// THIS CODE IS HORRIBLE NEEDS TO BE MUCH IMPROVED
+// Action at a distance, hidden globals, spagetti code...
+
 function Upload_Init($Dir='') {
   global $YEAR,$Side,$Sidey,$Put,$Puty,$snum,$Part_Types;
 
@@ -19,13 +22,13 @@ function Upload_Init($Dir='') {
       break;
 
     case 'Act':
-      $Sidey = Get_ActYear($snum);
+      $Sidey = Get_SideYear($snum);
       $Puty = 'Put_ActYear';
       break;
 
     case 'Other':
-      $Sidey = Get_OtherYear($snum);
-      $Puty = 'Put_OtherYear';
+      $Sidey = Get_SideYear($snum);
+      $Puty = 'Put_ActYear';
       break;
     }
   } else if ($Dir == 'Trade') {
