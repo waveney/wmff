@@ -99,6 +99,10 @@
       echo "<a href=/int/ShowMusic.php?sidenum=$USERID onmouseover=NoHoverSticky()>Public view of Act</a>";
       echo "<a href=/int/MusicFAQ.php onmouseover=NoHoverSticky()>Music FAQ</a>";
       break;
+    case 'Other':
+      echo "<a href=/int/MusicEdit.php?sidenum=$USERID&t=O onmouseover=NoHoverSticky()>Edit Act</a>";
+      echo "<a href=/int/ShowMusic.php?sidenum=$USERID&t=O onmouseover=NoHoverSticky()>Public view of Act</a>";
+      break;
     case 'Trader':
       echo "<a href=/int/TraderPage.php?id=$USERID onmouseover=NoHoverSticky()>Edit Trader Info</a>";
       echo "<a href=/int/ShowTrade.php?id=$USERID onmouseover=NoHoverSticky()>Public view of Trader</a>";
