@@ -45,6 +45,12 @@
     background-color:#005983;
 }
 
+.NotYet {
+    background-color:grey;
+    pointer-events: none;
+    cursor:default;
+}
+
 .dropdown:hover .dropdown-content {
     display: block;
 }

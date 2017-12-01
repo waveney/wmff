@@ -13,14 +13,15 @@ Needs Pear::Mail which needs Pear::Net_SMTP
 Needs mysql database "wmff" at localhost
 
 The following empty directories need to be created:
-int/Store int/OldStore int/PAspecs int/Insurance int/Temp int/LogFiles
+
+int/Store int/OldStore int/PAspecs int/Insurance int/Temp int/LogFiles int/Contracts
 
 Does not include the data from the database, and most uploaded images under /images
 
 
 Branches:
-master - all code changes to be against this branch
-staging - for extensive tests of a nearly live update for large changes
-live - the live real site
+* master - all code changes to be against this branch
+* staging - for extensive tests of a nearly live update for large changes
+* live - the live real site
 
 
