@@ -59,7 +59,7 @@
 
 // *********************** MUSIC ****************************************************
   echo "<tr>";
-    echo "<td class=Stafftd><h2>Music and Comedy</h2>\n";
+    echo "<td class=Stafftd><h2>Music</h2>\n";
     echo "<ul>\n";
     echo "<li><a href=MusicFAQ.php>Music FAQ</a>\n";
     if (Access('Staff')) {
@@ -87,23 +87,6 @@
     if (Access('SysAdmin')) {
       echo "<p><table><tr><td>";
       echo "<li class=smalltext><a href=MusicTypes.php>Set Music Types</a>";
-/*
-      echo "<li><a href=ShowMusicProg.php?Y=$YEAR>View Music Programme</a>";
-      echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=1&Y=$YEAR>Condensed Dance Programme</a>";
-      echo "<li class=smalltext><a href=DanceCheck.php?Y=$YEAR>Dance Checking</a>";
-      echo "<li class=smalltext><a href=MusicTypes.php>Set Music Types</a>";
-      echo "<li class=smalltext><a href=LineUpDance.php?MIN&Y=$YEAR>Picture free List of Dance Sides Coming</a>\n";
-      echo "<li class=smalltext><a href=ModifyDance1.php>Modify Dance Structure #1</a>\n";
-      echo "<td>";
-      echo "<li class=smalltext><a href=PrintLabels.php&Y=$YEAR>Print Address Labels</a>";
-      echo "<li class=smalltext><a href=CarPark.php&Y=$YEAR>Car Park Tickets</a>";
-      if ($YEAR == $THISYEAR) echo "<li class=smalltext><a href=WristbandsSent.php>Mark Wristbands Sent</a>";
-      echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR>Public Dance Programme</a>";
-      echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=0&Pub=1&Head=0&Day=Sat&Y=$YEAR>Dance Programme - Sat - no headers</a>";
-      echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=0&Pub=1&Head=0&Day=Sun&Y=$YEAR>Dance Programme - Sun - no headers</a>";
-      echo "<li class=smalltext><a href=ImportMusic.php>Import Music - Old data</a>"; // Should never be needed again
-      echo "<li class=smalltext><a href=ModifyMusic1.php>Modify Music Structure #1</a>\n";
-*/
       echo "</table>\n";
     }
     echo "</ul>\n";
@@ -210,13 +193,25 @@
 
 // *********************** OTHER *****************************************************************
   echo "<tr>";
-  echo "<td class=Stafftd><h2>Other (Arts, Crafts, Children)</h2>\n";
+  echo "<td class=Stafftd><h2>Other (Arts, Crafts, Children, Comedy)</h2>\n";
     echo "<ul>\n";
     echo "<li>Stewarding\n";
     echo "<li><a href=NewsManage.php>News Management</a>";
 //    echo "<li><a href=Facebook.php>Embed Facebook as News</a>";
 //    if (Access('SysAdmin')) echo "<li><a href=NewsConvert1.php>Convert News</a>";
     if (Access('SysAdmin')) echo "<li><a href=PhotoUpload.php>Photo Upload</a>";
+    echo "<p>";
+    
+    if (Access('Staff')) {
+      echo "<li><a href=ListMusic.php?SEL=ALL&Y=$YEAR&t=O>List All Other Participants in Database</a>\n";
+      echo "<li><a href=ListMusic.php?SEL=Booking&Y=$YEAR&t=O>List Other Participants Booking</a>\n";
+    }
+    if (Access('Staff','Other')) {
+//      echo "<li><a href=InviteMusic.php?t=O>Invite Other Acts</a>\n";
+      echo "<li><a href=AddMusic.php?t=O>Add Other Particpant to Database</a>\n"; 
+      echo "<li>Find Other";
+    }
+
     echo "</ul>\n";
 
 // *********************** GENERAL ADMIN *********************************************************
@@ -238,10 +233,6 @@
 
   echo "</table>\n";
 
-  echo "</div>\n";
-
-include("files/footer.php");
-echo "</body></html>";
-exit;
+  dotail();
 ?>
 

@@ -90,8 +90,11 @@
     }
   }
 
-  Show_Part($Side,'Act',0,'MusicEdit.php');
-  Show_Music_Year($snum,$Sidey,$YEAR,'Act',0);
+  $type = 'Act';
+  if (!$Side['IsAnAct'] && $Side['IsOther']) $type = 'Other';
+
+  Show_Part($Side,$type,0,'MusicEdit.php');
+  Show_Music_Year($snum,$Sidey,$YEAR,$type,0);
     
   echo "<button onclick=ShowAdv(event) id=ShowMore type=button class=floatright>More features</button>";
   echo "<center><input type=Submit name='Update' value='Save Changes'></center>\n";

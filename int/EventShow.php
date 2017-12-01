@@ -136,8 +136,8 @@ function Print_Participants($e,$when) {
 
   if ($Ev['Bar'] || $Ev['Food'] || $Ev['BarFoodText']) {
     echo "<tr><td>";
-    if ($Ev['Bar']) echo "<img src=/images/baricon.png width=50 title='There is a bar'> ";
-    if ($Ev['Food']) echo "<img src=/images/foodicon.jpeg width=50 title='There is Food'> ";
+    if ($Ev['Bar']) echo "<img src=/images/icons/baricon.png width=50 title='There is a bar'> ";
+    if ($Ev['Food']) echo "<img src=/images/icons/foodicon.jpeg width=50 title='There is Food'> ";
     if ($Ev['BarFoodText']) echo "<td>" . $Ev['BarFoodText'];
   }
   echo "</table><p>\n";

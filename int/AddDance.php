@@ -112,6 +112,11 @@
 
   Show_Part($Side,'Side',1,'AddDance.php');
   Show_Part_Year($snum,$Sidey,$YEAR,'Side',1);
+  if ($Side['IsAnAct'] || $Side['IsOther']) {
+    $type = 'Act';
+    if (!$Side['IsAnAct'] && $Side['IsOther']) $type = 'Other';
+    Show_Act_Year($snum,$acty,$YEAR,$type,1);
+  }
 
   if ($snum > 0) {
     if (Access('SysAdmin')) echo "<div class=floatright><input type=Submit id=smallsubmit name='NewAccessKey' value='New Access Key'></div>\n";

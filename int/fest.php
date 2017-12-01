@@ -33,9 +33,12 @@ $Part_Types = array_values($Part_Cats);
 $Cat_Types = array_flip($Part_Types);
 $Cat_Stages = array('Started','Invites','Provisional','Details','Programme','History');
 $Cat_Stage = array_flip($Cat_Stages);
-$Book_States = array('None','Declined','Booking','Confirmed','Contract Ready','Booked');
+$Book_States = array('None','Declined','Booking','Contract Ready','Booked');
 $Book_State = array_flip($Book_States);
 $InsuranceStates = array('None','Uploaded','Checked');
+$Book_Actions = array('None'=>'Book','Declined'=>'Book,Contract','Booking'=>'Contract,Decline,Cancel','Contract Ready'=>'Confirm,Decline,Cancel',
+		'Booked'=>'Cancel,Decline');
+$Book_Colour = array('None'=>'White','Declined'=>'pink','Booking'=>'yellow','Contract Ready'=>'orange','Booked'=>'green');
 
 
 // If table's index is 'id' it does not need to be listed here
@@ -845,26 +848,10 @@ function firstword($stuff) {
   return $stuff;
 }
 
-function SAO_Report($t,$i) {
-  include_once("PartLib.php");
-  include_once("OldLib.php");
-  $str='';
-  switch ($t) {
-  case 'Side':
-	$OSide = Get_Side( $i ); 
-        $str .= $OSide['Name'] . " ( " . trim($OSide['Type']) . " )";
-	break;
-  case 'Act':
-	$OAct = Get_Act( $i ); 
-	$str .= $OAct['Name'];
-	if ($OAct['Type']) $str .= " ( " . trim($OAct['Type']) . " )";
-	break;
-  case 'Other':
-	$Other = Get_Other_Person( $i ); 
-	$str .= $Other['Name'];
-	if ($Other['Type']) $str .= " ( " . trim($Other['Type']) . " )";
-	break;
-  }
+function SAO_Report($i) {
+  $OSide = Get_Side( $i ); 
+  $str = $OSide['Name'];
+  if ($OSide['Type']) $str .= " ( " . trim($OSide['Type']) . " )";
   return $str;
 }
 
@@ -877,24 +864,10 @@ function Social_Link(&$data,$site,$mode=0) { // mode:0 Return Site as text, mode
   if (! isset($data[$site]) || strlen($data[$site]) < 5) return ($mode? '' :$site);
   $link = $data[$site];
   if (preg_match("/$site/i",$link)) {
-    return weblink($link,($mode? ( "<img src=/images/intIcons/$site.jpg>") : $site));
+    return weblink($link,($mode? ( "<img src=/images/icons/$site.jpg>") : $site));
   }
-  return "<a href=http://$site.com/$link>" . ($mode? ( "<img src=/images/intIcons/$site.jpg>") : $site) . "</a>";
+  return "<a href=http://$site.com/$link>" . ($mode? ( "<img src=/images/icons/$site.jpg>") : $site) . "</a>";
 }
-
-function Get_Thing($type,$id) {
-  switch ($type) {
-  case 'Side':
-    include_once("DanceLib.php");
-    return Get_Side($id);
-  case 'Act':
-    include_once("OldLib.php");
-    return Get_Act($id);
-  case 'Other':
-    include_once("PartLib.php");
-    return Get_Other($id);
-  }
-}   
 
 function Show_Prog($type,$id,$mode=0,$all=0) { //mode 0 = html, 1 = text for email
     global $DayList,$ProgLevels,$MASTER,$Cat_Stages,$Cat_Type,$Cat_Stage,$Cat_Parts;
@@ -902,6 +875,7 @@ function Show_Prog($type,$id,$mode=0,$all=0) { //mode 0 = html, 1 = text for ema
 //var_dump($Cat_Parts[$type],$Cat_Stage['Programme']);
     $str = '';
     include_once("ProgLib.php");
+    include_once("DanceLib.php");
     $Evs = Get_All_Events_For($type,$id);
 //var_dump($Evs);
     $evc=0;
@@ -911,7 +885,7 @@ function Show_Prog($type,$id,$mode=0,$all=0) { //mode 0 = html, 1 = text for ema
         if ($e['Public'] == 1 || $all ||
 	    ($e['Public'] == 0 && $MASTER[$type . 'ProgLevel']>2 || ($MASTER[$type . 'ProgLevel']>0 && Access('Participant',$type,$id)))) {
 	  if ($evc++ == 0) {
-	    $Thing = Get_Thing($type,$id);
+	    $Thing = Get_Side($id);
 	    if ($mode) {
 	      $str .= $ProgLevels[$MASTER[$type . 'ProgLevel']] . " Programme for " . $Thing['Name'] . ":\n\n";
 	    } else {
@@ -961,8 +935,8 @@ function Show_Prog($type,$id,$mode=0,$all=0) { //mode 0 = html, 1 = text for ema
 	      $str .= $Venues[$e['Venue']] ;
 	      $str .= "<td>In position $Position";
 	    }
-	    if ($PrevI) { $str .= ", After " . SAO_Report($PrevT,$PrevI); };
-	    if ($NextI) { $str .= ", Before " . SAO_Report($NextT,$NextI); };
+	    if ($PrevI) { $str .= ", After " . SAO_Report($PrevI); };
+	    if ($NextI) { $str .= ", Before " . SAO_Report($NextI); };
 	    $str .= "\n";
 	  } else { // Normal Event
 	    if ($mode) {
@@ -975,15 +949,15 @@ function Show_Prog($type,$id,$mode=0,$all=0) { //mode 0 = html, 1 = text for ema
 	    for ($i=1;$i<5;$i++) {
 	      if ($e["Side$i"] > 0 && $e["Side$i"] != $id && $type == 'Side') { 
 	        if ($withc++) { $str .= ", "; } else if ($mode==1) { $str .= " With: "; }
-		$str .= SAO_Report('Side',$e["Side$i"]);
+		$str .= SAO_Report($e["Side$i"]);
               }
 	      if ($e["Act$i"] > 0 && $e["Act$i"] != $id && $type == 'Act') { 
 	        if ($withc++) { $str .= ", "; } else if ($mode==1) { $str .= " With: "; }
-		$str .= SAO_Report('Act',$e["Act$i"]);
+		$str .= SAO_Report($e["Act$i"]);
               }
 	      if ($e["Other$i"] > 0 && $e["Other$i"] != $id && $type == 'Other') { 
 	        if ($withc++) { $str .= ", "; } else if ($mode==1) { $str .= " With: "; }
-		$str .= SAO_Report('Other',$e["Other$i"]);
+		$str .= SAO_Report($e["Other$i"]);
               }
 	    }
 	    $str .= "\n";

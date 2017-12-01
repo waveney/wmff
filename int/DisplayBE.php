@@ -5,7 +5,7 @@
   include_once("DanceLib.php");
   include_once("ProgLib.php");
   include_once("PartLib.php");
-  include_once("OldLib.php");
+  include_once("MusicLib.php");
   global $YEAR;
 
   if (isset($_GET{'e'})) { $Eid = $_GET{'e'}; } else { Error_Page('Big Event without Event'); };
@@ -16,8 +16,8 @@
   dostaffhead("Big Event Display");
 
   $Sides = Select_Come_All();
-  $Acts = Select_Acts(2); // Warning Munged
-  $Others = Get_Other_People();
+  $Acts = Select_Act_Come(1);
+  $Others = Select_Other_Come(1);
 
   $things = Get_Other_Things_For($Eid);
 
