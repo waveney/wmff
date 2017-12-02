@@ -92,7 +92,8 @@
       $i = $evnt['EventId'];
       echo "<tr><td>";
       echo "<input type=checkbox name=E$i class=SelectAllAble>";
-      echo "<td>$i<td><a href=EventAdd.php?e=$i>";
+      echo "<td>$i<td>";
+      if (Access('Staff','Venues')) echo "<a href=EventAdd.php?e=$i>";
       if (strlen($evnt['Name']) >2) { echo $evnt['Name'] . "</a>"; } else { echo "Nameless</a>"; };
       echo "<td>" . $DayList[$evnt['Day']] . "<td>" . $evnt['Start'] . "<td>";
       if ($se > 0 && $evnt['SubEvent'] < 0) { echo $evnt['SlotEnd']; } else { echo $evnt['End']; }; 
