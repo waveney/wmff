@@ -34,7 +34,8 @@
   if (isset($_GET['ACTION'])) {
     $sid = $_GET['SideId'];
     $side = Get_Side($sid);
-    Music_Action($_GET{'ACTION'},$side);
+    $sidey = Get_ActYear($sid);
+    Music_Actions($_GET{'ACTION'},$side,$sidey);
   }
 
   if ($_GET{'SEL'} == 'ALL') {

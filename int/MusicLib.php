@@ -392,32 +392,40 @@ function ActYear_Check4_Change(&$Cur,&$now) {
   if ($Cur['TotalFee'] != $now['TotalFee'] || $Cur['OtherPayment'] != $now['OtherPayment'] || $Cur['Rider'] != $now['Rider'] ) return Contract_Changed($now['SideId']);
 }
 
-function Music_Actions($Act,&$Sidey) { // Note Sidey MAY have other records in it >= Side
-  global $Book_States;
+function Music_Actions($Act,&$side,&$Sidey) { // Note Sidey MAY have other records in it >= Side
+  global $Book_State,$Book_States;
   $NewState = $OldState = $Sidey['YearState'];
   if (!isset($NewState)) $NewState = 0;
 
   switch ($Act) {
     case 'Book':
+      $NewState = $Book_State['Booking'];
       break;
 
     case 'Cancel':
+      $NewState = $Book_State['None'];
       break;
 
     case 'Decline':
+      $NewState = $Book_State['Declined'];
       break;
 
     case 'Accept':
+// Handle contract acceptance
       break;
 
     case 'Contract':
+      $NewState = $Book_State['Contract Ready'];
+// Issue Contract 
       break;
 
     default:
       break;
 
   }
+
   if ($OldState != $NewState) {
+    $Sidey['YearState'] = $NewState;
     Put_ActYear($Sidey);
   }
 }

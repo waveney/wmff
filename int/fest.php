@@ -466,7 +466,7 @@ function Update_db($table,&$old,&$new,$proced=1) {
   
   if ($proced && $fcnt) {
     $newrec .= " WHERE $indxname=" . $old[$indxname];
-//if ($table == 'TradeYear') var_dump($newrec);
+if ($table == 'ActYear') var_dump($newrec);
     $update = $db->query($newrec);
     $UpdateLog .= $newrec . "\n";
     if ($update) {
