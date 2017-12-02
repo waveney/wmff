@@ -17,7 +17,14 @@
   include("files/navigation.php"); 
   include_once("DanceLib.php"); 
   include_once("MusicLib.php"); 
-  echo "<div class=content><h2>List Music Acts $YEAR</h2>\n";
+
+  if (isset($_GET['t']) && $_GET['t'] == 'O') {
+    $TypeSel = ' s.IsOther=1';
+    echo "<div class=content><h2>List Other Participants $YEAR</h2>\n";
+  } else {
+    $TypeSel = ' s.IsAnAct=1';
+    echo "<div class=content><h2>List Music Acts $YEAR</h2>\n";
+  }
 
   echo "Click on column header to sort by column.  Click on Acts's name for more detail and programme when available,<p>\n";
 
@@ -29,8 +36,6 @@
     $side = Get_Side($sid);
     Music_Action($_GET{'ACTION'},$side);
   }
-
-  $TypeSel = (isset($_GET['t']) && $_GET['t'] == 'O')? ' s.IsOther=1' : ' s.IsAnAct=1';
 
   if ($_GET{'SEL'} == 'ALL') {
     $flds = "y.*, s.*";

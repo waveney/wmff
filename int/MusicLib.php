@@ -294,7 +294,7 @@ function Contract_Check($snum) {
   $Evs = Get_Events4Act($snum,$YEAR);
   $types = Get_Event_Types(1);
   $LastEv = 0;
-  foreach ($Evs as $e) {
+  if ($Evs) foreach ($Evs as $e) {
     if ($InValid == 3) $InValid = 0;
     if ($LastEv) {
       if (($e['Day'] == $LastEv['Day']) && ($e['Start'] > 0) && ($e['Venue'] >0)) {
