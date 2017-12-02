@@ -130,6 +130,10 @@
 	    $acts = preg_split('/,/',$acts); 
 	    echo "<form>" . fm_Hidden('SEL',$_GET['SEL']) . fm_hidden('SideId',$fetch['SideId']) . (isset($_GET['t'])? fm_hidden('t',$_GET[t]) : '') ;
 	    foreach($acts as $ac) {
+              if ($ac == 'Contract') {
+		$NValid = Contract_Check($side['SideId']);
+	        if ($NValid) continue;
+	      }
 	      echo "<button class=floatright name=ACTION value='$ac' type=submit " . $ButExtra[$ac] . " >$ac</button>";
 	    }
 	    echo "</form>";

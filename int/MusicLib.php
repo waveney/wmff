@@ -415,8 +415,8 @@ function Music_Actions($Act,&$side,&$Sidey) { // Note Sidey MAY have other recor
       break;
 
     case 'Contract':
-      $NewState = $Book_State['Contract Ready'];
-// Issue Contract 
+      $Valid = (!Contract_Check($side['SideId']));
+      if ($Valid) $NewState = $Book_State['Contract Ready'];
       break;
 
     default:
@@ -425,6 +425,7 @@ function Music_Actions($Act,&$side,&$Sidey) { // Note Sidey MAY have other recor
   }
 
   if ($OldState != $NewState) {
+echo "Newstate $NewState<p>";
     $Sidey['YearState'] = $NewState;
     Put_ActYear($Sidey);
   }
