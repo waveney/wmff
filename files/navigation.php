@@ -34,7 +34,7 @@
   <a href=/Whatson class=NotYet>Whats On</a>
   <div class=dropdown-content>
      <a href=/Whatson/Where.php class=NotYet>By Venue</a>
-     <a href=/Whatson/When.php class=NotYet>When</a>
+     <a href=/Whatson/When.php class=NotYet>By Time</a>
      <a href=/Whatson/DanceProg.php class=NotYet>Dancing</a>
      <a href=/Whatson/MuicProg class=NotYet>Music</a>
      <a href=/Whatson/Special.php class=NotYet>Special Events</a>
