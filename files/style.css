@@ -480,8 +480,6 @@ textarea:Focus
     margin:0 0 0 0;
     padding: 15px 0;
     }
-
-
 .minidetails
     {
     width:100%;
@@ -610,6 +608,14 @@ textarea:Focus
   max-width: 480px;
   height: 220px;
   max-height: 300px;
+}
+.smallfloatleft {
+  padding-right:3px;
+  display: inline-block;
+  min-width: 480px;
+  max-width: 480px;
+  height: 120px;
+  max-height: 120px;
 }
 .headericon {
   max-height:20px;
