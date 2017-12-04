@@ -200,7 +200,10 @@
     echo "<li><a href=NewsManage.php>News Management</a>";
 //    echo "<li><a href=Facebook.php>Embed Facebook as News</a>";
 //    if (Access('SysAdmin')) echo "<li><a href=NewsConvert1.php>Convert News</a>";
-    if (Access('SysAdmin')) echo "<li><a href=PhotoUpload.php>Photo Upload</a>";
+    if (Access('Staff','Photos')) {
+      echo "<li><a href=PhotoUpload.php>Photo Upload</a>";
+      echo "<li><a href=PhotoManage.php>Photo Manage</a>";
+    }
     echo "<p>";
     
     if (Access('Staff')) {
@@ -208,7 +211,6 @@
       echo "<li><a href=ListMusic.php?SEL=Booking&Y=$YEAR&t=O>List Other Participants Booking</a>\n";
     }
     if (Access('Staff','Other')) {
-//      echo "<li><a href=InviteMusic.php?t=O>Invite Other Acts</a>\n";
       echo "<li><a href=AddMusic.php?t=O>Add Other Particpant to Database</a>\n"; 
       echo "<li>Find Other";
     }

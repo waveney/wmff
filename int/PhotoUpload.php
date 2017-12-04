@@ -9,7 +9,8 @@
   $Places = array('General Images'=>'images',
 	"Gallery for $Last"=>"images/gallery/$Last",
 	"Gallery for $THISYEAR"=>"images/gallery/$THISYEAR",
-	"Icons"=>"images/icons");
+	"Icons"=>"images/icons",
+	"Sponsors"=>"images/Sponsors");
   $Pflip = array_flip($Places);
 
 // var_dump($_POST);
