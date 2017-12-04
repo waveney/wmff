@@ -550,6 +550,10 @@ p {
   background: #005983;
 }
 
+#manyfiles {
+  width: 110px;
+} 
+
 input[type='file'] {
   width: 100px;
 } 

@@ -48,7 +48,7 @@
   echo fm_hidden('Action', 'Upload');
 
   echo "Select Photo files to upload:";
-  echo '<input type=file name="PhotoForm[]" multiple onchange=this.form.submit()>';
+  echo '<input type=file name="PhotoForm[]" multiple id=manyfiles onchange=this.form.submit()>';
   echo "<p><input type=submit name=Action2 value=Upload id=PhotoButton>";
 
   echo "</form><p>";
