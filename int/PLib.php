@@ -43,7 +43,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
     echo "<span class=NotSide>Fields marked are not visible to participants.</span>";
     echo "  <span class=NotCSide>Marked are visible if set, but not changeable by participants.</span>";
   } else {
-    $Adv = 'class=Adv'; // NEEDS MODING FOR NON DANCE
+    $Adv = ''; // 'class=Adv'; // NEEDS MODING FOR NON DANCE
     if ($MASTER{'DanceState'} >= $Cat_Stage['Details']) {
       echo "<h2 class=floatright>You have <span id=ImpC>0</span> of 4 <span class=red>Most Dance Important</span> things filled in </h2>";
       $Imp = 'class=imp';

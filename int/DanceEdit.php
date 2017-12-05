@@ -103,7 +103,7 @@
   Show_Part($Side,'Side',0,'DanceEdit.php');
   Show_Part_Year($snum,$Sidey,$YEAR,'Side',0);
     
-  echo "<button onclick=ShowAdv(event) id=ShowMore type=button class=floatright>More features</button>";
+//  echo "<button onclick=ShowAdv(event) id=ShowMore type=button class=floatright>More features</button>";
   echo "<center><input type=Submit name='Update' value='Save Changes'></center>\n";
   echo "</form>\n";
 
