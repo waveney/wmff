@@ -252,7 +252,7 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1) {
   include_once "DanceLib.php";
   $ans = "";
   $flds = array('Side','Act','Other');
-  $res = $db->query("SELECT * FROM Events WHERE EventId='$Ev' OR SubEvent='$Ev' ORDER BY Day, Start");
+  $res = $db->query("SELECT * FROM Events WHERE EventId='$Ev' OR SubEvent='$Ev' ORDER BY Day, Start DESC");
   if ($res) {
     $imps=array();
     while ($e = $res->fetch_assoc()) {

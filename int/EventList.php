@@ -62,7 +62,7 @@
     echo "<h2>List Events</h2>";
   }
 
-  $coln = 0;
+  $coln = 1;  // Start at 1 because of select all
   echo "<form method=post action=EventList.php>";
   echo "Click on Id/Name to edit, on Show for public page.<p>\n";
   if ($se) echo fm_hidden('se',$se);
@@ -81,6 +81,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Price</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Size</a>\n";
   if ($se == 0) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Sub Events</a>\n";
+  if ($se != 0) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>With</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Notes</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Show</a>\n";
   echo "</thead><tbody>";
@@ -107,6 +108,9 @@
       if ($se == 0) {
         if ($evnt['SubEvent'] == 0) { echo "<td>No\n"; }
 	else { echo "<td><a href=EventList.php?se=$i>Yes</a>\n"; }
+      }
+      if ($se != 0) {
+	echo "<td>" . Get_Event_Participants($evnt,1) ;
       }
       echo "<td>" . $evnt['Notes'];
       if ($se > 0 && $evnt['SubEvent'] < 0) echo " Full end: " . $evnt['End'] . " PARENT";
