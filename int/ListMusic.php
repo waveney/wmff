@@ -106,7 +106,7 @@
 
       $State = $fetch['YearState'];
       if (isset($State)) {
-        Contract_State_Check(&$fetch); 
+        Contract_State_Check($fetch); 
 	$State = $fetch['YearState'];
       } else {
 	$state = 0;

@@ -2,6 +2,7 @@
   include_once("fest.php");
   include_once("ImageLib.php"); 
 
+  A_Check('Staff','Photos');
   dostaffhead("Upload Photos");
   global $THISYEAR;
 
