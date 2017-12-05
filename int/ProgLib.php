@@ -279,7 +279,19 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1) {
 	if ($things++) $ans .= " , ";
 	$link=0;
 	if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
-	if ($link) $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
+	if ($link) {
+	  if ($link ==1) {
+	    $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
+	  } else {
+	    if ($thing['IsASide']) {
+	      $ans .= "<a href='/int/AddDance.php?sidenum=" . $thing['SideId'] . "'>";
+	    } else if ($thing['IsAnAct']) {
+	      $ans .= "<a href='/int/AddMusic.php?sidenum=" . $thing['SideId'] . "'>";
+	    } else {
+	      $ans .= "<a href='/int/AddMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
+	    }
+	  }
+	}
 	$ans .= NoBreak($thing['Name']);
 	if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
         if ($link) $ans .= "</a>";

@@ -110,7 +110,11 @@
 	else { echo "<td><a href=EventList.php?se=$i>Yes</a>\n"; }
       }
       if ($se != 0) {
-	echo "<td>" . Get_Event_Participants($evnt,1) ;
+	echo "<td>";
+	if ($evnt['SubEvent']>0) {
+	  echo Get_Event_Participants($i,2) ;
+	} else {
+	}
       }
       echo "<td>" . $evnt['Notes'];
       if ($se > 0 && $evnt['SubEvent'] < 0) echo " Full end: " . $evnt['End'] . " PARENT";

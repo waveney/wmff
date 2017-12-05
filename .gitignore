@@ -1,3 +1,5 @@
+.*.swp
+int/.*.swp
 .htaccess
 tickets
 oldstuff
