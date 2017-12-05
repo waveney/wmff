@@ -17,7 +17,14 @@
   include("files/navigation.php"); 
   include_once("DanceLib.php"); 
   include_once("MusicLib.php"); 
-  echo "<div class=content><h2>List Music Acts $YEAR</h2>\n";
+
+  if (isset($_GET['t']) && $_GET['t'] == 'O') {
+    $TypeSel = ' s.IsOther=1';
+    echo "<div class=content><h2>List Other Participants $YEAR</h2>\n";
+  } else {
+    $TypeSel = ' s.IsAnAct=1';
+    echo "<div class=content><h2>List Music Acts $YEAR</h2>\n";
+  }
 
   echo "Click on column header to sort by column.  Click on Acts's name for more detail and programme when available,<p>\n";
 
@@ -27,10 +34,9 @@
   if (isset($_GET['ACTION'])) {
     $sid = $_GET['SideId'];
     $side = Get_Side($sid);
-    Music_Action($_GET{'ACTION'},$side);
+    $sidey = Get_ActYear($sid);
+    Music_Actions($_GET{'ACTION'},$side,$sidey);
   }
-
-  $TypeSel = (isset($_GET['t']) && $_GET['t'] == 'O')? ' s.IsOther=1' : ' s.IsAnAct=1';
 
   if ($_GET{'SEL'} == 'ALL') {
     $flds = "y.*, s.*";
@@ -100,7 +106,7 @@
 
       $State = $fetch['YearState'];
       if (isset($State)) {
-        Contract_State_Check(&$fetch); 
+        Contract_State_Check($fetch); 
 	$State = $fetch['YearState'];
       } else {
 	$state = 0;
@@ -124,6 +130,10 @@
 	    $acts = preg_split('/,/',$acts); 
 	    echo "<form>" . fm_Hidden('SEL',$_GET['SEL']) . fm_hidden('SideId',$fetch['SideId']) . (isset($_GET['t'])? fm_hidden('t',$_GET[t]) : '') ;
 	    foreach($acts as $ac) {
+              if ($ac == 'Contract') {
+		$NValid = Contract_Check($side['SideId']);
+	        if ($NValid) continue;
+	      }
 	      echo "<button class=floatright name=ACTION value='$ac' type=submit " . $ButExtra[$ac] . " >$ac</button>";
 	    }
 	    echo "</form>";

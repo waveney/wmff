@@ -11,7 +11,7 @@ Php needs the webspace root in the php include path as well as pear to be instal
 
 Needs Pear::Mail which needs Pear::Net_SMTP (on live systems only)
 
-Needs mysql database "wmff" at localhost and closed to non-direct access
+Needs mysql (or equivalent compatible) database "wmff" at localhost and closed to non-direct access
 
 The following empty directories need to be created:
 

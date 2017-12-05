@@ -294,7 +294,7 @@ function Contract_Check($snum) {
   $Evs = Get_Events4Act($snum,$YEAR);
   $types = Get_Event_Types(1);
   $LastEv = 0;
-  foreach ($Evs as $e) {
+  if ($Evs) foreach ($Evs as $e) {
     if ($InValid == 3) $InValid = 0;
     if ($LastEv) {
       if (($e['Day'] == $LastEv['Day']) && ($e['Start'] > 0) && ($e['Venue'] >0)) {
@@ -392,32 +392,41 @@ function ActYear_Check4_Change(&$Cur,&$now) {
   if ($Cur['TotalFee'] != $now['TotalFee'] || $Cur['OtherPayment'] != $now['OtherPayment'] || $Cur['Rider'] != $now['Rider'] ) return Contract_Changed($now['SideId']);
 }
 
-function Music_Actions($Act,&$Sidey) { // Note Sidey MAY have other records in it >= Side
-  global $Book_States;
+function Music_Actions($Act,&$side,&$Sidey) { // Note Sidey MAY have other records in it >= Side
+  global $Book_State,$Book_States;
   $NewState = $OldState = $Sidey['YearState'];
   if (!isset($NewState)) $NewState = 0;
 
   switch ($Act) {
     case 'Book':
+      $NewState = $Book_State['Booking'];
       break;
 
     case 'Cancel':
+      $NewState = $Book_State['None'];
       break;
 
     case 'Decline':
+      $NewState = $Book_State['Declined'];
       break;
 
     case 'Accept':
+// Handle contract acceptance
       break;
 
     case 'Contract':
+      $Valid = (!Contract_Check($side['SideId']));
+      if ($Valid) $NewState = $Book_State['Contract Ready'];
       break;
 
     default:
       break;
 
   }
+
   if ($OldState != $NewState) {
+echo "Newstate $NewState<p>";
+    $Sidey['YearState'] = $NewState;
     Put_ActYear($Sidey);
   }
 }

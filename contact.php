@@ -32,23 +32,21 @@
 </tr>
 </table></p>
 
-<div id="flex">
 <?php
   global $db;
   $ans = $db->query("SELECT * FROM FestUsers WHERE Contacts=1 ORDER BY NAME");
   while ($user = $ans->fetch_assoc()) {
-    echo "<div class=mini>\n";
+    echo "<div class=smallfloatleft><div class=mini>\n";
     if ($user['WMFFemail']) echo "<a href=mailto:" . $user['WMFFemail'] . "@wimbornefolk.co.uk>";
     echo "<img alt='Wimborne Minster Folk Festival' style='float:left; max-width:100px;max-height:100px;margin-right:5px' src='";
     echo ($user['Image']?$user['Image']:"/images/WimborneFolkLogo.png") . "'>";
     echo "<h2 class=minittl>" . $user['Name'] . "</h2>";
     echo "<br><p class=minitxt>" . $user['Roll'] ;
     if ($user['WMFFemail']) echo "<br>" . $user['WMFFemail'] . "@wimbornefolk.co.uk</a>";
-    echo "</div>\n";
+    echo "</div></div>\n";
   }
 
 ?>
-</div>
 
 <!-- <h2 class="subtitle">Contact Us during the Festival Weekend</h2>
 <p>If you need to get in touch with the festival committee during the festival weekend, please find a steward, ask at our Information Points on The Square or at The Allendale Centre or send an email to <a href="mailto:info@wimbornefolk.co.uk">info@wimbornefolk.co.uk</a> and we'll put you in touch with the committee.</p>

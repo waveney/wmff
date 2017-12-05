@@ -21,7 +21,7 @@ $Access_Levels = array('','Participant','Upload','Steward','Staff','Committee','
 $Access_Type = array_flip($Access_Levels);
 $Area_Levels = array( 'No','Edit','Edit and Report');
 $Area_Type = array_flip($Area_Levels);
-$Sections = array( 'Docs','Dance','Stalls','Users','Venues','Music','Sponsors','Comedy','Craft','Other','OldAdmin','Bugs');
+$Sections = array( 'Docs','Dance','Stalls','Users','Venues','Music','Sponsors','Comedy','Craft','Other','OldAdmin','Bugs','Photos');
 $Importance = array('None','Some','High','Very High','Even Higher','Highest','The Queen');
 $ProgLevels = array('None','Early Draft','Draft','Provisional','','Final');
 $OverlapStates = array('','Major Musician','Minor Musician','Major Dancer','Minor Dancer','Major Other','Minor Other');
@@ -466,7 +466,7 @@ function Update_db($table,&$old,&$new,$proced=1) {
   
   if ($proced && $fcnt) {
     $newrec .= " WHERE $indxname=" . $old[$indxname];
-//if ($table == 'TradeYear') var_dump($newrec);
+if ($table == 'ActYear') var_dump($newrec);
     $update = $db->query($newrec);
     $UpdateLog .= $newrec . "\n";
     if ($update) {
