@@ -54,7 +54,7 @@
      <a href=/info/camping>Camping & Parking</a>
      <a href=/info/getting-here>Getting Here</a>
      <a href=/info/sponsorship>Sponsorship</a>
-     <a href=/info/stewards>Stewards</a>
+     <a href=/InfoStewards.php>Stewards</a>
      <a href=/info/trade>Trade Stands</a>
      <a href=/RoadClosure.php class=NotYet>Road Closures</a>
      <a href=/info/thanks>With Thanks</a>

@@ -123,6 +123,12 @@ function Get_Sponsors($tup=0) { // 0 Current, 1 all data
   return $full;
 }
 
+function Get_Sponsor_Names() {
+  $data = Get_Sponsors();
+  foreach ($data as $i=>$sp) $ans[$sp['id']]=$sp['Name'];
+  return $ans;
+}
+
 function Get_Sponsor($id) {
   global $db;
   $res=$db->query("SELECT * FROM Sponsors WHERE id=$id");
@@ -192,6 +198,18 @@ function Get_Trader($who) {
   $res = $db->query("SELECT * FROM Trade WHERE Tid='$who'");
   if (!$res || $res->num_rows == 0) return 0;
   $data = $res->fetch_assoc();
+  return $data;
+}
+
+function Get_Traders_Coming($type=0) { // 0=names, 1=all
+  global $db,$YEAR;
+  $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Deposit Paid'] .
+		" ORDER BY Name";
+  $res = $db->query($qry);
+  if (!$res || $res->num_rows == 0) return 0;
+  while ($tr=$res->fetch_assoc()) {
+    $data[$tr['Tid']] = ($type?$tr:$tr['Name']);
+  }
   return $data;
 }
 
