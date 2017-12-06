@@ -17,3 +17,10 @@ function HoverSticky(e) {
   $('.active').removeClass('active');
   e.currentTarget.lastElementChild.className += " active";
 }
+
+function PCatSel(e) {
+  debugger;
+  $('[id^=MPC_').hide();
+  var selectedOption = $("input:radio[name=PCAT]:checked").val()
+  $('#MPC_' + selectedOption).show();
+}

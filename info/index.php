@@ -31,14 +31,14 @@
 </div>
 
 <div class="mini">
-<a href="stewards">
+<a href="/InfoStewards.php">
 <img class="miniimg" src="/images/Stewards.jpg" alt="Wimborne Minster Folk Festival" />
 <h2 class="minittl">Stewards</h2></a>
 <p class="minitxt">Support the festival by becoming a steward at the festival.</p>
 </div>
 
 <div class="mini">
-<a href="/tickets">
+<a href="/Tickets.php">
 <img class="miniimg" src="/images/Weekend-Wristband.jpg" alt="Wimborne Minster Folk Festival" />
 <h2 class="minittl">Tickets</h2></a>
 <p class="minitxt">Buy your ticket for the folk festival in June.</p>

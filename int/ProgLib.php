@@ -276,7 +276,7 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1) {
     foreach ( array_reverse($ks) as $imp) {
       if ($imp) $ans .= "<span style='font-size:" . ($size+$imp*$mult) . "px'>";
       foreach ($imps[$imp] as $thing) {
-	if ($things++) $ans .= " , ";
+	if ($things++) $ans .= ", ";
 	$link=0;
 	if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
 	if ($link) {
