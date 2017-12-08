@@ -338,7 +338,7 @@ function fm_date($Name,&$data,$field,$extra1='',$extra2='',$field2='') {
   global $ADDALL;
   if ($field2 == '') $field2=$field;
   $str = "<td $extra1>$Name" . ($Name?':':'') . help($field) . "<td $extra1><input type=text name=$field2 $extra2 size=16"; 
-  if (isset($data[$field])) $str .= " value=\"" . date('j M Y H:i',$data[$field]) . "\"";
+  if (isset($data[$field]) && $data[$field]) $str .= " value=\"" . date('j M Y H:i',$data[$field]) . "\"";
   return $str . " $ADDALL>";
 }
 
@@ -346,7 +346,7 @@ function fm_date1($Name,&$data,$field,$extra1='',$extra2='',$field2='') {
   global $ADDALL;
   if ($field2 == '') $field2=$field;
   $str = "<td $extra1>$Name" . ($Name?':':'') . help($field) . "<input type=text name=$field2 $extra2 size=16"; 
-  if (isset($data[$field])) $str .= " value=\"" . date('j M Y H:i',$data[$field]) ."\"";
+  if (isset($data[$field]) && $data[$field]) $str .= " value=\"" . date('j M Y H:i',$data[$field]) ."\"";
   return $str . " $ADDALL>";
 }
 

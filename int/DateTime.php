@@ -177,4 +177,10 @@ function Parse_TimeInputs(&$feilds,&$minflds=NULL) {
     if (isset($_POST[$fld])) $_POST[$fld] = Time_BestGuess($_POST[$fld],1);
   }
 }
+
+function Parse_DateInputs(&$feilds) {
+  foreach($feilds as $fld) {
+    if (isset($_POST[$fld])) $_POST[$fld] = Date_BestGuess($_POST[$fld]);
+  }
+}
 ?>

@@ -303,4 +303,44 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1) {
   return "Details to follow";
 }
 
+function Price_Show(&$Ev) {
+  global $MASTER;
+  $dats = array();
+  $str = '';
+  $Cpri = $Ev['Price1'];
+  if (!$Cpri) return 'Free';
+
+  if ($MASTER['PriceChange1']) {
+    $pc = $MASTER['PriceChange1'];
+    $Npri = $Ev['Price2'];
+    if ($Npri != $Cpri && $Npri != 0) {
+      if ($pc > time()) {
+	$str .= "&pound;" . $Cpri . " until " . date('j M Y',$pc);
+	$Cpri = $Npri;
+      }
+    }
+  }
+  
+  if ($MASTER['PriceChange2']) {
+    $pc = $MASTER['PriceChange2'];
+    $Npri = $Ev['Price3'];
+    if ($Npri != $Cpri && $Npri != 0) {
+      if ($pc > time()) {
+	if ($str) $str .= ", then ";
+	$str .= "&pound;" . $Cpri . " until " . date('j M Y',$pc);
+	$Cpri = $Npri;
+      }
+    }
+  }
+
+  if ($Ev['DoorPrice'] && $Ev['DoorPrice'] != $Cpri) {
+    if ($str) $str .= ", then ";
+    $str .= "&pound;" . $Cpri . " in advance and &pound;" . $Ev['DoorPrice'] . " at the door";
+  } else {
+    if ($str) $str .= " then ";
+    $str .= "&pound;" . $Cpri;
+  } 
+
+  return $str;
+}
 ?>

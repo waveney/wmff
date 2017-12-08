@@ -83,6 +83,11 @@
       echo "No Image currently<p>";
     }
 
+    echo "Select Photo file to upload:";
+    echo "<input type=file $ADDALL name=PhotoForm id=PhotoForm onchange=document.getElementById('PhotoButton').click()>";
+    echo "<input hidden type=submit name=Action value=Upload id=PhotoButton>";
+    
+
     
 
   }
