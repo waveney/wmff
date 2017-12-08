@@ -83,15 +83,14 @@ Includes entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The 
   global $YEAR,$db,$DayList,$MASTER;
 
   $Vens = Get_Venues(0);
-  $qry = "SELECT * FROM Events WHERE Year='$YEAR' AND Price!=0 AND TicketCode!='' AND SubEvent<=0 ORDER BY Day,Start";
+  $qry = "SELECT * FROM Events WHERE Year='$YEAR' AND Price1!=0 AND TicketCode!='' AND SubEvent<=0 ORDER BY Day,Start";
   $Evs = $db->query($qry);
 
   while ($E = $Evs->fetch_assoc()) {
     
     $bl = "<a href=https://www.ticketsource.co.uk/event/" . $E['TicketCode'] . ">" ;
     echo "<tr><td><strong>$bl" . $E['Name'] . "</a></strong><br>"; // Change to link to event later
-      echo "In advance: &pound;" . $E['Price'] . "<br>";
-      echo "On the door: &pound;" . $E['DoorPrice'];
+      echo Price_Show($E);
     echo "<td>" . $DayList[$E['Day']] . " " . ($MASTER['DateFri']+$E['Day']) ."th June $YEAR" . "<br>";
       echo "At " . $Vens[$E['Venue']]. "<br>";
       echo "From: " . timecolon($E['Start']) . " to " . timecolon($E['End']);
