@@ -16,6 +16,7 @@
   include("ProgLib.php");
   include("DanceLib.php");
   include("MusicLib.php");
+  global $MASTER,$YEAR;
 
   Set_Event_Help();
 
@@ -212,8 +213,10 @@
 
       if ($se <= 0) {
 	echo "<tr>";
-	echo "<td>" . fm_simpletext('Price &pound;',$Event,'Price');
-	echo "<td>" . fm_simpletext('Door Price &pound;',$Event,'DoorPrice');
+	echo "<td>" . fm_simpletext('Price &pound;',$Event,'Price1');
+	if ($MASTER['PriceChange1']) echo "<td>" . fm_simpletext('Price after ' . date('j M Y',$MASTER['PriceChange1']) . '(if diff) &pound;',$Event,'Price2');
+	if ($MASTER['PriceChange2']) echo "<td>" . fm_simpletext('Price after ' . date('j M Y',$MASTER['PriceChange2']) . '(if diff) &pound;',$Event,'Price3');
+	echo "<td>" . fm_simpletext('Door Price (if different) &pound;',$Event,'DoorPrice');
 	echo "<td>" . fm_simpletext('Ticket Code',$Event,'TicketCode');
       }
 

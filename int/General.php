@@ -1,18 +1,11 @@
 <?php
   include_once("fest.php");
   A_Check('SysAdmin');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | General Settings</title>
-<?php include("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
+  dostaffhead("General Settings");
 
-<?php
-  include("files/navigation.php");
+  include_once("DateTime.php");
+  $Dates = array('PriceChange1','PriceChange2');
 
   echo "<div class='content'><h2>General Settings and Global Actions</h2>\n";
   
@@ -25,6 +18,7 @@
   echo "<form method=post action='General.php'>\n";
   if (isset($_POST{'Year'})) { /* Response to update button */
     $ynum = $_POST{'Year'};
+    Parse_DateInputs($Dates);
     if ($ynum > 0) { 				// existing Year
       $Gen = Get_General($ynum);
       if (isset($_POST{'ACTION'})) {
@@ -45,6 +39,7 @@
   } elseif (isset($_GET{'Create'})) {
     global $db;
     $ynum = $_GET{'Create'};
+    Parse_DateInputs($Dates);
     $db->query("INSERT INTO General SET Year=$ynum");
     $Gen = Get_General($ynum);
   } else {
@@ -71,7 +66,9 @@
     echo "<tr><td>State of Dance Programme: " . fm_select($ProgLevels,$Gen,'SideProgLevel') . "<td>From early draft visible to participants";
     echo "<tr><td>State of Music Programme: " . fm_select($ProgLevels,$Gen,'ActProgLevel') . "<td>From Provisional visible to public";
     echo "<tr><td>State of Other Programme: " . fm_select($ProgLevels,$Gen,'OtherProgLevel') . "<td>";
-    echo "<tr>" . fm_number1('Date of Friday',$Gen,'DateFri') . "<td>It works out the rest from this\n";
+    echo "<tr>" . fm_number1('Date of Friday',$Gen,'DateFri') . "<td>ie 8 for 8th of June.  It works out the rest from this\n";
+    echo "<tr>" . fm_date('Date of Price Change 1',$Gen,'PriceChange1') . "<td>\n";
+    echo "<tr>" . fm_date('Date of Price Change 2',$Gen,'PriceChange2') . "<td>\n";
   echo "</table>\n";
 
   if ($ynum > 0) {

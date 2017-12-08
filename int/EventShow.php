@@ -108,12 +108,14 @@ function Print_Participants($e,$when) {
   echo "<table><tr><td>On:<td>" . $LongDayList[$Ev['Day']] . " " . ($MASTER['DateFri']+$Ev['Day']) . "th June " . $Ev['Year'] . "\n";
   echo "<tr><td>Starting at:<td>" . ($Ev['Start']?timecolon($Ev['Start']):"Not Yet Known") . "\n";
   echo "<tr><td>Finishing at:<td>" . ($Ev['End']?timecolon($Ev['End']):"Not Yet Known") . "\n";
-  if ($Ev['Price']) {
-    echo "<tr><td>Price:<td>&pound;" . $Ev['Price'] . "  or by Weekend ticket or " . $LongDayList[$Ev['Day']] . " ticket\n";
+  if ($Ev['Price1']) {
+    echo "<tr><td>Price:<td>" . Price_Show($Ev) . ", or by Weekend ticket or " . $LongDayList[$Ev['Day']] . " ticket\n";
     if ($Ev['TicketCode']) {
-      $bl = "<a href=https://www.ticketsource.co.uk/event/" . $Ev['TicketCode'] . ">" ;
+      $bl = "<a href=https://www.ticketsource.co.uk/event/" . $Ev['TicketCode'] . " target=_blank>" ;
       echo " -  <strong>$bl Buy Now</a></strong>\n";
     }
+  } else {
+    echo "<tr><td>Price:<td>Free\n";
   }
   echo "<tr><td>";
     if (isset($OtherVenues[0])) {
