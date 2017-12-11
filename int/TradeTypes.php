@@ -15,6 +15,7 @@
 
   echo "The Order is for display, Index 1 MUST be for the default however, list this first.<p>\n";
 
+  echo "Artisan Messages trigger local Artisan /Han related emails<p>";
   $coln = 0;
   echo "<form method=post>";
   echo "<table id=indextable border>\n";
@@ -31,6 +32,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Need Local Authority</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Need Insurance</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Need Risk Assessment</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Artisan Msgs</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Description</a>\n";
   echo "</thead><tbody>";
   if ($Trads) foreach($Trads as $t) {
@@ -46,6 +48,7 @@
     echo "<td>" . fm_checkbox("",$t,'NeedPublicHealth','',"NeedPublicHealth$i");
     echo "<td>" . fm_checkbox("",$t,'NeedInsurance','',"NeedInsurance$i");
     echo "<td>" . fm_checkbox("",$t,'NeedRiskAssess','',"NeedRiskAssess$i");
+    echo "<td>" . fm_checkbox("",$t,'ArtisanMsgs','',"ArtisanMsgs$i");
     echo "<td>" . fm_basictextarea($t,'Description',2,1,'',"Description$i");
     echo "\n";
   }
@@ -60,6 +63,7 @@
   echo "<td><input type=checkbox name=NeedPublicHealth0>";
   echo "<td><input type=checkbox name=NeedInsurance0>";
   echo "<td><input type=checkbox name=NeedRiskAssess0>";
+  echo "<td><input type=checkbox name=ArtisanMsgs0>";
   echo "<td><textarea name=Description0 cols=40></textarea>";
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";

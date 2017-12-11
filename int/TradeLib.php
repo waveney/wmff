@@ -94,6 +94,7 @@ function Get_Trade_Types($tup=0) { // 0 just base names, 1 all data
 }
 
 $TradeTypeData = Get_Trade_Types(1);
+$TradeLocData = Get_Trade_Locs(1);
 
 function Get_Trade_Type($id) {
   global $db;
@@ -271,7 +272,7 @@ function Default_Trade($id) {
 }
 
 function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
-  global $YEAR,$ADDALL,$Mess,$Action,$Trader_Status;
+  global $YEAR,$ADDALL,$Mess,$Action,$Trader_Status,$TradeTypeData,$TradeLocData;
   Set_Trade_Help();
 
   if ($Trad['Photo']) echo "<img class=floatright src=" . $Trad['Photo'] . " height=80>\n";
@@ -293,7 +294,6 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
 
 //********* PUBLIC
 
-  $Trade_Types = Get_Trade_Types(1);
   if (!isset($Trad['TradeType']) || ($Trad['TradeType'] == 0)) $Trad['TradeType'] = 1;
 
   echo "<form method=post id=mainform enctype='multipart/form-data' action=$Form>";
@@ -323,7 +323,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
     echo "<tr><th colspan=8><b>Private Information</b>";
     echo "<tr>";
       echo "<td>Trade Type:" . help('TradeType') . "<td colspan=7>";
-      foreach ($Trade_Types as $i=>$d) {
+      foreach ($TradeTypeData as $i=>$d) {
 	if ($d['Addition']) continue;
 	echo " <div class=KeepTogether style='background:" . $d['Colour'] . ";'>" . $d['Name'] . ": ";
 	echo " <input type=radio name=TradeType $ADDALL value=$i ";
@@ -333,19 +333,19 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
 					$d['Colour'] . "\")'"; // not fm-Radio because of this line
 	echo ">&nbsp;</div>\n ";
       }
-      echo "<br clear=all><div id=TTDescription style='background:" . $Trade_Types[$Trad['TradeType']]['Colour'] . ";'>" . 
-	$Trade_Types[$Trad['TradeType']]['Description'] . "</div>\n";
+      echo "<br clear=all><div id=TTDescription style='background:" . $TradeTypeData[$Trad['TradeType']]['Colour'] . ";'>" . 
+	$TradeTypeData[$Trad['TradeType']]['Description'] . "</div>\n";
     echo "<tr>" . fm_text('<span id=ContactLabel>Contact</span>',$Trad,'Contact');
       echo fm_text1('Email',$Trad,'Email',2);
       echo fm_text('Phone',$Trad,'Phone');
       echo fm_text('Mobile',$Trad,'Mobile',1,$Imp,'onchange=updateimps()') . "\n";
     echo "<tr>" . fm_text('Address',$Trad,'Address',5,$Imp,'onchange=updateimps()');
       echo fm_text('Post Code',$Trad,'PostCode')."\n";
-    echo "<tr class=PublicHealth " . ($Trade_Types[$Trad['TradeType']]['NeedPublicHealth']?'':'hidden') . ">" ;
+    echo "<tr class=PublicHealth " . ($TradeTypeData[$Trad['TradeType']]['NeedPublicHealth']?'':'hidden') . ">" ;
       echo fm_text("Registered with which Local Authority ",$Trad,'PublicHealth',2,'colspan=2');
     echo "<tr><td>Are you a Wimborne<td>" . fm_checkbox('BID Levy Payer',$Trad,'BID') . "<td>" . fm_checkbox('Chamber of Commerce Member',$Trad,'ChamberTrade');
     if ($Mode) echo "<td>" . fm_checkbox('Previous Festival Trader',$Trad,'Previous');
-      echo fm_text('Charity Number',$Trad,'Charity',1,'class=Charity ' . ($Trade_Types[$Trad['TradeType']]['NeedCharityNum']?'':'hidden'));
+      echo fm_text('Charity Number',$Trad,'Charity',1,'class=Charity ' . ($TradeTypeData[$Trad['TradeType']]['NeedCharityNum']?'':'hidden'));
       if ($Mode) echo "<td class=NotSide colspan=2>" . fm_radio("",$Trader_Status,$Trad,'Status','',0);
     if (Access('SysAdmin') && isset($Trad['AccessKey'])) {
       echo "<tr>";
@@ -741,7 +741,7 @@ function Submit_Application(&$Trad,&$Trady,$Mode=0) {
 }
 
 function Validate_Trade($Mode=0) { // Mode 1 for Staff Submit, less stringent
-  global $Trade_Types;
+  global $TradeTypeData;
       $proc = 1;
       if (!isset($_POST['Name'])) {
 	echo "<h2 class=ERR>No Business Name Given</h2>\n";
@@ -778,7 +778,7 @@ function Validate_Trade($Mode=0) { // Mode 1 for Staff Submit, less stringent
 	echo "<h2 class=ERR>The Product Description is too short</h2>\n";
 	$proc = 0;
       }
-      if ((!isset($_POST['PublicHealth'])) && ($Trade_Types[$_POST['TradeType']]['NeedPublicHealth']) && ($Mode == 0)) {
+      if ((!isset($_POST['PublicHealth'])) && ($TradeTypeData[$_POST['TradeType']]['NeedPublicHealth']) && ($Mode == 0)) {
 	echo "<h2 class=ERR>No Public Health Authority Given</h2>\n";
 	$proc = 0;
       }
@@ -796,8 +796,7 @@ function T_Deposit(&$Trad) {
 }
 
 function Validate_Pitches(&$CurDat) {
-  global $db,$THISYEAR;
-  $Locs = Get_Trade_Locs(1);
+  global $db,$THISYEAR,$TradeLocsData;
   for ($pn=0; $pn<3; $pn++) {
     if ($_POST["PitchLoc$pn"] != $CurDat["PitchLoc$pn"] || $_POST["PitchNum$pn"] != $CurDat["PitchNum$pn"]) {
       if ($_POST["PitchLoc$pn"]) {
@@ -818,7 +817,7 @@ function Validate_Pitches(&$CurDat) {
 	    $dat = $res->fetch_assoc();
 	    return "Pitch " . ($pn+1) . " already in use by " . Trader_Name($dat['Tid']);
 	  }
-	  if ($ln > $Locs[$pl]['Pitches']) return "Pitch Number " . ($pn+1) . " Out of range (1-" . $Locs[$pl]['Pitches'] . ")";
+	  if ($ln > $TradeLocsData[$pl]['Pitches']) return "Pitch Number " . ($pn+1) . " Out of range (1-" . $TradeLocsData[$pl]['Pitches'] . ")";
 	}
       }
     }
@@ -831,6 +830,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
 // Mode 0 = Traders, 1 = ctte, Program = Trade/Trader$iddd if set starts it up, with that Tid
 
   global $YEAR,$THISYEAR,$Mess,$Action,$Trade_State,$Trade_States,$USER,$TS_Actions,$ButExtra,$ButTrader;
+  global $TradeTypeData,$TradeLocData;
   include_once("DateTime.php"); 
   echo '<div class="content"><h2>Add/Edit Trade Stall Booking</h2>';
 
@@ -974,9 +974,8 @@ function Trade_Main($Mode,$Program,$iddd=0) {
     if (!isset($Trady['BookingState'])) $Trady['BookingState'] = 0;
     $Act = $TS_Actions[$Trady['BookingState']];
     if ($Act ) {
-      $Types = Get_Trade_Types();
       $Acts = preg_split('/,/',$Act); 
-      if ($Types[$Trad['TradeType']] == 'Local Artisan') $Acts[] = 'Artisan Invite';
+      if ($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) $Acts[] = 'Artisan Invite';
       foreach($Acts as $ac) {
         if ($Mode==0 && !in_array($ac,$ButTrader)) continue;
 	switch ($ac) {
@@ -1070,7 +1069,7 @@ function Send_Trade_Finance_Email(&$Trad,&$Trady,$messcat) {
 
 // Highly recursive set of actions - some trigger others 
 function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='') {
-  global $Trade_State;
+  global $Trade_State,$TradeTypeData;
   $Tchng = $Ychng = 0;
   $PaidSoFar = $Trady['TotalPaid'];
   $CurState = $NewState = $Trady['BookingState'];
@@ -1099,7 +1098,11 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='') {
       Send_Trader_Email($Trad,$Trady,'Trade_AcceptNoDeposit');
       return;
     } else {
-      Send_Trader_Email($Trad,$Trady,'Trade_Accepted');
+      if ($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) {
+        Send_Trader_Email($Trad,$Trady,'Trade_Artisan_Accept');
+      } else {
+        Send_Trader_Email($Trad,$Trady,'Trade_Accepted');
+      }
       Send_Trade_Finance_Email($Trad,$Trady,'Trade_RequestDeposit');
     }
     break;

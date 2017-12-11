@@ -337,7 +337,7 @@ function Price_Show(&$Ev) {
     if ($str) $str .= ", then ";
     $str .= "&pound;" . $Cpri . " in advance and &pound;" . $Ev['DoorPrice'] . " at the door";
   } else {
-    if ($str) $str .= " then ";
+    if ($str) $str .= ", then ";
     $str .= "&pound;" . $Cpri;
   } 
 
