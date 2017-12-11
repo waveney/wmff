@@ -92,7 +92,7 @@ Includes entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The 
     echo "<tr><td><strong>$bl" . $E['Name'] . "</a></strong><br>"; // Change to link to event later
       echo Price_Show($E);
     echo "<td>" . $DayList[$E['Day']] . " " . ($MASTER['DateFri']+$E['Day']) ."th June $YEAR" . "<br>";
-      echo "At " . $Vens[$E['Venue']]. "<br>";
+      echo "At: " . $Vens[$E['Venue']]. "<br>";
       echo "From: " . timecolon($E['Start']) . " to " . timecolon($E['End']);
     echo "<td style='width:50%'>";
       if ($E['description']) echo $E['description'] . "<br>";
