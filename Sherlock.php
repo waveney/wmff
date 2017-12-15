@@ -24,9 +24,9 @@
 
   if ($Evs) {
     if ($MASTER[$Type . "Complete"]) {
-      echo "$Types for $YEAR<p>";
+      echo "<h2 class=subtitle>$Types for $YEAR</h2>";
     } else {
-      echo "Currently known $Types for $YEAR, there may be more in the future.<p>";
+      echo "<h2 class=subtitle>Currently known $Types for $YEAR, there may be more in the future</h2>";
     }
 
     echo "Click on the event name for more information.<p>";
