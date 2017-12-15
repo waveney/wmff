@@ -550,7 +550,7 @@ function Email_Body(&$Trad,&$Trady,$messcat='Link',$simple=0) {
 
   $Key = $Trad['AccessKey'];
   $Link = "<a href=http://wimbornefolk.co.uk/int/Direct.php?t=Trade&id=$Tid&key=$Key><b>link</b></a>";
-  $WmffLink = "<a href=http://wimbornefolk.co.uk/int/Trade.php?id=$Tid<b>link</b></a>";
+  $WmffLink = "<a href=http://wimbornefolk.co.uk/int/Trade.php?id=$Tid><b>link</b></a>";
   $Remove = "<a href=http://wimbornefolk.co.uk/int/Remove.php?t=Trade&id=$Tid&key=$Key><b>here</b></a>";
   $Contact = $Trad['Contact']? firstword($Trad['Contact']) : $Trad['Name'];
   $Sender = $USER['Name'];
