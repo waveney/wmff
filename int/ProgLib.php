@@ -343,4 +343,9 @@ function Price_Show(&$Ev) {
 
   return $str;
 }
+
+function VenName(&$V) {
+  return ($V['ShortName']?$V['ShortName']:$V['Name']);
+}
+
 ?>

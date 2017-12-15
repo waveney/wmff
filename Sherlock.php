@@ -17,7 +17,7 @@
 
   if ($Ett < 0) { // Handle other Sherlock calls
   } else {
-    $ans = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND Type=$Ett ORDER BY Day,Start"); // Need to work with release settings as well
+    $ans = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND Type=$Ett AND SubEvent<1 ORDER BY Day,Start"); // Need to work with release settings as well
     if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
     if (count($Evs) > 1) $Types .= "s";
   }
@@ -42,7 +42,7 @@
       echo "<td>" . $DayList[$E['Day']] . " " . ($MASTER['DateFri']+$E['Day']) ."th June $YEAR" . "<br>";
         echo "From: " . timecolon($E['Start']) . " to " . timecolon($E['End']);
       echo "<td><strong><a href=/int/EventShow.php?e=$eid>" . $E['Name'] . "</a></strong>"; 
-      echo "<td>" . $Vens[$E['Venue']]['ShortName'];
+      echo "<td>" . VenName($Vens[$E['Venue']]);
       echo "<td>";
         if ($E['Description']) echo $E['Description'] . "<p>";
         echo "With: " . Get_Event_Participants($eid,1,15);

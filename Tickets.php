@@ -82,7 +82,7 @@ Includes entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The 
   include_once "int/ProgLib.php";
   global $YEAR,$db,$DayList,$MASTER;
 
-  $Vens = Get_Venues(0);
+  $Vens = Get_Venues(1);
   $qry = "SELECT * FROM Events WHERE Year='$YEAR' AND Price1!=0 AND TicketCode!='' AND SubEvent<=0 ORDER BY Day,Start";
   $Evs = $db->query($qry);
 
@@ -92,7 +92,7 @@ Includes entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The 
     echo "<tr><td><strong>$bl" . $E['Name'] . "</a></strong><br>"; // Change to link to event later
       echo Price_Show($E);
     echo "<td>" . $DayList[$E['Day']] . " " . ($MASTER['DateFri']+$E['Day']) ."th June $YEAR" . "<br>";
-      echo "At: " . $Vens[$E['Venue']]. "<br>";
+      echo "At: " . VenName($Vens[$E['Venue']]) . "<br>";
       echo "From: " . timecolon($E['Start']) . " to " . timecolon($E['End']);
     echo "<td style='width:50%'>";
       if ($E['Description']) echo $E['Description'] . "<br>";

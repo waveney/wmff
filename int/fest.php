@@ -880,7 +880,7 @@ function Show_Prog($type,$id,$mode=0,$all=0) { //mode 0 = html, 1 = text for ema
     $Evs = Get_All_Events_For($type,$id);
 //var_dump($Evs);
     $evc=0;
-    $Venues = Get_Venues();
+    $Venues = Get_Venues(1);
     if ($Evs) {
       foreach ($Evs as $e) {
         if ($e['Public'] == 1 || $all ||
@@ -924,16 +924,16 @@ function Show_Prog($type,$id,$mode=0,$all=0) { //mode 0 = html, 1 = text for ema
 	    if ($mode) {
 	      $str .= $DayList[$e['Day']] . " Starting at: " . $e['Start'] . " Event: " . $e['Name'] ;
 	      if ($VenC) {
-		$str .= " Starting location: " . $Venues[$e['Venue']] ;
+		$str .= " Starting location: " . VenName($Venues[$e['Venue']]) ;
 	      } else {
-		$str .= " Location: " . $Venues[$e['Venue']] ;
+		$str .= " Location: " . VenName($Venues[$e['Venue']]) ;
 	      }
 	      $str .= " In position $Position ";
 	    } else {
 	      $str .= "<tr><td>" . $DayList[$e['Day']] . "<td>" . $e['Start'] . "-" . ($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] ) .
 			"<td>" . $e['Name'] . "<td>";
 	      if ($VenC) $str .= " starting from ";
-	      $str .= $Venues[$e['Venue']] ;
+	      $str .= VenName($Venues[$e['Venue']]) ;
 	      $str .= "<td>In position $Position";
 	    }
 	    if ($PrevI) { $str .= ", After " . SAO_Report($PrevI); };
@@ -941,10 +941,10 @@ function Show_Prog($type,$id,$mode=0,$all=0) { //mode 0 = html, 1 = text for ema
 	    $str .= "\n";
 	  } else { // Normal Event
 	    if ($mode) {
-	      $str .= $DayList[$e['Day']] . " Starting at:" . $e['Start'] . " Event: " . $e['Name'] . " Location: " . $Venues[$e['Venue']] ;
+	      $str .= $DayList[$e['Day']] . " Starting at:" . $e['Start'] . " Event: " . $e['Name'] . " Location: " . VenName($Venues[$e['Venue']]) ;
 	    } else {
 	      $str .= "<tr><td>" . $DayList[$e['Day']] . "<td>" . $e['Start'] . "-" . ($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] ) .
-			"<td>" . $e['Name'] . "<td>" . $Venues[$e['Venue']] . "<td>";
+			"<td>" . $e['Name'] . "<td>" . VenName($Venues[$e['Venue']]) . "<td>";
 	    }
 	    $withc=0;
 	    for ($i=1;$i<5;$i++) {

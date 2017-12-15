@@ -98,7 +98,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
 
   // Riders for Venues
   foreach ($riders as $v) {
-    $str .= "<b>Rider for " . $Venues[$v]['Name'] . "</b>:" . $Venues[$v]['MusicRider'] . "<p>\n";
+    $str .= "<b>Rider for " . VenName($Venues[$v]) . "</b>:" . $Venues[$v]['MusicRider'] . "<p>\n";
   }
 
   if (strlen($Sidey['Rider']) > 5) $str .= "<b>Rider:</b> " . $Sidey['Rider'] . "<p>\n";
