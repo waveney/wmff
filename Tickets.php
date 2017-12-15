@@ -75,8 +75,8 @@ Includes entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The 
 </table>
 
 <p><table cellspacing="5" cellpadding="5" style="background-color:#59B404; border-color:#59B404;">
-<th colspan="5">Event Tickets (More to come)</th>
 <?php
+  echo "<th colspan=5>Event Tickets " . ($MASTER['PriceComplete']?'':'(More to come)') . "</th>";
 
   include_once "int/fest.php";
   include_once "int/ProgLib.php";

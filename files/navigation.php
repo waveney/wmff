@@ -39,7 +39,7 @@
      <a href=/Whatson/MuicProg.php class=NotYet>Music</a>
      <a href=/Whatson/Special.php class=NotYet>Special Events</a>
      <a href=/Whatson/Family.php class=NotYet>Family</a>
-     <a href=Sherlock.php?t=Ceildih >Ceildihs</a>
+     <a href=/Sherlock.php?t=Ceildih >Ceildihs</a>
      <a href=/Whatson/Workshops.php class=NotYet>Workshops</a>
      <a href=/Whatson/Comedy.php class=NotYet>Comedy</a>
      <a href=/Whatson/Sessions.php class=NotYet>Sessions</a>

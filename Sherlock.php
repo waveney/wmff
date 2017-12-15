@@ -2,7 +2,7 @@
   include_once("int/fest.php");
 
   global $db,$YEAR,$MASTER,$DayList;
-  $Type = $_GET['t'];
+  $Types = $Type = $_GET['t'];
   dohead("Whats on $Type");
 
   include_once("int/ProgLib.php");
@@ -19,17 +19,21 @@
   } else {
     $ans = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND Type=$Ett ORDER BY Day,Start"); // Need to work with release settings as well
     if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
-    if (count($Evs) > 1) $Type .= "s";
+    if (count($Evs) > 1) $Types .= "s";
   }
 
   if ($Evs) {
-    echo "Currently known $Type for $YEAR, there may be more in the future.<p>";
+    if ($MASTER[$Type . "Complete"]) {
+      echo "$Types for $YEAR<p>";
+    } else {
+      echo "Currently known $Types for $YEAR, there may be more in the future.<p>";
+    }
 
     echo "Click on the event name for more information.<p>";
 
     // "Day/ date, Name, Venue, Description, Price";
     echo '<table cellspacing=5 cellpadding=5 style="background-color:#59B404; border-color:#59B404;">';
-    echo "<tr><th colspan=5>$Type for $YEAR</th>\n";
+    echo "<tr><th colspan=5>$Types for $YEAR</th>\n";
     echo "<tr><td>When<td>What<td>Where<td>Description<td>Price\n";
 
     foreach ($Evs as $i=>$E) {
