@@ -95,7 +95,7 @@ Includes entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The 
       echo "At: " . $Vens[$E['Venue']]. "<br>";
       echo "From: " . timecolon($E['Start']) . " to " . timecolon($E['End']);
     echo "<td style='width:50%'>";
-      if ($E['description']) echo $E['description'] . "<br>";
+      if ($E['Description']) echo $E['Description'] . "<br>";
       echo Get_Event_Participants($E['EventId'],1,15);
     echo "<td><strong>$bl Buy Now</a></strong>\n";
   }
