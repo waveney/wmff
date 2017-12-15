@@ -131,7 +131,8 @@ function Print_Participants($e,$when) {
         echo "<a href=VenueUse.php?v=$OVi>" . $OVens[$OVi] . "</a>";
       }
     } else {
-      echo "Where:<td><a href=VenueUse.php?v=" . $Ven['VenueId'] . ">" . $Ven['Name'] . "</a>";
+//      echo "Where:<td><a href=VenueUse.php?v=" . $Ven['VenueId'] . ">" . $Ven['ShortName'] . "</a>";
+      echo "Where:<td>" . $Ven['ShortName'];
       if ($Ven['Address']) echo " - " . $Ven['Address'] . $Ven['PostCode'] ."\n";
       if ($Ven['Description']) echo "<br>" . $Ven['Description'] . "\n";
     }
