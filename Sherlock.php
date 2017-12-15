@@ -32,7 +32,8 @@
     echo "<tr><th colspan=5>$Type for $YEAR</th>\n";
     echo "<tr><td>When<td>What<td>Where<td>Description<td>Price\n";
 
-    foreach ($Evs as $eid=>$E) {
+    foreach ($Evs as $i=>$E) {
+      $eid = $E['EventId'];
       echo "<tr>";
       echo "<td>" . $DayList[$E['Day']] . " " . ($MASTER['DateFri']+$E['Day']) ."th June $YEAR" . "<br>";
         echo "From: " . timecolon($E['Start']) . " to " . timecolon($E['End']);
