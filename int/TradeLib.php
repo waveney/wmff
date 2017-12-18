@@ -673,7 +673,7 @@ function Old_Send_Trader_Email(&$Trad,$messcat='Link',$cont='') {
 }
 
 function Get_Trade_Details(&$Trad,&$Trady) {
-  global $Trade_Days;
+  global $Trade_Days,$TradeLocData;
 
 //  $Body  = "\nWimborne Minster Folk festival Trading application\n";
   $Body = "\nFrom: " . $Trad['Name'] . "\n";
@@ -695,13 +695,16 @@ function Get_Trade_Details(&$Trad,&$Trady) {
   $Body .= "For " . $Trady['Year'] .":\n";
   $Body .= "Days: " . $Trade_Days[$Trady['Days']] . "\n";
   $Body .= "Pitch:" . $Trady['PitchSize0'];
+  if ($Trady['PitchLoc0']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc0']]['Name'];
   if ($Trady['Power0']) $Body .= " with " . ($Trady["Power0"]> 0 ? $Trady['Power0'] . " Amps\n" : " own Euro 4 silent generator\n");
   if ($Trady['PitchSize1']) {
     $Body .= "\nPitch 2:" . $Trady['PitchSize1'];
+    if ($Trady['PitchLoc1']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc1']]['Name'];
     if ($Trady['Power1']) $Body .= " with " . $Trady['Power1'] . " Amps\n";
   }
   if ($Trady['PitchSize2']) {
     $Body .= "\nPitch 3:" . $Trady['PitchSize2'];
+    if ($Trady['PitchLoc2']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc2']]['Name'];
     if ($Trady['Power2']) $Body .= " with " . $Trady['Power2'] . " Amps\n";
   }
 
