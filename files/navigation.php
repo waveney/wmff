@@ -36,10 +36,10 @@
      <a href=/Whatson/Where.php class=NotYet>By Venue</a>
      <a href=/Whatson/When.php class=NotYet>By Time</a>
      <a href=/Whatson/DanceProg.php class=NotYet>Dancing</a>
-     <a href=/Whatson/MuicProg class=NotYet>Music</a>
+     <a href=/Whatson/MuicProg.php class=NotYet>Music</a>
      <a href=/Whatson/Special.php class=NotYet>Special Events</a>
      <a href=/Whatson/Family.php class=NotYet>Family</a>
-     <a href=/Whatson/Ceildihs.php class=NotYet>Ceildihs</a>
+     <a href=/Sherlock.php?t=Ceildih >Ceildihs</a>
      <a href=/Whatson/Workshops.php class=NotYet>Workshops</a>
      <a href=/Whatson/Comedy.php class=NotYet>Comedy</a>
      <a href=/Whatson/Sessions.php class=NotYet>Sessions</a>

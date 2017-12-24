@@ -51,7 +51,8 @@
     echo "<tr>" . fm_text('Name',$Venue,'Name',3);
     echo "<tr>" . fm_text('Address',$Venue,'Address',5);
     echo "<tr>" . fm_textarea('Description',$Venue,'Description',5,3);
-    echo "<tr>" . fm_text('GoogleMap',$Venue,'GoogleMap',1);
+    echo "<tr>" . fm_text('Lat',$Venue,'Lat',1);
+    echo          fm_text('Long',$Venue,'Lng',1);
     echo          fm_text('Post Code',$Venue,'PostCode',1);
     echo "<tr>" . fm_text('Image',$Venue,'Image',1);
     echo "<tr>" . fm_text('Notes',$Venue,'Notes',3);
@@ -70,7 +71,7 @@
     echo "<tr>" . fm_text('Dance Rider',$Venue,'DanceRider',5);
     echo "<tr>" . fm_text('Music Rider',$Venue,'MusicRider',5);
     echo "<tr>" . fm_text('Other Rider',$Venue,'OtherRider',5);
-    echo "<tr><td>" . fm_checkbox("Parking",$Venue,'Parking');
+//    echo "<tr><td>" . fm_checkbox("Parking",$Venue,'Parking');
     echo "</table>\n";
 
   if ($vid > 0) {

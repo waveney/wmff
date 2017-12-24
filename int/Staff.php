@@ -190,6 +190,7 @@
     //<li><a href=EventTime.php>List Events at a Time</a>
     if (Access('Staff','Venues') && $YEAR==$THISYEAR) echo "<li><a href=EventAdd.php>Create Event(s)</a>";
       echo "<li><a href=TicketEvents.php?Y=$YEAR>List Ticketed Events</a>\n";
+    if (Access('Staff','Venues')) echo "<li><a href=MapPTypes.php>Map Point Types</a>\n";
     echo "</ul>\n";
 
 // *********************** OTHER *****************************************************************
