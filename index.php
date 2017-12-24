@@ -26,7 +26,8 @@
 </ul>
 </div>
 -->
-<h3>In the second weekend of June, we will be bringing the town alive with an exciting mix of music & dance. You can wander through Wimborne and enjoy any of the free shows, or buy tickets to see one of our headline acts.</h3>
+<div class=centhead>In the second weekend of June, we will be bringing the town alive with an exciting mix of music &amp; dance. 
+You can wander through Wimborne and enjoy any of the free shows, or buy tickets to see one of our headline acts.</div>
 <div id="flex">
 
 <?php 
