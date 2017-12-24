@@ -27,7 +27,7 @@
 
   $venue = Get_Venue($ven);
   echo "<h2>Use of " . ($venue['Name']?$venue['Name']:$venue['ShortName']) . "</h2>";
-  if ($venue['ShortName'] && $venue['ShortName'] != $venue['Name']) echo "(" . $venue['ShortName'] . ")</h3>\n";
+  if ($venue['ShortName'] && $venue['ShortName'] != $venue['Name']) echo "<h3>(" . $venue['ShortName'] . ")</h3>\n";
 
   $res = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND Venue=$ven ORDER BY Day, Start");
   $parname = '';
