@@ -75,6 +75,14 @@ h2
     font-weight:normal;
     font-family:SHONAR, verdana, arial, helvetica, sans-serif;
     }
+.centhead {
+  color: #005983;
+  font-weight:normal;
+  text-align:center;
+  padding:0px;
+  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+  font-size:24px;
+}	
 .navigation
     {
     width:100%;
@@ -423,6 +431,7 @@ textarea:Focus
     width:100%;
     display: inline-block;
     margin:10px;
+	height:400px;
     }
 .articleimg
     {
@@ -514,7 +523,7 @@ textarea:Focus
     height:auto;
     max-width:225px;
     max-height:200px;
-    margin:0 10px 5px 0;
+    margin:0 10px 15px 0;
     padding:0;
     transition:opacity .5s, filter .5s;
     }
