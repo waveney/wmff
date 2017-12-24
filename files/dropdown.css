@@ -49,7 +49,6 @@
     background-color:grey;
     pointer-events: none;
     cursor:default;
-	display:none !important;
 }
 
 .dropdown:hover .dropdown-content {
