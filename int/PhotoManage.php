@@ -3,7 +3,8 @@
 
   A_Check('Staff','Photos');
 
-  dostaffhead("Manage Photos",'<script src="/js/jquery-3.2.1.min.js"></script>');
+//  dostaffhead("Manage Photos",'<script src="/js/jquery-3.2.1.min.js"></script>');
+  dostaffhead("Manage Photos",'<script src="/js/jquery.Jcrop.min.js"></script>');
 
 /* Edit images for Sides, Traders, Sponsors
    If not stored appropriately, store in right place afterwards
@@ -23,12 +24,18 @@
   include_once("MusicLib.php");
   include_once("TradeLib.php");
 
-  $Shapes = array('Landscape','Square','Portrait','Banner');
+  $Shapes = array('Landscape','Square','Portrait','Banner','Free Form');
+  $aspect = array('4/3','1/1','3/4','8/3','');
   $Shape = 0;
   if (isset($_POST['SHAPE'])) $Shape = $_POST['SHAPE'];
   $PhotoCats = array('Sides','Acts','Others','Traders','Sponsors');
 
   $Lists = array('Sides'=> Select_Come(),'Acts'=>Select_Act_Come(),'Others'=>Select_Other_Come(),'Traders'=>Get_Traders_Coming(),'Sponsors'=>Get_Sponsor_Names());
+
+  echo "<script language=Javascript>jQuery(function(\$) {";
+  echo "\$('#PhotoTarget').Jcrop({";
+  echo "aspectRatio: " . $aspect[$Shape];
+  echo "});});</script>\n";
 
   function Select_Photos() {
     global $Shapes,$Shape,$PhotoCats,$Lists;
@@ -78,7 +85,7 @@
     echo "For: $Name<br>";
     echo "Shape: " . $Shapes[$Shape] . "<p>";
     if ($PhotoURL) {
-      echo "<img src=$PhotoURL><p>";
+      echo "<img src=$PhotoURL id=PhotoTarget><p>";
     } else {
       echo "No Image currently<p>";
     }
