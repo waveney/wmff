@@ -26,7 +26,8 @@
 </ul>
 </div>
 -->
-<div class="centhead">In the second weekend of June, we will be bringing the town alive with an exciting mix of music &amp; dance. You can wander through Wimborne and enjoy any of the free shows, or buy tickets to see one of our headline acts.</div>
+<div class=centhead>In the second weekend of June, we will be bringing the town alive with an exciting mix of music &amp; dance. 
+You can wander through Wimborne and enjoy any of the free shows, or buy tickets to see one of our headline acts.</div>
 <div id="flex">
 
 <?php 
@@ -81,15 +82,15 @@ if ($ans) {
 <a href="/tickets" >
 <h2 class="articlettl">Buy Tickets and Wristbands</h2>
 <img class="articleimg" src="/images/Weekend-Wristband.jpg" alt="Wimborne Minster Folk Festival" /></a>
-<p class="articletxt">Weekend and Day Passes are now on sale for the festival weekend.<br />Many event tickets are also available, more to come.</p>
-
+<p class="articletxt">Weekend and Day Passes are now on sale for the festival weekend.</p>
+<p>Many event tickets are also available, more to come.</p>
 </div>
 
 <div class="article">
 <a href="/info/trade" >
 <h2 class="articlettl">Trade Stand Booking is Open</h2>
 <img class="articleimg" src="/images/Trade-Stand-2016.jpg" alt="Wimborne Minster Folk Festival" /></a>
-<p class="articletxt">We are proud to host a wide range of traders at Wimborne Minster Folk Festival, you can apply to trade at the 2018 festival now!</p>
+<p class="articletxt">Booking is open for traders of all types.<p>
 </div>
 
 <div class="article">

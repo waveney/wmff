@@ -431,13 +431,13 @@ textarea:Focus
     width:100%;
     display: inline-block;
     margin:10px;
+	height:400px;
     }
 .articleimg
     {
     width:100%;
     margin-bottom:-5px;
     transition:opacity .5s, filter .5s;
-	max-height:278px;
     }
 .articleimg:hover
     {
