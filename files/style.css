@@ -437,7 +437,6 @@ textarea:Focus
     width:100%;
     margin-bottom:-5px;
     transition:opacity .5s, filter .5s;
-	max-height:278px;
     }
 .articleimg:hover
     {
