@@ -325,7 +325,11 @@ function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='') {
   if ($Desc) $str .= "$Desc:";
   $str .= help($field) . " ";
   if ($tabs) $str .= "<td $extra2>"; 
+  $done = 0;
   foreach($defn as $i=>$d) {
+    if (!$d) continue;
+    if ($done && $tabs == 2) $str.= "<br>";
+    $done = 1;
     $str .= "$d:";
     $str .= "<input type=radio name=$field $ADDALL $extra value='$i'";
     if ($data[$field] == $i) $str .= " checked";

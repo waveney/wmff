@@ -2,7 +2,7 @@
 int/.*.swp
 .htaccess
 tickets
-oldstuff
+OldStuff
 !images/icons
 images/*.*
 images/Sponsors
@@ -10,6 +10,7 @@ images/Sides
 images/Trade
 images/gallery
 images/images
+int/ArchiveImages
 int/Store
 int/OldStore
 int/Insurance

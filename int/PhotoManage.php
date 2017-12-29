@@ -82,19 +82,61 @@
       $Side = Get_Side($Who);
       $Name = $Side['Name'];
       $PhotoURL = $Side['Photo'];
+      $FinalLoc = "images/Sides/" . $Who;
+      $ArcLoc = "ArchiveImages/Sides/" . $Who;
       break;
     case 3: // Trader
       $Trad = Get_Trader($Who);
       $Name = $Trad['Name'];
       $PhotoURL = $Trad['Photo'];
+      $FinalLoc = "images/Traders/" . $Who;
+      $ArcLoc = "ArchiveImages/Traders/" . $Who;
       break;
     case 4: // Sponsor
       $Spon = Get_Sponsor($Who);
       $Name = $Spon['Name'];
       $PhotoURL = $Spon['Image'];
+      $FinalLoc = "images/Sponsors/" . $Who;
+      $ArcLoc = "ArchiveImages/Sponsors/" . $Who;
       break;
     }
+
+    $suffix = strtolower(pathinfo($PhotoURL,PATHINFO_EXTENSION));
+    $FinalLoc .= ".$suffix";
+    $ExtLoc = "/" . $FinalLoc;
     
+ var_dump($PhotoURL,$ExtLoc);
+
+    if ($PhotoURL) {
+      if ($PhotoURL != $ExtLoc) {
+	if (preg_match('/^\/(.*)/',$PhotoURL,$mtch)) {
+	  $img = file_get_contents($mtch[1]);
+	} else {
+          $img = file_get_contents($PhotoURL);
+	};
+
+echo "Read " . strlen($img) . "<p>";
+        if ($img) {
+          $ArcD = dirname($ArcLoc);
+echo "<p>DD $ArcD<p>";
+          $ArcLoc .= ".$suffix";
+          if (!file_exists($ArcD)) mkdir($ArcD,0777,true);
+  	  if (!file_exists($ArcLoc)) {
+echo "WW $ArcLoc to be written<p>";
+	    file_put_contents($ArcLoc,$img);
+	  }
+          $done = file_put_contents("../$FinalLoc",$img);
+echo "FinalLoc $FinalLoc - $done Written<p>";
+          $PhotoURL = $ExtLoc;
+        } else {
+          $PhotoURL = "1";  
+        }
+      }
+    }
+
+echo "Done part 1<P>";
+var_dump($PhotoURL);
+
     echo "<h2>Image to Manage</h2>\n";
     echo "<form method=post action=PhotoManage.php enctype='multipart/form-data' >";
     echo fm_hidden('PCAT',$Pcat) . fm_hidden("WHO$Pcat",$Who);
@@ -102,7 +144,11 @@
     echo "For: $Name<br>";
     echo "Shape: " . $Shapes[$Shape] . "<p>";
     if ($PhotoURL) {
-      echo "<div><img src=$PhotoURL id=image><p></div>";
+      if ($PhotoURL != "1") {
+        echo "<div><img src=$PhotoURL id=image><p></div>";
+      } else {
+        echo "The Photo URL can't be read<P>";
+      }
     } else {
       echo "No Image currently<p>";
     }
