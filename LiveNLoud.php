@@ -4,6 +4,10 @@
   dohead("Live and Loud");
 
 ?>
+<div class="biodiv">
+<img src="/images/hellohawaii.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
+<p>Hello Hawaii - Live and Loud winners 2017
+</div>
 <h2 class=subtitle>Wimborne Live &amp; Loud 2018</h2>
 Live and Loud has been running for several years now with the intention of finding local talent from 
 within the community to showcase their work during the festival. <p>
