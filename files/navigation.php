@@ -80,7 +80,7 @@
   </div>
 </div>
 <div class=dropdown onmouseover=NoHoverSticky(event)>
-  <a href=/LiveNLoud.php >Also</a>
+  <a href=/Also.php >Also</a>
   <div class=dropdown-content>
      <a href=/LiveNLoud.php >Live and Loud</a>
      <a href=/Lol.php class=NotYet>Laugh out Loud</a>

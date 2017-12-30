@@ -105,8 +105,6 @@
     $FinalLoc .= ".$suffix";
     $ExtLoc = "/" . $FinalLoc;
     
- var_dump($PhotoURL,$ExtLoc);
-
     if ($PhotoURL) {
       if ($PhotoURL != $ExtLoc) {
 	if (preg_match('/^\/(.*)/',$PhotoURL,$mtch)) {
@@ -115,27 +113,20 @@
           $img = file_get_contents($PhotoURL);
 	};
 
-echo "Read " . strlen($img) . "<p>";
         if ($img) {
           $ArcD = dirname($ArcLoc);
-echo "<p>DD $ArcD<p>";
           $ArcLoc .= ".$suffix";
           if (!file_exists($ArcD)) mkdir($ArcD,0777,true);
   	  if (!file_exists($ArcLoc)) {
-echo "WW $ArcLoc to be written<p>";
 	    file_put_contents($ArcLoc,$img);
 	  }
           $done = file_put_contents("../$FinalLoc",$img);
-echo "FinalLoc $FinalLoc - $done Written<p>";
           $PhotoURL = $ExtLoc;
         } else {
           $PhotoURL = "1";  
         }
       }
     }
-
-echo "Done part 1<P>";
-var_dump($PhotoURL);
 
     echo "<h2>Image to Manage</h2>\n";
     echo "<form method=post action=PhotoManage.php enctype='multipart/form-data' >";
