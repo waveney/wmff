@@ -26,7 +26,7 @@
      <a href=/line-up/dance>Dance</a>
      <a href=/line-up/music>Music</a>
      <a href=/line-up/Comedy.php class=NotYet>Comedy</a>
-     <a href=/line-up/Traders.php class=NotYet>Traders</a>
+     <a href=/TraderList.php>Traders</a>
      <a href=/line-up/Other.php class=NotYet>Family/Other</a>
   </div>
 </div>

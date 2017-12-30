@@ -21,7 +21,9 @@
     if (!$_POST['FolkFest']) { echo "<p class=Err>Please indicate if you could do a 30 minute set at the festival\n"; $err=1; };
     if (!$err) {
       echo "<P>VALID...<P>";
+      $_POST['AccessCode'] = rand_string(40);
       $_POST['Year'] = $THISYEAR;
+      $_POST['Activity'] = $_POST['LnlCat'];
       $id = Insert_db_post('SignUp',$Lnl);
 echo "id $id<p>";
     
