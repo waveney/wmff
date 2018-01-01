@@ -76,25 +76,6 @@ function Put_Venue(&$now) {
   Update_db('Venues',$Cur,$now);
 }
 
-function Get_Map_Point_Types() {
-  global $db;
-  $res = $db->query("SELECT * FROM MapPointTypes ORDER BY id");
-  if ($res) while ($mpt = $res->fetch_assoc()) $full[] = $mpt;
-  return $full;
-}
-
-function Get_Map_Point_Type($mid) {
-  global $db;
-  $res = $db->query("SELECT * FROM MapPointTypes WHERE id=$mid");
-  if ($res) $ans = $res->fetch_assoc();
-  return $ans;
-}
-
-function Put_Map_Point_Type(&$now) {
-  $Cur = Get_Map_Point_Type($now['id']);
-  Update_db('MapPointTypes',$Cur,$now);
-}
-
 function Set_Event_Help() {
   static $t = array(
  	'Start'=>'Use 24hr clock for all times eg 1030, 1330',

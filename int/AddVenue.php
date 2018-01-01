@@ -13,6 +13,7 @@
 <?php include("files/navigation.php"); ?>
 <?php
   include("ProgLib.php");
+  include_once("MapLib.php");
 
   Set_Venue_Help();
 
@@ -31,6 +32,7 @@
       }
       $vid = Insert_db_post('Venues',$Venue,$proc);
     }
+    Update_MapPoints(); 
   } elseif (isset($_GET{'v'})) {
     $vid = $_GET{'v'};
     $Venue = Get_Venue($vid);

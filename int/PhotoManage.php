@@ -43,14 +43,56 @@
 */
 
 ?>
-<script language=Javascript>
-  $(function () {
-    $('#image').cropper({
-<?php
-  echo "aspectRatio: " . $aspect[$Shape];
-?>
-    });
-  });
+<script language=Javascript defer>
+  var CC;
+  $(document).ready(function() {
+    CC = ($('#image').cropper({ 
+<?php echo "aspectRatio: " . $aspect[$Shape] . ',' ?>
+        viewMode:1,
+        autoCropArea:1,
+    }));
+
+//    debugger;
+//    var image = document.getElementById('image');
+//    var cropper = new Cropper(image, {
+//<?php echo "aspectRatio: " . $aspect[$Shape] . ',' ?>
+//      viewMode:1,
+//      autoCropArea:1,
+//    });
+
+
+    document.getElementById('crop_button').addEventListener('click', function(){
+      debugger;
+//      var imgurl =  $('#image').cropper.getCroppedCanvas().toDataURL();
+//      var imgurl =  CC.getCroppedCanvas().toDataURL();
+//      var img = document.createElement("img");
+//      img.src = imgurl;
+
+
+//      $('#image').cropper.getCroppedCanvas().toBlob(function (blob) {
+      var DD = $('#image').cropper;
+      var canv =  DD.Constructor.prototype.getCroppedCanvas();
+        canv.toBlob(function (blob) {
+//      CC.getCroppedCanvas().toBlob(function (blob) {
+        var formData = new FormData();
+        formData.append('croppedImage', blob);
+        // Use `jQuery.ajax` method
+        $.ajax('/int/photouploadinternal.php', {
+          method: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function () {
+            console.log('Upload success');
+            },
+          error: function () {
+            console.log('Upload error');
+            }
+          });
+        });
+      });
+    })
+
 </script>
 <?php
   
@@ -137,6 +179,8 @@
     if ($PhotoURL) {
       if ($PhotoURL != "1") {
         echo "<div><img src=$PhotoURL id=image><p></div>";
+//	echo "<center><input type=submit id=crop_button value=Crop></center><p>\n";
+	echo "<center><div id=crop_button value=Crop>Crop</div></center><p>\n";
       } else {
         echo "The Photo URL can't be read<P>";
       }
