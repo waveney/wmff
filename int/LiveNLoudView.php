@@ -27,7 +27,8 @@
     while ($lnl = $res->fetch_assoc()) {
       $id = $lnl['id'];
       echo "<tr><td>$id";
-      echo "<td><a href=lnledit.php?id=$id>" . $lnl['Name'] . "</a>";
+//      echo "<td><a href=lnledit.php?id=$id>" . $lnl['Name'] . "</a>";
+      echo "<td>$lnl['Name'];
       echo "<td>" . $lnl['Style'];
       echo "<td style='background:" . $Colours[$lnl['Activity']] . ";'>" . $lnlclasses[$lnl['Activity']];
       if ($lnl['TotalSize']) {
