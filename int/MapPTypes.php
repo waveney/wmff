@@ -6,6 +6,7 @@
 
   include_once("ProgLib.php");
   include_once("TradeLib.php");
+  include_once("MapLib.php");
 
   echo "<div class='content'><h2>Manage Map Point Types</h2>\n";
   echo "Please don't have too many types.<p>\n";

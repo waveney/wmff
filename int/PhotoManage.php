@@ -43,14 +43,56 @@
 */
 
 ?>
-<script language=Javascript>
-  $(function () {
-    $('#image').cropper({
-<?php
-  echo "aspectRatio: " . $aspect[$Shape];
-?>
-    });
-  });
+<script language=Javascript defer>
+  var CC;
+  $(document).ready(function() {
+    CC = ($('#image').cropper({ 
+<?php echo "aspectRatio: " . $aspect[$Shape] . ',' ?>
+        viewMode:1,
+        autoCropArea:1,
+    }));
+
+//    debugger;
+//    var image = document.getElementById('image');
+//    var cropper = new Cropper(image, {
+//<?php echo "aspectRatio: " . $aspect[$Shape] . ',' ?>
+//      viewMode:1,
+//      autoCropArea:1,
+//    });
+
+
+    document.getElementById('crop_button').addEventListener('click', function(){
+      debugger;
+//      var imgurl =  $('#image').cropper.getCroppedCanvas().toDataURL();
+//      var imgurl =  CC.getCroppedCanvas().toDataURL();
+//      var img = document.createElement("img");
+//      img.src = imgurl;
+
+
+//      $('#image').cropper.getCroppedCanvas().toBlob(function (blob) {
+      var DD = $('#image').cropper;
+      var canv =  DD.Constructor.prototype.getCroppedCanvas();
+        canv.toBlob(function (blob) {
+//      CC.getCroppedCanvas().toBlob(function (blob) {
+        var formData = new FormData();
+        formData.append('croppedImage', blob);
+        // Use `jQuery.ajax` method
+        $.ajax('/int/photouploadinternal.php', {
+          method: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function () {
+            console.log('Upload success');
+            },
+          error: function () {
+            console.log('Upload error');
+            }
+          });
+        });
+      });
+    })
+
 </script>
 <?php
   
@@ -82,19 +124,52 @@
       $Side = Get_Side($Who);
       $Name = $Side['Name'];
       $PhotoURL = $Side['Photo'];
+      $FinalLoc = "images/Sides/" . $Who;
+      $ArcLoc = "ArchiveImages/Sides/" . $Who;
       break;
     case 3: // Trader
       $Trad = Get_Trader($Who);
       $Name = $Trad['Name'];
       $PhotoURL = $Trad['Photo'];
+      $FinalLoc = "images/Traders/" . $Who;
+      $ArcLoc = "ArchiveImages/Traders/" . $Who;
       break;
     case 4: // Sponsor
       $Spon = Get_Sponsor($Who);
       $Name = $Spon['Name'];
       $PhotoURL = $Spon['Image'];
+      $FinalLoc = "images/Sponsors/" . $Who;
+      $ArcLoc = "ArchiveImages/Sponsors/" . $Who;
       break;
     }
+
+    $suffix = strtolower(pathinfo($PhotoURL,PATHINFO_EXTENSION));
+    $FinalLoc .= ".$suffix";
+    $ExtLoc = "/" . $FinalLoc;
     
+    if ($PhotoURL) {
+      if ($PhotoURL != $ExtLoc) {
+	if (preg_match('/^\/(.*)/',$PhotoURL,$mtch)) {
+	  $img = file_get_contents($mtch[1]);
+	} else {
+          $img = file_get_contents($PhotoURL);
+	};
+
+        if ($img) {
+          $ArcD = dirname($ArcLoc);
+          $ArcLoc .= ".$suffix";
+          if (!file_exists($ArcD)) mkdir($ArcD,0777,true);
+  	  if (!file_exists($ArcLoc)) {
+	    file_put_contents($ArcLoc,$img);
+	  }
+          $done = file_put_contents("../$FinalLoc",$img);
+          $PhotoURL = $ExtLoc;
+        } else {
+          $PhotoURL = "1";  
+        }
+      }
+    }
+
     echo "<h2>Image to Manage</h2>\n";
     echo "<form method=post action=PhotoManage.php enctype='multipart/form-data' >";
     echo fm_hidden('PCAT',$Pcat) . fm_hidden("WHO$Pcat",$Who);
@@ -102,7 +177,13 @@
     echo "For: $Name<br>";
     echo "Shape: " . $Shapes[$Shape] . "<p>";
     if ($PhotoURL) {
-      echo "<div><img src=$PhotoURL id=image><p></div>";
+      if ($PhotoURL != "1") {
+        echo "<div><img src=$PhotoURL id=image><p></div>";
+//	echo "<center><input type=submit id=crop_button value=Crop></center><p>\n";
+	echo "<center><div id=crop_button value=Crop>Crop</div></center><p>\n";
+      } else {
+        echo "The Photo URL can't be read<P>";
+      }
     } else {
       echo "No Image currently<p>";
     }

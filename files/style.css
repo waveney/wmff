@@ -179,8 +179,7 @@ sup
     {
     font-size:10px;
     }
-.biodiv
-    {
+.biodiv {
     float:right; 
     margin-left:25px; 
     margin-bottom:10px; 
@@ -192,8 +191,7 @@ sup
     text-align:center;
     color:#FFFFFF;
     }
-.biodiv p
-    {
+.biodiv p {
     max-width:100%;
     text-align:center;
     }
@@ -210,6 +208,22 @@ sup
 .bioimg
     {
     width:100%;
+    }
+.minibiodiv {
+    float:right; 
+    margin-left:25px; 
+    margin-bottom:10px; 
+    min-width:150px;
+    max-width:200px;
+    min-height:150px;
+    background-color:#005983;
+    width:100%;
+    text-align:center;
+    color:#FFFFFF;
+    }
+.minibiodiv p {
+    max-width:100%;
+    text-align:center;
     }
 .subimgleft
     {
