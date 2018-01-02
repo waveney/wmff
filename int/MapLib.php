@@ -19,7 +19,7 @@ function Update_MapPoints() {
   }
 
   $xml .= "</markers>\n";
-  return file_put_contents("../files/mappoints.xml",$xml);
+  return file_put_contents("../cache/mappoints.xml",$xml);
 }
 
 function Get_Map_Point_Types() {

@@ -20,14 +20,18 @@
     if (strlen($_POST['Address']) < 20) { echo "<p class=Err>Please give the contacts Address\n"; $err=1; };
     if (!$_POST['FolkFest']) { echo "<p class=Err>Please indicate if you could do a 30 minute set at the festival\n"; $err=1; };
     if (!$err) {
-      echo "<P>VALID...<P>";
+//      echo "<P>VALID...<P>";
       $_POST['AccessCode'] = rand_string(40);
       $_POST['Year'] = $THISYEAR;
       $_POST['Activity'] = $_POST['LnlCat'];
-      $id = Insert_db_post('SignUp',$Lnl);
-echo "id $id<p>";
+      $id = Insert_db_post('SignUp',$lnl);
     
-// Save record, email to Nathan, Mandy, Submiter, give thanks message back
+      Email_Signup($lnl,'LNL_Application',$lnl['Email']);
+      Email_Signup($lnl,'LNL_Nathan','nathanpotter89@hotmail.co.uk');
+      
+      echo "<h2 class=subtitle>Thankyou for submitting your application</h2>";
+      dotail();
+      exit();
     }
   }
 

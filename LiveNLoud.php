@@ -19,8 +19,8 @@ band, duo, choir, a soloist or even orchestra then complete an application form 
 Applicants should fill in the <a href=int/LiveNLoudForm.php>application form</a> in by:
 no later than Monday 12th February 2018.<p> 
 
-A &pound;5 sign up fee
-will then be requested to confirm your attendance.
+<!-- A &pound;5 sign up fee
+will then be requested to confirm your attendance.-->
 Wimborne Live and Loud is back and it's bigger and better than ever!<p>
 
 <b>This year, the competition will be divided into 3 categories:<p>
