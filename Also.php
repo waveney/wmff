@@ -18,6 +18,8 @@ within the community to showcase their work during the festival. <p>
 The competition is open to musicians of all ages, genres and group size. So, if you're part of a community group, 
 band, duo, choir, a soloist or even orchestra then complete an application form and get involved!<p>  
 
+<a href=LiveNLoud.php>More Info and Application Form</a><p> 
+
 <br clear=all>
 <div class="minibiodiv">
 <img src="/images/Noel-James-2017.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />

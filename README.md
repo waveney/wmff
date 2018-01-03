@@ -15,7 +15,7 @@ Needs mysql (or equivalent compatible) database "wmff" at localhost and closed t
 
 The following empty directories need to be created:
 
-int/Store int/OldStore int/PAspecs int/Insurance int/Temp int/LogFiles int/Contracts
+int/Store int/OldStore int/PAspecs int/Insurance int/Temp int/LogFiles int/Contracts cache
 
 For a non live site create an empty file int/testing - this prevents it sending emails
 
