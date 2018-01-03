@@ -2,10 +2,10 @@
   include_once("fest.php");
   A_Check('Committee','Bugs');
 
-  dostaffhead("Manage Trade Email Proformas");
+  dostaffhead("Manage Email Proformas");
 
   include_once("TradeLib.php");
-  echo "<div class='content'><h2>Manage Trade Email Proformas</h2>\n";
+  echo "<div class='content'><h2>Manage Email Proformas</h2>\n";
   
   $Pros=Get_Email_Proformas(1);
 

@@ -447,15 +447,22 @@ textarea:Focus
     margin:10px;
 	height:400px;
     }
-.articleimg
-    {
+.articleimg {
     width:100%;
     margin-bottom:-5px;
     transition:opacity .5s, filter .5s;
     }
-.articleimg:hover
-    {
-    width:100%;
+.articleimgsml {
+    max-width:250px;
+    max-height:250px;
+    margin:auto;
+    transition:opacity .5s, filter .5s;
+    }
+.articleimg:hover {
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+    }
+.articleimgsml:hover {
     opacity: 0.7;
     filter: alpha(opacity=70);
     }

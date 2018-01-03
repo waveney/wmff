@@ -13,6 +13,8 @@
 
 We are proud to host a wide range of traders at Wimborne Minster Folk Festival and if you're a trader, you can apply to trade at the 2018 festival now!<p>
 
+<a href=/TraderList.php>Partial List of traders</a><p>
+
 <h2 class="subtitle">Trade in 2018</h2>
 Applications for trading at the festival, which will be held over the weekend of 8, 9, 10 June 2018 are open. 
 Follow the <a href=/int/Trader.php>link</a> to apply. 

@@ -94,10 +94,14 @@ if ($ans) {
 </div>
 
 <div class="article">
-<a href="/info/camping" >
-<h2 class="articlettl">Official Festival Campsite</h2>
-<img class="articleimg" src="/images/Wimborne-Folk-Festival-Campsite.jpg" alt="Wimborne Minster Folk Festival" /></a>
-<p class="articletxt">Plan your stay at the festival and book a pitch at Meadows Campsite, which is within a short few minute walk from the town centre.</p>
+<a href="/LiveNLoud.php" >
+<h2 class="articlettl">Live and Loud 2018</h2>
+<img class="articleimgsml" src="/images/hellohawaii.jpg" alt="Wimborne Minster Folk Festival" /></a>
+<p class="articletxt">Live and Loud has been running for several years now with the intention of finding local talent from within the community to 
+showcase their work during the festival.<P>
+
+The competition is open to musicians of all ages, genres and group size. So, if you're part of a community group, band, duo, choir, a soloist or 
+even orchestra then complete an application form and get involved!</p>
 </div>
 
 <?php 
@@ -143,6 +147,13 @@ if ($ans) {
   echo "<p class=articletxt>$sc Music acts have already confirmed for 2018.\n";
   echo "</div>";
 ?>
+
+<div class="article">
+<a href="/info/camping" >
+<h2 class="articlettl">Official Festival Campsite</h2>
+<img class="articleimg" src="/images/Wimborne-Folk-Festival-Campsite.jpg" alt="Wimborne Minster Folk Festival" /></a>
+<p class="articletxt">Plan your stay at the festival and book a pitch at Meadows Campsite, which is within a short few minute walk from the town centre.</p>
+</div>
 
 </div>
 
