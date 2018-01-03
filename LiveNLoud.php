@@ -60,6 +60,7 @@ Centre, Wimborne. <p>
 All acts must arrive at 5:30pm ready for a sound check
 with doors opening to the public at 7:15pm for a 7:30pm start.<p>
 
+The Allendale Community centre, is on Hanham Road, Wimborne, Dorset, BH21 1AS.<P>
 
 <h2><a href=int/LiveNLoudForm.php>Application Form</a></h2>
 <?php 
