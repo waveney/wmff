@@ -436,8 +436,7 @@ textarea:Focus
     column-gap: 25px;
     column-count:3;
     }
-.article
-    {
+.article {
     min-width:33%;
     max-width:100%;
     max-width:600px;
@@ -706,3 +705,6 @@ h3	{
  	font-family:SHONAR, verdana, arial, helvetica, sans-serif;
  	font-size:24px;
  }	
+#map {
+  height: 100%;
+}
