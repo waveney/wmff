@@ -5,35 +5,17 @@
 function Update_MapPoints() {
   global $db;
 
-/*
-  $xml = "<markers>\n";
-  $res = $db->query("SELECT * FROM Venues WHERE Status=0 AND Lat!='' ");
-  if ($res) while($ven = $res->fetch_assoc()) {
-    $xml .= '<marker id="' . $ven['VenueId'] . '" name="' . $ven['Name'] . '" lat="' . $ven['Lat'] . '" long="' . $ven['Lng'] . 
-	'" imp="' . $ven['MapImp'] . '" icon="' . $ven['IconType'] . '"/>' . "\n";
-  }
-
-  $res = $db->query("SELECT * FROM MapPoints WHERE InUse=0");
-  if ($res) while($mp = $res->fetch_assoc()) {
-    $xml .= '<marker id="' . (1000000+$mp['id']) . '" name="' . $mp['Name'] . '" lat="' . $mp['Lat'] . '" long="' . $mp['Lng'] . 
-	'" imp="' . $mp['MapImp'] . '" icon="' . $mp['Type'] . '"/>' . "\n";
-  }
-
-  $xml .= "</markers>\n";
-  return file_put_contents("../cache/mappoints.xml",$xml);
-*/
-
   $data = array();
   $res = $db->query("SELECT * FROM Venues WHERE Status=0 AND Lat!='' ");
   if ($res) while($ven = $res->fetch_assoc()) {
     $data[] = array('id'=>$ven['VenueId'], 'name'=>$ven['Name'], 'lat'=>$ven['Lat'], 'long'=>$ven['Lng'],
-	'imp'=>$ven['MapImp'],'icon'=>$ven['IconType']);
+	'imp'=>$ven['MapImp'],'icon'=>$ven['IconType'],'atxt'=>0);
   }
 
   $res = $db->query("SELECT * FROM MapPoints WHERE InUse=0");
   if ($res) while($mp = $res->fetch_assoc()) {
     $data[] = array('id'=>(1000000+$mp['id']), 'name'=>$mp['Name'], 'lat'=>$mp['Lat'], 'long'=>$mp['Lng'],
-	'imp'=>$mp['MapImp'],'icon'=>$mp['Type']);
+	'imp'=>$mp['MapImp'],'icon'=>$mp['Type'],'atxt'=>$mp['AddText']);
   }
 
   return file_put_contents("../cache/mappoints.json",json_encode($data));
@@ -88,8 +70,8 @@ function Init_Map($CentType,$Centerid,$Zoom) { // CentType 0=Venue, 1=Mappoint
     $Lat = $ven['Lat'];
     $Long = $ven['Lng'];
   }
-//  echo "<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBPxpYmezfuaG9M1aVLBDjI0srpmJlfPPY&callback=initMap($Lat,$Long,$Zoom)' async defer></script>";
   echo "<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBPxpYmezfuaG9M1aVLBDjI0srpmJlfPPY&callback=initMap' async defer></script>";
+  echo "<script src=/js/maplabel.js async defer></script>";
 }
 
 

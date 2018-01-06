@@ -1,5 +1,5 @@
 var map;
-var markdata;
+var markers = [];
 
 function initMap(lat,lng,zm) {
   var Wimb = {lat: 50.800150, lng: -1.988000};
@@ -8,26 +8,65 @@ function initMap(lat,lng,zm) {
     center: Wimb,
     mapTypeId: 'hybrid',
     zoom: 16,
-//    zoom_changed: ,
     });
-
-  var marker = new google.maps.Marker({
-    position: Wimb,
-    label: '!',
-    map: map
-  });
 
   $.getJSON("/cache/mappoints.json").done ( function(json1) {
+    var zoom=map.getZoom();
     $.each(json1, function(key, data) {
       var latLng = new google.maps.LatLng(data.lat, data.long); 
-      var marker = new google.maps.Marker({
-        position: latLng,
-        title: data.name,
-        importance: data.imp,
-        iconforfuture: data.icon,
-      });
-      marker.setMap(map);
+      var minz=16, maxz=30;
+      if (data.imp != '0') {
+        var mtch = data.imp.match(/(\d*)(-?)(\d*)?/);
+	minz=mtch[1];
+        if (mtch[3]) maxz=mtch[3]; 
+      }  
+      if (data.icon != 1) {
+        var marker = new google.maps.Marker({
+          position: latLng,
+          title: data.name,
+          importance: data.imp,
+          iconforfuture: data.icon,
+        });
+        marker.setMap(map);
+        marker.setVisible(zoom>=minz && zoom <= maxz);
+        markers.push(marker);
+      };
+
+      if (data.icon == 1 || data.atxt) {
+        var lbl = new MapLabel({
+	  text: data.name,
+	  position: latLng,
+	  fontSize: data.atxt,
+	  minZoom: minz,
+	  maxZoom: maxz,
+	  map: map,
+	});
+
+      }
     });
   });
+
+  function controlOnZoom() {
+    var zoom=map.getZoom();
+    for (var i in markers) {
+      var hide=true;
+      var imp=markers[i].importance;
+      if (imp != '0') {
+        var mtch = imp.match(/(\d*)(-?)(\d*)?/);
+        if (mtch[3]) {
+	  hide = (zoom >= mtch[1] && zoom <= mtch[3]);
+        } else {
+          hide = (zoom >= mtch[1]);
+        }
+      } else { hide = (zoom >= 16) };
+      markers[i].setVisible(hide);
+    }
+    if (zoom == 13) map.setMapTypeId('roadmap');
+    if (zoom == 14) map.setMapTypeId('hybrid');
+  }
+
+  controlOnZoom();
+
+  google.maps.event.addListener(map, 'zoom_changed', controlOnZoom);
 }
 

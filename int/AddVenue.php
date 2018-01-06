@@ -51,11 +51,12 @@
     }
     echo "<tr>" . fm_text('Short Name', $Venue,'ShortName');
     echo "<tr>" . fm_text('Name',$Venue,'Name',3);
-    echo "<tr>" . fm_text('Address',$Venue,'Address',5);
+    echo "<tr>" . fm_text('Address',$Venue,'Address',3);
+    echo          fm_text('Post Code',$Venue,'PostCode',1);
     echo "<tr>" . fm_textarea('Description',$Venue,'Description',5,3);
     echo "<tr>" . fm_text('Lat',$Venue,'Lat',1);
     echo          fm_text('Long',$Venue,'Lng',1);
-    echo          fm_text('Post Code',$Venue,'PostCode',1);
+    echo          fm_text('MapImp',$Venue,'MapImp',1);
     echo "<tr>" . fm_text('Image',$Venue,'Image',1);
     echo "<tr>" . fm_text('Notes',$Venue,'Notes',3);
     echo "<tr><td>Status<td>" . fm_select($Venue_Status,$Venue,'Status');
