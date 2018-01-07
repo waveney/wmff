@@ -1,6 +1,7 @@
 var map;
 var markers = [];
 var mtypes = [];
+var me;
 
 $.getJSON("/cache/mapptypes.json").done (function(json1) {
   $.each(json1,function(key,data) {
@@ -53,7 +54,7 @@ function initMap() {
 	      case 'D_C_': cont += 'Dance and Family'; break;
 	      case 'D__O': cont += 'Dance and other things'; break;
 	      case 'D___': cont += 'Dance'; break;
-	      case '_MCO': cont += 'Music,Family and other things'; break;
+	      case '_MCO': cont += 'Music, Family and other things'; break;
 	      case '_MC_': cont += 'Music and Family'; break;
 	      case '_M_O': cont += 'Music and other things'; break;
 	      case '_M__': cont += 'Music'; break;
@@ -63,7 +64,8 @@ function initMap() {
 	      case '____': cont += 'many things'; break;
 	    };
 	  }
-	  cont += '<p><a href=/int/VenueShow.php?v=' + data.id + '>More Info</a><p>Directions';
+	  cont += '<p><a href=/int/VenueShow.php?v=' + data.id + '>More Info</a>';
+//	  cont += '<p>Directions';
 	  var infowindow = new google.maps.InfoWindow({
             content: cont
           });
@@ -107,6 +109,19 @@ function initMap() {
   }
 
   controlOnZoom();
+
+  if (0 && navigator.geolocation) {
+    debugger;
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = { lat: position.coords.latitude, lng: position.coords.longitude };
+      me = new google.maps.Marker({
+	position: pos,
+	icon: '/images/icons/me20.png',
+        map: map,
+      });
+      var i = 1;
+    });
+  }
 
   google.maps.event.addListener(map, 'zoom_changed', controlOnZoom);
 }

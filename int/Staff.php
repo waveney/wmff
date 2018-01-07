@@ -169,6 +169,7 @@
 //      if (Access('SysAdmin')) echo "<li><a href=TradeImport2.php>Merge Mandy's Trade Data</a>\n";
       if (Access('SysAdmin')) echo "<li><a href=TradeImport3.php>Fix Access Keys</a>\n";
 //      echo "<li><a href=/admin/trade/index.php>Old Trade Stand Section</a>\n";
+      echo "<li><a href=Trade2CSV.php>Traders as CSV</a>\n";
     }
     if (Access('Staff','Sponsors')) echo "<li><a href=Sponsors.php>Sponsors</a>\n";
     if (Access('Committee','Bugs')) {
