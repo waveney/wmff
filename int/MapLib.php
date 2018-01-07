@@ -1,26 +1,6 @@
 <?php
 // Various things to do with maps
 
-// Call this after any mappoint or venue update
-function Update_MapPoints() {
-  global $db;
-
-  $data = array();
-  $res = $db->query("SELECT * FROM Venues WHERE Status=0 AND Lat!='' ");
-  if ($res) while($ven = $res->fetch_assoc()) {
-    $data[] = array('id'=>$ven['VenueId'], 'name'=>$ven['Name'], 'lat'=>$ven['Lat'], 'long'=>$ven['Lng'],
-	'imp'=>$ven['MapImp'],'icon'=>$ven['IconType'],'atxt'=>0);
-  }
-
-  $res = $db->query("SELECT * FROM MapPoints WHERE InUse=0");
-  if ($res) while($mp = $res->fetch_assoc()) {
-    $data[] = array('id'=>(1000000+$mp['id']), 'name'=>$mp['Name'], 'lat'=>$mp['Lat'], 'long'=>$mp['Lng'],
-	'imp'=>$mp['MapImp'],'icon'=>$mp['Type'],'atxt'=>$mp['AddText']);
-  }
-
-  return file_put_contents("../cache/mappoints.json",json_encode($data));
-}
-
 function Get_Map_Point_Types() {
   global $db;
   $res = $db->query("SELECT * FROM MapPointTypes ORDER BY id");
@@ -58,6 +38,32 @@ function Put_Map_Point(&$now) {
   $Cur = Get_Map_Point($now['id']);
   Update_db('MapPoints',$Cur,$now);
 }
+
+
+// Call this after any mappoint or venue update
+function Update_MapPoints() {
+  global $db;
+
+  $types = Get_Map_Point_Types();
+  file_put_contents("../cache/mapptypes.json",json_encode($types)); 
+
+  $data = array();
+  $res = $db->query("SELECT * FROM Venues WHERE Status=0 AND Lat!='' ");
+  if ($res) while($ven = $res->fetch_assoc()) {
+    $data[] = array('id'=>$ven['VenueId'], 'name'=>$ven['Name'], 'lat'=>$ven['Lat'], 'long'=>$ven['Lng'],
+	'imp'=>$ven['MapImp'],'icon'=>$ven['IconType'],'atxt'=>0);
+  }
+
+  $res = $db->query("SELECT * FROM MapPoints WHERE InUse=0");
+  if ($res) while($mp = $res->fetch_assoc()) {
+    $data[] = array('id'=>(1000000+$mp['id']), 'name'=>$mp['Name'], 'lat'=>$mp['Lat'], 'long'=>$mp['Lng'],
+	'imp'=>$mp['MapImp'],'icon'=>$mp['Type'],'atxt'=>$mp['AddText']);
+  }
+
+  return file_put_contents("../cache/mappoints.json",json_encode($data));
+}
+
+
 
 function Init_Map($CentType,$Centerid,$Zoom) { // CentType 0=Venue, 1=Mappoint
   

@@ -14,7 +14,10 @@
   echo "Entry 1 must be text.<p>";
   
   $Types = Get_Map_Point_Types(1);
-  if (UpdateMany('MapPointTypes','Put_Map_Point_Type',$Types,1)) $Types = Get_Map_Point_Types(1);
+  if (UpdateMany('MapPointTypes','Put_Map_Point_Type',$Types,1)) {
+    $Types = Get_Map_Point_Types(1);
+    Update_MapPoints();
+  }
 
   $coln = 0;
 

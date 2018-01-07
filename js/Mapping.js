@@ -1,7 +1,14 @@
 var map;
 var markers = [];
+var mtypes = [];
 
-function initMap(lat,lng,zm) {
+$.getJSON("/cache/mapptypes.json").done (function(json1) {
+  $.each(json1,function(key,data) {
+    mtypes[data.id] = data;
+  })
+})
+
+function initMap() {
   var Wimb = {lat: 50.800150, lng: -1.988000};
 
   map = new google.maps.Map(document.getElementById('map'), {
@@ -25,8 +32,8 @@ function initMap(lat,lng,zm) {
           position: latLng,
           title: data.name,
           importance: data.imp,
-          iconforfuture: data.icon,
         });
+	if (data.icon > 1) marker.setIcon("/images/icons/" + mtypes[data.icon].Icon);
         marker.setMap(map);
         marker.setVisible(zoom>=minz && zoom <= maxz);
         markers.push(marker);
