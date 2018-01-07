@@ -2,7 +2,7 @@
   include_once("fest.php");
   A_Check('Staff','Venues');
 
-  dostaffhead("List Events","<script src=/js/Tools.js></script>");
+  dostaffhead("List Events");
   global $db,$Event_Types;
   $yn = array('','Y');
   include("ProgLib.php");

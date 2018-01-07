@@ -59,6 +59,7 @@
 	echo $YEAR;
 	echo fm_hidden('Year',-1);
       }
+    echo "<tr>" . fm_text('Version Number',$Gen,'Version') . "<td>Software Version Number - change will force css/js reload";
     echo "<tr><td>State of Dance: " . fm_select($Cat_Stages,$Gen,'DanceState') . "<td>Controls level of Participant interfaces";
     echo "<tr><td>State of Music: " . fm_select($Cat_Stages,$Gen,'MusicState') . "<td>";
     echo "<tr><td>State of Other: " . fm_select($Cat_Stages,$Gen,'OtherState') . "<td>";

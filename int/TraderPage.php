@@ -1,7 +1,7 @@
 <?php
   include_once("fest.php");
 
-  dostaffhead("Trader Application", "<script src=/js/Participants.js></script>");
+  dostaffhead("Trader Application", "/js/Participants.js");
 
   include_once("TradeLib.php");
   include_once("DateTime.php"); 
