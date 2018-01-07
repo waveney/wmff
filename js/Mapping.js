@@ -37,7 +37,34 @@ function initMap() {
         marker.setMap(map);
         marker.setVisible(zoom>=minz && zoom <= maxz);
         markers.push(marker);
-      };
+
+	if (data.id < 1000000) { // Venue
+	  var cont = '<h3>' + data.name + '</h3>';
+	  if (data.image) cont += '<img src=' + data.image + ' class=mapimage><br>';
+	  cont += (data.desc || '');
+	  if (data.usage) {
+	    cont += '<p>Venue for ';
+	    switch (data.usage) {
+	      case 'D__': cont += 'Dance'; break;
+	      case 'DM_': cont += 'Dance and Music'; break;
+	      case 'DMO': cont += 'Dance, Music and other things'; break;
+	      case 'D_O': cont += 'Dance and other things'; break;
+	      case '_M_': cont += 'Music'; break;
+	      case '_MO': cont += 'Music and other things'; break;
+	      case '__O': cont += 'Other things'; break;
+	      case '___': cont += 'many things'; break;
+	    };
+	  }
+	  cont += '<p><a href=/int/VenueShow.php?v=' + data.id + '>More Info</a><p>Directions';
+	  var infowindow = new google.maps.InfoWindow({
+            content: cont
+          });
+
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
+          });
+	}
+      }
 
       if (data.icon == 1 || data.atxt) {
         var lbl = new MapLabel({
@@ -48,7 +75,6 @@ function initMap() {
 	  maxZoom: maxz,
 	  map: map,
 	});
-
       }
     });
   });
