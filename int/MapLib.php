@@ -52,7 +52,7 @@ function Update_MapPoints() {
   if ($res) while($ven = $res->fetch_assoc()) {
     $data[] = array('id'=>$ven['VenueId'], 'name'=>$ven['Name'], 'lat'=>$ven['Lat'], 'long'=>$ven['Lng'],
 	'imp'=>$ven['MapImp'],'icon'=>$ven['IconType'],'atxt'=>0,'desc'=>$ven['Description'],
-	'usage'=>(($ven['Dance']?'D':'_').($ven['Music']?'M':'_').($ven['Other']?'O':'_')),'image'=>$ven['Image']);
+	'usage'=>(($ven['Dance']?'D':'_').($ven['Music']?'M':'_').($ven['Child']?'C':'_').($ven['Other']?'O':'_')),'image'=>$ven['Image']);
   }
 
   $res = $db->query("SELECT * FROM MapPoints WHERE InUse=0");

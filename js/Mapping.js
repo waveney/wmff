@@ -45,14 +45,22 @@ function initMap() {
 	  if (data.usage) {
 	    cont += '<p>Venue for ';
 	    switch (data.usage) {
-	      case 'D__': cont += 'Dance'; break;
-	      case 'DM_': cont += 'Dance and Music'; break;
-	      case 'DMO': cont += 'Dance, Music and other things'; break;
-	      case 'D_O': cont += 'Dance and other things'; break;
-	      case '_M_': cont += 'Music'; break;
-	      case '_MO': cont += 'Music and other things'; break;
-	      case '__O': cont += 'Other things'; break;
-	      case '___': cont += 'many things'; break;
+	      case 'DMCO': cont += 'Dance, Music, Family and other things'; break;
+	      case 'DMC_': cont += 'Dance, Music and Family'; break;
+	      case 'DM_O': cont += 'Dance, Music and other things'; break;
+	      case 'DM__': cont += 'Dance and Music'; break;
+	      case 'D_CO': cont += 'Dance, Family and other things'; break;
+	      case 'D_C_': cont += 'Dance and Family'; break;
+	      case 'D__O': cont += 'Dance and other things'; break;
+	      case 'D___': cont += 'Dance'; break;
+	      case '_MCO': cont += 'Music,Family and other things'; break;
+	      case '_MC_': cont += 'Music and Family'; break;
+	      case '_M_O': cont += 'Music and other things'; break;
+	      case '_M__': cont += 'Music'; break;
+	      case '__CO': cont += 'Family and Other things'; break;
+	      case '__C_': cont += 'Family'; break;
+	      case '___O': cont += 'Other things'; break;
+	      case '____': cont += 'many things'; break;
 	    };
 	  }
 	  cont += '<p><a href=/int/VenueShow.php?v=' + data.id + '>More Info</a><p>Directions';

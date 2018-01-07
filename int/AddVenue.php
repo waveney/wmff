@@ -61,8 +61,9 @@
     echo "<tr>" . fm_text('Notes',$Venue,'Notes',3);
     echo "<tr><td>Status<td>" . fm_select($Venue_Status,$Venue,'Status');
     echo "<td>" . fm_checkbox('Dance Setup Overlap',$Venue,'SetupOverlap');
-    echo "<tr><td>Venue For:<td>" . fm_checkbox('Dance',$Venue,'Dance');
+    echo "<tr><td>Venue For:<td colspan=2>" . fm_checkbox('Dance',$Venue,'Dance');
     echo fm_checkbox('Music',$Venue,'Music');
+    echo fm_checkbox('Children',$Venue,'Child');
     echo fm_checkbox('Other',$Venue,'Other');
     echo "<td>" . fm_checkbox('Ignore Multiple Use Warning',$Venue,'AllowMult');
     echo "<tr><td>" . fm_simpletext("Dance Importance",$Venue,'DanceImportance','size=4');
