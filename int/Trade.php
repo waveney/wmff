@@ -2,7 +2,7 @@
   include_once("fest.php");
   A_Check('Committee','Stalls');
 
-  dostaffhead("Trade Stall Booking", "<script src=/js/Participants.js></script>");
+  dostaffhead("Trade Stall Booking", "/js/Participants.js");
 
   include_once("TradeLib.php");
   include_once("DateTime.php"); 

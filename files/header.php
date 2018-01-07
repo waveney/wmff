@@ -8,10 +8,13 @@
     <meta name="Revisit-after" content="2 Hours">
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<?php    include_once("int/analyticstracking.php"); ?>
+<?php    
+  $V = $MASTER['V'];
+    include_once("int/analyticstracking.php");
+    echo "<link href=/files/style.css?V=$V type=text/css rel=stylesheet />";
+    echo "<link href=/files/dropdown.css?V=$V type=text/css rel=stylesheet />\n";
+?>
 
-    <link href="/files/style.css" type="text/css" rel="stylesheet" />
-    <link href="/files/dropdown.css" type="text/css" rel="stylesheet" />
     <link href="/css/responsiveslides.css" type="text/css" rel="stylesheet" />
     <script src="/js/jquery-3.2.1.min.js"></script>
     <link href="/files/themes.css" type="text/css" rel="stylesheet" />

@@ -842,6 +842,7 @@ function Get_Years() {
 }
 
 $MASTER = Get_General();
+$MASTER['V'] = gmdate('Y') . "." . $MASTER['Version'];
 
 function First_Sent($stuff) {
   $onefifty=substr($stuff,0,150);
@@ -978,46 +979,64 @@ function Show_Prog($type,$id,$mode=0,$all=0) { //mode 0 = html, 1 = text for ema
 
 $head_done = 0;
 
-function dohead($title,$extra='',$Prenav='') {
-  global $head_done;
+function doextras($extra1,$extra2,$extra3,$extra4,$extra5) {
+  global $MASTER;
+  $V=$MASTER['V'];
+  for ($i=1;$i<6;$i++) {
+    if (${"extra$i"}) {
+      $e = ${"extra$i"};
+      $suffix=pathinfo($e,PATHINFO_EXTENSION);
+      if ($suffix == "js") {
+        echo "<script src=$e?V=$V></script>\n";
+      } else if ($suffix == "css") {
+	echo "<link href=$e?V=$V type=text/css rel=stylesheet>\n";
+      }
+    }
+  }
+}
+
+function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
+  global $head_done,$MASTER;
   if ($head_done) return;
+  $V=$MASTER['V'];
   echo "<html><head>";
   echo "<title>Wimborne Minster Folk Festival | $title</title>\n";
   include_once("files/header.php");
-  echo '<script src="/js/tablesort.js"></script>';
-  echo '<script src="/js/Tools.js"></script>';
-  if ($extra) echo $extra;
+  echo "<script src=/js/tablesort.js?V=$V></script>\n";
+  echo "<script src=/js/Tools.js?V=$V></script>\n";
+  if ($extra1) doextras($extra1,$extra2,$extra3,$extra4,$extra5);
   echo "</head><body>\n";
   echo "<h1>Wimborne Minster Folk Festival | $title</h1>\n";
-  if ($Prenav) echo $Prenav;
   include_once("files/navigation.php"); 
   echo "<div class=content>";
   $head_done = 1;
 }
 
-function doheadpart($title) {
-  global $head_done;
+function doheadpart($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
+  global $head_done,$MASTER;
   if ($head_done) return;
+  $V=$MASTER['V'];
   echo "<html><head>";
   echo "<title>Wimborne Minster Folk Festival | $title</title>\n";
   include_once("files/header.php");
-  echo '<script src="/js/tablesort.js"></script>';
-  echo '<script src="/js/Tools.js"></script>';
+  echo "<script src=/js/tablesort.js?V=$V></script>\n";
+  echo "<script src=/js/Tools.js?V=$V></script>\n";
+  if ($extra1) doextras($extra1,$extra2,$extra3,$extra4,$extra5);
   $head_done = 1;
 }
 
-function dostaffhead($title,$extra='',$Prenav='') {
-  global $head_done;
+function dostaffhead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
+  global $head_done,$MASTER;
   if ($head_done) return;
+  $V=$MASTER['V'];
   echo "<html><head>";
   echo "<title>WMFF Staff | $title</title>\n";
   include_once("files/header.php");
   include("festcon.php");
-  echo '<script src="/js/emailclick.js"></script>';
-  echo '<script src="/js/clipboard.min.js"></script>';
-  if ($extra) echo $extra;
+  echo "<script src=/js/tablesort.js?V=$V></script>\n";
+  echo "<script src=/js/Tools.js?V=$V></script>\n";
+  if ($extra1) doextras($extra1,$extra2,$extra3,$extra4,$extra5);
   echo "</head><body>\n";
-  if ($Prenav) echo $Prenav;
   include_once("files/navigation.php"); 
   echo "<div class=content>";
   $head_done = 1;

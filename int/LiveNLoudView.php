@@ -2,7 +2,7 @@
   include_once("fest.php");
   A_Check('Staff');
 
-  dostaffhead("List Live N Load Applications","<script src=/js/Tools.js></script>");
+  dostaffhead("List Live N Load Applications");
   global $db,$THISYEAR;
   include("SignupLib.php");
 

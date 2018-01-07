@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Festival Map",'<script src="/js/Mapping.js"></script>');
+  dohead("Festival Map",'/js/Mapping.js');
   include_once("int/MapLib.php");
   include_once("int/ProgLib.php");
 

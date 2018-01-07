@@ -3,7 +3,7 @@
 
   A_Check('Staff','Photos');
 
-  dostaffhead("Manage Photos",'<script src="/js/cropper.js"></script><link  href="/css/cropper.css" rel="stylesheet">');
+  dostaffhead("Manage Photos",'/js/cropper.js',"/css/cropper.css");
 
 /* Edit images for Sides, Traders, Sponsors
    If not stored appropriately, store in right place afterwards
