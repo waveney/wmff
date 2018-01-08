@@ -67,9 +67,8 @@
 <th colspan="4">Application Forms & Documentation</th>
 </tr>
 <tr>
-<td>Volunteer</td>
-<td style="font-weight:bold; color:#00CC00;">Not Yet Open</td>
-<td>Applications are not yet open for stewarding and volunteering at the folk festival in 2018.<br />Join our Stewarding Team, Technical Crew, Artistic Team or Media Team, but should be soon.</td>
+<td><a href=int/StewardForm.php>Volunteer</a></td>
+<td style="font-weight:bold; color:#00CC00;">Open</td>
 <td>
 </tr>
 </table></p>
