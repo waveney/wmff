@@ -224,9 +224,9 @@
 //      echo fm_text('Year',$Event,'Year');
       echo "<td colspan=2>Times: " . fm_smalltext('Start','Start',$Event['Start']);
         echo fm_smalltext('End','End',$Event['End']);
-        echo fm_smalltext('Setup Time','Setup (mins)',$Event['Setup']);
-        echo fm_smalltext('Duration','Duration',$Event['Duration']) . " minutes";
-        if ($se == 1) echo fm_smalltext('Slot End','SlotEnd',$Event['SlotEnd']);
+        echo fm_smalltext('Setup Time','Setup (mins)',$Event['Setup']) . "<br>";
+        echo fm_smalltext('Duration','Duration',$Event['Duration']) . "&nbsp;minutes ";
+        if ($se < 0) echo fm_smalltext(', Slot End','SlotEnd',$Event['SlotEnd']);
       echo "<td>Participant Visibility:" . fm_select($VisParts,$Event,'InvisiblePart');
       echo "<tr><td>Venue:<td>" . fm_select($Venues,$Event,'Venue',1);
         echo fm_textarea('Notes', $Event,'Notes',4,2);
