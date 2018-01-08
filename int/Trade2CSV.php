@@ -3,7 +3,7 @@
   include_once("fest.php");
   include_once("TradeLib.php");
 
-  global $db,$Trade_State,$Trader_Status,$Trade_States;
+  global $db,$Trade_State,$Trader_Status,$Trade_States,$Trade_Types;
   header('Content-Type: text/csv; charset=utf-8');
   header('Content-Disposition: attachment; filename=Traders.csv');
 
