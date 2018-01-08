@@ -4,7 +4,7 @@
   dostaffhead("iSteward / Volunteer Application", "/js/Participants.js");
 
   include_once("SignupLib.php");
-  global $USER,$USERID,$db,$THISYEAR;
+  global $USER,$USERID,$db,$THISYEAR,$StewClasses,$Relations,$Days;
 
   if (isset($_POST['submit'])) {
     if (strlen($_POST['Name']) < 2) { echo "<p class=Err>Please give your name\n"; $err=1; };
@@ -63,7 +63,9 @@
   echo "<tr><td colspan=4><h3>Availability</h3>If you could help on the days below, please give the times you would be available\n";
   $D = -2;
   foreach ($Days as $d=>$ld) {
-    echo "<tr>" . fm_text($ld . " " . ($MASTER['DateFri']+$D++) . "th June $THISYEAR",$_POST,"Avail$d",4);
+    if ($D >=0 && $D<3) {
+      echo "<tr>" . fm_text($ld . " " . ($MASTER['DateFri']+$D++) . "th June $THISYEAR",$_POST,"Avail$d",4);
+    } else { $D++; };
   }
 
   echo "<tr><td colspan=4><h3>Legal</h3>\n";
@@ -71,6 +73,7 @@
   echo "<tr><td colspan=4><h3>Emergency Contact</h3>\n";
   echo "<tr>" . fm_text('Contact Name',$_POST,'ContactName',2);
   echo "<tr>" . fm_text('Contact Phone',$_POST,'ContactPhone',2);
+  echo "<tr><td>Relationship:<td>" . fm_select($Relations,$_POST,'Relation');
   echo "</table><p>";
   echo "<input type=submit name=submit value='Submit Application'><p>\n"; 
   echo "</form>\n";

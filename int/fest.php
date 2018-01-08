@@ -61,7 +61,7 @@ db_open();
 
 function Logg($what) {
   global $db,$USERID;
-  $qry = "INSERT INTO LogFile SET Who='$USERID', changed=" . date('d/m/y H:i:s') . ", What='" . addslashes($what) . "'";
+  $qry = "INSERT INTO LogFile SET Who='$USERID', changed='" . date('d/m/y H:i:s') . "', What='" . addslashes($what) . "'";
   $db->query($qry);
 }
 

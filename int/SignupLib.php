@@ -9,6 +9,11 @@ $StewClasses = array('Stewarding'=> '(Info Points, Concerts, Road Closures, Stre
 		'Artistic' => '(Setting up art displays, town decorations etc)', 
 		'Media' => '(Photography, Videography etc)');
 $Days = array('Wed'=>'Wednesday','Thu'=>'Thursday','Fri'=>'Friday','Sat'=>'Saturday','Sun'=>'Sunday','Mon'=>'Monday','Tue'=>'Tuesday');
+$Relations = array('Husband','Wife','Partner','Son','Daughter','Mother','Father','Brother','Sister','Grandchild','Grandparent','Guardian','Uncle','Aunty',
+		'Son/Daughter in law', 'Friend','Other');
+
+
+
 
 function Get_lnl_Details(&$lnl) {
   global $lnlclasses,$yesno;
@@ -68,7 +73,7 @@ function Email_Signup(&$lnl,$messcat,$whoto) {
 }
 
 function Get_Stew_Details(&$stew) {
-  global $StewClasses,$Days;
+  global $StewClasses,$Days,$Relations;
   $Body = "\nName: " . $stew['Name'] . "\n";
   $Body .= "Email: <a href=mailto:" . $stew['Email'] . ">" . $stew['Email'] . "</a>\n";
   if ($stew['Phone']) $Body .= "Phone: " . $stew['Phone'] . "\n";
@@ -89,6 +94,7 @@ function Get_Stew_Details(&$stew) {
 
   $Body .= "Emergency Contact Name: " . $stew['ContactName'] . "\n";
   $Body .= "Phone: " . $stew['ContactPhone'] . "\n";
+  $Body .= "Relationship: " . $Relations[$stew['Relation']] . "\n";
   return $Body;
 }
 
