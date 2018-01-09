@@ -67,7 +67,7 @@ function Update_MapPoints() {
 
 
 function Init_Map($CentType,$Centerid,$Zoom) { // CentType 0=Venue, 1=Mappoint
-  
+  global $MASTER;  
   if ($CentType) {
     $mp = Get_Map_Point($Centerid);
     $Lat = $mp['Lat'];
@@ -77,8 +77,10 @@ function Init_Map($CentType,$Centerid,$Zoom) { // CentType 0=Venue, 1=Mappoint
     $Lat = $ven['Lat'];
     $Long = $ven['Lng'];
   }
-  echo "<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBPxpYmezfuaG9M1aVLBDjI0srpmJlfPPY&callback=initMap' async defer></script>";
-  echo "<script src=/js/maplabel.js async defer></script>";
+  $V = $MASTER['V'];
+  echo "<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBPxpYmezfuaG9M1aVLBDjI0srpmJlfPPY' ></script>";
+  echo "<script src=/js/maplabel.js?V=$V ></script>";
+  echo "<script src=/js/Mapping.js?V=$V ></script>";
 }
 
 

@@ -9,7 +9,8 @@ $.getJSON("/cache/mapptypes.json").done (function(json1) {
   })
 })
 
-function initMap() {
+$(document).ready(function() {
+//function initMap() {
   var Wimb = {lat: 50.800150, lng: -1.988000};
 
   map = new google.maps.Map(document.getElementById('map'), {
@@ -110,8 +111,7 @@ function initMap() {
 
   controlOnZoom();
 
-  if (0 && navigator.geolocation) {
-    debugger;
+  if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
       var pos = { lat: position.coords.latitude, lng: position.coords.longitude };
       me = new google.maps.Marker({
@@ -119,10 +119,15 @@ function initMap() {
 	icon: '/images/icons/me20.png',
         map: map,
       });
-      var i = 1;
+      setInterval(function() { 
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = { lat: position.coords.latitude, lng: position.coords.longitude };
+	  me.setPosition(pos);
+	})
+      }, 10000);
     });
   }
 
   google.maps.event.addListener(map, 'zoom_changed', controlOnZoom);
-}
+});
 
