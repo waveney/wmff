@@ -121,6 +121,25 @@
 	Put_Event($Event);
 	$Skip = 1;
         break;
+
+      case 'Promote': // Sub Event to full event
+	$Se = $Event['SubEvent'];
+	if ($Se > 0) { // Is a SE
+	  $Event['SubEvent'] = 0;
+	  Put_Event($Event);
+	} else { // Is the parent - duplicate and make new one simple, make old one start after new one and clear contents
+	  $NewEvent = $Event;
+	  $NewEvent['SubEvent'] = 0;
+	  $NewEvent['End'] = $NewEvent['SlotEnd'];
+	  $NewEvent['EventId']=0;
+	  $NewEvent['SlotEnd'] = 0;
+	  Insert_db('Events',$NewEvent);
+
+	  $Event['Start'] = $NewEvent['End'];
+	  for ($i=1;$i<5;$i++) $Event["Side$i"] = $Event["Act$i"] = $Event["Other$i"] = 0;
+	  Put_Event($Event);
+	}
+	break;
       }
     } elseif ($eid > 0) { 	// existing Event
       $CurEvent=$Event;
@@ -288,6 +307,7 @@
         echo "<input type=Submit name=ACTION value=Divide>, \n";
         echo "<input type=Submit name=ACTION value=Delete onClick=\"javascript:return confirm('are you sure you want to delete this?');\">, \n";
 	echo "<input type=Submit name=ACTION value=Add>" . fm_smalltext('','Slots',1,2) . " sub events";
+	if (Access('SysAdmin') && $se != 0 ) echo "<input type=Submit name=ACTION value=Promote>";
         echo "</form>\n";
       }
       echo "</center>\n";
