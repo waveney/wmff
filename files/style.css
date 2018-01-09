@@ -700,3 +700,6 @@ textarea:Focus
 #map {
   height: 100%;
 }
+.adp-warnbox { // Fix to Google maps to remove american warning
+  display:none;
+}

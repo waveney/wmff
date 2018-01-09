@@ -2,12 +2,48 @@ var map;
 var markers = [];
 var mtypes = [];
 var me;
+var direct = navigator.geolocation;
+var dirDisp;
+var dirServ;
+
 
 $.getJSON("/cache/mapptypes.json").done (function(json1) {
   $.each(json1,function(key,data) {
     mtypes[data.id] = data;
   })
 })
+
+function ShowDirect(MarkId) { // Open directions window from current loc (me) to the given Marker
+  if (!dirServ) dirServ = new google.maps.DirectionsService();
+//      suppressMarkers: true,
+  if (!dirDisp) {
+    dirDisp = new google.maps.DirectionsRenderer();
+    dirDisp.setMap(map);
+  }
+  var request = {
+      origin: me.position,
+      destination: markers[MarkId].position,
+      travelMode: (map.getZoom() < 15?'DRIVING':'WALKING'),
+      unitSystem: 1, //IMPERIAL
+
+  };
+  dirServ.route(request, function(response, status) {
+    if (status == 'OK') {
+      dirDisp.setDirections(response);
+    }
+  });
+  
+  dirDisp.setPanel(document.getElementById('Directions'));
+  if ($(window).width() < 1000) {
+    $('#map').css('height','70%');
+    $('#DirPane').css('height','30%');
+  } else {
+    $('#map').css('width','70%');
+    $('#DirPane').css('float','right');
+    $('#DirPane').css('width','28%');
+  }
+  $('#DirPaneTop').html('<button onclick=SetTravelMode("DRIVING")>Drive</button> <button onclick=SetTravelMode("WALKING")>Walk</button>');
+}
 
 $(document).ready(function() {
 //function initMap() {
@@ -35,16 +71,17 @@ $(document).ready(function() {
           title: data.name,
           importance: data.imp,
         });
-	if (data.icon > 1) marker.setIcon("/images/icons/" + mtypes[data.icon].Icon);
+	if (data.icon > 1 && mtypes[data.icon].Icon) marker.setIcon("/images/icons/" + mtypes[data.icon].Icon);
         marker.setMap(map);
         marker.setVisible(zoom>=minz && zoom <= maxz);
-        markers.push(marker);
+//        var posn = markers.push(marker);
+        markers[data.id] = marker;
 
 	if (data.id < 1000000) { // Venue
 	  var cont = '<h3>' + data.name + '</h3>';
 	  if (data.image) cont += '<img src=' + data.image + ' class=mapimage><br>';
 	  cont += (data.desc || '');
-	  if (data.usage) {
+	  if (data.usage && data.usage != '____') {
 	    cont += '<p>Venue for ';
 	    switch (data.usage) {
 	      case 'DMCO': cont += 'Dance, Music, Family and other things'; break;
@@ -66,7 +103,7 @@ $(document).ready(function() {
 	    };
 	  }
 	  cont += '<p><a href=/int/VenueShow.php?v=' + data.id + '>More Info</a>';
-//	  cont += '<p>Directions';
+	  if (direct) cont += '<p><a onclick=ShowDirect(' + data.id + ')>Directions</a>';
 	  var infowindow = new google.maps.InfoWindow({
             content: cont
           });
@@ -85,6 +122,7 @@ $(document).ready(function() {
 	  minZoom: minz,
 	  maxZoom: maxz,
 	  map: map,
+	  zIndex:100000,
 	});
       }
     });
@@ -111,8 +149,8 @@ $(document).ready(function() {
 
   controlOnZoom();
 
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
+  if (direct) {
+    direct.getCurrentPosition(function(position) {
       var pos = { lat: position.coords.latitude, lng: position.coords.longitude };
       me = new google.maps.Marker({
 	position: pos,
@@ -120,7 +158,7 @@ $(document).ready(function() {
         map: map,
       });
       setInterval(function() { 
-        navigator.geolocation.getCurrentPosition(function(position) {
+        direct.getCurrentPosition(function(position) {
           var pos = { lat: position.coords.latitude, lng: position.coords.longitude };
 	  me.setPosition(pos);
 	})
