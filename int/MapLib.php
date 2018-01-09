@@ -68,21 +68,25 @@ function Update_MapPoints() {
 
 
 
-function Init_Map($CentType,$Centerid,$Zoom) { // CentType 0=Venue, 1=Mappoint
+function Init_Map($CentType,$Centerid,$Zoom) { // CentType 0=Venue, 1=Mappoint, -1=WImborne
   global $MASTER;  
-  if ($CentType) {
+  if ($CentType > 0) {
     $mp = Get_Map_Point($Centerid);
     $Lat = $mp['Lat'];
     $Long = $mp['Lng'];
-  } else {
+  } else if ($CentType == 0) {
     $ven = Get_Venue($Centerid);
     $Lat = $ven['Lat'];
     $Long = $ven['Lng'];
+  } else {
+    $Lat = $Long = 0;
   }
+
   $V = $MASTER['V'];
   echo "<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBPxpYmezfuaG9M1aVLBDjI0srpmJlfPPY' ></script>";
   echo "<script src=/js/maplabel.js?V=$V ></script>";
   echo "<script src=/js/Mapping.js?V=$V ></script>";
+  echo fm_hidden('MapLat',$Lat) . fm_hidden('MapLong',$Long) . fm_hidden('MapZoom',$Zoom);
 }
 
 

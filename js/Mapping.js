@@ -48,12 +48,17 @@ function ShowDirect(MarkId) { // Open directions window from current loc (me) to
 
 $(document).ready(function() {
 //function initMap() {
+  debugger;
   var Wimb = {lat: 50.800150, lng: -1.988000};
+  var MapLat = +$('#MapLat').val();
+  var MapLong = +$('#MapLong').val();
+  var MapZoom = +$('#MapZoom').val();
+  var Center = ((MapLat == 0 && MapLong == 0)?Wimb:{lat: MapLat, lng: MapLong}),
 
   map = new google.maps.Map(document.getElementById('map'), {
-    center: Wimb,
+    center: Center,
     mapTypeId: 'hybrid',
-    zoom: 16,
+    zoom: MapZoom,
     });
 
   $.getJSON("/cache/mappoints.json").done ( function(json1) {

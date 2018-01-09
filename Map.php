@@ -10,7 +10,7 @@
 
   echo "<div id=DirPane><div id=DirPaneTop></div><div id=Directions></div></div>";
   echo "<div id=map></div>";
-  Init_Map(1,1,15);
+  Init_Map(-1,0,16);
   
   dotail();
 ?>

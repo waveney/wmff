@@ -703,3 +703,11 @@ textarea:Focus
 .adp-warnbox { // Fix to Google maps to remove american warning
   display:none;
 }
+.venueimg {
+  float:right;
+  width:50%;
+  margin:10px;
+}
+.venueimg #map {
+  height:500px;
+}

@@ -272,7 +272,7 @@ function fm_time($Name,&$data,$field,$cols=1,$extra='') {
 
 function fm_hidden($field,$value,$extra='') {
   global $ADDALL;
-  return "<input type=hidden name=$field $extra value=\"" . htmlspec($value) ."\">";
+  return "<input type=hidden name=$field id=$field $extra value=\"" . htmlspec($value) ."\">";
 }
 
 function fm_textarea($Name,&$data,$field,$cols=1,$rows=1,$extra1='',$extra2='') {
