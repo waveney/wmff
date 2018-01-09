@@ -35,6 +35,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Dance</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Music</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Child</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Craft</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Other</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Surface 1</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Surface 2</a>\n";
@@ -53,6 +54,7 @@
       echo "<td>" . $yn[$Ven['Dance']];
       echo "<td>" . $yn[$Ven['Music']];
       echo "<td>" . $yn[$Ven['Child']];
+      echo "<td>" . $yn[$Ven['Craft']];
       echo "<td>" . $yn[$Ven['Other']] ."\n";
       echo "<td>" . $Surfaces[$Ven['SurfaceType1']];
       echo "<td>" . $Surfaces[$Ven['SurfaceType2']] . "\n";
