@@ -711,3 +711,6 @@ textarea:Focus
 .venueimg #map {
   height:500px;
 }
+#map .mapimage {
+  max-width:250px;
+}
