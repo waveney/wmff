@@ -48,11 +48,13 @@ function Update_MapPoints() {
   file_put_contents("../cache/mapptypes.json",json_encode($types)); 
 
   $data = array();
-  $res = $db->query("SELECT * FROM Venues WHERE Status=0 AND Lat!='' ");
+//  $res = $db->query("SELECT * FROM Venues WHERE Status=0 AND Lat!='' ");// Normal Code
+  $res = $db->query("SELECT * FROM Venues WHERE Lat!='' "); // ALL VENUES
   if ($res) while($ven = $res->fetch_assoc()) {
     $data[] = array('id'=>$ven['VenueId'], 'name'=>$ven['Name'], 'lat'=>$ven['Lat'], 'long'=>$ven['Lng'],
 	'imp'=>$ven['MapImp'],'icon'=>$ven['IconType'],'atxt'=>0,'desc'=>$ven['Description'],
-	'usage'=>(($ven['Dance']?'D':'_').($ven['Music']?'M':'_').($ven['Child']?'C':'_').($ven['Other']?'O':'_')),'image'=>$ven['Image']);
+	'usage'=>(($ven['Dance']?'D':'_').($ven['Music']?'M':'_').($ven['Child']?'F':'_').($ven['Craft']?'C':'_').($ven['Other']?'O':'_')),
+	'image'=>$ven['Image']);
   }
 
   $res = $db->query("SELECT * FROM MapPoints WHERE InUse=0");
@@ -66,19 +68,25 @@ function Update_MapPoints() {
 
 
 
-function Init_Map($CentType,$Centerid,$Zoom) { // CentType 0=Venue, 1=Mappoint
-  
-  if ($CentType) {
+function Init_Map($CentType,$Centerid,$Zoom) { // CentType 0=Venue, 1=Mappoint, -1=WImborne
+  global $MASTER;  
+  if ($CentType > 0) {
     $mp = Get_Map_Point($Centerid);
     $Lat = $mp['Lat'];
     $Long = $mp['Lng'];
-  } else {
+  } else if ($CentType == 0) {
     $ven = Get_Venue($Centerid);
     $Lat = $ven['Lat'];
     $Long = $ven['Lng'];
+  } else {
+    $Lat = $Long = 0;
   }
-  echo "<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBPxpYmezfuaG9M1aVLBDjI0srpmJlfPPY&callback=initMap' async defer></script>";
-  echo "<script src=/js/maplabel.js async defer></script>";
+
+  $V = $MASTER['V'];
+  echo "<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBPxpYmezfuaG9M1aVLBDjI0srpmJlfPPY' ></script>";
+  echo "<script src=/js/maplabel.js?V=$V ></script>";
+  echo "<script src=/js/Mapping.js?V=$V ></script>";
+  echo fm_hidden('MapLat',$Lat) . fm_hidden('MapLong',$Long) . fm_hidden('MapZoom',$Zoom);
 }
 
 

@@ -5,6 +5,7 @@
 
   dostaffhead("Manage Photos",'/js/cropper.js',"/css/cropper.css");
 
+
 /* Edit images for Sides, Traders, Sponsors
    If not stored appropriately, store in right place afterwards
    If was in store, and there is NOT an .orig file save original as .orig

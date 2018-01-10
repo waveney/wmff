@@ -129,4 +129,9 @@ function Email_Steward(&$stew,$messcat,$whoto) {
   fclose($logf);
 }
 
+function Get_Steward($id) {
+  global $db;
+  $res = $db->query("SELECT * FROM Stewards WHERE id=$id");
+  if ($res) return $res->fetch_assoc();
+}
 ?>

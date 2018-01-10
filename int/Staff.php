@@ -194,14 +194,14 @@
       echo "<li><a href=TicketEvents.php?Y=$YEAR>List Ticketed Events</a>\n";
     if (Access('Staff','Venues')) echo "<li><a href=MapPoints.php>Additional Map Points</a>\n";
     if (Access('SysAdmin')) echo "<li><a href=MapPTypes.php>Map Point Types</a>\n";
-    echo "<li><a href=../Map.php>Map</a>\n";
+    echo "<li><a href=https://" . $_SERVER['HTTP_HOST'] . "/Map.php>Map</a>\n";
     echo "</ul>\n";
 
 // *********************** OTHER *****************************************************************
   echo "<tr>";
   echo "<td class=Stafftd><h2>Other (Arts, Crafts, Children, Comedy)</h2>\n";
     echo "<ul>\n";
-    echo "<li>Stewarding\n";
+    echo "<li><a href=StewardView.php>Stewarding Applications</a>\n";
     echo "<li><a href=NewsManage.php>News Management</a>";
 //    echo "<li><a href=Facebook.php>Embed Facebook as News</a>";
 //    if (Access('SysAdmin')) echo "<li><a href=NewsConvert1.php>Convert News</a>";

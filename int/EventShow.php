@@ -120,7 +120,7 @@ function Print_Participants($e,$when) {
   echo "<tr><td>";
     if (isset($OtherVenues[0])) {
       $OVens = Get_Venues();
-      echo "Starting Location:<td><a href=VenueUse.php?v=" . $Ven['VenueId'] . ">" . $Ven['ShortName'] . "</a>";
+      echo "Starting Location:<td><a href=ShowVenue.php?v=" . $Ven['VenueId'] . ">" . $Ven['ShortName'] . "</a>";
       if ($Ven['Address']) echo " - " . $Ven['Address'] . $Ven['PostCode'] ."\n";
       if ($Ven['Description']) echo "<br>" . $Ven['Description'] . "\n";
       echo "<tr><td>Also at:<td>";

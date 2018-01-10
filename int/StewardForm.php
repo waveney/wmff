@@ -29,7 +29,6 @@
 //      echo "<P>VALID...<P>";
       $_POST['AccessCode'] = rand_string(40);
       $_POST['Year'] = $THISYEAR;
-      $_POST['Activity'] = $_POST['LnlCat'];
       $id = Insert_db_post('Stewards',$stew);
     
       Email_Steward($stew,'Stew_Application',$stew['Email']);
