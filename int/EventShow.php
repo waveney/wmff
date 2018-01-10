@@ -28,9 +28,8 @@ function Print_Participants($e,$when) {
     if (isset($e["Other$i"])){ if ($ee = $e["Other$i"]) { $s = Get_Side($ee);  if ($s) $imps[$s['Importance']][] = $s; }; };
   }
 
-  if ($imps) echo "<div class=Eventfloatleft>\n";
+  if ($imps) echo "<br clear=all><div class=floatleft><div class=mini>\n";
   if ($when && $imps) {
-//    echo "<br clear=all><p>";
     if ($e['Start'] == $e['End']) {
       echo "Times not yet known";
     } else {
@@ -38,13 +37,12 @@ function Print_Participants($e,$when) {
       echo " to: " . ($e['End']?timecolon($e['End']):"Not Yet Known") . "<p>\n";
     }
   }
-//var_dump($imps);
   $ks = array_keys($imps);
   sort($ks);	
   foreach ( array_reverse($ks) as $imp) {
     foreach ($imps[$imp] as $thing) Print_Thing($thing);
   }
-  if ($imps) echo "</div><br clear=all>\n";
+  if ($imps) echo "</div></div>\n";
 }
 
 
@@ -120,7 +118,7 @@ function Print_Participants($e,$when) {
   echo "<tr><td>";
     if (isset($OtherVenues[0])) {
       $OVens = Get_Venues();
-      echo "Starting Location:<td><a href=ShowVenue.php?v=" . $Ven['VenueId'] . ">" . $Ven['ShortName'] . "</a>";
+      echo "Starting Location:<td><a href=VenueShow.php?v=" . $Ven['VenueId'] . ">" . $Ven['ShortName'] . "</a>";
       if ($Ven['Address']) echo " - " . $Ven['Address'] . $Ven['PostCode'] ."\n";
       if ($Ven['Description']) echo "<br>" . $Ven['Description'] . "\n";
       echo "<tr><td>Also at:<td>";
@@ -128,11 +126,10 @@ function Print_Participants($e,$when) {
       foreach ($OtherVenues as $Ov) {
 	$OVi = $Ov['Identifier'];
 	if ($ct++) echo ", ";
-        echo "<a href=VenueUse.php?v=$OVi>" . $OVens[$OVi] . "</a>";
+        echo "<a href=VenueShow.php?v=$OVi>" . $OVens[$OVi] . "</a>";
       }
     } else {
-//      echo "Where:<td><a href=VenueUse.php?v=" . $Ven['VenueId'] . ">" . VenName($Ven) . "</a>";
-      echo "Where:<td>" . VenName($Ven);
+      echo "Where:<td><a href=VenueShow.php?v=" . $Ven['VenueId'] . ">" . VenName($Ven) . "</a>";
       if ($Ven['Address']) echo " - " . $Ven['Address'] . $Ven['PostCode'] ."\n";
       if ($Ven['Description']) echo "<br>" . $Ven['Description'] . "\n";
     }
@@ -180,11 +177,11 @@ function Print_Participants($e,$when) {
   if (!$Se) { // Single Event
     if ($Ev['BigEvent']) {
       echo "Participants in order:<p>\n";
-      echo "<div class=Eventfloatleft>\n";
+      echo "<div class=floatleft><div class=mini>\n";
       foreach ($OtherPart as $O) {
 	Print_Thing(Get_Side($O['Identifier']));
       }
-      echo "</div><br clear=all>\n";
+      echo "</div></div><br clear=all>\n";
     } else {
       Print_Participants($Ev);
     }

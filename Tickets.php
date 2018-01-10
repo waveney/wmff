@@ -35,7 +35,8 @@
 <br />Infant (0-4): <strong>Free</strong></td>
 <td style="width:70%">Book your Weekend Pass for official festival events. Event details will follow.<p>
 There is a &pound;5 discount on the weekend pass with the code EARLYBIRD until 31st Jan 2018.<p>
-Includes entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
+
+Only this ticket includes entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
 <td style="text-align:center; font-size:20px"><a href="https://www.ticketsource.co.uk/event/208030" rel="tag" target="_parent"><strong>Buy Now</strong></a></td>
 </tr>
 <tr>
@@ -43,8 +44,9 @@ Includes entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The 
 <br />Adult (13+): <strong>&#163;15.00</strong>
 <br />Child (5-12): <strong>&#163;7.50</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
-<td style="width:70%">Book your Friday Pass for official festival events. Event details will follow.
+<td style="width:70%">Book your Friday Pass for official festival events. Event details will follow.<p>
 
+Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
 <br />
 </td>
 <td style="text-align:center; font-size:20px"><a href="https://www.ticketsource.co.uk/event/210981" rel="tag" target="_parent"><strong>Buy Now</strong></a></td>
@@ -55,8 +57,9 @@ Includes entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The 
 <br />Adult (13+): <strong>&#163;30.00</strong>
 <br />Child (5-12): <strong>&#163;15.00</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
-<td style="width:70%">Book your Saturday Pass for official festival events. Event details will follow.
-<br />
+<td style="width:70%">Book your Saturday Pass for official festival events. Event details will follow.<p>
+
+Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
 </td>
 <td style="text-align:center; font-size:20px"><a href="https://www.ticketsource.co.uk/event/211013" rel="tag" target="_parent"><strong>Buy Now</strong></a></td>
 </tr>
@@ -66,9 +69,9 @@ Includes entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The 
 <br />Adult (13+): <strong>&#163;20.00</strong>
 <br />Child (5-12): <strong>&#163;10.00</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
-<td style="width:70%">Book your Sunday Pass for official festival events. Event details will follow.
-<br />
+<td style="width:70%">Book your Sunday Pass for official festival events. Event details will follow.<p>
 
+Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
 </td>
 <td style="text-align:center; font-size:20px"><a href="https://www.ticketsource.co.uk/event/211014" rel="tag" target="_parent"><strong>Buy Now</strong></a></td>
 </tr>
