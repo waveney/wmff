@@ -6,12 +6,16 @@ var direct = navigator.geolocation;
 var dirDisp;
 var dirServ;
 var lastwin;
+var mtypready = 0;
+var docready = 0;
 
 
 $.getJSON("/cache/mapptypes.json").done (function(json1) {
   $.each(json1,function(key,data) {
     mtypes[data.id] = data;
   })
+  mtypready = 1;
+  if (mtypready == 1 && docready == 1) initMap();
 })
 
 function ShowDirect(MarkId) { // Open directions window from current loc (me) to the given Marker
@@ -46,8 +50,7 @@ function ShowDirect(MarkId) { // Open directions window from current loc (me) to
   $('#DirPaneTop').html('<button onclick=SetTravelMode("DRIVING")>Drive</button> <button onclick=SetTravelMode("WALKING")>Walk</button>');
 }
 
-$(document).ready(function() {
-//function initMap() {
+function initMap() {
   debugger;
   var Wimb = {lat: 50.800150, lng: -1.988000};
   var MapLat = +$('#MapLat').val();
@@ -194,5 +197,10 @@ $(document).ready(function() {
   }
 
   google.maps.event.addListener(map, 'zoom_changed', controlOnZoom);
-});
+}
+
+$(document).ready(function() {
+  docready = 1;
+  if (mtypready == 1 && docready == 1) initMap();
+})
 
