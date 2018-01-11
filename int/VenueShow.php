@@ -26,10 +26,11 @@
     } else {
       echo "No Image Yet<p>";
     }
-    echo "<p><div id=map></div>";
-    echo "<div id=DirPane><div id=DirPaneTop></div><div id=Directions></div></div>";
+    echo "<p><div class=MapWrap>";
+    echo "<div id=DirPane><div id=DirPaneTop></div><div id=Directions></div>";
+    echo "<p><div id=map></div></div>";
     Init_Map(0,$V,18);
-  echo "</div>\n";
+  echo "</div></div>\n";
 
   if ($Ven['Description']) echo $Ven['Description'] . "<p>\n";
   if ($Ven['Address']) echo "Address: " . $Ven['Address'] . " " . $Ven['PostCode'] ."<p>\n";

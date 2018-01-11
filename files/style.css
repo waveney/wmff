@@ -710,6 +710,7 @@ textarea:Focus
 }
 #map .mapimage {
   max-width:250px;
+  margin:3px;
 }
 .MapInfo {
   max-width:250px;

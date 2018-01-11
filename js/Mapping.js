@@ -9,6 +9,7 @@ var lastwin;
 var mtypready = 0;
 var docready = 0;
 var gmap;
+var DSrequest;
 
 
 $.getJSON("/cache/mapptypes.json").done (function(json1) {
@@ -19,8 +20,15 @@ $.getJSON("/cache/mapptypes.json").done (function(json1) {
   if (mtypready == 1 && docready == 1) initMap();
 })
 
+function CloseDir() {
+
+}
+
+function SetTravelMode(Nmode) {
+  DSrequest.travelMode = Nmode; 
+}
+
 function ShowDirect(MarkId) { // Open directions window from current loc (me) to the given Marker
-    debugger;
     var zoom = map.getZoom();
     if (!dirServ) dirServ = new google.maps.DirectionsService();
 //      suppressMarkers: true,
@@ -28,28 +36,37 @@ function ShowDirect(MarkId) { // Open directions window from current loc (me) to
       dirDisp = new google.maps.DirectionsRenderer();
       dirDisp.setMap(map);
     }
-    var request = {
+    DSrequest = {
       origin: me.position,
       destination: markers[MarkId].position,
       travelMode: (zoom < 15?'DRIVING':'WALKING'),
       unitSystem: 1, //IMPERIAL
     };
-    dirServ.route(request, function(response, status) {
+    dirServ.route(DSrequest, function(response, status) {
       if (status == 'OK') {
         dirDisp.setDirections(response);
       }
     });
   
     dirDisp.setPanel(document.getElementById('Directions'));
-    if ($(window).width() < 1000) {
-      $('#map').css('height','70%');
-      $('#DirPane').css('height','30%');
+    var ht = $('.MapWrap').height();
+    var wi = $('.MapWrap').width();
+    if ($('.MapWrap').width() < 100) {
+      $('#map').css('max-height',Math.floor(ht*.7));
+      $('#DirPane').css('max-height',Math.floor(ht*.28));
     } else {
+//      $('#map').css('max-width',Math.floor(wi*.68));
+//      $('#DirPane').css('max-width',Math.floor(wi*.28));
       $('#map').css('width','70%');
-      $('#DirPane').css('float','right');
       $('#DirPane').css('width','28%');
+      $('#DirPane').css('float','right');
     }
-    $('#DirPaneTop').html('<button onclick=SetTravelMode("DRIVING")>Drive</button> <button onclick=SetTravelMode("WALKING")>Walk</button>');
+/*
+    $('#DirPaneTop').html(
+     	'<button onclick=SetTravelMode("DRIVING")>Drive</button> ' + 
+	'<button onclick=SetTravelMode("WALKING")>Walk</button>' +
+     	'class=floatright><button onclick=CloseDir()>Close</button>' + 
+*/
 }
 
 function initMap() {
