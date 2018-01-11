@@ -24,7 +24,7 @@ function ShowDirect(MarkId) { // Open directions window from current loc (me) to
   var request = {
       origin: me.position,
       destination: markers[MarkId].position,
-      travelMode: (map.getZoom() < 15?'DRIVING':'WALKING'),
+      travelMode: ((map.getZoom()) < 15?'DRIVING':'WALKING'),
       unitSystem: 1, //IMPERIAL
 
   };
@@ -80,11 +80,10 @@ $(document).ready(function() {
 	if (data.icon > 1 && mtypes[data.icon].Icon) marker.setIcon("/images/icons/" + mtypes[data.icon].Icon);
         marker.setMap(map);
         marker.setVisible(zoom>=minz && zoom <= maxz);
-//        var posn = markers.push(marker);
         markers[data.id] = marker;
 
-	if (data.id < 1000000) { // Venue
-	  var cont = '<h3>' + data.name + '</h3>';
+	if (data.id < 1000000 || data.link != '' || data.direct == 1) { // Venue
+	  var cont = '<div class=MapInfo><h3>' + data.name + '</h3>';
 	  if (data.image) cont += '<img src=' + data.image + ' class=mapimage><br>';
 	  cont += (data.desc || '');
 	  if (data.usage && data.usage != '_____') {
@@ -124,8 +123,10 @@ $(document).ready(function() {
 	      case '_____': cont += 'many things'; break;
 	    };
 	  }
-	  cont += '<p><a href=/int/VenueShow.php?v=' + data.id + '>More Info</a>';
-	  if (direct) cont += '<p><a onclick=ShowDirect(' + data.id + ')>Directions</a>';
+	  if (data.id < 1000000) cont += '<p><a href=/int/VenueShow.php?v=' + data.id + '>More Info</a>';
+	  if (data.link) cont += '<p><a href=' + data.link + '>More Info</a>';
+	  if (direct && (data.id <1000000 || data.direct == 1)) cont += '<p><a onclick=ShowDirect(' + data.id + ')>Directions</a>';
+          cont += '</div>';
 	  var infowindow = new google.maps.InfoWindow({
             content: cont,
 	    zIndex: 2000,
@@ -174,6 +175,7 @@ $(document).ready(function() {
 
   controlOnZoom();
 
+  debugger;
   if (direct) {
     direct.getCurrentPosition(function(position) {
       var pos = { lat: position.coords.latitude, lng: position.coords.longitude };
