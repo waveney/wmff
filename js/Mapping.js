@@ -8,6 +8,7 @@ var dirServ;
 var lastwin;
 var mtypready = 0;
 var docready = 0;
+var gmap;
 
 
 $.getJSON("/cache/mapptypes.json").done (function(json1) {
@@ -19,35 +20,36 @@ $.getJSON("/cache/mapptypes.json").done (function(json1) {
 })
 
 function ShowDirect(MarkId) { // Open directions window from current loc (me) to the given Marker
-  if (!dirServ) dirServ = new google.maps.DirectionsService();
+    debugger;
+    var zoom = map.getZoom();
+    if (!dirServ) dirServ = new google.maps.DirectionsService();
 //      suppressMarkers: true,
-  if (!dirDisp) {
-    dirDisp = new google.maps.DirectionsRenderer();
-    dirDisp.setMap(map);
-  }
-  var request = {
+    if (!dirDisp) {
+      dirDisp = new google.maps.DirectionsRenderer();
+      dirDisp.setMap(map);
+    }
+    var request = {
       origin: me.position,
       destination: markers[MarkId].position,
-      travelMode: ((map.getZoom()) < 15?'DRIVING':'WALKING'),
+      travelMode: (zoom < 15?'DRIVING':'WALKING'),
       unitSystem: 1, //IMPERIAL
-
-  };
-  dirServ.route(request, function(response, status) {
-    if (status == 'OK') {
-      dirDisp.setDirections(response);
-    }
-  });
+    };
+    dirServ.route(request, function(response, status) {
+      if (status == 'OK') {
+        dirDisp.setDirections(response);
+      }
+    });
   
-  dirDisp.setPanel(document.getElementById('Directions'));
-  if ($(window).width() < 1000) {
-    $('#map').css('height','70%');
-    $('#DirPane').css('height','30%');
-  } else {
-    $('#map').css('width','70%');
-    $('#DirPane').css('float','right');
-    $('#DirPane').css('width','28%');
-  }
-  $('#DirPaneTop').html('<button onclick=SetTravelMode("DRIVING")>Drive</button> <button onclick=SetTravelMode("WALKING")>Walk</button>');
+    dirDisp.setPanel(document.getElementById('Directions'));
+    if ($(window).width() < 1000) {
+      $('#map').css('height','70%');
+      $('#DirPane').css('height','30%');
+    } else {
+      $('#map').css('width','70%');
+      $('#DirPane').css('float','right');
+      $('#DirPane').css('width','28%');
+    }
+    $('#DirPaneTop').html('<button onclick=SetTravelMode("DRIVING")>Drive</button> <button onclick=SetTravelMode("WALKING")>Walk</button>');
 }
 
 function initMap() {
@@ -58,7 +60,7 @@ function initMap() {
   var MapZoom = +$('#MapZoom').val();
   var Center = ((MapLat == 0 && MapLong == 0)?Wimb:{lat: MapLat, lng: MapLong}),
 
-  map = new google.maps.Map(document.getElementById('map'), {
+  gmap = map = new google.maps.Map(document.getElementById('map'), {
     center: Center,
     mapTypeId: 'hybrid',
     zoom: MapZoom,
@@ -178,7 +180,6 @@ function initMap() {
 
   controlOnZoom();
 
-  debugger;
   if (direct) {
     direct.getCurrentPosition(function(position) {
       var pos = { lat: position.coords.latitude, lng: position.coords.longitude };

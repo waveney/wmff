@@ -27,6 +27,7 @@
       echo "No Image Yet<p>";
     }
     echo "<p><div id=map></div>";
+    echo "<div id=DirPane><div id=DirPaneTop></div><div id=Directions></div></div>";
     Init_Map(0,$V,18);
   echo "</div>\n";
 

@@ -696,7 +696,8 @@ textarea:Focus
 #map {
   height: 100%;
 }
-.adp-warnbox { // Fix to Google maps to remove american warning
+// Fix to Google maps to remove american warning
+.adp-warnbox { 
   display:none;
 }
 .venueimg {
