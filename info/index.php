@@ -10,7 +10,7 @@
 <div id="flex">
 
 <div class="mini">
-<a href="camping">
+<a href="/InfoCamping.php">
 <img class="miniimg" src="/images/Wimborne-Folk-Festival-Campsite.jpg" alt="Wimborne Minster Folk Festival" />
 <h2 class="minittl">Camping & Parking</h2></a>
 <p class="minitxt">Our official campsite and parking is a few minutes walk from the town centre.</p>

@@ -104,7 +104,7 @@ function initMap() {
         marker.setVisible(zoom>=minz && zoom <= maxz);
         markers[data.id] = marker;
 
-	if (data.id < 1000000 || data.link != '' || data.direct == 1) { // Venue
+	if (0 && (data.id < 1000000 || data.link != '' || data.direct == 1)) { // Venue disabled for public use until fixed
 	  var cont = '<div class=MapInfo><h3>' + data.name + '</h3>';
 	  if (data.image) cont += '<img src=' + data.image + ' class=mapimage><br>';
 	  cont += (data.desc || '');

@@ -51,7 +51,7 @@
   <a href=/info>Info</a>
   <div class=dropdown-content>
      <a href=/Map.php class=NotYet>Festival Map</a>
-     <a href=/info/camping>Camping & Parking</a>
+     <a href=/InfoCamping.php>Camping & Parking</a>
      <a href=/info/getting-here>Getting Here</a>
      <a href=/info/sponsorship>Sponsorship</a>
      <a href=/InfoStewards.php>Stewards</a>

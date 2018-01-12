@@ -695,6 +695,7 @@ textarea:Focus
 }
 #map {
   height: 100%;
+  text-color:black;
 }
 // Fix to Google maps to remove american warning
 .adp-warnbox { 
