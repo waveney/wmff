@@ -36,6 +36,8 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Importance</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Text Size</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Not Used</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Directions</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Link</a>\n";
   echo "</thead><tbody>";
   foreach($Pts as $t) {
     $i = $t['id'];
@@ -46,6 +48,8 @@
     echo fm_text1("",$t,'MapImp',1,'','',"MapImp$i");
     echo fm_text1("",$t,'AddText',1,'','',"AddText$i");
     echo "<td>" . fm_checkbox("",$t,'InUse','',"InUse$i");
+    echo "<td>" . fm_checkbox("",$t,'Directions','',"Directions$i");
+    echo fm_text1("",$t,'Link',1,'','',"Link$i");
     echo "\n";
   }
 
@@ -57,6 +61,8 @@
   echo fm_text1("",$t,'MapImp',1,'','',"MapImp0");
   echo fm_text1("",$t,'AddText',1,'','',"AddText0");
   echo "<td>" . fm_checkbox("",$t,'InUse','',"InUse0");
+  echo "<td>" . fm_checkbox("",$t,'Directions','',"Directions0");
+  echo fm_text1("",$t,'Link',1,'','',"Link0");
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";

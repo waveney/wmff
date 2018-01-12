@@ -60,7 +60,7 @@ function Update_MapPoints() {
   $res = $db->query("SELECT * FROM MapPoints WHERE InUse=0");
   if ($res) while($mp = $res->fetch_assoc()) {
     $data[] = array('id'=>(1000000+$mp['id']), 'name'=>$mp['Name'], 'lat'=>$mp['Lat'], 'long'=>$mp['Lng'],
-	'imp'=>$mp['MapImp'],'icon'=>$mp['Type'],'atxt'=>$mp['AddText']);
+	'imp'=>$mp['MapImp'],'icon'=>$mp['Type'],'atxt'=>$mp['AddText'],'direct'=>$mp['Directions'],'link'=>$mp['Link']);
   }
 
   return file_put_contents("../cache/mappoints.json",json_encode($data));

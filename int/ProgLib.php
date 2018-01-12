@@ -26,6 +26,11 @@ function Set_Venue_Help() {
 	'MusicRider'=>'Additional text sent to music acts about this venue',
 	'OtherRider'=>'Additional text sent to other participants about this venue',
 	'Parking'=>'Is parking provided by/for the Venue',
+	'Bar'=>'Does the venue have a bar?',
+	'Food'=>'Does the venue serve food?',
+	'BarFoodText'=>'Any text that expands on the food and drink available',
+	'Website'=>'If the venue has a website put it here',
+	'MapImp'=>'Range 0-20, 0 means 16 which is default, 15 is VERY important, 18 very minor',
 	'Minor'=>'Treatment of venue in final dance grid'
   );
   Set_Help_Table($t);

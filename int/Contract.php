@@ -43,7 +43,9 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
   $pkday = array(0,0,0);
   $pkvens = array();
   $pkking = "";
-  if ($Evs) {
+  if (!$Evs) {
+    return "";  // With no events there is no conract, not even a draft
+  } else {
     $Venues = Get_Venues(1);
     $str .= "<table border>";
     $str .= "<tr><td>Number<td>Event Type<td>Date<td>On Stage at<td>Start<td>Duration<td colspan=3>Where\n";
@@ -78,7 +80,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
       }
     } 
     $str .= "</table>\n";
-  }
+  } 
 
   $str .= "Total of $evc events, with a total duration of " . ($evv?"at least ":"") . "$evd minutes.<p>\n";
 

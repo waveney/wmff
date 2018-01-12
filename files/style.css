@@ -524,7 +524,6 @@ textarea:Focus
     display: inline-block;
     margin-bottom:25px;
     padding: 0 0 25px 0;
-#    border-bottom:solid 1px #E6E6E6;
     }
 .miniimg
     {
@@ -598,9 +597,7 @@ textarea:Focus
     color:#000000;
     }
 
-
-.adminarticle
-    {
+.adminarticle {
     min-width:33%;
     max-width:100%;
     max-width:640px;
@@ -613,8 +610,7 @@ textarea:Focus
     border-radius:15px;
     -moz-border-radius:15px;
     }
-.adminarticlettl
-    {
+.adminarticlettl {
     margin:0;
     padding:0;
     text-align:center;
@@ -622,8 +618,7 @@ textarea:Focus
     color:#FFFFFF;
     background-color:#005983;
     }
-.adminarticletxt
-    {
+.adminarticletxt {
     max-width:100%;
     margin:0 0 0 0;
     padding: 15px;
@@ -662,6 +657,7 @@ textarea:Focus
   padding:0 3px 0 3px;
 }
 .Eventfloatleft {
+  display: inline-block;
   padding-right:3px;
   float:left;
   width: 600px;
@@ -699,8 +695,10 @@ textarea:Focus
 }
 #map {
   height: 100%;
+  text-color:black;
 }
-.adp-warnbox { // Fix to Google maps to remove american warning
+// Fix to Google maps to remove american warning
+.adp-warnbox { 
   display:none;
 }
 .venueimg {
@@ -712,5 +710,9 @@ textarea:Focus
   height:500px;
 }
 #map .mapimage {
+  max-width:250px;
+  margin:3px;
+}
+.MapInfo {
   max-width:250px;
 }

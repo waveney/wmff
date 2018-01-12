@@ -82,8 +82,7 @@ if ($ans) {
 <a href="/tickets" >
 <h2 class="articlettl">Buy Tickets and Wristbands</h2>
 <img class="articleimg" src="/images/Weekend-Wristband.jpg" alt="Wimborne Minster Folk Festival" /></a>
-<p class="articletxt">Weekend and Day Passes are now on sale for the festival weekend.</p>
-<p>Many event tickets are also available, more to come.</p>
+<p class="articletxt">Weekend and Day Passes are now on sale for the festival weekend.  Many event tickets are also available, more to come.</p>
 </div>
 
 <div class="article">

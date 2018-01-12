@@ -33,7 +33,7 @@ If your answer is a great big "YES!" then our "<strong>Laugh Out Loud</strong>" 
 
 <br clear=all>
 <h2 class=subtitle>Buskers Bash</h3>
-The Festival ran the annual Wimborne Buskers Bash in 2017, it is not yet known who will run it in 2018.<p>
+The Festival Committee will be running the 2018 Wimborne Buskers Bash on April 14th.  Details will follow.<p>
 
 
 

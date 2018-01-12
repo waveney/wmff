@@ -6,48 +6,70 @@ var direct = navigator.geolocation;
 var dirDisp;
 var dirServ;
 var lastwin;
+var mtypready = 0;
+var docready = 0;
+var gmap;
+var DSrequest;
 
 
 $.getJSON("/cache/mapptypes.json").done (function(json1) {
   $.each(json1,function(key,data) {
     mtypes[data.id] = data;
   })
+  mtypready = 1;
+  if (mtypready == 1 && docready == 1) initMap();
 })
 
-function ShowDirect(MarkId) { // Open directions window from current loc (me) to the given Marker
-  if (!dirServ) dirServ = new google.maps.DirectionsService();
-//      suppressMarkers: true,
-  if (!dirDisp) {
-    dirDisp = new google.maps.DirectionsRenderer();
-    dirDisp.setMap(map);
-  }
-  var request = {
-      origin: me.position,
-      destination: markers[MarkId].position,
-      travelMode: (map.getZoom() < 15?'DRIVING':'WALKING'),
-      unitSystem: 1, //IMPERIAL
+function CloseDir() {
 
-  };
-  dirServ.route(request, function(response, status) {
-    if (status == 'OK') {
-      dirDisp.setDirections(response);
-    }
-  });
-  
-  dirDisp.setPanel(document.getElementById('Directions'));
-  if ($(window).width() < 1000) {
-    $('#map').css('height','70%');
-    $('#DirPane').css('height','30%');
-  } else {
-    $('#map').css('width','70%');
-    $('#DirPane').css('float','right');
-    $('#DirPane').css('width','28%');
-  }
-  $('#DirPaneTop').html('<button onclick=SetTravelMode("DRIVING")>Drive</button> <button onclick=SetTravelMode("WALKING")>Walk</button>');
 }
 
-$(document).ready(function() {
-//function initMap() {
+function SetTravelMode(Nmode) {
+  DSrequest.travelMode = Nmode; 
+}
+
+function ShowDirect(MarkId) { // Open directions window from current loc (me) to the given Marker
+    var zoom = map.getZoom();
+    if (!dirServ) dirServ = new google.maps.DirectionsService();
+//      suppressMarkers: true,
+    if (!dirDisp) {
+      dirDisp = new google.maps.DirectionsRenderer();
+      dirDisp.setMap(map);
+    }
+    DSrequest = {
+      origin: me.position,
+      destination: markers[MarkId].position,
+      travelMode: (zoom < 15?'DRIVING':'WALKING'),
+      unitSystem: 1, //IMPERIAL
+    };
+    dirServ.route(DSrequest, function(response, status) {
+      if (status == 'OK') {
+        dirDisp.setDirections(response);
+      }
+    });
+  
+    dirDisp.setPanel(document.getElementById('Directions'));
+    var ht = $('.MapWrap').height();
+    var wi = $('.MapWrap').width();
+    if ($('.MapWrap').width() < 100) {
+      $('#map').css('max-height',Math.floor(ht*.7));
+      $('#DirPane').css('max-height',Math.floor(ht*.28));
+    } else {
+//      $('#map').css('max-width',Math.floor(wi*.68));
+//      $('#DirPane').css('max-width',Math.floor(wi*.28));
+      $('#map').css('width','70%');
+      $('#DirPane').css('width','28%');
+      $('#DirPane').css('float','right');
+    }
+/*
+    $('#DirPaneTop').html(
+     	'<button onclick=SetTravelMode("DRIVING")>Drive</button> ' + 
+	'<button onclick=SetTravelMode("WALKING")>Walk</button>' +
+     	'class=floatright><button onclick=CloseDir()>Close</button>' + 
+*/
+}
+
+function initMap() {
   debugger;
   var Wimb = {lat: 50.800150, lng: -1.988000};
   var MapLat = +$('#MapLat').val();
@@ -55,7 +77,7 @@ $(document).ready(function() {
   var MapZoom = +$('#MapZoom').val();
   var Center = ((MapLat == 0 && MapLong == 0)?Wimb:{lat: MapLat, lng: MapLong}),
 
-  map = new google.maps.Map(document.getElementById('map'), {
+  gmap = map = new google.maps.Map(document.getElementById('map'), {
     center: Center,
     mapTypeId: 'hybrid',
     zoom: MapZoom,
@@ -80,11 +102,10 @@ $(document).ready(function() {
 	if (data.icon > 1 && mtypes[data.icon].Icon) marker.setIcon("/images/icons/" + mtypes[data.icon].Icon);
         marker.setMap(map);
         marker.setVisible(zoom>=minz && zoom <= maxz);
-//        var posn = markers.push(marker);
         markers[data.id] = marker;
 
-	if (data.id < 1000000) { // Venue
-	  var cont = '<h3>' + data.name + '</h3>';
+	if (0 && (data.id < 1000000 || data.link != '' || data.direct == 1)) { // Venue disabled for public use until fixed
+	  var cont = '<div class=MapInfo><h3>' + data.name + '</h3>';
 	  if (data.image) cont += '<img src=' + data.image + ' class=mapimage><br>';
 	  cont += (data.desc || '');
 	  if (data.usage && data.usage != '_____') {
@@ -124,8 +145,10 @@ $(document).ready(function() {
 	      case '_____': cont += 'many things'; break;
 	    };
 	  }
-	  cont += '<p><a href=/int/VenueShow.php?v=' + data.id + '>More Info</a>';
-	  if (direct) cont += '<p><a onclick=ShowDirect(' + data.id + ')>Directions</a>';
+	  if (data.id < 1000000) cont += '<p><a href=/int/VenueShow.php?v=' + data.id + '>More Info</a>';
+	  if (data.link) cont += '<p><a href=' + data.link + '>More Info</a>';
+	  if (direct && (data.id <1000000 || data.direct == 1)) cont += '<p><a onclick=ShowDirect(' + data.id + ')>Directions</a>';
+          cont += '</div>';
 	  var infowindow = new google.maps.InfoWindow({
             content: cont,
 	    zIndex: 2000,
@@ -192,5 +215,10 @@ $(document).ready(function() {
   }
 
   google.maps.event.addListener(map, 'zoom_changed', controlOnZoom);
-});
+}
+
+$(document).ready(function() {
+  docready = 1;
+  if (mtypready == 1 && docready == 1) initMap();
+})
 

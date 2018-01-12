@@ -17,6 +17,7 @@ within the community to showcase their work during the festival. <p>
 The competition is open to musicians of all ages, genres and group size. So, if you're part of a community group, 
 band, duo, choir, a soloist or even orchestra then complete an application form and get involved!<p>  
 
+Live and Loud is sponsored by <a href="http://partyinthepaddock.com">Party In The Paddock</a><p>
 
 Applicants should fill in the <a href=int/LiveNLoudForm.php>application form</a> in by
 no later than Monday 12th February 2018.<p> 
