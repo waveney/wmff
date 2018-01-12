@@ -106,7 +106,7 @@
 
       $State = $fetch['YearState'];
       if (isset($State)) {
-        Contract_State_Check($fetch); 
+        Contract_State_Check($fetch,0); 
 	$State = $fetch['YearState'];
       } else {
 	$state = 0;
@@ -131,8 +131,11 @@
 	    echo "<form>" . fm_Hidden('SEL',$_GET['SEL']) . fm_hidden('SideId',$fetch['SideId']) . (isset($_GET['t'])? fm_hidden('t',$_GET[t]) : '') ;
 	    foreach($acts as $ac) {
               if ($ac == 'Contract') {
-		$NValid = Contract_Check($side['SideId']);
-	        if ($NValid) continue;
+		$NValid = Contract_Check($fetch['SideId'],0);
+	        if ($NValid) {
+		  echo $NValid;
+		  continue;
+		}
 	      }
 	      echo "<button class=floatright name=ACTION value='$ac' type=submit " . $ButExtra[$ac] . " >$ac</button>";
 	    }

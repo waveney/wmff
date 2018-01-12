@@ -417,7 +417,6 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
   }
 
   if ($Mode == 0 && (!isset($Sidey['YearState']) || $Sidey['YearState'] == 0)) {
-//var_dump($Sidey);
     echo "<h2><a href=MusicRequest.php?sidenum=$snum>Request Invite for $THISYEAR</a></h2>";
   } else {
     
@@ -489,7 +488,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
       echo "<td>" . ($e['Start']? ( timecolon(timeadd2($e['Start'],- $e['Setup']) )) : "TBD" ) ;
       echo "<td>" . ($e['Start']?timecolon($e['Start']):"TBD");
       echo "<td>" . ($e['Duration']?$e['Duration']:"TBD"); 
-      echo "<td colspan=3>" . ($vv?("<a href=AddVenue.php?v=$vv>" . SName($Venues[$vv]) . "</a>"):"TBD") . "\n";
+      echo "<td colspan=3>" . ($vv?("<a href=VenueShow.php?v=$vv>" . SName($Venues[$vv]) . "</a>"):"TBD") . "\n";
       if ($vv && $Venues[$vv]['Parking']) {
 	if (!isset($ParkedLocs[$vv])) {
 	  if ($HasPark) $HasPark .= ", ";
@@ -498,8 +497,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
 	}
       }
     } 
-  echo "<tr><td colspan=7>&nbsp;";
-  }
+    echo "<tr><td colspan=7>&nbsp;";
 
 // Contract - RO to Act, Confirmed ACT only
 /* Mode 0 - IF Booked - View Contract, IF Contract Ready - View Contract, Confirm Contract, IF Other & EVs - View DRAFT contract
@@ -508,65 +506,65 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
 		If Contract Ready - Confirm by Email radio button
 		If old contracts, link to old contracts and link to diff old/current
 */
-  $old = 0;
-  switch ($Sidey['YearState']) {
-    case $Book_State['Booked']:
-      echo "<tr><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR>View Contract</a>";
-      if ($Sidey['Contracts'] >= 1) $old = $Sidey['Contracts'];
-      break;
-    case $Book_State['Contract Ready']:
-      echo "<tr><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR>View Proposed Contract</a>";
-      if ($Sidey['Contracts'] >= 1) $old = $Sidey['Contracts'];
-      break;
-    case $Book_State['Booking']:
-      echo "<tr><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR>View DRAFT Contract</a>";
-      if ($Sidey['Contracts'] >= 1) $old = $Sidey['Contracts'];
-      break;
-    default:
-      break;
+    $old = 0;
+    switch ($Sidey['YearState']) {
+      case $Book_State['Booked']:
+        echo "<tr><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR>View Contract</a>";
+        if ($Sidey['Contracts'] >= 1) $old = $Sidey['Contracts'];
+        break;
+      case $Book_State['Contract Ready']:
+        echo "<tr><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR>View Proposed Contract</a>";
+        if ($Sidey['Contracts'] >= 1) $old = $Sidey['Contracts'];
+        break;
+      case $Book_State['Booking']:
+        echo "<tr><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR>View DRAFT Contract</a>";
+        if ($Sidey['Contracts'] >= 1) $old = $Sidey['Contracts'];
+        break;
+      default:
+        break;
+      }
+    if ($old) {
+      echo "<td colspan=2>View earlier contract" . ($old>1?'s':'') . ": ";
+      for ($i=1;$i<=$old;$i++) {
+        echo "<a href=ViewContract.php?sidenum=$snum&I=$i>#$i</a> ";
+      } 
     }
-  if ($old) {
-    echo "<td colspan=2>View earlier contract" . ($old>1?'s':'') . ": ";
-    for ($i=1;$i<=$old;$i++) {
-      echo "<a href=ViewContract.php?sidenum=$snum&I=$i>#$i</a> ";
-    } 
-  }
-  switch ($Sidey['YearState']) {
-    case $Book_State['Booked']:
-      echo "<td>Contract Confirmed " .$ContractMethods[$Sidey['ContractConfirm']] . " on " . date('d/m/y',$Sidey['ContractDate']) . "\n";
-      break;
-    case $Book_State['Contract Ready']:
-      $Mess = Contract_Check($snum);
-      if (!$Mess) {
-        if ($Mode) {
-          echo "<td colspan=2><input type=submit id=greensubmit name=Contract value='Confirm Contract by Receipt of Confirmation Email'>";
-    	  echo fm_hidden('ContractDate',time());
-          echo "<td colspan=2><input type=submit id=redsubmit name=Decline value='Decline Contract by Clicking Here'>";
+    switch ($Sidey['YearState']) {
+      case $Book_State['Booked']:
+        echo "<td>Contract Confirmed " .$ContractMethods[$Sidey['ContractConfirm']] . " on " . date('d/m/y',$Sidey['ContractDate']) . "\n";
+        break;
+      case $Book_State['Contract Ready']:
+        $Mess = Contract_Check($snum);
+        if (!$Mess) {
+          if ($Mode) {
+            echo "<td colspan=2><input type=submit id=greensubmit name=Contract value='Confirm Contract by Receipt of Confirmation Email'>";
+    	    echo fm_hidden('ContractDate',time());
+            echo "<td colspan=2><input type=submit id=redsubmit name=Decline value='Decline Contract by Clicking Here'>";
+          } else {
+            echo "<td colspan=2><input type=submit id=greensubmit name=Contract value='Confirm Contract by Clicking Here'>";
+	    echo fm_hidden('ContractDate',time());
+            echo "<td colspan=2><input type=submit id=redsubmit name=Decline value='Decline Contract by Clicking Here'>";
+          }
         } else {
-          echo "<td colspan=2><input type=submit id=greensubmit name=Contract value='Confirm Contract by Clicking Here'>";
-	  echo fm_hidden('ContractDate',time());
-          echo "<td colspan=2><input type=submit id=redsubmit name=Decline value='Decline Contract by Clicking Here'>";
+	  echo "<td colspan=3>";
+          if ($Mess && $Mode) { echo "<span class=red>" . $Mess . "</span>"; }
+          else { echo "The contract is not yet complete, and hence can not be confirmed"; };
         }
-      } else {
-	echo "<td colspan=3>";
-        if ($Mess && $Mode) { echo "<span class=red>" . $Mess . "</span>"; }
-        else { echo "The contract is not yet complete, and hence can not be confirmed"; };
-      }
-      break;
-    case $Book_State['Booking']:
-      $Mess = Contract_Check($snum);
-      if (!$Mess) {
-        echo "<td colspan=3>";
-        if ($Mess && $Mode) { echo "<span class=red>" . $Mess . "</span>"; }
-        else { echo "The contract is not yet complete, and hence can not be confirmed"; };
-      }
-      break;
+        break;
+      case $Book_State['Booking']:
+        $Mess = Contract_Check($snum);
+        if (!$Mess) {
+          echo "<td colspan=3>";
+          if ($Mess && $Mode) { echo "<span class=red>" . $Mess . "</span>"; }
+          else { echo "The contract is not yet complete, and hence can not be confirmed"; };
+        }
+        break;
 
-    default:
-      break;
+      default:
+        break;
+    }
+    echo "<td>" . fm_checkbox('Radio Wimborne',$Sidey,'RadioWimborne');
   }
-  echo "<td>" . fm_checkbox('Radio Wimborne',$Sidey,'RadioWimborne');
-
   if ($Mode) {
     echo "<tr class=NotCSide>" . fm_textarea('Additional Riders',$Sidey,'Rider',2,1,'class=NotCSide') ."\n";
   } else if (isset($Sidey['Rider']) && strlen($Sidey['Rider']) > 5) {

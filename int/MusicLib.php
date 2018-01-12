@@ -284,8 +284,9 @@ function Contract_Decline($Side,$Sidey,$Reason) {
   return 1;
 }
 
-function Contract_Check($snum) {
+function Contract_Check($snum,$chkba=1) {
   global $YEAR;
+//echo "check $snum $YEAR<br>";
   $Check_Fails = array('',"Start Time","Bank Details","No Events","Venue Unknown","Duration not yet known","Events Clash"); // Least to most critical
 // 0=ok, 1 - lack times, 2 - no bank details, 3 - no events, 4 - no Ven, 5 - no dur, 6 - clash
   include_once('ProgLib.php');
@@ -293,8 +294,12 @@ function Contract_Check($snum) {
   $InValid = 3;
   $Evs = Get_Events4Act($snum,$YEAR);
   $types = Get_Event_Types(1);
+  $Vens = Get_Venues(1);
   $LastEv = 0;
   if ($Evs) foreach ($Evs as $e) {
+//echo "$InValid <br>";
+//var_dump($e);
+//echo"<P>";
     if ($InValid == 3) $InValid = 0;
     if ($LastEv) {
       if (($e['Day'] == $LastEv['Day']) && ($e['Start'] > 0) && ($e['Venue'] >0)) {
@@ -307,7 +312,7 @@ function Contract_Check($snum) {
     }
         
     $et = $types[$e['Type']];
-    if ($InValid < 4 && $e['Venue']==0) $InValid = 4;
+    if ($InValid < 4 && ($e['Venue']==0) || !isset($Vens[$e['Venue']])) $InValid = 4;
     if (!$et['NotCrit']) {
       if ($e['SubEvent'] < 0) { $End = $e['SlotEnd']; } else { $End = $e['End']; };
       if ($InValid == 0 && $e['Start'] == 0) $InValid = 1;
@@ -317,11 +322,12 @@ function Contract_Check($snum) {
     $LastEv = $e;
   }  
 
-  if ($InValid == 0) { // Check Bank Account
+  if ($InValid == 0 && $chkba) { // Check Bank Account
     $Side = Get_Side($snum);
     if ( (strlen($Side['SortCode'])<6 ) || ( strlen($Side['Account']) < 8) || (strlen($Side['AccountName']) < 8)) $InValid = 2;
   }
 
+//echo "$InValid <br>";
   return $Check_Fails[$InValid];
 }
 
@@ -352,12 +358,12 @@ function Contract_Changed($snum) {
   }
 }
 
-function Contract_State_Check(&$Sidey) {
+function Contract_State_Check(&$Sidey,$chkba=1) {
   global $Book_State;
   $snum = $Sidey['SideId'];
   $Evs = Get_Events4Act($snum,$Sidey['Year']);
   $Es = isset($Evs[0]);
-  $Valid = (!Contract_Check($snum));
+  $Valid = (!Contract_Check($snum,$chkba));
   $ys = $Sidey['YearState'];
   switch ($ys) {
 
@@ -415,7 +421,7 @@ function Music_Actions($Act,&$side,&$Sidey) { // Note Sidey MAY have other recor
       break;
 
     case 'Contract':
-      $Valid = (!Contract_Check($side['SideId']));
+      $Valid = (!Contract_Check($side['SideId'],0));
       if ($Valid) $NewState = $Book_State['Contract Ready'];
       break;
 
@@ -425,7 +431,7 @@ function Music_Actions($Act,&$side,&$Sidey) { // Note Sidey MAY have other recor
   }
 
   if ($OldState != $NewState) {
-echo "Newstate $NewState<p>";
+//echo "Newstate $NewState<p>";
     $Sidey['YearState'] = $NewState;
     Put_ActYear($Sidey);
   }
