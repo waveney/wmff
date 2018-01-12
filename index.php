@@ -148,7 +148,7 @@ even orchestra then complete an application form and get involved!</p>
 ?>
 
 <div class="article">
-<a href="/info/camping" >
+<a href="/InfoCamping.php" >
 <h2 class="articlettl">Official Festival Campsite</h2>
 <img class="articleimg" src="/images/Wimborne-Folk-Festival-Campsite.jpg" alt="Wimborne Minster Folk Festival" /></a>
 <p class="articletxt">Plan your stay at the festival and book a pitch at Meadows Campsite, which is within a short few minute walk from the town centre.</p>
