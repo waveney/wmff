@@ -5,6 +5,7 @@ var me;
 var direct = navigator.geolocation;
 var dirDisp;
 var dirServ;
+var MapFeatures;
 var lastwin;
 var mtypready = 0;
 var docready = 0;
@@ -75,6 +76,7 @@ function initMap() {
   var MapLat = +$('#MapLat').val();
   var MapLong = +$('#MapLong').val();
   var MapZoom = +$('#MapZoom').val();
+  MapFeatures = +$('#MapFeat').val();
   var Center = ((MapLat == 0 && MapLong == 0)?Wimb:{lat: MapLat, lng: MapLong}),
 
   gmap = map = new google.maps.Map(document.getElementById('map'), {
@@ -104,7 +106,7 @@ function initMap() {
         marker.setVisible(zoom>=minz && zoom <= maxz);
         markers[data.id] = marker;
 
-	if (0 && (data.id < 1000000 || data.link != '' || data.direct == 1)) { // Venue disabled for public use until fixed
+	if (MapFeatures && (data.id < 1000000 || data.link != '' || data.direct == 1)) { // Venue disabled for public use until fixed
 	  var cont = '<div class=MapInfo><h3>' + data.name + '</h3>';
 	  if (data.image) cont += '<img src=' + data.image + ' class=mapimage><br>';
 	  cont += (data.desc || '');
@@ -197,7 +199,7 @@ function initMap() {
 
   controlOnZoom();
 
-  if (direct) {
+  if ((MapFeatures == 1) && direct) {
     direct.getCurrentPosition(function(position) {
       var pos = { lat: position.coords.latitude, lng: position.coords.longitude };
       me = new google.maps.Marker({

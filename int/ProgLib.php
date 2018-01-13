@@ -209,7 +209,6 @@ function &Select_All_Other() {
 
 function Get_Event_Types($tup=0) { // 0 just names, 1 all data
   global $db;
-  static $short,$full;
   if (!isset($short)) {
     $res = $db->query("SELECT * FROM EventTypes ORDER BY Name ");
     if ($res) {

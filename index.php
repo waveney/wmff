@@ -82,7 +82,7 @@ if ($ans) {
 <a href="/tickets" >
 <h2 class="articlettl">Buy Tickets and Wristbands</h2>
 <img class="articleimg" src="/images/Weekend-Wristband.jpg" alt="Wimborne Minster Folk Festival" /></a>
-<p class="articletxt">Weekend and Day Passes are now on sale for the festival weekend.  Many event tickets are also available, more to come.</p>
+<p class="articletxt">Weekend and Day Passes are now on sale for the festival weekend.<br>Many event tickets are also available, more to come.</p>
 </div>
 
 <div class="article">
@@ -148,7 +148,7 @@ even orchestra then complete an application form and get involved!</p>
 ?>
 
 <div class="article">
-<a href="/info/camping" >
+<a href=/InfoCamping.php >
 <h2 class="articlettl">Official Festival Campsite</h2>
 <img class="articleimg" src="/images/Wimborne-Folk-Festival-Campsite.jpg" alt="Wimborne Minster Folk Festival" /></a>
 <p class="articletxt">Plan your stay at the festival and book a pitch at Meadows Campsite, which is within a short few minute walk from the town centre.</p>

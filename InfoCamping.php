@@ -6,14 +6,15 @@
   include_once("int/MapLib.php");
 ?>
 <h2 class="maintitle">Camping</h2>
+<div class=rightdiv>
 <div class="biodiv">
 <img src="http://wimbornefolk.co.uk/images/Wimborne-Folk-Festival-Campsite.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
 The Meadows Campsite during the folk festival weekend<p>
-
+</div><br clear=all>
 <div class=MapWrap style='height:300;'>
 <div id=DirPane><div id=DirPaneTop></div><div id=Directions></div>
 <p><div id=map></div></div>
-<?php Init_Map(1,2,14) ?>
+<?php Init_Map(1,2,14,0) ?>
 </div></div>
 
 Our official campsite is run by Meadows Camping, a picturesque, local, secure, well managed temporary campsite for the folk festival weekend. 
