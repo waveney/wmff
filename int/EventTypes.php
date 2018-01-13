@@ -24,6 +24,7 @@
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Event Type</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Plural</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Public</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Has Dance</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Has Music</a>\n";
@@ -34,6 +35,7 @@
   foreach($Types as $t) {
     $i = $t['ETypeNo'];
     echo "<tr><td>$i" . fm_text1("",$t,'Name',1,'','',"Name$i");
+    echo          fm_text1("",$t,'Plural',1,'','',"Plural$i");
     echo "<td>" . fm_checkbox('',$t,'Public','',"Public$i");
     echo "<td>" . fm_checkbox('',$t,'HasDance','',"HasDance$i");
     echo "<td>" . fm_checkbox('',$t,'HasMusic','',"HasMusic$i");
@@ -43,6 +45,7 @@
     echo "\n";
   }
   echo "<tr><td><td><input type=text name=Name0 >";
+  echo "<td><input type=text name=Plural0 >";
   echo "<td><input type=checkbox name=Public0>";
   echo "<td><input type=checkbox name=HasDance0>";
   echo "<td><input type=checkbox name=HasMusic0>";

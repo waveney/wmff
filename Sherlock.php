@@ -19,7 +19,7 @@
   } else {
     $ans = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND Type=$Ett AND SubEvent<1 ORDER BY Day,Start"); // Need to work with release settings as well
     if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
-    if (count($Evs) > 1) $Types .= "s";
+    if (count($Evs) > 1) $Types = $Ets[$Ett]['Plural'];
   }
 
   if ($Evs) {
@@ -42,7 +42,7 @@
       echo "<td>" . $DayList[$E['Day']] . " " . ($MASTER['DateFri']+$E['Day']) ."th June $YEAR" . "<br>";
         echo "From: " . timecolon($E['Start']) . " to " . timecolon($E['End']);
       echo "<td><strong><a href=/int/EventShow.php?e=$eid>" . $E['Name'] . "</a></strong>"; 
-      echo "<td>" . VenName($Vens[$E['Venue']]);
+      echo "<td>" . $Vens[$E['Venue']]['Name'];
       echo "<td>";
         if ($E['Description']) echo $E['Description'] . "<p>";
         echo "With: " . Get_Event_Participants($eid,1,15);
@@ -51,7 +51,7 @@
     echo "</table><p>";
 
   } else {
-    echo "Sorry there are currently no known $Type for $YEAR, please check back later.<p>";
+    echo "<h3>Sorry there are currently no announced $Types for $YEAR, please check back later</h3>";
   }
 
   dotail();

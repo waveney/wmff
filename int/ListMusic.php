@@ -59,7 +59,7 @@
     $col5 = "Complete?";
   } else if ($_GET{'SEL'} == 'Booking') {
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>0" . 
-		" ORDER BY Importance DESC, Name");
+		" ORDER BY Name");
     $col5 = "Book State";
     $col6 = "Actions";
   } else { // general public list
