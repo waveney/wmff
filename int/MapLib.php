@@ -68,7 +68,7 @@ function Update_MapPoints() {
 
 
 
-function Init_Map($CentType,$Centerid,$Zoom) { // CentType 0=Venue, 1=Mappoint, -1=WImborne
+function Init_Map($CentType,$Centerid,$Zoom,$Features=1) { // CentType 0=Venue, 1=Mappoint, -1=WImborne
   global $MASTER;  
   if ($CentType > 0) {
     $mp = Get_Map_Point($Centerid);
@@ -86,7 +86,7 @@ function Init_Map($CentType,$Centerid,$Zoom) { // CentType 0=Venue, 1=Mappoint, 
   echo "<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBPxpYmezfuaG9M1aVLBDjI0srpmJlfPPY' ></script>";
   echo "<script src=/js/maplabel.js?V=$V ></script>";
   echo "<script src=/js/Mapping.js?V=$V ></script>";
-  echo fm_hidden('MapLat',$Lat) . fm_hidden('MapLong',$Long) . fm_hidden('MapZoom',$Zoom);
+  echo fm_hidden('MapLat',$Lat) . fm_hidden('MapLong',$Long) . fm_hidden('MapZoom',$Zoom) . fm_hidden('MapFeat',$Features);
 }
 
 

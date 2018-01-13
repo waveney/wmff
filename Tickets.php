@@ -26,8 +26,7 @@ performances to avoid dissapointment. Full terms and conditions can be read prio
 Please <a href="mailto:music@wimbornefolk.co.uk">Contact Us</a> if you require a carer ticket.<p>
 
 Order your festival tickets and camping together, by selecting <strong>Continue Shopping</strong> 
-before you checkout! Camping is available at <a href="http://merleyhallfarm.co.uk/camping" rel="tag">Merley Hall Farm</a>
-for &#163;7.50pppn + booking fee in advance or &#163;8.50pppn on the gate.<p>
+before you checkout!  Camping costs &pound;7.50pppn + booking fee in advance or &pound;8.50pppn on the gate.<p>
 
 <a href=/InfoCamping.php><b>Camping Information and Camping Tickets.</b></a><p>
 
