@@ -62,7 +62,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
       $evday[$e['Day']]++;
       if ($e['Venue']) {
 	$v = $Venues[$e['Venue']];
-	$str .= SName($v) . "<br>";
+	$str .= "<a href=http://" . $_SERVER['HTTP_HOST'] . "/int/VenueShow.php?v=" . $v['VenueId'] . ">" . $v['Name'] . "</a><br>";
         if ($v['Address']) $str .= $v['Address'] . "<br>" . $v['PostCode'] ."<br>";
         if ($v['Description']) $str .= $v['Description'];
 	if ($v['MusicRider']) $riders[$v] = 1;
@@ -71,7 +71,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
 	  if (!isset($pkvens[$v['VenueId']])) {
 	    $pkvens[$v['VenueId']] = 1;
 	    if ($pking) $pking .= ", ";
-	    $pking .= SName($v);
+	    $pking .= $v['Name'];
 	  }
 	}
       } else {
