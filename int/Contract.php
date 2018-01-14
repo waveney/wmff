@@ -87,7 +87,11 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
   if ($Sidey['OtherPayment']) $str .= " plus " . $Sidey['OtherPayment'];
   $str .= "<p>\n";
 
-  $str .= "<b>BACS:</b> Sort Code: " . $Side['SortCode'] . " Account Number: " . $Side['Account'] . " Account Name : " . $Side['AccountName'] . "<p>\n";
+  if ($Sidey['TotalFee']) {
+    if ($Side['SortCode'] || $Side['Account'] || $Side['AccountName']) {
+      $str .= "<b>BACS:</b> Sort Code: " . $Side['SortCode'] . " Account Number: " . $Side['Account'] . " Account Name : " . $Side['AccountName'] . "<p>\n";
+    }
+  }
 
   $str .= "ON ARRIVAL: Please report to Info Desk just inside the Allendale Centre 01202 887247 (manned from 2pm Friday)<p>\n";
 
