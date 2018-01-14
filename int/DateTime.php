@@ -45,8 +45,13 @@ function Time_BestGuess($txt,$MINS=0,$morethan=0) {
   $lt = preg_replace('/\s+/', '', $lt);
   $hr = $min = 0;
   if (!$txt) return $txt;
-  if (preg_match('/(\d+):(\d+)/',$lt,$mtch)) {
+  if (preg_match('/(\d+):(\d+) *?(\a\a)/',$lt,$mtch)) {
     $hr = $mtch[1];
+    if ($mtch[3] == 'pm') $hr+=12;
+    $min = $mtch[2];
+  } else if (preg_match('/(\d+):(\d+)/',$lt,$mtch)) {
+    $hr = $mtch[1];
+    if ($hr < 10) $hr+=12;
     $min = $mtch[2];
   } else if (preg_match('/(\d\d)(\d\d)/',$lt,$mtch)) {
     $hr = $mtch[1];
