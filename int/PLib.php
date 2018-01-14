@@ -446,7 +446,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
       $AllMU = Get_AllUsers4Sect('Music',$Sidey['BookedBy'],'Other');
       echo "<tr>";  // all NotSide (for now) invite coming, Booked by - list default current user
 	echo "<td class=NotSide>Booked By: " . fm_select($AllMU,$Sidey,'BookedBy',1);
-	Contract_State_Check($Sidey);
+	Contract_State_Check($Sidey,0);
 	if (1 || Access('SysAdmin')) {
 	  echo fm_radio("Booking State",$Book_States,$Sidey,'YearState','class=NotSide',1,'colspan=2 class=NotSide');
 	} else {
@@ -535,7 +535,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
         break;
       case $Book_State['Contract Ready']:
         $Mess = Contract_Check($snum);
-        if (!$Mess) {
+	if (!$Mess) {
           if ($Mode) {
             echo "<td colspan=2><input type=submit id=greensubmit name=Contract value='Confirm Contract by Receipt of Confirmation Email'>";
     	    echo fm_hidden('ContractDate',time());
@@ -547,8 +547,11 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
           }
         } else {
 	  echo "<td colspan=3>";
-          if ($Mess && $Mode) { echo "<span class=red>" . $Mess . "</span>"; }
-          else { echo "The contract is not yet complete, and hence can not be confirmed"; };
+          if ($Mess && $Mode) { 
+	    echo "<span class=red>" . $Mess . "</span>"; 
+  	  } else { 
+	    echo "The contract is not yet complete, and hence can not be confirmed";
+	  };
         }
         break;
       case $Book_State['Booking']:

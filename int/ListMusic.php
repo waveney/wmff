@@ -99,8 +99,7 @@
         echo "<td>" . $fetch['Type'];
       }
       if ($_GET{'SEL'}) {
-	echo "<td>" . $fetch['Contact'];
-//	echo "<td><a href=mailto:" . Clean_Email($fetch['Email']) . ">" . $fetch['Email'] . "</a>";
+	echo "<td>" . ($fetch['HasAgent']?$fetch['AgentName']:$fetch['Contact']);
         echo "<td>" . linkemailhtml($fetch,'Act');
       } 
 

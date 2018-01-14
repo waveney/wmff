@@ -14,11 +14,10 @@ function Show_Contract($snum,$mode=0) { // mode=-1 Draft,0 proposed, 1 freeze re
   $Side = Get_Side($snum);
   $Sidey = Get_Actyear($snum,$YEAR);
   $Booked = Get_User($Sidey['BookedBy']);
+  $kwd = ($mode < 0?'DRAFT':($mode ==0?'Proposed':''));
 
-  $str .= "<h2>Wimborne Minster Folk Festival - WimborneFolk.co.uk - Contract</h2>\n";
-
-  if ($mode == 0) $str .= "<em><b>Proposed contract:</b></em><p>\n";
-  if ($mode < 0) $str .= "<em><b>DRAFT contract:</b></em><p>\n";
+  $str .= "<h2>Wimborne Minster Folk Festival - WimborneFolk.co.uk - $kwd Contract</h2>\n";
+  if ($kwd) $str .= "<em><b>$kwd contract:</b></em><p>\n";
 
   $str .= "Standard Agreement between Band/Artist/Performer & Employer.<p>\n";
 
@@ -63,7 +62,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
       $evday[$e['Day']]++;
       if ($e['Venue']) {
 	$v = $Venues[$e['Venue']];
-	$str .= SName($v) . "<br>";
+	$str .= "<a href=http://" . $_SERVER['HTTP_HOST'] . "/int/VenueShow.php?v=" . $v['VenueId'] . ">" . $v['Name'] . "</a><br>";
         if ($v['Address']) $str .= $v['Address'] . "<br>" . $v['PostCode'] ."<br>";
         if ($v['Description']) $str .= $v['Description'];
 	if ($v['MusicRider']) $riders[$v] = 1;
@@ -72,7 +71,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
 	  if (!isset($pkvens[$v['VenueId']])) {
 	    $pkvens[$v['VenueId']] = 1;
 	    if ($pking) $pking .= ", ";
-	    $pking .= SName($v);
+	    $pking .= $v['Name'];
 	  }
 	}
       } else {
@@ -88,7 +87,11 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
   if ($Sidey['OtherPayment']) $str .= " plus " . $Sidey['OtherPayment'];
   $str .= "<p>\n";
 
-  $str .= "<b>BACS:</b> Sort Code: " . $Side['SortCode'] . " Account Number: " . $Side['Account'] . " Account Name : " . $Side['AccountName'] . "<p>\n";
+  if ($Sidey['TotalFee']) {
+    if ($Side['SortCode'] || $Side['Account'] || $Side['AccountName']) {
+      $str .= "<b>BACS:</b> Sort Code: " . $Side['SortCode'] . " Account Number: " . $Side['Account'] . " Account Name : " . $Side['AccountName'] . "<p>\n";
+    }
+  }
 
   $str .= "ON ARRIVAL: Please report to Info Desk just inside the Allendale Centre 01202 887247 (manned from 2pm Friday)<p>\n";
 
