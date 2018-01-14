@@ -14,11 +14,10 @@ function Show_Contract($snum,$mode=0) { // mode=-1 Draft,0 proposed, 1 freeze re
   $Side = Get_Side($snum);
   $Sidey = Get_Actyear($snum,$YEAR);
   $Booked = Get_User($Sidey['BookedBy']);
+  $kwd = ($mode < 0?'DRAFT':($mode ==0?'Proposed':''));
 
-  $str .= "<h2>Wimborne Minster Folk Festival - WimborneFolk.co.uk - Contract</h2>\n";
-
-  if ($mode == 0) $str .= "<em><b>Proposed contract:</b></em><p>\n";
-  if ($mode < 0) $str .= "<em><b>DRAFT contract:</b></em><p>\n";
+  $str .= "<h2>Wimborne Minster Folk Festival - WimborneFolk.co.uk - $kwd Contract</h2>\n";
+  if ($kwd) $str .= "<em><b>$kwd contract:</b></em><p>\n";
 
   $str .= "Standard Agreement between Band/Artist/Performer & Employer.<p>\n";
 

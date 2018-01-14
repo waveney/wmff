@@ -284,7 +284,7 @@ function Contract_Decline($Side,$Sidey,$Reason) {
   return 1;
 }
 
-function Contract_Check($snum,$chkba=1) {
+function Contract_Check($snum,$chkba=1,$ret=0) { // if ret=1 returns result number, otherwise string
   global $YEAR;
 //echo "check $snum $YEAR<br>";
   $Check_Fails = array('',"Start Time","Bank Details","No Events","Venue Unknown","Duration not yet known","Events Clash"); // Least to most critical
@@ -297,9 +297,6 @@ function Contract_Check($snum,$chkba=1) {
   $Vens = Get_Venues(1);
   $LastEv = 0;
   if ($Evs) foreach ($Evs as $e) {
-//echo "$InValid <br>";
-//var_dump($e);
-//echo"<P>";
     if ($InValid == 3) $InValid = 0;
     if ($LastEv) {
       if (($e['Day'] == $LastEv['Day']) && ($e['Start'] > 0) && ($e['Venue'] >0)) {
@@ -322,12 +319,16 @@ function Contract_Check($snum,$chkba=1) {
     $LastEv = $e;
   }  
 
-  if ($InValid == 0 && $chkba) { // Check Bank Account
-    $Side = Get_Side($snum);
-    if ( (strlen($Side['SortCode'])<6 ) || ( strlen($Side['Account']) < 8) || (strlen($Side['AccountName']) < 8)) $InValid = 2;
+  if ($InValid == 0 && $chkba) { // Check Bank Account if fee
+    $ActY = Get_ActYear($snum);
+    if ($ActY['Fee']) {
+      $Side = Get_Side($snum);
+      if ( (strlen($Side['SortCode'])<6 ) || ( strlen($Side['Account']) < 8) || (strlen($Side['AccountName']) < 8)) $InValid = 2;
+    }
   }
 
 //echo "$InValid <br>";
+  if ($ret) return $InValid;  
   return $Check_Fails[$InValid];
 }
 
@@ -437,5 +438,50 @@ function Music_Actions($Act,&$side,&$Sidey) { // Note Sidey MAY have other recor
   }
 }
 
+function MusicMail($data,$name,$id,$direct) {
+  include_once("Contract.php");
+  global $USER,$Book_State;
+
+  $AddC = 0;
+  $p = -1; // Draft
+  $Msg = '';
+
+  if ($data['YearState']) {
+    if ($data['YearState'] == $Book_State['Booked']) { 
+      $p = 1; 
+      $AddC = 1;
+    } else {
+      $ConAns = Contract_Check($id,1,1);
+      switch ($ConAns) {
+	case 0: // Ready
+	  // Please Sign msg
+	  $Msg = 'Please confirm your contract by following the link and clicking on the "Confirm" button on the page.<p>';
+	  $p = 0;
+	  $AddC = 1;
+	  break;
+	case 2: // Ok apart from bank account
+	  $Msg = 'Please follow the link, fill in your bank account details (so we can pay you), then click "Save Changes".<p> ' .
+		'Then you will be able to view and confirm your contract, ' .
+		'by clicking on the "Confirm" button. (The button is only there once Bank account is).<p>';
+	  $p = 0;
+	  $AddC = 1;
+	  break;
+	case 3: // No Cont
+	  break;
+	default: // Add draft for info
+	  $AddC = 1;
+      }
+    }
+  }
+  $Content = "$name,<p>";
+  $Content .= "<span id=SideLink$id>Please use $direct</span> " .
+		"to add/correct details about " . $data['Name'] . "'s contact information, update social media links, " . 
+		"and information about you that appears on the festival website.<p>  $Msg";
+  $Content .= "PUT MESSAGE HERE<p>\n";
+  $Content .= "Regards " . $USER['Name'] . "<p>\n" ;
+  if ($AddC) $Content .= "<div id=SideProg$id>" . Show_Contract($id,$p) . "</div><p>\n";
+
+  return urlencode($Content);
+}
 ?>
 

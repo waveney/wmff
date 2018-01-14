@@ -38,7 +38,7 @@ $Book_State = array_flip($Book_States);
 $InsuranceStates = array('None','Uploaded','Checked');
 $Book_Actions = array('None'=>'Book','Declined'=>'Book,Contract','Booking'=>'Contract,Decline,Cancel','Contract Ready'=>'Confirm,Decline,Cancel',
 		'Booked'=>'Cancel,Decline');
-$Book_Colour = array('None'=>'White','Declined'=>'pink','Booking'=>'yellow','Contract Ready'=>'orange','Booked'=>'green');
+$Book_Colour = array('None'=>'White','Declined'=>'pink','Booking'=>'yellow','Contract Ready'=>'orange','Booked'=>'lime');
 
 
 // If table's index is 'id' it does not need to be listed here
@@ -616,7 +616,7 @@ function Clean_Email(&$addr) {
   if (preg_match('/<([^>]*)>?/',$addr,$a)) return $addr=trim($a[1]);
   if (preg_match('/([^>]*)>?/',$addr,$a)) return $addr=trim($a[1]);
   $addr = preg_replace('/ */','',$addr);
-  return $addr = trim($addr);;
+  return $addr = trim($addr);
 }
 
 /*
@@ -639,7 +639,7 @@ function linkemail(&$data,$type="Side",$xtr='') {
 	 "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['Name']) . 
          "&body=" . urlencode("$name,\n\n" .
 	 	"You can check your programme times and update your side details at any time by visiting " .
-	 	"<a href=http://wimbornefolk.co.uk/int/Direct.php?t=$type&id=$id&key=$key>this link</a>.  " .
+	 	"<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=$type&id=$id&key=$key>this link</a>.  " .
 		$ProgInfo . "\n\n" .
 		"PUT MESSAGE HERE\n\n" .
 	 	"\n\nRegards " . $USER['Name'] . "\n\n") .
@@ -662,27 +662,33 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
       if (!isset($data["AgentEmail"])) return "";
       $email = $data['AgentEmail'];
       $xtr = 'Agent';
+      if (isset($data['AgentName'])) { $name = firstword($data['AgentName']); }
+      else { $name = $data['Name']; }
     } else if ($xtr == '!!') {
       if (!isset($data["Email"])) return "";
       $email = $data['Email'];
       $xtr = '';
       $Label = 'Direct ';
+      if (isset($data[$xtr .'Contact'])) { $name = firstword($data[$xtr .'Contact']); }
+      else { $name = $data['Name']; }
     } else {
       if (!isset($data[$xtr . "Email"])) return "";
       $email = $data[$xtr . 'Email'];
       $Label = $xtr;
+      if (isset($data[$xtr .'Contact'])) { $name = firstword($data[$xtr .'Contact']); }
+      else { $name = $data['Name']; }
     }
   } else {
     if ($xtr == '!!') $xtr = '';
     if (!isset($data[$xtr . "Email"])) return "";
     $email = $data[$xtr . 'Email'];
     $Label = $xtr;
+    if (isset($data[$xtr .'Contact'])) { $name = firstword($data[$xtr .'Contact']); }
+    else { $name = $data['Name']; }
   }
   if ($email == '') return "";
   $email = Clean_Email($email);
   $key = $data['AccessKey'];
-  if (isset($data[$xtr .'Contact'])) { $name = firstword($data[$xtr .'Contact']); }
-  else { $name = $data['Name']; }
   if (isset($data['SideId'])) {
     $id = $data['SideId'];
   } else if (isset($data['Tid'])) {
@@ -691,6 +697,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
 
   $link = "'mailto:$email?from=" . $USER['Email'] .
 	 "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['Name']) . "'";
+  $direct = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=$type&id=$id&key=$key>this link</a>  " ;
 
 // ONLY DANCE AT THE MOMENT...
   switch ($type) {
@@ -700,8 +707,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
       $Content = urlencode("$name,<p>" .
 	 	"<div id=SideLink$id>" .
 		"Please add/correct details about your side's contact information and your preferences in " .
-		"terms of days coming, number of dance spots, etc. by visiting " .
-	 	"<a href=http://wimbornefolk.co.uk/int/Direct.php?t=$type&id=$id&key=$key>this link</a>.</div>  " .
+		"terms of days coming, number of dance spots, etc. by visiting $direct.</div><p>" .
 		"You can update information at any time, until the programme goes to print. " .
 		"(You'll also be able to view your programme times, once we've done the programme)<p>" .
 		"<div id=SideProg$id>$ProgInfo</div><p>" .
@@ -711,30 +717,17 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
 
     case 'Act':
     case 'Music':
-      include_once("Contract.php");
-      $p = -1;
-      if ($data['YearState'] == $Book_State['Booked']) { $p = 1; }
-      else if ($data['YearState'] == $Book_State['Contract Ready']) { $p = 0; }
-      $Cont = Show_Contract($id,$p);
-      $Content = urlencode("$name,<p>" .
-	 	"<div id=SideLink$id>" .
-		"Please add/correct details about your Act's contact information" . 
-		($data['YearState'] == $Book_State['Contract Ready']?", confirm your contract":", confirm your contract when it is complete") . 
-		" and update your preferences and listing etc. by visiting " .
-	 	"<a href=http://wimbornefolk.co.uk/int/Direct.php?t=$type&id=$id&key=$key>this link</a>.</div><p>  " .
-		"PUT MESSAGE HERE<p>" .
-	 	"Regards " . $USER['Name'] . "<p>" .
-		"<div id=SideProg$id>$Cont</div><p>" 
-		); 
+
+      include_once("MusicLib.php");
+      $Content = MusicMail($data,$name,$id,$direct);
       break;
 
     case 'Trade':
-    case 'trade':
+    case 'trade': // Not used I think (hope)
       $Content = urlencode("$name,<p>" .
 	 	"<div id=SideLink$id>" .
 		"Please add/correct details about your business, contact information, your product descriptions, pitch and power requirements, " . 
-		"update your Insurance and Risc Assessment etc. by visiting " .
-	 	"<a href=http://wimbornefolk.co.uk/int/Direct.php?t=trade&id=$id&key=$key>this link</a>.</div><p>  " .
+		"update your Insurance and Risc Assessment etc. by visiting $direct.</div><p>" .
 		"Details of your pitch location, general trader information and particulars of setup and cleardown information will also appear there.<p>" .
 		"PUT MESSAGE HERE<p>" .
 	 	"Regards " . $USER['Name'] . "<p>" 

@@ -36,7 +36,7 @@
      <a href=/Whatson/Where.php class=NotYet>By Venue</a>
      <a href=/Whatson/When.php class=NotYet>By Time</a>
      <a href=/Whatson/DanceProg.php class=NotYet>Dancing</a>
-     <a href=/Whatson/MuicProg.php class=NotYet>Music</a>
+     <a href=/Sherlock.php?t=Music >Music</a>
      <a href=/Whatson/Special.php class=NotYet>Special Events</a>
      <a href=/Whatson/Family.php class=NotYet>Family</a>
      <a href=/Sherlock.php?t=Ceildih >Ceildihs</a>
@@ -50,7 +50,7 @@
 <div class=dropdown onmouseover=NoHoverSticky(event)>
   <a href=/info>Info</a>
   <div class=dropdown-content>
-     <a href=/Map.php class=NotYet>Festival Map</a>
+     <a href=https://<?php echo $_SERVER['HTTP_HOST']; ?>/Map.php class=NotYet>Festival Map</a>
      <a href=/InfoCamping.php>Camping & Parking</a>
      <a href=/info/getting-here>Getting Here</a>
      <a href=/info/sponsorship>Sponsorship</a>
