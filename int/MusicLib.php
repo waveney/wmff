@@ -287,7 +287,7 @@ function Contract_Decline($Side,$Sidey,$Reason) {
 function Contract_Check($snum,$chkba=1,$ret=0) { // if ret=1 returns result number, otherwise string
   global $YEAR;
 //echo "check $snum $YEAR<br>";
-  $Check_Fails = array('',"Start Time","Bank Details","No Events","Venue Unknown","Duration not yet known","Events Clash"); // Least to most critical
+  $Check_Fails = array('',"Start Time","Bank Details missing","No Events","Venue Unknown","Duration not yet known","Events Clash"); // Least to most critical
 // 0=ok, 1 - lack times, 2 - no bank details, 3 - no events, 4 - no Ven, 5 - no dur, 6 - clash
   include_once('ProgLib.php');
 // All Events have - Venue, Start, Duration, Type - Start & End/Duration can be TBD if event-type has a not critical flag set
@@ -321,7 +321,7 @@ function Contract_Check($snum,$chkba=1,$ret=0) { // if ret=1 returns result numb
 
   if ($InValid == 0 && $chkba) { // Check Bank Account if fee
     $ActY = Get_ActYear($snum);
-    if ($ActY['Fee']) {
+    if ($ActY['TotalFee']) {
       $Side = Get_Side($snum);
       if ( (strlen($Side['SortCode'])<6 ) || ( strlen($Side['Account']) < 8) || (strlen($Side['AccountName']) < 8)) $InValid = 2;
     }
@@ -333,9 +333,9 @@ function Contract_Check($snum,$chkba=1,$ret=0) { // if ret=1 returns result numb
 }
 
 // Update Year State if appapropriate
-function Contract_Changed($snum) {
+function Contract_Changed(&$Sidey) {
   global $Book_State;
-  $Sidey = Get_ActYear($snum);
+  $snum = $Sidey['SideId'];
   if ($Sidey['YearState'] == $Book_State['Booked']) {
     $chk = Contract_Check($snum);
     $Sidey['YearState'] = ($chk == ''? $Book_State['Contract Ready'] : ($chk == 'Start Time'? $Book_State['Confirmed'] : $Book_State['Booking']));
@@ -357,6 +357,11 @@ function Contract_Changed($snum) {
       return 1;
     }
   }
+}
+
+function Contract_Changed_id($id) {
+  $Sidey = Get_ActYear($id);
+  return Contract_Changed($Sidey);
 }
 
 function Contract_State_Check(&$Sidey,$chkba=1) {
@@ -396,7 +401,7 @@ function Contract_State_Check(&$Sidey,$chkba=1) {
 }
 
 function ActYear_Check4_Change(&$Cur,&$now) {
-  if ($Cur['TotalFee'] != $now['TotalFee'] || $Cur['OtherPayment'] != $now['OtherPayment'] || $Cur['Rider'] != $now['Rider'] ) return Contract_Changed($now['SideId']);
+  if ($Cur['TotalFee'] != $now['TotalFee'] || $Cur['OtherPayment'] != $now['OtherPayment'] || $Cur['Rider'] != $now['Rider'] ) return Contract_Changed($now);
 }
 
 function Music_Actions($Act,&$side,&$Sidey) { // Note Sidey MAY have other records in it >= Side

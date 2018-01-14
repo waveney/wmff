@@ -121,11 +121,11 @@ function Check_4Changes(&$Cur,&$now) {
   if ($Cur['Venue'] != $now['Venue']) $tdchange = 1;
   for ($i=1;$i<=4;$i++) {
     if ($tdchange) {
-      if ($Cur["Act$i"] != 0) { Contract_Changed($Cur["Act$i"]); }
-      else if ($now["Act$i"] != 0) { Contract_Changed($now["Act$i"]); }
+      if ($Cur["Act$i"] != 0) { Contract_Changed_id($Cur["Act$i"]); }
+      else if ($now["Act$i"] != 0) { Contract_Changed_id($now["Act$i"]); }
     } else if ($Cur["Act$i"] != $now["Act$i"]) {
-      if ($Cur["Act$i"] != 0) { Contract_Changed($Cur["Act$i"]); }
-      if ($now["Act$i"] != 0) { Contract_Changed($now["Act$i"]); }
+      if ($Cur["Act$i"] != 0) { Contract_Changed_id($Cur["Act$i"]); }
+      if ($now["Act$i"] != 0) { Contract_Changed_id($now["Act$i"]); }
     }
   }
 
