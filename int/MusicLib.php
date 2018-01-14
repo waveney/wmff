@@ -482,7 +482,6 @@ function MusicMail($data,$name,$id,$direct) {
   $Content .= "<span id=SideLink$id>Please use $direct</span> " .
 		"to add/correct details about " . $data['Name'] . "'s contact information, update social media links, " . 
 		"and information about you that appears on the festival website.<p>  $Msg";
-  $Content .= "PUT MESSAGE HERE<p>\n";
   $Content .= "Regards " . $USER['Name'] . "<p>\n" ;
   if ($AddC) $Content .= "<div id=SideProg$id>" . Show_Contract($id,$p) . "</div><p>\n";
 
