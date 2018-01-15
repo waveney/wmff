@@ -780,3 +780,7 @@ textarea:Focus
   margin: 5px 5px 0px 10px;
   padding: 5px 5px 0px 5px;
 }
+.mini_l .mnmximagwrap {
+  min-height:190px;
+  max-height:190px;
+}
