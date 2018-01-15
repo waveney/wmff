@@ -24,7 +24,7 @@ function formatminimax(&$side,$link) {
   echo "<div class=" . ($side['Importance']?"maxi_$fmt":"mini_$fmt") . ">";
   echo "<a href=/int/$link?sidenum=" . $side['SideId'] . ">";
   if (!$side['Importance'] && $side['Photo']) echo "<img class=mnmximg src='" . $side['Photo'] ."'>";
-  echo "<h2 class=mnmxttl style='font-size:" . (27+$side['Importance']*3) . "px'>" . $side['Name'] . "</h2>";
+  echo "<div class=mnmxttl style='font-size:" . (27+$side['Importance']*3) . "px'>" . $side['Name'] . "</div>";
   if ($side['Importance'] && $side['Photo']) echo "<img class=mnmximg src='" . $side['Photo'] ."'>";
   echo "</a><div class=mnmxtxt>" . $side['Description'] . "</div>";
   echo "</div></div>\n";
