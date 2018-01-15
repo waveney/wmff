@@ -20,12 +20,13 @@ function formatminimax(&$side,$link) {
   } else {
     $fmt = 't';
   } // fmt t=txt, l=ls, p=pt, s=sq, b=ban
+  $mnmx = ($side['Importance'] > 1?'maxi':'mini);
 
-  echo "<div class=" . ($side['Importance']?"maxi_$fmt":"mini_$fmt") . ">";
+  echo "<div class=$mnmx" . "_$fmt>";
   echo "<a href=/int/$link?sidenum=" . $side['SideId'] . ">";
-  if (!$side['Importance'] && $side['Photo']) echo "<img class=mnmximg src='" . $side['Photo'] ."'>";
+  if ($mnmx != 'maxi' && $side['Photo']) echo "<img class=mnmximg src='" . $side['Photo'] ."'>";
   echo "<div class=mnmxttl style='font-size:" . (27+$side['Importance']*3) . "px'>" . $side['Name'] . "</div>";
-  if ($side['Importance'] && $side['Photo']) echo "<img class=mnmximg src='" . $side['Photo'] ."'>";
+  if ($mnmx == 'maxi' && $side['Photo']) echo "<img class=mnmximg src='" . $side['Photo'] ."'>";
   echo "</a><div class=mnmxtxt>" . $side['Description'] . "</div>";
   echo "</div></div>\n";
 }
