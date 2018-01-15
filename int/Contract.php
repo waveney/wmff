@@ -93,7 +93,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
     }
   }
 
-  $str .= "ON ARRIVAL: Please report to Info Desk just inside the Allendale Centre 01202 887247 (manned from 2pm Friday)<p>\n";
+  $str .= "ON ARRIVAL: Please report to Info Desk in the square (manned from 2pm Friday)<p>\n";
 
   if ($Side['StagePA'] == 'None') {
     $str .= "If you have any PA/Technical requirments, please fill in the relevant section on your Acts pesonal record.<p>\n";

@@ -2,7 +2,7 @@
 
 // Displaying utilities for public site
 
-function formatminimax(&$side,$link) {
+function formatminimax(&$side,$link,$mnat=1) {
   echo "<div class=mnfloatleft>";
   if ($side['Photo']) {
     if (preg_match('/^\/(.*)/',$side['Photo'],$mtch)) {
@@ -20,7 +20,7 @@ function formatminimax(&$side,$link) {
   } else {
     $fmt = 't';
   } // fmt t=txt, l=ls, p=pt, s=sq, b=ban
-  $mnmx = ($side['Importance'] > 1?'maxi':'mini');
+  $mnmx = ($side['Importance'] > $mnat?'maxi':'mini');
 
   echo "<div class=$mnmx" . "_$fmt>";
   echo "<a href=/int/$link?sidenum=" . $side['SideId'] . ">";

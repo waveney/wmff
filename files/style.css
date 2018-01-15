@@ -757,7 +757,7 @@ textarea:Focus
   width:auto;
   height:auto;
   max-width:225px;
-  max-height:180px;
+  max-height:190px;
   min-height:100px;
   float:left;
   padding:5px;
@@ -777,6 +777,6 @@ textarea:Focus
   display: inline-block;
   min-width: 480px;
   max-width: 480px;
-  margin: 5px 5px 5px 10px;
-  padding: 5px 5px 5px 5px;
+  margin: 5px 5px 0px 10px;
+  padding: 5px 5px 0px 5px;
 }
