@@ -516,17 +516,23 @@ textarea:Focus
     float:left;
     min-height:165px;
     }
-.mini
-    {
-    float:left;
-    width: 100%;
-    min-height:100px;
-    display: inline-block;
-    margin-bottom:25px;
-    padding: 0 0 25px 0;
-    }
-.miniimg
-    {
+.mini {
+  float:left;
+  width: 100%;
+  min-height:100px;
+  display: inline-block;
+  margin-bottom:25px;
+  padding: 0 0 25px 0;
+}
+.maxi { // Yes the same as mini but changes elements within
+  float:left;
+  width: 100%;
+  min-height:350px;
+  display: inline-block;
+  margin-bottom:25px;
+  padding: 0 0 25px 0;
+}
+.miniimg {
     float:left;
     min-width:225px;
     max-width:225px;
@@ -534,8 +540,7 @@ textarea:Focus
     padding:0;
     transition:opacity .5s, filter .5s;
     }
-.maxminiimg
-    {
+.maxminiimg {
     float:left;
     width:auto;
     height:auto;
@@ -545,13 +550,11 @@ textarea:Focus
     padding:0;
     transition:opacity .5s, filter .5s;
     }
-.miniimg:hover
-    {
-    opacity: 0.7;
-    filter: alpha(opacity=70);
-    }
-.minittl
-    {
+.miniimg:hover {
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+}
+.minittl {
     margin:0 0 -5px 0;
     padding:0;
     text-align:left;
@@ -560,8 +563,7 @@ textarea:Focus
     color:#005c8f;
     transition:opacity .5s, filter .5s;
     }
-.minittl:link
-    {
+.minittl:link {
     margin:0 0 -10px 0;
     padding:0;
     text-align:left;
@@ -569,16 +571,13 @@ textarea:Focus
     font-weight:bold;
     color:#005c8f;
     }
-.minittl:visited
-    {
+.minittl:visited {
     color:#005c8f;
     }
-.minittl:active
-    {
+.minittl:active {
     color:#005c8f;
     }
-.minittl:hover
-    {
+.minittl:hover {
     opacity: 0.5;
     filter: alpha(opacity=50);
     }
@@ -589,13 +588,12 @@ textarea:Focus
     padding:0;
     font-weight:bold;
     }
-.minitxt
-    {
-    max-width:100%;
-    margin:0 0 0 0;
-    padding: 5px 10px 5px 0;
-    color:#000000;
-    }
+.minitxt {
+  max-width:100%;
+  margin:0 0 0 0;
+  padding: 5px 10px 5px 0;
+  color:#000000;
+}
 
 .adminarticle {
     min-width:33%;
@@ -724,4 +722,65 @@ textarea:Focus
   max-width:500px;
   min-height:250px;
   width:100%;
+}
+.mini_t, .mini_l, .mini_p, .mini_s, .mini_b {
+  width: 100%;
+  height: 200px;
+}
+.maxi_t, .maxi_l, .maxi_p, .maxi_s, .maxi_b {
+  width: 100%;
+  height: 400px;
+}
+.mnmxttl {
+  text-align:left;
+  display: inline-block;
+  font-size:27px;
+  font-weight:bold;
+  color:#005c8f;
+  transition:opacity .5s, filter .5s;
+}
+.mnmxttl:visited, .mnmxttl:active {
+  color:#005c8f;
+}
+.mnmxttl:hover {
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+.mnmximg:hover {
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+}
+.mnmximg {
+  width:auto;
+  height:auto;
+  max-width:225px;
+  max-height:200px;
+  min-height:100px;
+  float:left;
+  padding:5px;
+  display: inline-block;
+  transition:opacity .5s, filter .5s;
+}
+.maxi_l .mnmximg, .maxi_b .mnmximg, .maxi_p .mnmximg, .maxi_s .mnmximg {
+  max-width:480px;
+  max-height:380px;
+}
+.maxi_b .mnmximg { max-width:480px; }
+.maxi_s .mnmximg { max-width:350px; }
+.maxi_l .mnmxttl, .maxi_b .mnmxttl, .maxi_p .mnmxttl, .maxi_s .mnmxttl, .maxi_t .mnmxttl {
+  text-align:center;
+}
+.mnfloatleft {
+  float:left;
+  display: inline-block;
+  min-width: 480px;
+  max-width: 480px;
+  margin: 5px 5px 5px 10px;
+  padding: 5px 5px 5px 5px;
+}
+.mnmxtxt {
+  max-width:100%;
+  margin:0 0 0 0;
+  padding: 5px 0 5px 0;
+  color:#000000;
 }

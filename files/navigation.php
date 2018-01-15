@@ -23,11 +23,11 @@
 <div class=dropdown onmouseover=NoHoverSticky(event)>
   <a href=/line-up>Line-up</a>
   <div class=dropdown-content>
-     <a href=/line-up/dance>Dance</a>
-     <a href=/line-up/music>Music</a>
-     <a href=/line-up/Comedy.php class=NotYet>Comedy</a>
+     <a href=/LineUpDance.php>Dance</a>
+     <a href=/LineUpMusic.php>Music</a>
+     <a href=/LineUpComedy.php class=NotYet>Comedy</a>
      <a href=/TraderList.php>Traders</a>
-     <a href=/line-up/Other.php class=NotYet>Family/Other</a>
+     <a href=/LineUpOther.php class=NotYet>Family/Other</a>
   </div>
 </div>
 <div class=dropdown onmouseover=NoHoverSticky(event)>
