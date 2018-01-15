@@ -770,7 +770,7 @@ textarea:Focus
 }
 .maxi_l .mnmximg, .maxi_b .mnmximg {
   max-width:480px;
-  max-height:350px;
+  max-height:300px;
 }
 .mnfloatleft {
   float:left;
