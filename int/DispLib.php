@@ -20,7 +20,7 @@ function formatminimax(&$side,$link) {
   } else {
     $fmt = 't';
   } // fmt t=txt, l=ls, p=pt, s=sq, b=ban
-  $mnmx = ($side['Importance'] > 1?'maxi':'mini);
+  $mnmx = ($side['Importance'] > 1?'maxi':'mini');
 
   echo "<div class=$mnmx" . "_$fmt>";
   echo "<a href=/int/$link?sidenum=" . $side['SideId'] . ">";
