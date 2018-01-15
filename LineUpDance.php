@@ -21,7 +21,7 @@ Click on the name of a team, or their photograph to find out more about them and
            "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " AND s.IsASide=1 ORDER BY s.Importance DESC, s.Name");
   
   while($side = $SideQ->fetch_assoc()) {
-    formatminimax(&$side,'ShowDance.php');
+    formatminimax($side,'ShowDance.php');
   }
 
   dotail();
