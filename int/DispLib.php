@@ -5,13 +5,15 @@
 function formatminimax(&$side,$link,$mnat=1) {
   echo "<div class=mnfloatleft>";
   if ($side['Photo']) {
+/*
     if (preg_match('/^\/(.*)/',$side['Photo'],$mtch)) {
       $stuff = getimagesize($mtch[1]);
     } else {
       $stuff = getimagesize($side['Photo']);
     }
-    $wi = $stuff[0];
-    $ht = $stuff[1];
+*/
+    $wi = $side['ImageWidth'];
+    $ht = $stuff['ImageHeight'];
     if ($wi > ($ht * 1.1)) {
       $fmt  = ($wi > ($ht * 2))?'b':'l';
     } else {

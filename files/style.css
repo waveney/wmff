@@ -759,10 +759,6 @@ textarea:Focus
   max-width:225px;
   max-height:190px;
   min-height:100px;
-  float:left;
-  padding:5px;
-  display: inline-block;
-  transition:opacity .5s, filter .5s;
 }
 .maxi_p .mnmximg, .maxi_s .mnmximg {
   max-width:350px;
@@ -780,7 +776,14 @@ textarea:Focus
   margin: 5px 5px 0px 10px;
   padding: 5px 5px 0px 5px;
 }
-.mini_l .mnmximagwrap {
+.mnmximgwrap {
+  float:left;
+  padding:5px;
+  display: inline-block;
+  transition:opacity .5s, filter .5s;
+} 
+.mini_l .mnmximgwrap {
+  max-width:225px;
   min-height:190px;
   max-height:190px;
 }
