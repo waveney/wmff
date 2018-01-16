@@ -593,7 +593,7 @@ function weblinksimple($dest) {
 function videolink($dest) {
   $dest = stripslashes($dest);
   if (preg_match("/^http/",$dest)) return "'" . $dest ."'";
-  if (preg_match('/watch\?v=',$dest)) {
+  if (preg_match('/watch\?v=/',$dest)) {
     return preg_replace("/.*watch\?v=/", 'youtu.be/', $dest);
   } else if (preg_match('/src="(.*?)" /i',$dest,$match)) {
     return preg_replace("/www.youtube.com\/embed/", 'youtu.be', $match[1]);
