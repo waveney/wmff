@@ -787,3 +787,9 @@ textarea:Focus
   min-height:190px;
   max-height:190px;
 }
+.maxi_l .mnmximgwrap, .maxi_b .mnmximgwrap {
+  max-width:480px;
+  min-width:480px;
+  min-height:300px;
+  max-height:300px;
+}

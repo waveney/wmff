@@ -13,7 +13,7 @@
     if ($fside['Photo']) {
       $side = Get_Side($fside['SideId']);
 
-      if (preg_match('/^https?://i',$side['Photo'])) {
+      if (preg_match('/^https?:\/\//i',$side['Photo'])) {
         $stuff = getimagesize($side['Photo']);
       } else if (preg_match('/^\/(.*)/',$side['Photo'],$mtch)) {
         $stuff = getimagesize($mtch[1]);
