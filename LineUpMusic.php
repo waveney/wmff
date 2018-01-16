@@ -6,8 +6,6 @@
 ?>
 
 <h2 class="maintitle">Music Line-up</h2>
-<p>We are currently building our line-up for the 2018 festival.  Acts include:<p>
-
 We are putting together an exciting and varied line-up for your enjoyment at this year's festival. 
 They will be on various stages and venues around town at both ticketed and free events. 
 Do keep checking back to see who else will be appearing... there are still more to come! <p>
