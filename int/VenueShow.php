@@ -41,6 +41,7 @@
   }
 
   echo "<h2 class=subtitle>PROGRAMME OF EVENTS</h2>";
+  echo "Click on the event name or time to get more detail<p>";
 
   $sides=&Select_Come_All();
   $Acts=&Select_All_Acts();
@@ -50,6 +51,7 @@
   $parname = '';
   $Something = 0;
 
+//  echo "<table class=EventShow>";
   if ($res) while ($e = $res->fetch_assoc()) {
     $Something = 1;
     $imps=array();
@@ -71,7 +73,7 @@
 	if ($e['Name'] && $e['Name'] != $parname) echo " &nbsp; &nbsp; " . $e['Name'] . " &nbsp; ";
       }
 
-      echo "&nbsp; &nbsp; &nbsp; ";
+//      echo "&nbsp; &nbsp; &nbsp; ";
       $ks = array_keys($imps);
       sort($ks);	
       foreach ( array_reverse($ks) as $imp) {
@@ -84,7 +86,7 @@
         if ($imp) echo "</span>";
       }
     } else {
-      echo "&nbsp; &nbsp; &nbsp; ";
+//      echo "&nbsp; &nbsp; &nbsp; ";
     };
     echo "</p>\n";
   }

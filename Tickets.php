@@ -35,7 +35,7 @@ before you checkout!  Camping costs &pound;7.50pppn + booking fee in advance or 
 <th colspan="5">Festival Passes</th>
 </tr>
 <tr>
-<td><a href="https://www.ticketsource.co.uk/booking/event/208030" rel="tag" target="_parent" style="font-size:18px"><strong>Weekend Pass</strong></a>
+<td><a href="https://www.ticketsource.co.uk/event/208030" rel="tag" target="_parent" style="font-size:18px"><strong>Weekend Pass</strong></a>
 <br />Adult (13+): <strong>&#163;50.00</strong>
 <br />Child (5-12): <strong>&#163;25.00</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
@@ -46,7 +46,7 @@ Only this ticket includes entry to <a href="http://partyinthepaddock.com" rel="t
 <td style="text-align:center; font-size:20px"><a href="https://www.ticketsource.co.uk/event/208030" rel="tag" target="_parent"><strong>Buy Now</strong></a></td>
 </tr>
 <tr>
-<td><a href="https://www.ticketsource.co.uk/booking/event/210981" rel="tag" target="_parent" style="font-size:18px"><strong>Friday Pass</strong></a>
+<td><a href="https://www.ticketsource.co.uk/event/210981" rel="tag" target="_parent" style="font-size:18px"><strong>Friday Pass</strong></a>
 <br />Adult (13+): <strong>&#163;15.00</strong>
 <br />Child (5-12): <strong>&#163;7.50</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
@@ -58,7 +58,7 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
 </tr>
 
 <tr>
-<td><a href="https://www.ticketsource.co.uk/booking/event/211013" rel="tag" target="_parent" style="font-size:18px"><strong>Saturday Pass</strong></a>
+<td><a href="https://www.ticketsource.co.uk/event/211013" rel="tag" target="_parent" style="font-size:18px"><strong>Saturday Pass</strong></a>
 <br />Adult (13+): <strong>&#163;30.00</strong>
 <br />Child (5-12): <strong>&#163;15.00</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
@@ -70,7 +70,7 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
 </tr>
 
 <tr>
-<td><a href="https://www.ticketsource.co.uk/booking/event/211014" rel="tag" target="_parent" style="font-size:18px"><strong>Sunday Pass</strong></a>
+<td><a href="https://www.ticketsource.co.uk/event/211014" rel="tag" target="_parent" style="font-size:18px"><strong>Sunday Pass</strong></a>
 <br />Adult (13+): <strong>&#163;20.00</strong>
 <br />Child (5-12): <strong>&#163;10.00</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
