@@ -13,7 +13,7 @@ function formatminimax(&$side,$link,$mnat=1) {
     }
 */
     $wi = $side['ImageWidth'];
-    $ht = $stuff['ImageHeight'];
+    $ht = $side['ImageHeight'];
     if ($wi > ($ht * 1.1)) {
       $fmt  = ($wi > ($ht * 2))?'b':'l';
     } else {

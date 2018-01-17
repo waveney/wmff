@@ -38,7 +38,7 @@
 <a href="/gallery" rel="bookmark" style="color:#FFFFFF;">Gallery</a> | 
 <a href="/contact" rel="bookmark" style="color:#FFFFFF;">Contact</a></p>
 -->
-<p>Copyright &copy; <a href="/" rel="bookmark" style="color:#FFFFFF;">Wimborne Minster Folk Festival Ltd</a> <?php echo gmdate("Y"); ?>; All Rights Reserved. Registered Company: 08290423</p>
+Copyright &copy; <a href="/" rel="bookmark" style="color:#FFFFFF;">Wimborne Minster Folk Festival Ltd</a> <?php echo gmdate("Y"); ?>; All Rights Reserved. Registered Company: 08290423</p>
 
 <p>Photos remain Copyright @ of their respective owners and cannot be reproduced or used without permission.</p>
 
