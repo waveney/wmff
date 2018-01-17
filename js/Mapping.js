@@ -22,14 +22,17 @@ $.getJSON("/cache/mapptypes.json").done (function(json1) {
 })
 
 function CloseDir() {
+  debugger;
 
 }
 
 function SetTravelMode(Nmode) {
+  debugger;
   DSrequest.travelMode = Nmode; 
 }
 
 function ShowDirect(MarkId) { // Open directions window from current loc (me) to the given Marker
+  debugger;
     var zoom = map.getZoom();
     if (!dirServ) dirServ = new google.maps.DirectionsService();
 //      suppressMarkers: true,
@@ -52,22 +55,14 @@ function ShowDirect(MarkId) { // Open directions window from current loc (me) to
     dirDisp.setPanel(document.getElementById('Directions'));
     var ht = $('.MapWrap').height();
     var wi = $('.MapWrap').width();
-    if ($('.MapWrap').width() < 100) {
+    if (wi < 400) {
       $('#map').css('max-height',Math.floor(ht*.7));
       $('#DirPane').css('max-height',Math.floor(ht*.28));
     } else {
-//      $('#map').css('max-width',Math.floor(wi*.68));
-//      $('#DirPane').css('max-width',Math.floor(wi*.28));
       $('#map').css('width','70%');
-      $('#DirPane').css('width','28%');
-      $('#DirPane').css('float','right');
+      $('#DirPaneWrap').css({"width":"28%","height":ht,"max-height":ht,'float':'right'});
+      $('#DirPane').css({"height":ht,"max-height":ht});
     }
-/*
-    $('#DirPaneTop').html(
-     	'<button onclick=SetTravelMode("DRIVING")>Drive</button> ' + 
-	'<button onclick=SetTravelMode("WALKING")>Walk</button>' +
-     	'class=floatright><button onclick=CloseDir()>Close</button>' + 
-*/
 }
 
 function initMap() {
@@ -149,7 +144,7 @@ function initMap() {
 	  }
 	  if (data.id < 1000000) cont += '<p><a href=/int/VenueShow.php?v=' + data.id + '>More Info</a>';
 	  if (data.link) cont += '<p><a href=' + data.link + '>More Info</a>';
-	  if (direct && (data.id <1000000 || data.direct == 1)) cont += '<p><a onclick=ShowDirect(' + data.id + ')>Directions</a>';
+	  if (direct && (data.id <1000000 || data.direct == 1)) cont += '<span style="float:right;"><a onclick=ShowDirect(' + data.id + ')>Directions</a></span>';
           cont += '</div>';
 	  var infowindow = new google.maps.InfoWindow({
             content: cont,
