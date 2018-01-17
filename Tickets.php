@@ -39,7 +39,7 @@ before you checkout!  Camping costs &pound;7.50pppn + booking fee in advance or 
 <br />Adult (13+): <strong>&#163;50.00</strong>
 <br />Child (5-12): <strong>&#163;25.00</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
-<td style="width:70%">Book your Weekend Pass for official festival events. Event details will follow.<p>
+<td style="width:70%">Book your Weekend Pass for official festival events. See below for the events that it covers.<p>
 There is a &pound;5 discount on the weekend pass with the code EARLYBIRD until 31st Jan 2018.<p>
 
 Only this ticket includes entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
@@ -50,7 +50,7 @@ Only this ticket includes entry to <a href="http://partyinthepaddock.com" rel="t
 <br />Adult (13+): <strong>&#163;15.00</strong>
 <br />Child (5-12): <strong>&#163;7.50</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
-<td style="width:70%">Book your Friday Pass for official festival events. Event details will follow.<p>
+<td style="width:70%">Book your Friday Pass for official festival events. See below for the events that it covers.<p>
 
 Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
 </td>
@@ -62,7 +62,7 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
 <br />Adult (13+): <strong>&#163;30.00</strong>
 <br />Child (5-12): <strong>&#163;15.00</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
-<td style="width:70%">Book your Saturday Pass for official festival events. Event details will follow.<p>
+<td style="width:70%">Book your Saturday Pass for official festival events. See below for the events that it covers.<p>
 
 Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
 </td>
@@ -74,7 +74,7 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
 <br />Adult (13+): <strong>&#163;20.00</strong>
 <br />Child (5-12): <strong>&#163;10.00</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
-<td style="width:70%">Book your Sunday Pass for official festival events. Event details will follow.<p>
+<td style="width:70%">Book your Sunday Pass for official festival events. See below for the events that it covers.<p>
 
 Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
 </td>

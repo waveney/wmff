@@ -46,13 +46,11 @@ A:visited
     text-decoration: none; 
     color: #005983;
     }
-A:active 
-    {
+A:active {
     text-decoration: none; 
     color: #005983;
     }
-A:hover 
-    {
+A:hover {
     text-decoration: none; 
     color: #a30046;
     }
@@ -524,7 +522,7 @@ textarea:Focus
   margin-bottom:25px;
   padding: 0 0 25px 0;
 }
-.maxi { // Yes the same as mini but changes elements within
+.maxi { /* Yes similar to mini but changes elements within */
   float:left;
   width: 100%;
   min-height:350px;
@@ -695,7 +693,16 @@ textarea:Focus
   height: 100%;
   text-color:black;
 }
-// Fix to Google maps to remove american warning
+#MapWrap {
+}
+#DirPane {
+  overflow:auto;
+}
+#DirPaneWrap{
+/*  overflow:hidden; */
+  display:inline-block; 
+}
+/* Fix to Google maps to remove american warning */
 .adp-warnbox { 
   display:none;
 }
@@ -713,6 +720,10 @@ textarea:Focus
 }
 .MapInfo {
   max-width:250px;
+}
+.MapInfo a:hover {
+  filter:none;
+  opacity:1;
 }
 .rightdiv {
   float:right; 
