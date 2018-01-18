@@ -53,6 +53,9 @@ function ShowDirect(MarkId) { // Open directions window from current loc (me) to
     });
   
     dirDisp.setPanel(document.getElementById('Directions'));
+    if (markers[MarkId].dirExtra) {
+      $('#Directions').after("Ignore the last part of Google's instructions, please:<p>" + markers[MarkId].dirExtra);
+    }
     var ht = $('.MapWrap').height();
     var wi = $('.MapWrap').width();
     if (wi < 400) {
@@ -95,13 +98,14 @@ function initMap() {
           position: latLng,
           title: data.name,
           importance: data.imp,
+	  dirExtra:data.extra,
         });
 	if (data.icon > 1 && mtypes[data.icon].Icon) marker.setIcon("/images/icons/" + mtypes[data.icon].Icon);
         marker.setMap(map);
         marker.setVisible(zoom>=minz && zoom <= maxz);
         markers[data.id] = marker;
 
-	if (MapFeatures && (data.id < 1000000 || data.link != '' || data.direct == 1)) { // Venue disabled for public use until fixed
+	if (MapFeatures && (data.id < 1000000 || data.link != '' || data.direct == 1)) { 
 	  var cont = '<div class=MapInfo><h3>' + data.name + '</h3>';
 	  if (data.image) cont += '<img src=' + data.image + ' class=mapimage><br>';
 	  cont += (data.desc || '');
@@ -142,7 +146,7 @@ function initMap() {
 	      case '_____': cont += 'many things'; break;
 	    };
 	  }
-	  if (data.id < 1000000) cont += '<p><a href=/int/VenueShow.php?v=' + data.id + '>More Info</a>';
+	  if (data.id < 1000000) cont += '<p><a href=/int/VenueShow.php?v=' + data.id + '>More Info</a>&nbsp; &nbsp;';
 	  if (data.link) cont += '<p><a href=' + data.link + '>More Info</a>';
 	  if (direct && (data.id <1000000 || data.direct == 1)) cont += '<span style="float:right;"><a onclick=ShowDirect(' + data.id + ')>Directions</a></span>';
           cont += '</div>';

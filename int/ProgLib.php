@@ -31,6 +31,7 @@ function Set_Venue_Help() {
 	'BarFoodText'=>'Any text that expands on the food and drink available',
 	'Website'=>'If the venue has a website put it here',
 	'MapImp'=>'Range 0-20, 0 means 16 which is default, 15 is VERY important, 18 very minor',
+	'DirectionsExtra'=>'Extra info to be put at end of directions to venue',
 	'Minor'=>'Treatment of venue in final dance grid'
   );
   Set_Help_Table($t);

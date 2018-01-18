@@ -699,7 +699,6 @@ textarea:Focus
   overflow:auto;
 }
 #DirPaneWrap{
-/*  overflow:hidden; */
   display:inline-block; 
 }
 /* Fix to Google maps to remove american warning */
@@ -720,10 +719,10 @@ textarea:Focus
 }
 .MapInfo {
   max-width:250px;
+  overflow:hidden;
 }
-.MapInfo a:hover {
-  filter:none;
-  opacity:1;
+.MapInfo p {
+  margin-bottom:0;
 }
 .rightdiv {
   float:right; 

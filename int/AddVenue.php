@@ -53,7 +53,8 @@
     echo "<tr>" . fm_text('Name',$Venue,'Name',3);
     echo "<tr>" . fm_text('Address',$Venue,'Address',3);
     echo          fm_text('Post Code',$Venue,'PostCode',1);
-    echo "<tr>" . fm_textarea('Description',$Venue,'Description',5,3);
+    echo "<tr>" . fm_textarea('Description',$Venue,'Description',5,2);
+    echo "<tr>" . fm_textarea('Directions Extra',$Venue,'DirectionsExtra',5,2);
     echo "<tr>" . fm_text('Lat',$Venue,'Lat',1);
     echo          fm_text('Long',$Venue,'Lng',1);
     echo          fm_text('MapImp',$Venue,'MapImp',1);
@@ -68,11 +69,11 @@
     echo fm_checkbox('Children',$Venue,'Child');
     echo fm_checkbox('Craft',$Venue,'Craft');
     echo fm_checkbox('Other',$Venue,'Other');
-    echo "<td>" . fm_checkbox('Ignore Multiple Use Warning',$Venue,'AllowMult');
+    echo "<td colspan=2>" . fm_checkbox('Ignore Multiple Use Warning',$Venue,'AllowMult');
     echo "<tr><td>" . fm_simpletext("Dance Importance",$Venue,'DanceImportance','size=4');
     echo "<td>" . fm_simpletext("Music Importance",$Venue,'MusicImportance','size=4');
     echo "<td>" . fm_simpletext("Other Importance",$Venue,'OtherImportance','size=4');
-    echo "<tr><td>Treat as Minor for Dance on:" . help('Minor') . fm_checkbox('Sat',$Venue,'MinorSat') . fm_checkbox('Sun',$Venue,'MinorSun');
+    echo "<tr><td colspan=2>Treat as Minor for Dance on:" . help('Minor') . "<td>" . fm_checkbox('Sat',$Venue,'MinorSat') . "<td>" . fm_checkbox('Sun',$Venue,'MinorSun');
     echo "<tr><td>Surfaces:<td>" . fm_select($Surfaces,$Venue,'SurfaceType1',1);
     echo "<td>" . fm_select($Surfaces,$Venue,'SurfaceType2',1) . "\n";
     echo "<tr>" . fm_text('Dance Rider',$Venue,'DanceRider',5);
