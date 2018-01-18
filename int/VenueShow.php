@@ -26,7 +26,7 @@
     } else {
       echo "No Image Yet<p>";
     }
-    echo "<p><div class=MapWrap>";
+    echo "<p><div id=MapWrap>";
     echo "<div id=DirPaneWrap><div id=DirPane><div id=DirPaneTop></div><div id=Directions></div></div></div>";
     echo "<p><div id=map></div></div>";
     echo "</div>\n";

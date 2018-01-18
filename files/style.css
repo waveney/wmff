@@ -694,6 +694,7 @@ textarea:Focus
   text-color:black;
 }
 #MapWrap {
+  overflow:hidden;
 }
 #DirPane {
   overflow:auto;
