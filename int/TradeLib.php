@@ -260,6 +260,8 @@ Any generator must meet the Euro 4 silent generator standard.',
 	'Photo'=>'Give URL of Image to use or upload one',
 	'TradeType'=>'Fees depend on trade type, pitch size and location',
 	'BookingState'=>'ONLY change this if you are fixing a problem, use the state change buttons',
+	'PublicInfo'=>'Information in this section may be used on the public website if you tick the "Do you want to appear on the Folk Festival Website?" box', 
+	'PrivateInfo'=>'Information in this section is only visible to you and the revelent members of the festival, you can amend this at any time',
 
   );
   Set_Help_Table($t);
@@ -298,7 +300,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
 
   echo "<form method=post id=mainform enctype='multipart/form-data' action=$Form>";
   echo "<table width=90% border class=SideTable>\n";
-    echo "<tr><th colspan=8><b>Public Information</b>";
+    echo "<tr><th colspan=8><b>Public Information</b>" . Help('PublicInfo');
     echo "<tr>" . fm_text('Business Name', $Trad,'Name',2,'','autocomplete=off onchange=nameedit(event) oninput=nameedit(event) id=Name');
     echo "<tr>";
       if (isset($Trad['Website']) && strlen($Trad['Website'])>1) {
@@ -320,7 +322,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
 
 //********* PRIVATE
 
-    echo "<tr><th colspan=8><b>Private Information</b>";
+    echo "<tr><th colspan=8><b>Private Information</b>" . Help('PrivateInfo');
     echo "<tr>";
       echo "<td>Trade Type:" . help('TradeType') . "<td colspan=7>";
       foreach ($TradeTypeData as $i=>$d) {
