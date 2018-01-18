@@ -98,6 +98,7 @@ function Set_Event_Help() {
 	'Price'=>'In pounds for entire event - there are no prices for sub events',
 	'Venue'=>'For Big Events - put the starting Venue here',
 	'SlotEnd'=>'If a large event is divided into a number of slots, this is the end of the first slot, not needed otherwise',
+	'NonFest'=>'Event not run by the Festival, but included in programme - only for friendly non fesival events',
 	'Budget'=>'What part of the festival budget this Event comes under'
   );
   Set_Help_Table($t);

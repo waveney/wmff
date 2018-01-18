@@ -100,7 +100,7 @@ function Print_Participants($e,$when) {
 
   echo "<h2 class=subtitle>" . $Ev['Name'] . "</h2>\n";
 //var_dump($Ev);
-
+  if ($Ev['NonFest']) echo "This event is not run by the folk festival, but is shown here for your information.<p>\n";
   if ($Ev['Description']) echo $Ev['Description'] . "<P>";
   // On, Start, End, Durration, Price, Where 
   echo "<table><tr><td>On:<td>" . $LongDayList[$Ev['Day']] . " " . ($MASTER['DateFri']+$Ev['Day']) . "th June " . $Ev['Year'] . "\n";

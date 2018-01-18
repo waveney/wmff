@@ -54,7 +54,7 @@ function ShowDirect(MarkId) { // Open directions window from current loc (me) to
   
     dirDisp.setPanel(document.getElementById('Directions'));
     if (markers[MarkId].dirExtra) {
-      $('#Directions').after("Ignore the last part of Google's instructions, please:<p>" + markers[MarkId].dirExtra);
+      $('#Directions').after("Please ignore the last part of Google's instructions:<p>" + markers[MarkId].dirExtra);
     }
     var ht = $('.MapWrap').height();
     var wi = $('.MapWrap').width();
