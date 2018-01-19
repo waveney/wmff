@@ -59,8 +59,8 @@ function PrintImps(&$imps) {
   echo "Click on the event name or time to get more detail.<p>";
 
   $sides=&Select_Come_All();
-  $Acts=&Select_All_Acts();
-  $Other=&Select_All_Other();
+  $Acts=&Select_Act_Come_All();
+  $Other=&Select_Other_Come();
 
   $res = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND Venue=$V ORDER BY Day, Start");
   if (!$res) {
@@ -93,7 +93,9 @@ function PrintImps(&$imps) {
 
     if ($e['SubEvent'] <0) {
       $parname = $e['Name']; // has subes
-      echo "<tr><td><a href=EventShow.php?e=$ei>" . $e['Start'] . " - " . $e['End'] . "</a><td><a href=EventShow.php?e=$ei>" . $parname . "</a><td>&nbsp;";
+      echo "<tr><td><a href=EventShow.php?e=$ei>" . $e['Start'] . " - " . $e['End'] . "</a><td><a href=EventShow.php?e=$ei>" . $parname . "</a>";
+      if ($e['Description']) echo "<br>" . $e['Description'];
+      echo "<td>&nbsp;";
       if ($NotAllFree) echo "<td>" . Price_Show($e);
 
       if ($imps) {
@@ -103,7 +105,9 @@ function PrintImps(&$imps) {
       }
     } else if ($e['SubEvent'] == 0) { // Is stand alone
       $parname = $e['Name'];
-      echo "<tr><td><a href=EventShow.php?e=$ei>" . $e['Start'] . " - " . $e['End'] . "</a><td><a href=EventShow.php?e=$ei>" . $parname . "</a><td>";
+      echo "<tr><td><a href=EventShow.php?e=$ei>" . $e['Start'] . " - " . $e['End'] . "</a><td><a href=EventShow.php?e=$ei>" . $parname . "</a>";
+      if ($e['Description']) echo "<br>" . $e['Description'];
+      echo "<td>";
       PrintImps($imps);
       if ($NotAllFree) echo "<td>" . Price_Show($e);
     } else { // Is a sube
