@@ -48,12 +48,26 @@
   $Other=&Select_All_Other();
 
   $res = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND Venue=$V ORDER BY Day, Start");
-  $parname = '';
-  $Something = 0;
+  if (!$res) {
+    "<h3>There are currently no scheduled events here</h3>\n";
+    dotail();
+    exit;
+  }
+  
+  $NotAllFree=0;
+  while ($e = $res->fetch_assoc()) {
+    $EVs[] = $e;
+    if ($e['DoorPrice']) $NotAllFree=1;
+  }
 
-//  echo "<table class=EventShow>";
-  if ($res) while ($e = $res->fetch_assoc()) {
-    $Something = 1;
+  if (!$NotAllFree) echo "All events here are Free.<p>\n";
+
+  foreach ($EVs as $ei=>$e) {
+    if (DayTable($e['Day'])) {
+      echo "<tr><td>Time<td>What<td>With";
+      if ($NotAllFree) echo "<td>Price\n";
+    }
+
     $imps=array();
     $things = 0;
     for($i=1;$i<5;$i++) {
@@ -64,16 +78,19 @@
 
     if ($e['SubEvent'] <1) {
       $parname = $e['Name'];
-      echo "<p class=Vuse2><a href=EventShow.php?e=" . $e['EventId'] . ">" . $DayList[$e['Day']] . " " . $e['Start'] . " - " . $e['End'] . " " . $parname . "</a>";
+      echo "<tr><td><a href=EventShow.php?e=$ei>" . $e['Start'] . " - " . $e['End'] . "<td>" . $parname . "</a>";
     }
     if ($imps) {
-      if ($e['SubEvent'] < 0) echo "<p class=Vuse3>" . $e['Start'] . " - " . $e['SlotEnd'] . " ";
+      if ($e['SubEvent'] < 0) echo "<tr><td>" . $e['Start'] . " - " . $e['SlotEnd'] . "<td>";
       if ($e['SubEvent'] > 0) { 
-	echo "<p class=Vuse3>" . $e['Start'] . " - " . $e['End'] . " ";
-	if ($e['Name'] && $e['Name'] != $parname) echo " &nbsp; &nbsp; " . $e['Name'] . " &nbsp; ";
+	echo "<tr><td>" . $e['Start'] . " - " . $e['End'] . "<td>";
+	if ($e['Name'] && $e['Name'] != $parname) {
+          echo $e['Name'] . "<td>";
+        } else {
+          echo "<td>";
+	}
       }
 
-//      echo "&nbsp; &nbsp; &nbsp; ";
       $ks = array_keys($imps);
       sort($ks);	
       foreach ( array_reverse($ks) as $imp) {
@@ -85,12 +102,10 @@
         }
         if ($imp) echo "</span>";
       }
-    } else {
-//      echo "&nbsp; &nbsp; &nbsp; ";
     };
-    echo "</p>\n";
+    echo "\n";
   }
-  if (!$Something) echo "<h3>No Currently Scheduled Events Here</h3>\n";
+  echo "</table>\n";
 
   dotail();
 ?>

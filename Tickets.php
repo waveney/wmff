@@ -30,7 +30,7 @@ before you checkout!  Camping costs &pound;7.50pppn + booking fee in advance or 
 
 <a href=/InfoCamping.php><b>Camping Information and Camping Tickets.</b></a><p>
 
-<p><table cellspacing="5" cellpadding="5" style="background-color:#59B404; border-color:#59B404;">
+<p><table cellspacing="5" cellpadding="5" style="background-color:#39a5d8; border-color:#39a5d8">
 <tr>
 <th colspan="5">Festival Passes</th>
 </tr>
@@ -82,9 +82,7 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
 </tr>
 </table>
 
-<p><table cellspacing="5" cellpadding="5" style="background-color:#59B404; border-color:#59B404;">
 <?php
-  echo "<th colspan=5>Event Tickets " . ($MASTER['PriceComplete']?'':'(More to come)') . "</th>";
 
   include_once "int/fest.php";
   include_once "int/ProgLib.php";
@@ -95,7 +93,7 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
   $Evs = $db->query($qry);
 
   while ($E = $Evs->fetch_assoc()) {
-    
+    DayTable($E['Day'],"Event Tickets",($MASTER['PriceComplete' . $E['Day']]?'':'(More to come)'));
     $bl = "<a href=https://www.ticketsource.co.uk/event/" . $E['TicketCode'] . ">" ;
     echo "<tr><td><strong>$bl" . $E['Name'] . "</a></strong><br>"; // Change to link to event later
       echo Price_Show($E);

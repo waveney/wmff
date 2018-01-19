@@ -4,6 +4,7 @@
 global $Venue_Status,$DayList,$InfoLevels,$VisParts,$Thing_Types,$Public_Event_Types,$Day_Type,$Info_Type,$Public_Event_Type;
 $Venue_Status = array('In Use','Not in Use');
 $DayList = array('Fri','Sat','Sun');
+$DayLongList = array('Friday','Saturday','Sunday');
 $InfoLevels = array('None','Errors','All');
 $VisParts = array('All','None'); // Add subcats when needed
 $Thing_Types = array('Sides','Acts','Others');
@@ -354,4 +355,16 @@ function VenName(&$V) {
   return ($V['ShortName']?$V['ShortName']:$V['Name']);
 }
 
+function DayTable($d,$Types,$xtr='') {
+  global $DayList,$DayLongList,$YEAR,$MASTER;
+  static $lastday = -1;
+  if ($d != $lastday) {
+    if ($lastday != -1) echo "</table><p>\n";
+    $lastday = $d;
+    echo '<p><table class=' . $DayList[$d] . 'tab>';
+    echo "<tr><th colspan=99>$Types on " . $DayLongList[$d] . " " . ($MASTER['DateFri']+$d) ."th June $YEAR" . " $xtr</th>\n";
+    return 1;
+  }
+  return 0;
+}
 ?>

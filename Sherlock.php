@@ -1,12 +1,12 @@
 <?php
   include_once("int/fest.php");
 
-  global $db,$YEAR,$MASTER,$DayList;
   $Types = $Type = $_GET['t'];
   dohead("Whats on $Type");
 
   include_once("int/ProgLib.php");
   include_once("int/DateTime.php");
+  global $db,$YEAR,$MASTER,$DayList,$DayLongList;
 
   $Ets = Get_Event_Types(1);
   $Vens = Get_Venues(1);
@@ -31,13 +31,10 @@
 
     echo "Click on the event name for more information.<p>";
 
-    // "Day/ date, Name, Venue, Description, Price";
-    echo '<table cellspacing=5 cellpadding=5 style="background-color:#59B404; border-color:#59B404;">';
-    echo "<tr><th colspan=5>$Types for $YEAR</th>\n";
-    echo "<tr><td>When<td>What<td>Where<td>Description<td>Price\n";
-
     foreach ($Evs as $i=>$E) {
       $eid = $E['EventId'];
+      if (DayTable($E['Day'],$Types,($MASTER[$Type . 'Complete']?'':'(More to come)'))) echo "<tr><td>When<td>What<td>Where<td>Description<td>Price\n";
+
       echo "<tr>";
       echo "<td>" . $DayList[$E['Day']] . " " . ($MASTER['DateFri']+$E['Day']) ."th June $YEAR" . "<br>";
         echo "From: " . timecolon($E['Start']) . " to " . timecolon($E['End']);

@@ -804,3 +804,19 @@ textarea:Focus
   min-height:300px;
   max-height:300px;
 }
+.Fritab {
+  background-color:#59B404;
+  border-color:#59B404;
+}
+.Sattab {
+  background-color:#bf50c9;
+  border-color:#bf50c9;
+}
+.Suntab {
+  background-color:orange;
+  border-color:orange;
+}
+.Fritab td, .Fritab, .Sattab td, .Sattab, .Suntab td, .Suntab {
+  padding:5;
+  border-spacing:5;
+}
