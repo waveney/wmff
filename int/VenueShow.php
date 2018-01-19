@@ -12,6 +12,21 @@
   $V = $_GET['v'];
   $Ven = Get_Venue($V);
 
+function PrintImps(&$imps) {
+  $ks = array_keys($imps);
+  sort($ks);	
+  foreach ( array_reverse($ks) as $imp) {
+    if ($imp) echo "<span style='font-size:" . (15+$imp*1) . "'>";
+      foreach ($imps[$imp] as $thing) {
+        if ($things++) echo ", ";
+        $str = $thing['Name'];
+        if (isset($thing['Type'])) $str .= " (" . $thing['Type'] . ")";
+        echo NoBreak($str);
+      }
+    if ($imp) echo "</span>";
+  }
+}
+
   echo "<h2 class=subtitle>" . $Ven['Name'] . "</h2>";
 
   /* Desc        Picture
@@ -63,7 +78,7 @@
   if (!$NotAllFree) echo "All events here are Free.<p>\n";
 
   foreach ($EVs as $ei=>$e) {
-    if (DayTable($e['Day'])) {
+    if (DayTable($e['Day'],"Events")) {
       echo "<tr><td>Time<td>What<td>With";
       if ($NotAllFree) echo "<td>Price\n";
     }
@@ -76,34 +91,28 @@
       if (isset($e["Other$i"])){ if ($ee = $e["Other$i"]) { $s = $Other[$ee];  if ($s) $imps[$s['Importance']][] = $s; }; };
     }
 
-    if ($e['SubEvent'] <1) {
-      $parname = $e['Name'];
-      echo "<tr><td><a href=EventShow.php?e=$ei>" . $e['Start'] . " - " . $e['End'] . "<td>" . $parname . "</a>";
-    }
-    if ($imps) {
-      if ($e['SubEvent'] < 0) echo "<tr><td>" . $e['Start'] . " - " . $e['SlotEnd'] . "<td>";
-      if ($e['SubEvent'] > 0) { 
-	echo "<tr><td>" . $e['Start'] . " - " . $e['End'] . "<td>";
-	if ($e['Name'] && $e['Name'] != $parname) {
-          echo $e['Name'] . "<td>";
-        } else {
-          echo "<td>";
-	}
-      }
+    if ($e['SubEvent'] <0) {
+      $parname = $e['Name']; // has subes
+      echo "<tr><td><a href=EventShow.php?e=$ei>" . $e['Start'] . " - " . $e['End'] . "</a><td><a href=EventShow.php?e=$ei>" . $parname . "</a><td>&nbsp;";
+      if ($NotAllFree) echo "<td>" . Price_Show($e);
 
-      $ks = array_keys($imps);
-      sort($ks);	
-      foreach ( array_reverse($ks) as $imp) {
-        if ($imp) echo "<span style='font-size:" . (15+$imp*1) . "'>";
-          foreach ($imps[$imp] as $thing) {
-          if ($things++) echo " , ";
-          echo $thing['Name'];
-          if (isset($thing['Type'])) echo " (" . $thing['Type'] . ") ";
-        }
-        if ($imp) echo "</span>";
+      if ($imps) {
+        echo "<tr><td>" . $e['Start'] . " - " . $e['SlotEnd'] . "<td>&nbsp;<td>";
+        PrintImps($imps);
+        if ($NotAllFree) echo "<td>&nbsp;";
       }
-    };
-    echo "\n";
+    } else if ($e['SubEvent'] == 0) { // Is stand alone
+      $parname = $e['Name'];
+      echo "<tr><td><a href=EventShow.php?e=$ei>" . $e['Start'] . " - " . $e['End'] . "</a><td><a href=EventShow.php?e=$ei>" . $parname . "</a><td>";
+      PrintImps($imps);
+      if ($NotAllFree) echo "<td>" . Price_Show($e);
+    } else { // Is a sube
+      if ($imps) {
+        echo "<tr><td>" . $e['Start'] . " - " . $e['End'] . "<td>&nbsp;<td>";
+        PrintImps($imps);
+        if ($NotAllFree) echo "<td>&nbsp;";
+      }
+    }
   }
   echo "</table>\n";
 

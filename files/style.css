@@ -362,19 +362,16 @@ p
     text-align:justify; 
     max-width:100%;
 }
-table
-    {
+table {
     width:100%;
     padding-bottom:5px;
     border: 0, solid 5px, solid 5px, solid 5px;
     border-radius:15px;
-    -moz-border-radius:15px;
     }
 th
     {
     color:#FFFFFF;
     border-radius:5px;
-    -moz-border-radius:5px;
     font-weight:normal;
     font-family:SHONAR, verdana, arial, helvetica, sans-serif;
     font-size:35px;
@@ -383,7 +380,6 @@ td
     {
     background-color:#FFFFFF;
     border-radius:5px;
-    -moz-border-radius:5px;
     }
 input
     {
@@ -604,7 +600,6 @@ textarea:Focus
     background-color:#FFFFFF;
     border:solid 4px #005983;
     border-radius:15px;
-    -moz-border-radius:15px;
     }
 .adminarticlettl {
     margin:0;
@@ -820,4 +815,5 @@ textarea:Focus
 .Fritab td, .Fritab, .Sattab td, .Sattab, .Suntab td, .Suntab {
   padding:5;
   border-spacing:5;
+  width:auto;
 }
