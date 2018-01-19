@@ -20,7 +20,7 @@ function PrintImps(&$imps) {
       foreach ($imps[$imp] as $thing) {
         if ($things++) echo ", ";
         $str = $thing['Name'];
-        if (isset($thing['Type'])) $str .= " (" . $thing['Type'] . ")";
+        if (isset($thing['Type']) && strlen($thing['Type']>1)) $str .= " (" . $thing['Type'] . ")";
         echo NoBreak($str);
       }
     if ($imp) echo "</span>";
