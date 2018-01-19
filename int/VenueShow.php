@@ -19,9 +19,9 @@ function PrintImps(&$imps) {
     if ($imp) echo "<span style='font-size:" . (15+$imp*1) . "'>";
       foreach ($imps[$imp] as $thing) {
         if ($things++) echo ", ";
-        $str = $thing['Name'];
-        if (isset($thing['Type']) && strlen($thing['Type']>1)) $str .= " (" . $thing['Type'] . ")";
-        echo NoBreak($str);
+        $str = "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['Name']) . "</a>";
+        if (isset($thing['Type']) && (strlen($thing['Type'])>1)) $str .= NoBreak(" (" . $thing['Type'] . ")");
+        echo $str;
       }
     if ($imp) echo "</span>";
   }
@@ -55,7 +55,11 @@ function PrintImps(&$imps) {
     echo "</div>\n";
     Init_Map(0,$V,18);
 
-  echo "<h2 class=subtitle>PROGRAMME OF EVENTS</h2>";
+  $comps = array('Ceildih','Session','Workshop','Concert','Family','Comedy','Special','Craft');
+  $AllDone = 1;
+  foreach($comps as $c) if (!$MASTER[$c . "Complete"]) $AllDone = 0;
+
+  echo "<h2 class=subtitle>" . ($AllDone?'':" CURRENT ") . "PROGRAMME OF EVENTS" . ($AllDone?'':" (Others may follow)") . "</h2>";
   echo "Click on the event name or time to get more detail.<p>";
 
   $sides=&Select_Come_All();
@@ -78,6 +82,7 @@ function PrintImps(&$imps) {
   if (!$NotAllFree) echo "All events here are Free.<p>\n";
 
   foreach ($EVs as $ei=>$e) {
+    $eid = $e['EventId'];
     if (DayTable($e['Day'],"Events")) {
       echo "<tr><td>Time<td>What<td>With";
       if ($NotAllFree) echo "<td>Price\n";
@@ -93,7 +98,7 @@ function PrintImps(&$imps) {
 
     if ($e['SubEvent'] <0) {
       $parname = $e['Name']; // has subes
-      echo "<tr><td><a href=EventShow.php?e=$ei>" . $e['Start'] . " - " . $e['End'] . "</a><td><a href=EventShow.php?e=$ei>" . $parname . "</a>";
+      echo "<tr><td><a href=EventShow.php?e=$eid>" . $e['Start'] . " - " . $e['End'] . "</a><td><a href=EventShow.php?e=$eid>" . $parname . "</a>";
       if ($e['Description']) echo "<br>" . $e['Description'];
       echo "<td>&nbsp;";
       if ($NotAllFree) echo "<td>" . Price_Show($e);
@@ -105,7 +110,7 @@ function PrintImps(&$imps) {
       }
     } else if ($e['SubEvent'] == 0) { // Is stand alone
       $parname = $e['Name'];
-      echo "<tr><td><a href=EventShow.php?e=$ei>" . $e['Start'] . " - " . $e['End'] . "</a><td><a href=EventShow.php?e=$ei>" . $parname . "</a>";
+      echo "<tr><td><a href=EventShow.php?e=$eid>" . $e['Start'] . " - " . $e['End'] . "</a><td><a href=EventShow.php?e=$eid>" . $parname . "</a>";
       if ($e['Description']) echo "<br>" . $e['Description'];
       echo "<td>";
       PrintImps($imps);
