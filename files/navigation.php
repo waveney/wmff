@@ -21,7 +21,7 @@
 <a href=/ onmouseover=NoHoverSticky()>Home</a>
 <a href=/news.php onmouseover=NoHoverSticky()>News</a>
 <div class=dropdown onmouseover=NoHoverSticky(event)>
-  <a href=/line-up>Line-up</a>
+  <a onclick=NavStick(event)>Line-up</a>
   <div class=dropdown-content>
      <a href=/LineUpDance.php>Dance</a>
      <a href=/LineUpMusic.php>Music</a>
@@ -31,7 +31,7 @@
   </div>
 </div>
 <div class=dropdown onmouseover=NoHoverSticky(event)>
-  <a href=/Whatson class=NotYet>Whats On</a>
+  <a onclick=NavStick(event)>Whats On</a>
   <div class=dropdown-content>
      <a href=/Whatson/Where.php class=NotYet>By Venue</a>
      <a href=/Whatson/When.php class=NotYet>By Time</a>
@@ -48,7 +48,7 @@
 </div>
 <a href=/Tickets.php onmouseover=NoHoverSticky()>Tickets</a>
 <div class=dropdown onmouseover=NoHoverSticky(event)>
-  <a href=/info>Info</a>
+  <a onclick=NavStick(event)>Info</a>
   <div class=dropdown-content>
      <a href=https://<?php echo $_SERVER['HTTP_HOST']; ?>/Map.php class=NotYet>Festival Map</a>
      <a href=/InfoCamping.php>Camping & Parking</a>

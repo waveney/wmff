@@ -20,6 +20,14 @@
      Programme
   */
 
+  if ($Ven['Description']) echo $Ven['Description'] . "<p>\n";
+  if ($Ven['Address']) echo "Address: " . $Ven['Address'] . " " . $Ven['PostCode'] ."<p>\n";
+  if ($Ven['Bar'] || $Ven['Food'] || $Ven['BarFoodText']) {
+    if ($Ven['Bar']) echo "<img src=/images/icons/baricon.png width=50 title='There is a bar'> ";
+    if ($Ven['Food']) echo "<img src=/images/icons/foodicon.jpeg width=50 title='There is Food'> ";
+    if ($Ven['BarFoodText']) echo " " . $Ven['BarFoodText'] . "<P>\n";
+  }
+
   echo "<div class=venueimg>";
     if ($Ven['Image']) {
       echo "<img width=100% src=" . $Ven['Image'] . ">";
@@ -32,16 +40,8 @@
     echo "</div>\n";
     Init_Map(0,$V,18);
 
-  if ($Ven['Description']) echo $Ven['Description'] . "<p>\n";
-  if ($Ven['Address']) echo "Address: " . $Ven['Address'] . " " . $Ven['PostCode'] ."<p>\n";
-  if ($Ven['Bar'] || $Ven['Food'] || $Ven['BarFoodText']) {
-    if ($Ven['Bar']) echo "<img src=/images/icons/baricon.png width=50 title='There is a bar'> ";
-    if ($Ven['Food']) echo "<img src=/images/icons/foodicon.jpeg width=50 title='There is Food'> ";
-    if ($Ven['BarFoodText']) echo " " . $Ven['BarFoodText'] . "<P>\n";
-  }
-
   echo "<h2 class=subtitle>PROGRAMME OF EVENTS</h2>";
-  echo "Click on the event name or time to get more detail<p>";
+  echo "Click on the event name or time to get more detail.<p>";
 
   $sides=&Select_Come_All();
   $Acts=&Select_All_Acts();

@@ -708,7 +708,8 @@ textarea:Focus
 }
 .venueimg {
   float:right;
-  width:50%;
+  min-width:500px !important;
+  width:40%;
   margin:10px;
 }
 .venueimg #map {
