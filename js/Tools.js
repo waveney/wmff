@@ -24,3 +24,12 @@ function PCatSel(e) {
   var selectedOption = $("input:radio[name=PCAT]:checked").val()
   $('#MPC_' + selectedOption).show();
 }
+
+function NavStick(e) { // Toggle sticking of menus
+  if (e.currentTarget.nextElementSibling.classList.contains('stick')) {
+    $('.stick').removeClass('stick');
+  } else {
+    $('.stick').removeClass('stick');
+    e.currentTarget.nextElementSibling.className += " stick";
+  }
+}

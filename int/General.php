@@ -70,7 +70,9 @@
     echo "<tr>" . fm_number1('Date of Friday',$Gen,'DateFri') . "<td>ie 8 for 8th of June.  It works out the rest from this\n";
     echo "<tr>" . fm_date('Date of Price Change 1',$Gen,'PriceChange1') . "<td>\n";
     echo "<tr>" . fm_date('Date of Price Change 2',$Gen,'PriceChange2') . "<td>\n";
-    echo "<tr><td>Priced Complete:" . fm_checkbox('',$Gen,'PriceComplete') . "<td>This and all completes surpress more to come on tickets/events\n";
+    echo "<tr><td>Priced Complete Fri:" . fm_checkbox('',$Gen,'PriceComplete0') . "<td>This and all completes surpress more to come on tickets/events\n";
+    echo "<tr><td>Priced Complete Sat:" . fm_checkbox('',$Gen,'PriceComplete1') . "<td>This and all completes surpress more to come on tickets/events\n";
+    echo "<tr><td>Priced Complete Sun:" . fm_checkbox('',$Gen,'PriceComplete2') . "<td>This and all completes surpress more to come on tickets/events\n";
 
     $comps = array('Ceildih','Session','Workshop','Concert','Family','Comedy','Special','Craft');
 

@@ -229,6 +229,7 @@
         if ($se == 0) { echo "<td>No Sub Events"; }
         elseif ($se < 0) { echo "<td><a href=EventList.php?se=$eid>Has Sub Events</a>"; }
         else { echo "<td><a href=EventList.php?se=$se>Is a Sub Event</a>"; };
+        echo "<td>" . fm_checkbox('Non Fest',$Event,'NonFest');
 
       if ($se <= 0) {
 	echo "<tr>";

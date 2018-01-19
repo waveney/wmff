@@ -694,12 +694,12 @@ textarea:Focus
   text-color:black;
 }
 #MapWrap {
+  overflow:hidden;
 }
 #DirPane {
   overflow:auto;
 }
 #DirPaneWrap{
-/*  overflow:hidden; */
   display:inline-block; 
 }
 /* Fix to Google maps to remove american warning */
@@ -708,7 +708,8 @@ textarea:Focus
 }
 .venueimg {
   float:right;
-  width:50%;
+  min-width:500px !important;
+  width:40%;
   margin:10px;
 }
 .venueimg #map {
@@ -720,10 +721,10 @@ textarea:Focus
 }
 .MapInfo {
   max-width:250px;
+  overflow:hidden;
 }
-.MapInfo a:hover {
-  filter:none;
-  opacity:1;
+.MapInfo p {
+  margin-bottom:0;
 }
 .rightdiv {
   float:right; 
@@ -803,4 +804,20 @@ textarea:Focus
   min-width:480px;
   min-height:300px;
   max-height:300px;
+}
+.Fritab {
+  background-color:#59B404;
+  border-color:#59B404;
+}
+.Sattab {
+  background-color:#bf50c9;
+  border-color:#bf50c9;
+}
+.Suntab {
+  background-color:orange;
+  border-color:orange;
+}
+.Fritab td, .Fritab, .Sattab td, .Sattab, .Suntab td, .Suntab {
+  padding:5;
+  border-spacing:5;
 }

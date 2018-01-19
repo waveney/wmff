@@ -4,6 +4,7 @@
 global $Venue_Status,$DayList,$InfoLevels,$VisParts,$Thing_Types,$Public_Event_Types,$Day_Type,$Info_Type,$Public_Event_Type;
 $Venue_Status = array('In Use','Not in Use');
 $DayList = array('Fri','Sat','Sun');
+$DayLongList = array('Friday','Saturday','Sunday');
 $InfoLevels = array('None','Errors','All');
 $VisParts = array('All','None'); // Add subcats when needed
 $Thing_Types = array('Sides','Acts','Others');
@@ -31,6 +32,7 @@ function Set_Venue_Help() {
 	'BarFoodText'=>'Any text that expands on the food and drink available',
 	'Website'=>'If the venue has a website put it here',
 	'MapImp'=>'Range 0-20, 0 means 16 which is default, 15 is VERY important, 18 very minor',
+	'DirectionsExtra'=>'Extra info to be put at end of directions to venue',
 	'Minor'=>'Treatment of venue in final dance grid'
   );
   Set_Help_Table($t);
@@ -97,6 +99,7 @@ function Set_Event_Help() {
 	'Price'=>'In pounds for entire event - there are no prices for sub events',
 	'Venue'=>'For Big Events - put the starting Venue here',
 	'SlotEnd'=>'If a large event is divided into a number of slots, this is the end of the first slot, not needed otherwise',
+	'NonFest'=>'Event not run by the Festival, but included in programme - only for friendly non fesival events',
 	'Budget'=>'What part of the festival budget this Event comes under'
   );
   Set_Help_Table($t);
@@ -352,4 +355,16 @@ function VenName(&$V) {
   return ($V['ShortName']?$V['ShortName']:$V['Name']);
 }
 
+function DayTable($d,$Types,$xtr='') {
+  global $DayList,$DayLongList,$YEAR,$MASTER;
+  static $lastday = -1;
+  if ($d != $lastday) {
+    if ($lastday != -1) echo "</table><p>\n";
+    $lastday = $d;
+    echo '<p><table class=' . $DayList[$d] . 'tab>';
+    echo "<tr><th colspan=99>$Types on " . $DayLongList[$d] . " " . ($MASTER['DateFri']+$d) ."th June $YEAR" . " $xtr</th>\n";
+    return 1;
+  }
+  return 0;
+}
 ?>

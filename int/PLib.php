@@ -56,7 +56,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
 
   echo "<form method=post id=mainform enctype='multipart/form-data' action=$Form>";
   echo "<table width=90% border class=SideTable>\n";
-    echo "<tr><th colspan=8><b>Public Information</b>";
+    echo "<tr><th colspan=8><b>Public Information</b>" . Help('PublicInfo');
     echo "<tr>" . fm_text('Name', $Side,'Name',3,'','autocomplete=off onchange=nameedit(event) oninput=nameedit(event) id=Name');
       $snx = 'class=ShortName';
       if (((isset($Side['Name'])) && (strlen($Side['Name']) > 20) ) || (strlen($Side['ShortName']) != 0)) { 
@@ -94,7 +94,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
 
 //********* PRIVATE
 
-    echo "<tr><th colspan=8><b>Private Information</b>";
+    echo "<tr><th colspan=8><b>Private Information</b>" . Help('PrivateInfo');
     if ($Mode) {
       echo "<tr><td class=NotSide>Id:";//<td class=NotSide>";
         if (isset($snum) && $snum > 0) {

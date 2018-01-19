@@ -132,6 +132,11 @@ function Upload_Image($Dir='Sides',$fld) {
     }
 
     if ($move) {
+      $stuff = getimagesize($target_file);
+      if ($stuff) {
+        $Side['ImageWidth'] = $stuff[0];
+        $Side['ImageHeight'] = $stuff[1];
+      } 
       if ($Side) {
         if (isset($Side[$fld]) && $Side[$fld] == "/" . $target_file) {
           return "The photo has been replaced by ". basename( $_FILES["PhotoForm"]["name"]) ;

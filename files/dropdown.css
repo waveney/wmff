@@ -59,6 +59,10 @@
     display: block;
 }
 
+.stick {
+    display: block;
+}
+
 /* sub Main */
 .Staff .navigation {
     background-color:#a30046;

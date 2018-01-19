@@ -300,6 +300,8 @@ function Set_Side_Help() {
 	'Address'=>'Where to send performers wristbands and car park tickets',
 	'AltContact'=>'Alternative Contact',
 	'Location'=>'Where in the country they are from',
+	'PublicInfo'=>'Anything here may appear on the festival website where appropriate',
+	'PrivateInfo'=>'Anything here is ONLY visible to you and the relevant members of the festival',
 	'Testing'=>'Testing Only'
   );
   Set_Help_Table($t);
