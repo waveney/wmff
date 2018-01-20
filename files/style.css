@@ -787,8 +787,8 @@ textarea:Focus
 .maxi_l .mnmximgwrap, .maxi_b .mnmximgwrap {
   max-width:480px;
   min-width:480px;
-  min-height:300px;
-  max-height:300px;
+  min-height:290px;
+  max-height:295px;
 }
 .Fritab {
   background-color:#59B404;
