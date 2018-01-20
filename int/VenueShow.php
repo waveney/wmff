@@ -7,6 +7,8 @@
   include_once("int/MapLib.php");
   include_once("DanceLib.php");
   include_once("MusicLib.php");
+  include_once("DispLib.php");
+  
   global $db, $YEAR;
 
   $V = $_GET['v'];
@@ -88,13 +90,8 @@ function PrintImps(&$imps) {
       if ($NotAllFree) echo "<td>Price\n";
     }
 
-    $imps=array();
+    Get_Imps($e,$imps);
     $things = 0;
-    for($i=1;$i<5;$i++) {
-      if (isset($e["Side$i"])) { if ($ee = $e["Side$i"])  { $s = $sides[$ee];  if ($s) $imps[$s['Importance']][] = $s; }; };
-      if (isset($e["Act$i"]))  { if ($ee = $e["Act$i"])   { $s = $Acts[$ee];   if ($s) $imps[$s['Importance']][] = $s; }; };
-      if (isset($e["Other$i"])){ if ($ee = $e["Other$i"]) { $s = $Other[$ee];  if ($s) $imps[$s['Importance']][] = $s; }; };
-    }
 
     if ($e['SubEvent'] <0) {
       $parname = $e['Name']; // has subes

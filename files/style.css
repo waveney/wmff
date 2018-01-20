@@ -26,15 +26,6 @@ body
     font-size:22px;
     padding:0;
     }
-@font-face
-    {
-    font-family: freebooter;
-    src: url(/files/freebooter.ttf);
-    }
-.freebooter
-    {
-    font-family:freebooter, verdana, arial, sans-serif;
-    }
 A:link 
     {
     text-decoration: none; 
@@ -314,10 +305,9 @@ sup
     font-size:30px;
     color:#005983;
     }
-p
-    {
-    text-align:justify;
-    }
+p {
+  text-align:justify;
+}
 .footer p
     {
     max-width:100%;
@@ -812,7 +802,9 @@ textarea:Focus
   background-color:orange;
   border-color:orange;
 }
-.Fritab td, .Fritab, .Sattab td, .Sattab, .Suntab td, .Suntab {
+.lemontab {
+}
+.Fritab td, .Fritab, .Sattab td, .Sattab, .Suntab td, .Suntab, .lemontab, .lemontab td {
   padding:5;
   border-spacing:5;
   width:auto;
