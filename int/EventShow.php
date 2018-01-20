@@ -3,6 +3,11 @@
 
   dohead("Show Event");
 
+  include_once("ProgLib.php");
+  include_once("DispLib.php");
+  include_once("MusicLib.php");
+  include_once("DanceLib.php");
+  global $MASTER,$Importance,$DayLongList;
 /*
   Have different formats for different types of events, concerts, ceidihs, workshop
 */
@@ -19,34 +24,34 @@ function Print_Thing($thing,$right=0) {
   echo "</div>\n";
 }
 
-function Print_Participants($e,$when) {
-  $imps=array();
+function Print_Participants($e,$when,$thresh) {
+  Get_Imps($e,$imps);
   $things = 0;
-  for($i=1;$i<5;$i++) {
-    if (isset($e["Side$i"])) { if ($ee = $e["Side$i"])  { $s = Get_Side($ee);  if ($s) $imps[$s['Importance']][] = $s; }; };
-    if (isset($e["Act$i"]))  { if ($ee = $e["Act$i"])   { $s = Get_Side($ee);  if ($s) $imps[$s['Importance']][] = $s; }; };
-    if (isset($e["Other$i"])){ if ($ee = $e["Other$i"]) { $s = Get_Side($ee);  if ($s) $imps[$s['Importance']][] = $s; }; };
-  }
 
-  if ($imps) echo "<br clear=all><div class=floatleft><div class=mini>\n";
+  if (!$imps) return;
+
+  if ($imps) echo "<tr><td>";
   if ($when && $imps) {
     if ($e['Start'] == $e['End']) {
       echo "Times not yet known";
     } else {
-      echo "<p>From: " . ($e['Start']?timecolon($e['Start']):"Not Yet Known") ;
-      echo " to: " . ($e['End']?timecolon($e['End']):"Not Yet Known") . "<p>\n";
+      echo "From: " . ($e['Start']?timecolon($e['Start']):"Not Yet Known") ;
+      echo " to: " . ($e['End']?timecolon($e['End']):'Not Yet Known');
     }
   }
   $ks = array_keys($imps);
   sort($ks);	
+  $things = 0;
   foreach ( array_reverse($ks) as $imp) {
-    foreach ($imps[$imp] as $thing) Print_Thing($thing);
+    foreach ($imps[$imp] as $thing) {
+      if ($things && (($things&1) == 0)) echo "<tr><td>";
+      $things++;
+      echo "<td>";
+      formatminimax($thing,'ShowDance',$thresh); // 99 should be from Event type
+    }
   }
-  if ($imps) echo "</div></div>\n";
+  echo "\n";
 }
-
-
-  $LongDayList = array('Friday','Saturday','Sunday');
 
 /* Name, Type, Where (inc address etc), From, Until, Cost (if any)
   If No Sub events Then:
@@ -58,10 +63,6 @@ function Print_Participants($e,$when) {
 
   If it is public then this will be accessable by main site, otherwise only if you have the link - not planning on restrictions (currently)
 */
-  include_once("ProgLib.php");
-  include_once("MusicLib.php");
-  include_once("DanceLib.php");
-  global $MASTER,$Importance;
 
   $Eid = $_GET{'e'};
   $Ev = Get_Event($Eid);  
@@ -107,7 +108,7 @@ function Print_Participants($e,$when) {
   echo "<tr><td>Starting at:<td>" . ($Ev['Start']?timecolon($Ev['Start']):"Not Yet Known") . "\n";
   echo "<tr><td>Finishing at:<td>" . ($Ev['End']?timecolon($Ev['End']):"Not Yet Known") . "\n";
   if ($Ev['Price1']) {
-    echo "<tr><td>Price:<td>" . Price_Show($Ev) . ", or by Weekend ticket or " . $LongDayList[$Ev['Day']] . " ticket\n";
+    echo "<tr><td>Price:<td>" . Price_Show($Ev) . ", or by Weekend ticket or " . $DayLongList[$Ev['Day']] . " ticket\n";
     if ($Ev['TicketCode']) {
       $bl = "<a href=https://www.ticketsource.co.uk/event/" . $Ev['TicketCode'] . " target=_blank>" ;
       echo " -  <strong>$bl Buy Now</a></strong>\n";
@@ -134,11 +135,12 @@ function Print_Participants($e,$when) {
       if ($Ven['Description']) echo "<br>" . $Ven['Description'] . "\n";
     }
 
-  if ($Ev['Bar'] || $Ev['Food'] || $Ev['BarFoodText']) {
+  if ($Ven['Bar'] || $Ev['Bar'] || $Ven['Food'] || $Ev['Food'] || $Ven['BarFoodText'] || $Ev['BarFoodText']) {
     echo "<tr><td>";
-    if ($Ev['Bar']) echo "<img src=/images/icons/baricon.png width=50 title='There is a bar'> ";
-    if ($Ev['Food']) echo "<img src=/images/icons/foodicon.jpeg width=50 title='There is Food'> ";
-    if ($Ev['BarFoodText']) echo "<td>" . $Ev['BarFoodText'];
+    if ($Ven['Bar'] || $Ev['Bar']) echo "<img src=/images/icons/baricon.png width=50 title='There is a bar'> ";
+    if ($Ven['Food'] || $Ev['Food']) echo "<img src=/images/icons/foodicon.jpeg width=50 title='There is Food'> ";
+    if ($Ven['BarFoodText']) { echo "<td>" . $Ven['BarFoodText']; }
+    else if ($Ev['BarFoodText']) { echo "<td>" . $Ev['BarFoodText']; }
   }
   echo "</table><p>\n";
 
@@ -148,13 +150,7 @@ function Print_Participants($e,$when) {
     $imps=array();
     $sublst = array($Ev);
     $sublst = array_merge($sublst,$Subs);
-    foreach ($sublst as $e) {
-      for($i=1;$i<5;$i++) {
-        if (isset($e["Side$i"])) { if ($ee = $e["Side$i"])  { $s = Get_Side($ee);  if ($s) $imps[$s['Importance']][] = $s; }; };
-        if (isset($e["Act$i"]))  { if ($ee = $e["Act$i"])   { $s = Get_Side($ee);  if ($s) $imps[$s['Importance']][] = $s; }; };
-        if (isset($e["Other$i"])){ if ($ee = $e["Other$i"]) { $s = Get_Side($ee);  if ($s) $imps[$s['Importance']][] = $s; }; };
-      }
-    }
+    foreach ($sublst as $e) Get_imps($e,$imps,0);
     $HighImp = 0;
     foreach ($Importance as $i=>$v) if ($i > 0 && isset($imps[$i])) $HighImp = $i;
     if ($HighImp) {
@@ -172,9 +168,13 @@ function Print_Participants($e,$when) {
   }
 
   if ($Ev['Blurb']) echo $Ev['Blurb'] . "<P>";
+
+
+
 //  echo "<h2>Detail</h2>";
   // Detail
-  if (!$Se) { // Single Event
+
+  if (!$Se) { // Single Event Big Events not done yet
     if ($Ev['BigEvent']) {
       echo "Participants in order:<p>\n";
       echo "<div class=floatleft><div class=mini>\n";
@@ -186,14 +186,11 @@ function Print_Participants($e,$when) {
       Print_Participants($Ev);
     }
   } else { // Sub Events
-    Print_Participants($Ev,1);
-    foreach($Subs as $sub) {
-      if (Event_Has_Parts($sub)) {
-        Print_Participants($sub,1);
-      }
-    }
-    echo "<p>Ending at: " . $Ev['End'];
+    echo "<table class=lemontab border>\n";
+    Print_Participants($Ev,$ETs[$Ev['Type']]['Format']-1);
+    foreach($Subs as $sub) if (Event_Has_Parts($sub)) Print_Participants($sub,1,$ETs[$Ev['Type']]['Format']-1);
+    echo "</table><p>Ending at: " . $Ev['End'];
   }
    
   dotail();
-?> 
+?>

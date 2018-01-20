@@ -95,10 +95,10 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
   while ($E = $Evs->fetch_assoc()) {
     DayTable($E['Day'],"Event Tickets",($MASTER['PriceComplete' . $E['Day']]?'':'(More to come)'));
     $bl = "<a href=https://www.ticketsource.co.uk/event/" . $E['TicketCode'] . " target=_blank>" ;
-    echo "<tr><td><strong>$bl" . $E['Name'] . "</a></strong><br>"; // Change to link to event later
+    echo "<tr><td><strong><a href=/int/EventShow.php?e=" . $E['EventId'] . ">" . $E['Name'] . "</a></strong><br>"; 
       echo Price_Show($E);
     echo "<td>" . $DayList[$E['Day']] . " " . ($MASTER['DateFri']+$E['Day']) ."th June $YEAR" . "<br>";
-      echo "At: " . VenName($Vens[$E['Venue']]) . "<br>";
+      echo "At: <a href=/int/VenueShow.php?v=" . $E['Venue'] . ">" . VenName($Vens[$E['Venue']]) . "</a><br>";
       echo "From: " . timecolon($E['Start']) . " to " . timecolon($E['End']);
     echo "<td style='width:50%'>";
       if ($E['Description']) echo $E['Description'] . "<br>";

@@ -39,7 +39,7 @@
       echo "<td>" . $DayList[$E['Day']] . " " . ($MASTER['DateFri']+$E['Day']) ."th June $YEAR" . "<br>";
         echo "From: " . timecolon($E['Start']) . " to " . timecolon($E['End']);
       echo "<td><strong><a href=/int/EventShow.php?e=$eid>" . $E['Name'] . "</a></strong>"; 
-      echo "<td>" . $Vens[$E['Venue']]['Name'];
+      echo "<td><a href=/int/VenueShow.php?v=" . $E['Venue'] . ">" . $Vens[$E['Venue']]['Name'] . "</a>";
       echo "<td>";
         if ($E['Description']) echo $E['Description'] . "<p>";
         echo "With: " . Get_Event_Participants($eid,1,15);

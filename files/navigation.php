@@ -50,7 +50,7 @@
 <div class=dropdown onmouseover=NoHoverSticky(event)>
   <a onclick=NavStick(event)>Info</a>
   <div class=dropdown-content>
-     <a href=https://<?php echo $_SERVER['HTTP_HOST']; ?>/Map.php class=NotYet>Festival Map</a>
+     <a href=https://<?php echo $_SERVER['HTTP_HOST']; ?>/Map.php>Festival Map</a>
      <a href=/InfoCamping.php>Camping & Parking</a>
      <a href=/info/getting-here>Getting Here</a>
      <a href=/info/sponsorship>Sponsorship</a>

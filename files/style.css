@@ -26,15 +26,6 @@ body
     font-size:22px;
     padding:0;
     }
-@font-face
-    {
-    font-family: freebooter;
-    src: url(/files/freebooter.ttf);
-    }
-.freebooter
-    {
-    font-family:freebooter, verdana, arial, sans-serif;
-    }
 A:link 
     {
     text-decoration: none; 
@@ -314,10 +305,9 @@ sup
     font-size:30px;
     color:#005983;
     }
-p
-    {
-    text-align:justify;
-    }
+p {
+  text-align:justify;
+}
 .footer p
     {
     max-width:100%;
@@ -362,19 +352,16 @@ p
     text-align:justify; 
     max-width:100%;
 }
-table
-    {
+table {
     width:100%;
     padding-bottom:5px;
     border: 0, solid 5px, solid 5px, solid 5px;
     border-radius:15px;
-    -moz-border-radius:15px;
     }
 th
     {
     color:#FFFFFF;
     border-radius:5px;
-    -moz-border-radius:5px;
     font-weight:normal;
     font-family:SHONAR, verdana, arial, helvetica, sans-serif;
     font-size:35px;
@@ -383,7 +370,6 @@ td
     {
     background-color:#FFFFFF;
     border-radius:5px;
-    -moz-border-radius:5px;
     }
 input
     {
@@ -604,7 +590,6 @@ textarea:Focus
     background-color:#FFFFFF;
     border:solid 4px #005983;
     border-radius:15px;
-    -moz-border-radius:15px;
     }
 .adminarticlettl {
     margin:0;
@@ -817,7 +802,10 @@ textarea:Focus
   background-color:orange;
   border-color:orange;
 }
-.Fritab td, .Fritab, .Sattab td, .Sattab, .Suntab td, .Suntab {
+.lemontab {
+}
+.Fritab td, .Fritab, .Sattab td, .Sattab, .Suntab td, .Suntab, .lemontab, .lemontab td {
   padding:5;
   border-spacing:5;
+  width:auto;
 }
