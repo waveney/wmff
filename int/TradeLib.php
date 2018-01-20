@@ -21,6 +21,7 @@ $ButExtra = array('Accept'=>'','Decline'=>'','Submit'=>'','Hold'=>'title="Hold f
 	); 
 $ButTrader = array('Submit','Accept','Decline','Cancel'); // Actions Traders can do
 $Trade_Days = array('Both','Saturday Only','Sunday Only');
+$Prefixes = array ('in','in the','by the');
 
 function Get_Email_Proformas() { 
   global $db;

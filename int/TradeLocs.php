@@ -18,6 +18,7 @@
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Index</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Prefix</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Has Power</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Pitches</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>In Use</a>\n";
@@ -28,6 +29,7 @@
   foreach($Locs as $t) {
     $i = $t['TLocId'];
     echo "<tr><td>$i" . fm_text1("",$t,'Name',1,'','',"Name$i");
+    echo "<td>" . fm_select($Prefixes,$t,"prefix",0,'',"prefix$i");
     echo "<td>" . fm_checkbox('',$t,'HasPower','',"HasPower$i");
     echo fm_number1('',$t,'Pitches','','',"Pitches$i");
     echo "<td>" . fm_checkbox('',$t,'InUse','',"InUse$i");
@@ -38,6 +40,7 @@
   }
   echo "<tr><td><td><input type=text name=Name0 >";
   echo "<td><input type=checkbox name=HasPower0>";
+  echo "<td>" . fm_select2($Prefixes,0,'prefix0');
   echo "<td><input type=number name=Pitches0>";
   echo "<td><input type=checkbox name=InUse0>";
   echo "<td>" . fm_select2($Trade_Days,0,'Days0');
