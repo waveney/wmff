@@ -23,11 +23,12 @@
     if ($trad['Photo']) echo "<img class=articleimg src=" . $trad['Photo'] . ">";
     if ($trad['Website']) echo "</a>";
     echo "<p class=articletxt>" . $trad['GoodsDesc'];
-    echo "<p>Will be trading in " . $Locs[$trad['PitchLoc0']]['Name'];
+    echo "<p>Will be trading " . $Prefixes[$Locs[$trad['PitchLoc0']]['prefix']] . ' ' . $Locs[$trad['PitchLoc0']]['Name'];
     if ($trad['PitchLoc2']) {
-      echo ", " . $Locs[$trad['PitchLoc1']]['Name'] . " and " . $Locs[$trad['PitchLoc2']]['Name'];
+      echo ", " . $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc1']]['Name'] . " and " 
+		. $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc2']]['Name'];
     } else if ($trad['PitchLoc1']) {
-      echo " and " . $Locs[$trad['PitchLoc1']]['Name'];
+      echo " and " . $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc1']]['Name'];
     }
     if ($trad['Days']) echo " on " . $Trade_Days[$trad['Days']];
     echo "<p>";
