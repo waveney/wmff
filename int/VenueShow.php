@@ -39,6 +39,7 @@ function PrintImps(&$imps) {
 
   if ($Ven['Description']) echo $Ven['Description'] . "<p>\n";
   if ($Ven['Address']) echo "Address: " . $Ven['Address'] . " " . $Ven['PostCode'] ."<p>\n";
+  echo "<button onclick=ShowDirect($V)>Directions</button>\n";
   if ($Ven['Bar'] || $Ven['Food'] || $Ven['BarFoodText']) {
     if ($Ven['Bar']) echo "<img src=/images/icons/baricon.png width=50 title='There is a bar'> ";
     if ($Ven['Food']) echo "<img src=/images/icons/foodicon.jpeg width=50 title='There is Food'> ";

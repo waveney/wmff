@@ -120,6 +120,7 @@ function Print_Participants($e,$when,$thresh) {
     if (isset($OtherVenues[0])) {
       $OVens = Get_Venues();
       echo "Starting Location:<td><a href=VenueShow.php?v=" . $Ven['VenueId'] . ">" . $Ven['ShortName'] . "</a>";
+//      echo "<div class=floatright><a onclick=ShowDirect(" . $Ven['VenueId'] . ")>Directions</a></div>\n";
       if ($Ven['Address']) echo " - " . $Ven['Address'] . $Ven['PostCode'] ."\n";
       if ($Ven['Description']) echo "<br>" . $Ven['Description'] . "\n";
       echo "<tr><td>Also at:<td>";
@@ -131,12 +132,13 @@ function Print_Participants($e,$when,$thresh) {
       }
     } else {
       echo "Where:<td><a href=VenueShow.php?v=" . $Ven['VenueId'] . ">" . VenName($Ven) . "</a>";
+//      echo "<div class=floatright><a onclick=ShowDirect(" . $Ven['VenueId'] . ")>Directions</a></div>\n";
       if ($Ven['Address']) echo " - " . $Ven['Address'] . $Ven['PostCode'] ."\n";
       if ($Ven['Description']) echo "<br>" . $Ven['Description'] . "\n";
     }
 
   if ($Ven['Bar'] || $Ev['Bar'] || $Ven['Food'] || $Ev['Food'] || $Ven['BarFoodText'] || $Ev['BarFoodText']) {
-    echo "<tr><td>";
+    echo "<tr><td>&nbsp;<tr><td>";
     if ($Ven['Bar'] || $Ev['Bar']) echo "<img src=/images/icons/baricon.png width=50 title='There is a bar'> ";
     if ($Ven['Food'] || $Ev['Food']) echo "<img src=/images/icons/foodicon.jpeg width=50 title='There is Food'> ";
     if ($Ven['BarFoodText']) { echo "<td>" . $Ven['BarFoodText']; }

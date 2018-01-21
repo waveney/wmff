@@ -15,11 +15,21 @@
   foreach($Ets as $eti=>$et) if ($et['Name'] == $Type) $Ett = $eti;
   $Evs = array();
 
-  if ($Ett < 0) { // Handle other Sherlock calls
-  } else {
+  if ($Ett >= 0) { 
     $ans = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND Type=$Ett AND SubEvent<1 ORDER BY Day,Start"); // Need to work with release settings as well
     if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
     if (count($Evs) > 1) $Types = $Ets[$Ett]['Plural'];
+  } else { // Handle other Sherlock calls
+    switch ($Type) {
+      case 'Family':
+        $ans = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND Family=1 AND SubEvent<1 ORDER BY Day,Start"); 
+        if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
+	$Types = "Family Event";
+        if (count($Evs) > 1) $Types .= "s";
+        break;
+      default:
+	break;
+    }
   }
 
   if ($Evs) {
