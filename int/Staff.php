@@ -6,6 +6,7 @@
     setcookie('WMFFD','',1,'/');
   }
   A_Check('Upload');
+  $host= "https://" . $_SERVER['HTTP_HOST'];
 ?>
 
 <html>
@@ -195,7 +196,7 @@
       echo "<li><a href=TicketEvents.php?Y=$YEAR>List Ticketed Events</a>\n";
     if (Access('Staff','Venues')) echo "<li><a href=MapPoints.php>Additional Map Points</a>\n";
     if (Access('SysAdmin')) echo "<li><a href=MapPTypes.php>Map Point Types</a>\n";
-    echo "<li><a href=https://" . $_SERVER['HTTP_HOST'] . "/Map.php>Map</a>\n";
+    echo "<li><a href=$host/Map.php>Map</a>\n";
     echo "</ul>\n";
 
 // *********************** OTHER *****************************************************************
