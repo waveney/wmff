@@ -57,13 +57,12 @@ h1
     background-color:#c2eff4;
     background-size:contain;
     }
-h2
-    {
-    margin:0;
-    padding:0px;
-    font-weight:normal;
-    font-family:SHONAR, verdana, arial, helvetica, sans-serif;
-    }
+h2 {
+  margin:0;
+  padding:0px;
+  font-weight:normal;
+  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+}
 .centhead {
   color: #005983;
   font-weight:normal;

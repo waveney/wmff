@@ -33,17 +33,17 @@
 <div class=dropdown onmouseover=NoHoverSticky(event)>
   <a onclick=NavStick(event)>Whats On</a>
   <div class=dropdown-content>
-     <a href=/Whatson/Where.php class=NotYet>By Venue</a>
-     <a href=/Whatson/When.php class=NotYet>By Time</a>
-     <a href=/Whatson/DanceProg.php class=NotYet>Dancing</a>
+     <a href=/WhatsonWhere.php class=NotYet>By Venue</a>
+     <a href=/WhatsonWhen.php class=NotYet>By Time</a>
+     <a href=/WhatsonDanceProg.php class=NotYet>Dancing</a>
      <a href=/Sherlock.php?t=Music >Music</a>
-     <a href=/Whatson/Special.php class=NotYet>Special Events</a>
-     <a href=/Whatson/Family.php class=NotYet>Family</a>
+     <a href=/Sherlock.php?t=Special class=NotYet>Special Events</a>
+     <a href=/Sherlock.php?t=Family>Family</a>
      <a href=/Sherlock.php?t=Ceildih >Ceildihs</a>
      <a href=/Sherlock.php?t=Workshop >Workshops</a>
-     <a href=/Whatson/Comedy.php class=NotYet>Comedy</a>
+     <a href=/Sherlock.php?t=Comedy class=NotYet>Comedy</a>
      <a href=/Sherlock.php?t=Session >Sessions</a>
-     <a href=/Whatson/Craft.php class=NotYet>Craft</a>
+     <a href=/Sherlock.php?t=Craft class=NotYet>Craft</a>
   </div>
 </div>
 <a href=/Tickets.php onmouseover=NoHoverSticky()>Tickets</a>
