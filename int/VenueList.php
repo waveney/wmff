@@ -26,6 +26,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Venue Id</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Short Name</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Full Name</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Virt</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Notes</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Status</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Dance Order</a>\n";
@@ -46,6 +47,7 @@
       $i = $Ven['VenueId'];
       echo "<tr><td>$i<td><a href=AddVenue.php?v=$i>" . $Ven['ShortName'] . "</a>";
       echo "<td><a href=AddVenue.php?v=$i>" . $Ven['Name'] . "</a>"; 
+      echo "<td>" . ($Ven['IsVirtual']?'Y':'');
       echo "<td>" . $Ven['Notes'] . "<td>" . $Venue_Status[$Ven['Status']];
       echo "<td>" . $Ven['DanceImportance'];
       echo "<td>" . $Ven['MusicImportance'];

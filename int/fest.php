@@ -878,7 +878,7 @@ function Show_Prog($type,$id,$mode=0,$all=0) { //mode 0 = html, 1 = text for ema
     $Evs = Get_All_Events_For($type,$id);
 //var_dump($Evs);
     $evc=0;
-    $Venues = Get_Venues(1);
+    $Venues = Get_Real_Venues(1);
     if ($Evs) {
       foreach ($Evs as $e) {
         if ($e['Public'] == 1 || $all ||

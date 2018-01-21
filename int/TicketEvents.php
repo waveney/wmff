@@ -7,7 +7,7 @@
 
   global $YEAR,$db;
 
-  $Vens = Get_Venues(0);
+  $Vens = Get_Real_Venues(0);
 
   $qry = "SELECT * FROM Events WHERE Year='$YEAR' AND Price!=0 ORDER BY Day,Start";
   $Evs = $db->query($qry);
