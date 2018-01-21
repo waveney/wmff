@@ -26,7 +26,7 @@
   $SideList=Select_Come();
   $ActList=Select_Act_Come(0);
   $OtherList=Select_Other_Come(0);
-  $Venues = Get_Venues(0);
+  $Venues = Get_Real_Venues(0);
   $Skip = 0;
 
   echo "<div class='content'><h2>Add/Edit Events</h2>\n";

@@ -10,6 +10,7 @@
   echo '<a href="/" ><h1>Wimborne Minster Folk Festival | 8, 9, 10 June 2018</h1></a>';
   include_once("files/navigation.php");
   echo "<div class=content>";
+  $host= "https://" . $_SERVER['HTTP_HOST'];
 ?>
 
 <center><h2 class="maintitle">Welcome to Wimborne Minster Folk Festival 2018</h2></center>
@@ -61,7 +62,7 @@ if ($ans) {
     }
     if ($stuff['Photo'] || $stuff['Description']) {
       echo "<div class=article>";
-      echo "<a href=/int/ShowDance.php?sidenum=" . $stuff['SideId'] . " >";
+      echo "<a href=$host/int/ShowDance.php?sidenum=" . $stuff['SideId'] . " >";
       echo "<h2 class=articlettl>" . $stuff['Name'] . "</h2>";
       if ($stuff['Photo']) echo "<img class=articleimg src=" . $stuff['Photo'] . " alt='Wimborne Minster Folk Festival' />";
       echo "</a>";
@@ -71,39 +72,39 @@ if ($ans) {
   }
 
   echo "<div class=article>";
-  echo "<a href=/line-up/dance >";
+  echo "<a href=$host/LineUpDance.php>";
   echo "<h2 class=articlettl>Dancing in 2018</h2>";
-  echo "<img class=articleimg src=$Photo alt='Wimborne Minster Folk Festival' /></a>";
+  echo "<img class=articleimg src=$Photo alt='Wimborne Minster Folk Festival'></a>";
   echo "<p class=articletxt>$sc Dance teams have already confirmed for 2018. Many of your favourite teams and some brand new faces.\n";
   echo "</div>";
-?>
 
-<div class="article">
-<a href="/tickets" >
-<h2 class="articlettl">Buy Tickets and Wristbands</h2>
-<img class="articleimg" src="/images/Weekend-Wristband.jpg" alt="Wimborne Minster Folk Festival" /></a>
-<p class="articletxt">Weekend and Day Passes are now on sale for the festival weekend.<br>Many event tickets are also available, more to come.</p>
+  echo "
+<div class=article>
+<a href=$host/Tickets.php>
+<h2 class=articlettl>Buy Tickets and Wristbands</h2>
+<img class=articleimg src=/images/Weekend-Wristband.jpg alt='Wimborne Minster Folk Festival'></a>
+<p class=articletxt>Weekend and Day Passes are now on sale for the festival weekend.<br>Many event tickets are also available, more to come.</p>
 </div>
 
-<div class="article">
-<a href="/info/trade" >
-<h2 class="articlettl">Trade Stand Booking is Open</h2>
-<img class="articleimg" src="/images/Trade-Stand-2016.jpg" alt="Wimborne Minster Folk Festival" /></a>
-<p class="articletxt">Booking is open for traders of all types.<p>
+<div class=article>
+<a href=$host/info/trade>
+<h2 class=articlettl>Trade Stand Booking is Open</h2>
+<img class=articleimg src=/images/Trade-Stand-2016.jpg alt='Wimborne Minster Folk Festival'></a>
+<p class=articletxt>Booking is open for traders of all types.<p>
 </div>
 
-<div class="article">
-<a href="/LiveNLoud.php" >
-<h2 class="articlettl">Live and Loud 2018</h2>
-<img class="articleimgsml" src="/images/hellohawaii.jpg" alt="Wimborne Minster Folk Festival" /></a>
-<p class="articletxt">Live and Loud has been running for several years now with the intention of finding local talent from within the community to 
+<div class=article>
+<a href=$host/LiveNLoud.php>
+<h2 class=articlettl>Live and Loud 2018</h2>
+<img class=articleimgsml src=/images/hellohawaii.jpg alt='Wimborne Minster Folk Festival'></a>
+<p class=articletxt>Live and Loud has been running for several years now with the intention of finding local talent from within the community to 
 showcase their work during the festival.<P>
 
 The competition is open to musicians of all ages, genres and group size. So, if you're part of a community group, band, duo, choir, a soloist or 
 even orchestra then complete an application form and get involved!</p>
 </div>
+";
 
-<?php 
   $ans = $db->query("SELECT count(*) AS Total FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND y.YearState>0 ");
   $sc = 0;
   if ($ans) {
@@ -131,7 +132,7 @@ even orchestra then complete an application form and get involved!</p>
     if ($stuff['SideId'] == $p['SideId']) $stuff = $ans->fetch_assoc();
     if ($stuff['Photo'] || $stuff['Description']) {
       echo "<div class=article>";
-      echo "<a href=/int/ShowMusic.php?sidenum=" . $stuff['SideId'] . " >";
+      echo "<a href=$host/int/ShowMusic.php?sidenum=" . $stuff['SideId'] . " >";
       echo "<h2 class=articlettl>" . $stuff['Name'] . "</h2>";
       if ($stuff['Photo']) echo "<img class=articleimg src=" . $stuff['Photo'] . " alt='Wimborne Minster Folk Festival' />";
       echo "</a>";
@@ -140,27 +141,25 @@ even orchestra then complete an application form and get involved!</p>
     }
   }
   echo "<div class=article>";
-  echo "<a href=/line-up/music >";
+  echo "<a href=$host/LineUpMusic.php >";
   echo "<h2 class=articlettl>Music in 2018</h2>";
   echo "<img class=articleimg src=$Photo alt='Wimborne Minster Folk Festival' /></a>";
   echo "<p class=articletxt>$sc Music acts have already confirmed for 2018.\n";
   echo "</div>";
-?>
 
-<div class="article">
-<a href=/InfoCamping.php >
-<h2 class="articlettl">Official Festival Campsite</h2>
-<img class="articleimg" src="/images/Wimborne-Folk-Festival-Campsite.jpg" alt="Wimborne Minster Folk Festival" /></a>
-<p class="articletxt">Plan your stay at the festival and book a pitch at Meadows Campsite, which is within a short few minute walk from the town centre.</p>
+  echo "<div class=article>
+<a href=$host/InfoCamping.php >
+<h2 class=articlettl>Official Festival Campsite</h2>
+<img class=articleimg src=/images/Wimborne-Folk-Festival-Campsite.jpg alt='Wimborne Minster Folk Festival'></a>
+<p class=articletxt>Plan your stay at the festival and book a pitch at Meadows Campsite, which is within a short few minute walk from the town centre.</p>
 </div>
-
 </div>
+";
 
-<?php
   include_once("int/NewsLib.php");
   $items = Get_All_News(0,5);
   if ($items) {
-    echo "<h2 class=maintitle><a href=/news>Latest News</a></h2>\n";
+    echo "<h2 class=maintitle><a href=$host/news>Latest News</a></h2>\n";
     echo "Stay up to date with all the latest happenings from folk festival HQ, in the lead up to the festival and during the festival weekend by " .
 	"keeping an eye on our <a href=/news><strong>Latest News</strong></a> page of the website.<p>\n";
 

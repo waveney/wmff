@@ -473,7 +473,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
   $HasPark = '';
   $ParkedLocs = array();
   if ($Evs) {
-    $Venues = Get_Venues(1);
+    $Venues = Get_Real_Venues(1);
     $ETs = Get_Event_Types();
     echo "<tr><td colspan=5>Click on the Event Names below for more detailed information." . ($Mode==2?" Direct editing of some fields will be possible soon":"");
     echo "<tr><td>Event Name<td>Type<td>Date<td>On Stage at<td>Start<td>Duration (mins)<td colspan=3>Where\n";

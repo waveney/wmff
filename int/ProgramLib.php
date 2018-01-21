@@ -87,8 +87,8 @@ function Scan_Data($condense=0) {
   global $DAY,$Times,$lineLimit,$EV,$Sides,$SideCounts,$VenueUse,$evs,$MaxOther,$VenueInfo,$Venues,$VenueNames,$OtherLocs;
   
   $Venues = Get_Venues_For('Dance');
-  $VenueNames = Get_Venues(0);
-  $VenueInfo = Get_Venues(1);
+  $VenueNames = Get_Real_Venues(0);
+  $VenueInfo = Get_Real_Venues(1);
   $OtherLocs = array();
 
   foreach ($Venues as $v) if (isset($VenueUse[$v]) && $condense && $VenueInfo[$v]["Minor$DAY"]) $OtherLocs[] = $v;

@@ -41,6 +41,9 @@
     $Venue = array();
   }
 
+  $RealSites = Get_Real_Venues(0);
+  $VirtSites = Get_Virtual_Venues();
+
   echo "<div class=floatright><img src=" . $Venue['Image'] . " width=400></div>";
   echo "<table style='width:70%' border>\n";
     if (isset($vid) && $vid > 0) {
@@ -62,8 +65,11 @@
     echo          fm_text('Website',$Venue,'Website',1);
     echo "<tr><td>" . fm_checkbox('Bar',$Event,'Bar') . "<td>" . fm_checkbox('Food',$Event,'Food') . fm_text('Food/Bar text',$Event,'BarFoodText') . "\n";
     echo "<tr>" . fm_text('Notes',$Venue,'Notes',3);
+    echo "<td colspan=2>Do NOT use if:" . fm_select($RealSites,$Venue,'DontUseIf',1) . " In use";
     echo "<tr><td>Status<td>" . fm_select($Venue_Status,$Venue,'Status');
     echo "<td>" . fm_checkbox('Dance Setup Overlap',$Venue,'SetupOverlap');
+    echo "<td>" . fm_checkbox('Is Virtual',$Venue,'IsVirtual');
+    echo "<td colspan=2>Part of:" . fm_select($VirtSites,$Venue,'PartVirt',1);
     echo "<tr><td>Venue For:<td colspan=2>" . fm_checkbox('Dance',$Venue,'Dance');
     echo fm_checkbox('Music',$Venue,'Music');
     echo fm_checkbox('Children',$Venue,'Child');

@@ -3,6 +3,8 @@
 
 /* Read all events for each venue order by start check end of one /start of next / allow for setup (sometimes)
  * Repeat including subevents?  Or do sub events as part of main check?
+ *
+ * Check for don't use ifs
  */
 
 function EventCheck() {
@@ -100,6 +102,27 @@ function EventCheck() {
 	    }
 	  }
 	}
+      }
+    }
+
+    foreach ($evlist as $e=>$ev) { //Check for don't use if other venue used
+      if ($e['BigEvent']) continue; // For now
+      if ($Venues[$ev['Venue']]['DontUseIf']) {
+	$block = $Venues[$ev['Venue']]['DontUseIf'];
+	$realstart = timereal($ev['Start']) - $ev['Setup'];
+	$realend = timereal($ev['SubEvent']<0 ? $ev['SlotEnd'] : $ev['End']);
+
+	foreach ($evlist as $f=>$fv) {
+	  if ($fv['Venue'] == $block) {
+	    $chkstart = timereal($fv['Start']) - $fv['Setup'];
+	    $chkend = timereal($fv['SubEvent']<0 ? $fv['SlotEnd'] : $fv['End']);
+	    if (($chkstart >= $realstart && $chkstart <= $realend) || ($chkend >= $realstart && $chkend <= $realend)) { // In use...
+	      echo "The <a href=EventAdd.php?e=" . $ev['EventId'] . ">Event</a> is at " . SName($Venues[$ev['Venue']]) . " when " . 
+		SName($Venues[$fv['Venue']]) . " is being used for <a href=EventAdd.php?e=" . $fv['EventId'] . ">This Event</a>.<p>\n";
+	      $errors++;
+	    }
+          }
+        }
       }
     }
 

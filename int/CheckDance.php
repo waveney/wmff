@@ -30,7 +30,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
     echo "Errors not being checked for</div>";
     return;
   }
-  $Venues = Get_Venues(1);
+  $Venues = Get_Real_Venues(1);
   $Sides = &Select_Come_All();
   $sidenames = Sides_All();
 

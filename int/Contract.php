@@ -45,7 +45,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
   if (!$Evs) {
     return "";  // With no events there is no conract, not even a draft
   } else {
-    $Venues = Get_Venues(1);
+    $Venues = Get_Real_Venues(1);
     $str .= "<table border>";
     $str .= "<tr><td>Number<td>Event Type<td>Date<td>On Stage at<td>Start<td>Duration<td colspan=3>Where\n";
     foreach($Evs as $e) {

@@ -33,6 +33,8 @@ function Set_Venue_Help() {
 	'Website'=>'If the venue has a website put it here',
 	'MapImp'=>'Range 0-20, 0 means 16 which is default, 15 is VERY important, 18 very minor',
 	'DirectionsExtra'=>'Extra info to be put at end of directions to venue',
+	'IsVirtual'=>'Combined site for display purposes, do not use for real events',
+	'PartVirt'=>'What virtual site this is part of (if any)',
 	'Minor'=>'Treatment of venue in final dance grid'
   );
   Set_Help_Table($t);
@@ -53,6 +55,20 @@ function Get_Venues($type=0,$extra='') { //0 = short, 1 = full
   }
   if ($type) return $full;
   return $short;
+}
+
+function Get_Real_Venues($type=0) { // 0 =short, 1 =full
+  $Vens = Get_Venues(1);
+  $real = array();
+  foreach ($Vens as $vi=>$v) if (!$v['IsVirtual']) $real[$v['VenueId']] = ($type?$v:SName($v));
+  return $real;
+}
+
+function Get_Virtual_Venues($type=0) {
+  $Vens = Get_Venues(1);
+  $virt = array();
+  foreach ($Vens as $vi=>$v) if ($v['IsVirtual']) $virt[$v['VenueId']] = ($type?$v:SName($v));
+  return $virt;
 }
 
 function Get_Venues_For($What) {

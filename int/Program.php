@@ -50,7 +50,7 @@
 function Prog_Grid() {
   global $DAY,$Times,$lineLimit,$EV,$Sides,$SideCounts;
   $Venues = Get_Venues_For('Dance');
-  $VenueNames = Get_Venues(0);
+  $VenueNames = Get_Real_Venues(0);
 
   echo "<div class=GridWrapper><div class=GridContainer>";
   echo "<table border id=Grid><thead><tr><th id=DayId>$DAY";

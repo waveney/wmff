@@ -43,7 +43,7 @@
     }
   }
 
-  $Venues = Get_Venues();
+  $Venues = Get_Real_Venues();
   if (isset($_POST{'LIST'})) {
     $se = 0;
     $SubE = " Year=$YEAR ";
@@ -129,7 +129,7 @@
   echo "<input type=Submit name=ACTION value='Rename as'> ";
   echo "<input type=text name=NewName>, <input type=Submit name=ACTION value='Move by'> ";
   echo "<input type=text name=Minutes size=4> Minutes, ";
-  echo "<input type=Submit name=ACTION value='Move to'> " . fm_select(Get_Venues(),0,'v') . ",";
+  echo "<input type=Submit name=ACTION value='Move to'> " . fm_select(Get_Real_Venues(),0,'v') . ",";
   echo "<input type=Submit name=LIST value='Show All'><br>\n";
   echo "</form>\n";
 

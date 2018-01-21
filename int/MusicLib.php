@@ -294,7 +294,7 @@ function Contract_Check($snum,$chkba=1,$ret=0) { // if ret=1 returns result numb
   $InValid = 3;
   $Evs = Get_Events4Act($snum,$YEAR);
   $types = Get_Event_Types(1);
-  $Vens = Get_Venues(1);
+  $Vens = Get_Real_Venues(1);
   $LastEv = 0;
   if ($Evs) foreach ($Evs as $e) {
     if ($InValid == 3) $InValid = 0;
