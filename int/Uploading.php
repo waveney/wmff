@@ -4,7 +4,7 @@
 // Action at a distance, hidden globals, spagetti code...
 
 function Upload_Init($Dir='') {
-  global $YEAR,$Side,$Sidey,$Put,$Puty,$snum,$Part_Types;
+  global $YEAR,$Side,$Sidey,$Put,$Puty,$snum;
 
 //var_dump($_POST);
 

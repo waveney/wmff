@@ -23,22 +23,18 @@ $Area_Levels = array( 'No','Edit','Edit and Report');
 $Area_Type = array_flip($Area_Levels);
 $Sections = array( 'Docs','Dance','Stalls','Users','Venues','Music','Sponsors','Comedy','Craft','Other','OldAdmin','Bugs','Photos');
 $Importance = array('None','Some','High','Very High','Even Higher','Highest','The Queen');
-$ProgLevels = array('None','Early Draft','Draft','Provisional','','Final');
+$ProgLevels = array('Very Early','Early Draft','Draft','Provisional','','Final');
 $OverlapStates = array('','Major Musician','Minor Musician','Major Dancer','Minor Dancer','Major Other','Minor Other');
 $Overlap_Type = array_flip($OverlapStates);
 $OverlapDays = array('','Fri Only','Sat Only','Sun Only');
-$Part_Cats = array('Dance'=>'Side','Music'=>'Act','Other'=>'Other');
-$Cat_Parts = array_flip($Part_Cats);
-$Part_Types = array_values($Part_Cats);
-$Cat_Types = array_flip($Part_Types);
-$Cat_Stages = array('Started','Invites','Provisional','Details','Programme','History');
-$Cat_Stage = array_flip($Cat_Stages);
 $Book_States = array('None','Declined','Booking','Contract Ready','Booked');
 $Book_State = array_flip($Book_States);
 $InsuranceStates = array('None','Uploaded','Checked');
 $Book_Actions = array('None'=>'Book','Declined'=>'Book,Contract','Booking'=>'Contract,Decline,Cancel','Contract Ready'=>'Confirm,Decline,Cancel',
 		'Booked'=>'Cancel,Decline');
 $Book_Colour = array('None'=>'White','Declined'=>'pink','Booking'=>'yellow','Contract Ready'=>'orange','Booked'=>'lime');
+$EType_States = array('Very Early','Draft','Partial','Provisional','Complete');
+
 
 
 // If table's index is 'id' it does not need to be listed here
@@ -467,7 +463,7 @@ function Update_db($table,&$old,&$new,$proced=1) {
       } 
     }
   }
-  
+
   if ($proced && $fcnt) {
     $newrec .= " WHERE $indxname=" . $old[$indxname];
 //var_dump($newrec);
@@ -868,30 +864,22 @@ function Social_Link(&$data,$site,$mode=0) { // mode:0 Return Site as text, mode
   return "<a href=http://$site.com/$link>" . ($mode? ( "<img src=/images/icons/$site.jpg>") : $site) . "</a>";
 }
 
-function Show_Prog($type,$id,$mode=0,$all=0) { //mode 0 = html, 1 = text for email
-    global $DayList,$ProgLevels,$MASTER,$Cat_Stages,$Cat_Type,$Cat_Stage,$Cat_Parts;
-    if ($MASTER[$Cat_Parts[$type] . 'State'] < $Cat_Stage['Programme']) return;
-//var_dump($Cat_Parts[$type],$Cat_Stage['Programme']);
+function Show_Prog($type,$id,$mode=0,$all=0,$force=0) { //mode 0 = html, 1 = text for email
+    global $DayList,$ProgLevels,$MASTER;
     $str = '';
     include_once("ProgLib.php");
     include_once("DanceLib.php");
     $Evs = Get_All_Events_For($type,$id);
+    $ETs = Get_Event_Types(1);
 //var_dump($Evs);
     $evc=0;
+    $Worst= 99;
     $Venues = Get_Real_Venues(1);
-    if ($Evs) {
+    if ($Evs) { // Show IF all or EType state > 1 or (==1 && participant)
       foreach ($Evs as $e) {
-        if ($e['Public'] == 1 || $all ||
-	    ($e['Public'] == 0 && $MASTER[$type . 'ProgLevel']>2 || ($MASTER[$type . 'ProgLevel']>0 && Access('Participant',$type,$id)))) {
-	  if ($evc++ == 0) {
-	    $Thing = Get_Side($id);
-	    if ($mode) {
-	      $str .= $ProgLevels[$MASTER[$type . 'ProgLevel']] . " Programme for " . $Thing['Name'] . ":\n\n";
-	    } else {
-	      $str .= "<h2>" . $ProgLevels[$MASTER[$type . 'ProgLevel']] . " Programme for " . $Thing['Name'] . ":</h2>\n";
-	      $str .= "<table border><tr><td>Day<td>time<td>Event<td>Venue<td>With\n";
-	    }
-	  };
+        if ($all || $ETs[$e['Type']]['State'] > 1 || ($ETs[$e['Type']]['State'] == 1 && Access('Participant',$type,$id))) {
+	  $evc++;
+ 	  $Worst = min($Ets[$e['Type']]['State'],$Worst);
 	  if ($e['BigEvent']) { // Big Event
 	    $Others = Get_Other_Things_For($e['EventId']);
 	    $VenC=0;
@@ -961,7 +949,16 @@ function Show_Prog($type,$id,$mode=0,$all=0) { //mode 0 = html, 1 = text for ema
 	    }
 	    $str .= "\n";
 	  }
-	}
+        }
+      }
+      if ($evc == 0) {
+        $Thing = Get_Side($id);
+	$Desc = ($Worst > 2)?"":'Current ';
+        if ($mode) {
+	  $str = $Desc . "Programme for " . $Thing['Name'] . ":\n\n" . $str;;
+	} else {
+	  $str = "<h2>$Desc Programme for " . $Thing['Name'] . ":</h2>\n" .  "<table border><tr><td>Day<td>time<td>Event<td>Venue<td>With\n" . $str;
+        }
       }
     }
     if ($evc && $mode == 0) {

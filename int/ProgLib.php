@@ -226,34 +226,31 @@ function &Select_All_Other() {
   return $dummy;
 }
 
+$Event_Types_Full = array();
+
+function Event_Types_ReRead() {
+  global $db, $Event_Types_Full;
+  $Event_Types_Full = array();
+  $res = $db->query("SELECT * FROM EventTypes ORDER BY Name ");
+  if ($res) while ($typ = $res->fetch_assoc()) $Event_Types_Full[$typ['ETypeNo']] = $typ;
+  return $Event_Types_Full;
+}
+
+$Event_Types_Full = Event_Types_ReRead();
+
 function Get_Event_Types($tup=0) { // 0 just names, 1 all data
-  global $db;
-  if (!isset($short)) {
-    $res = $db->query("SELECT * FROM EventTypes ORDER BY Name ");
-    if ($res) {
-      while ($typ = $res->fetch_assoc()) {
-        $short[$typ['ETypeNo']] = $typ['Name'];
-        $full[$typ['ETypeNo']] = $typ;
-      }
-    }
-  }
-  if ($tup) return $full;
-  return $short;
+  global $Event_Types_Full;
+  if ($tup) return $Event_Types_Full;
+  $ans = array();
+  foreach($Event_Types_Full as $t=>$et) $ans[$t] = $et['Name'];
+  return $ans;
 }
 
 function Get_Event_Type($id) {
-  global $db;
-  static $Types;
-  if (isset($Types[$id])) return $Types[$id];
-  $res=$db->query("SELECT * FROM EventTypes WHERE ETypeNo=$id");
-  if ($res) {
-    $ans = $res->fetch_assoc();
-    $Types[$id] = $ans;
-    return $ans;
-  }
-  return 0; 
+  global $Event_Types_Full;
+  return $Event_Types_Full[$id];
 }
-
+ 
 function Put_Event_Type(&$now) {
   $e=$now['ETypeNo'];
   $Cur = Get_Event_Type($e);

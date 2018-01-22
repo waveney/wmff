@@ -4,6 +4,7 @@
 
   dostaffhead("General Settings");
 
+  global $EType_States;
   include_once("DateTime.php");
   $Dates = array('PriceChange1','PriceChange2');
 
@@ -59,14 +60,11 @@
 	echo $YEAR;
 	echo fm_hidden('Year',-1);
       }
+// NOTE General contains LOTS of no longer used feilds - just ignore them
     echo "<tr>" . fm_text('Version Number',$Gen,'Version') . "<td>Software Version Number - change will force css/js reload";
-    echo "<tr><td>State of Dance: " . fm_select($Cat_Stages,$Gen,'DanceState') . "<td>Controls level of Participant interfaces";
-    echo "<tr><td>State of Music: " . fm_select($Cat_Stages,$Gen,'MusicState') . "<td>";
-    echo "<tr><td>State of Other: " . fm_select($Cat_Stages,$Gen,'OtherState') . "<td>";
-    echo "<tr><td>State of Trade: " . fm_select($Cat_Stages,$Gen,'TradeState') . "<td>No effect yet";
-    echo "<tr><td>State of Dance Programme: " . fm_select($ProgLevels,$Gen,'SideProgLevel') . "<td>From early draft visible to participants";
-    echo "<tr><td>State of Music Programme: " . fm_select($ProgLevels,$Gen,'ActProgLevel') . "<td>From Provisional visible to public";
-    echo "<tr><td>State of Other Programme: " . fm_select($ProgLevels,$Gen,'OtherProgLevel') . "<td>";
+    echo "<tr><td>State of Family:<td>" . fm_select($EType_States,$Gen,'FamilyState') . "<td>Controls level of Participant interfaces";
+    echo "<tr><td>State of Specials:<td>" . fm_select($EType_States,$Gen,'SpecialState') . "<td>";
+    echo "<tr><td>State of Trade:<td>" . fm_select($EType_States,$Gen,'TradeState') . "<td>No effect yet";
     echo "<tr>" . fm_number1('Date of Friday',$Gen,'DateFri') . "<td>ie 8 for 8th of June.  It works out the rest from this\n";
     echo "<tr>" . fm_date('Date of Price Change 1',$Gen,'PriceChange1') . "<td>\n";
     echo "<tr>" . fm_date('Date of Price Change 2',$Gen,'PriceChange2') . "<td>\n";
@@ -74,9 +72,9 @@
     echo "<tr><td>Priced Complete Sat:" . fm_checkbox('',$Gen,'PriceComplete1') . "<td>This and all completes surpress more to come on tickets/events\n";
     echo "<tr><td>Priced Complete Sun:" . fm_checkbox('',$Gen,'PriceComplete2') . "<td>This and all completes surpress more to come on tickets/events\n";
 
-    $comps = array('Ceildih','Session','Workshop','Concert','Family','Comedy','Special','Craft');
+//    $comps = array('Ceildih','Session','Workshop','Concert','Family','Comedy','Special','Craft');
 
-    foreach($comps as $c) echo "<tr><td>$c Complete:" . fm_checkbox('',$Gen,$c . "Complete");
+//    foreach($comps as $c) echo "<tr><td>$c Complete:" . fm_checkbox('',$Gen,$c . "Complete");
   echo "</table>\n";
 
   if ($ynum > 0) {

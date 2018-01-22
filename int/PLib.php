@@ -1,8 +1,10 @@
 <?php
 // Participant Display Lib - Generalises Show_Side etc
 
+$CurYear = date('Y');
+
 function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
-  global $MASTER,$Part_Types,$Side_Statuses,$Importance,$Part_Cats,$Surfaces,$Noise_Levels,$Share_Spots,$Cat_Stage,$Mess,$Action,$Part_Types,$Cat_Types,$ADDALL;
+  global $MASTER,$Side_Statuses,$Importance,$Surfaces,$Noise_Levels,$Share_Spots,$Mess,$Action,$ADDALL,$CurYear;
   if ($CatT == '') {
     $CatT = ($Side['IsASide'] ? 'Side' : $Side['IsAnAct'] ? 'Act' : 'Other');
   } else {
@@ -14,6 +16,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
     }
   }
 
+  $Mstate = $THISYEAR == $CurYear;
 
   Set_Side_Help();
   if ($Side['IsAnAct']) Add_Act_Help();
@@ -44,7 +47,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
     echo "  <span class=NotCSide>Marked are visible if set, but not changeable by participants.</span>";
   } else {
     $Adv = ''; // 'class=Adv'; // NEEDS MODING FOR NON DANCE
-    if ($MASTER{'DanceState'} >= $Cat_Stage['Details']) {
+    if ($Mstate) {
       echo "<h2 class=floatright>You have <span id=ImpC>0</span> of 4 <span class=red>Most Dance Important</span> things filled in </h2>";
       $Imp = 'class=imp';
     }
@@ -235,8 +238,8 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
 //******************************************************* SIDE YEAR ***********************************************
 // This needs modification for non dance
 function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
-  global $YEAR,$THISYEAR,$MASTER,$Part_Cats,$Cat_Stage,$Invite_States,$Coming_States,$Mess,$Action,$ADDALL,$Cat_Types,$Part_Types,$Cat_Parts,$Invite_Type;
-  global $InsuranceStates;
+  global $YEAR,$THISYEAR,$MASTER,$Invite_States,$Coming_States,$Mess,$Action,$ADDALL,$Invite_Type;
+  global $InsuranceStates,$CurYear;
   if ($year==0) $year=$YEAR;
   if ($CatT == '') {
     $CatT = ($Side['IsASide'] ? 'Side' : $Side['IsAnAct'] ? 'Act' : 'Other');
@@ -250,9 +253,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
   Set_Side_Year_Help();
   if ($CatT != 'Side') Add_Act_Year_Help();
 
-  $CurYear = date("Y");
-
-  $Mstate = $MASTER{$Cat_Parts[$CatT] . 'State'};
+  $Mstate = $THISYEAR == $CurYear;
 
   $Adv = '';
   $Imp = '';
@@ -265,7 +266,6 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
   }
 
   if ($Mode == 0 && (!isset($Sidey['Coming']) || $Sidey['Coming'] == 0) && (!isset($Sidey['Invite']) || $Sidey['Invite'] >= $Invite_Type['No'])) {
-var_dump($Sidey);
     echo "<h2><a href=DanceRequest.php?sidenum=$snum>Request Invite for $THISYEAR</a></h2>";
   } else {
     
@@ -312,7 +312,7 @@ var_dump($Sidey);
             }
             echo fm_hidden('WristbandsSent',$Sidey['WristbandsSent']);
           }
-        if ($Mstate >= $Cat_Stage['Details']) {
+        if ($Mstate) {
 //          echo fm_text('QE Car Park Tickets',$Sidey,'CarPark');
         }
   
@@ -341,7 +341,7 @@ var_dump($Sidey);
       }
 
       echo "<tr>";
-        if ($Mstate >= $Cat_Stage['Details'] || $THISYEAR == $CurYear) {
+        if ($Mstate) {
           echo "<td colspan=3 $Imp>Select insurance file to upload:";
 	  echo "<input type=file $ADDALL name=InsuranceForm id=InsuranceForm onchange=document.getElementById('InsuranceButton').click()>";
           echo "<input hidden type=submit name=Action value=Insurance id=InsuranceButton>";
@@ -366,7 +366,7 @@ var_dump($Sidey);
 
 /*
     // Overlaps...  With, Type, Days
-      if ($Mstate >= $Cat_Stage['Provisional']) {
+      if ($Mstate && 0) {
         echo "<tr><td>Overlaps:" . help('Overlaps');
           for ($i=1;$i<=4;$i++) {
 	    $type = $Sidey["OverlapType$i"];
@@ -386,8 +386,8 @@ var_dump($Sidey);
 //******************************************************* Music YEAR ***********************************************
 // This needs modification for non dance
 function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
-  global $YEAR,$THISYEAR,$MASTER,$Part_Cats,$Cat_Stage,$Invite_States,$Coming_States,$Mess,$Action,$ADDALL,$Cat_Types,$Part_Types,$Cat_Parts,$Invite_Type;
-  global $DayList,$Book_States,$Book_State,$ContractMethods;
+  global $YEAR,$THISYEAR,$MASTER,$Invite_States,$Coming_States,$Mess,$Action,$ADDALL,$Invite_Type;
+  global $DayList,$Book_States,$Book_State,$ContractMethods,$CurYear;
   include_once('ProgLib.php');
 
   if ($year==0) $year=$YEAR;
@@ -404,9 +404,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
   Set_Side_Year_Help();
   if ($CatT != 'Side') Add_Act_Year_Help();
 
-  $CurYear = date("Y");
-
-  $Mstate = $MASTER{$Cat_Parts[$CatT] . 'State'};
+  $Mstate = $THISYEAR == $CurYear;
 
   $Adv = '';
   $Imp = '';
@@ -609,7 +607,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
             }
             echo fm_hidden('WristbandsSent',$Sidey['WristbandsSent']);
           }
-        if ($Mstate >= $Cat_Stage['Details']) {
+        if ($Mstate) {
 //          echo fm_text('QE Car Park Tickets',$Sidey,'CarPark');
         }
   
@@ -635,7 +633,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
       }
 
       echo "<tr>";
-        if ($Mstate >= $Cat_Stage['Details'] || $THISYEAR == $CurYear) {
+        if ($Mstate) {
           echo "<td colspan=3 $Imp>Select insurance file to upload:";
 	  echo "<input type=file $ADDALL name=InsuranceForm id=InsuranceForm onchange=document.getElementById('InsuranceButton').click()>";
           echo "<input hidden type=submit name=Action value=Insurance id=InsuranceButton>";
@@ -659,7 +657,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
         }
 
     // Overlaps...  With, Type, Days
-      if ($Mstate >= $Cat_Stage['Provisional']) {
+      if ($Mstate && 0) {
         echo "<tr><td>Overlaps:" . help('Overlaps');
           for ($i=1;$i<=4;$i++) {
 	    $type = $Sidey["OverlapType$i"];

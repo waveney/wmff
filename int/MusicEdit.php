@@ -14,7 +14,7 @@
 <div class="content">
 
 <?php
-  global $Mess,$Action,$MASTER,$Cat_Type,$YEAR,$THISYEAR,$Book_State;
+  global $Mess,$Action,$MASTER,$YEAR,$THISYEAR,$Book_State;
 
 //var_dump($_POST);
   $Action = 0; 

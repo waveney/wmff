@@ -11,9 +11,6 @@
   
   global $db, $YEAR;
 
-  $V = $_GET['v'];
-  $Ven = Get_Venue($V);
-
 function PrintImps(&$imps) {
   $ks = array_keys($imps);
   sort($ks);	
@@ -28,6 +25,20 @@ function PrintImps(&$imps) {
     if ($imp) echo "</span>";
   }
 }
+
+  $V = $_GET['v'];
+  $Ven = Get_Venue($V);
+  if ($Ven['IsVirtual']) {
+    $VirtVen = $Ven;
+    $VenList = array();
+    $VenNames = array();
+    $Vens = Get_Real_Venues(1);  
+    foreach($Vens as $vi=>$ov) if ($ov['PartVirt'] == $V) {
+      $VenList[] = $vi;
+      $VenNames[] = $ov['Name'];
+      foreach ($ov as $key=>$val) if ($val) $Ven[$key] = $val;
+    }
+  }
 
   echo "<h2 class=subtitle>" . $Ven['Name'] . "</h2>";
 
@@ -58,9 +69,11 @@ function PrintImps(&$imps) {
     echo "</div>\n";
     Init_Map(0,$V,18);
 
-  $comps = array('Ceildih','Session','Workshop','Concert','Family','Comedy','Special','Craft');
+  $ETs = Get_Event_Types(1);
   $AllDone = 1;
-  foreach($comps as $c) if (!$MASTER[$c . "Complete"]) $AllDone = 0;
+  foreach ($ETs as $ei=>$et) if ($et['State'] != 4) $AllDone = 0;
+  $comps = array('Family','Special');
+  foreach($comps as $c) if ($MASTER[$c . "State"] != 4) $AllDone = 0;
 
   echo "<h2 class=subtitle>" . ($AllDone?'':" CURRENT ") . "PROGRAMME OF EVENTS" . ($AllDone?'':" (Others may follow)") . "</h2>";
   echo "Click on the event name or time to get more detail.<p>";

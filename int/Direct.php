@@ -1,6 +1,6 @@
 <?php
   include("fest.php");
-  global $USER,$USERID,$Part_Types;
+  global $USER,$USERID;
   include("DanceLib.php");
   include("MusicLib.php");
   include_once("TradeLib.php");
