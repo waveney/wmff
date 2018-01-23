@@ -99,7 +99,7 @@ function Show_Side($snum,$Message='') {
     } else {
       echo "<h2>" . $side['Name'] . "</h2>";
     }
-    if ($side['IsAside'] && $side['ShortName']) echo "( Appearing in the grids as:" . $side['ShortName'] . " )<br>";
+    if ($side['IsASide'] && $side['ShortName']) echo "( Appearing in the grids as:" . $side['ShortName'] . " )<br>";
 
     echo "<div style='width:800px;'>";
     if ($side['Photo']) echo "<img src=" . $side['Photo'] . " width=400 style='float:left;padding-right:10px;'><p>\n";
