@@ -19,6 +19,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
   $Mstate = ($THISYEAR == $CurYear);
 
   Set_Side_Help();
+  $snum=$Side['SideId'];
   if ($Side['IsAnAct']) Add_Act_Help();
   if ($Side['IsOther']) Add_Act_Help();
 
@@ -176,10 +177,12 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
       echo "<td id=StagePAtextF colspan=5" . ($f?' hidden':'') . " >" . fm_basictextarea($Side,'StagePA',5,1,'id=StagePA');
       echo "<td id=StagePAFileF" . ($f?'':' hidden') . " colspan=4>";
       $files = glob("PAspecs/$snum.*");
-      $Current = $files[0];
-      $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
-      if (file_exists("PAspecs/$snum.$Cursfx")) {
-        echo "Have been upload.  <span id=ViewPA> <a href=ShowFile.php?l=PAspecs/$snum.$Cursfx>View</a></span> &nbsp; &nbsp; &nbsp; ";
+      if ($files) {
+        $Current = $files[0];
+        $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
+        if (file_exists("PAspecs/$snum.$Cursfx")) {
+          echo "Have been uploaded.  <span id=ViewPA> <a href=ShowFile.php?l=PAspecs/$snum.$Cursfx>View</a></span> &nbsp; &nbsp; &nbsp; ";
+        }
       }
       echo "Select PA requirements file to upload:";
       echo "<input type=file name=PASpec id=PASpec onchange=document.getElementById('PASpecButton').click() style='color:transparent;'  title='to upload'>";
@@ -220,7 +223,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
       
       
     if ($Mode) {
-      echo "<tr>" . fm_text(Location,$Side,'Location',2,'class=NotSide');
+      echo "<tr>" . fm_text('Location',$Side,'Location',2,'class=NotSide');
       if (Access('SysAdmin')) {
         echo fm_nontext('Access Key',$Side,'AccessKey',3,'class=NotSide','class=NotSide'); 
         if (isset($Side['AccessKey'])) {
@@ -263,6 +266,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
     }
   } else {
     $Adv = 'class=Adv';
+    if ($Mstate)  $Imp = 'class=imp';
   }
 
   if ($Mode == 0 && (!isset($Sidey['Coming']) || $Sidey['Coming'] == 0) && (!isset($Sidey['Invite']) || $Sidey['Invite'] >= $Invite_Type['No'])) {
@@ -349,10 +353,12 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
 	  if ($Mode){
             echo "<td class=NotCSide colspan=2>" . fm_radio('Insurance',$InsuranceStates,$Sidey,'Insurance','',0);
             if ($Sidey['Insurance']) {
-              $files = glob("Insurance/Sides/$YEAR/$snum.*");
-              $Current = $files[0];
-              $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
-              echo " <a href=ShowFile.php?l=Insurance/Sides/$YEAR/$snum.$Cursfx>View</a>";
+              $files = glob("Insurance/$YEAR/Sides/$snum.*");
+              if ($files) {
+		$Current = $files[0];
+                $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
+                echo " <a href=ShowFile.php?l=Insurance/$YEAR/Sides/$snum.$Cursfx>View</a>";
+	      }
             }
 	  } else {
 	    $tmp['Ignored'] = $Sidey['Insurance'];

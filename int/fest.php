@@ -880,7 +880,7 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
       foreach ($Evs as $e) {
         if ($all || $ETs[$e['Type']]['State'] > 1 || ($ETs[$e['Type']]['State'] == 1 && Access('Participant',$type,$id))) {
 	  $evc++;
- 	  $Worst = min($Ets[$e['Type']]['State'],$Worst);
+ 	  $Worst = min($ETs[$e['Type']]['State'],$Worst);
 	  if ($e['BigEvent']) { // Big Event
 	    $Others = Get_Other_Things_For($e['EventId']);
 	    $VenC=0;
