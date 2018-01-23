@@ -11,7 +11,7 @@
   echo "<div class='content'><h2>Manage Event Types</h2>\n";
   echo "Please don't have too many types.<p>\n";
   echo "The only event types that should be not public are Sound Checks (probably)<p>\n";
-//  echo "State:Early Draft - Ctte only, not public";
+  echo "State drives lots: - set to draft to enable the performers to see their own events. Set to complete when all events of given type are in<p>\n";
   
   $Types = Get_Event_Types(1);
   if (UpdateMany('EventTypes','Put_Event_Type',$Types,1)) $Types = Event_Types_ReRead();
