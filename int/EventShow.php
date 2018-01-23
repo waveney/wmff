@@ -24,12 +24,16 @@ function Print_Thing($thing,$right=0) {
   echo "</div>\n";
 }
 
+$lemons = 0;
+
 function Print_Participants($e,$when,$thresh) {
-  Get_Imps($e,$imps);
+  global $lemons;
+  Get_Imps($e,$imps,1,(Access('Staff')?1:0));
   $things = 0;
 
   if (!$imps) return;
 
+  if ($lemons++ == 0) echo "<table class=lemontab border>\n";
   if ($imps) echo "<tr><td>";
   if ($when && $imps) {
     if ($e['Start'] == $e['End']) {
@@ -189,10 +193,10 @@ function Print_Participants($e,$when,$thresh) {
       Print_Participants($Ev);
     }
   } else { // Sub Events
-    echo "<table class=lemontab border>\n";
     Print_Participants($Ev,$ETs[$Ev['Type']]['Format']-1);
     foreach($Subs as $sub) if (Event_Has_Parts($sub)) Print_Participants($sub,1,$ETs[$Ev['Type']]['Format']-1);
-    echo "</table><p>Ending at: " . $Ev['End'];
+    if ($lemons) echo "</table>";
+    echo "<p>Ending at: " . $Ev['End'];
   }
    
   dotail();

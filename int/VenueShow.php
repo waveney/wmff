@@ -104,7 +104,7 @@ function PrintImps(&$imps) {
       if ($NotAllFree) echo "<td>Price\n";
     }
 
-    Get_Imps($e,$imps);
+    Get_Imps($e,$imps,1,(Access('Staff')?1:0));
     $things = 0;
 
     if ($e['SubEvent'] <0) {
