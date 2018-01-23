@@ -363,6 +363,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
 	  } else {
 	    $tmp['Ignored'] = $Sidey['Insurance'];
             echo "<td>" . fm_checkbox('Insurance Uploaded',$tmp,'Ignored','disabled');
+	    echo fm_hidden('Insurance',$Sidey['Insurance']);
   	  }
 
           if ($Mess && $Action == 'Insurance') echo "<td colspan=2>$Mess\n"; 
