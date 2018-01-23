@@ -47,7 +47,7 @@ function Print_Participants($e,$when,$thresh) {
       if ($things && (($things&1) == 0)) echo "<tr><td>";
       $things++;
       echo "<td>";
-      formatminimax($thing,'ShowDance',$thresh); // 99 should be from Event type
+      formatminimax($thing,'ShowDance.php',$thresh); // 99 should be from Event type
     }
   }
   echo "\n";

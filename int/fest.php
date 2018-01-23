@@ -629,7 +629,7 @@ function linkemail(&$data,$type="Side",$xtr='') {
   if ($type="Side") { $id = $data['SideId']; }
   else { $id = $data = $data['ActId']; };
 
-  $ProgInfo = Show_Prog($type,$id,1);
+  $ProgInfo = Show_Prog($type,$id);
 
   $lnk = "<a href=mailto:$email?from=" . $USER['Email'] .
 	 "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['Name']) . 
@@ -864,7 +864,7 @@ function Social_Link(&$data,$site,$mode=0) { // mode:0 Return Site as text, mode
   return "<a href=http://$site.com/$link>" . ($mode? ( "<img src=/images/icons/$site.jpg>") : $site) . "</a>";
 }
 
-function Show_Prog($type,$id,$mode=0,$all=0,$force=0) { //mode 0 = html, 1 = text for email
+function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
     global $DayList,$ProgLevels,$MASTER;
     $str = '';
     include_once("ProgLib.php");
@@ -874,6 +874,7 @@ function Show_Prog($type,$id,$mode=0,$all=0,$force=0) { //mode 0 = html, 1 = tex
 //var_dump($Evs);
     $evc=0;
     $Worst= 99;
+    $host = "https://" . $_SERVER{'HTTP_HOST'};
     $Venues = Get_Real_Venues(1);
     if ($Evs) { // Show IF all or EType state > 1 or (==1 && participant)
       foreach ($Evs as $e) {
@@ -907,43 +908,30 @@ function Show_Prog($type,$id,$mode=0,$all=0,$force=0) { //mode 0 = html, 1 = tex
 		break;
 	      }
 	    }
-	    if ($mode) {
-	      $str .= $DayList[$e['Day']] . " Starting at: " . $e['Start'] . " Event: " . $e['Name'] ;
-	      if ($VenC) {
-		$str .= " Starting location: " . VenName($Venues[$e['Venue']]) ;
-	      } else {
-		$str .= " Location: " . VenName($Venues[$e['Venue']]) ;
-	      }
-	      $str .= " In position $Position ";
-	    } else {
-	      $str .= "<tr><td>" . $DayList[$e['Day']] . "<td>" . $e['Start'] . "-" . ($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] ) .
+	    $str .= "<tr><td>" . $DayList[$e['Day']] . "<td>" . $e['Start'] . "-" . ($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] ) .
 			"<td>" . $e['Name'] . "<td>";
-	      if ($VenC) $str .= " starting from ";
-	      $str .= VenName($Venues[$e['Venue']]) ;
-	      $str .= "<td>In position $Position";
-	    }
+	    if ($VenC) $str .= " starting from ";
+	    $str .= VenName($Venues[$e['Venue']]) ;
+	    $str .= "<td>In position $Position";
 	    if ($PrevI) { $str .= ", After " . SAO_Report($PrevI); };
 	    if ($NextI) { $str .= ", Before " . SAO_Report($NextI); };
 	    $str .= "\n";
 	  } else { // Normal Event
-	    if ($mode) {
-	      $str .= $DayList[$e['Day']] . " Starting at:" . $e['Start'] . " Event: " . $e['Name'] . " Location: " . VenName($Venues[$e['Venue']]) ;
-	    } else {
-	      $str .= "<tr><td>" . $DayList[$e['Day']] . "<td>" . $e['Start'] . "-" . ($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] ) .
-			"<td>" . $e['Name'] . "<td>" . VenName($Venues[$e['Venue']]) . "<td>";
-	    }
+	    $str .= "<tr><td>" . $DayList[$e['Day']] . "<td>" . $e['Start'] . "-" . ($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] ) .
+			"<td><a href=$host/int/EventShow.php?e=" . $e['EventId'] . ">" . $e['Name'] . 
+			"</a><td><a href=$host/int/VenueShow.php?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a><td>";
 	    $withc=0;
 	    for ($i=1;$i<5;$i++) {
 	      if ($e["Side$i"] > 0 && $e["Side$i"] != $id && $type == 'Side') { 
-	        if ($withc++) { $str .= ", "; } else if ($mode==1) { $str .= " With: "; }
+	        if ($withc++) $str .= ", "; 
 		$str .= SAO_Report($e["Side$i"]);
               }
 	      if ($e["Act$i"] > 0 && $e["Act$i"] != $id && $type == 'Act') { 
-	        if ($withc++) { $str .= ", "; } else if ($mode==1) { $str .= " With: "; }
+	        if ($withc++) $str .= ", ";
 		$str .= SAO_Report($e["Act$i"]);
               }
 	      if ($e["Other$i"] > 0 && $e["Other$i"] != $id && $type == 'Other') { 
-	        if ($withc++) { $str .= ", "; } else if ($mode==1) { $str .= " With: "; }
+	        if ($withc++) $str .= ", ";
 		$str .= SAO_Report($e["Other$i"]);
               }
 	    }
@@ -951,19 +939,18 @@ function Show_Prog($type,$id,$mode=0,$all=0,$force=0) { //mode 0 = html, 1 = tex
 	  }
         }
       }
-      if ($evc == 0) {
+      if ($evc) {
         $Thing = Get_Side($id);
 	$Desc = ($Worst > 2)?"":'Current ';
-        if ($mode) {
-	  $str = $Desc . "Programme for " . $Thing['Name'] . ":\n\n" . $str;;
-	} else {
-	  $str = "<h2>$Desc Programme for " . $Thing['Name'] . ":</h2>\n" .  "<table border><tr><td>Day<td>time<td>Event<td>Venue<td>With\n" . $str;
-        }
+        $str = "<h2>$Desc Programme for " . $Thing['Name'] . ":</h2>\n" .  "<table border><tr><td>Day<td>time<td>Event<td>Venue<td>With\n" . $str;
       }
     }
-    if ($evc && $mode == 0) {
+    if ($evc) {
       $str .= "</table>\n";    
     }
+
+//var_dump($str);
+
   return $str;
 }
 

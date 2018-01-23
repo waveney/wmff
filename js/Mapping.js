@@ -42,7 +42,7 @@ function ShowDirect(MarkId) { // Open directions window from current loc (me) to
       dirDisp.setMap(map);
     }
     DSrequest = {
-      origin: direct?me.position:Wimb,
+      origin: (direct && me && me.position)?me.position:Wimb,
       destination: markers[MarkId].position,
       travelMode: (zoom < 15?'DRIVING':'WALKING'),
       unitSystem: 1, //IMPERIAL
