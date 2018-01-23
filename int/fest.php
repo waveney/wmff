@@ -23,7 +23,6 @@ $Area_Levels = array( 'No','Edit','Edit and Report');
 $Area_Type = array_flip($Area_Levels);
 $Sections = array( 'Docs','Dance','Stalls','Users','Venues','Music','Sponsors','Comedy','Craft','Other','OldAdmin','Bugs','Photos');
 $Importance = array('None','Some','High','Very High','Even Higher','Highest','The Queen');
-$ProgLevels = array('Very Early','Early Draft','Draft','Provisional','','Final');
 $OverlapStates = array('','Major Musician','Minor Musician','Major Dancer','Minor Dancer','Major Other','Minor Other');
 $Overlap_Type = array_flip($OverlapStates);
 $OverlapDays = array('','Fri Only','Sat Only','Sun Only');
@@ -865,12 +864,13 @@ function Social_Link(&$data,$site,$mode=0) { // mode:0 Return Site as text, mode
 }
 
 function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
-    global $DayList,$ProgLevels,$MASTER;
+    global $DayList,$MASTER;
     $str = '';
     include_once("ProgLib.php");
     include_once("DanceLib.php");
     $Evs = Get_All_Events_For($type,$id);
     $ETs = Get_Event_Types(1);
+//echo "Type: $type, $id<p>";
 //var_dump($Evs);
     $evc=0;
     $Worst= 99;
@@ -937,7 +937,9 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
 	    }
 	    $str .= "\n";
 	  }
-        }
+        } else { // Debug Code
+//	  echo "State: " . $ETs[$e['Type']]['State'] ."<p>";
+	}
       }
       if ($evc) {
         $Thing = Get_Side($id);

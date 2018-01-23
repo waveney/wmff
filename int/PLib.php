@@ -4,7 +4,7 @@
 $CurYear = date('Y');
 
 function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
-  global $MASTER,$Side_Statuses,$Importance,$Surfaces,$Noise_Levels,$Share_Spots,$Mess,$Action,$ADDALL,$CurYear;
+  global $MASTER,$Side_Statuses,$Importance,$Surfaces,$Noise_Levels,$Share_Spots,$Mess,$Action,$ADDALL,$CurYear,$THISYEAR;
   if ($CatT == '') {
     $CatT = ($Side['IsASide'] ? 'Side' : $Side['IsAnAct'] ? 'Act' : 'Other');
   } else {
@@ -16,7 +16,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
     }
   }
 
-  $Mstate = $THISYEAR == $CurYear;
+  $Mstate = ($THISYEAR == $CurYear);
 
   Set_Side_Help();
   if ($Side['IsAnAct']) Add_Act_Help();
