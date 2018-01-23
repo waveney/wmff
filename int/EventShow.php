@@ -99,8 +99,9 @@ function Print_Participants($e,$when,$thresh) {
     }
   }
 
-  echo "<h2 class=subtitle>" . $Ev['Name'] . "</h2>\n";
-//var_dump($Ev);
+  if (!strpos(strtolower($Ev['Name']),strtolower($ETs[$Ev['Type']]['Name']))) $xtra = " (" . $ETs[$Ev['Type']]['Name'] . ")";
+  echo "<h2 class=subtitle>" . $Ev['Name'] . "$xtra</h2>\n";
+
   if ($Ev['NonFest']) echo "This event is not run by the folk festival, but is shown here for your information.<p>\n";
   if ($Ev['Description']) echo $Ev['Description'] . "<P>";
   // On, Start, End, Durration, Price, Where 
