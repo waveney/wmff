@@ -1,20 +1,22 @@
 <?php // Generic Uploading code
 
 // THIS CODE IS HORRIBLE NEEDS TO BE MUCH IMPROVED
-// Action at a distance, hidden globals, spagetti code...
 
 function Upload_Init($Dir='') {
-  global $YEAR,$Side,$Sidey,$Put,$Puty,$snum,$Part_Types;
+  global $YEAR,$Side,$Sidey,$Put,$Puty,$snum;
 
 //var_dump($_POST);
 
 // NEED TO MAKE THIS WORK FOR TRADE
 
+// echo "Upload Init $Dir<p>";
   if ($Dir == '' || $Dir == 'Side' || $Dir == 'Act' || $Dir == 'Other' || $Dir == 'Sides' || $Dir == 'Acts' || $Dir == 'Others') {
     $snum = $_POST{'Id'};
     $Side = Get_Side($snum);
     $Put = "Put_Side";
-    $type = ($Side['IsASide'] ? 'Side' : $Side['IsAnAct'] ? 'Act' : 'Other');
+//var_dump($Side);
+    $type = ($Side['IsASide'] ? 'Side' : ($Side['IsAnAct'] ? 'Act' : 'Other'));
+//echo "type:$type<p>";
     switch ($type) {
     case 'Side':
       $Sidey = Get_SideYear($snum);
@@ -64,11 +66,11 @@ function Upload_Init($Dir='') {
  */
 
 function Upload_Insurance($Dir='Sides') {
-  global $YEAR,$Side,$Sidey,$Put,$Puty,$snum;
+  global $THISYEAR,$Side,$Sidey,$Put,$Puty,$snum,$db;
 
   Upload_Init($Dir);
 
-  $target_dir = "Insurance/$YEAR/$Dir/";
+  $target_dir = "Insurance/$THISYEAR/$Dir/";
   umask(0);
   if (!file_exists($target_dir)) mkdir($target_dir,0775,true);
   $suffix = pathinfo($_FILES["InsuranceForm"]["name"],PATHINFO_EXTENSION);
@@ -84,7 +86,7 @@ function Upload_Insurance($Dir='Sides') {
       return "The Insurance file has been replaced by " . basename( $_FILES["InsuranceForm"]["name"]);
     } else {
       rename("$Current.old",$Current);
-      return "<div class=Err>Sorry, there was an error uploading your Insurance file.</div>";
+      return "<div class=Err>Sorry, there was an error uploading your Insurance file to $target_file.</div>";
     }
   } else {
     if (move_uploaded_file($_FILES["InsuranceForm"]["tmp_name"], $target_file)) {
@@ -96,7 +98,7 @@ function Upload_Insurance($Dir='Sides') {
         return "<div class=Err>File uploaded but database did not update... " . $db->error . "</div>";
       }
     } else {
-      return "<div class=Err>Sorry, there was an error uploading your Insurance file.</div>";
+      return "<div class=Err>Sorry, there was an error uploading your Insurance file to $target_file.</div>";
     }
   }
   return 0; 

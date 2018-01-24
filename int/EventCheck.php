@@ -116,7 +116,7 @@ function EventCheck() {
 	  if ($fv['Venue'] == $block) {
 	    $chkstart = timereal($fv['Start']) - $fv['Setup'];
 	    $chkend = timereal($fv['SubEvent']<0 ? $fv['SlotEnd'] : $fv['End']);
-	    if (($chkstart >= $realstart && $chkstart <= $realend) || ($chkend >= $realstart && $chkend <= $realend)) { // In use...
+	    if (($chkstart > $realstart && $chkstart < $realend) || ($chkend > $realstart && $chkend < $realend)) { // In use...
 	      echo "The <a href=EventAdd.php?e=" . $ev['EventId'] . ">Event</a> is at " . SName($Venues[$ev['Venue']]) . " when " . 
 		SName($Venues[$fv['Venue']]) . " is being used for <a href=EventAdd.php?e=" . $fv['EventId'] . ">This Event</a>.<p>\n";
 	      $errors++;

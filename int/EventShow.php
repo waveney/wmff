@@ -24,14 +24,19 @@ function Print_Thing($thing,$right=0) {
   echo "</div>\n";
 }
 
+$lemons = 0;
+
 function Print_Participants($e,$when,$thresh) {
-  Get_Imps($e,$imps);
+  global $lemons;
+  Get_Imps($e,$imps,1,(Access('Staff')?1:0));
   $things = 0;
 
   if (!$imps) return;
 
-  if ($imps) echo "<tr><td>";
+  if ($lemons++ == 0) echo "<table class=lemontab border>\n";
+  if ($imps) echo "<tr>";
   if ($when && $imps) {
+    echo "<td>";
     if ($e['Start'] == $e['End']) {
       echo "Times not yet known";
     } else {
@@ -47,7 +52,7 @@ function Print_Participants($e,$when,$thresh) {
       if ($things && (($things&1) == 0)) echo "<tr><td>";
       $things++;
       echo "<td>";
-      formatminimax($thing,'ShowDance',$thresh); // 99 should be from Event type
+      formatminimax($thing,'ShowDance.php',$thresh); // 99 should be from Event type
     }
   }
   echo "\n";
@@ -99,8 +104,9 @@ function Print_Participants($e,$when,$thresh) {
     }
   }
 
-  echo "<h2 class=subtitle>" . $Ev['Name'] . "</h2>\n";
-//var_dump($Ev);
+  if (!strpos(strtolower($Ev['Name']),strtolower($ETs[$Ev['Type']]['Name']))) $xtra = " (" . $ETs[$Ev['Type']]['Name'] . ")";
+  echo "<h2 class=subtitle>" . $Ev['Name'] . "$xtra</h2>\n";
+
   if ($Ev['NonFest']) echo "This event is not run by the folk festival, but is shown here for your information.<p>\n";
   if ($Ev['Description']) echo $Ev['Description'] . "<P>";
   // On, Start, End, Durration, Price, Where 
@@ -188,11 +194,11 @@ function Print_Participants($e,$when,$thresh) {
       Print_Participants($Ev);
     }
   } else { // Sub Events
-    echo "<table class=lemontab border>\n";
     Print_Participants($Ev,$ETs[$Ev['Type']]['Format']-1);
     foreach($Subs as $sub) if (Event_Has_Parts($sub)) Print_Participants($sub,1,$ETs[$Ev['Type']]['Format']-1);
-    echo "</table><p>Ending at: " . $Ev['End'];
   }
+  if ($lemons) echo "</table>";
+  echo "<p>Ending at: " . $Ev['End'];
    
   dotail();
 ?>

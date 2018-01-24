@@ -170,8 +170,11 @@ function Get_Events_For($what,$Day) {
 
 function Get_All_Events_For($what,$wnum) {
   global $db,$YEAR;
-  $qry="SELECT DISTINCT e.* FROM Events e, BigEvent b WHERE Year=$YEAR AND Public<2 AND ($what" . "1=$wnum OR $what" . "2=$wnum OR $what". 
-		"3=$wnum OR $what". "4=$wnum OR ( BigEvent=1 AND e.EventId=b.Event AND b.Type='$what' AND b.Identifier=$wnum ) ) " .
+  $qry="SELECT DISTINCT e.* FROM Events e, BigEvent b WHERE Year=$YEAR AND Public<2 AND ( " .
+		"Side1=$wnum OR Side2=$wnum OR Side3=$wnum OR Side4=$wnum OR " .
+		"Act1=$wnum OR Act2=$wnum OR Act3=$wnum OR Act4=$wnum OR " .
+		"Other1=$wnum OR Other2=$wnum OR Other3=$wnum OR Other4=$wnum " .
+		" OR ( BigEvent=1 AND e.EventId=b.Event AND b.Type='$what' AND b.Identifier=$wnum ) ) " .
 		" ORDER BY Day,Start";
   $res = $db->query($qry);
   if ($res) {
@@ -226,34 +229,31 @@ function &Select_All_Other() {
   return $dummy;
 }
 
+$Event_Types_Full = array();
+
+function Event_Types_ReRead() {
+  global $db, $Event_Types_Full;
+  $Event_Types_Full = array();
+  $res = $db->query("SELECT * FROM EventTypes ORDER BY Name ");
+  if ($res) while ($typ = $res->fetch_assoc()) $Event_Types_Full[$typ['ETypeNo']] = $typ;
+  return $Event_Types_Full;
+}
+
+$Event_Types_Full = Event_Types_ReRead();
+
 function Get_Event_Types($tup=0) { // 0 just names, 1 all data
-  global $db;
-  if (!isset($short)) {
-    $res = $db->query("SELECT * FROM EventTypes ORDER BY Name ");
-    if ($res) {
-      while ($typ = $res->fetch_assoc()) {
-        $short[$typ['ETypeNo']] = $typ['Name'];
-        $full[$typ['ETypeNo']] = $typ;
-      }
-    }
-  }
-  if ($tup) return $full;
-  return $short;
+  global $Event_Types_Full;
+  if ($tup) return $Event_Types_Full;
+  $ans = array();
+  foreach($Event_Types_Full as $t=>$et) $ans[$t] = $et['Name'];
+  return $ans;
 }
 
 function Get_Event_Type($id) {
-  global $db;
-  static $Types;
-  if (isset($Types[$id])) return $Types[$id];
-  $res=$db->query("SELECT * FROM EventTypes WHERE ETypeNo=$id");
-  if ($res) {
-    $ans = $res->fetch_assoc();
-    $Types[$id] = $ans;
-    return $ans;
-  }
-  return 0; 
+  global $Event_Types_Full;
+  return $Event_Types_Full[$id];
 }
-
+ 
 function Put_Event_Type(&$now) {
   $e=$now['ETypeNo'];
   $Cur = Get_Event_Type($e);
