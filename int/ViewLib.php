@@ -34,6 +34,7 @@ if ($read) { // Attempt to read rather than download
   case 'xlsx':
   case 'xlsb':
   case 'xlsm':
+  case 'csv':
   case 'pptx':
   case 'ppsx':
   case 'ppt':
@@ -67,6 +68,15 @@ if ($read) { // Attempt to read rather than download
     echo "<iframe src='Temp/$tf' width=100% height=800></iframe>";
     dotail();
     exit;
+
+  case 'txt:
+  case 'sql':
+    dohead("Show Text File");
+    copy($file,"Temp/$tf");
+    echo "<iframe src='Temp/$tf' width=100% height=800></iframe>";
+    dotail();
+    exit;
+ 
 
   default : // Drop through to download
   }

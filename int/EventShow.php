@@ -196,8 +196,8 @@ function Print_Participants($e,$when,$thresh) {
     Print_Participants($Ev,$ETs[$Ev['Type']]['Format']-1);
     foreach($Subs as $sub) if (Event_Has_Parts($sub)) Print_Participants($sub,1,$ETs[$Ev['Type']]['Format']-1);
     if ($lemons) echo "</table>";
-    echo "<p>Ending at: " . $Ev['End'];
   }
+  echo "<p>Ending at: " . $Ev['End'];
    
   dotail();
 ?>
