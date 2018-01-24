@@ -34,8 +34,9 @@ function Print_Participants($e,$when,$thresh) {
   if (!$imps) return;
 
   if ($lemons++ == 0) echo "<table class=lemontab border>\n";
-  if ($imps) echo "<tr><td>";
+  if ($imps) echo "<tr>";
   if ($when && $imps) {
+    echo "<td>";
     if ($e['Start'] == $e['End']) {
       echo "Times not yet known";
     } else {
@@ -195,8 +196,8 @@ function Print_Participants($e,$when,$thresh) {
   } else { // Sub Events
     Print_Participants($Ev,$ETs[$Ev['Type']]['Format']-1);
     foreach($Subs as $sub) if (Event_Has_Parts($sub)) Print_Participants($sub,1,$ETs[$Ev['Type']]['Format']-1);
-    if ($lemons) echo "</table>";
   }
+  if ($lemons) echo "</table>";
   echo "<p>Ending at: " . $Ev['End'];
    
   dotail();
