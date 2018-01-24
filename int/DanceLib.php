@@ -384,4 +384,34 @@ function Has_Info(&$data) {
   return 0;
 } 
 
+function Get_Overlaps_For($id) {
+  global $db;
+  $res = $db->query("SELECT * FROM Overlaps WHERE Sid1=$id OR Sid2=$id");
+  if ($res) while ($o = $res->fetch_assoc()) $Os[] = $o;
+  return $Os;
+}
+
+function Get_Overlap($id) {
+  global $db;
+  $res = $db->query("SELECT * FROM Overlaps WHERE id=$id");
+  if ($res) while ($o = $res->fetch_assoc()) return $o;
+}
+
+function Put_Overlap($now) {
+  $e=$now['id'];
+  $Cur = Get_Overlap($e);
+  Update_db('Overlaps',$Cur,$now);
+}
+
+function Put_Overlaps(&$Ovs) {
+  foreach($Ovs as $i=>$o) {
+    if ($o['id']) {
+      Put_Overlap($o);
+    } else {
+      Insert_db('Overlaps', $o);
+    }
+  }
+}
+  
+
 ?>
