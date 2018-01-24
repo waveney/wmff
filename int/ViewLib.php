@@ -69,7 +69,7 @@ if ($read) { // Attempt to read rather than download
     dotail();
     exit;
 
-  case 'txt:
+  case 'txt':
   case 'sql':
     dohead("Show Text File");
     copy($file,"Temp/$tf");
