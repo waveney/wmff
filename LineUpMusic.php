@@ -10,6 +10,8 @@ We are putting together an exciting and varied line-up for your enjoyment at thi
 They will be on various stages and venues around town at both ticketed and free events. 
 Do keep checking back to see who else will be appearing... there are still more to come! <p>
 
+Here are our <b>Spotlight Performers</b> followed by <b>A - Z</b> of the rest of the line-up.<p>
+
 <?php
   include_once ("int/ProgLib.php");
   include_once ("int/DispLib.php");

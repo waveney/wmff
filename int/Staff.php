@@ -221,6 +221,7 @@
       echo "<li><a href=AddMusic.php?t=O>Add Other Particpant to Database</a>\n"; 
       echo "<li>Find Other";
     }
+    if (Access('Committee')) echo "<li><a href=Campsite.php?Y=$YEAR>Manage Campsite Use</a>\n"; 
 
     echo "</ul>\n";
 
