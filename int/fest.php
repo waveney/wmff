@@ -33,7 +33,13 @@ $Book_Actions = array('None'=>'Book','Declined'=>'Book,Contract','Booking'=>'Con
 		'Booked'=>'Cancel,Decline');
 $Book_Colour = array('None'=>'White','Declined'=>'pink','Booking'=>'yellow','Contract Ready'=>'orange','Booked'=>'lime');
 $EType_States = array('Very Early','Draft','Partial','Provisional','Complete');
-
+/*
+$Overlap_Types = array('None','Major Dancer','Minor Dancer','Major Musician','Minor Musician');
+$Overlap_Desc = array('None'=>'','Major Dancer'=>'Must have 30 minute breaks between different spots',
+		'Minor Dancer'=>'Prefer gaps between spots if possible',
+		'Major Musician'=>'May perform at same spot for 2 different teams/sides, but not for more than 1 hour',
+		'Minor Musician'=>'Prefer gaps if possible');
+*/
 
 
 // If table's index is 'id' it does not need to be listed here
@@ -877,6 +883,14 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
     $host = "https://" . $_SERVER{'HTTP_HOST'};
     $Venues = Get_Real_Venues(1);
     if ($Evs) { // Show IF all or EType state > 1 or (==1 && participant)
+      $With = 0;
+      foreach ($Evs as $e) {
+	if ($e["BigEvent"]) { $With = 1; break; }
+	for ($i = 1; $i<5;$i++) if ($e["Side$i"] && $e["Side$i"] != $id) { $With = 1; break 2; }
+	for ($i = 1; $i<5;$i++) if ($e["Act$i"] && $e["Act$i"] != $id) { $With = 1; break 2; }
+	for ($i = 1; $i<5;$i++) if ($e["Other$i"] && $e["Other$i"] != $id) { $With = 1; break 2; }
+      }
+	
       foreach ($Evs as $e) {
         if ($all || $ETs[$e['Type']]['State'] > 1 || ($ETs[$e['Type']]['State'] == 1 && Access('Participant',$type,$id))) {
 	  $evc++;
@@ -919,21 +933,24 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
 	  } else { // Normal Event
 	    $str .= "<tr><td>" . $DayList[$e['Day']] . "<td>" . $e['Start'] . "-" . ($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] ) .
 			"<td><a href=$host/int/EventShow.php?e=" . $e['EventId'] . ">" . $e['Name'] . 
-			"</a><td><a href=$host/int/VenueShow.php?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a><td>";
-	    $withc=0;
-	    for ($i=1;$i<5;$i++) {
-	      if ($e["Side$i"] > 0 && $e["Side$i"] != $id && $type == 'Side') { 
-	        if ($withc++) $str .= ", "; 
-		$str .= SAO_Report($e["Side$i"]);
-              }
-	      if ($e["Act$i"] > 0 && $e["Act$i"] != $id && $type == 'Act') { 
-	        if ($withc++) $str .= ", ";
-		$str .= SAO_Report($e["Act$i"]);
-              }
-	      if ($e["Other$i"] > 0 && $e["Other$i"] != $id && $type == 'Other') { 
-	        if ($withc++) $str .= ", ";
-		$str .= SAO_Report($e["Other$i"]);
-              }
+			"</a><td><a href=$host/int/VenueShow.php?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a>";
+	    if ($With) {
+	      $str .= "<td>";
+	      $withc=0;
+	      for ($i=1;$i<5;$i++) {
+	        if ($e["Side$i"] > 0 && $e["Side$i"] != $id && $type == 'Side') { 
+	          if ($withc++) $str .= ", "; 
+		  $str .= SAO_Report($e["Side$i"]);
+                }
+	        if ($e["Act$i"] > 0 && $e["Act$i"] != $id && $type == 'Act') { 
+	          if ($withc++) $str .= ", ";
+		  $str .= SAO_Report($e["Act$i"]);
+                }
+	        if ($e["Other$i"] > 0 && $e["Other$i"] != $id && $type == 'Other') { 
+	          if ($withc++) $str .= ", ";
+		  $str .= SAO_Report($e["Other$i"]);
+                }
+	      }
 	    }
 	    $str .= "\n";
 	  }
@@ -944,7 +961,8 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
       if ($evc) {
         $Thing = Get_Side($id);
 	$Desc = ($Worst > 2)?"":'Current ';
-        $str = "<h2>$Desc Programme for " . $Thing['Name'] . ":</h2>\n" .  "<table border><tr><td>Day<td>time<td>Event<td>Venue<td>With\n" . $str;
+	if ($With) $str = "<td>With\n" . $str;
+        $str = "<h2>$Desc Programme for " . $Thing['Name'] . ":</h2>\n" .  "<table border><tr><td>Day<td>time<td>Event<td>Venue" . $str;
       }
     }
     if ($evc) {

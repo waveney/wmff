@@ -61,7 +61,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
   echo "<form method=post id=mainform enctype='multipart/form-data' action=$Form>";
   echo "<table width=90% border class=SideTable>\n";
     echo "<tr><th colspan=8><b>Public Information</b>" . Help('PublicInfo');
-    echo "<tr>" . fm_text('Name', $Side,'Name',3,'','autocomplete=off onchange=nameedit(event) oninput=nameedit(event) id=Name');
+    echo "<tr>" . fm_text('Team Name', $Side,'Name',3,'','autocomplete=off onchange=nameedit(event) oninput=nameedit(event) id=Name');
       $snx = 'class=ShortName';
       if (((isset($Side['Name'])) && (strlen($Side['Name']) > 20) ) || (strlen($Side['ShortName']) != 0)) { 
 	if (strlen($Side['ShortName']) == 0) $Side['ShortName'] = substr($Side['Name'],0,20);
@@ -220,6 +220,9 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
       }
       echo "<tr hidden id=AddHere></tr>\n";
     }
+
+    if (1) { // Overlaps
+
       
       
     if ($Mode) {
@@ -231,6 +234,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
         }
       }
     }
+}
 
     if ($Mode) {
       echo "<tr>" . fm_textarea('Notes',$Side,'Notes',7,2,'class=NotSide','class=NotSide');

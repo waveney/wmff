@@ -18,7 +18,7 @@ Do keep checking back to see who else will be appearing... there are still more 
            "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>=" . $Book_State['Booking'] . " AND s.IsAnAct=1 ORDER BY s.Importance DESC, s.Name");
   
   while($side = $SideQ->fetch_assoc()) {
-    formatminimax($side,'ShowMusic.php');
+    formatminimax($side,'ShowMusic.php',1);
   }
 
   dotail();
