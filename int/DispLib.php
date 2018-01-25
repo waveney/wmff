@@ -2,7 +2,7 @@
 
 // Displaying utilities for public site
 
-function formatminimax(&$side,$link,$mnat=1) {
+function formatminimax(&$side,$link,$mnat=2) {
   echo "<div class=mnfloatleft>";
   if ($side['Photo']) {
     $wi = $side['ImageWidth'];
@@ -15,7 +15,7 @@ function formatminimax(&$side,$link,$mnat=1) {
   } else {
     $fmt = 't';
   } // fmt t=txt, l=ls, p=pt, s=sq, b=ban
-  $mnmx = ($side['Importance'] > $mnat?'maxi':'mini');
+  $mnmx = ($side['Importance'] >= $mnat?'maxi':'mini');
   $id = AlphaNumeric($side['Name']);
   echo "<div class=$mnmx" . "_$fmt id=$id>";
   echo "<a href=/int/$link?sidenum=" . $side['SideId'] . ">";

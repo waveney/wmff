@@ -220,6 +220,9 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
       }
       echo "<tr hidden id=AddHere></tr>\n";
     }
+
+    if (1) { // Overlaps
+
       
       
     if ($Mode) {
@@ -231,6 +234,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
         }
       }
     }
+}
 
     if ($Mode) {
       echo "<tr>" . fm_textarea('Notes',$Side,'Notes',7,2,'class=NotSide','class=NotSide');
