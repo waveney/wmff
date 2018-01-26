@@ -261,6 +261,22 @@ function &Select_Act_Come_All() {
   return $Coming;
 }
 
+function &Act_All() {
+  global $db;
+  $qry = "SELECT SideId, Name FROM Sides s WHERE IsAnAct=1 ORDER BY Name";
+  $res = $db->query($qry);
+  if ($res) while ($row = $res->fetch_assoc()) $All[$row['SideId']] = $row['Name'];
+  return $All;
+}
+
+function &Other_All() {
+  global $db;
+  $qry = "SELECT SideId, Name FROM Sides s WHERE IsOther=1 ORDER BY Name";
+  $res = $db->query($qry);
+  if ($res) while ($row = $res->fetch_assoc()) $All[$row['SideId']] = $row['Name'];
+  return $All;
+}
+
 function Contract_Save($Side,$Sidey,$Reason) {
   global $THISYEAR,$Book_State;
   include_once("Contract.php");

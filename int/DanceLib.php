@@ -294,6 +294,7 @@ function Set_Side_Help() {
 	'DataCheck'=>'Not yet working',
 	'MorrisAnimal'=>'If the side has a morris animal - what kind is it',
 	'Workshops'=>'That the side could run',
+	'Overlaps'=>'Do you overlap with any dance sides or other performers who might be at Wimborne, if so please describe in detail and we will try and prevent clashes',
 	'Contact'=>'Main Contact',
 	'AgentName'=>'Main Contact',
 	'DirContact'=>'Direct Performer Contact',
@@ -413,5 +414,33 @@ function Put_Overlaps(&$Ovs) {
   }
 }
   
+function UpdateOverlaps($snum) {
+  $Exist = Get_Overlaps_For($snum);
+// Scan each existing and any added rules
+  $Rule = 0;
+  while (isset($_POST["OlapCat" . $Rule])) {
+    $O = $Exist[$Rule];
+    if (!$O) $O = array();
+    $O['Type'] = $_POST["OlapType$Rule"];
+    $O['Major'] = $_POST["OlapMajor$Rule"];
+    $O['Days'] = $_POST["OlapDays$Rule"];
+    $O['Active'] = $_POST["OlapActive$Rule"];
+    $Cat = $O['Cat'] = $_POST["OlapCat$Rule"];
+    switch ($Cat) {
+    case 0: //Side
+      $Side["OlapSide$Rule"] = $O['Active'] = $_POST["OlapSide$Rule"];
+      break;
+    case 1: //Act
 
+      break;
+    case 2: //Other
+
+      break;
+    }    
+    
+
+    $Rule++;
+  }
+}
+      
 ?>

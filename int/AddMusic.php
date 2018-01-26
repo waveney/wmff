@@ -85,6 +85,7 @@
 	};
       }
       UpdateBand($snum);
+      UpdateOverlaps($snum);
     } else { /* New Act */
       $proc = 1;
       $Side = array();
@@ -98,6 +99,7 @@
       $snum = Insert_db_post('Sides',$Side,$proc);
       if ($snum) Insert_db_post('ActYear',$Sidey,$proc);
       UpdateBand($snum);
+      UpdateOverlaps($snum);
     }
     $type = 'Act';
     if (!$Side['IsAnAct'] && $Side['IsOther']) $type = 'Other';
