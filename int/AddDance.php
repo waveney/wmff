@@ -79,6 +79,7 @@
 	};
       }
       UpdateBand($snum);
+      UpdateOverlaps($snum);
     } else { /* New Side */
       $proc = 1;
       $Side = array();
@@ -92,6 +93,7 @@
       $snum = Insert_db_post('Sides',$Side,$proc);
       if ($snum) Insert_db_post('SideYear',$Sidey,$proc);
       UpdateBand($snum);
+      UpdateOverlaps($snum);
     }
 
   } elseif (isset($_GET{'sidenum'})) { /* Link from elsewhere */

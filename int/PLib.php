@@ -4,7 +4,7 @@
 $CurYear = date('Y');
 
 function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
-  global $MASTER,$Side_Statuses,$Importance,$Surfaces,$Noise_Levels,$Share_Spots,$Mess,$Action,$ADDALL,$CurYear,$THISYEAR;
+  global $MASTER,$Side_Statuses,$Importance,$Surfaces,$Noise_Levels,$Share_Spots,$Mess,$Action,$ADDALL,$CurYear,$THISYEAR,$OlapTypes,$OlapCats,$OlapDays;
   if ($CatT == '') {
     $CatT = ($Side['IsASide'] ? 'Side' : $Side['IsAnAct'] ? 'Act' : 'Other');
   } else {
@@ -221,9 +221,26 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
       echo "<tr hidden id=AddHere></tr>\n";
     }
 
-    if (1) { // Overlaps
-
-      
+    echo "<tr>" . fm_textarea('Shared Performers',$Side,'Overlaps',7,2);
+    if (Access('SysAdmin') && $Mode) { // only ctte can build rule sets
+      $olaps = Get_Overlaps_For($snum);
+      $rows = count($olaps)+1;
+      $SideList=Sides_All($snum);
+      $ActList=Act_All();
+      $OtherList=Other_All();
+      $row = 0;
+      echo "<tr id=OverlapRow$row class=NotSide><td rowspan=$rows class=NotSide>Overlap Rules: <button type=button onclick=AddOverlapRow()>+</button>\n";
+      for ($i = 0; $i < $rows; $i++) {
+	if ($i) echo "<tr id=OverlapRow$i class=NotSide>";
+ // Need to get Olapdata into Side for this to work - Use olap itself NOT side...
+	echo "<td colspan=7 class=NotSide>Type: " . fm_select($OlapTypes,$Side,"OlapType$i") . fm_checkbox("Major",$Side,"OlapMajor$i") . 
+		fm_radio(" With",$OlapCats,$Side,"OlapCat$i",'onchange=OlapCatChange(event)',0) . 
+		fm_select($SideList,$Side,"OlapSide$i",0,($Side["OlapCat$i"]>1?'hidden':'')) . 
+		fm_select($ActList,$Side,"OlapAct$i",0,($Side["OlapCat$i"]!=1?'hidden':'')) . 
+		fm_select($OtherList,$Side,"OlapOther$i",0,($Side["OlapCat$i"]!=2?'hidden':'')) .
+		" On Days: " . fm_select($OlapDays,$Side,"OlapDays$i") . fm_checkbox("Rule Active",$Side,"OlapActive$i") . "\n";
+      } 
+    }
       
     if ($Mode) {
       echo "<tr>" . fm_text('Location',$Side,'Location',2,'class=NotSide');
@@ -234,7 +251,6 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
         }
       }
     }
-}
 
     if ($Mode) {
       echo "<tr>" . fm_textarea('Notes',$Side,'Notes',7,2,'class=NotSide','class=NotSide');

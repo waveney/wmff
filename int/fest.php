@@ -23,9 +23,6 @@ $Area_Levels = array( 'No','Edit','Edit and Report');
 $Area_Type = array_flip($Area_Levels);
 $Sections = array( 'Docs','Dance','Stalls','Users','Venues','Music','Sponsors','Comedy','Craft','Other','OldAdmin','Bugs','Photos');
 $Importance = array('None','Some','High','Very High','Even Higher','Highest','The Queen');
-$OverlapStates = array('','Major Musician','Minor Musician','Major Dancer','Minor Dancer','Major Other','Minor Other');
-$Overlap_Type = array_flip($OverlapStates);
-$OverlapDays = array('','Fri Only','Sat Only','Sun Only');
 $Book_States = array('None','Declined','Booking','Contract Ready','Booked');
 $Book_State = array_flip($Book_States);
 $InsuranceStates = array('None','Uploaded','Checked');
@@ -33,13 +30,9 @@ $Book_Actions = array('None'=>'Book','Declined'=>'Book,Contract','Booking'=>'Con
 		'Booked'=>'Cancel,Decline');
 $Book_Colour = array('None'=>'White','Declined'=>'pink','Booking'=>'yellow','Contract Ready'=>'orange','Booked'=>'lime');
 $EType_States = array('Very Early','Draft','Partial','Provisional','Complete');
-/*
-$Overlap_Types = array('None','Major Dancer','Minor Dancer','Major Musician','Minor Musician');
-$Overlap_Desc = array('None'=>'','Major Dancer'=>'Must have 30 minute breaks between different spots',
-		'Minor Dancer'=>'Prefer gaps between spots if possible',
-		'Major Musician'=>'May perform at same spot for 2 different teams/sides, but not for more than 1 hour',
-		'Minor Musician'=>'Prefer gaps if possible');
-*/
+$OlapTypes = array('Dancer','Musician');
+$OlapDays = array('All','Sat Only','Sun Only','None');
+$OlapCats = array('Side','Act','Other');
 
 
 // If table's index is 'id' it does not need to be listed here
