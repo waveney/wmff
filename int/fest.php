@@ -312,8 +312,9 @@ function fm_select(&$Options,$data,$field,$blank=0,$selopt='',$field2='') {
   return fm_select2($Options,'@@@@@@',$field,$blank,$selopt,$field2);
 }
 
-function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='') {
+function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field2='') {
   global $ADDALL;
+  if ($field2 == '') $field2=$field;
   $str = "";
   if ($tabs) $str .= "<td $extra>"; 
   if ($Desc) $str .= "$Desc:";
@@ -325,7 +326,10 @@ function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='') {
     if ($done && $tabs == 2) $str.= "<br>";
     $done = 1;
     $str .= "$d:";
-    $str .= "<input type=radio name=$field $ADDALL $extra value='$i'";
+    $ex = $extra;
+    $ex = preg_replace('/###F/',("'" . $field2 . "'"),$ex);
+    $ex = preg_replace('/###V/',("'" . $i . "'"),$ex);
+    $str .= "<input type=radio name=$field2 $ADDALL $ex value='$i'";
     if ($data[$field] == $i) $str .= " checked";
     $str .= ">\n";
   }

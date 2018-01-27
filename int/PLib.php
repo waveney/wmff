@@ -221,27 +221,32 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
       echo "<tr hidden id=AddHere></tr>\n";
     }
 
+// OVERLAPS
     echo "<tr>" . fm_textarea('Shared Performers',$Side,'Overlaps',7,2);
-    if (Access('SysAdmin') && $Mode) { // only ctte can build rule sets
+    if ($Mode) { // only ctte can build rule sets
       $olaps = Get_Overlaps_For($snum);
       $rows = count($olaps)+1;
       $SideList=Sides_All($snum);
       $ActList=Act_All();
       $OtherList=Other_All();
       $row = 0;
-      echo "<tr id=OverlapRow$row class=NotSide><td rowspan=$rows class=NotSide>Overlap Rules: <button type=button onclick=AddOverlapRow()>+</button>\n";
+      echo "<tr id=OverlapRow$row class=NotSide><td rowspan=$rows class=NotSide>Overlap Rules: \n"; //<button type=button onclick=AddOverlapRow()>+</button>\n";
       for ($i = 0; $i < $rows; $i++) {
+        $O = $olaps[$i];
+	$Other =  ($O['Sid1'] == $snum)?'Sid2':'Sid1';
+	$OtherCat =  ($O['Sid1'] == $snum)?'Cat2':'Cat1';
 	if ($i) echo "<tr id=OverlapRow$i class=NotSide>";
- // Need to get Olapdata into Side for this to work - Use olap itself NOT side...
-	echo "<td colspan=7 class=NotSide>Type: " . fm_select($OlapTypes,$Side,"OlapType$i") . fm_checkbox("Major",$Side,"OlapMajor$i") . 
-		fm_radio(" With",$OlapCats,$Side,"OlapCat$i",'onchange=OlapCatChange(event)',0) . 
-		fm_select($SideList,$Side,"OlapSide$i",0,($Side["OlapCat$i"]>1?'hidden':'')) . 
-		fm_select($ActList,$Side,"OlapAct$i",0,($Side["OlapCat$i"]!=1?'hidden':'')) . 
-		fm_select($OtherList,$Side,"OlapOther$i",0,($Side["OlapCat$i"]!=2?'hidden':'')) .
-		" On Days: " . fm_select($OlapDays,$Side,"OlapDays$i") . fm_checkbox("Rule Active",$Side,"OlapActive$i") . "\n";
+	echo "<td colspan=7 class=NotSide>Type: " . fm_select($OlapTypes,$O,'Type',0,'',"OlapType$i") . 
+		fm_checkbox("Major",$O,'Major','',"OlapMajor$i") . 
+		fm_radio(" With",$OlapCats,$O,$OtherCat,'onchange=OlapCatChange(event,###F,###V)',0,'',"OlapCat$i") . 
+		fm_select($SideList,$O,$Other,1,"id=OlapSide$i " .($O[$OtherCat]>0?'hidden':''),"OlapSide$i") . 
+		fm_select($ActList,$O,$Other,1,"id=OlapAct$i " .($O[$OtherCat]!=1?'hidden':''),"OlapAct$i") . 
+		fm_select($OtherList,$O,$Other,1,"id=OlapOther$i " .($O[$OtherCat]!=2?'hidden':''),"OlapOther$i") .
+		" On Days: " . fm_select($OlapDays,$O,'Days',0,'',"OlapDays$i") . 
+		fm_checkbox("Rule Active",$O,'Active','',"OlapActive$i") . "\n";
       } 
     }
-      
+
     if ($Mode) {
       echo "<tr>" . fm_text('Location',$Side,'Location',2,'class=NotSide');
       if (Access('SysAdmin')) {

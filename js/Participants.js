@@ -134,3 +134,16 @@ function PowerChange(t,i) {
     $('#PowerTypeRequest' + i).attr('checked',true) 
   }
 }
+
+function OlapCatChange(e,l,v) {
+//  debugger;
+  var lmtch = l.match(/(\d*$)/);
+  var olapn = lmtch[1];
+
+  $('#OlapSide' + olapn).hide();
+  $('#OlapAct' + olapn).hide();
+  $('#OlapOther' + olapn).hide();
+  if (v == 0) $('#OlapSide' + olapn).show();
+  if (v == 1) $('#OlapAct' + olapn).show();
+  if (v == 2) $('#OlapOther' + olapn).show();
+}

@@ -418,26 +418,32 @@ function UpdateOverlaps($snum) {
   $Exist = Get_Overlaps_For($snum);
 // Scan each existing and any added rules
   $Rule = 0;
-  while (isset($_POST["OlapCat" . $Rule])) {
-    $O = $Exist[$Rule];
-    if (!$O) $O = array();
+  while (isset($_POST["OlapSide$Rule"]) || isset($_POST["OlapAct$Rule"]) || isset($_POST["OlapSide$Rule"])) {
+    $O = $StO = $Exist[$Rule];
+    if (!$O) { $O = array(); $O['Sid1'] = $snum; }
+    $Other = ($O['Sid1'] == $snum)?'Sid2':'Sid1'; //???????
+    $OtherCat = ($O['Sid1'] == $snum)?'Cat2':'Cat1'; //???????
     $O['Type'] = $_POST["OlapType$Rule"];
     $O['Major'] = $_POST["OlapMajor$Rule"];
     $O['Days'] = $_POST["OlapDays$Rule"];
     $O['Active'] = $_POST["OlapActive$Rule"];
-    $Cat = $O['Cat'] = $_POST["OlapCat$Rule"];
+    $Cat = $O[$OtherCat] = $_POST["OlapCat$Rule"];
     switch ($Cat) {
     case 0: //Side
-      $Side["OlapSide$Rule"] = $O['Active'] = $_POST["OlapSide$Rule"];
+      $O[$Other] = $_POST["OlapSide$Rule"];
       break;
     case 1: //Act
-
+      $O[$Other] = $_POST["OlapAct$Rule"];
       break;
     case 2: //Other
-
+      $O[$Other] = $_POST["OlapOther$Rule"];
       break;
     }    
-    
+    if ($O['id']) {
+      Update_db('Overlaps',$StO,$O); 
+    } else if ($O[$Other]) {
+      Insert_db('Overlaps',$O); 
+    }
 
     $Rule++;
   }
