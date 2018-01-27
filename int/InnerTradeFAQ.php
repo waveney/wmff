@@ -37,7 +37,7 @@ must co-operate with festival organisers and supervisors at all times.<p>
 
 <dt>Sleeping<dd>Any persons sleeping in trade stands will result in removal of the stand immediately.  You are welcome to use camping:<p>
 
-<dt>Camping<dd>Our official campsite is <a href=/info/camping>Meadows Camping</a>, a picturesque, local, secure, 
+<dt>Camping<dd>Our official campsite is <a href=/InfoCamping.php>Meadows Camping</a>, a picturesque, local, secure, 
 well managed temporary campsite for the 
 folk festival weekend. The site is just a 10 minute walk from the town centre over Julian's bridge.<p>
 

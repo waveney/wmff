@@ -32,10 +32,10 @@ prevailing party shall be paid its reasonable legal fees and costs by the losing
 Cash will not be used for payments. Any queries should be submitted through the employer.<p>
 
 <dt>Parking<dd><PARKING>There are a number of public car parks in Wimborne. Parking is also available at Meadows
-Campsite, just over Julien's Bridge, Julien's Road and at Allenborne School. <!--Free festival parking for performers may also available at QE
-School (15 minutes walk from Square), but MUST be booked in advance.-->  See <a href=/info/camping>Parking</a> for more detail.</PARKING><p>
+Campsite, just over Julien's Bridge, Julien's Road and at Allenborne School. 
+See <a href=/InfoCamping.php>Parking</a> for more detail.</PARKING><p>
 
-<dt>Camping<dd>Our official campsite is <a href=/info/camping>Meadows Camping</a>, a picturesque, local, secure, 
+<dt>Camping<dd>Our official campsite is <a href=/InfoCamping.php>Meadows Camping</a>, a picturesque, local, secure, 
 well managed temporary campsite for the 
 folk festival weekend. The site is just a 10 minute walk from the town centre over Julian's bridge.<p>
 
