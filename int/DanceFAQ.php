@@ -24,19 +24,17 @@ team coming to Wimborne (or you have members appearing in our concerts, etc) the
 let us know what the overlaps are and we'll ensure your programming takes account of this.
 
 <dt>Camping<dd>We don't run our own campsite, but highly recommend 'The Meadows' which
-is only a few minutes walk from the town centre.  See <a href=../info/camping>Camping
+is only a few minutes walk from the town centre.  See <a href=../InfoCamping.php>Camping
 Information</a>
 
 <dt>Car parking<dd> If you are using the Meadows camp site, then you can leave your
 car there, as it's a very short walk into the town centre. There are many car parks
 around town, including a popular one run by Allenbourne School for &pound;5/day. 
-If you're up to a 20min walk, then you may be able to park all day for free at
-Queen Elizabeth school (where the Saturday night ceilidh will be). If they offer
-this again in 2018, we'll have a box on the dance side record where you can say
-how many cars you need tickets for.
 
 <dt>Wristbands<dd> We will mail out performers'  wristbands a few weeks before the
-festival.  Make sure you have a postal address on your dance side record.
+festival.  Performers wristbands give free entry to all offical fetival events, provided there is
+space available.  They may also get you into the Party in the Paddock.  
+Make sure you have a postal address on your dance side record, for us to mail your wristbands to.
 
 <dt>Insurance<dd> In the New Year, when you new insurance certificates arrive, 
 please upload a copy of your 2018 public liability insurance to your dance side record.
@@ -44,10 +42,6 @@ please upload a copy of your 2018 public liability insurance to your dance side 
 <dt>Would you be interested in running a workshop?<dd> If you are, contact
 <a href=mailto:dance@wimbornefolk.co.uk>dance@wimbornefolk.co.uk</a>
 and we'll see if we can arrange a suitable time and place.
-
-<dt>If anyone would like to dance at a nursing home in Wimborne<dd> please ask and
-we'll arrange a time slot to fit in with your existing programme.  Most of the
-residents are too frail to come into town to see the festival.
 
 <dt>Collecting<dd> Please pick up a collecting tin from the Allendale Centre before
 your first dance spot and return it there when you've finished dancing.
@@ -75,9 +69,9 @@ lining up for the procession along Park Lane at 2pm. The procession will begin
 moving at 2:30.  When you reach the end, please salute the mayor.  Your position
 in the procession will appear in your dance side record.
 
-<dt>Procession Route.<dd>We may be changing the procession route this year, in
+<!--<dt>Procession Route.<dd>We may be changing the procession route this year, in
 order to avoid the problem of dancing past stalls encroaching on the route. 
-The proposed new route is longer, but less cluttered.
+The proposed new route is longer, but less cluttered. -->
 
 <dt>Rapper Dancers<dd>We're only expecting rapper teams to do one street spot
 per day. The rest of the time you can free range in the town's pubs. The programme
@@ -98,7 +92,9 @@ don't yet have a good one of you), then please link to it or upload it via
 the dance side record.
 
 <dt>Solo or Shared Dance Spots?<dd>There is a box to tick to show if you
-prefer to share your half hour spots or to dance alternating with another team.
+prefer to do a half hour spot on your own, or to share your half hour spot alternating with another team.
+
+<dt>Map<dd>A Map of all festival venues can be found <a href=/Map.php>Here</a>
 
 </dl>
 
