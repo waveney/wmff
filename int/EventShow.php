@@ -26,7 +26,7 @@ function Print_Thing($thing,$right=0) {
 
 $lemons = 0;
 
-function Print_Participants($e,$when,$thresh) {
+function Print_Participants($e,$when=0,$thresh=0) {
   global $lemons;
   Get_Imps($e,$imps,1,(Access('Staff')?1:0));
   $things = 0;

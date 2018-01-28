@@ -85,6 +85,26 @@ function &Select_Come_All() {
   return $Coming;
 }
 
+function &Part_Come_All() {
+  global $db,$YEAR,$Coming_Type;
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] ;
+  $res = $db->query($qry);
+  if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row; // All Sides, now acts
+
+  $qry = "SELECT s.*, a.* FROM Sides s, ActYear a WHERE s.SideId=a.SideId AND a.Year=$YEAR AND a.YearState>1 ";
+  $res = $db->query($qry);
+  if ($res) while ($row = $res->fetch_assoc()) {
+    if ($Coming[$row['SideId']]) {
+      $Coming[$row['SideId']] = array_merge($Coming[$row['SideId']],$row);
+    } else {
+      $Coming[$row['SideId']] = $row;
+    }
+  }
+
+//var_dump($Coming);exit;
+  return $Coming;
+}
+
 function Show_Side($snum,$Message='') {
   global $YEAR, $Coming_Type,$db;
   if ($side = Get_Side($snum)) {
@@ -385,9 +405,10 @@ function Has_Info(&$data) {
   return 0;
 } 
 
-function Get_Overlaps_For($id) {
+function Get_Overlaps_For($id,$act=0) { // if act only active
   global $db;
-  $res = $db->query("SELECT * FROM Overlaps WHERE Sid1=$id OR Sid2=$id");
+  $Os = array();
+  $res = $db->query("SELECT * FROM Overlaps WHERE (Sid1=$id OR Sid2=$id) " . ($act?' AND Active=1':''));
   if ($res) while ($o = $res->fetch_assoc()) $Os[] = $o;
   return $Os;
 }

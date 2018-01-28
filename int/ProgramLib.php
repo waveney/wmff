@@ -9,9 +9,9 @@ function Prog_Headers($Public='',$headers =1,$What='Dance') {
     echo "<title>WMFF Staff | $What Programme</title>\n"; 
     include("minimalheader.php"); 
   }
-  echo '<script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
+  echo '<script src="/js/jquery-3.2.1.min.js"></script>
 <script src="js/tableHeadFixer.js"></script>
-<script src="js/DanceProg.js"></script>';
+<script src="js/DanceProg.js" defer></script>';
 
   include_once("festcon.php");
   echo "</head><body>\n";
@@ -273,12 +273,12 @@ function Side_List() {
   global $DAY,$Sides,$SideCounts,$Sand;
   echo "<div class=SideListWrapper><div class=SideListContainer>";
   echo "<table border id=SideList>";
-  echo "<thead><tr><th>Side<th>i<th>W<th>H</thead><tbody>\n";
-//  echo "<thead><tr><th>Side<th>H<th>i<th>W<th>H</thead><tbody>\n";
+//  echo "<thead><tr><th>Side<th>i<th>W<th>H</thead><tbody>\n";
+  echo "<thead><tr><th>Side<th>H<th>i<th>W<th>H</thead><tbody>\n";
   foreach ($Sides as $id=>$side) {
     echo "<tr><td draggable=true class='SideName Side$id' id=SideN$id ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event,$Sand)>";
     echo SName($side) . " (" . trim($side['Type']) . ")<td>";
-//    echo "<input type=checkbox id=SideH$id onchange=highlight($id)><td>";
+    echo "<input type=checkbox id=SideH$id onchange=highlight($id)><td>";
     if (Has_Info($side)) echo "<img src=/images/icons/information.png onclick=dispinfo('Side',$id)>";
     echo "<td id=SideW$id align=right>" . $side[$DAY . "Dance"];
     echo "<td id=SideH$id align=right>";

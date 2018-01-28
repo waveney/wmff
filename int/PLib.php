@@ -48,8 +48,8 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
     echo "  <span class=NotCSide>Marked are visible if set, but not changeable by participants.</span>";
   } else {
     $Adv = ''; // 'class=Adv'; // NEEDS MODING FOR NON DANCE
-    if ($Mstate) {
-      echo "<h2 class=floatright>You have <span id=ImpC>0</span> of 4 <span class=red>Most Dance Important</span> things filled in </h2>";
+    if ($Mstate && $Side['IsASide']) {
+      echo "<h2 class=floatright>You have <span id=ImpC>0</span> of 4 <span class=red>Most Important</span> Dance things filled in </h2>";
       $Imp = 'class=imp';
     }
     echo "Please keep this information up to date, even if you are not coming so we can invite you in the future.";
@@ -160,8 +160,8 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
 
     if (!$Side['IsASide']) { // POTENTIALLY ALLOW FOR SIDES IN FUTURE
       echo "<tr><td>Bank Details:" . help('Bank');
-        echo fm_number('Sort Code',$Side,'SortCode');
-        echo fm_number('Bank Account Number',$Side,'Account');
+        echo fm_text('Sort Code',$Side,'SortCode');
+        echo fm_text('Bank Account Number',$Side,'Account');
         echo fm_text('Account Name',$Side,'AccountName');
 	echo "<td>" . fm_checkbox('Are you VAT registered',$Side,'VATreg');
     }
@@ -608,8 +608,6 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
   if ($HasPark) echo fm_text("For $HasPark",$Sidey,'Parking','','colspan=2');
   echo fm_text('QE Car Park Tickets',$Sidey,'CarPark');
 */
-
-// Overlaps - When Ready
 
 // Notes - As Sides
   echo "<tr>" . fm_textarea('Notes',$Sidey,'YNotes',8,2);

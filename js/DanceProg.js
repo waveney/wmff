@@ -1,5 +1,8 @@
 
-  var Dragged ;
+var Dragged ;
+var nexthl = 0;
+var hlights = [];
+
 
   function RemoveGrid(loc,dmatch) {
 // Drops usage count, clears content, changes id to no side    
@@ -7,7 +10,8 @@
     var cur = $("#SideH"+Side).text();
     if (cur) { cur--; $("#SideH"+Side).text(cur); };
     loc.innerHTML='';
-//    loc.classlist.remove('Side' + Side);
+    loc.classList.remove('Side' + Side);
+    if (hlights[Side]) loc.classList.remove(hlights[Side]);
     loc.setAttribute('id',"G" + dmatch.slice(1,5).join(':')+':0' );
   }
 
@@ -19,7 +23,8 @@
     $("#SideH"+Side).text(cur); 
     dst.innerHTML=text;
     var newid = "G" + dmatch.slice(1,5).join(':') +  ':' + Side;
-//    loc.classlist.add('Side' + Side);
+    dst.classList.add('Side' + Side);
+    if (hlights[Side]) dst.classList.add(hlights[Side]);
     dst.setAttribute('id',newid);
   }
 
@@ -30,7 +35,7 @@
     var srcmtch;
     var Txt = src.innerHTML;
 
-    if (!sand) $("#InformationPane").load("dpupdate.php", "D=" + dstId + "&S=" + srcId + "&Y=" + $("#DayId").text() + "&E=" + 
+    if (!sand) $("#InformationPane").load("dpupdate.php", "D=" + dstId + "&S=" + srcId + "&A=" + $("#DayId").text() + "&E=" + 
 			$("input[type='radio'][name='EInfo']:checked").val()	);
     if (dstmtch && dstmtch[5]>0) RemoveGrid(dst,dstmtch);
     var s = srcId.match(/SideN(\d*)/);
@@ -48,6 +53,7 @@
   }
 
   $(document).ready(function() {
+    sleep(5000);
     $("#Grid").tableHeadFixer({'left':1});
   } );
 
@@ -71,18 +77,17 @@
     $("#InfoPane").load("dpinfo.php", "S=" + s + "&T=" + t);
   }
 
-var highlights = ['#E00','#0E0','#00E','#EE0','#E0E','#0EE'];
-var nexthl = 0;
-
   function highlight(id) {
     debugger;
-// if was highlighted, remove highlight from sidelist and grid and remove from list of highlights in use
-   
-// select next colour
-    var col = highlights[nexthl];
-    document.getElementsByClassName('Side'+id).classlist.add('BGColour'+nexthl);
-
-    highlightsinuse[nexthl++] = id;
-    if (nexthl>5) nexthl=0;
+    var oc=hlights[id];
+    if (oc) {
+      $('.'+oc).removeClass(oc);
+      hlights[id]='';
+    } else {
+      $('.BGColour'+nexthl).removeClass('BGColour'+nexthl);
+      $('.Side'+id).addClass('BGColour'+nexthl);
+      hlights[id] = 'BGColour' + nexthl;
+      if (nexthl++ >8) nexthl=0;
+    }
   }
 
