@@ -10,7 +10,7 @@
   if (isset($_GET['D'])) {
     $dstId = $_GET['D'];  
     $srcId = $_GET['S'];  
-    $Day   = $_GET['Y'];
+    $Day   = $_GET['A'];
     $DayN  = $Day_Type[$Day];
   
     if (preg_match('/SideN(\d*)/',$srcId,$sres)) {

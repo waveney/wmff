@@ -30,7 +30,7 @@
     var srcmtch;
     var Txt = src.innerHTML;
 
-    if (!sand) $("#InformationPane").load("dpupdate.php", "D=" + dstId + "&S=" + srcId + "&Y=" + $("#DayId").text() + "&E=" + 
+    if (!sand) $("#InformationPane").load("dpupdate.php", "D=" + dstId + "&S=" + srcId + "&A=" + $("#DayId").text() + "&E=" + 
 			$("input[type='radio'][name='EInfo']:checked").val()	);
     if (dstmtch && dstmtch[5]>0) RemoveGrid(dst,dstmtch);
     var s = srcId.match(/SideN(\d*)/);

@@ -405,9 +405,10 @@ function Has_Info(&$data) {
   return 0;
 } 
 
-function Get_Overlaps_For($id) {
+function Get_Overlaps_For($id,$act=0) { // if act only active
   global $db;
-  $res = $db->query("SELECT * FROM Overlaps WHERE Sid1=$id OR Sid2=$id");
+  $Os = array();
+  $res = $db->query("SELECT * FROM Overlaps WHERE (Sid1=$id OR Sid2=$id) " . ($act?' AND Active=1':''));
   if ($res) while ($o = $res->fetch_assoc()) $Os[] = $o;
   return $Os;
 }
