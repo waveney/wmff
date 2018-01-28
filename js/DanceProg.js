@@ -1,5 +1,8 @@
 
-  var Dragged ;
+var Dragged ;
+var nexthl = 0;
+var hlights = [];
+
 
   function RemoveGrid(loc,dmatch) {
 // Drops usage count, clears content, changes id to no side    
@@ -7,7 +10,8 @@
     var cur = $("#SideH"+Side).text();
     if (cur) { cur--; $("#SideH"+Side).text(cur); };
     loc.innerHTML='';
-//    loc.classlist.remove('Side' + Side);
+    loc.classList.remove('Side' + Side);
+    if (hlights[Side]) loc.classList.remove(hlights[Side]);
     loc.setAttribute('id',"G" + dmatch.slice(1,5).join(':')+':0' );
   }
 
@@ -19,7 +23,8 @@
     $("#SideH"+Side).text(cur); 
     dst.innerHTML=text;
     var newid = "G" + dmatch.slice(1,5).join(':') +  ':' + Side;
-    dst.classlist.add('Side' + Side);
+    dst.classList.add('Side' + Side);
+    if (hlights[Side]) dst.classList.add(hlights[Side]);
     dst.setAttribute('id',newid);
   }
 
@@ -70,9 +75,6 @@
   function dispinfo(t,s) {
     $("#InfoPane").load("dpinfo.php", "S=" + s + "&T=" + t);
   }
-
-var nexthl = 0;
-var hlights = [];
 
   function highlight(id) {
     debugger;
