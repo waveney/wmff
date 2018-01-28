@@ -11,7 +11,7 @@ function Prog_Headers($Public='',$headers =1,$What='Dance') {
   }
   echo '<script src="/js/jquery-3.2.1.min.js"></script>
 <script src="js/tableHeadFixer.js"></script>
-<script src="js/DanceProg.js"></script>';
+<script src="js/DanceProg.js" defer></script>';
 
   include_once("festcon.php");
   echo "</head><body>\n";
