@@ -273,12 +273,12 @@ function Side_List() {
   global $DAY,$Sides,$SideCounts,$Sand;
   echo "<div class=SideListWrapper><div class=SideListContainer>";
   echo "<table border id=SideList>";
-  echo "<thead><tr><th>Side<th>i<th>W<th>H</thead><tbody>\n";
-//  echo "<thead><tr><th>Side<th>H<th>i<th>W<th>H</thead><tbody>\n";
+//  echo "<thead><tr><th>Side<th>i<th>W<th>H</thead><tbody>\n";
+  echo "<thead><tr><th>Side<th>H<th>i<th>W<th>H</thead><tbody>\n";
   foreach ($Sides as $id=>$side) {
     echo "<tr><td draggable=true class='SideName Side$id' id=SideN$id ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event,$Sand)>";
     echo SName($side) . " (" . trim($side['Type']) . ")<td>";
-//    echo "<input type=checkbox id=SideH$id onchange=highlight($id)><td>";
+    echo "<input type=checkbox id=SideH$id onchange=highlight($id)><td>";
     if (Has_Info($side)) echo "<img src=/images/icons/information.png onclick=dispinfo('Side',$id)>";
     echo "<td id=SideW$id align=right>" . $side[$DAY . "Dance"];
     echo "<td id=SideH$id align=right>";

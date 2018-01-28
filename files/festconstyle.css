@@ -473,14 +473,14 @@ div.dataTables_wrapper {
   font-weight: bold;
 }
 
-.BGColour0 { background:#e00; }
-.BGColour1 { background:#0e0; }
-.BGColour2 { background:#00e; }
-.BGColour3 { background:#ee0; }
-.BGColour4 { background:#e0e; }
-.BGColour5 { background:#0ee; }
-.BGColour6 { background:#eaa; }
-.BGColour7 { background:#e00; }
+.BGColour0 { background:#f96 !important; }
+.BGColour1 { background:#c6f !important; }
+.BGColour2 { background:#3cf !important; }
+.BGColour3 { background:#6f9 !important; }
+.BGColour4 { background:#fc6 !important; }
+.BGColour5 { background:#f3c !important; }
+.BGColour6 { background:#96f !important; }
+.BGColour7 { background:#6fc !important; }
 
 .adrlabbox {
   width:250px;

@@ -19,7 +19,7 @@
     $("#SideH"+Side).text(cur); 
     dst.innerHTML=text;
     var newid = "G" + dmatch.slice(1,5).join(':') +  ':' + Side;
-//    loc.classlist.add('Side' + Side);
+    dst.classlist.add('Side' + Side);
     dst.setAttribute('id',newid);
   }
 
@@ -71,18 +71,20 @@
     $("#InfoPane").load("dpinfo.php", "S=" + s + "&T=" + t);
   }
 
-var highlights = ['#E00','#0E0','#00E','#EE0','#E0E','#0EE'];
 var nexthl = 0;
+var hlights = [];
 
   function highlight(id) {
     debugger;
-// if was highlighted, remove highlight from sidelist and grid and remove from list of highlights in use
-   
-// select next colour
-    var col = highlights[nexthl];
-    document.getElementsByClassName('Side'+id).classlist.add('BGColour'+nexthl);
-
-    highlightsinuse[nexthl++] = id;
-    if (nexthl>5) nexthl=0;
+    var oc=hlights[id];
+    if (oc) {
+      $('.'+oc).removeClass(oc);
+      hlights[id]='';
+    } else {
+      $('.BGColour'+nexthl).removeClass('BGColour'+nexthl);
+      $('.Side'+id).addClass('BGColour'+nexthl);
+      hlights[id] = 'BGColour' + nexthl;
+      if (nexthl++ >8) nexthl=0;
+    }
   }
 
