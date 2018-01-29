@@ -54,7 +54,6 @@ var hlights = [];
 
   $(document).ready(function() {
     $("#Grid").tableHeadFixer({'left':1});
-//    $("#Grid").tableHeadFixer();
   } );
 
   function drag(ev) {

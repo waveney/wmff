@@ -277,8 +277,10 @@ function Side_List() {
   echo "<thead><tr><th>Side<th>H<th>i<th>W<th>H</thead><tbody>\n";
   foreach ($Sides as $id=>$side) {
     echo "<tr><td draggable=true class='SideName Side$id' id=SideN$id ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event,$Sand)>";
-    echo SName($side) . " (" . trim($side['Type']) . ")<td>";
-    echo "<input type=checkbox id=SideH$id onchange=highlight($id)><td>";
+    echo SName($side);
+    if ($side['Type']) echo " (" . trim($side['Type']) . ")";
+    echo "<td>";
+    echo "<input type=checkbox id=SideHL$id onchange=highlight($id)><td>";
     echo "<img src=/images/icons/" . (Has_Info($side)?"redinformation.png":"information.png") . " width=20 onclick=dispinfo('Side',$id)>";
     echo "<td id=SideW$id align=right>" . $side[$DAY . "Dance"];
     echo "<td id=SideH$id align=right>";
