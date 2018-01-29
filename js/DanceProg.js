@@ -53,8 +53,8 @@ var hlights = [];
   }
 
   $(document).ready(function() {
-    sleep(5000);
     $("#Grid").tableHeadFixer({'left':1});
+//    $("#Grid").tableHeadFixer();
   } );
 
   function drag(ev) {

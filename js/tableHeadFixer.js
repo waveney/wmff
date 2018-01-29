@@ -156,6 +156,7 @@
 
                 // Set table left column fixed
                 function fixLeft() {
+debugger;
                     var table = $(settings.table);
 
                     // var fixColumn = settings.left;

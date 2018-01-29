@@ -110,7 +110,7 @@ function Get_AllUsers4Sect($Sect,$also=-1,$Sect2='@@',$Sect3='@@') { // Sect = M
   while ($us = $res->fetch_assoc()) {
     $uid = $us['UserId'];
     $ulog = $us['Login'];
-    if ($us[$Sect] || $uid==$also || $us['Sect2'] || $us['Sect3']) $ans[$uid] = $ulog;
+    if ($us[$Sect] || $uid==$also || $us[$Sect2] || $us[$Sect3]) $ans[$uid] = $ulog;
   }
   return $ans;
 }

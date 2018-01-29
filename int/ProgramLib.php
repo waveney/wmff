@@ -279,7 +279,7 @@ function Side_List() {
     echo "<tr><td draggable=true class='SideName Side$id' id=SideN$id ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event,$Sand)>";
     echo SName($side) . " (" . trim($side['Type']) . ")<td>";
     echo "<input type=checkbox id=SideH$id onchange=highlight($id)><td>";
-    if (Has_Info($side)) echo "<img src=/images/icons/information.png onclick=dispinfo('Side',$id)>";
+    echo "<img src=/images/icons/" . (Has_Info($side)?"redinformation.png":"information.png") . " width=20 onclick=dispinfo('Side',$id)>";
     echo "<td id=SideW$id align=right>" . $side[$DAY . "Dance"];
     echo "<td id=SideH$id align=right>";
     echo $SideCounts[$id] . "\n";
