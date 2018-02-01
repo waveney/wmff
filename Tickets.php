@@ -40,7 +40,6 @@ before you checkout!  Camping costs &pound;7.50pppn + booking fee in advance or 
 <br />Child (5-12): <strong>&#163;25.00</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
 <td style="width:70%">Book your Weekend Pass for official festival events. See below for the events that it covers.<p>
-There is a &pound;5 discount on the weekend pass with the code EARLYBIRD until 31st Jan 2018.<p>
 
 Only this ticket includes entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
 <td style="text-align:center; font-size:20px"><a href="https://www.ticketsource.co.uk/event/208030" rel="tag" target="_blank"><strong>Buy Now</strong></a></td>

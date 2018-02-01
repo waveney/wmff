@@ -338,8 +338,8 @@ function Price_Show(&$Ev) {
     if ($Npri != $Cpri && $Npri != 0) {
       if ($pc > time()) {
 	$str .= "&pound;" . $Cpri . " until " . date('j M Y',$pc);
-	$Cpri = $Npri;
       }
+    $Cpri = $Npri;
     }
   }
   
@@ -350,8 +350,8 @@ function Price_Show(&$Ev) {
       if ($pc > time()) {
 	if ($str) $str .= ", then ";
 	$str .= "&pound;" . $Cpri . " until " . date('j M Y',$pc);
-	$Cpri = $Npri;
       }
+      $Cpri = $Npri;
     }
   }
 

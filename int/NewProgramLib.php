@@ -11,7 +11,7 @@ function Prog_Headers($Public='',$headers =1,$What='Dance') {
   }
   echo '<script src="/js/jquery-3.2.1.min.js"></script>
 <script src="js/tableHeadFixer.js"></script>
-<script src="js/DanceProg.js" defer></script>';
+<script src="js/NewDanceProg.js" defer></script>';
 
   include_once("festcon.php");
   echo "</head><body>\n";
@@ -245,19 +245,23 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
       foreach ($Venues as $v) {
 	if (!$VenueUse[$v]) continue;
         $G = &$grid[$v][$t];
-        $id = ":$v:$t:$line";
+        $id = "G:$v:$t:$line";
 	$class = 'DPGridDisp';
+	$dev = '';
+	if ($line == 0 && $G) {
+	  $dev = 'data-e=' . $G['e']. ':' . $G['d'];
+	}
         if ($line >= $lineLimit[$t]) {
-	  echo "<td hidden id=G$id $DRAG class=$class>&nbsp;";
+	  echo "<td hidden id=$id $DRAG $dev class=$class>&nbsp;";
         } else if ($G['h']) {
-	  echo "<td hidden id=G$id $DRAG class=$class>&nbsp;";
+	  echo "<td hidden id=$id $DRAG $dev class=$class>&nbsp;";
         } else if (!$G){
-	  echo "<td id=G$id class=DPGridGrey $DRAG>&nbsp;";
+	  echo "<td id=G$id class=DPGridGrey $dev $DRAG data-d='X::::'>&nbsp;";
         } else if ($G['d'] > 30) {
           if ($line == 0) {
 	    $rows = ceil($G['d']/30)*4;
 	    // Need to create a wrapped event - not editble here currently
-	    echo "<td id=G$id $DRAG rowspan=$rows valign=top>";
+	    echo "<td id=$id $DRAG rowspan=$rows valign=top data-d='W::::'>";
 	    if ($G['n']) echo "<span class=DPNamed>" . $G['n'] . "<br></span>";
 	    echo "<span class=DPETimes>$t - " . timeadd($t,$G['d']) . "<br></span>";
 	    for($i=1; $i<5;$i++) {
@@ -274,24 +278,24 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
 	      }
 	    }
 	  } else {
-	    echo "<td hidden id=G$id $DRAG class=$class>&nbsp;";
+	    echo "<td hidden id=$id $DRAG class=$class>&nbsp;";
 	  }
 	} else if ($line == 0 && $G['n']) {
 	  $data = "N:" . $G['e'] . '::::';
-	  echo "<td id=G$id $DRAG data-d='$data' class=DPNamed>";
+	  echo "<td id=$id $DRAG data-d='$data' class=DPNamed>";
 	  echo $G['n'];
         } else if ($G["S" . ($line+($G['n']?0:1))]) {
 	  $si = $G["S" . ($line + ($G['n']?0:1))];
 	  $s = &$Sides[$si];
 	  $txt = SName($s) . (($types && $s['Type'])?(" (" . $s['Type'] . ") "):"");
 	  if (!$txt) $txt = "ERROR...";
-	  $data = implode(':',array($G['e'],$si,$G['d'],$G['w'],''));
+	  $data = implode(':',array('S',$G['e'],$si,$G['d'],$G['w'],''));
 	  $class .= " Side$si";
 	  if ($condense && !$types) echo "<a href=/int/ShowDance.php?sidenum=$si>$txt";
-	  echo "<td id=G$id $DRAG data-d='$data' class='$class'>$txt";
+	  echo "<td id=$id $DRAG data-d='$data' class='$class'>$txt";
 	  if ($condense && !$types) echo "</a>";
 	} else {
-	  echo "<td id=G$id $DRAG class=$class>&nbsp;";
+	  echo "<td id=$id $DRAG class=$class>&nbsp;";
         }
       } // No handling of condensed grid yet or non shared spots
       echo "\n";
