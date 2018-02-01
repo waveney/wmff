@@ -2,7 +2,7 @@
   include("fest.php");
   include("DanceLib.php");
 
-  global $YEAR;
+  global $YEAR,$OlapTypes,$OlapDays,$OlapCats;
   $t = $_GET['T'];
   $s = $_GET['S'];
 
@@ -13,16 +13,11 @@
     $link = "AddDance.php?sidenum=$s";
     break;
 
-  case 'Other':
-    $data = Get_Other($s);
-    $datay = Get_OtherYear($s,$YEAR);
-    $link = "AddOther.php?othernum=$s";
-    break;
-
   case 'Act':
-    $data = Get_Act($s);
+  case 'Other':
+    $data = Get_Side($s);
     $datay = Get_ActYear($s,$YEAR);
-    $link = "AddAct.php?actnum=$s";
+    $link = "AddMusic.php?othernum=$s";
     break;
   }
 
@@ -37,13 +32,13 @@
   if ($data['Type']) echo "<tr><td>Type:<td>" . $data['Type'];
   if ($data['Description']) echo "<tr valign=top><td>Desc:<td>" . $data['Description'];
   $surfs = 0; 
-  foreach ($Surfaces as $s) if ($s && isset($data["Surface_$s"]) && $data["Surface_$s"]) $surfs++;
+  foreach ($Surfaces as $ss) if ($ss && isset($data["Surface_$ss"]) && $data["Surface_$ss"]) $surfs++;
   if ($surfs) {
     echo "<tr><td>Sfcs:<td class=smalltext>";
-    foreach ($Surfaces as $s) if ($s && isset($data["Surface_$s"]) && $data["Surface_$s"]) echo "$s ";
+    foreach ($Surfaces as $ss) if ($ss && isset($data["Surface_$ss"]) && $data["Surface_$ss"]) echo "$ss ";
     echo "\n";
   }
-  if ($data['StagePA']) echo "<tr><td>PA:<td class=smalltext>" . $data['StagePA'];
+  if ($data['StagePA'] && $data['StagePA'] != 'None') echo "<tr><td>PA:<td class=smalltext>" . $data['StagePA'];
   if ($data['Likes']) echo "<tr><td>Rqst:<td class=smalltext>" . $data['Likes'];
   if ($data['Notes']) echo "<tr><td>notes<td class=smalltext>" . $data['notes'];
   if ($datay['Fri']) {
@@ -60,20 +55,26 @@
     if ($t == 'Side') echo "- Spots " . $datay["SunDance"];
   };
    
-  if ($datay['Arrive']) echo "<tr><td>Start<td>" . $datay['Arrive'];
-  if ($datay['Depart']) echo "<tr><td>Start<td>" . $datay['Depart'];
+  if ($datay['SatArrive']) echo "<tr><td>Sat Start<td>" . $datay['SatArrive'];
+  if ($datay['SatDepart']) echo "<tr><td>Sat Depart<td>" . $datay['SatDepart'];
+  
+  if ($datay['SunArrive']) echo "<tr><td>Sun Start<td>" . $datay['SunArrive'];
+  if ($datay['SunDepart']) echo "<tr><td>Sun Depart<td>" . $datay['SunDepart'];
   
   if ($datay['YNotes']) echo "<tr><td>notes<td class=smalltext>" . $datay['YNotes'];
   if ($datay['PrivNotes']) echo "<tr><td>notes<td class=smalltext>" . $datay['PrivNotes'];
 
-  if ($data['OverlapD1']) echo "<tr><td>D Olp<td>" . $AllSides[$data['OverlapD1']];
-  if ($data['OverlapD2']) echo "<tr><td>D Olp<td>" . $AllSides[$data['OverlapD2']];
-  if ($data['OverlapM1']) echo "<tr><td>M Olp<td>" . $AllSides[$data['OverlapM1']];
-  if ($data['OverlapM2']) echo "<tr><td>M Olp<td>" . $AllSides[$data['OverlapM2']];
+  $Olaps = Get_Overlaps_For($s);
+  if ($Olaps) foreach ($Olaps as $oi=>$O) {
+    $Other =  ($O['Sid1'] == $s)?'Sid2':'Sid1';
+    $OtherCat =  ($O['Sid1'] == $s)?'Cat2':'Cat1';
+    
+    echo "<tr><td>Olap " . substr($OlapTypes[$O['Type']],0,1) . ($O['Major']?' M ':' m ');
+    echo "<td>" . $OlapDays[$O['Days']] . " " . $OlapCat[$O[$OtherCat]] . " " . Get_Side_Name($O[$Other]);
+  } 
 
   if ($data['NoiseLevel']) echo "<tr><td>Noise:<td>" . $Noise_Levels[$data['NoiseLevel']];
 
-  echo "</table\n</body></html>";
-  
+  echo "</table>\n</body></html>";
 
 ?>

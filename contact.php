@@ -27,7 +27,7 @@
 </tr>
 <tr>
 <td>Volunteers</td>
-<td style="font-weight:bold; color:#CC0000;">Not Yet Open</td>
+<td style="font-weight:bold; color:#00CC00;">Open</td>
 <td>Visit our <a href=/info/stewards><strong>Volunteers</strong></a> page to apply online for stewarding, technical crew, artistic team and media team positions.  Should be open soon.</td>
 </tr>
 </table></p>

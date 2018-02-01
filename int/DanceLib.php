@@ -190,6 +190,14 @@ function Show_Side($snum,$Message='') {
 
 }
 
+function Get_Side_Name($id) {
+  global $db;
+  $res = $db->query("SELECT * FROM Sides WHERE SideId='$id'");
+  if (!$res || $res->num_rows == 0) return '';
+  $data = $res->fetch_assoc();
+  return SName($data);
+}
+
 $Save_Sides = array('');
 
 function Get_Side($who) {
@@ -400,8 +408,9 @@ function Put_Dance_Type(&$now) {
 }
 
 function Has_Info(&$data) {
-  $checkfor = array( 'StagePA', 'Likes', 'Notes', 'YNotes', 'PrivNotes', 'OverlapM1', 'OverlapM1', 'OverlapD1', 'OverlapD2', 'NoiseLevel');
+  $checkfor = array( 'StagePA', 'Likes', 'Notes', 'YNotes', 'PrivNotes', 'NoiseLevel');
   foreach ($checkfor as $c) if (isset($data[$c]) && $data[$c] && ($data[$c] != 'None')) return 1;
+  if (Get_Overlaps_For($data['SideId'],1)) return 1;
   return 0;
 } 
 

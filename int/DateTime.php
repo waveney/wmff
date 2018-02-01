@@ -147,7 +147,6 @@ function timeadd($time,$plus) { // times is in 24 hour format such as 1300, plus
 
 function timeround($time,$gran) { // round time to granularity gran eg 30
   $btim = (int)(((timereal($time) + $gran/2)/$gran))*$gran;
-  
   return ((int)($btim/60))*100+$btim%60;
 }
 

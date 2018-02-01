@@ -3,7 +3,7 @@
   include_once("fest.php");
   include_once("TradeLib.php");
 
-  global $db,$Trade_State,$Trader_Status,$Trade_States,$Trade_Types;
+  global $db,$Trade_State,$Trader_Status,$Trade_States,$TradeTypeData,$TradeLocData;
   header('Content-Type: text/csv; charset=utf-8');
   header('Content-Disposition: attachment; filename=Traders.csv');
 
@@ -11,7 +11,7 @@
   $output = fopen('php://output', 'w');
 
   // output the column headings
-  fputcsv($output, array('Name','Type','Goods','Contact','Email','Web','Status','Booking State','BID','CC','Before'));
+  fputcsv($output, array('Name','Type','Goods','Contact','Email','Web','Status','Booking State','BID','CC','Before','Where'));
   
   
   $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Submitted'] .
@@ -19,9 +19,14 @@
 
   $res = $db->query($qry);
   while ($fetch = $res->fetch_assoc()) {
+    $locs = "";
+    if ($fetch['PitchLoc0']) $locs = $TradeLocData[$fetch['PitchLoc0']]['Name'];
+    if ($fetch['PitchLoc1']) $locs .= ", " . $TradeLocData[$fetch['PitchLoc1']]['Name'];
+    if ($fetch['PitchLoc2']) $locs .= ", " . $TradeLocData[$fetch['PitchLoc2']]['Name'];
+
     fputcsv($output, array(
         ($fetch['Name']?$fetch['Name']:'No Name Given'),
-	$Trade_Types[$fetch['TradeType']]['Name'],
+	$TradeTypeData[$fetch['TradeType']]['Name'],
 	$fetch['GoodsDesc'],
         $fetch['Contact'],
         $fetch['Email'],
@@ -30,7 +35,9 @@
 	$Trade_States[$fetch['BookingState']],
         $fetch['BID'],
         $fetch['ChamberTrade'],
-        $fetch['Previous']));
+        $fetch['Previous'],
+	$locs
+	));
 
   }
 

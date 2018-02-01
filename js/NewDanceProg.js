@@ -3,7 +3,11 @@ var Dragged ;
 var nexthl = 0;
 var hlights = [];
 
+// Old format Le:t:l:s
+// New format Lv:t:l (L = G,S) - data-d: L:e:s:d:w L=(N,S)
+// 1st line data-e:e:d, every line data data-s:s ...?
 
+// Big Change Needed
   function RemoveGrid(loc,dmatch) {
 // Drops usage count, clears content, changes id to no side    
     var Side=dmatch[5];
@@ -15,6 +19,7 @@ var hlights = [];
     loc.setAttribute('id',"G" + dmatch.slice(1,5).join(':')+':0' );
   }
 
+// Big Change needed
   function UpdateGrid(dst,Side,dmatch,text) {
 // Increases usage count, enters content, change id to side
     var cur = $("#SideH"+Side).text();
@@ -28,17 +33,21 @@ var hlights = [];
     dst.setAttribute('id',newid);
   }
 
-  function SetGrid(srcId,dstId,sand) {
-    var src = document.getElementById(srcId);
-    var dst = document.getElementById(dstId);
-    var dstmtch = dstId.match(/G(\d*):(\d*):(\d*):(\d*):(\d*)/);
+// Big Change needed
+  function SetGrid(src,dst,sand) {
+    var srcid = src.id;
+    var dstid = dst.id;
+    var dstmtch = dstid.match(/G(\d*):(\d*):(\d*)/);
     var srcmtch;
     var Txt = src.innerHTML;
 
+// Need to gain event num for drop - I think (or is vtl sufficient? - prob is)
+// paras may need changing to pull from dat
     if (!sand) $("#InformationPane").load("dpupdate.php", "D=" + dstId + "&S=" + srcId + "&A=" + $("#DayId").text() + "&E=" + 
 			$("input[type='radio'][name='EInfo']:checked").val()	);
-    if (dstmtch && dstmtch[5]>0) RemoveGrid(dst,dstmtch);
-    var s = srcId.match(/SideN(\d*)/);
+//    if (dstmtch && dstmtch[5]>0) RemoveGrid(dst,dstmtch);
+    var dat = src.getAttribute("data-d");
+    var s = srcid.match(/SideN(\d*)/);
     if (s) {
       var SideNum = s[1]; 
     } else if (srcmtch = srcId.match(/G(\d*):(\d*):(\d*):(\d*):(\d*)/)) {
@@ -48,36 +57,42 @@ var hlights = [];
     if (dstmtch) UpdateGrid(dst,SideNum,dstmtch,Txt);
   }
 
+// Prob working new
   function UpdateInfo(cond) {
     $("#InformationPane").load("dpupdate.php", "E=" + $("input[type='radio'][name='EInfo']:checked").val() );
   }
 
+// Working on New
   $(document).ready(function() {
     $("#Grid").tableHeadFixer({'left':1});
   } );
 
+// Prob ok - changed ?? .id
   function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
-    Dragged = ev.target.id
+    Dragged = ev.target
   }
 
+// Prob ok - changed
   function drop(ev,sand) {
     ev.preventDefault();
-    SetGrid(Dragged,ev.target.id,sand);    
+    SetGrid(Dragged,ev.target,sand);    
   }
 
 // Need to make work for non shared use
+// Grey, Big = not ok,  data-d? (not = ok) - you have a hook to allow some large event adds using drop 
   function allow(ev) {
-    var dstmtch = ev.target.id.match(/G(\d*):(\d*):(\d*):(\d*):(\d*)/);
-    if (!dstmtch || dstmtch[5] == 0) ev.preventDefault();
+    var dat = ev.target.getAttribute("data-d");
+    if (!dat) ev.preventDefault();
   }    
 
+// Should work on New as unchanged
   function dispinfo(t,s) {
     $("#InfoPane").load("dpinfo.php", "S=" + s + "&T=" + t);
   }
 
+// Works on New
   function highlight(id) {
-    debugger;
     var oc=hlights[id];
     if (oc) {
       $('.'+oc).removeClass(oc);
@@ -90,3 +105,7 @@ var hlights = [];
     }
   }
 
+// New Code
+  function UnhideARow(t) {
+
+  }

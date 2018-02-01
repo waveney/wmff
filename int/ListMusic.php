@@ -13,7 +13,7 @@
 </head>
 <body>
 <?php 
-  global $YEAR,$THISYEAR,$Book_Colour,$Book_States,$Book_Actions;
+  global $YEAR,$THISYEAR,$Book_Colour,$Book_States,$Book_Actions,$Book_ActionExtras;
   include("files/navigation.php"); 
   include_once("DanceLib.php"); 
   include_once("MusicLib.php"); 
@@ -29,7 +29,7 @@
   echo "Click on column header to sort by column.  Click on Acts's name for more detail and programme when available,<p>\n";
 
   echo "If you click on the email link, press control-V afterwards to paste the standard link into message.<p>";
-  $col7 = '';
+  $col5 = $col6 = $col7 = $col8 = $col9 = '';
 
   if (isset($_GET['ACTION'])) {
     $sid = $_GET['SideId'];
@@ -136,7 +136,7 @@
 		  continue;
 		}
 	      }
-	      echo "<button class=floatright name=ACTION value='$ac' type=submit " . $ButExtra[$ac] . " >$ac</button>";
+	      echo "<button class=floatright name=ACTION value='$ac' type=submit " . $Book_ActionExtras[$ac] . " >$ac</button>";
 	    }
 	    echo "</form>";
 	  } 
