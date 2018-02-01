@@ -127,6 +127,7 @@
     if (Access('Staff','Dance')) {
       if ($YEAR == $THISYEAR) {
 	echo "<li><a href=DanceProg.php?Y=$YEAR>Edit Dance Programme</a>";
+	if (Access('SysAdmin')) echo "<li><a href=NewDanceProg.php?Y=$YEAR>New Edit Dance Programme</a>";
       } else {
         echo "<li><a href=DanceProg.php?Y=$YEAR&SAND>Edit 2017 Dance Programme in Sandbox</a>";
       }

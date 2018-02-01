@@ -169,7 +169,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
 // PA 
     echo "<tr " . (($Side['IsASide'] && !$Side['IsAnAct'] && !$Side['IsOther'])?$Adv:"") . ">";
       if ($Side['StagePA'] == '') $Side['StagePA'] = 'None';
-      echo "<td>Tech Specs:";
+      echo "<td>PA Requirements:";
       $f = ($Side['StagePA'] == '@@FILE@@');
       echo "<td>Text <input type=radio $ADDALL name=StagePAtext value=1 onchange=setStagePA(event) id=StagePAtext " . ($f?"":"checked") . "> " .
 	   "File <input type=radio $ADDALL name=StagePAtext value=2 onchange=setStagePA(event) id=StagePAfile " . ($f?"checked":"") . ">" .

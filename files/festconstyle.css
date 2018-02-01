@@ -233,6 +233,15 @@ input[type=password] {
   overflow-x: auto;
   border: 1px solid #000;
 }
+/*
+#Grid {
+  width: calc(100% - 360px); 
+  max-width: calc(100% - 360px);
+  height: 70vh;
+  max-height: 70vh;
+  overflow: hidden;
+}
+*/
 
 .SideListWrapper {
   width: 350px
@@ -336,7 +345,7 @@ div.whileDragging {
 
 .InfoWrapper {
   width: 350px
-  height: 50vh; /* 300px; */
+  height: 50vh; 
   overflow: hidden;
   position: fixed;
   bottom:0;
@@ -346,7 +355,6 @@ div.whileDragging {
 
 .InfoContainer {
   overflow-y: auto;
-/*  height: 100%; /* 300px; */
   width: 350px; 
 }
 
@@ -430,7 +438,7 @@ div.dataTables_wrapper {
 }
 
 .custom-file-input::before {
-#  content: 'Select some files';
+/*  content: 'Select some files'; */
   display: inline-block;
   background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
   border: 1px solid #999;
@@ -716,4 +724,18 @@ input[type='file'] {
 
 #narrowtable {
   width:30%;
+}
+.botx {
+  position:absolute;
+  padding:0;
+  margin:0;
+  bottom:0;
+  right:0;
+  line-height:70%;
+}
+.DPETimes {
+  font-size:12px;  
+}
+.DPESide {
+  font-size:12px;  
 }

@@ -57,8 +57,9 @@ function Grab_Data($day='') {
       $v = $ev['Venue'];
       $VenueUse[$v] = 1;
       $t = timeround($ev['Start'],30);
+      $lineLimit[$t] = 2; // Min value
       if ($ev['SubEvent'] < 0) { $et = $ev['SlotEnd']; } else { $et = $ev['End']; };
-      $duration = timeround(timeadd2($ev['Start'],-$et),30);
+      $duration = timereal($et) - timereal($ev['Start']);
       
       $EV[$v][$t]['e'] = $ei;
       $EV[$v][$t]['d'] = $duration;
@@ -75,7 +76,7 @@ function Grab_Data($day='') {
 	for($i=1;$i<5;$i++) {
 	  if ($ev[$kit . $i]) {
 	    if ($parts++ <= $plim) {
-	      $linelimit[$t] = max($linelimit[$t],$parts);
+	      $lineLimit[$t] = max($lineLimit[$t],$parts);
 	      $EV[$v][$t]["S$parts"] = $ev[$kit . $i];
 	    } else {
 	      $EV[$v][$t]["S4"] = -1;
@@ -134,6 +135,170 @@ function Scan_Data($condense=0) {
       $MaxOther= max($MaxOther, $ThisO);
     }
   }
+
+  
+
+}
+
+/* Advanced Griding plans:
+  Build data into large array then when all done
+  work down each venue in turn
+  scan the data to produce the output
+  Will know things that cross grid boundry
+  special colours for non standard events
+
+  Grid [times][venues][Name, Dur, with0-3]
+  grid[v][t][d: duration, n:name, err:error, w:wrap, s1..4:participants, e:evnt, h:hide]
+*/
+// Creates Raw Grid
+function Create_Grid() { 
+  global $DAY,$Times,$Back_Times,$grid,$lineLimit,$EV,$Sides,$SideCounts,$VenueUse,$evs,$MaxOther,$VenueInfo,$Venues,$VenueNames,$OtherLocs,$Sand;
+
+  $ForwardUse = array();
+
+  foreach ($Venues as $v) {
+    if (!isset($VenueUse[$v])) continue;
+    foreach ($Times as $t) {
+      if (isset($EV[$v][$t]['e'])) {
+        $ev = &$EV[$v][$t];
+      } else {
+	$ev = 0;
+      }
+
+      if ($ForwardUse[$v]) {
+	if ($ev) {
+	  // find original forward point and mark overlap
+	  foreach($Back_Times as $bt) if (($bt < $t) && ($grid[$v][$t]['c'] > 1)) { $grid[$v][$t]['err'] = 1; break; };
+	}
+	$ForwardUse[$v] = max(0,$ForwardUse[$v]-30);
+	$grid[$v][$t]['h'] = 1;
+      } else if (!$ev) {
+	// No action I think
+      } else {
+	if ($ev['d'] > 30) { // Blockout ahead and wrap this event
+	  $ForwardUse[$v] = $grid[$v][$t]['d'] = $ev['d'];
+	  $grid[$v][$t]['w'] = 1;
+	}
+	$grid[$v][$t]['e'] = $ev['e'];
+	if ($ev['n']) $grid[$v][$t]['n'] = $ev['n'];
+
+	for ($i=1;$i<5;$i++) $grid[$v][$t]["S$i"] = $ev["S$i"];
+
+	$s = $ev['S1'];
+	if ($s && $Sides[$s]['Share'] == 2) $grid[$v][$t]['w'] = 1; // Set Wrap if no share
+      }
+    }
+  }
+}
+
+function Test_Dump() {
+  global $DAY,$Times,$Back_Times,$grid,$lineLimit,$EV,$Sides,$SideCounts,$VenueUse,$evs,$MaxOther,$VenueInfo,$Venues,$VenueNames,$OtherLocs,$Sand;
+
+  echo "<div class=GridWrapper$format><div class=GridContainer$format>";
+  echo "<table border id=Grid><thead><tr><th id=DayId width=60>$DAY";
+  foreach ($Venues as $v) if (isset($VenueUse[$v])) echo "<th class=DPGridTH id=Ven$v>" . $VenueNames[$v];
+
+  foreach ($Times as $t) {
+   }
+}
+
+/* New grid format id =G:v:t, data-d= L:e:s:d:w:?  SideLIst ids L:s
+  L = Letter (N=Name,B=Blank,S=Side)
+  v = venue
+  t = time
+  e = event
+  s = side
+  d = duration
+  w = wrap
+  ? = special
+*/
+
+function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
+  global $DAY,$Times,$Back_Times,$grid,$lineLimit,$EV,$Sides,$SideCounts,$VenueUse,$evs,$MaxOther,$VenueInfo,$Venues,$VenueNames,$OtherLocs,$Sand;
+
+  echo "<div class=GridWrapper$format><div class=GridContainer$format>";
+  echo "<table border id=Grid><thead><tr><th id=DayId width=60>$DAY";
+  foreach ($Venues as $v) if (isset($VenueUse[$v])) {
+    if ($condense && $VenueInfo[$v]["Minor$DAY"]) {
+//      $OtherLocs[] = $v;
+    } else { 
+      echo "<th class=DPGridTH id=Ven$v>" . $VenueNames[$v];
+    }
+  }
+  if ($condense) {
+    for($i=1; $i<=$MaxOther; $i++) {
+      echo "<th class=DPGridTH id=OLoc$i>Other Location<th class=DPGridTH id=OWhat$i>What";
+    }
+  }
+  echo "</tr></thead><tbody>";
+
+  $DRAG = ($drag)?"draggable=true ondragstart=drag(event) ondrop=drop(event,$Sand) ondragover=allow(event)":"";
+  foreach ($Times as $t) {
+    echo "<tr><th rowspan=4 width=60 valign=top>$t";
+    if ($drag && $lineLimit[$t]<4) {
+      echo "<button class=botx onclick=UnhideARow($t) id=AddRow$t>+</button>";
+    }
+
+    for ($line=0; $line < 4; $line++) {
+      $sl = "S" .($line+1);
+      if ($line) echo "<tr>";
+      foreach ($Venues as $v) {
+	if (!$VenueUse[$v]) continue;
+        $G = &$grid[$v][$t];
+        $id = ":$v:$t:$line";
+	$class = 'DPGridDisp';
+        if ($line >= $lineLimit[$t]) {
+	  echo "<td hidden id=G$id $DRAG class=$class>&nbsp;";
+        } else if ($G['h']) {
+	  echo "<td hidden id=G$id $DRAG class=$class>&nbsp;";
+        } else if (!$G){
+	  echo "<td id=G$id class=DPGridGrey $DRAG>&nbsp;";
+        } else if ($G['d'] > 30) {
+          if ($line == 0) {
+	    $rows = ceil($G['d']/30)*4;
+	    // Need to create a wrapped event - not editble here currently
+	    echo "<td id=G$id $DRAG rowspan=$rows valign=top>";
+	    if ($G['n']) echo "<span class=DPNamed>" . $G['n'] . "<br></span>";
+	    echo "<span class=DPETimes>$t - " . timeadd($t,$G['d']) . "<br></span>";
+	    for($i=1; $i<5;$i++) {
+	      if ($G["S$i"]) {
+	        $si = $G["S$i"];
+	        $s = &$Sides[$si];
+	        $txt = SName($s) . (($types && $s['Type'])?(" (" . $s['Type'] . ") "):"");
+	        $data = implode(':',array($G['e'],$si,$G['d'],$G['w'],''));
+	        echo "<span class='DPESide Side$si'>";
+	        if ($condense && !$types) echo "<a href=/int/ShowDance.php?sidenum=" . $s['SideId'] . ">";
+	        echo $txt;
+	  	if ($condense && !$types) echo "</a>";
+	        echo "<br></span>";
+	      }
+	    }
+	  } else {
+	    echo "<td hidden id=G$id $DRAG class=$class>&nbsp;";
+	  }
+	} else if ($line == 0 && $G['n']) {
+	  $data = "N:" . $G['e'] . '::::';
+	  echo "<td id=G$id $DRAG data-d='$data' class=DPNamed>";
+	  echo $G['n'];
+        } else if ($G["S" . ($line+($G['n']?0:1))]) {
+	  $si = $G["S" . ($line + ($G['n']?0:1))];
+	  $s = &$Sides[$si];
+	  $txt = SName($s) . (($types && $s['Type'])?(" (" . $s['Type'] . ") "):"");
+	  if (!$txt) $txt = "ERROR...";
+	  $data = implode(':',array($G['e'],$si,$G['d'],$G['w'],''));
+	  $class .= " Side$si";
+	  if ($condense && !$types) echo "<a href=/int/ShowDance.php?sidenum=$si>$txt";
+	  echo "<td id=G$id $DRAG data-d='$data' class='$class'>$txt";
+	  if ($condense && !$types) echo "</a>";
+	} else {
+	  echo "<td id=G$id $DRAG class=$class>&nbsp;";
+        }
+      } // No handling of condensed grid yet or non shared spots
+      echo "\n";
+    }
+  }
+  echo "</tbody></table>";
+  echo "</div></div>\n";
 }
 
 // Displays Grid
@@ -349,7 +514,7 @@ function Notes_Pane() {
   echo "<div id=Notes_Pane>";
   echo "To add a 3rd or 4th side to a time edit the event, for more than 4 use a Big Event.<br>";
   echo "To remove a side drag back to the side list.<br>";
-//  echo "Adding small notes to the programme will be possible soon.  ";
+  echo "Events > 30 mins shown for info, change using Edit Event.<br>";
   echo "<div>";
 }
 

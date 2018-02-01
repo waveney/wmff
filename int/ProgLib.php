@@ -160,10 +160,9 @@ function Put_Event(&$now) {
 
 function Get_Events_For($what,$Day) {
   global $db,$YEAR,$Day_Type;
-  $res=$db->query("SELECT e.* FROM Events e, EventTypes t WHERE Year=$YEAR AND e.Type=t.ETypeNo AND t.Has$what=1 AND Day=" . $Day_Type[$Day] . 
-	" ORDER BY Day,Start");
+  $res=$db->query("SELECT e.* FROM Events e, EventTypes t WHERE Year=$YEAR AND e.Type=t.ETypeNo AND t.Has$what=1 AND Day=" . $Day_Type[$Day] );
   if ($res) {
-    while($ev = $res->fetch_assoc()) $evs[] = $ev;
+    while($ev = $res->fetch_assoc()) $evs[$ev['EventId']] = $ev;
     return $evs;
   }
 }
