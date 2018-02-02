@@ -134,6 +134,12 @@ function Get_Event($eid) {
   return 0; 
 }
 
+function Get_Event_VT($v,$t) {
+  global $db,$YEAR;
+  $res=$db->query("SELECT * FROM Events WHERE Year=$YEAR AND Venue=$v AND Start=$t");
+  if ($res) return $res->fetch_assoc();
+}
+
 function Check_4Changes(&$Cur,&$now) {
   $tdchange = 0;
   if ($Cur['Day'] != $now['Day'] || $Cur['Start'] != $now['Start'] || $Cur['End'] != $now['End'] || $Cur['SlotEnd'] != $now['SlotEnd']) $tdchange = 1;

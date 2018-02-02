@@ -8,53 +8,56 @@ var hlights = [];
 // 1st line data-e:e:d, every line data data-s:s ...?
 
 // Big Change Needed
-  function RemoveGrid(loc,dmatch) {
+  function RemoveGrid(loc) {
 // Drops usage count, clears content, changes id to no side    
-    var Side=dmatch[5];
+    var Side=loc.getAttribute('data-d');
     var cur = $("#SideH"+Side).text();
     if (cur) { cur--; $("#SideH"+Side).text(cur); };
     loc.innerHTML='';
     loc.classList.remove('Side' + Side);
     if (hlights[Side]) loc.classList.remove(hlights[Side]);
-    loc.setAttribute('id',"G" + dmatch.slice(1,5).join(':')+':0' );
+    loc.removeAttribute('data-d');
+    loc.removeAttribute('rowspan');
   }
 
 // Big Change needed
-  function UpdateGrid(dst,Side,dmatch,text) {
+  function UpdateGrid(dst,Side,text) {
 // Increases usage count, enters content, change id to side
     var cur = $("#SideH"+Side).text();
     if (!cur) cur = 0;
     cur++;
     $("#SideH"+Side).text(cur); 
     dst.innerHTML=text;
-    var newid = "G" + dmatch.slice(1,5).join(':') +  ':' + Side;
     dst.classList.add('Side' + Side);
     if (hlights[Side]) dst.classList.add(hlights[Side]);
-    dst.setAttribute('id',newid);
+    dst.setAttribute('data-d',Side);
+
+    var datw = $("#SideN"+Side).attr("data-w");
+    if (datw) {
+      var dstmtch = dst.id.match(/G:(\d*):(\d*):(\d*)/);
+      if (dstmtch[3] == 0) {
+        dst.setAttribute('rowspan',4);
+        var gp = "G:" + dstmtch[1] + ":" + dstmtch[2] + ":";
+        for (var i=1;i<4;i++) $("#" + gp + i).hide();
+      }
+    }
   }
 
 // Big Change needed
   function SetGrid(src,dst,sand) {
-    var srcid = src.id;
-    var dstid = dst.id;
-    var dstmtch = dstid.match(/G(\d*):(\d*):(\d*)/);
-    var srcmtch;
+    var dstmtch = dst.id.match(/G:(\d*):(\d*):(\d*)/);
     var Txt = src.innerHTML;
 
-// Need to gain event num for drop - I think (or is vtl sufficient? - prob is)
-// paras may need changing to pull from dat
-    if (!sand) $("#InformationPane").load("dpupdate.php", "D=" + dstId + "&S=" + srcId + "&A=" + $("#DayId").text() + "&E=" + 
-			$("input[type='radio'][name='EInfo']:checked").val()	);
-//    if (dstmtch && dstmtch[5]>0) RemoveGrid(dst,dstmtch);
-    var dat = src.getAttribute("data-d");
-    var s = srcid.match(/SideN(\d*)/);
+    var s = src.id.match(/SideN(\d*)/);
     if (s) {
       var SideNum = s[1]; 
-    } else if (srcmtch = srcId.match(/G(\d*):(\d*):(\d*):(\d*):(\d*)/)) {
-      var SideNum = srcmtch[5]; 
-      RemoveGrid(src,srcmtch);
+    } else if (src.id.match(/G:(\d*):(\d*):(\d*)/)) {
+      var SideNum = src.getAttribute("data-d");
+      RemoveGrid(src);
     } 
-    if (dstmtch) UpdateGrid(dst,SideNum,dstmtch,Txt);
+    if (dstmtch) UpdateGrid(dst,SideNum,Txt);
+    if (!sand) $("#InformationPane").load("dpupdate.php", "D=" + dst.id + "&S=" + src.id + "&I=" + SideNum + "&A=" + $("#DayId").text() + "&E=" + 
+			$("input[type='radio'][name='EInfo']:checked").val()	);
   }
 
 // Prob working new
@@ -107,5 +110,6 @@ var hlights = [];
 
 // New Code
   function UnhideARow(t) {
-
+// search venues to find non hidden td, not wrapped, search lines to find hidden line
+//  each venue, if line above not hidden unhide
   }

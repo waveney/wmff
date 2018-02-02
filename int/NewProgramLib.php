@@ -177,15 +177,20 @@ function Create_Grid() {
       } else {
 	if ($ev['d'] > 30) { // Blockout ahead and wrap this event
 	  $ForwardUse[$v] = $grid[$v][$t]['d'] = $ev['d'];
-	  $grid[$v][$t]['w'] = 1;
 	}
 	$grid[$v][$t]['e'] = $ev['e'];
 	if ($ev['n']) $grid[$v][$t]['n'] = $ev['n'];
 
-	for ($i=1;$i<5;$i++) $grid[$v][$t]["S$i"] = $ev["S$i"];
+	$things = 0;
+	for ($i=1;$i<5;$i++) {
+	  if ($ev["S$i"]) {
+	    $grid[$v][$t]["S$i"] = $ev["S$i"];
+	    $things++;
+	  }
+	}
 
 	$s = $ev['S1'];
-	if ($s && $Sides[$s]['Share'] == 2) $grid[$v][$t]['w'] = 1; // Set Wrap if no share
+	if ($s && $Sides[$s]['Share'] == 2 && $things==1) $grid[$v][$t]['w'] = 1; // Set Wrap if no share
       }
     }
   }
@@ -248,20 +253,18 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
         $id = "G:$v:$t:$line";
 	$class = 'DPGridDisp';
 	$dev = '';
-	if ($line == 0 && $G) {
-	  $dev = 'data-e=' . $G['e']. ':' . $G['d'];
-	}
+	if ($line == 0 && $G) $dev = 'data-e=' . $G['e']. ':' . $G['d'];
         if ($line >= $lineLimit[$t]) {
 	  echo "<td hidden id=$id $DRAG $dev class=$class>&nbsp;";
         } else if ($G['h']) {
 	  echo "<td hidden id=$id $DRAG $dev class=$class>&nbsp;";
         } else if (!$G){
-	  echo "<td id=G$id class=DPGridGrey $dev $DRAG data-d='X::::'>&nbsp;";
+	  echo "<td id=G$id class=DPGridGrey $DRAG data-d='X'>&nbsp;";
         } else if ($G['d'] > 30) {
           if ($line == 0) {
 	    $rows = ceil($G['d']/30)*4;
 	    // Need to create a wrapped event - not editble here currently
-	    echo "<td id=$id $DRAG rowspan=$rows valign=top data-d='W::::'>";
+	    echo "<td id=$id $DRAG $dev rowspan=$rows valign=top data-d='W::::'>";
 	    if ($G['n']) echo "<span class=DPNamed>" . $G['n'] . "<br></span>";
 	    echo "<span class=DPETimes>$t - " . timeadd($t,$G['d']) . "<br></span>";
 	    for($i=1; $i<5;$i++) {
@@ -269,41 +272,49 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
 	        $si = $G["S$i"];
 	        $s = &$Sides[$si];
 	        $txt = SName($s) . (($types && $s['Type'])?(" (" . $s['Type'] . ") "):"");
-	        $data = implode(':',array($G['e'],$si,$G['d'],$G['w'],''));
-	        echo "<span class='DPESide Side$si'>";
-	        if ($condense && !$types) echo "<a href=/int/ShowDance.php?sidenum=" . $s['SideId'] . ">";
+	        echo "<span data-d=$si class='DPESide Side$si'>";
+	        if ($condense && !$types) echo "<a href=/int/ShowDance.php?sidenum=$si>";
 	        echo $txt;
 	  	if ($condense && !$types) echo "</a>";
 	        echo "<br></span>";
+                if (!$evs[$G['e']]['ExcludeCount']) $SideCounts[$si]++;
 	      }
 	    }
 	  } else {
-	    echo "<td hidden id=$id $DRAG class=$class>&nbsp;";
+	    echo "<td hidden id=$id $DRAG $dev class=$class>&nbsp;";
 	  }
 	} else if ($line == 0 && $G['n']) {
-	  $data = "N:" . $G['e'] . '::::';
-	  echo "<td id=$id $DRAG data-d='$data' class=DPNamed>";
+	  echo "<td id=$id $DRAG $dev data-d='N' class=DPNamed>";
+	  echo $G['n'];
+	} else if ($line != 0 && $G['w']) {
+	  echo "<td id=$id $DRAG $dev hidden class=$class>&nbsp;";
 	  echo $G['n'];
         } else if ($G["S" . ($line+($G['n']?0:1))]) {
 	  $si = $G["S" . ($line + ($G['n']?0:1))];
 	  $s = &$Sides[$si];
 	  $txt = SName($s) . (($types && $s['Type'])?(" (" . $s['Type'] . ") "):"");
 	  if (!$txt) $txt = "ERROR...";
-	  $data = implode(':',array('S',$G['e'],$si,$G['d'],$G['w'],''));
 	  $class .= " Side$si";
+	  $rows = ($G['w']?('rowspan=' . (4-$line)):'');
 	  if ($condense && !$types) echo "<a href=/int/ShowDance.php?sidenum=$si>$txt";
-	  echo "<td id=$id $DRAG data-d='$data' class='$class'>$txt";
+	  echo "<td id=$id $DRAG $dev data-d=$si $rows class='$class'>$txt";
 	  if ($condense && !$types) echo "</a>";
+          if (!$evs[$G['e']]['ExcludeCount']) $SideCounts[$si]++;
 	} else {
-	  echo "<td id=$id $DRAG class=$class>&nbsp;";
+	  echo "<td id=$id $DRAG $dev class=$class>&nbsp;";
         }
-      } // No handling of condensed grid yet or non shared spots
+      } // No handling of condensed grid yet 
       echo "\n";
     }
   }
   echo "</tbody></table>";
   echo "</div></div>\n";
 }
+/* TODO
+  Condensed grid
+  Add rows
+  Add to long events
+*/
 
 // Displays Grid
 function Prog_Grid($drag=1,$types=1,$condense=0,$format='') {
@@ -458,7 +469,8 @@ function Side_List() {
 //  echo "<thead><tr><th>Side<th>i<th>W<th>H</thead><tbody>\n";
   echo "<thead><tr><th>Side<th>H<th>i<th>W<th>H</thead><tbody>\n";
   foreach ($Sides as $id=>$side) {
-    echo "<tr><td draggable=true class='SideName Side$id' id=SideN$id ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event,$Sand)>";
+    $data_w =  ($side['Share'] == 2)?"data-w=1":"";
+    echo "<tr><td draggable=true class='SideName Side$id' $data_w id=SideN$id ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event,$Sand)>";
     echo SName($side);
     if ($side['Type']) echo " (" . trim($side['Type']) . ")";
     echo "<td>";
@@ -518,7 +530,7 @@ function Notes_Pane() {
   echo "<div id=Notes_Pane>";
   echo "To add a 3rd or 4th side to a time edit the event, for more than 4 use a Big Event.<br>";
   echo "To remove a side drag back to the side list.<br>";
-  echo "Events > 30 mins shown for info, change using Edit Event.<br>";
+  echo "Events > 30 mins shown for info, change using Edit Event (for now).<br>";
   echo "<div>";
 }
 
