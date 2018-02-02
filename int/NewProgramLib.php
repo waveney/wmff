@@ -239,7 +239,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
 
   $DRAG = ($drag)?"draggable=true ondragstart=drag(event) ondrop=drop(event,$Sand) ondragover=allow(event)":"";
   foreach ($Times as $t) {
-    echo "<tr><th rowspan=4 width=60 valign=top>$t";
+    echo "<tr><th rowspan=4 width=60 valign=top id=RowTime$t>$t";
     if ($drag && $lineLimit[$t]<4) {
       echo "<button class=botx onclick=UnhideARow($t) id=AddRow$t>+</button>";
     }
@@ -254,12 +254,16 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
 	$class = 'DPGridDisp';
 	$dev = '';
 	if ($line == 0 && $G) $dev = 'data-e=' . $G['e']. ':' . $G['d'];
-        if ($line >= $lineLimit[$t]) {
+        if (!$G){
+	  if ($line >= $lineLimit[$t]) {
+	    echo "<td id=$id class=DPGridGrey hidden $DRAG data-d='X'>&nbsp;";
+	  } else {
+	    echo "<td id=$id class=DPGridGrey $DRAG data-d='X'>&nbsp;";
+	  }
+        } else if ($line >= $lineLimit[$t]) {
 	  echo "<td hidden id=$id $DRAG $dev class=$class>&nbsp;";
         } else if ($G['h']) {
 	  echo "<td hidden id=$id $DRAG $dev class=$class>&nbsp;";
-        } else if (!$G){
-	  echo "<td id=G$id class=DPGridGrey $DRAG data-d='X'>&nbsp;";
         } else if ($G['d'] > 30) {
           if ($line == 0) {
 	    $rows = ceil($G['d']/30)*4;
@@ -312,7 +316,6 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
 }
 /* TODO
   Condensed grid
-  Add rows
   Add to long events
 */
 

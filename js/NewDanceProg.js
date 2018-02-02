@@ -112,4 +112,27 @@ var hlights = [];
   function UnhideARow(t) {
 // search venues to find non hidden td, not wrapped, search lines to find hidden line
 //  each venue, if line above not hidden unhide
+    var rwst = $("#RowTime" + t);
+    var vens = [];
+    var elem = rwst[0];
+    while (elem = elem.nextSibling) vens.push((elem.id.match(/G:(\d*):(\d*):(\d*)/))[1]);
+
+    for (var v in vens) {
+      var id = "G:" + vens[v] + ":" + t + ":0";
+      var loc = document.getElementById(id);
+      if (!loc.hasAttribute("hidden") && !loc.hasAttribute("rowspan")) {
+	// check visibility of the 4 rows and work out the one to unhide
+	for ( var unhide=1;unhide<4;unhide++) {
+	  if (document.getElementById("G:" + vens[v] + ":" + t + ":" + unhide).hasAttribute("hidden")) break;
+	}
+	break;
+      }
+    }
+    for (var v in vens) {
+      var id = "G:" + vens[v] + ":" + t + ":";
+      if (!document.getElementById(id + 0).hasAttribute("rowspan")) document.getElementById(id + unhide).removeAttribute("hidden");
+    };
+    if (unhide == 3) {
+      $('#AddRow' + t).hide();
+    }
   }
