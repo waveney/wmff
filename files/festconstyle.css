@@ -739,3 +739,8 @@ input[type='file'] {
 .DPESide {
   font-size:12px;  
 }
+.DPOvName {
+  margin:2px;
+  vertical-align:top;
+  font-size:13px;
+}

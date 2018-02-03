@@ -3,7 +3,7 @@
 //  A_Check('Steward');
 
   global $DAY;
-  include_once("ProgramLib.php");
+  include_once("NewProgramLib.php");
 
   $Cond = 0;
   if (isset($_GET{'Cond'})) $Cond = $_GET{'Cond'};
@@ -24,19 +24,20 @@
     Grab_Data();
     Scan_Data($Cond);
     if ($Public) echo "<p><h2>Saturday Dance</h2><p>\n";
-    Prog_Grid(0,0,$Cond,$Public);
+    Create_Grid($Cond);
+    Print_Grid(0,0,$Cond,$Public);
   }
   if ($day != 'Sat') {
     if ($Public) {
       Grab_Data("Sun");
       Scan_Data($Cond);
       echo "<p><h2>Sunday Dance</h2></p>\n";
-      Prog_Grid(0,0,$Cond,$Public);
+      Create_Grid($Cond);
+      Print_Grid(0,0,$Cond,$Public);
       dotail();
     } else {
       Controls(0,$Cond);
       ErrorPane(0);
-// No standard footer - will use whole screen
       echo "</body></html>\n";
     }
   } else {
