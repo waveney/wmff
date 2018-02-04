@@ -239,6 +239,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
   echo "</tr></thead><tbody>";
 
   $DRAG = ($drag)?"draggable=true ondragstart=drag(event) ondrop=drop(event,$Sand) ondragover=allow(event)":"";
+  $WDRAG = ($drag)?"ondrop=drop(event,$Sand) ondragover=allow(event)":"";
   foreach ($Times as $t) {
     echo "<tr><th rowspan=4 width=60 valign=top id=RowTime$t>$t";
     if ($drag && $lineLimit[$t]<4) {
@@ -297,7 +298,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
           if ($line == 0) {
 	    $rows = ceil($G['d']/30)*4;
 	    // Need to create a wrapped event - not editble here currently
-	    echo "$OtherLoc<td id=$id $DRAG $dev rowspan=$rows valign=top data-d=W>";
+	    echo "$OtherLoc<td id=$id $WDRAG $dev rowspan=$rows valign=top data-d=W>";
 	    if ($G['n']) echo "<span class=DPNamed>" . $G['n'] . "<br></span>";
 	    echo "<span class=DPETimes>$t - " . timeadd($t,$G['d']) . "<br></span>";
 	    for($i=1; $i<5;$i++) {

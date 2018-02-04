@@ -1,5 +1,47 @@
 <?php
   include_once("fest.php");
+  include_once("DanceLib.php");
+  include_once("MusicLib.php");
+  include_once("TradeLib.php");
+
+if (isset($_FILES['croppedImage'])) {
+  $Pcat = $_POST['PCAT'];
+  $Who = $_POST['WHO'];
+  $PhotoBefore = $_POST['PhotoURL'];
+
+  switch ($Pcat) {
+    case 0: // Sides
+    case 1: // Acts
+    case 2: // Others
+      $Data = Get_Side($Who);
+      $Field = 'Photo';
+      $FinalLoc = "images/Sides/" . $Who;
+      $Put_Data = 'Put_Side';
+      break;
+    case 3: // Trader
+      $Data = Get_Trader($Who);
+      $Field = 'Photo';
+      $FinalLoc = "images/Traders/" . $Who;
+      $Put_Data = 'Put_Trader';
+      break;
+    case 4: // Sponsor
+      $Data = Get_Sponsor($Who);
+      $Field = 'Image';
+      $FinalLoc = "images/Sponsors/" . $Who;
+      $Put_Data = 'Put_Sponsor';
+      break;
+    }
+
+  $Cursfx = pathinfo($PhotoBefore,PATHINFO_EXTENSION );
+  $Loc = "$FinalLoc.$Cursfx";
+  if (move_uploaded_file($_FILES["croppedImage"]["tmp_name"], $Loc)) {
+    $Data[$Field] = $Loc;
+    $Put_Data($Data);
+    echo "Success";
+  } else {
+    echo "Failure to move file";
+  }
+} else {
 
   A_Check('Staff','Photos');
 
@@ -20,9 +62,6 @@
 
    Save
 */
-  include_once("DanceLib.php");
-  include_once("MusicLib.php");
-  include_once("TradeLib.php");
 
   $Shapes = array('Landscape','Square','Portrait','Banner','Free Form');
   $aspect = array('4/3','1/1','3/4','7/2','NaN');
@@ -32,16 +71,6 @@
 
   $Lists = array('Sides'=> Select_Come(),'Acts'=>Select_Act_Come(),'Others'=>Select_Other_Come(),'Traders'=>Get_Traders_Coming(),'Sponsors'=>Get_Sponsor_Names());
 
-/*
-  echo "<script language=Javascript>jQuery(function(\$) {";
-  echo "\$('#PhotoTarget').Jcrop({";
-  echo "aspectRatio: " . $aspect[$Shape];
-  echo "});});</script>\n";
-
-<?php
-  echo "aspectRatio: " . $aspect[$Shape];
-?>
-*/
 
 ?>
 <script language=Javascript defer>
@@ -53,42 +82,24 @@
         autoCropArea:1,
     }));
 
-//    debugger;
-//    var image = document.getElementById('image');
-//    var cropper = new Cropper(image, {
-//<?php echo "aspectRatio: " . $aspect[$Shape] . ',' ?>
-//      viewMode:1,
-//      autoCropArea:1,
-//    });
-
-
     document.getElementById('crop_button').addEventListener('click', function(){
-      debugger;
-//      var imgurl =  $('#image').cropper.getCroppedCanvas().toDataURL();
-//      var imgurl =  CC.getCroppedCanvas().toDataURL();
-//      var img = document.createElement("img");
-//      img.src = imgurl;
 
+      var DD = $('#image').cropper('getCroppedCanvas');
 
-//      $('#image').cropper.getCroppedCanvas().toBlob(function (blob) {
-      var DD = $('#image').cropper;
-      var canv =  DD.Constructor.prototype.getCroppedCanvas();
-        canv.toBlob(function (blob) {
-//      CC.getCroppedCanvas().toBlob(function (blob) {
-        var formData = new FormData();
-        formData.append('croppedImage', blob);
-        // Use `jQuery.ajax` method
-        $.ajax('/int/photouploadinternal.php', {
+      DD.toBlob(function (blob) {
+	var form = document.getElementById('cropform');
+        var formData = new FormData(form);
+
+        var fred = formData.append('croppedImage', blob,'croppedImage');
+
+	debugger;
+        $.ajax('/int/PhotoManage.php', {
           method: "POST",
           data: formData,
           processData: false,
-          contentType: false,
-          success: function () {
-            console.log('Upload success');
-            },
-          error: function () {
-            console.log('Upload error');
-            }
+          contentType: false, 
+          success: function (resp) { console.log(resp); document.getElementById('Feedback').innerHTML = resp; },
+          error: function (resp) { console.log(resp); document.getElementById('Feedback').innerHTML = resp; },
           });
         });
       });
@@ -172,16 +183,17 @@
     }
 
     echo "<h2>Image to Manage</h2>\n";
-    echo "<form method=post action=PhotoManage.php enctype='multipart/form-data' >";
-    echo fm_hidden('PCAT',$Pcat) . fm_hidden("WHO$Pcat",$Who);
+    echo "<form id=cropform method=post action=PhotoManage.php enctype='multipart/form-data' >";
+    echo fm_hidden('PCAT',$Pcat) . fm_hidden("WHO",$Who);
     echo "Type: " . $PhotoCats[$Pcat] . "<br>";
     echo "For: $Name<br>";
     echo "Shape: " . $Shapes[$Shape] . "<p>";
     if ($PhotoURL) {
       if ($PhotoURL != "1") {
+	echo fm_hidden("PhotoURL",$PhotoURL);
         echo "<div><img src=$PhotoURL id=image><p></div>";
-//	echo "<center><input type=submit id=crop_button value=Crop></center><p>\n";
-	echo "<center><div id=crop_button value=Crop>Crop</div></center><p>\n";
+	echo "<center><div id=crop_button value=Crop>Crop</div><div id=Feedback></div></center><p>\n";
+	echo "<div class=floatright><input type=submit class=smallsubmit value='Show Original'></div>\n";
       } else {
         echo "The Photo URL can't be read<P>";
       }
@@ -205,4 +217,5 @@
   Select_Photos();
 
   dotail();
+}
 ?>
