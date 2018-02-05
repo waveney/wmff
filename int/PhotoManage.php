@@ -3,6 +3,7 @@
   include_once("DanceLib.php");
   include_once("MusicLib.php");
   include_once("TradeLib.php");
+  include_once("ProgLib.php");
 
 if (isset($_FILES['croppedImage'])) {
   $Pcat = $_POST['PCAT'];
@@ -30,10 +31,17 @@ if (isset($_FILES['croppedImage'])) {
       $FinalLoc = "images/Sponsors/" . $Who;
       $Put_Data = 'Put_Sponsor';
       break;
+    case 5: // Venue
+      $Data = Get_Venue($Who);
+      $Field = 'Image';
+      $FinalLoc = "images/Venues/" . $Who;
+      $Put_Data = 'Put_Venue';
     }
 
   $Cursfx = pathinfo($PhotoBefore,PATHINFO_EXTENSION );
   $Loc = "$FinalLoc.$Cursfx";
+  $dir = dirname($Loc);
+  if (!file_exists($dir)) mkdir($dir,0777,true);
   if (move_uploaded_file($_FILES["croppedImage"]["tmp_name"], $Loc)) {
     $Data[$Field] = $Loc;
     $Put_Data($Data);
@@ -67,9 +75,16 @@ if (isset($_FILES['croppedImage'])) {
   $aspect = array('4/3','1/1','3/4','7/2','NaN');
   $Shape = 0;
   if (isset($_POST['SHAPE'])) $Shape = $_POST['SHAPE'];
-  $PhotoCats = array('Sides','Acts','Others','Traders','Sponsors');
+  $PhotoCats = array('Sides','Acts','Others','Traders','Sponsors','Venues');
 
-  $Lists = array('Sides'=> Select_Come(),'Acts'=>Select_Act_Come(),'Others'=>Select_Other_Come(),'Traders'=>Get_Traders_Coming(),'Sponsors'=>Get_Sponsor_Names());
+  $Lists = array(
+	'Sides'=> Select_Come(),
+	'Acts'=>Select_Act_Come(),
+	'Others'=>Select_Other_Come(),
+	'Traders'=>Get_Traders_Coming(),
+	'Sponsors'=>Get_Sponsor_Names(),
+	'Venues'=>Get_Venues(0),
+	);
 
 
 ?>
@@ -114,9 +129,11 @@ if (isset($_FILES['croppedImage'])) {
     echo "<form method=post action=PhotoManage.php>";
     echo fm_radio("Target shape",$Shapes,$_POST,'SHAPE','',0) . "<p>";
     echo fm_radio("Photo For",$PhotoCats,$_POST,'PCAT','onclick=PCatSel(event)',0);
+    $mouse = 0;
+    if (isset($_POST['PCAT'])) $mouse = $_POST['PCAT'];
     $i=0;
     foreach($Lists as $cat=>$dog) {
-      echo "<span id=MPC_$i " . ($cat == 'Sides'?'':'hidden') . "> : " . fm_select($dog,$_POST,"WHO$i") . "</span>";
+      echo "<span id=MPC_$i " . ($cat == $PhotoCats[$mouse]?'':'hidden') . "> : " . fm_select($dog,$_POST,"WHO$i") . "</span>";
       $i++;
     }
     echo "<input type=submit name=Edit value=Edit><p>\n";
@@ -152,6 +169,13 @@ if (isset($_FILES['croppedImage'])) {
       $PhotoURL = $Spon['Image'];
       $FinalLoc = "images/Sponsors/" . $Who;
       $ArcLoc = "ArchiveImages/Sponsors/" . $Who;
+      break;
+    case 5: // Venue
+      $Ven = Get_Venue($Who);
+      $Name = $Ven['Name'];
+      $PhotoURL = $Ven['Image'];
+      $FinalLoc = "images/Venues/" . $Who;
+      $ArcLoc = "ArchiveImages/Venues/" . $Who;
       break;
     }
 
@@ -191,7 +215,7 @@ if (isset($_FILES['croppedImage'])) {
     if ($PhotoURL) {
       if ($PhotoURL != "1") {
 	echo fm_hidden("PhotoURL",$PhotoURL);
-        echo "<div><img src=$PhotoURL id=image><p></div>";
+        echo "<div><img src=$PhotoURL id=image style='max-height:500; max-width:600;'><p></div>";
 	echo "<center><div id=crop_button value=Crop>Crop</div><div id=Feedback></div></center><p>\n";
 	echo "<div class=floatright><input type=submit class=smallsubmit value='Show Original'></div>\n";
       } else {
@@ -218,4 +242,15 @@ if (isset($_FILES['croppedImage'])) {
 
   dotail();
 }
+/* TODO
+  Make crop update image shown
+  get original - conditional
+  upload
+d  rescale for large
+d  Venues
+d  make it remember pcat/who correctly 
+d  mkdir
+
+
+*/
 ?>
