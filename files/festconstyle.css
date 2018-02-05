@@ -43,7 +43,7 @@ option {
   min-height:1em;
 }
 
-input[type=submit] {
+input[type=submit], .FakeButton {
   font-size:20px;
   padding:5px;
   border:2px;
