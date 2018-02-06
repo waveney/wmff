@@ -106,13 +106,19 @@ if (isset($_FILES['croppedImage'])) {
 
         var fred = formData.append('croppedImage', blob,'croppedImage');
 
-	debugger;
         $.ajax('/int/PhotoManage.php', {
           method: "POST",
           data: formData,
           processData: false,
           contentType: false, 
-          success: function (resp) { console.log(resp); document.getElementById('Feedback').innerHTML = resp; },
+          success: function (resp) { 
+	    //console.log(resp); 
+	    //document.getElementById('Feedback').innerHTML = resp; 
+	    var src = $('#image').attr('src');
+	    src += '#' + Date.now();
+	    $('#croptool').hide();
+	    $('#cropresult').html('<img src=' + src + '><br><h2>Image cropped and saved</h2>');
+	    },
           error: function (resp) { console.log(resp); document.getElementById('Feedback').innerHTML = resp; },
           });
         });
@@ -133,7 +139,6 @@ if (isset($_FILES['croppedImage'])) {
     $i=0;
     foreach($Lists as $cat=>$dog) {
       echo "<span id=MPC_$i " . ($cat == $PhotoCats[$mouse]?'':'hidden') . "> : " . fm_select($dog,$_POST,"WHO$i") . "</span>";
-//      echo "<span id=MPC_$i " .  "> : " . fm_select($dog,$_POST,"WHO$i") . "</span>";
       $i++;
     }
     echo "<input type=submit name=Edit value=Edit><p>\n";
@@ -220,6 +225,7 @@ if (isset($_FILES['croppedImage'])) {
     echo "Shape: " . $Shapes[$Shape] . "<p>";
     if ($PhotoURL) {
       if ($PhotoURL != "1") {
+	echo "<div id=croptool>";
 	switch ($type) {
 	case 'Current':
 	  echo fm_hidden("PhotoURL",$PhotoURL);
@@ -234,6 +240,7 @@ if (isset($_FILES['croppedImage'])) {
 	  echo "<div class=floatright><input type=submit class=smallsubmit name=Current value='Show Current'></div>\n";
 	  break;
 	}
+	echo "</div><div id=cropresult></div>";
       } else {
         echo "The Photo URL can't be read<P>";
       }
@@ -250,6 +257,9 @@ if (isset($_FILES['croppedImage'])) {
     Edit_Photo('Current');
   } else if (isset($_POST['Original'])) {
     Edit_Photo('Original');
+  } else if (isset($_POST['Action'])) {
+    // Upload is only action currently
+
   }
 
   Select_Photos();
@@ -257,7 +267,7 @@ if (isset($_FILES['croppedImage'])) {
   dotail();
 }
 /* TODO
-  Make crop update image shown
+d  Make crop update image shown
 d  get original - conditional
   upload
 d  rescale for large
