@@ -204,7 +204,8 @@ function Get_Trader($who) {
 }
 
 function Get_Traders_Coming($type=0) { // 0=names, 1=all
-  global $db,$YEAR;
+  global $db,$YEAR,$Trade_State;
+  $data = array();
   $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Deposit Paid'] .
 		" ORDER BY Name";
   $res = $db->query($qry);

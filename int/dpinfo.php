@@ -2,7 +2,7 @@
   include("fest.php");
   include("DanceLib.php");
 
-  global $YEAR,$OlapTypes,$OlapDays,$OlapCats;
+  global $YEAR,$OlapTypes,$OlapDays,$OlapCats,$Share_Spots;
   $t = $_GET['T'];
   $s = $_GET['S'];
 
@@ -41,6 +41,7 @@
   if ($data['StagePA'] && $data['StagePA'] != 'None') echo "<tr><td>PA:<td class=smalltext>" . $data['StagePA'];
   if ($data['Likes']) echo "<tr><td>Rqst:<td class=smalltext>" . $data['Likes'];
   if ($data['Notes']) echo "<tr><td>notes<td class=smalltext>" . $data['notes'];
+  if ($data['Share']) echo "<tr><td>Shared:<td>" . $Share_Spots[$data['Share']];
   if ($datay['Fri']) {
     echo "<tr><td>Fri:<td>Yes ";
     if ($t == 'Side') echo "- Spots " . $datay["FriDance"];

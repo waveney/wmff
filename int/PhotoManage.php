@@ -1,5 +1,112 @@
 <?php
   include_once("fest.php");
+  include_once("DanceLib.php");
+  include_once("MusicLib.php");
+  include_once("TradeLib.php");
+  include_once("ProgLib.php");
+
+function ImgData() {
+  $Pcat = $_POST['PCAT'];
+  $Who = (isset($_POST['WHO']) && strlen($_POST['WHO']) ? $_POST['WHO'] : $_POST["WHO$Pcat"]);
+
+  switch ($Pcat) {
+    case 0: // Sides
+    case 1: // Acts
+    case 2: // Others
+      $Data = Get_Side($Who);
+      $Field = 'Photo';
+      $FinalLoc = "images/Sides/" . $Who;
+      $Put_Data = 'Put_Side';
+      break;
+    case 3: // Trader
+      $Data = Get_Trader($Who);
+      $Field = 'Photo';
+      $FinalLoc = "images/Traders/" . $Who;
+      $Put_Data = 'Put_Trader';
+      break;
+    case 4: // Sponsor
+      $Data = Get_Sponsor($Who);
+      $Field = 'Image';
+      $FinalLoc = "images/Sponsors/" . $Who;
+      $Put_Data = 'Put_Sponsor';
+      break;
+    case 5: // Venue
+      $Data = Get_Venue($Who);
+      $Field = 'Image';
+      $FinalLoc = "images/Venues/" . $Who;
+      $Put_Data = 'Put_Venue';
+    }
+  return array(
+	'Pcat'=>$Pcat,
+	'Who'=>$Who,
+	'Data'=>$Data,
+	'Field'=>$Field,
+	'FinalLoc'=>$FinalLoc,
+	'Put'=>$Put_Data
+	);
+}
+
+function Upload_Image() {
+  include_once("ImageLib.php"); 
+  $dat = &ImgData();
+
+  $target_dir = dirname($dat['FinalLoc']);
+  if (!file_exists($target_dir)) mkdir($target_dir,0775,true);
+  $suffix = strtolower(pathinfo($_FILES["PhotoForm"]["name"],PATHINFO_EXTENSION));
+  $target_file = $dat['FinalLoc'] . ".$suffix";
+  $uploadOk = 1;
+  // Check if image file is a actual image or fake image
+  $check = getimagesize($_FILES["PhotoForm"]["tmp_name"]);
+  if ($check == false) {
+    return "<div class=Err>File is not an image</div>";
+    $uploadOk = 0;
+  } else {
+    if ($check[0] > 800 || $check[1] > 536) { // Need to resize
+      $move = Image_Convert($_FILES["PhotoForm"]["tmp_name"],800,536, $target_file);
+    } else {
+      $move = move_uploaded_file($_FILES["PhotoForm"]["tmp_name"], $target_file);
+    }
+
+    if ($move) {
+      $stuff = getimagesize($target_file);
+      if ($stuff) {
+        $dat['Data']['ImageWidth'] = $stuff[0];
+        $dat['Data']['ImageHeight'] = $stuff[1];
+      } 
+      $pos = &$dat['Data'][$dat['Field']];
+      if (isset($pos) && $pos == ("/" . $target_file)) {
+        return "The image has been replaced by ". basename( $_FILES["PhotoForm"]["name"]) ;
+      } else {
+        $pos = $_POST[$dat['Field']] = "/" . $target_file;
+        if ($dat['Put']($dat['Data'])) {
+          return "The file ". basename( $_FILES["PhotoForm"]["name"]). " has been uploaded.";
+        } else {
+          return "<div class=Err>File uploaded but database did not update... " . $db->error . "</div>";
+        }
+      }
+    } else {
+      return "<div class=Err>Sorry, there was an error uploading your file.</div>";
+    }
+  }
+  return 0;
+}
+
+if (isset($_FILES['croppedImage'])) {
+  $dat = &ImgData();
+  $PhotoBefore = $_POST['PhotoURL'];
+
+  $Cursfx = pathinfo($PhotoBefore,PATHINFO_EXTENSION );
+  $Loc = $dat['FinalLoc'] . ".$Cursfx";
+  $dir = dirname($Loc);
+  if (!file_exists($dir)) mkdir($dir,0777,true);
+  if (move_uploaded_file($_FILES["croppedImage"]["tmp_name"], $Loc)) {
+    $dat['Data'][$dat['Field']] = $Loc;
+    $dat['Put']($dat['Data']);
+    echo "Success";
+  } else {
+    echo "Failure to move file";
+  }
+} else {
 
   A_Check('Staff','Photos');
 
@@ -20,28 +127,21 @@
 
    Save
 */
-  include_once("DanceLib.php");
-  include_once("MusicLib.php");
-  include_once("TradeLib.php");
 
   $Shapes = array('Landscape','Square','Portrait','Banner','Free Form');
   $aspect = array('4/3','1/1','3/4','7/2','NaN');
   $Shape = 0;
   if (isset($_POST['SHAPE'])) $Shape = $_POST['SHAPE'];
-  $PhotoCats = array('Sides','Acts','Others','Traders','Sponsors');
+  $PhotoCats = array('Sides','Acts','Others','Traders','Sponsors','Venues');
 
-  $Lists = array('Sides'=> Select_Come(),'Acts'=>Select_Act_Come(),'Others'=>Select_Other_Come(),'Traders'=>Get_Traders_Coming(),'Sponsors'=>Get_Sponsor_Names());
-
-/*
-  echo "<script language=Javascript>jQuery(function(\$) {";
-  echo "\$('#PhotoTarget').Jcrop({";
-  echo "aspectRatio: " . $aspect[$Shape];
-  echo "});});</script>\n";
-
-<?php
-  echo "aspectRatio: " . $aspect[$Shape];
-?>
-*/
+  $Lists = array(
+	'Sides'=> Select_Come(),
+	'Acts'=>Select_Act_Come(),
+	'Others'=>Select_Other_Come(),
+	'Traders'=>Get_Traders_Coming(0),
+	'Sponsors'=>Get_Sponsor_Names(),
+	'Venues'=>Get_Venues(0),
+	);
 
 ?>
 <script language=Javascript defer>
@@ -53,47 +153,43 @@
         autoCropArea:1,
     }));
 
-//    debugger;
-//    var image = document.getElementById('image');
-//    var cropper = new Cropper(image, {
-//<?php echo "aspectRatio: " . $aspect[$Shape] . ',' ?>
-//      viewMode:1,
-//      autoCropArea:1,
-//    });
-
-
     document.getElementById('crop_button').addEventListener('click', function(){
-      debugger;
-//      var imgurl =  $('#image').cropper.getCroppedCanvas().toDataURL();
-//      var imgurl =  CC.getCroppedCanvas().toDataURL();
-//      var img = document.createElement("img");
-//      img.src = imgurl;
 
+      var DD = $('#image').cropper('getCroppedCanvas');
 
-//      $('#image').cropper.getCroppedCanvas().toBlob(function (blob) {
-      var DD = $('#image').cropper;
-      var canv =  DD.Constructor.prototype.getCroppedCanvas();
-        canv.toBlob(function (blob) {
-//      CC.getCroppedCanvas().toBlob(function (blob) {
-        var formData = new FormData();
-        formData.append('croppedImage', blob);
-        // Use `jQuery.ajax` method
-        $.ajax('/int/photouploadinternal.php', {
+      DD.toBlob(function (blob) {
+	var form = document.getElementById('cropform');
+        var formData = new FormData(form);
+
+        var fred = formData.append('croppedImage', blob,'croppedImage');
+
+        $.ajax('/int/PhotoManage.php', {
           method: "POST",
           data: formData,
           processData: false,
-          contentType: false,
-          success: function () {
-            console.log('Upload success');
-            },
-          error: function () {
-            console.log('Upload error');
-            }
+          contentType: false, 
+          success: function (resp) { 
+	    //console.log(resp); 
+	    //document.getElementById('Feedback').innerHTML = resp; 
+	    var src = $('#image').attr('src');
+	    src += '?' + Date.now();
+	    $('#croptool').hide();
+	    $('#cropresult').html('<img src=' + src + '><br><h2>Image cropped and saved</h2>');
+	    },
+          error: function (resp) { console.log(resp); document.getElementById('Feedback').innerHTML = resp; },
           });
         });
       });
     })
 
+  $(document).ready(function() {
+    $(window).keydown(function(event){
+      if(event.keyCode == 13) {
+        event.preventDefault();
+        return false;
+      }
+    });
+  });
 </script>
 <?php
   
@@ -103,68 +199,51 @@
     echo "<form method=post action=PhotoManage.php>";
     echo fm_radio("Target shape",$Shapes,$_POST,'SHAPE','',0) . "<p>";
     echo fm_radio("Photo For",$PhotoCats,$_POST,'PCAT','onclick=PCatSel(event)',0);
+    $mouse = 0;
+    if (isset($_POST['PCAT'])) $mouse = $_POST['PCAT'];
     $i=0;
     foreach($Lists as $cat=>$dog) {
-      echo "<span id=MPC_$i " . ($cat == 'Sides'?'':'hidden') . "> : " . fm_select($dog,$_POST,"WHO$i") . "</span>";
+      echo "<span id=MPC_$i " . ($cat == $PhotoCats[$mouse]?'':'hidden') . "> : " . fm_select($dog,$_POST,"WHO$i") . "</span>";
       $i++;
     }
     echo "<input type=submit name=Edit value=Edit><p>\n";
     echo "</form>\n";
   }
 
-  function Edit_Photo() {
+  function Edit_Photo($type='Current') {
     global $Shapes,$Shape, $Lists,$PhotoCats;
-    $Pcat = $_POST['PCAT'];
-    if (!isset($_POST["WHO$Pcat"])) return;
-    $Who = $_POST["WHO$Pcat"];
-    
-    switch ($Pcat) {
-    case 0: // Sides
-    case 1: // Acts
-    case 2: // Others
-      $Side = Get_Side($Who);
-      $Name = $Side['Name'];
-      $PhotoURL = $Side['Photo'];
-      $FinalLoc = "images/Sides/" . $Who;
-      $ArcLoc = "ArchiveImages/Sides/" . $Who;
-      break;
-    case 3: // Trader
-      $Trad = Get_Trader($Who);
-      $Name = $Trad['Name'];
-      $PhotoURL = $Trad['Photo'];
-      $FinalLoc = "images/Traders/" . $Who;
-      $ArcLoc = "ArchiveImages/Traders/" . $Who;
-      break;
-    case 4: // Sponsor
-      $Spon = Get_Sponsor($Who);
-      $Name = $Spon['Name'];
-      $PhotoURL = $Spon['Image'];
-      $FinalLoc = "images/Sponsors/" . $Who;
-      $ArcLoc = "ArchiveImages/Sponsors/" . $Who;
-      break;
-    }
+//var_dump($_POST);
+    $dat = &ImgData();
+
+//var_dump($dat); echo "<p>";
+    $Name = $dat['Data']['Name'];
+    $PhotoURL = $dat['Data'][$dat['Field']];
+    $ArcLoc = $FinalLoc = $dat['FinalLoc'];
+    preg_replace('/images/','ArchiveImages',$ArcLoc);
 
     $suffix = strtolower(pathinfo($PhotoURL,PATHINFO_EXTENSION));
     $FinalLoc .= ".$suffix";
     $ExtLoc = "/" . $FinalLoc;
-    
-    if ($PhotoURL) {
-      if ($PhotoURL != $ExtLoc) {
+//var_dump($Name,$PhotoURL,$ArcLoc,$FinalLoc);
+ 
+    if ($type == 'Current') {
+      if ($PhotoURL) {
+        $ArcD = dirname($ArcLoc);
+        $ArcLoc .= ".$suffix";
+        if (!file_exists($ArcD)) mkdir($ArcD,0777,true);
+  
 	if (preg_match('/^\/(.*)/',$PhotoURL,$mtch)) {
 	  $img = file_get_contents($mtch[1]);
 	} else {
           $img = file_get_contents($PhotoURL);
 	};
-
+  
         if ($img) {
-          $ArcD = dirname($ArcLoc);
-          $ArcLoc .= ".$suffix";
-          if (!file_exists($ArcD)) mkdir($ArcD,0777,true);
-  	  if (!file_exists($ArcLoc)) {
-	    file_put_contents($ArcLoc,$img);
+  	  if (!file_exists($ArcLoc)) { file_put_contents($ArcLoc,$img); echo "Archived<p>"; };
+          if ($PhotoURL != $ExtLoc) {
+	    $done = file_put_contents("../$FinalLoc",$img);
+            $PhotoURL = $ExtLoc;
 	  }
-          $done = file_put_contents("../$FinalLoc",$img);
-          $PhotoURL = $ExtLoc;
         } else {
           $PhotoURL = "1";  
         }
@@ -172,16 +251,30 @@
     }
 
     echo "<h2>Image to Manage</h2>\n";
-    echo "<form method=post action=PhotoManage.php enctype='multipart/form-data' >";
-    echo fm_hidden('PCAT',$Pcat) . fm_hidden("WHO$Pcat",$Who);
-    echo "Type: " . $PhotoCats[$Pcat] . "<br>";
+    echo "<form id=cropform method=post action=PhotoManage.php enctype='multipart/form-data' >";
+    echo fm_hidden('PCAT',$Pcat) . fm_hidden("WHO",$Who);
+    echo "Type: " . $PhotoCats[$dat['Pcat']] . "<br>";
     echo "For: $Name<br>";
+//echo "$Who<p>";
     echo "Shape: " . $Shapes[$Shape] . "<p>";
     if ($PhotoURL) {
       if ($PhotoURL != "1") {
-        echo "<div><img src=$PhotoURL id=image><p></div>";
-//	echo "<center><input type=submit id=crop_button value=Crop></center><p>\n";
-	echo "<center><div id=crop_button value=Crop>Crop</div></center><p>\n";
+	echo "<div id=croptool>";
+	switch ($type) {
+	case 'Current':
+	  echo fm_hidden("PhotoURL",$PhotoURL);
+          echo "<div><img src=$PhotoURL id=image style='max-height:500; max-width:600;'><p></div>";
+	  echo "<div align=center><div id=crop_button value=Crop class=FakeButton>Crop and Save</div><div id=Feedback></div></div><p>\n";
+	  if (file_exists($ArcLoc)) echo "<div class=floatright id=ShowO><input type=submit class=smallsubmit name=Original value='Show Original'></div>\n";
+	  break;
+	case 'Original':
+	  echo fm_hidden("PhotoURL",$PhotoURL);
+          echo "<div><img src='/int/$ArcLoc.$suffix' id=image style='max-height:500; max-width:600;'><p></div>";
+	  echo "<div align=center><div id=crop_button value=Crop class=FakeButton>Crop and Save overwriting current</div><div id=Feedback></div></div><p>\n";
+	  echo "<div class=floatright id=ShowC><input type=submit class=smallsubmit name=Current value='Show Current'></div>\n";
+	  break;
+	}
+	echo "</div><div id=cropresult></div>";
       } else {
         echo "The Photo URL can't be read<P>";
       }
@@ -190,19 +283,42 @@
     }
 
     echo "Select Photo file to upload:";
-    echo "<input type=file $ADDALL name=PhotoForm id=PhotoForm onchange=document.getElementById('PhotoButton').click()>";
+    echo "<input type=file name=PhotoForm id=PhotoForm onchange=document.getElementById('PhotoButton').click()>";
     echo "<input hidden type=submit name=Action value=Upload id=PhotoButton>";
-    
-
-    
-
+    echo "&nbsp; &nbsp; &nbsp;" . fm_text('Location',$dat['Data'],$dat['Field'],1,'',"onchange=document.getElementById('NewLoc').click()",'NewImage');
+    echo "<input type=submit name=Action value=Change id=NewLoc>";
   }
   
-  if (isset($_POST['Edit'])) {
-    Edit_Photo();
-  } 
+function New_Image() {
+  $dat = &ImgData();
+  $dat['Data'][$dat['Field']] = $_POST['NewImage']; // Fetch and store image - consider stacking orig image
+  $dat['Put']($dat['Data']);
+}
+
+// var_dump($_POST);
+  if (isset($_POST['Edit']) || isset($_POST['Current'])) {
+    Edit_Photo('Current');
+  } else if (isset($_POST['Original'])) {
+    Edit_Photo('Original');
+  } else if (isset($_POST['Action'])) {
+    if ($_POST['Action'] == 'Upload') Upload_Image();
+    if ($_POST['Action'] == 'Change') New_Image();
+    Edit_Photo('Current');
+  }
 
   Select_Photos();
 
   dotail();
+}
+/* TODO
+d  Make crop update image shown
+d  get original - conditional
+d  upload
+d  rescale for large
+d  Venues
+d  make it remember pcat/who correctly 
+d  mkdir
+
+
+*/
 ?>

@@ -12,13 +12,12 @@
     $srcId = $_GET['S'];  
     $Day   = $_GET['A'];
     $DayN  = $Day_Type[$Day];
+    $sSide   = $_GET['I'];
   
     if (preg_match('/SideN(\d*)/',$srcId,$sres)) {
       $src=0;
-      $sSide = $sres[1];
-    } elseif (preg_match('/G(\d*):(\d*):(\d*):(\d*):(\d*)/',$srcId,$sres)) {
+    } elseif (preg_match('/G:(\d*):(\d*):(\d*)/',$srcId,$sres)) {
       $src=1;
-      $sSide = $sres[5];
     } else {
       echo "Something went wrong with source $srcId";
       exit;
@@ -26,10 +25,8 @@
   
     if (preg_match('/SideN(\d*)/',$dstId,$dres)) {
       $dst=0;
-      $dSide = $dres[1];
-    } elseif (preg_match('/G(\d*):(\d*):(\d*):(\d*):(\d*)/',$dstId,$dres)) {
+    } elseif (preg_match('/G:(\d*):(\d*):(\d*)/',$dstId,$dres)) {
       $dst=1;
-      $dSide = $dres[5];
     } else {
       echo "Something went wrong with dest $dstId";
       exit;
@@ -37,20 +34,20 @@
 
     if ($src == 0 && $dst == 0 ) { // Nothing to do...
     } elseif ($src == 0) { // From Side to Grid
-      $Event = Get_Event($dres[1]);
-      $Event["Side" . ($dres[4]+1)] = $sSide;
+      $Event = Get_Event_VT($dres[1],$dres[2]);
+      $Event["Side" . ($dres[3]+1)] = $sSide;
       Put_Event($Event);
     } elseif ($dst == 0) { // To Side
-      $Event = Get_Event($sres[1]);
-      $Event["Side" . ($sres[4]+1)] = 0;
+      $Event = Get_Event_VT($sres[1],$sres[2]);
+      $Event["Side" . ($sres[3]+1)] = 0;
       Put_Event($Event);
     } else { // Grid to Grid
-      $Event = Get_Event($sres[1]);
-      $Event["Side" . ($sres[4]+1)] = 0;
+      $Event = Get_Event_VT($sres[1],$sres[2]);
+      $Event["Side" . ($sres[3]+1)] = 0;
       Put_Event($Event);
 
-      $Event = Get_Event($dres[1]);
-      $Event["Side" . ($dres[4]+1)] = $sSide;
+      $Event = Get_Event_VT($dres[1],$dres[2]);
+      $Event["Side" . ($dres[3]+1)] = $sSide;
       Put_Event($Event);
     }
 
