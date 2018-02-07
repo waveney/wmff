@@ -33,7 +33,6 @@ function Get_lnl_Details(&$lnl) {
 
   $Body .= "\nSongs: " . $lnl['Songs'] . "\n";
   $Body .= "Equipment: " . $lnl['Equipment'] . "\n";
-  $Body .= "Days: " . $Trade_Days[$Trady['Days']] . "\n\n";
   $Body .= "Can Play for 30 mins? " . $yesno[$lnl['FolkFest']] . "\n";
   $Body .= "Available on Friday? " . $yesno[$lnl['FFFri']] . "\n";
   $Body .= "Available on Saturday? " . $yesno[$lnl['FFSat']] . "\n";
@@ -54,8 +53,8 @@ function Email_Signup(&$lnl,$messcat,$whoto) {
   $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $THISYEAR";
   
   $Mess = preg_replace('/\*WHO\*/',$Contact,$Mess);
-  $Mess = preg_replace('/\*LINK\*/',$Link,$Mess);
-  $Mess = preg_replace('/\*WMFFLINK\*/',$WmffLink,$Mess);
+//  $Mess = preg_replace('/\*LINK\*/',$Link,$Mess);
+//  $Mess = preg_replace('/\*WMFFLINK\*/',$WmffLink,$Mess);
 
   $Mess = preg_replace('/\*THISYEAR\*/',$THISYEAR,$Mess);
   $Mess = preg_replace('/\*DATES\*/',$Dates,$Mess);
@@ -68,8 +67,10 @@ function Email_Signup(&$lnl,$messcat,$whoto) {
   }
 
   $logf = fopen("LogFiles/LiveNLoudLog.txt","a");
-  fwrite($logf,"\n\nEmail to : " . $whoto . "\n\n" . $Mess);
-  fclose($logf);
+  if( $logf) {
+    fwrite($logf,"\n\nEmail to : " . $whoto . "\n\n" . $Mess);
+    fclose($logf);
+  }
 }
 
 function Get_Stew_Details(&$stew) {

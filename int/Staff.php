@@ -92,6 +92,7 @@
       echo "</table><p>\n";
     }
     echo "<li><a href=LiveNLoudView.php?Y=$YEAR>Show Live N Loud applications</a>";
+    if (Access('SysAdmin')) echo "<li class=smalltext><a href=LiveNLoudEmail.php>Send LNL bulk email</a>";
     echo "</ul>\n";
 
 // *********************** DANCE ****************************************************
