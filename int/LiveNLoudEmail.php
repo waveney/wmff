@@ -16,7 +16,7 @@
 
       Email_Signup($lnl,'LNL_formLetter1',$whoto);
       echo "Emailed $id - $whoto<br>\n";
-      flush();
+      for($i=0;$i<100;$i++) echo "                                                                                                                                     ";
       sleep(5);
     }
   }
