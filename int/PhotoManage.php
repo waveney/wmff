@@ -60,7 +60,7 @@ function Upload_Image() {
     $FinalLoc = $dat['FinalLoc'];
     $ArcLoc = $dat['ArcLoc'];
     Archive_Stack($ArcLoc . "." . $dat['Suf']);
-    file_copy($FinalLoc . "." . $dat['Suf'],$ArcLoc . "." . $dat['Suf']); 
+    copy($FinalLoc . "." . $dat['Suf'],$ArcLoc . "." . $dat['Suf']); 
   }
 
   $target_dir = dirname($dat['FinalLoc']);
@@ -210,12 +210,12 @@ debugger;
 <?php
 
   function Archive_Stack($loc) {
-echo "Arc Stack called $loc<br>";
+//echo "Arc Stack called $loc<br>";
     if (!file_exists($loc)) return;
     $hist = 1;
     while (file_exists("$loc.$hist")) $hist++;
     rename($loc,"$loc.$hist");
-echo "Arc $loc renamed $loc.$hist<br>";
+//echo "Arc $loc renamed $loc.$hist<br>";
   }
   
 
@@ -250,7 +250,7 @@ echo "Arc $loc renamed $loc.$hist<br>";
     $suffix = $dat['Suf'];
     $FinalLoc .= ".$suffix";
     $ExtLoc = "/" . $FinalLoc;
-var_dump($Name,$PhotoURL,$ArcLoc,$FinalLoc,$suffix);
+//var_dump($Name,$PhotoURL,$ArcLoc,$FinalLoc,$suffix);
  
     if ($type == 'Current') {
       if ($PhotoURL) {
@@ -325,8 +325,8 @@ function New_Image() {
     $FinalLoc = $dat['FinalLoc'] . ".$suf";
     $ArcLoc = $dat['ArcLoc'] . ".$suf";
     Archive_Stack($ArcLoc);
-    file_copy($FinalLoc,$ArcLoc);
-echo "Should have archived<br>";
+    copy($FinalLoc,$ArcLoc);
+//echo "Should have archived<br>";
   }
   $dat['Data'][$dat['Field']] = $_POST['NewImage']; // Fetch and store image - consider stacking orig image
   $dat['Put']($dat['Data']);
