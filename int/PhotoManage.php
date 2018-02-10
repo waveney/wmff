@@ -36,19 +36,32 @@ function ImgData() {
       $FinalLoc = "images/Venues/" . $Who;
       $Put_Data = 'Put_Venue';
     }
+  $ArcLoc = $FinalLoc;
+  $ArcLoc = preg_replace('/images/','ArchiveImages',$ArcLoc);
+  $curfil = $Data[$Field];
+  $curfil = preg_replace('/\?.*/','',$curfil);
+  $suffix = strtolower(pathinfo($curfil,PATHINFO_EXTENSION));
   return array(
 	'Pcat'=>$Pcat,
 	'Who'=>$Who,
 	'Data'=>$Data,
 	'Field'=>$Field,
 	'FinalLoc'=>$FinalLoc,
-	'Put'=>$Put_Data
+	'ArcLoc'=>$ArcLoc,
+	'Put'=>$Put_Data,
+	'Suf'=>$suffix
 	);
 }
 
 function Upload_Image() {
   include_once("ImageLib.php"); 
   $dat = &ImgData();
+  if (file_exists($dat['FinalLoc'] . "." . $dat['Suf'])) {
+    $FinalLoc = $dat['FinalLoc'];
+    $ArcLoc = $dat['ArcLoc'];
+    Archive_Stack($ArcLoc . "." . $dat['Suf']);
+    copy($FinalLoc . "." . $dat['Suf'],$ArcLoc . "." . $dat['Suf']); 
+  }
 
   $target_dir = dirname($dat['FinalLoc']);
   if (!file_exists($target_dir)) mkdir($target_dir,0775,true);
@@ -169,12 +182,15 @@ if (isset($_FILES['croppedImage'])) {
           processData: false,
           contentType: false, 
           success: function (resp) { 
+debugger;
 	    //console.log(resp); 
 	    //document.getElementById('Feedback').innerHTML = resp; 
 	    var src = $('#image').attr('src');
 	    src += '?' + Date.now();
 	    $('#croptool').hide();
 	    $('#cropresult').html('<img src=' + src + '><br><h2>Image cropped and saved</h2>');
+	    var finalloc = $('#FinalLoc').html();
+	    $('#NewImage').html(finalloc);
 	    },
           error: function (resp) { console.log(resp); document.getElementById('Feedback').innerHTML = resp; },
           });
@@ -192,7 +208,17 @@ if (isset($_FILES['croppedImage'])) {
   });
 </script>
 <?php
+
+  function Archive_Stack($loc) {
+//echo "Arc Stack called $loc<br>";
+    if (!file_exists($loc)) return;
+    $hist = 1;
+    while (file_exists("$loc.$hist")) $hist++;
+    rename($loc,"$loc.$hist");
+//echo "Arc $loc renamed $loc.$hist<br>";
+  }
   
+
   function Select_Photos() {
     global $Shapes,$Shape,$PhotoCats,$Lists;
     echo "<h2>Select Photo to modify</h2><p>\n";
@@ -218,18 +244,17 @@ if (isset($_FILES['croppedImage'])) {
 //var_dump($dat); echo "<p>";
     $Name = $dat['Data']['Name'];
     $PhotoURL = $dat['Data'][$dat['Field']];
-    $ArcLoc = $FinalLoc = $dat['FinalLoc'];
-    preg_replace('/images/','ArchiveImages',$ArcLoc);
+    $FinalLoc = $dat['FinalLoc'];
+    $ArcLoc = $dat['ArcLoc'];
 
-    $suffix = strtolower(pathinfo($PhotoURL,PATHINFO_EXTENSION));
+    $suffix = $dat['Suf'];
     $FinalLoc .= ".$suffix";
     $ExtLoc = "/" . $FinalLoc;
-//var_dump($Name,$PhotoURL,$ArcLoc,$FinalLoc);
+//var_dump($Name,$PhotoURL,$ArcLoc,$FinalLoc,$suffix);
  
     if ($type == 'Current') {
       if ($PhotoURL) {
         $ArcD = dirname($ArcLoc);
-        $ArcLoc .= ".$suffix";
         if (!file_exists($ArcD)) mkdir($ArcD,0777,true);
   
 	if (preg_match('/^\/(.*)/',$PhotoURL,$mtch)) {
@@ -239,7 +264,10 @@ if (isset($_FILES['croppedImage'])) {
 	};
   
         if ($img) {
-  	  if (!file_exists($ArcLoc)) { file_put_contents($ArcLoc,$img); echo "Archived<p>"; };
+  	  if (preg_match('/https?:\/\//',$PhotoURL)) { // if external always Archive
+	    Archive_Stack("$ArcLoc.$suffix");
+	    file_put_contents("$ArcLoc.$suffix",$img);
+	  } else if (!file_exists("$ArcLoc.$suffix")) { file_put_contents("$ArcLoc.$suffix",$img); };
           if ($PhotoURL != $ExtLoc) {
 	    $done = file_put_contents("../$FinalLoc",$img);
             $PhotoURL = $ExtLoc;
@@ -257,6 +285,7 @@ if (isset($_FILES['croppedImage'])) {
     echo "For: $Name<br>";
 //echo "$Who<p>";
     echo "Shape: " . $Shapes[$Shape] . "<p>";
+    echo fm_hidden('FinalLoc',$FinalLoc);
     if ($PhotoURL) {
       if ($PhotoURL != "1") {
 	echo "<div id=croptool>";
@@ -265,7 +294,7 @@ if (isset($_FILES['croppedImage'])) {
 	  echo fm_hidden("PhotoURL",$PhotoURL);
           echo "<div><img src=$PhotoURL id=image style='max-height:500; max-width:600;'><p></div>";
 	  echo "<div align=center><div id=crop_button value=Crop class=FakeButton>Crop and Save</div><div id=Feedback></div></div><p>\n";
-	  if (file_exists($ArcLoc)) echo "<div class=floatright id=ShowO><input type=submit class=smallsubmit name=Original value='Show Original'></div>\n";
+	  if (file_exists("$ArcLoc.$suffix")) echo "<div class=floatright id=ShowO><input type=submit class=smallsubmit name=Original value='Show Original'></div>\n";
 	  break;
 	case 'Original':
 	  echo fm_hidden("PhotoURL",$PhotoURL);
@@ -291,6 +320,14 @@ if (isset($_FILES['croppedImage'])) {
   
 function New_Image() {
   $dat = &ImgData();
+  $suf = $dat['Suf'];
+  if (file_exists($dat['FinalLoc'] . ".$suf")) {
+    $FinalLoc = $dat['FinalLoc'] . ".$suf";
+    $ArcLoc = $dat['ArcLoc'] . ".$suf";
+    Archive_Stack($ArcLoc);
+    copy($FinalLoc,$ArcLoc);
+//echo "Should have archived<br>";
+  }
   $dat['Data'][$dat['Field']] = $_POST['NewImage']; // Fetch and store image - consider stacking orig image
   $dat['Put']($dat['Data']);
 }
@@ -318,6 +355,12 @@ d  rescale for large
 d  Venues
 d  make it remember pcat/who correctly 
 d  mkdir
+  After crop update location
+  Zoom in/out
+  Rotate
+  Darken/Lighten
+  Archive stack, use on change , also upload, new url
+  Access to stack
 
 
 */
