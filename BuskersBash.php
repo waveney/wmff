@@ -6,7 +6,7 @@
 ?>
 <div class="biodiv">
 <img src="/images/Stratus5.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
-<p>Stratus 5 - Buskers Bash winners 2017
+<p>Stratus - Buskers Bash winners 2017
 </div>
 <h2 class=subtitle>Wimborne Buskers Bash 2018</h2>
 
@@ -14,7 +14,8 @@ On Saturday 14th April, Wimborne will come alive to the sound of traditional str
 range of buskers. Organised for the second year by the committee of Wimborne Minster Folk Festival,
 you can find music at various venues throughout the town, including The Square. Voting for the finalists
 is by members of the public using tokens purchased on the day. The grand finals will be in the early
-evening decided by a group of experienced judges, &amp; encouraged by public participation!
+evening decided by a group of experienced judges, &amp; encouraged by public participation!<p>
+
 Calling all those of you who would like to take part in this year's Busker's Bash, on Saturday 14th
 April.<p>
 
