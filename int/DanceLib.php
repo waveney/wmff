@@ -107,7 +107,7 @@ function &Part_Come_All() {
 
 function Show_Side($snum,$Message='') {
   global $YEAR, $Coming_Type,$db;
-  if ($side = Get_Side($snum)) {
+  if (is_numeric($snum) && ($side = Get_Side($snum))) {
     $syear = Get_SideYear($snum,$YEAR);
     if ($Message) echo "<h2 class=ERR>$Message</h2>"; 
 

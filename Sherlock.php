@@ -2,6 +2,7 @@
   include_once("int/fest.php");
 
   $Types = $Type = $_GET['t'];
+  if (strlen($Type) > 20) $Types = $Type = 'Dance';
   dohead("Whats on $Type");
 
   include_once("int/ProgLib.php");

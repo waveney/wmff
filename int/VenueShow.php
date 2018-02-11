@@ -27,6 +27,7 @@ function PrintImps(&$imps) {
 }
 
   $V = $_GET['v'];
+  if (!is_numeric($V)) exit("Invalid Venue Number");
   $Ven = Get_Venue($V);
   if ($Ven['IsVirtual']) {
     $VirtVen = $Ven;
