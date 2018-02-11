@@ -32,11 +32,16 @@ If your answer is a great big "YES!" then our "<strong>Laugh Out Loud</strong>" 
 2018 Details to follow<p>
 
 <br clear=all>
-<h2 class=subtitle>Buskers Bash</h3>
+<h2 class=subtitle><a href=/BuskersBash.php>Buskers Bash</a></h3>
 The Festival Committee will be running the 2018 Wimborne Buskers Bash on April 14th.  Details will follow.<p>
 
+On Saturday 14th April, Wimborne will come alive to the sound of traditional street entertainment from a
+range of buskers. Organised for the second year by the committee of Wimborne Minster Folk Festival,
+you can find music at various venues throughout the town, including The Square. Voting for the finalists
+is by members of the public using tokens purchased on the day. The grand finals will be in the early
+evening decided by a group of experienced judges, &amp; encouraged by public participation!<p>
 
-
+<a href=/BuskersBash.php>More Info and Application Form</a><p> 
 <?php 
   dotail();
 ?>
