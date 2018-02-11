@@ -79,8 +79,8 @@ function Get_BB_Details(&$bb) {
   $Body .= "Contact: " . $bb['Contact'] . "\n";
   if ($bb['Phone']) $Body .= "Phone: " . $bb['Phone'] . "\n";
   $Body .= "Email: <a href=mailto:" . $bb['Email'] . ">" . $bb['Email'] . "</a>\n";
-  $Body .= "Address: " . $bb['Address'] . "\n";
-  $Body .= "PostCode: " . $bb['PostCode'] . "\n\n";
+//  $Body .= "Address: " . $bb['Address'] . "\n";
+//  $Body .= "PostCode: " . $bb['PostCode'] . "\n\n";
   $Body .= "\n\n";
 
   $Body .= "Example:" . $bb['Example'];

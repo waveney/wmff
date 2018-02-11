@@ -15,7 +15,7 @@
     Clean_Email($_POST{'Email'});
     if (strlen($_POST['Email']) < 6) { echo "<p class=Err>Please give the contacts Email\n"; $err=1; };
     if (strlen($_POST['Phone']) < 6) { echo "<p class=Err>Please give the contacts Phone number\n"; $err=1; };
-    if (strlen($_POST['Address']) < 20) { echo "<p class=Err>Please give the contacts Address\n"; $err=1; };
+//    if (strlen($_POST['Address']) < 20) { echo "<p class=Err>Please give the contacts Address\n"; $err=1; };
     if (!$_POST['TickBox']) { echo "<p class=Err>Please Tick the Box to show you have read the guidelines\n"; $err=1; };
     if (!$err) {
 //      echo "<P>VALID...<P>";
@@ -42,8 +42,8 @@
   echo "<tr>" . fm_text('Name',$_POST,'Contact');
   echo "<tr>" . fm_text('Email',$_POST,'Email');
   echo "<tr>" . fm_text('Phone',$_POST,'Phone');
-  echo "<tr>" . fm_text('Address',$_POST,'Address',4);
-  echo "<tr>" . fm_text('Postcode',$_POST,'PostCode');
+//  echo "<tr>" . fm_text('Address',$_POST,'Address',4);
+//  echo "<tr>" . fm_text('Postcode',$_POST,'PostCode');
   echo "<tr>" . fm_text('Example of you playing - YouTube or equivalent',$_POST,'Example');
   echo "<tr><td>" . fm_checkbox("I have read the guidelines",$_POST,'TickBox');
   echo "</table><p>";
