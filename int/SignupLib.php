@@ -73,6 +73,54 @@ function Email_Signup(&$lnl,$messcat,$whoto) {
   }
 }
 
+
+function Get_BB_Details(&$bb) {
+  $Body .= "\nBand: " . $bb['Name'] . "\n";
+  $Body .= "Contact: " . $bb['Contact'] . "\n";
+  if ($bb['Phone']) $Body .= "Phone: " . $bb['Phone'] . "\n";
+  $Body .= "Email: <a href=mailto:" . $bb['Email'] . ">" . $bb['Email'] . "</a>\n";
+  $Body .= "Address: " . $bb['Address'] . "\n";
+  $Body .= "PostCode: " . $bb['PostCode'] . "\n\n";
+  $Body .= "\n\n";
+
+  $Body .= "Example:" . $bb['Example'];
+
+  return $Body;
+}
+
+function Email_BB_Signup(&$bb,$messcat,$whoto) {
+  global $THISYEAR,$USER,$MASTER;
+  include_once("int/TradeLib.php");
+
+  $Prof = Get_Email_Proforma($messcat);
+  $Mess = ($Prof? $Prof['Body'] : "Unknown message $messcat");
+
+  $Contact = $bb['Contact']? firstword($bb['Contact']) : $bb['Name'];
+
+  $Details = Get_BB_Details($bb);
+  $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $THISYEAR";
+  
+  $Mess = preg_replace('/\*WHO\*/',$Contact,$Mess);
+//  $Mess = preg_replace('/\*LINK\*/',$Link,$Mess);
+//  $Mess = preg_replace('/\*WMFFLINK\*/',$WmffLink,$Mess);
+
+  $Mess = preg_replace('/\*THISYEAR\*/',$THISYEAR,$Mess);
+  $Mess = preg_replace('/\*DATES\*/',$Dates,$Mess);
+  $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
+
+  if (file_exists("testing")) {
+    SendEmail("Richard@wavwebs.com","Buskers Bash $THISYEAR and " . $bb['Name'],$Mess);
+  } else {
+    SendEmail($whoto,"Buskers Bash $THISYEAR and " . $bb['Name'],$Mess);
+  }
+
+  $logf = fopen("LogFiles/BuskersBashLog.txt","a");
+  if( $logf) {
+    fwrite($logf,"\n\nEmail to : " . $whoto . "\n\n" . $Mess);
+    fclose($logf);
+  }
+}
+
 function Get_Stew_Details(&$stew) {
   global $StewClasses,$Days,$Relations;
   $Body = "\nName: " . $stew['Name'] . "\n";

@@ -14,7 +14,7 @@
 <div class="content"><h2>List Venues</h2>
 
 <?php
-  global $Surfaces;
+  global $Surfaces,$YEAR;
   $yn = array('','Y');
   include_once("ProgLib.php");
   $venues = Get_Venues(1);
@@ -40,6 +40,8 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Other</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Surface 1</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Surface 2</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Map Imp</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Prog</a>\n";
   echo "</thead><tbody>";
 
   if ($venues) {
@@ -60,6 +62,8 @@
       echo "<td>" . $yn[$Ven['Other']] ."\n";
       echo "<td>" . $Surfaces[$Ven['SurfaceType1']];
       echo "<td>" . $Surfaces[$Ven['SurfaceType2']] . "\n";
+      echo "<td>" . $Ven['MapImp'];
+      echo "<td><a href=VenueShow.php?Y=$YEAR&v=$i>Prog</a>";
     }
   }
   echo "</tbody></table>\n";

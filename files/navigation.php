@@ -85,7 +85,7 @@
   <div class=dropdown-content>
      <a href=$host/LiveNLoud.php >Live and Loud</a>
      <a href=$host/Lol.php class=NotYet>Laugh out Loud</a>
-     <a href=$host/BuskersBash.php class=NotYet>Buskers Bash</a>
+     <a href=$host/BuskersBash.php>Buskers Bash</a>
   </div>
 </div>
 <a href=$host/contact.php onmouseover=NoHoverSticky()>Contact</a>
