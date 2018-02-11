@@ -750,19 +750,19 @@ function Submit_Application(&$Trad,&$Trady,$Mode=0) {
 function Validate_Trade($Mode=0) { // Mode 1 for Staff Submit, less stringent
   global $TradeTypeData;
       $proc = 1;
-      if (!isset($_POST['Name'])) {
+      if (!isset($_POST['Name']) || strlen($_POST['Name']) < 3 ) {
 	echo "<h2 class=ERR>No Business Name Given</h2>\n";
 	$proc = 0;
       }
-      if (!isset($_POST['Contact'])) {
+      if (!isset($_POST['Contact']) || strlen($_POST['Contact']) < 8 ) {
 	echo "<h2 class=ERR>No Contact Name Given</h2>\n";
 	$proc = 0;
       }
-      if (!isset($_POST['Phone']) && !isset($_POST['Mobile'])) {
+      if ((!isset($_POST['Phone']) && !isset($_POST['Mobile'])) || (strlen($_POST['Phone']) < 6 && strlen($_POST['Mobile']) < 6)) {
 	echo "<h2 class=ERR>No Phone/Mobile Numbers Given</h2>\n";
 	$proc = 0;
       }
-      if (!isset($_POST['Email'])) {
+      if (!isset($_POST['Email']) || strlen($_POST['Email']) < 8) {
         if ($Mode) {
 	  echo "<h2 class=MERR>No Email Given</h2>\n";
 	} else {
@@ -770,7 +770,7 @@ function Validate_Trade($Mode=0) { // Mode 1 for Staff Submit, less stringent
 	  $proc = 0;
 	}
       }
-      if (!isset($_POST['Address'])) {
+      if (!isset($_POST['Address']) || strlen($_POST['Address']) < 10) {
         if ($Mode) {
 	  echo "<h2 class=MERR>No Address Given</h2>\n";
 	} else {
@@ -785,7 +785,7 @@ function Validate_Trade($Mode=0) { // Mode 1 for Staff Submit, less stringent
 	echo "<h2 class=ERR>The Product Description is too short</h2>\n";
 	$proc = 0;
       }
-      if ((!isset($_POST['PublicHealth'])) && ($TradeTypeData[$_POST['TradeType']]['NeedPublicHealth']) && ($Mode == 0)) {
+      if ((!isset($_POST['PublicHealth']) || strlen($_POST['PublicHealth']) < 5) && ($TradeTypeData[$_POST['TradeType']]['NeedPublicHealth']) && ($Mode == 0)) {
 	echo "<h2 class=ERR>No Public Health Authority Given</h2>\n";
 	$proc = 0;
       }
@@ -887,6 +887,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
     Clean_Email($_POST{'AltEmail'});
     $proc = Validate_Trade($Mode);
 
+//echo "Trade Validation: $proc <br>;
     if ($Tid > 0) { 				// existing Trader 
       $Trad = Get_Trader($Tid);
       if ($Trad) {

@@ -263,6 +263,7 @@ function &Select_Act_Come_All() {
 
 function &Act_All() {
   global $db;
+  $All = array();
   $qry = "SELECT SideId, Name FROM Sides s WHERE IsAnAct=1 ORDER BY Name";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $All[$row['SideId']] = $row['Name'];
@@ -271,6 +272,7 @@ function &Act_All() {
 
 function &Other_All() {
   global $db;
+  $All = array();
   $qry = "SELECT SideId, Name FROM Sides s WHERE IsOther=1 ORDER BY Name";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $All[$row['SideId']] = $row['Name'];

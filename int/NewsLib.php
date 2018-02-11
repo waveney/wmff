@@ -38,7 +38,7 @@ function News_Item(&$news,$tlim=500,$more=0,$class='newsimg') { // if tlim=0 all
   $getcontent = $news['content'];
   $getimage = $news['image'];
   $getauthor = ucwords($news['author']);
-  $getdate = date('j F Y', $news['created']);
+  $getdate = date('j F Y', $news['created']+0);
 
   if ($tlim && $more<2) {
     $More = (strlen($getcontent) > $tlim);
