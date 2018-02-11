@@ -80,6 +80,16 @@ if ($ans) {
 
   echo "
 <div class=article>
+<a href=$host/BuskersBash.php>
+<h2 class=articlettl>Buskers Bash 2018</h2>
+<img class=articleimg src=/images/Stratus5.jpg alt='Wimborne Minster Folk Festival'></a>
+<p class=articletxt>
+On Saturday 14th April, Wimborne will come alive to the sound of traditional street entertainment from a
+range of buskers. Organised for the second year by the committee of Wimborne Minster Folk Festival.
+Calling all those of you who would like to take part in this year's Busker's Bash.<p>
+
+</div>
+<div class=article>
 <a href=$host/Tickets.php>
 <h2 class=articlettl>Buy Tickets and Wristbands</h2>
 <img class=articleimg src=/images/Weekend-Wristband.jpg alt='Wimborne Minster Folk Festival'></a>
