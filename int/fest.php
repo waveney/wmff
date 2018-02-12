@@ -7,6 +7,8 @@ $YEAR = $THISYEAR = 2018;
 if (isset($_POST{'Y'})) $YEAR = $_POST{'Y'};
 if (isset($_GET{'Y'})) $YEAR = $_GET{'Y'};
 
+if (!is_numeric($YEAR)) exit("Invalid Year");
+
 $Noise_Levels = array("Middling","Quiet","Noisy");
 $Coming_States = array('','Recieved','Coming','Not coming','Possibly','Not coming, please ask next year');
 $Coming_idx = array('','R','Y','N','P','NY');

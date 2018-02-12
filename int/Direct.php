@@ -9,6 +9,7 @@
 
   if (isset($_GET{'t'}) && strtolower($_GET{'t'}) == 'trade') { 
     $Tid = $_GET{'id'};
+    if (!is_numeric($Tid)) Error_Page("Invalid Identifier");
     $Trad = Get_Trader($Tid);
 
     if ($_GET['key'] == '') {
@@ -32,6 +33,7 @@
     exit;
   } else { 
     $SideId = $_GET{'id'};
+    if (!is_numeric($SideId)) Error_Page("Invalid Identifier");
     $Side = Get_Side($SideId);
     if (isset($_GET{'t'})) {
       $Type = $_GET{'t'};
