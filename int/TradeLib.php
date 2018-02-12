@@ -1,17 +1,20 @@
 <?php
 
-/* For Book -> Deposit -> Confirm -> Pay (Note no Invoicing)
-$Trade_States = array('Not Submitted','Refunded','Cancelled','Submitted','Deposit Paid','Accepted','Declined','Fully Paid');
-$Trade_State = array_flip($Trade_States);
-$Trade_StateClasses = array('TSNotSub','TSRefunded','TSCancel','TSSubmit','TSDeposit','TSConf','TSDecline','TSPaid');
-$TS_Actions = array('Submit','','','Deposit','Confirm,Decline','Paid,Cancel','Refunded','Cancel');
-*/
 // For Book -> Confirm -> Deposit ->Pay , if class begins with a - then not used/don't list
 $Trade_States = array('Not Submitted','Declined','Refunded','Cancelled','Submitted','Quoted','Accepted','Deposit Paid','Invoiced','Fully Paid','Wait List');
 $Trade_State = array_flip($Trade_States);
 $Trade_StateClasses = array('TSNotSub','TSDecline','-TSRefunded','TSCancel','TSSubmit','TSInvite','TSConf','TSDeposit','-TSInvoice','TSPaid','TSWaitList');
-$TS_Actions = array('Submit,Invite,Invite Better','','','','Quote,Accept,Decline,Hold,Cancel','Quote,Invite,Accept,Decline','Dep Paid,Cancel',
-		'Paid,Cancel','Paid,Cancel','Cancel','Accept,Decline,Cancel');
+$TS_Actions = array('Submit,Invite,Invite Better',
+		'Resend',
+		'Resend',
+		'Resend',
+		'Resend,Quote,Accept,Decline,Hold,Cancel',
+		'Resend,Quote,Invite,Accept,Decline',
+		'Resend,Dep Paid,Cancel',
+		'Resend,Paid,Cancel',
+		'Resend,Paid,Cancel',
+		'Resend,Cancel',
+		'Resend,Accept,Decline,Cancel');
 
 $Trader_Status = array('Alive','Banned','Not trading');
 $Trader_State = array_flip($Trader_Status);
@@ -19,6 +22,8 @@ $ButExtra = array('Accept'=>'','Decline'=>'','Submit'=>'','Hold'=>'title="Hold f
 	'Quote'=>'title="Send or repeat Quote email"','Invite'=>'title="Send or repeat the Invitation Email"',
 	'Cancel'=>'onClick="javascript:return confirm(\'are you sure you want to cancel this?\');"'
 	); 
+$Trade_Email = array('','Trade_Decline','Trade_Refunded','Trade_Cancel','Trade_Submit', 'Trade_Quoted',
+		'Trade_Accepted','Trade_Status','Trade_Status','Trade_Status','Trade_Hold');
 $ButTrader = array('Submit','Accept','Decline','Cancel'); // Actions Traders can do
 $Trade_Days = array('Both','Saturday Only','Sunday Only');
 $Prefixes = array ('in','in the','by the');
@@ -1077,7 +1082,7 @@ function Send_Trade_Finance_Email(&$Trad,&$Trady,$messcat) {
 
 // Highly recursive set of actions - some trigger others 
 function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='') {
-  global $Trade_State,$TradeTypeData;
+  global $Trade_State,$TradeTypeData,$Trade_Email;
   $Tchng = $Ychng = 0;
   $PaidSoFar = $Trady['TotalPaid'];
   $CurState = $NewState = $Trady['BookingState'];
@@ -1205,6 +1210,10 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='') {
     }
     break;
 
+  case 'Resend' :
+    Send_Trader_Email($Trad,$Trady,$Trade_Email[$CurState]);
+
+    break;
   default:
     break;
   }
