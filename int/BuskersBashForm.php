@@ -47,7 +47,8 @@
   echo "<tr>" . fm_text('Example of you playing - YouTube or equivalent',$_POST,'Example');
   echo "<tr><td>" . fm_checkbox("I have read the guidelines",$_POST,'TickBox');
   echo "</table><p>";
-  echo "<input type=submit name=submit value='Submit Application'><p>\n"; 
+  echo "<input type=submit name=submit value='Submit Application' onclick=$('#Patience').show()><p>\n";   
+  echo "<h2 hidden class=Err id=Patience>This takes a few moments, please be patient</h2>"
 
 ?>
 <h2 class=subtitle>Guildlines</h2>

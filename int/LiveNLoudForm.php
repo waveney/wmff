@@ -64,8 +64,8 @@
   echo "<tr><td colspan=2>Are you available on Saturday 9th June, during the Folk Festival?<td>" . fm_radio('',$yesno,$_POST,'FFSat','',0);
   echo "<tr><td colspan=2>Are you available on Sunday 10th June, during the Folk Festival?<td>" . fm_radio('',$yesno,$_POST,'FFSun','',0);
   echo "</table><p>";
-  echo "<input type=submit name=submit value='Submit Application'><p>\n"; 
-
+  echo "<input type=submit name=submit value='Submit Application' onclick=$('#Patience').show()><p>\n";   
+  echo "<h2 hidden class=Err id=Patience>This takes a few moments, please be patient</h2>"
 
   dotail();
 
