@@ -21,7 +21,7 @@
   echo "Click on column header to sort by column.  Click on Side's name for more detail and programme when available,<p>\n";
 
   echo "If you click on the email link, press control-V afterwards to paste the standard link into message.<p>";
-  $col8 = $col7 = '';
+  $col9 = $col8 = $col7 = '';
   $Types = Get_Dance_Types(1);
   foreach ($Types as $i=>$ty) $Colour[strtolower($ty['Name'])] = $ty['Colour'];
 

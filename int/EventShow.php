@@ -77,15 +77,14 @@ function Print_Participants($e,$when=0,$thresh=0) {
   $OtherPart = $OtherVenues = array();
 
   $Se = $Ev['SubEvent'];
+  $Subs = array();
   if ($Se < 0 ) {// Has Sub Events - Treat as Root
     $res=$db->query("SELECT * FROM Events WHERE SubEvent=$Eid ORDER BY Day, Start, Type");
-    $Subs = array();
     while($sev = $res->fetch_assoc()) $Subs[] = $sev;
   } else if ($Se > 0) { // Is Sub Event - Find Root
     $Eid = $Se;
     $Ev = Get_Event($Eid);  
     $res=$db->query("SELECT * FROM Events WHERE SubEvent=$Eid ORDER BY Day, Start, Type");
-    $Subs = array();
     while($sev = $res->fetch_assoc()) $Subs[] = $sev;
   } else if ($Ev['BigEvent']) {
     $Others = Get_Other_Things_For($Eid);

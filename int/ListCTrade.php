@@ -30,6 +30,8 @@
     echo "If the amount paid is not the full deposit or remainder, click on the Trader's name to enable fine control.<p>\n";
 
     echo "If you click on the email link, press control-V afterwards to paste the standard link into message.<p>";
+
+    echo "The Resend action re-sends the last email to the trader (or a general status message if it does not make sense to resend).<p>";
   }
 
   $Trade_Types = Get_Trade_Types(1);
