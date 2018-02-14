@@ -39,7 +39,7 @@
   $TrMon = array();
   $TrRec = array();
   $TrSub = array();
-  $TrState = array();
+  $TrState = array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 
   if (isset($_GET['ACTION'])) {
     $Tid = $_GET['id'];
@@ -202,7 +202,11 @@
       if ($fee > 0) {
 	$totfee += $fee;
 	$totrec += $fetch['TotalPaid'];
-	$TrMon[$fetch['TradeType']] += $fee;
+	if (!isset($TrMon[$fetch['TradeType']])) {
+	  $TrMon[$fetch['TradeType']] = $fee;
+	} else {
+	  $TrMon[$fetch['TradeType']] += $fee;
+	}
 	$TrRec[$fetch['TradeType']] += $fetch['TotalPaid'];
 	if ($stat >= $Trade_State['Submitted'] && $stat != $Trade_State['Quoted'] && $stat != $Trade_State['Wait List']) {
 	  $TrSub[$fetch['TradeType']] += $fee;
@@ -217,7 +221,7 @@
 
   echo "<p><table border id=narrowtable><tr><td>Type<td>Received<td>Total Accept<td>Total inc Quoted\n";
   foreach ($Trade_Types as $t) {
-    if ($TrMon[$t['id']]) {
+    if (isset($TrMon[$t['id']]) && $TrMon[$t['id']]) {
       echo "<tr><td style='background:" . $t['Colour'] . ";'>" . $t['Name'] ;
       echo "<td>&pound;" . $TrRec[$t['id']] . "<td>&pound;" . $TrSub[$t['id']] . "<td>&pound;" . $TrMon[$t['id']] . "\n";
     }

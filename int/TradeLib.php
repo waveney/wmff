@@ -20,7 +20,8 @@ $Trader_Status = array('Alive','Banned','Not trading');
 $Trader_State = array_flip($Trader_Status);
 $ButExtra = array('Accept'=>'','Decline'=>'','Submit'=>'','Hold'=>'title="Hold for space available"','Dep Paid','Paid',
 	'Quote'=>'title="Send or repeat Quote email"','Invite'=>'title="Send or repeat the Invitation Email"',
-	'Cancel'=>'onClick="javascript:return confirm(\'are you sure you want to cancel this?\');"'
+	'Cancel'=>'onClick="javascript:return confirm(\'are you sure you want to cancel this?\');"',
+	'Resend'=>''
 	); 
 $Trade_Email = array('','Trade_Decline','Trade_Refunded','Trade_Cancel','Trade_Submit', 'Trade_Quoted',
 		'Trade_Accepted','Trade_Status','Trade_Status','Trade_Status','Trade_Hold');
@@ -459,11 +460,12 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
     echo "<td>Location (When Assigned)<td>Pitch Number";
   }
   for ($i = 0; $i < 3; $i++) {
+    $pwr = (isset($Trady["Power$i"])?$Trady["Power$i"]:0);
     echo "<tr>" . fm_text1("",$Trady,"PitchSize$i");
-    echo "<td>None: <input type=radio name=PowerType$i value=0 onclick=PowerChange(0,$i) " . ($Trady["Power$i"]==0?"checked ":"") . "> ";
-    echo "My own Euro 4 Silent Generator: <input type=radio name=PowerType$i value=1 onclick=PowerChange(1,$i) " . ($Trady["Power$i"]<0?"checked ":"") . "><br>";
+    echo "<td>None: <input type=radio name=PowerType$i value=0 onclick=PowerChange(0,$i) " . ($pwr==0?"checked ":"") . "> ";
+    echo "My own Euro 4 Silent Generator: <input type=radio name=PowerType$i value=1 onclick=PowerChange(1,$i) " . ($pwr<0?"checked ":"") . "><br>";
     echo "<input type=radio name=PowerType$i hidden id=PowerTypeRequest$i value=2>Requested: <input type=number id=Power$i name=Power$i onchange=PowerChange(2,$i) " . 
-	($Trady["Power$i"]>0?" value=" . $Trady["Power$i"] : "") . " min=0 max=1000>Amps";
+	($pwr>0?" value=" . $Trady["Power$i"] : "") . " min=0 max=1000>Amps";
     if ($Mode) {
       echo "<td class=NotCSide>" . fm_select($TradeLocs,$Trady,"PitchLoc$i",1,'class=NotCSide');
       echo fm_number1("",$Trady,"PitchNum$i",'class=NotCSide','class=NotCSide');
@@ -543,8 +545,10 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
     }
   }
   if ($Mode) {
-    if ($Trady['SentInvite']) echo "<tr>"; 
-    if ($Trady['SentInvite']) echo fm_date('Invite Sent',$Trady,'SentInvite');
+    if (isset($Trady['SentInvite']) && $Trady['SentInvite']) {
+      echo "<tr>"; 
+      echo fm_date('Invite Sent',$Trady,'SentInvite');
+    }
   }
 
   echo "</table>\n";
@@ -988,6 +992,9 @@ function Trade_Main($Mode,$Program,$iddd=0) {
     $Act = $TS_Actions[$Trady['BookingState']];
     if ($Act ) {
       $Acts = preg_split('/,/',$Act); 
+      if ($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs']) {
+	if ($TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) $dummy=1;
+      }
       if ($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) $Acts[] = 'Artisan Invite';
       foreach($Acts as $ac) {
         if ($Mode==0 && !in_array($ac,$ButTrader)) continue;
