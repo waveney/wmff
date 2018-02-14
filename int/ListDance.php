@@ -128,11 +128,14 @@
       }
       if ($col8 == "Complete?") {
         echo "<td>";
-	if ($fetch['Insurance'] && ((($fetch['Performers'] > 0) && $fetch['Address']) || ($fetch['Performers'] < 0))) { echo "Yes"; }
+	if ($fetch['Insurance'] && 
+		((($fetch['Performers'] > 0) && $fetch['Address']) || ($fetch['Performers'] < 0)) && 
+		($fetch['Sat'] || $fetch['Sun'])) { echo "Yes"; }
 	else {
 	  if ($fetch['Insurance']) echo "I"; 
 	  if ($fetch['Performers'] != 0) echo "P"; 
 	  if ($fetch['Address']) echo "A"; 
+	  if (!$fetch['Sat'] || !$fetch['Sat'] ) echo "D"; 
 	}
       }
 
