@@ -28,7 +28,7 @@
       echo "<td>" . $bb['Name'];
       echo "<td>" . $bb['Contact'];
       echo "<td>" . $bb['Email'];
-      echo "<td><a href=" . $bb['Example'] . " target=_blank>Example</a>";
+      echo "<td>" . weblink( $bb['Example'] , "Example");
       echo "<td>" . $States[$bb['State']];
 
     }
