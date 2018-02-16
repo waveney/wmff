@@ -19,11 +19,15 @@ band, duo, choir, a soloist or even orchestra then complete an application form 
 
 Live and Loud is sponsored by <a href="http://partyinthepaddock.com">Party In The Paddock</a><p>
 
+<!--
 Applicants should fill in the <a href=int/LiveNLoudForm.php>application form</a> in by
-no later than Monday 12th February 2018.<p> 
+no later than Monday 12th February 2018.<p> -->
 
 <!-- A &pound;5 sign up fee
+
 will then be requested to confirm your attendance.-->
+
+Applications are now closed.<p>
 
 <b>This year, the competition will be divided into 3 categories:<p>
 <ul>
@@ -63,7 +67,7 @@ with doors opening to the public at 7:15pm for a 7:30pm start.<p>
 
 The Allendale Community centre, is on Hanham Road, Wimborne, Dorset, BH21 1AS.<P>
 
-<h2><a href=int/LiveNLoudForm.php>Application Form</a></h2>
+Applications are now closed.<p>
 <?php 
   dotail();
 ?>
