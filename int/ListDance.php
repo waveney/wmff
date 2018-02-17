@@ -135,7 +135,7 @@
 	  if ($fetch['Insurance']) echo "I"; 
 	  if ($fetch['Performers'] != 0) echo "P"; 
 	  if ($fetch['Address']) echo "A"; 
-	  if (!$fetch['Sat'] || !$fetch['Sat'] ) echo "D"; 
+	  if (!$fetch['Sat'] || !$fetch['Sun'] ) echo "D"; 
 	}
       }
 
