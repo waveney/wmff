@@ -132,7 +132,7 @@
 		((($fetch['Performers'] > 0) && $fetch['Address']) || ($fetch['Performers'] < 0)) && 
 		($fetch['Sat'] || $fetch['Sun'])) { echo "Yes"; }
 	else {
-	  if ($fetch['Insurance']) echo "I"; 
+	  if ($fetch['Insurance']==0) echo "I"; 
 	  if ($fetch['Performers'] != 0) echo "P"; 
 	  if ($fetch['Address']) echo "A"; 
 	  if (!$fetch['Sat'] && !$fetch['Sun'] ) echo "D"; 
