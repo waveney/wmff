@@ -224,8 +224,10 @@
       echo "<td class=NotSide>Public:" . fm_select($Public_Event_Types,$Event,'Public');
       echo "<td class=NotSide>Participant Visibility:" . fm_select($VisParts,$Event,'InvisiblePart');
 
-      echo "<tr><td class=NotSide>" . fm_checkbox('Multiday Event',$Event,'LongEvent');
+      echo "<tr><td class=NotSide>" . fm_checkbox('Multiday Event',$Event,'LongEvent','onchange=$(".mday").show()');
+      $hidemday =  ($Event['LongEvent'])?'':'hidden ';
       echo "<td class=NotSide>" . fm_checkbox('Big Event',$Event,'BigEvent');
+      echo "<td class=NotSide>" . fm_checkbox('Ignore Clashes',$Event,'IgnoreClash');
 
       echo "<tr><td>" . fm_checkbox('Special Event',$Event,'Special');
       echo "<td>" . fm_checkbox('Family Event',$Event,'Family');
@@ -247,13 +249,14 @@
 	echo "<td class=NotSide>" . fm_simpletext('Ticket Code',$Event,'TicketCode');
       }
 
-      echo "<tr>" . fm_radio('Day',$DayList,$Event,'Day');
+      echo "<tr>" . fm_radio('<span class=mday $hidemday>Start </span>Day',$DayList,$Event,'Day');
 //      echo fm_text('Year',$Event,'Year');
       echo "<td colspan=3>Times: " . fm_smalltext('Start','Start',$Event['Start']);
         echo fm_smalltext('End','End',$Event['End']);
         echo fm_smalltext('Setup Time','Setup (mins)',$Event['Setup']) ;
         echo fm_smalltext('Duration','Duration',$Event['Duration']) . "&nbsp;minutes ";
         if ($se < 0) echo fm_smalltext(', Slot End','SlotEnd',$Event['SlotEnd']);
+      if ($se <= 0) echo "<tr class=mday $hidemday>" . fm_radio('End Day',$DayList,$Event,'EndDay') . "<td colspan=2>Set up a sub event for each day";
       echo "<tr><td>Venue:<td>" . fm_select($Venues,$Event,'Venue',1);
         echo fm_textarea('Notes', $Event,'Notes',4,2);
       $et = 'Mixed';
