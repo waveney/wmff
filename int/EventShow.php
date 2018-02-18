@@ -125,7 +125,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
   echo "<tr><td>";
     if (isset($OtherVenues[0])) {
       $OVens = Get_Real_Venues();
-      echo "Starting Location:<td><a href=VenueShow.php?v=" . $Ven['VenueId'] . ">" . $Ven['ShortName'] . "</a>";
+      echo "Starting Location:<td><a href=VenueShow.php?v=" . $Ven['VenueId'] . ">" . VenName($Ven) . "</a>";
 //      echo "<div class=floatright><a onclick=ShowDirect(" . $Ven['VenueId'] . ")>Directions</a></div>\n";
       if ($Ven['Address']) echo " - " . $Ven['Address'] . $Ven['PostCode'] ."\n";
       if ($Ven['Description']) echo "<br>" . $Ven['Description'] . "\n";
