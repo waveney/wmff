@@ -27,6 +27,8 @@ no later than Monday 12th February 2018.<p> -->
 
 will then be requested to confirm your attendance.-->
 
+Please send any queries or questions to <a href=mailto:LiveAndLoud@wimbornefolk.co.uk>LiveAndLoud@wimbornefolk.co.uk</a>.<p>
+
 Applications are now closed.<p>
 
 <b>This year, the competition will be divided into 3 categories:<p>
