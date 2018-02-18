@@ -17,7 +17,7 @@
   include_once("DanceLib.php");
   include_once("MusicLib.php");
   include_once("ProgLib.php");
-  include_once("PartLib.php");
+//  include_once("PartLib.php");
   global $YEAR;
 
   if (isset($_GET{'e'})) { $Eid = $_GET{'e'}; } else { Error_Page('Big Event without Event'); };

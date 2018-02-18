@@ -25,6 +25,8 @@ Check out more information - Buskers Bash Guidelines. Applications close 24th Ma
 
 <h2 class=subtitle><a href=int/BuskersBashForm.php>Application Form</a></h2>
 
+Please send any queries or questions to <a href=mailto:BuskersBash@wimbornefolk.co.uk>BuskersBash@wimbornefolk.co.uk</a>.<p>
+
 <h2 class=subtitle>Guildlines</h2>
 Please register at the Info Point on The Square between 10.30 - 11.30<p>
 

@@ -149,7 +149,7 @@ function Scan_Data($condense=0) {
   grid[v][t][d: duration, n:name, err:error, w:wrap, s1..4:participants, e:evnt, h:hide]
 */
 // Creates Raw Grid
-function Create_Grid($condense) { 
+function Create_Grid($condense=0) { 
   global $DAY,$Times,$Back_Times,$grid,$lineLimit,$EV,$Sides,$SideCounts,$VenueUse,$evs,$MaxOther,$VenueInfo,$Venues,$VenueNames,$OtherLocs,$Sand,$VenueList;
 
   $ForwardUse = array();
