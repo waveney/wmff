@@ -209,6 +209,7 @@
 
 //var_dump($Event);
   if (isset($Err)) echo "<h2 class=ERR>$Err</h2>\n";
+  echo "<span class=NotSide>Fields marked should be only set by Richard</span>";
   if (!$Skip) {
     $adv = ($Event['SubEvent']>0?"class=Adv":""); 
     echo "<table width=90% border>\n";
@@ -216,12 +217,19 @@
         echo "<tr><td>Event Id:" . $eid . fm_hidden('EventId',$eid);
       } else {
         echo fm_hidden('EventId',-1);
+        $Event['Day'] = 1;
       }
 //      echo fm_text('SE',$Event,'SubEvent');
-      echo "<td>" . fm_checkbox('Big Event',$Event,'BigEvent');
-      echo "<td>" . fm_checkbox('Exclude From Spot Counts',$Event,'ExcludeCount');
-      echo "<td>Public:" . fm_select($Public_Event_Types,$Event,'Public');
+      echo "<td class=NotSide>" . fm_checkbox('Exclude From Spot Counts',$Event,'ExcludeCount');
+      echo "<td class=NotSide>Public:" . fm_select($Public_Event_Types,$Event,'Public');
+      echo "<td class=NotSide>Participant Visibility:" . fm_select($VisParts,$Event,'InvisiblePart');
+
+      echo "<tr><td class=NotSide>" . fm_checkbox('Multiday Event',$Event,'LongEvent');
+      echo "<td class=NotSide>" . fm_checkbox('Big Event',$Event,'BigEvent');
+
+      echo "<tr><td>" . fm_checkbox('Special Event',$Event,'Special');
       echo "<td>" . fm_checkbox('Family Event',$Event,'Family');
+      echo "<td>" . fm_checkbox('Non Fest',$Event,'NonFest');
 
       echo "<tr>" . fm_text('Name', $Event,'Name');
         echo "<td>Event Type:" . fm_select($Event_Types,$Event,'Type');
@@ -229,7 +237,6 @@
         if ($se == 0) { echo "<td>No Sub Events"; }
         elseif ($se < 0) { echo "<td><a href=EventList.php?se=$eid>Has Sub Events</a>"; }
         else { echo "<td><a href=EventList.php?se=$se>Is a Sub Event</a>"; };
-        echo "<td>" . fm_checkbox('Non Fest',$Event,'NonFest');
 
       if ($se <= 0) {
 	echo "<tr>";
@@ -237,17 +244,16 @@
 	if ($MASTER['PriceChange1']) echo "<td>" . fm_simpletext('Price after ' . date('j M Y',$MASTER['PriceChange1']) . '(if diff) &pound;',$Event,'Price2');
 	if ($MASTER['PriceChange2']) echo "<td>" . fm_simpletext('Price after ' . date('j M Y',$MASTER['PriceChange2']) . '(if diff) &pound;',$Event,'Price3');
 	echo "<td>" . fm_simpletext('Door Price (if different) &pound;',$Event,'DoorPrice');
-	echo "<td>" . fm_simpletext('Ticket Code',$Event,'TicketCode');
+	echo "<td class=NotSide>" . fm_simpletext('Ticket Code',$Event,'TicketCode');
       }
 
       echo "<tr>" . fm_radio('Day',$DayList,$Event,'Day');
 //      echo fm_text('Year',$Event,'Year');
-      echo "<td colspan=2>Times: " . fm_smalltext('Start','Start',$Event['Start']);
+      echo "<td colspan=3>Times: " . fm_smalltext('Start','Start',$Event['Start']);
         echo fm_smalltext('End','End',$Event['End']);
-        echo fm_smalltext('Setup Time','Setup (mins)',$Event['Setup']) . "<br>";
+        echo fm_smalltext('Setup Time','Setup (mins)',$Event['Setup']) ;
         echo fm_smalltext('Duration','Duration',$Event['Duration']) . "&nbsp;minutes ";
         if ($se < 0) echo fm_smalltext(', Slot End','SlotEnd',$Event['SlotEnd']);
-      echo "<td>Participant Visibility:" . fm_select($VisParts,$Event,'InvisiblePart');
       echo "<tr><td>Venue:<td>" . fm_select($Venues,$Event,'Venue',1);
         echo fm_textarea('Notes', $Event,'Notes',4,2);
       $et = 'Mixed';

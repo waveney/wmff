@@ -169,6 +169,7 @@ function timeformat($time) {
 }
 
 function timecolon($time) { // format as x:0y
+  if (!$time) return "Unknown";
   $h = (int)($time/100);
   return sprintf("%d:%02d",$h,$time%100);
 }

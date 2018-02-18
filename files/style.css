@@ -793,6 +793,18 @@ textarea:Focus
   min-height:290px;
   max-height:295px;
 }
+.Tuetab {
+  background-color:#8040ff;
+  border-color:#8040ff;
+}
+.Wedtab {
+  background-color:#bf40ff;
+  border-color:#bf40ff;
+}
+.Thurtab {
+  background-color:#ff8000;
+  border-color:#ff8000;
+}
 .Fritab {
   background-color:#59B404;
   border-color:#59B404;
@@ -805,9 +817,13 @@ textarea:Focus
   background-color:orange;
   border-color:orange;
 }
+.Montab {
+  background-color:yellow;
+  border-color:yellow;
+}
 .lemontab {
 }
-.Fritab td, .Fritab, .Sattab td, .Sattab, .Suntab td, .Suntab, .lemontab, .lemontab td {
+.Tuetab, Tuetab td, .Wedtab, Wedtab td, .Thurtab, Thurtab td, .Fritab td, .Fritab, .Sattab td, .Sattab, .Suntab td, .Suntab, .Montab, Montab td, .lemontab, .lemontab td {
   padding:5;
   border-spacing:5;
   width:auto;

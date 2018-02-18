@@ -110,26 +110,26 @@ function PrintImps(&$imps) {
 
     if ($e['SubEvent'] <0) {
       $parname = $e['Name']; // has subes
-      echo "<tr><td><a href=EventShow.php?e=$eid>" . $e['Start'] . " - " . $e['End'] . "</a><td><a href=EventShow.php?e=$eid>" . $parname . "</a>";
+      echo "<tr><td><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . "</a><td><a href=EventShow.php?e=$eid>" . $parname . "</a>";
       if ($e['Description']) echo "<br>" . $e['Description'];
       echo "<td>&nbsp;";
       if ($NotAllFree) echo "<td>" . Price_Show($e);
 
       if ($imps) {
-        echo "<tr><td>" . $e['Start'] . " - " . $e['SlotEnd'] . "<td>&nbsp;<td>";
+        echo "<tr><td>" . timecolon($e['Start']) . " - " . timecolon($e['SlotEnd']) . "<td>&nbsp;<td>";
         PrintImps($imps);
         if ($NotAllFree) echo "<td>&nbsp;";
       }
     } else if ($e['SubEvent'] == 0) { // Is stand alone
       $parname = $e['Name'];
-      echo "<tr><td><a href=EventShow.php?e=$eid>" . $e['Start'] . " - " . $e['End'] . "</a><td><a href=EventShow.php?e=$eid>" . $parname . "</a>";
+      echo "<tr><td><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . "</a><td><a href=EventShow.php?e=$eid>" . $parname . "</a>";
       if ($e['Description']) echo "<br>" . $e['Description'];
       echo "<td>";
       PrintImps($imps);
       if ($NotAllFree) echo "<td>" . Price_Show($e);
     } else { // Is a sube
       if ($imps) {
-        echo "<tr><td>" . $e['Start'] . " - " . $e['End'] . "<td>&nbsp;<td>";
+        echo "<tr><td>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . "<td>&nbsp;<td>";
         PrintImps($imps);
         if ($NotAllFree) echo "<td>&nbsp;";
       }

@@ -175,7 +175,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
     }
   }
 
-  if ($Ev['Blurb']) echo $Ev['Blurb'] . "<P>";
+  if ($Ev['Blurb']) echo "<div style='width:800px;'>" . $Ev['Blurb'] . "</div><P>";
 
 
 

@@ -922,16 +922,17 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
 		break;
 	      }
 	    }
-	    $str .= "<tr><td>" . $DayList[$e['Day']] . "<td>" . $e['Start'] . "-" . ($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] ) .
-			"<td>" . $e['Name'] . "<td>";
+	    $str .= "<tr><td>" . $DayList[$e['Day']] . "<td>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
+			"<td><a href=$host/int/EventShow.php?e=" . $e['EventId'] . ">" . $e['Name'] . "</a><td>";
 	    if ($VenC) $str .= " starting from ";
-	    $str .= VenName($Venues[$e['Venue']]) ;
-	    $str .= "<td>In position $Position";
+	    $str .= "<a href=$host/int/VenueShow.php?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) ;
+	    $str .= "</a><td>";
+	    if ($PrevI || $NextI) $str .= "In position $Position";
 	    if ($PrevI) { $str .= ", After " . SAO_Report($PrevI); };
 	    if ($NextI) { $str .= ", Before " . SAO_Report($NextI); };
 	    $str .= "\n";
 	  } else { // Normal Event
-	    $str .= "<tr><td>" . $DayList[$e['Day']] . "<td>" . $e['Start'] . "-" . ($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] ) .
+	    $str .= "<tr><td>" . $DayList[$e['Day']] . "<td>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
 			"<td><a href=$host/int/EventShow.php?e=" . $e['EventId'] . ">" . $e['Name'] . 
 			"</a><td><a href=$host/int/VenueShow.php?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a>";
 	    if ($With) {

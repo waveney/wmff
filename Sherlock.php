@@ -31,6 +31,13 @@
         if (count($Evs) > 1) $Types .= "s";
         $Complete = $MASTER[$Type . 'State'];
         break;
+      case 'Special':
+        $ans = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND Special=1 AND SubEvent<1 ORDER BY Day,Start"); 
+        if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
+	$Types = "Special Event";
+        if (count($Evs) > 1) $Types .= "s";
+        $Complete = $MASTER[$Type . 'State'];
+        break;
       default:
 	break;
     }

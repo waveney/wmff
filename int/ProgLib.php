@@ -3,8 +3,8 @@
 
 global $Venue_Status,$DayList,$InfoLevels,$VisParts,$Thing_Types,$Public_Event_Types,$Day_Type,$Info_Type,$Public_Event_Type;
 $Venue_Status = array('In Use','Not in Use');
-$DayList = array('Fri','Sat','Sun');
-$DayLongList = array('Friday','Saturday','Sunday');
+$DayList = array(-3=>'Tue',-2=>'Wed',-1=>'Thur',0=>'Fri',1=>'Sat',2=>'Sun',3=>'Mon');
+$DayLongList = array(-3=>'Tuesday',-2=>'Wednesday',-1=>'Thursday',0=>'Friday',1=>'Saturday',2=>'Sunday',3=>'Monday');
 $InfoLevels = array('None','Errors','All');
 $VisParts = array('All','None'); // Add subcats when needed
 $Thing_Types = array('Sides','Acts','Others');
@@ -116,6 +116,9 @@ function Set_Event_Help() {
 	'Venue'=>'For Big Events - put the starting Venue here',
 	'SlotEnd'=>'If a large event is divided into a number of slots, this is the end of the first slot, not needed otherwise',
 	'NonFest'=>'Event not run by the Festival, but included in programme - only for friendly non fesival events',
+	'Family'=>'List as a family event',
+	'Special'=>'List as a Special event',
+	'LongEvent'=>'Enable event to ran over many days - not yet used',
 	'Budget'=>'What part of the festival budget this Event comes under'
   );
   Set_Help_Table($t);
