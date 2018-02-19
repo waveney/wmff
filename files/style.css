@@ -794,12 +794,12 @@ textarea:Focus
   max-height:295px;
 }
 .Tuetab {
-  background-color:#8040ff;
-  border-color:#8040ff;
+  background-color:#8040cf;
+  border-color:#8040cf;
 }
 .Wedtab {
-  background-color:#bf40ff;
-  border-color:#bf40ff;
+  background-color:#af404f;
+  border-color:#af404f;
 }
 .Thurtab {
   background-color:#ff8000;
@@ -810,20 +810,21 @@ textarea:Focus
   border-color:#59B404;
 }
 .Sattab {
-  background-color:#bf50c9;
-  border-color:#bf50c9;
+  background-color:#bf40c9;
+  border-color:#bf40c9;
 }
 .Suntab {
-  background-color:orange;
-  border-color:orange;
+  background-color:#f08000;
+  border-color:#f08000;
 }
 .Montab {
-  background-color:yellow;
-  border-color:yellow;
+  background-color:#808000;
+  border-color:#808000;
 }
 .lemontab {
 }
-.Tuetab, Tuetab td, .Wedtab, Wedtab td, .Thurtab, Thurtab td, .Fritab td, .Fritab, .Sattab td, .Sattab, .Suntab td, .Suntab, .Montab, Montab td, .lemontab, .lemontab td {
+.Tuetab, .Tuetab td, .Wedtab, .Wedtab td, .Thurtab, .Thurtab td, .Fritab td, .Fritab, .Sattab td, .Sattab, .Suntab td, .Suntab, .Montab, .Montab td, 
+.lemontab, .lemontab td {
   padding:5;
   border-spacing:5;
   width:auto;

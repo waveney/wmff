@@ -256,7 +256,8 @@
         echo fm_smalltext('Setup Time','Setup (mins)',$Event['Setup']) ;
         echo fm_smalltext('Duration','Duration',$Event['Duration']) . "&nbsp;minutes ";
         if ($se < 0) echo fm_smalltext(', Slot End','SlotEnd',$Event['SlotEnd']);
-      if ($se <= 0) echo "<tr class=mday $hidemday>" . fm_radio('End Day',$DayList,$Event,'EndDay') . "<td colspan=2>Set up a sub event for each day";
+      if ($se <= 0) echo "<tr class=mday $hidemday>" . fm_radio('End Day',$DayList,$Event,'EndDay') . 
+		"<td colspan=3>Set up a sub event for each day after first, times are for first day";
       echo "<tr><td>Venue:<td>" . fm_select($Venues,$Event,'Venue',1);
         echo fm_textarea('Notes', $Event,'Notes',4,2);
       $et = 'Mixed';

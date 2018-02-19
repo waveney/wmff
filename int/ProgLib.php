@@ -381,9 +381,9 @@ function VenName(&$V) {
 
 function DayTable($d,$Types,$xtr='') {
   global $DayList,$DayLongList,$YEAR,$MASTER;
-  static $lastday = -1;
+  static $lastday = -99;
   if ($d != $lastday) {
-    if ($lastday != -1) echo "</table><p>\n";
+    if ($lastday != -99) echo "</table><p>\n";
     $lastday = $d;
     echo '<p><table class=' . $DayList[$d] . 'tab>';
     echo "<tr><th colspan=99>$Types on " . $DayLongList[$d] . " " . ($MASTER['DateFri']+$d) ."th June $YEAR" . " $xtr</th>\n";
