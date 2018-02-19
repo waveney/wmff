@@ -155,7 +155,7 @@ function PrintImps(&$imps) {
       if ($imps) {
         if (!$e['LongEvent']) echo "<tr><td>&nbsp;<td>" . timecolon($e['Start']) . " - " . timecolon($e['SlotEnd']) . "<td>&nbsp;<td>";
         PrintImps($imps);
-        if ($NotAllFree) echo "<td>&nbsp;";
+        if ($NotAllFree) echo "<td>" . Price_Show($e);
       }
     } else if ($e['SubEvent'] == 0) { // Is stand alone
       $lastDay = $e['Day'];
