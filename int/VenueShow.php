@@ -102,13 +102,13 @@ function PrintImps(&$imps) {
 	    if ($thing['Identifier']==$V) $found = 1; 
 	    break;
 	  case 'Side':
-            $e['With'][$sides[$thing['Identifier']['Importance']][] = $sides[$thing['Identifier']];
+            $e['With'][$sides[$thing['Identifier']['Importance']]][] = $sides[$thing['Identifier']];
 	    break;
 	  case 'Act':
-            $e['With'][$Acts[$thing['Identifier']['Importance']][] = $Acts[$thing['Identifier']];
+            $e['With'][$Acts[$thing['Identifier']['Importance']]][] = $Acts[$thing['Identifier']];
 	    break;
 	  case 'Other':
-            $e['With'][$Others[$thing['Identifier']['Importance']][] = $Others[$thing['Identifier']];
+            $e['With'][$Others[$thing['Identifier']['Importance']]][] = $Others[$thing['Identifier']];
 	    break;
 	  default:
 	    break;
