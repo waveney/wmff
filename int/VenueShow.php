@@ -20,7 +20,7 @@ function PrintImps(&$imps) {
         if ($things++) echo ", ";
         $str = "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['Name']) . "</a>";
         if (isset($thing['Type']) && (strlen($thing['Type'])>1)) $str .= NoBreak(" (" . $thing['Type'] . ")");
-        if ($thing['Photo']) $str .= "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . 
+        if ($thing['Photo']) $str .= " <a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . 
 		"><img style='vertical-align:middle;max-height:" . (100+20*$imp) .";' height=" . (100+20*$imp) . " src=" . $thing['Photo'] . "></a>";
         echo $str;
       }
@@ -178,7 +178,9 @@ function PrintImps(&$imps) {
         if ($imps) PrintImps($imps); 
         if ($NotAllFree) echo "<td>&nbsp;";
       } else if ($imps) {
-        echo "<tr><td>&nbsp;<td>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . "<td>&nbsp;<td>";
+        echo "<tr><td>&nbsp;<td colspan=2>";
+	if ($parname != $e['Name']) echo "<a href=EventShow.php?e=" . $e['SubEvent'] . ">" . $e['Name'] . "</a><br>";
+	echo timecolon($e['Start']) . " - " . timecolon($e['End']) . "<td>";
         PrintImps($imps);
         if ($NotAllFree) echo "<td>&nbsp;";
       }
