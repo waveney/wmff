@@ -83,7 +83,7 @@ function PrintImps(&$imps) {
   $Acts=&Select_Act_Come_All();
   $Other=&Select_Other_Come();
 
-  $res = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND Venue=$V ORDER BY Day, Start");
+  $res = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND (Venue=$V OR BigEvent=1) ORDER BY Day, Start");
   if (!$res) {
     "<h3>There are currently no scheduled events here</h3>\n";
     dotail();
@@ -92,8 +92,20 @@ function PrintImps(&$imps) {
   
   $NotAllFree=0;
   while ($e = $res->fetch_assoc()) {
+    if ($e['BigEvent'] && $e['Venue'] != $V) {
+      $O = Get_Other_Things_For($e['EventId']);
+      if (!$O) continue;
+      $found = 0;
+      foreach ($O as $i=>$thing) if ($thing['Type'] == 'Venue' && $thing['Identifier']==$V) { $found = 1; break; }
+      if ($found == 0) continue;
+    }
     $EVs[$e['EventId']] = $e;
     if ($e['DoorPrice']) $NotAllFree=1;
+  }
+  if (!$EVs) {
+    "<h3>There are currently no scheduled events here</h3>\n";
+    dotail();
+    exit;
   }
 
   if (!$NotAllFree) echo "All events here are Free.<p>\n";
