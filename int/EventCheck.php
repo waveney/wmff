@@ -19,6 +19,7 @@ function EventCheck() {
   $res=$db->query("SELECT * FROM Events WHERE Year=$YEAR ORDER BY Venue, Day, Start");
   if ($res) {
     while($ev = $res->fetch_assoc()) { // Basic Events against basic events check
+      if ($ev['IgnoreClash']) continue;
       $evlist[] = $ev;
       if ($ev['Venue'] != $LastVenue) { // New Venue
 	$LastVenue = $ev['Venue'];
