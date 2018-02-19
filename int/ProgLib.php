@@ -118,7 +118,7 @@ function Set_Event_Help() {
 	'NonFest'=>'Event not run by the Festival, but included in programme - only for friendly non fesival events',
 	'Family'=>'List as a family event',
 	'Special'=>'List as a Special event',
-	'LongEvent'=>'Enable event to ran over many days - not yet used',
+	'LongEvent'=>'Enable event to ran over many days',
 	'Budget'=>'What part of the festival budget this Event comes under'
   );
   Set_Help_Table($t);
