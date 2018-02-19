@@ -20,6 +20,8 @@ function PrintImps(&$imps) {
         if ($things++) echo ", ";
         $str = "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['Name']) . "</a>";
         if (isset($thing['Type']) && (strlen($thing['Type'])>1)) $str .= NoBreak(" (" . $thing['Type'] . ")");
+        if ($thing['Photo']) $str .= "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . 
+		"><img style='vertical-align:middle;max-height:" . (100+20*$imp) .";' height=" . (100+20*$imp) . " src=" . $thing['Photo'] . "></a>";
         echo $str;
       }
     if ($imp) echo "</span>";
@@ -102,13 +104,13 @@ function PrintImps(&$imps) {
 	    if ($thing['Identifier']==$V) $found = 1; 
 	    break;
 	  case 'Side':
-            $e['With'][$sides[$thing['Identifier']['Importance']]][] = $sides[$thing['Identifier']];
+            $e['With'][$sides[$thing['Identifier']]['Importance']][] = $sides[$thing['Identifier']];
 	    break;
 	  case 'Act':
-            $e['With'][$Acts[$thing['Identifier']['Importance']]][] = $Acts[$thing['Identifier']];
+            $e['With'][$Acts[$thing['Identifier']]['Importance']][] = $Acts[$thing['Identifier']];
 	    break;
 	  case 'Other':
-            $e['With'][$Others[$thing['Identifier']['Importance']]][] = $Others[$thing['Identifier']];
+            $e['With'][$Others[$thing['Identifier']]['Importance']][] = $Others[$thing['Identifier']];
 	    break;
 	  default:
 	    break;
@@ -131,7 +133,7 @@ function PrintImps(&$imps) {
   foreach ($EVs as $ei=>$e) {
     $eid = $e['EventId'];
     if (DayTable($e['Day'],"Events")) {
-      echo "<tr><td>Time<td>What<td>With";
+      echo "<tr><td>Time<td colspan=2>What<td>With";
       if ($NotAllFree) echo "<td>Price\n";
       $lastevent = -99;
     }
@@ -144,20 +146,22 @@ function PrintImps(&$imps) {
       if ($e['LongEvent'] && !$imps) continue;
       $parname = $e['Name']; 
       $lastevent = $ei;
-      echo "<tr><td><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . "</a><td><a href=EventShow.php?e=$eid>" . $parname . "</a>";
+      echo "<tr><td><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
+		"</a><td colspan=2><a href=EventShow.php?e=$eid>" . $parname . "</a>";
       if ($e['Description']) echo "<br>" . $e['Description'];
       echo "<td>&nbsp;";
       if (!$e['LongEvent']) if ($NotAllFree) echo "<td>" . Price_Show($e);
 
       if ($imps) {
-        if (!$e['LongEvent']) echo "<tr><td>" . timecolon($e['Start']) . " - " . timecolon($e['SlotEnd']) . "<td>&nbsp;<td>";
+        if (!$e['LongEvent']) echo "<tr><td>&nbsp;<td>" . timecolon($e['Start']) . " - " . timecolon($e['SlotEnd']) . "<td>&nbsp;<td>";
         PrintImps($imps);
         if ($NotAllFree) echo "<td>&nbsp;";
       }
     } else if ($e['SubEvent'] == 0) { // Is stand alone
       $lastDay = $e['Day'];
       $parname = $e['Name'];
-      echo "<tr><td><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . "</a><td><a href=EventShow.php?e=$eid>" . $parname . "</a>";
+      echo "<tr><td><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
+		"</a><td colspan=2><a href=EventShow.php?e=$eid>" . $parname . "</a>";
       if ($e['Description']) echo "<br>" . $e['Description'];
       echo "<td>";
       PrintImps($imps);
@@ -168,13 +172,13 @@ function PrintImps(&$imps) {
         $pare = &$EVs[$lastevent]; 
         $parname = $pare['Name']; 
         echo "<tr><td><a href=EventShow.php?e=$lastevent>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
-		"</a><td><a href=EventShow.php?e=$lastevent>" . $parname . "</a>";
+		"</a><td colspan=2><a href=EventShow.php?e=$lastevent>" . $parname . "</a>";
         if ($pare['Description']) echo "<br>" . $pare['Description'];
 	echo "<td>";
         if ($imps) PrintImps($imps); 
         if ($NotAllFree) echo "<td>&nbsp;";
       } else if ($imps) {
-        echo "<tr><td>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . "<td>&nbsp;<td>";
+        echo "<tr><td>&nbsp;<td>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . "<td>&nbsp;<td>";
         PrintImps($imps);
         if ($NotAllFree) echo "<td>&nbsp;";
       }
