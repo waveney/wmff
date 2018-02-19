@@ -27,7 +27,7 @@ function Print_Thing($thing,$right=0) {
 $lemons = 0;
 
 function Print_Participants($e,$when=0,$thresh=0) {
-  global $lemons;
+  global $lemons,$DayLongList,$MASTER;
   Get_Imps($e,$imps,1,(Access('Staff')?1:0));
   $things = 0;
 
@@ -40,8 +40,9 @@ function Print_Participants($e,$when=0,$thresh=0) {
     if ($e['Start'] == $e['End']) {
       echo "Times not yet known";
     } else {
-      echo "From: " . ($e['Start']?timecolon($e['Start']):"Not Yet Known") ;
-      echo " to: " . ($e['End']?timecolon($e['End']):'Not Yet Known');
+      if ($e['LongEvent']) echo "On: " . $DayLongList[$e['Day']] . " " . ($MASTER['DateFri']+$e['Day']) . "th June " . $e['Year'] . "<br>\n";
+      echo "From: " . timecolon($e['Start']) . "<br>";
+      echo " to: " . timecolon($e['End']) . "<br>";
     }
   }
   $ks = array_keys($imps);
@@ -110,9 +111,15 @@ function Print_Participants($e,$when=0,$thresh=0) {
   if ($Ev['NonFest']) echo "This event is not run by the folk festival, but is shown here for your information.<p>\n";
   if ($Ev['Description']) echo $Ev['Description'] . "<P>";
   // On, Start, End, Durration, Price, Where 
-  echo "<table><tr><td>On:<td>" . $LongDayList[$Ev['Day']] . " " . ($MASTER['DateFri']+$Ev['Day']) . "th June " . $Ev['Year'] . "\n";
-  echo "<tr><td>Starting at:<td>" . ($Ev['Start']?timecolon($Ev['Start']):"Not Yet Known") . "\n";
-  echo "<tr><td>Finishing at:<td>" . ($Ev['End']?timecolon($Ev['End']):"Not Yet Known") . "\n";
+  echo "<table><tr><td>";
+  if ($Ev['LongEvent']) {
+    echo "Starting On:<td>" . $DayLongList[$Ev['Day']] . " " . ($MASTER['DateFri']+$Ev['Day']) . "th June " . $Ev['Year'] . "\n";
+    echo "<tr><td>Finishing On:<td>" . $DayLongList[$Ev['EndDay']] . " " . ($MASTER['DateFri']+$Ev['EndDay']) . "th June " . $Ev['Year'] . "\n";
+  } else {
+    echo "On:<td>" . $DayLongList[$Ev['Day']] . " " . ($MASTER['DateFri']+$Ev['Day']) . "th June " . $Ev['Year'] . "\n";
+    echo "<tr><td>Starting at:<td>" . timecolon($Ev['Start']) . "\n";
+    echo "<tr><td>Finishing at:<td>" . timecolon($Ev['End']) . "\n";
+  }
   if ($Ev['Price1']) {
     echo "<tr><td>Price:<td>" . Price_Show($Ev) . ", or by Weekend ticket or " . $DayLongList[$Ev['Day']] . " ticket\n";
     if ($Ev['TicketCode']) {
@@ -184,7 +191,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
 
   if (!$Se) { // Single Event Big Events not done yet
     if ($Ev['BigEvent']) {
-      echo "Participants in order:<p>\n";
+      if ($OtherPart[1]) echo "Participants in order:<p>\n";
       echo "<div class=floatleft><div class=mini>\n";
       foreach ($OtherPart as $O) {
 	Print_Thing(Get_Side($O['Identifier']));
@@ -198,7 +205,10 @@ function Print_Participants($e,$when=0,$thresh=0) {
     foreach($Subs as $sub) if (Event_Has_Parts($sub)) Print_Participants($sub,1,$ETs[$Ev['Type']]['Format']-1);
   }
   if ($lemons) echo "</table>";
-  echo "<p>Ending at: " . $Ev['End'];
+  if ($Ev['LongEvent']) {
+  } else {
+    echo "<p>Ending at: " . $Ev['End'];
+  }
    
   dotail();
 ?>
