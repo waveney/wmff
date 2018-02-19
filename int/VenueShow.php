@@ -176,10 +176,11 @@ function PrintImps(&$imps) {
         if ($pare['Description']) echo "<br>" . $pare['Description'];
 	echo "<td>";
         if ($imps) PrintImps($imps); 
-        if ($NotAllFree) echo "<td>&nbsp;";
+        if ($NotAllFree) echo "<td>" . Price_show($EVs[$e['SubEvent']]);
       } else if ($imps) {
         echo "<tr><td>&nbsp;<td colspan=2>";
-	if ($parname != $e['Name']) echo "<a href=EventShow.php?e=" . $e['SubEvent'] . ">" . $e['Name'] . "</a><br>";
+//	if ($parname != $e['Name']) 
+	echo "<a href=EventShow.php?e=" . $e['SubEvent'] . ">" . $e['Name'] . "</a><br>";
 	echo timecolon($e['Start']) . " - " . timecolon($e['End']) . "<td>";
         PrintImps($imps);
         if ($NotAllFree) echo "<td>&nbsp;";
