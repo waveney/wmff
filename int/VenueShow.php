@@ -81,7 +81,7 @@ function PrintImps(&$imps) {
 
   $sides=&Select_Come_All();
   $Acts=&Select_Act_Come_All();
-  $Other=&Select_Other_Come();
+  $Others=&Select_Other_Come();
 
   $res = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND (Venue=$V OR BigEvent=1) ORDER BY Day, Start");
   if (!$res) {
@@ -92,11 +92,28 @@ function PrintImps(&$imps) {
   
   $NotAllFree=0;
   while ($e = $res->fetch_assoc()) {
-    if ($e['BigEvent'] && $e['Venue'] != $V) {
+    if ($e['BigEvent']) {
       $O = Get_Other_Things_For($e['EventId']);
-      if (!$O) continue;
-      $found = 0;
-      foreach ($O as $i=>$thing) if ($thing['Type'] == 'Venue' && $thing['Identifier']==$V) { $found = 1; break; }
+      $found = ($e['Venue'] == $V); 
+      if (!$O && !$found) continue;
+      foreach ($O as $i=>$thing) {
+	switch ($thing['Type']) {
+	  case 'Venue':
+	    if ($thing['Identifier']==$V) $found = 1; 
+	    break;
+	  case 'Side':
+            $e['With'][$sides[$thing['Identifier']['Importance']][] = $sides[$thing['Identifier']];
+	    break;
+	  case 'Act':
+            $e['With'][$Acts[$thing['Identifier']['Importance']][] = $Acts[$thing['Identifier']];
+	    break;
+	  case 'Other':
+            $e['With'][$Others[$thing['Identifier']['Importance']][] = $Others[$thing['Identifier']];
+	    break;
+	  default:
+	    break;
+	}
+      }
       if ($found == 0) continue;
     }
     $EVs[$e['EventId']] = $e;
@@ -121,6 +138,7 @@ function PrintImps(&$imps) {
 
     Get_Imps($e,$imps,1,(Access('Staff')?1:0));
     $things = 0;
+    if ($e['With']) $imps = $e['With'];
 
     if ($e['SubEvent'] <0) { // has subes
       if ($e['LongEvent'] && !$imps) continue;
