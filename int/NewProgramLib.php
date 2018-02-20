@@ -71,6 +71,7 @@ function Grab_Data($day='') {
 	$ll = 1;
         $plim =3;
       }
+/* This condenses sides and acts and others into grid - when you want to handle non-sides dpupdate only works for sides now */
       $parts=0;
       foreach ($cats as $kit) {
 	for($i=1;$i<5;$i++) {
@@ -254,7 +255,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
         $G = &$grid[$v][$t];
 	if ($v > 0) { // Search oluse for free entry, mark as used for n slots - at end of time loop decrement any used
           if ($condense && $VenueInfo[$v]["Minor$DAY"]) {
-	    if ($G && $line == 0 && ($G['S1'] || $G['n']) ) {
+	    if ($G && $line == 0 && ($G['S1'] || $G['S2'] || $G['n']) ) {
 	      $OtherFound = 0;
 	      for ($i=1; $i<= $MaxOther; $i++) if (!$OtherInUse[$i]) { $OtherFound=$i; break; }
 	      if ($OtherFound) {
@@ -271,7 +272,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
 	  if ($line == 0) {
 	    if ($OtherInUse[$v]) {
 	      continue;
-	    } else if ($G['S1'] || $G['n']) {
+	    } else if ($G['S1'] || $G['S2'] || $G['n']) {
 	      $rows = $G['d']?ceil($G['d']/30)*4:4;
 	      $OtherLoc = "<td id=XX data-d=X rowspan=$rows class=DPOvName>" . $VenueNames[$evs[$G['e']]['Venue']]; // . $G['e'];
 	    } else {
@@ -283,7 +284,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
 	$class = 'DPGridDisp';
 	$dev = '';
 	if ($line == 0 && $G) $dev = 'data-e=' . $G['e']. ':' . $G['d'];
-        if (!$G || ($v<0 && !($G['S1'] || $G['n']))) {
+        if (!$G || ($v<0 && !($G['S1'] || !$G['S2'] || $G['n']))) {
 	  if ($v > 0 && $condense==0) $class = "DPGridGrey";
 	  if ($line >= $lineLimit[$t]) {
 	    echo "$OtherLoc<td id=$id class=$class hidden $DRAG data-d=X>&nbsp;";
@@ -332,6 +333,8 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
 	  $rows = ($G['w']?('rowspan=' . (4-$line)):'');
 	  echo "$OtherLoc<td id=$id $DRAG $dev data-d=$si $rows class='$class'>";
 	  if ($condense && !$types) echo "<a href=/int/ShowDance.php?sidenum=$si>";
+//if ($si==338) {echo "$line "; var_dump($G); };
+
 	  echo $txt;
 	  if ($condense && !$types) echo "</a>";
           if (!$evs[$G['e']]['ExcludeCount']) $SideCounts[$si]++;

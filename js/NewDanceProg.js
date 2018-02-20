@@ -127,7 +127,8 @@ var hlights = [];
       $('.BGColour'+nexthl).removeClass('BGColour'+nexthl);
       $('.Side'+id).addClass('BGColour'+nexthl);
       hlights[id] = 'BGColour' + nexthl;
-      if (nexthl++ >8) nexthl=0;
+      nexthl++;
+      if (nexthl>7) nexthl=0;
     }
   }
 
