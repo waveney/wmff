@@ -52,7 +52,8 @@
   <a onclick=NavStick(event)>Info</a>
   <div class=dropdown-content>
      <a href=$host/Map.php>Festival Map</a>
-     <a href=$host/InfoCamping.php>Camping & Parking</a>
+     <a href=$host/InfoCamping.php>Camping</a>
+     <a href=$host/InfoParking.php>Parking</a>
      <a href=$host/info/getting-here>Getting Here</a>
      <a href=$host/info/sponsorship>Sponsorship</a>
      <a href=$host/InfoStewards.php>Stewards</a>
