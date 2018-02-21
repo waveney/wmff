@@ -17,7 +17,30 @@ var hlights = [];
     loc.classList.remove('Side' + Side);
     if (hlights[Side]) loc.classList.remove(hlights[Side]);
     loc.removeAttribute('data-d');
-    loc.removeAttribute('rowspan');
+// if rowspan need to unhide cells below
+    if (loc.getAttribute('rowspan')) {
+      var dstmtch = loc.id.match(/G:(\d*):(\d*):(\d*)/);
+      var gp = "G:" + dstmtch[1] + ":" + dstmtch[2] + ":";
+      var t = dstmtch[2];
+      var rwst = $("#RowTime" + t);
+      var vens = [];
+      var elem = rwst[0];
+      while (elem = elem.nextSibling) vens.push((elem.id.match(/G:(\d*):(\d*):(\d*)/))[1]);
+
+      for (var v in vens) {
+        var id = "G:" + vens[v] + ":" + t + ":0";
+        var nloc = document.getElementById(id);
+        if (!nloc.hasAttribute("hidden") && !nloc.hasAttribute("rowspan")) {
+	// check visibility of the 4 rows and work out the one to unhide
+	  for ( var unhide=1;unhide<4;unhide++) {
+	    if (document.getElementById("G:" + vens[v] + ":" + t + ":" + unhide).hasAttribute("hidden")) break;
+	  }
+	  break;
+        }
+      }
+      for (var i=1;i<unhide;i++) document.getElementById(gp + i).removeAttribute("hidden");
+      loc.removeAttribute('rowspan');
+    }
   }
 
 // Big Change needed
@@ -38,7 +61,7 @@ var hlights = [];
       if (dstmtch[3] == 0) {
         dst.setAttribute('rowspan',4);
         var gp = "G:" + dstmtch[1] + ":" + dstmtch[2] + ":";
-        for (var i=1;i<4;i++) $("#" + gp + i).hide();
+        for (var i=1;i<4;i++) document.getElementById(gp + i).setAttribute("hidden",true);
       }
     }
   }
@@ -104,7 +127,8 @@ var hlights = [];
       $('.BGColour'+nexthl).removeClass('BGColour'+nexthl);
       $('.Side'+id).addClass('BGColour'+nexthl);
       hlights[id] = 'BGColour' + nexthl;
-      if (nexthl++ >8) nexthl=0;
+      nexthl++;
+      if (nexthl>7) nexthl=0;
     }
   }
 

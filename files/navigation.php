@@ -52,7 +52,8 @@
   <a onclick=NavStick(event)>Info</a>
   <div class=dropdown-content>
      <a href=$host/Map.php>Festival Map</a>
-     <a href=$host/InfoCamping.php>Camping & Parking</a>
+     <a href=$host/InfoCamping.php>Camping</a>
+     <a href=$host/InfoParking.php>Parking</a>
      <a href=$host/info/getting-here>Getting Here</a>
      <a href=$host/info/sponsorship>Sponsorship</a>
      <a href=$host/InfoStewards.php>Stewards</a>
@@ -84,7 +85,7 @@
   <a href=$host/Also.php >Also</a>
   <div class=dropdown-content>
      <a href=$host/LiveNLoud.php >Live and Loud</a>
-     <a href=$host/Lol.php class=NotYet>Laugh out Loud</a>
+     <a href=$host/LaughOutLoud.php>Laugh out Loud</a>
      <a href=$host/BuskersBash.php>Buskers Bash</a>
   </div>
 </div>
