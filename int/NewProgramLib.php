@@ -794,7 +794,7 @@ function Prog_MG_Print($drag,$types,$format) {
 	      if ($condense && !$types) echo "</a>";
               if (!$evs[$eid]['ExcludeCount']) $SideCounts[$s]++;
             } else {
-              echo "ERROR...";
+              echo "ERROR... ($s)";
             }
           } else {
             echo "&nbsp;";

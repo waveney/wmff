@@ -124,10 +124,10 @@ function Set_Event_Help() {
   Set_Help_Table($t);
 }
 
-function Get_Event($eid) {
+function Get_Event($eid,$new=0) {
   static $Events;
   global $db;
-  if (isset($Events[$eid])) return $Events[$eid];
+  if ($new == 0 && isset($Events[$eid])) return $Events[$eid];
   $res=$db->query("SELECT * FROM Events WHERE EventId=$eid");
   if ($res) {
     $ans = $res->fetch_assoc();
@@ -160,9 +160,9 @@ function Check_4Changes(&$Cur,&$now) {
 // Will Probably need same code for "Other"
 }
 
-function Put_Event(&$now) {
+function Put_Event(&$now,$new=0) {
   $e=$now['EventId'];
-  $Cur = Get_Event($e);
+  $Cur = Get_Event($e,$new);
   Update_db('Events',$Cur,$now);
   Check_4Changes($Cur,$now);
 }
