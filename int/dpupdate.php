@@ -48,7 +48,7 @@
 
       $Event = Get_Event_VT($dres[1],$dres[2]);
       for ($i = 1; $i<5; $i++) if ($Event["Side$i"] == 0) { $Event["Side$i"] = $sSide; break; };
-      Put_Event($Event);
+      Put_Event($Event,1);
     }
 
   }
