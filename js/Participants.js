@@ -147,3 +147,14 @@ function OlapCatChange(e,l,v) {
   if (v == 1) $('#OlapAct' + olapn).show();
   if (v == 2) $('#OlapOther' + olapn).show();
 }
+
+// Maintain id D for size siz form fld
+function SetDSize(D,siz,fld) {
+debugger;
+  var f = document.getElementById(fld);
+  var t = f.value;  
+  var len = t.length;
+
+  document.getElementById(D).innerHTML("(" + len + "/" + siz + ")");
+}
+
