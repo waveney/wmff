@@ -73,6 +73,57 @@ function Email_Signup(&$lnl,$messcat,$whoto) {
   }
 }
 
+function Get_lol_Details(&$lol) {
+  global $yesno;
+  $Body = "Act: " . $lol['Name'] . "\n";
+  $Body .= "Contact: " . $lol['Contact'] . "\n";
+  if ($bb['Phone']) $Body .= "Phone: " . $lol['Phone'] . "\n";
+  $Body .= "Email: <a href=mailto:" . $lol['Email'] . ">" . $lol['Email'] . "</a>\n";
+  $Body .= "\n\n";
+
+  $Body .= "Started:" . $lol['Started'] . "\n";
+  if ($lol['Style']) $Body .= "Style:" . $lol['Style'] . "\n";
+  if ($lol['Example']) $Body .= "Example:" . $lol['Example'] . "\n";
+  if ($lol['Equipment']) $Body .= "Equipment:" . $lol['Equipment'] . "\n";
+  if ($lol['Bio']) $Body .= "Bio:" . $lol['Bio'] . "\n";
+
+  $Body .= "Available on Tuesday March 6th? " . $yesno[$lol['Avail1']] . "\n";
+  $Body .= "Available on Tuesday April 10th? " . $yesno[$lol['Avail2']] . "\n";
+  $Body .= "Available on Tuesday May 1st? " . $yesno[$lol['Avail3']] . "\n";
+
+  return $Body;
+}
+
+function Email_lol_Signup(&$lol,$messcat,$whoto) {
+  global $THISYEAR,$USER,$MASTER;
+  include_once("int/TradeLib.php");
+
+  $Prof = Get_Email_Proforma($messcat);
+  $Mess = ($Prof? $Prof['Body'] : "Unknown message $messcat");
+
+  $Contact = $lol['Contact']? firstword($lol['Contact']) : $lol['Name'];
+
+  $Details = Get_lol_Details($lol);
+  $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $THISYEAR";
+  
+  $Mess = preg_replace('/\*WHO\*/',$Contact,$Mess);
+
+  $Mess = preg_replace('/\*THISYEAR\*/',$THISYEAR,$Mess);
+  $Mess = preg_replace('/\*DATES\*/',$Dates,$Mess);
+  $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
+
+  if (file_exists("testing")) {
+    SendEmail("Richard@wavwebs.com","Lol Comp $THISYEAR and " . $lol['Name'],$Mess);
+  } else {
+    SendEmail($whoto,"Lol Comp $THISYEAR and " . $lol['Name'],$Mess);
+  }
+
+  $logf = fopen("LogFiles/LaughOutLog.txt","a");
+  if( $logf) {
+    fwrite($logf,"\n\nEmail to : " . $whoto . "\n\n" . $Mess);
+    fclose($logf);
+  }
+}
 
 function Get_BB_Details(&$bb) {
   $Body .= "\nBand: " . $bb['Name'] . "\n";
@@ -101,8 +152,6 @@ function Email_BB_Signup(&$bb,$messcat,$whoto) {
   $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $THISYEAR";
   
   $Mess = preg_replace('/\*WHO\*/',$Contact,$Mess);
-//  $Mess = preg_replace('/\*LINK\*/',$Link,$Mess);
-//  $Mess = preg_replace('/\*WMFFLINK\*/',$WmffLink,$Mess);
 
   $Mess = preg_replace('/\*THISYEAR\*/',$THISYEAR,$Mess);
   $Mess = preg_replace('/\*DATES\*/',$Dates,$Mess);

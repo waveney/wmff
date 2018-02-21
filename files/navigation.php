@@ -85,7 +85,7 @@
   <a href=$host/Also.php >Also</a>
   <div class=dropdown-content>
      <a href=$host/LiveNLoud.php >Live and Loud</a>
-     <a href=$host/Lol.php class=NotYet>Laugh out Loud</a>
+     <a href=$host/LaughOutLoud.php>Laugh out Loud</a>
      <a href=$host/BuskersBash.php>Buskers Bash</a>
   </div>
 </div>
