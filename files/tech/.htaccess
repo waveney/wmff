@@ -1,6 +1,0 @@
-
-RewriteEngine on
-RewriteCond %{HTTP_HOST} ^tech\.wimbornefolk\.co\.uk$ [OR]
-RewriteCond %{HTTP_HOST} ^www\.tech\.wimbornefolk\.co\.uk$
-RewriteRule ^/?$ "http\:\/\/wimbornefolk\.co\.uk\/files\/tech" [R=301,L]
-
