@@ -21,6 +21,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Year</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Website</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Image URL</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Both</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Description</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Importance</a>\n";
   echo "</thead><tbody>";
@@ -30,6 +31,7 @@
     echo fm_number1('',$t,'Year','','',"Year$i");
     echo fm_text1("",$t,'Website',1,'','',"Website$i");
     echo fm_text1("",$t,'Image',1,'','',"Image$i");
+    echo "<td>" . fm_checkbox('',$t,'IandT','',"IandT$i");
     echo "<td>" . fm_basictextarea($t,'Description',2,2,'',"Description$i");
     echo fm_number1('',$t,'Importance','','',"Importance$i");
     echo "\n";
@@ -38,6 +40,7 @@
   echo "<td><input type=number name=Year0 value=$THISYEAR>";
   echo "<td><input type=text name=Website0>";
   echo "<td><input type=text name=Image0>";
+  echo "<td><input type=checkbox name=IandT0>";
   echo "<td><textarea name=Description0 rows=2 cols=40></textarea>";
   echo "<td><input type=number name=Importance0>";
   echo "</table>\n";

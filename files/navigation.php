@@ -55,7 +55,7 @@
      <a href=$host/InfoCamping.php>Camping</a>
      <a href=$host/InfoParking.php>Parking</a>
      <a href=$host/info/getting-here>Getting Here</a>
-     <a href=$host/info/sponsorship>Sponsorship</a>
+     <a href=$host/InfoSponsors.php>Sponsorship</a>
      <a href=$host/InfoStewards.php>Stewards</a>
      <a href=$host/info/trade>Trade Stands</a>
      <a href=$host/RoadClosure.php class=NotYet>Road Closures</a>
