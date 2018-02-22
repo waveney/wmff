@@ -187,7 +187,7 @@ even orchestra then complete an application form and get involved!</p>
     echo "<li class=SponsorsIds id=" .$s['id'] . ">";
     if ($s['Website']) echo weblinksimple($s['Website']);
     if ($s['Image']) echo "<img src='" . $s['Image'] . "' width=150>";
-    if (!$s['Image']) echo "<h2 style='font-size:36px';>" . $s['Name'] . "</h2>";
+    if (!$s['Image'] || $s['IandT']) echo "<h2 style='font-size:36px';>" . $s['Name'] . "</h2>";
     if ($s['Website']) echo "</a>";
   }
   echo "</div>\n";
