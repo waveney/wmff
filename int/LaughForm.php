@@ -44,6 +44,7 @@
   echo "<tr>" . fm_text('Phone',$_POST,'Phone');
   echo "<tr>" . fm_text('Comedy style',$_POST,'Style');
   echo "<tr>" . fm_text('The date at which you started performing comedy',$_POST,'Started');
+  echo "<br>(must be after Jan 1st 2013)";
   echo "<tr>" . fm_text('Any relevant biographical info, eg gigs, clubs and festivals (optional)',$_POST,'Bio',8);
   echo "<tr>" . fm_text('Example of you playing - YouTube or equivalent (optional)',$_POST,'Example');
   echo "<tr>" . fm_text('Any Equipment needed (optional)',$_POST,'Equipment',4); 
