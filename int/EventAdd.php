@@ -262,7 +262,8 @@
         echo fm_textarea('Notes', $Event,'Notes',4,2);
       $et = 'Mixed';
       if (isset($Event['Type'])) $et = $Event_Types[$Event['Type']];
-      echo "<tr $adv>" . fm_textarea('Description',$Event,'Description',5,2,'','maxlength=150');
+      echo "<tr $adv>" . fm_textarea('Description <span id=DescSize></span>',$Event,'Description',5,2,'',
+			'maxlength=150 oninput=SetDSize("DescSize",150,"ShortBlurb") id=ShortBlurb'); 
       echo "<tr $adv>" . fm_textarea('Blurb',$Event,'Blurb',5,2,'','maxlength=2000');
       echo "<tr><td>" . fm_checkbox('Bar',$Event,'Bar') . "<td>" . fm_checkbox('Food',$Event,'Food') . fm_text('Food/Bar text',$Event,'BarFoodText') . "\n";
       if (!$Event['BigEvent']) {

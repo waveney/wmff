@@ -150,11 +150,7 @@ function OlapCatChange(e,l,v) {
 
 // Maintain id D for size siz form fld
 function SetDSize(D,siz,fld) {
-debugger;
-  var f = document.getElementById(fld);
-  var t = f.value;  
-  var len = t.length;
-
-  document.getElementById(D).innerHTML("(" + len + "/" + siz + ")");
+  var len = document.getElementById(fld).value.length;
+  document.getElementById(D).innerHTML = "<b>(" + len + "/" + siz + ")</b>";
 }
 
