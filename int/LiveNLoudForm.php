@@ -47,7 +47,7 @@
   echo "<tr><td>Name<td>Instrument<td>Name<td>Instrument\n";
   for ($i=1;$i<=6;$i++) {
     echo (($i&1)?"<tr>":""); 
-    echo fm_text1($i,$_POST,"SName$i") . fm_text1('',$_POST,"Instr$i");
+    echo fm_text1($i,$_POST,"Name$i") . fm_text1('',$_POST,"Instr$i");
   }
   echo "<tr><td colspan=4>Main Contact:\n";
   echo "<tr>" . fm_text('SName',$_POST,'Contact');

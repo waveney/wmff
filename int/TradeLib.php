@@ -181,7 +181,7 @@ function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='') {
 	$Putfn($t);
       }
     }
-    if ($_POST["Name0"] != '') {
+    if ($_POST["SName0"] != '') {
       $t = array();
       foreach ($Flds as $fld=>$ftyp) {
 	if ($fld == $indxname) continue;
@@ -309,7 +309,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
   echo "<form method=post id=mainform enctype='multipart/form-data' action=$Form>";
   echo "<table width=90% border class=SideTable>\n";
     echo "<tr><th colspan=8><b>Public Information</b>" . Help('PublicInfo');
-    echo "<tr>" . fm_text('Business Name', $Trad,'SName',2,'','autocomplete=off onchange=nameedit(event) oninput=nameedit(event) id=Name');
+    echo "<tr>" . fm_text('Business Name', $Trad,'SName',2,'','autocomplete=off onchange=nameedit(event) oninput=nameedit(event) id=SName');
     echo "<tr>";
       if (isset($Trad['Website']) && strlen($Trad['Website'])>1) {
 	echo fm_text(weblink($Trad['Website']),$Trad,'Website');

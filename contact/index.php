@@ -41,7 +41,7 @@
     if ($user['WMFFemail']) echo "<a href=mailto:" . $user['WMFFemail'] . "@wimbornefolk.co.uk>";
     echo "<img alt='Wimborne Minster Folk Festival' style='float:left; max-width:100px;max-height:100px;margin-right:5px' src='";
     echo ($user['Image']?$user['Image']:"/images/WimborneFolkLogo.png") . "'>";
-    echo "<h2 class=minittl>" . $user['Name'] . "</h2>";
+    echo "<h2 class=minittl>" . $user['SName'] . "</h2>";
     echo "<br><p class=minitxt>" . $user['Roll'] ;
     if ($user['WMFFemail']) echo "<br>" . $user['WMFFemail'] . "@wimbornefolk.co.uk></a>";
     echo "</div>\n";

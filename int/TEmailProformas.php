@@ -40,7 +40,7 @@
     echo "<td>" . fm_basictextarea($t,'Body',6,8,'',"Body$i");
     echo "\n";
   }
-  echo "<tr><td><td><input type=text name=Name0 >";
+  echo "<tr><td><td><input type=text name=SName0 >";
   echo "<td><textarea name=Body0 rows=6 cols=120></textarea>";
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";

@@ -12,7 +12,7 @@
 
   $Locs = Get_Trade_Locs(1);
   $res = $db->query("SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE y.Year=$YEAR AND t.Tid=y.Tid AND ( y.BookingState=" . $Trade_State['Deposit Paid'] .
-		" OR y.BookingState=" . $Trade_State['Fully Paid'] . ") AND t.ListMe=1 ORDER BY t.Name" );
+		" OR y.BookingState=" . $Trade_State['Fully Paid'] . ") AND t.ListMe=1 ORDER BY t.SName" );
 
 
   echo "<div id=flex>\n";

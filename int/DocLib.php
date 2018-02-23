@@ -216,7 +216,7 @@ function Doc_Access($num) {
 
 function Doc_create($fname,$d,$size) {
   global $db,$USERID;
-  $qry = "INSERT INTO Documents SET Dir=$d, Name='" . addslashes($fname) . "', Who='$USERID', Created=" . time() .
+  $qry = "INSERT INTO Documents SET Dir=$d, SName='" . addslashes($fname) . "', Who='$USERID', Created=" . time() .
 	 ", filesize=" . $size . ", Access=666";
   $ans = $db->query($qry);
   return $ans;
