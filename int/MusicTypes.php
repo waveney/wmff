@@ -28,8 +28,8 @@
 	}
       }
     }
-    if ($_POST["Name0"]) {
-      $t = array('SName'=> $_POST['Name0'], 'Importance' => $_POST['Imp0']);
+    if ($_POST["SName0"]) {
+      $t = array('SName'=> $_POST['SName0'], 'Importance' => $_POST['Imp0']);
       Insert_db('MusicTypes',$t);
     }
     $Types=Get_Music_Types(1);
@@ -43,7 +43,7 @@
     echo "<tr><td>$i<td><input type=text name=SName$i value='" . $t['SName'] . "'>";
     echo "<td><input text name=Imp$i value='" . $t['Importance'] . "'>\n";
   }
-  echo "<tr><td><td><input type=text name=Name0 >";
+  echo "<tr><td><td><input type=text name=SName0 >";
   echo "<td><input text name=Imp0>\n";
   echo "</table>";
   echo "<input type=submit name=Update value=Update>\n";

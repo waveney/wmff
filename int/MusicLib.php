@@ -206,7 +206,7 @@ function Select_Act_Come($type=0,$extra='') {
   static $Come_Loaded = 0;
   static $Coming = array('');
   if ($Come_Loaded) return $Coming;
-  $qry = "SELECT s.SideId, s.Name, s.Type FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
+  $qry = "SELECT s.SideId, s.SName, s.Type FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
 	" AND s.IsAnAct=1 " . $extra . " ORDER BY s.SName";
   $res = $db->query($qry);
   if ($res) {
@@ -224,7 +224,7 @@ function Select_Other_Come($type=0,$extra='') {
   static $Come_Loaded = 0;
   static $Coming = array('');
   if ($Come_Loaded) return $Coming;
-  $qry = "SELECT s.SideId, s.Name, s.Type FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
+  $qry = "SELECT s.SideId, s.SName, s.Type FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
 	" AND s.IsOther=1 " . $extra . " ORDER BY s.SName";
   $res = $db->query($qry);
   if ($res) {
@@ -264,7 +264,7 @@ function &Select_Act_Come_All() {
 function &Act_All() {
   global $db;
   $All = array();
-  $qry = "SELECT SideId, Name FROM Sides s WHERE IsAnAct=1 ORDER BY SName";
+  $qry = "SELECT SideId, SName FROM Sides s WHERE IsAnAct=1 ORDER BY SName";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $All[$row['SideId']] = $row['SName'];
   return $All;
@@ -273,7 +273,7 @@ function &Act_All() {
 function &Other_All() {
   global $db;
   $All = array();
-  $qry = "SELECT SideId, Name FROM Sides s WHERE IsOther=1 ORDER BY SName";
+  $qry = "SELECT SideId, SName FROM Sides s WHERE IsOther=1 ORDER BY SName";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $All[$row['SideId']] = $row['SName'];
   return $All;

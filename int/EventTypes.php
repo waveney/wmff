@@ -50,7 +50,7 @@
     echo "<td>" . fm_select($EType_States,$t,'State',0,'',"State$i");
     echo "\n";
   }
-  echo "<tr><td><td><input type=text name=Name0 >";
+  echo "<tr><td><td><input type=text name=SName0 >";
   echo "<td><input type=text name=Plural0 >";
   echo "<td><input type=checkbox name=Public0>";
   echo "<td><input type=checkbox name=HasDance0>";

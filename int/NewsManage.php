@@ -53,7 +53,7 @@
     echo fm_text1('',$t,'author',1,'','',"author$i");
     echo "\n";
   }
-  echo "<tr><td><td><input type=text name=Name0 >";
+  echo "<tr><td><td><input type=text name=SName0 >";
   echo "<td><input type=text size=10 name=created0 value='" . date('j M Y G:i') . "'>";
   echo "<td><input type=checkbox checked name=display0>";
   echo "<td><textarea name=content0 rows=3 cols=60></textarea>";
