@@ -10,8 +10,8 @@ function blurbedit(ev) { // Not currently used
 
 function nameedit(ev) {
 
-//  if (document.getElementById("Name").value.length > 20 ) {
-  var v = $("#Name").val();
+//  if (document.getElementById("SName").value.length > 20 ) {
+  var v = $("#SName").val();
   if (v.length > 20 ) {
     var r = v.substring(0,20);
     if ($('#ShortName').attr("hidden")) {
