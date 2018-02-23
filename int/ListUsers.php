@@ -46,7 +46,7 @@
   echo "</thead><tbody>";
 
   while($usr = $res->fetch_assoc()) {
-    echo "<tr><td>" . $usr['UserId'] . "<td><a href=AddUser.php?usernum=" . $usr['UserId'] . ">" . $usr['Name'] . "</a>";
+    echo "<tr><td>" . $usr['UserId'] . "<td><a href=AddUser.php?usernum=" . $usr['UserId'] . ">" . $usr['SName'] . "</a>";
     echo "<td>" . $usr['Login'] . "<td>" . $usr['Email'] . "<td>" . $usr['WMFFemail'] . "<td>" . $Access_Levels[$usr['AccessLevel']];
     echo "<td>" . $usr['Roll'] . "<td>";
     if ($usr['Image']) echo "<img src='" . $usr['Image'] . "' width=50>";

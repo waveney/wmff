@@ -19,11 +19,11 @@
     $uid = $_GET['U'];
     $user = Get_User($uid);
 
-    $letter = firstword($user['Name']) . ",<p>" .
+    $letter = firstword($user['SName']) . ",<p>" .
         "This is a message via the other server if so progress many now be possible...<p>".
 	"Richard";
  
-    SendEmail($user['Email'],"Welcome " . firstword($user['Name']) . " to WMFF Staff pages",$letter);
+    SendEmail($user['Email'],"Welcome " . firstword($user['SName']) . " to WMFF Staff pages",$letter);
 
     echo "Email sent:<p>$letter";
   } else {

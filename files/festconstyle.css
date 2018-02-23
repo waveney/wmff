@@ -350,6 +350,7 @@ div.whileDragging {
   bottom:0;
   right:0;
   border: 1px solid #000;
+  background:white;
 }
 
 .InfoContainer {

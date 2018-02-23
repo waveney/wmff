@@ -17,7 +17,7 @@ Here are our <b>Spotlight Performers</b> followed by <b>A - Z</b> of the rest of
   include_once ("int/DispLib.php");
   global $db,$Book_State,$YEAR;
   $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, ActYear AS y " .
-           "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>=" . $Book_State['Booking'] . " AND s.IsAnAct=1 ORDER BY s.Importance DESC, s.Name");
+           "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>=" . $Book_State['Booking'] . " AND s.IsAnAct=1 ORDER BY s.Importance DESC, s.SName");
   
   while($side = $SideQ->fetch_assoc()) {
     formatminimax($side,'ShowMusic.php',1);

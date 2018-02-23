@@ -26,7 +26,7 @@
       Update_db_post('Venues',$Venue);
     } else { /* New */
       $proc = 1;
-      if (!isset($_POST['Name'])) {
+      if (!isset($_POST['SName'])) {
 	echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
 	$proc = 0;
       }
@@ -53,7 +53,7 @@
       echo fm_hidden('VenueId',-1);
     }
     echo "<tr>" . fm_text('Short Name', $Venue,'ShortName');
-    echo "<tr>" . fm_text('Name',$Venue,'Name',3);
+    echo "<tr>" . fm_text('SName',$Venue,'SName',3);
     echo "<tr>" . fm_text('Address',$Venue,'Address',3);
     echo          fm_text('Post Code',$Venue,'PostCode',1);
     echo "<tr>" . fm_textarea('Description',$Venue,'Description',5,2);

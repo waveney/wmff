@@ -6,11 +6,11 @@
 function Get_Other_People($y=0) { // year 0 all current year, -1 all - no year info, year>1 all that year
   global $db,$YEAR;
   if ($y == 0) {
-    $res = $db->query("SELECT o.*, y.* FROM OtherPart o, OtherPartYear y WHERE o.OthId=y.Other AND y.Year=$YEAR ORDER BY Name");
+    $res = $db->query("SELECT o.*, y.* FROM OtherPart o, OtherPartYear y WHERE o.OthId=y.Other AND y.Year=$YEAR ORDER BY SName");
   } else if ($y < 0) {
-    $res = $db->query("SELECT o.*, y.* FROM OtherPart o LEFT JOIN OtherPartYear y WHERE o.OthId=y.Other AND y.Year=$y ORDER BY Name");
+    $res = $db->query("SELECT o.*, y.* FROM OtherPart o LEFT JOIN OtherPartYear y WHERE o.OthId=y.Other AND y.Year=$y ORDER BY SName");
   } else {
-    $res = $db->query("SELECT o.*, y.* FROM OtherPart o, OtherPartYear y WHERE o.OthId=y.Other AND y.Year=$y ORDER BY Name");
+    $res = $db->query("SELECT o.*, y.* FROM OtherPart o, OtherPartYear y WHERE o.OthId=y.Other AND y.Year=$y ORDER BY SName");
   }
   if ($res) {
     while ($o = $res->fetch_assoc()) { $othrs[] = $o; };
@@ -73,9 +73,9 @@ function Other_All($Except=-1) {
   static $Sides_Loaded = 0;
   if ($Other_Loaded == $Except) return $Other_All;
   $Other_All = array();
-  $slist = $db->query("SELECT OtherId, Name FROM OtherPart ORDER BY Name");
+  $slist = $db->query("SELECT OtherId, Name FROM OtherPart ORDER BY SName");
   while ($row = $slist->fetch_assoc()) {
-    $Other_All[$row['OtherId']] = $row['Name'];
+    $Other_All[$row['OtherId']] = $row['SName'];
   }
   $Other_Loaded = $Except;;
   return $Other_All;

@@ -17,7 +17,7 @@ Click on Side's name for more detail and programme when available.<br>
   $yn = array('','Y');
   $Min = isset($_GET{'MIN'});
   $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, SideYear AS y " .
-	   "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " ORDER BY s.Importance DESC, s.Name");
+	   "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " ORDER BY s.Importance DESC, s.SName");
 
   if (!$SideQ || $SideQ->num_rows==0) {
     echo "<h2>No Sides Found</h2>\n";
@@ -40,8 +40,8 @@ Click on Side's name for more detail and programme when available.<br>
 //    echo "<th><img src=/images/icons/Instagram.jpg>";
     echo "</thead><tbody>";
     while ($side = $SideQ->fetch_assoc()) {
-      if (strlen($side['Name']) < 2) $side['Name'] .= " PADDED";
-      echo "<tr><td><a href=/int/ShowDance.php?sidenum=" . $side['SideId'] . ">" . $side['Name'] . "</a></td>";
+      if (strlen($side['SName']) < 2) $side['SName'] .= " PADDED";
+      echo "<tr><td><a href=/int/ShowDance.php?sidenum=" . $side['SideId'] . ">" . $side['SName'] . "</a></td>";
       if (!$Min) echo "<td>" . $side['Type'] . "</td>";
       echo "<td>" . $side['Description'] . "</td>";
       if (!$Min) echo "<td>" . $yn[$side['Sat']] . "</td>";

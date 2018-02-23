@@ -6,8 +6,8 @@ $Dance_TimeFeilds = array('SatArrive','SatDepart','SunArrive','SunDepart');
 function Sides_Name_List() {
   global $db;
   $Sides = array();
-  $res = $db->query("SELECT SideId, Name FROM Sides ORDER BY Name");
-  if ($res) while ($row = $res->fetch_assoc()) $Sides[$row['SideId']] = $row['Name'];
+  $res = $db->query("SELECT SideId, Name FROM Sides ORDER BY SName");
+  if ($res) while ($row = $res->fetch_assoc()) $Sides[$row['SideId']] = $row['SName'];
   return $Sides;
 }
 
@@ -18,7 +18,7 @@ function Sides_All($Except=-1,$All=1,$Include1=0,$Include2=0,$Include3=0,$Includ
   if ($All) {
     if ($Sides_Loaded == $Except) return $Sides_All;
     $Sides_All = array();
-    $slist = $db->query("SELECT SideId, Name FROM Sides WHERE SideStatus=0 ORDER BY Name");
+    $slist = $db->query("SELECT SideId, Name FROM Sides WHERE SideStatus=0 ORDER BY SName");
   } else {
     $Blist = Select_Come(1);
     if ($Except) unset($Blist[$Except]);
@@ -33,7 +33,7 @@ function Sides_All($Except=-1,$All=1,$Include1=0,$Include2=0,$Include3=0,$Includ
     return $Blist;
   }
   if ($slist) while ($row = $slist->fetch_assoc()) {
-    if ($row['SideId'] != $Except) $Sides_All[$row['SideId']] = $row['Name'];
+    if ($row['SideId'] != $Except) $Sides_All[$row['SideId']] = $row['SName'];
   }
   $sides_Loaded = $Except;
   return $Sides_All;
@@ -45,14 +45,14 @@ function Select_Come($type=0,$extra='') {
   static $Coming = array('');
   if ($Come_Loaded) return $Coming;
   $qry = "SELECT s.SideId, s.Name, s.Type FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . 
-	$Coming_Type['Y'] . " AND s.IsASide=1 " . $extra . " ORDER BY s.Name";
+	$Coming_Type['Y'] . " AND s.IsASide=1 " . $extra . " ORDER BY s.SName";
 //  echo "<!-- " . var_dump($qry) . " -->\n";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
       $x = '';
       if ($type == 0 && $row['Type']) $x = " ( " . $row['Type'] . " ) "; 
-      $Coming[$row['SideId']] = $row['Name'] . $x;
+      $Coming[$row['SideId']] = $row['SName'] . $x;
     }
   }
   $Come_Loaded = 1;
@@ -62,7 +62,7 @@ function Select_Come($type=0,$extra='') {
 function Select_Come_Day($Day,$xtr='') {
   global $db,$YEAR,$Coming_Type;
   $qry = "SELECT s.*, y.* FROM Sides s, SideYear y " .
-	 "WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " AND y.$Day=1 $xtr ORDER BY s.Name";
+	 "WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " AND y.$Day=1 $xtr ORDER BY s.SName";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
@@ -78,7 +78,7 @@ function &Select_Come_All() {
   static $Coming;
   if ($Coming) return $Coming;
   $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] .
-	" ORDER BY s.Name";
+	" ORDER BY s.SName";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
 
@@ -115,9 +115,9 @@ function Show_Side($snum,$Message='') {
     if (!$side['IsASide']) $ed = 'MusicEdit';
     if (Access('Participant','Side',$snum)) {
       echo "<h2><a href=$ed.php?sidenum=$snum>Click here to edit Details, Contacts, Days, Times, Requests, Upload Photos and Insurance</a></h2>";
-      echo "<h2>Public Information about: " . $side['Name'] . "</h2>";
+      echo "<h2>Public Information about: " . $side['SName'] . "</h2>";
     } else {
-      echo "<h2>" . $side['Name'] . "</h2>";
+      echo "<h2>" . $side['SName'] . "</h2>";
     }
     if ($side['IsASide'] && $side['ShortName']) echo "( Appearing in the grids as:" . $side['ShortName'] . " )<br>";
 
@@ -165,7 +165,7 @@ function Show_Side($snum,$Message='') {
 
     echo "</div><br clear=all><p>";
 
-    if ( $side['Website'] ) echo weblink($side['Website'],"<b>" . $side['Name'] . " website</b>") . "<p>";
+    if ( $side['Website'] ) echo weblink($side['Website'],"<b>" . $side['SName'] . " website</b>") . "<p>";
 
     if ( $side['Video'] )  echo embedvideo($side['Video']) . "<p>";
 
@@ -177,7 +177,7 @@ function Show_Side($snum,$Message='') {
       echo $prog;
     } else {
       echo "<h2>The programme has not yet been published yet.</h2>\n";
-      echo "When it is, the programme for <b>" . $side['Name'] . "</b> will appear here.<p>";
+      echo "When it is, the programme for <b>" . $side['SName'] . "</b> will appear here.<p>";
     }
 
     if (Access('Participant','Side',$snum)) {
@@ -295,7 +295,7 @@ function isknown($snum,$yr) {
 
 function Set_Side_Help() {
   static $t = array(
-	'Name'=>'To appear on website and in the programme',
+	'SName'=>'To appear on website and in the programme',
 	'ShortName'=>'IF the sides name is more than 20 characters, give a short form to appear on the Grid.',
 	'Type'=>'For example North West, Border',
 	'Importance'=>'Only raise the importance for those that really need it.  They get front billing and bigger fonts in publicity',
@@ -380,7 +380,7 @@ function Get_Dance_Types($tup) {
   $res = $db->query("SELECT * FROM DanceTypes ORDER BY Importance DESC");
   if ($res) {
     while ($typ = $res->fetch_assoc()) {
-      $short[] = $typ['Name'];
+      $short[] = $typ['SName'];
       $full[$typ['TypeId']] = $typ;
     }
   }

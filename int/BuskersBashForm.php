@@ -9,7 +9,7 @@
   /* In the longer term this will be based on participants, but I want to do this quickly for 2018 so it is stand alone for now */
 
   if (isset($_POST['submit'])) {
-    if (strlen($_POST['Name']) < 2) { echo "<p class=Err>Please give your band's name\n"; $err=1; };
+    if (strlen($_POST['SName']) < 2) { echo "<p class=Err>Please give your band's name\n"; $err=1; };
     if (strlen($_POST['Example'])< 12) { echo "<p class=Err>Please give a link to an example of you performing - Youtube or equivalent\n"; $err=1; };
     if (strlen($_POST['Contact']) < 6) { echo "<p class=Err>Please give the contact name\n"; $err=1; };
     Clean_Email($_POST{'Email'});
@@ -37,9 +37,9 @@
   echo "<h2 class=subtitle>Buskers Bash 2018 Application Form</h2>\n";
   echo "<form method=post action=BuskersBashForm.php>";
   echo "<table border>\n";
-  echo "<tr>" . fm_text1("Band/Group/Act Name",$_POST,'Name',2);
+  echo "<tr>" . fm_text1("Band/Group/Act Name",$_POST,'SName',2);
   echo "<tr><td colspan=4>Main Contact:\n";
-  echo "<tr>" . fm_text('Name',$_POST,'Contact');
+  echo "<tr>" . fm_text('SName',$_POST,'Contact');
   echo "<tr>" . fm_text('Email',$_POST,'Email');
   echo "<tr>" . fm_text('Phone',$_POST,'Phone');
 //  echo "<tr>" . fm_text('Address',$_POST,'Address',4);

@@ -40,7 +40,7 @@
     copy($file[0],"Temp/$USERID.$sfx");
     echo "<img src=Temp/$USERID.$sfx>\n";
   } else {
-    echo "<h2>No Insurance Stored for " . $data['Name'] . "</h2>\n";
+    echo "<h2>No Insurance Stored for " . $data['SName'] . "</h2>\n";
   }
 
 ?>

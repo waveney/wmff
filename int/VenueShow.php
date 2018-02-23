@@ -18,7 +18,7 @@ function PrintImps(&$imps) {
     if ($imp) echo "<span style='font-size:" . (15+$imp*1) . "'>";
       foreach ($imps[$imp] as $thing) {
         if ($things++) echo ", ";
-        $str = "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['Name']) . "</a>";
+        $str = "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SName']) . "</a>";
         if (isset($thing['Type']) && (strlen($thing['Type'])>1)) $str .= NoBreak(" (" . $thing['Type'] . ")");
         if ($thing['Photo']) $str .= " <a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . 
 		"><img style='vertical-align:middle;max-height:" . (100+20*$imp) .";' height=" . (100+20*$imp) . " src=" . $thing['Photo'] . "></a>";
@@ -38,12 +38,12 @@ function PrintImps(&$imps) {
     $Vens = Get_Real_Venues(1);  
     foreach($Vens as $vi=>$ov) if ($ov['PartVirt'] == $V) {
       $VenList[] = $vi;
-      $VenNames[] = $ov['Name'];
+      $VenNames[] = $ov['SName'];
       foreach ($ov as $key=>$val) if ($val) $Ven[$key] = $val;
     }
   }
 
-  echo "<h2 class=subtitle>" . $Ven['Name'] . "</h2>";
+  echo "<h2 class=subtitle>" . $Ven['SName'] . "</h2>";
 
   /* Desc        Picture
      Address	 Map
@@ -121,7 +121,7 @@ function PrintImps(&$imps) {
     $EVs[$e['EventId']] = $e;
     if ($e['DoorPrice']) $NotAllFree=1;
   }
-  if (!$EVs) {
+  if (!isset($EVs) || !$EVs) {
     "<h3>There are currently no scheduled events here</h3>\n";
     dotail();
     exit;
@@ -144,7 +144,7 @@ function PrintImps(&$imps) {
 
     if ($e['SubEvent'] <0) { // has subes
       if ($e['LongEvent'] && !$imps) continue;
-      $parname = $e['Name']; 
+      $parname = $e['SName']; 
       $lastevent = $ei;
       echo "<tr><td><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
 		"</a><td colspan=2><a href=EventShow.php?e=$eid>" . $parname . "</a>";
@@ -159,7 +159,7 @@ function PrintImps(&$imps) {
       }
     } else if ($e['SubEvent'] == 0) { // Is stand alone
       $lastDay = $e['Day'];
-      $parname = $e['Name'];
+      $parname = $e['SName'];
       echo "<tr><td><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
 		"</a><td colspan=2><a href=EventShow.php?e=$eid>" . $parname . "</a>";
       if ($e['Description']) echo "<br>" . $e['Description'];
@@ -170,7 +170,7 @@ function PrintImps(&$imps) {
       if ($e['LongEvent'] && $lastevent != $e['SubEvent']) {
 	$lastevent = $e['SubEvent'];
         $pare = &$EVs[$lastevent]; 
-        $parname = $pare['Name']; 
+        $parname = $pare['SName']; 
         echo "<tr><td><a href=EventShow.php?e=$lastevent>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
 		"</a><td colspan=2><a href=EventShow.php?e=$lastevent>" . $parname . "</a>";
         if ($pare['Description']) echo "<br>" . $pare['Description'];
@@ -179,8 +179,8 @@ function PrintImps(&$imps) {
         if ($NotAllFree) echo "<td>" . Price_show($EVs[$e['SubEvent']]);
       } else if ($imps) {
         echo "<tr><td>&nbsp;<td colspan=2>";
-//	if ($parname != $e['Name']) 
-	echo "<a href=EventShow.php?e=" . $e['SubEvent'] . ">" . $e['Name'] . "</a><br>";
+//	if ($parname != $e['SName']) 
+	echo "<a href=EventShow.php?e=" . $e['SubEvent'] . ">" . $e['SName'] . "</a><br>";
 	echo timecolon($e['Start']) . " - " . timecolon($e['End']) . "<td>";
         PrintImps($imps);
         if ($NotAllFree) echo "<td>&nbsp;";

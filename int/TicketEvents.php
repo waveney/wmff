@@ -32,7 +32,7 @@
     echo "<td>" . $DayList[$E['Day']];
     echo "<td>" . $E['Start'];
     echo "<td>" . $E['End'];
-    echo "<td><a href=EventAdd.php?e=" . $E['EventId'] . ">" . $E['Name'] . "</a>";
+    echo "<td><a href=EventAdd.php?e=" . $E['EventId'] . ">" . $E['SName'] . "</a>";
     echo "<td>Coming...";
     echo "<td>" . $Vens[$E['Venue']];
     echo "<td>" . $E['Price'];

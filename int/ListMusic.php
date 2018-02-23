@@ -40,14 +40,14 @@
 
   if ($_GET{'SEL'} == 'ALL') {
     $flds = "y.*, s.*";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN ActYear as y ON s.SideId=y.SideId WHERE $TypeSel ORDER BY Name");
+    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN ActYear as y ON s.SideId=y.SideId WHERE $TypeSel ORDER BY SName");
     $col5 = "Book State";
     $col6 = "Actions";
   } else if ($_GET{'SEL'} == 'INV') {
     $LastYear = $THISYEAR-1;
     $flds = "s.*, ly.YearState, y.YearState, y.ContractConfirm";
     $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN ActYear as y ON s.SideId=y.SideId AND y.year=$THISYEAR " .
-			"LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE $TypeSel AND s.SideStatus=0 ORDER BY Name");
+			"LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE $TypeSel AND s.SideStatus=0 ORDER BY SName");
     $col5 = "Invited $LastYear";
     $col6 = "Coming $LastYear";
     $col7 = "Invite $THISYEAR";
@@ -55,17 +55,17 @@
     $col9 = "Coming $THISYEAR";
   } else if ($_GET{'SEL'} == 'Coming') {
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
-		$Book_State['Booked'] . " ORDER BY Importance DESC, Name");
+		$Book_State['Booked'] . " ORDER BY Importance DESC, SName");
     $col5 = "Complete?";
   } else if ($_GET{'SEL'} == 'Booking') {
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>0" . 
-		" ORDER BY Name");
+		" ORDER BY SName");
     $col5 = "Book State";
     $col6 = "Actions";
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
     $SideQ = $db->query("SELECT $flds FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
-		$Book_State['Booked'] . " ORDER BY Importance DESC Name");
+		$Book_State['Booked'] . " ORDER BY Importance DESC SName");
   }
 
   if (!$SideQ || $SideQ->num_rows==0) {
@@ -92,7 +92,7 @@
 
     echo "</thead><tbody>";
     while ($fetch = $SideQ->fetch_assoc()) {
-      echo "<tr><td><a href=AddMusic.php?sidenum=" . $fetch['SideId'] . ">" . $fetch['Name'] . "</a>";
+      echo "<tr><td><a href=AddMusic.php?sidenum=" . $fetch['SideId'] . ">" . $fetch['SName'] . "</a>";
       if ($fetch['SideStatus']) {
 	echo "<td>DEAD";
       } else {

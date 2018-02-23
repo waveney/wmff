@@ -31,11 +31,11 @@
   echo "</thead><tbody>";
   foreach($Types as $t) {
     $i = $t['id'];
-    echo "<tr><td>$i" . fm_text1("",$t,'Name',1,'','',"Name$i");
+    echo "<tr><td>$i" . fm_text1("",$t,'SName',1,'','',"SName$i");
     echo fm_text1("",$t,'Icon',1,'','',"Icon$i");
     echo "\n";
   }
-  echo "<tr><td><td><input type=text name=Name0 >";
+  echo "<tr><td><td><input type=text name=SName0 >";
   echo "<td><input type=text name=Icon0 >";
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";

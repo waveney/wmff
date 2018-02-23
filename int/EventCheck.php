@@ -71,7 +71,7 @@ function EventCheck() {
 		  $chkstart = timereal($ce['Start']) - $ce['Setup'];
 		  $chkend = timereal($ce['SubEvent']<0 ? $ce['SlotEnd'] : $ce['End']);
 	          if (($chkstart >= $realstart && $chkstart < $realend) || ($chkend > $realstart && $chkend <= $realend)) {
-	            echo "The <a href=EventAdd.php?e=" . $ev['EventId'] . ">Big Event</a> at " . $Venues[$ce['Venue']]['Name'] . " starting at " .
+	            echo "The <a href=EventAdd.php?e=" . $ev['EventId'] . ">Big Event</a> at " . $Venues[$ce['Venue']]['SName'] . " starting at " .
 		           $ev['Start'] . " on " . $DayList[$ev['Day']] . " clashes with <a href=EventAdd.php?e=" . 
 		           $ce['EventId'] . ">this event" . "</a><p>\n";
 	            $errors++;

@@ -35,7 +35,7 @@
 <div id="flex">
 <?php
   global $db;
-  $ans = $db->query("SELECT * FROM FestUsers WHERE Contacts=1 ORDER BY NAME");
+  $ans = $db->query("SELECT * FROM FestUsers WHERE Contacts=1 ORDER BY SNAME");
   while ($user = $ans->fetch_assoc()) {
     echo "<div class=mini>\n";
     if ($user['WMFFemail']) echo "<a href=mailto:" . $user['WMFFemail'] . "@wimbornefolk.co.uk>";

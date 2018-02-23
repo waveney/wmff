@@ -18,7 +18,7 @@ $Relations = array('Husband','Wife','Partner','Son','Daughter','Mother','Father'
 function Get_lnl_Details(&$lnl) {
   global $lnlclasses,$yesno;
   $Body = "\nCompetition: " . $lnlclasses[$lnl['Activity']] . "\n";
-  $Body .= "\nBand: " . $lnl['Name'] . "\n";
+  $Body .= "\nBand: " . $lnl['SName'] . "\n";
   $Body .= "Style: " . $lnl['Style'] . "\n\n";
   $Body .= "Contact: " . $lnl['Contact'] . "\n";
   if ($lnl['Phone']) $Body .= "Phone: " . $lnl['Phone'] . "\n";
@@ -28,7 +28,7 @@ function Get_lnl_Details(&$lnl) {
   $Body .= "\n\n";
 
   $Body .= "Members:\n";
-  for ($i=1;$i<7;$i++) if ($lnl["Name$i"]) $Body .= "$i: " . $lnl["Name$i"] . " - " . $lnl["Instr$i"] . "\n";
+  for ($i=1;$i<7;$i++) if ($lnl["SName$i"]) $Body .= "$i: " . $lnl["SName$i"] . " - " . $lnl["Instr$i"] . "\n";
   if ($lnl['TotalSize']) $Body .= "Total Size: " . $lnl['TotalSize'] . "\n";
 
   $Body .= "\nSongs: " . $lnl['Songs'] . "\n";
@@ -47,7 +47,7 @@ function Email_Signup(&$lnl,$messcat,$whoto) {
   $Prof = Get_Email_Proforma($messcat);
   $Mess = ($Prof? $Prof['Body'] : "Unknown message $messcat");
 
-  $Contact = $lnl['Contact']? firstword($lnl['Contact']) : $lnl['Name'];
+  $Contact = $lnl['Contact']? firstword($lnl['Contact']) : $lnl['SName'];
 
   $Details = Get_lnl_Details($lnl);
   $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $THISYEAR";
@@ -61,9 +61,9 @@ function Email_Signup(&$lnl,$messcat,$whoto) {
   $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
 
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Live and Loud $THISYEAR and " . $lnl['Name'],$Mess);
+    SendEmail("Richard@wavwebs.com","Live and Loud $THISYEAR and " . $lnl['SName'],$Mess);
   } else {
-    SendEmail($whoto,"Live and Loud $THISYEAR and " . $lnl['Name'],$Mess);
+    SendEmail($whoto,"Live and Loud $THISYEAR and " . $lnl['SName'],$Mess);
   }
 
   $logf = fopen("LogFiles/LiveNLoudLog.txt","a");
@@ -75,7 +75,7 @@ function Email_Signup(&$lnl,$messcat,$whoto) {
 
 function Get_lol_Details(&$lol) {
   global $yesno;
-  $Body = "Act: " . $lol['Name'] . "\n";
+  $Body = "Act: " . $lol['SName'] . "\n";
   $Body .= "Contact: " . $lol['Contact'] . "\n";
   if ($bb['Phone']) $Body .= "Phone: " . $lol['Phone'] . "\n";
   $Body .= "Email: <a href=mailto:" . $lol['Email'] . ">" . $lol['Email'] . "</a>\n";
@@ -101,7 +101,7 @@ function Email_lol_Signup(&$lol,$messcat,$whoto) {
   $Prof = Get_Email_Proforma($messcat);
   $Mess = ($Prof? $Prof['Body'] : "Unknown message $messcat");
 
-  $Contact = $lol['Contact']? firstword($lol['Contact']) : $lol['Name'];
+  $Contact = $lol['Contact']? firstword($lol['Contact']) : $lol['SName'];
 
   $Details = Get_lol_Details($lol);
   $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $THISYEAR";
@@ -113,9 +113,9 @@ function Email_lol_Signup(&$lol,$messcat,$whoto) {
   $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
 
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Lol Comp $THISYEAR and " . $lol['Name'],$Mess);
+    SendEmail("Richard@wavwebs.com","Lol Comp $THISYEAR and " . $lol['SName'],$Mess);
   } else {
-    SendEmail($whoto,"Lol Comp $THISYEAR and " . $lol['Name'],$Mess);
+    SendEmail($whoto,"Lol Comp $THISYEAR and " . $lol['SName'],$Mess);
   }
 
   $logf = fopen("LogFiles/LaughOutLog.txt","a");
@@ -126,7 +126,7 @@ function Email_lol_Signup(&$lol,$messcat,$whoto) {
 }
 
 function Get_BB_Details(&$bb) {
-  $Body .= "\nBand: " . $bb['Name'] . "\n";
+  $Body .= "\nBand: " . $bb['SName'] . "\n";
   $Body .= "Contact: " . $bb['Contact'] . "\n";
   if ($bb['Phone']) $Body .= "Phone: " . $bb['Phone'] . "\n";
   $Body .= "Email: <a href=mailto:" . $bb['Email'] . ">" . $bb['Email'] . "</a>\n";
@@ -146,7 +146,7 @@ function Email_BB_Signup(&$bb,$messcat,$whoto) {
   $Prof = Get_Email_Proforma($messcat);
   $Mess = ($Prof? $Prof['Body'] : "Unknown message $messcat");
 
-  $Contact = $bb['Contact']? firstword($bb['Contact']) : $bb['Name'];
+  $Contact = $bb['Contact']? firstword($bb['Contact']) : $bb['SName'];
 
   $Details = Get_BB_Details($bb);
   $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $THISYEAR";
@@ -158,9 +158,9 @@ function Email_BB_Signup(&$bb,$messcat,$whoto) {
   $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
 
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Buskers Bash $THISYEAR and " . $bb['Name'],$Mess);
+    SendEmail("Richard@wavwebs.com","Buskers Bash $THISYEAR and " . $bb['SName'],$Mess);
   } else {
-    SendEmail($whoto,"Buskers Bash $THISYEAR and " . $bb['Name'],$Mess);
+    SendEmail($whoto,"Buskers Bash $THISYEAR and " . $bb['SName'],$Mess);
   }
 
   $logf = fopen("LogFiles/BuskersBashLog.txt","a");
@@ -172,7 +172,7 @@ function Email_BB_Signup(&$bb,$messcat,$whoto) {
 
 function Get_Stew_Details(&$stew) {
   global $StewClasses,$Days,$Relations;
-  $Body = "\nName: " . $stew['Name'] . "\n";
+  $Body = "\nName: " . $stew['SName'] . "\n";
   $Body .= "Email: <a href=mailto:" . $stew['Email'] . ">" . $stew['Email'] . "</a>\n";
   if ($stew['Phone']) $Body .= "Phone: " . $stew['Phone'] . "\n";
   $Body .= "Address: " . $stew['Address'] . "\n";
@@ -203,7 +203,7 @@ function Email_Steward(&$stew,$messcat,$whoto) {
   $Prof = Get_Email_Proforma($messcat);
   $Mess = ($Prof? $Prof['Body'] : "Unknown message $messcat");
 
-  $Contact = firstword($stew['Name']);
+  $Contact = firstword($stew['SName']);
 
   $Details = Get_Stew_Details($stew);
   $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $THISYEAR";
@@ -217,9 +217,9 @@ function Email_Steward(&$stew,$messcat,$whoto) {
   $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
 
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Volunteer WMFF $THISYEAR and " . $stew['Name'],$Mess);
+    SendEmail("Richard@wavwebs.com","Volunteer WMFF $THISYEAR and " . $stew['SName'],$Mess);
   } else {
-    SendEmail($whoto,"Volunteer WMFF $THISYEAR and " . $stew['Name'],$Mess);
+    SendEmail($whoto,"Volunteer WMFF $THISYEAR and " . $stew['SName'],$Mess);
   }
 
   $logf = fopen("LogFiles/Steward.txt","a");

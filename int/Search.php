@@ -27,7 +27,7 @@
     if (isset($_POST{'Titles'}) || !isset($_POST{'Cont'})) {
       if ($from) $xtr .= " AND Created>$from ";
       if ($until) $xtr .= " AND Created<$until ";
-      $qry = "SELECT * FROM Documents WHERE Name LIKE '%$targ%' $xtr";
+      $qry = "SELECT * FROM Documents WHERE SName LIKE '%$targ%' $xtr";
       $res = $db->query($qry);
       if ($res && $res->num_rows) {
 	Doc_Table_Head();

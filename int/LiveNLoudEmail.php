@@ -7,7 +7,7 @@
   include("SignupLib.php");
   include("TradeLib.php");
 
-  $res=$db->query("SELECT * FROM SignUp WHERE Year=$THISYEAR AND State<2 ORDER BY Name");
+  $res=$db->query("SELECT * FROM SignUp WHERE Year=$THISYEAR AND State<2 ORDER BY SName");
   
   if ($res) {
     while ($lnl = $res->fetch_assoc()) {

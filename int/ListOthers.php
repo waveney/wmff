@@ -37,7 +37,7 @@
   echo "</thead><tbody>";
 
   foreach ($People as $i=>$Person) {
-    echo "<tr><td>" . $Person['OtherId'] . "<td>" .$Person['Name'] .  "<td>" . $Person['Description'];
+    echo "<tr><td>" . $Person['OtherId'] . "<td>" .$Person['SName'] .  "<td>" . $Person['Description'];
     echo "<td>" . $Person['Contact'] . "<td>" . linkemailhtml($fetch,'Other') . "<td>" . $Person['Type'];
     echo "<td>";
     if ($People['Sat']) echo "y";

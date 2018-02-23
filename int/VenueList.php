@@ -48,7 +48,7 @@
     foreach ($venues as $Ven) {
       $i = $Ven['VenueId'];
       echo "<tr><td>$i<td><a href=AddVenue.php?v=$i>" . $Ven['ShortName'] . "</a>";
-      echo "<td><a href=AddVenue.php?v=$i>" . $Ven['Name'] . "</a>"; 
+      echo "<td><a href=AddVenue.php?v=$i>" . $Ven['SName'] . "</a>"; 
       echo "<td>" . ($Ven['IsVirtual']?'Y':'');
       echo "<td>" . $Ven['Notes'] . "<td>" . $Venue_Status[$Ven['Status']];
       echo "<td>" . $Ven['DanceImportance'];

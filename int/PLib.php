@@ -61,10 +61,10 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
   echo "<form method=post id=mainform enctype='multipart/form-data' action=$Form>";
   echo "<table width=90% border class=SideTable>\n";
     echo "<tr><th colspan=8><b>Public Information</b>" . Help('PublicInfo');
-    echo "<tr>" . fm_text(($Side['IsASide']?'Team Name':'Act Name'), $Side,'Name',3,'','autocomplete=off onchange=nameedit(event) oninput=nameedit(event) id=Name');
+    echo "<tr>" . fm_text(($Side['IsASide']?'Team Name':'Act Name'), $Side,'SName',3,'','autocomplete=off onchange=nameedit(event) oninput=nameedit(event) id=SName');
       $snx = 'class=ShortName';
-      if (((isset($Side['Name'])) && (strlen($Side['Name']) > 20) ) || (strlen($Side['ShortName']) != 0)) { 
-	if (strlen($Side['ShortName']) == 0) $Side['ShortName'] = substr($Side['Name'],0,20);
+      if (((isset($Side['SName'])) && (strlen($Side['SName']) > 20) ) || (strlen($Side['ShortName']) != 0)) { 
+	if (strlen($Side['ShortName']) == 0) $Side['ShortName'] = substr($Side['SName'],0,20);
       } else {
 	$snx .= ' hidden';
       }
@@ -211,7 +211,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
 	    echo "<tr id=BandRow$row>";
 	    $colcnt = 0;
           }
-          echo "<td>" . fm_textinput("BandMember$bi:" . $B['BandMemId'],$B['Name'],'onchange=BandChange(event)');
+          echo "<td>" . fm_textinput("BandMember$bi:" . $B['BandMemId'],$B['SName'],'onchange=BandChange(event)');
 	  $colcnt++;
 	  $bi++;
 	}
@@ -514,7 +514,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
       $vv = $e['Venue'];
       if ($e['SubEvent'] < 0) { $End = $e['SlotEnd']; } else { $End = $e['End']; };
       if (($e['Start'] != 0) && ($End != 0) && ($e['Duration'] == 0)) $e['Duration'] = timeadd2real($End, - $e['Start']);
-      echo "<tr><td><a href=$Detail?e=" . $e['EventId'] . ">" . $e['Name'] . "</a>";
+      echo "<tr><td><a href=$Detail?e=" . $e['EventId'] . ">" . $e['SName'] . "</a>";
       echo "<td>" . $ETs[$e['Type']];
       echo "<td>" . $DayList[$e['Day']] . " " . ($MASTER['DateFri']+$e['Day']) ."th June $YEAR";
       echo "<td>" . ($e['Start']? ( timecolon(timeadd2($e['Start'],- $e['Setup']) )) : "TBD" ) ;

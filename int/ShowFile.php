@@ -7,7 +7,6 @@
   $read = 1;
 
 if (isset($_GET{'f'})) {
-  dostaffhead("View File");
   ViewFile("Store" . File_FullPName($_GET['f']));
 } else if (isset($_GET{'l'})) {
   $l = $_GET['l'];

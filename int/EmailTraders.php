@@ -28,16 +28,16 @@
     echo "<h2>";
     foreach ($Messages as $mes) {
       if ($mes['id'] == $Messkey) {
-	echo $mes['Name'];
+	echo $mes['SName'];
 	$Mess = $mes['Body'];
       } else {
-	echo "<a href=EmailTraders.php?MessNum=" . $mes['id'] . ">" . $mes['Name'] . "</a>";
+	echo "<a href=EmailTraders.php?MessNum=" . $mes['id'] . ">" . $mes['SName'] . "</a>";
       }
       echo "&nbsp; &nbsp; &nbsp; ";
     }
     echo "</h2>\n";
 
-    $Sender = $USER['Name'];
+    $Sender = $USER['SName'];
     $Mess = preg_replace('/\$THISYEAR/',$THISYEAR,$Mess);
 
     $_POST['Mess'] = preg_replace('/\*SENDER\*/',$Sender,$Mess);
@@ -91,14 +91,14 @@
       $Tid = $Trad['Tid'];
       $Key = $Trad['AccessKey'];
       if (!$Key) {
-	echo "Ommitting " . $Trad['Name'] . " as it does not have an Access Key.<br>";
+	echo "Ommitting " . $Trad['SName'] . " as it does not have an Access Key.<br>";
 	continue;
       };
 
       if ($Trad['Contact']) {
         $Contact = firstword($Trad['Contact']);
       } else {
-	$Contact = $Trad['Name'];
+	$Contact = $Trad['SName'];
       }
       $Link = "<a href=http://wimbornefolk.co.uk/int/Direct.php?t=Trade&id=$Tid&key=$Key><b>link</b></a>";
       $Remove = "<a href=http://wimbornefolk.co.uk/int/Remove.php?t=Trade&id=$Tid&key=$Key><b>here</b></a>";
@@ -112,11 +112,11 @@
       $Trady['SentInvite'] = date();
       Put_TradeYear($Trady);
       if (file_exists("testing")) {
-	echo "Would send to " . $Trad['Name'] . "<p> $ThisMess <p>";
+	echo "Would send to " . $Trad['SName'] . "<p> $ThisMess <p>";
       } else {
 exit;
-	SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $THISYEAR and " . $Trad['Name'],$ThisMess,"Content-type: text/html;");
-	echo "Sent to " . $Trad['Name'] . "<br>";
+	SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $THISYEAR and " . $Trad['SName'],$ThisMess,"Content-type: text/html;");
+	echo "Sent to " . $Trad['SName'] . "<br>";
       }
     }
   }

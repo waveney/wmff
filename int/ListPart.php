@@ -46,7 +46,7 @@
 
   foreach ($People as $i=>$Person) {
     echo "<tr><td>" . $Person['OtherId'];
-    echo "<td><a href=AddPart.php?othernum=" . $Person['OtherId'] . ">" . $Person['Name'] . "</a>";
+    echo "<td><a href=AddPart.php?othernum=" . $Person['OtherId'] . ">" . $Person['SName'] . "</a>";
     echo "<td>" . $Person['Description'];
     echo "<td>" . $Person['Contact'] . "<td>" . linkemailhtml($Person,'Other') . "<td>" . $Person['Type'];
     echo "<td>";

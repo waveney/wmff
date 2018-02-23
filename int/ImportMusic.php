@@ -34,7 +34,7 @@ function Descript($stuff) {
       $coln = 0;
       echo "<table id=indextable border class=smalltext>\n";
       echo "<thead><tr>";
-      $heads = array('Name','Website','Photo','Description','Blurb','Twitter','Instagram','Video','Facebook');
+      $heads = array('SName','Website','Photo','Description','Blurb','Twitter','Instagram','Video','Facebook');
       foreach($heads as $h) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$h</a>\n";
       echo "</thead><tbody>\n";
     };
@@ -48,7 +48,7 @@ function Descript($stuff) {
       if ($new = preg_replace("/^ ?<br \/>\n<br \/>\n/","",$blurb)) $blurb=$new;
       if ($new = preg_replace("/^ ?<br \/>\r\n<br \/>\r\n/","",$blurb)) $blurb=$new;
       $sideentry = array(
-	'Name'=>$stuff['title'],
+	'SName'=>$stuff['title'],
 	'IsAnAct'=>1,
 	'Website'=>$stuff['link1'] . ($stuff['link2']?(" " . $stuff['link2']):""),
 	'Photo'=>"/images/" . $stuff['img'],
@@ -61,14 +61,14 @@ function Descript($stuff) {
         'AccessKey'=>(rand_string(40)),
 	'Pre2017'=>'Previous Wimborne');
       if ($TestOnly) {
-	echo "<tr><td>" . $sideentry['Name'] ;
+	echo "<tr><td>" . $sideentry['SName'] ;
 	echo "<td>" . $sideentry['Website'] . "<td>" . $sideentry['Photo']. "<td>" . $sideentry['Description'];
         echo "<td>" . $sideentry['Blurb']. "<td>" . $sideentry['Twitter'];
 	echo "<td>" . $sideentry['Instagram'] . "<td>" . $sideentry['Video'] ."<td>" . $sideentry['Facebook'];
       } else {
         $snum = Insert_db('Sides',$sideentry);
 	if (!$snum) {
-	  echo "Side " . $stuff['Name'] . " failed to insert.<br>";
+	  echo "Side " . $stuff['SName'] . " failed to insert.<br>";
         }
       }
     } 

@@ -18,7 +18,7 @@ Click on the name of a team, or their photograph to find out more about them and
   include_once ("int/DispLib.php");
   global $db,$Coming_Type,$YEAR;
   $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, SideYear AS y " .
-           "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " AND s.IsASide=1 ORDER BY s.Importance DESC, s.Name");
+           "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " AND s.IsASide=1 ORDER BY s.Importance DESC, s.SName");
   
   while($side = $SideQ->fetch_assoc()) {
     formatminimax($side,'ShowDance.php',99);

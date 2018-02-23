@@ -84,7 +84,7 @@
       $coln = 0;
       echo "<table id=indextable border class=smalltext>\n";
       echo "<thead><tr>";
-      $heads = array('Name','Type','Alive','Bag','email','phone','mob','PA','Website','Photo','Description','prev','Snote','Invite','Invited','Come','Sat','Sun','Notes');
+      $heads = array('SName','Type','Alive','Bag','email','phone','mob','PA','Website','Photo','Description','prev','Snote','Invite','Invited','Come','Sat','Sun','Notes');
       foreach($heads as $h) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$h</a>\n";
       echo "</thead><tbody>\n";
     };
@@ -94,7 +94,7 @@
       $brack='';
       foreach ($headers as $i=>$d) $stuff[$d] = $bts[$i];
       $sideentry = array(
-	'Name'=>$stuff['Name'],
+	'SName'=>$stuff['SName'],
 	'Type'=>Brack_Rem($stuff['Dance Style'],$brack),
 	'SideStatus'=>(preg_match('/Dead/i',$stuff['Invite'])?1:0),
 	'Contact'=>$stuff['Bagman'],
@@ -119,9 +119,9 @@
 	'PrivNotes'=>($stuff['Workshops'].$stuff['useful info'].$stuff['special requests']),
 	), Default_SY());
 //var_dump("<tr><td>",$stuff);
-      if ($stuff['Name']) {
+      if ($stuff['SName']) {
         if ($TestOnly) {
-	  echo "<tr><td>" . $sideentry['Name'] . "<td>" . $sideentry['Type'] . "<td>" . $sideentry['SideStatus']. "<td>" . $sideentry['Contact'];
+	  echo "<tr><td>" . $sideentry['SName'] . "<td>" . $sideentry['Type'] . "<td>" . $sideentry['SideStatus']. "<td>" . $sideentry['Contact'];
 	  echo "<td>" . $sideentry['Email'] . "<td>" . $sideentry['Phone'] . "<td>" . $sideentry['Mobile'];
 	  echo "<td>" . $sideentry['StagePA'] . "<td>" . $sideentry['Website'] . "<td>" . $sideentry['Photo']. "<td>" . $sideentry['Description'];
           echo "<td>" . $sideentry['Pre2017']. "<td>" . $sideentry['Notes'];
@@ -135,13 +135,13 @@
 	      $sideyearent['SideId'] = $snum;
 	      $sny = Insert_db('SideYear',$sideyearent);
 	      if ($sny == 0) {
-		echo "Side " . $stuff['Name'] . " failed to setup year info.<br>";
+		echo "Side " . $stuff['SName'] . " failed to setup year info.<br>";
 	      } else {
 		$Sy++;
 	      }
 	    }
 	  } else {
-	    echo "Side " . $stuff['Name'] . " failed to insert.<br>";
+	    echo "Side " . $stuff['SName'] . " failed to insert.<br>";
 	  }
         }
       }

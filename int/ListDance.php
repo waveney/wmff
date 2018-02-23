@@ -23,11 +23,11 @@
   echo "If you click on the email link, press control-V afterwards to paste the standard link into message.<p>";
   $col9 = $col8 = $col7 = '';
   $Types = Get_Dance_Types(1);
-  foreach ($Types as $i=>$ty) $Colour[strtolower($ty['Name'])] = $ty['Colour'];
+  foreach ($Types as $i=>$ty) $Colour[strtolower($ty['SName'])] = $ty['Colour'];
 
   if ($_GET{'SEL'} == 'ALL') {
     $flds = "s.*, y.Invite, y.Coming";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE s.IsASide=1 ORDER BY Name");
+    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE s.IsASide=1 ORDER BY SName");
     $col5 = "Invite";
     $col6 = "Coming";
     $col7 = "Wshp";
@@ -35,7 +35,7 @@
     $LastYear = $THISYEAR-1;
     $flds = "s.*, ly.Invite, ly.Coming, y.Invite, y.Invited, y.Coming";
     $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$THISYEAR " .
-			"LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE s.IsASide=1 AND s.SideStatus=0 ORDER BY Name");
+			"LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE s.IsASide=1 AND s.SideStatus=0 ORDER BY SName");
     $col5 = "Invited $LastYear";
     $col6 = "Coming $LastYear";
     $col7 = "Invite $THISYEAR";
@@ -43,7 +43,7 @@
     $col9 = "Coming $THISYEAR";
   } else if ($_GET{'SEL'} == 'Coming') {
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, SideYear as y WHERE s.IsASide=1 AND s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . 
-		$Coming_Type['Y'] . " ORDER BY Name");
+		$Coming_Type['Y'] . " ORDER BY SName");
     $col5 = "Fri";
     $col6 = "Sat";
     $col7 = "Sun";
@@ -51,7 +51,7 @@
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
     $SideQ = $db->query("SELECT $flds FROM Sides AS s, SideYear as y WHERE s.IsASide=1 AND s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . 
-		$Coming_Type['Y'] . " ORDER BY Name");
+		$Coming_Type['Y'] . " ORDER BY SName");
     $col5 = "Fri";
     $col6 = "Sat";
     $col7 = "Sun";
@@ -83,7 +83,7 @@
 
     while ($fetch = $SideQ->fetch_assoc()) {
 //      echo "<tr><td><a href=AddDance.php?sidenum=" . $fetch['SideId'] . ">" . $fetch['SideId'] . "</a>";
-      echo "<tr><td><a href=AddDance.php?sidenum=" . $fetch['SideId'] . ">" . $fetch['Name'] . "</a>";
+      echo "<tr><td><a href=AddDance.php?sidenum=" . $fetch['SideId'] . ">" . $fetch['SName'] . "</a>";
       if ($fetch['SideStatus']) {
 	echo "<td>DEAD";
       } else {
@@ -91,7 +91,7 @@
 	$colour = '';
 	foreach($Types as $T) {
 	  if ($T['Colour'] == '') continue;
-	  $lct = "/" . strtolower($T['Name']) . "/";
+	  $lct = "/" . strtolower($T['SName']) . "/";
 	  if (preg_match($lct,$ty)) {
 	    $colour = $T['Colour'];
 	    break;

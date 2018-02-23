@@ -28,7 +28,7 @@
   echo "</thead><tbody>";
   foreach($Locs as $t) {
     $i = $t['TLocId'];
-    echo "<tr><td>$i" . fm_text1("",$t,'Name',1,'','',"Name$i");
+    echo "<tr><td>$i" . fm_text1("",$t,'SName',1,'','',"SName$i");
     echo "<td>" . fm_select($Prefixes,$t,"prefix",0,'',"prefix$i");
     echo "<td>" . fm_checkbox('',$t,'HasPower','',"HasPower$i");
     echo fm_number1('',$t,'Pitches','','',"Pitches$i");
@@ -38,7 +38,7 @@
     echo fm_text1('',$t,'Notes',3,'','',"Notes$i");
     echo "\n";
   }
-  echo "<tr><td><td><input type=text name=Name0 >";
+  echo "<tr><td><td><input type=text name=SName0 >";
   echo "<td><input type=checkbox name=HasPower0>";
   echo "<td>" . fm_select2($Prefixes,0,'prefix0');
   echo "<td><input type=number name=Pitches0>";

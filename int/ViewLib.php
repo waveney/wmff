@@ -15,6 +15,7 @@ if ($read) { // Attempt to read rather than download
 
   switch (strtolower($sfx)) {
   case 'pdf':
+
     header('Content-Description: File Transfer');
     header('Content-Type: application/pdf');
     header("Content-Disposition: inline; filename='$base'");

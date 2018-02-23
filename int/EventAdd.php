@@ -43,7 +43,7 @@
         $se = $Event['SubEvent'];
 	$SubEvent = $Event;
 	for ($i=1;$i<5;$i++) { $SubEvent["Side$i"] = $SubEvent["Act$i"] = $SubEvent["Other$i"] = 0; };
-//	$SubEvent['Name'] = "";
+//	$SubEvent['SName'] = "";
 	if ($se == 0) {
 	  $Timeleft = timereal($Event['End'])-timereal($Event['Start'])-$slotsize;
 	  if ($Timeleft > 0) {
@@ -182,7 +182,7 @@
       }  
     } else { // New
       $proc = 1;
-      if (!isset($_POST['Name']) || strlen($_POST{'Name'}) < 2) { 
+      if (!isset($_POST['SName']) || strlen($_POST{'SName'}) < 2) { 
         echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
         $Event = $_POST;
 	$proc = 0;
@@ -233,7 +233,7 @@
       echo "<td>" . fm_checkbox('Family Event',$Event,'Family');
       echo "<td>" . fm_checkbox('Non Fest',$Event,'NonFest');
 
-      echo "<tr>" . fm_text('Name', $Event,'Name');
+      echo "<tr>" . fm_text('SName', $Event,'SName');
         echo "<td>Event Type:" . fm_select($Event_Types,$Event,'Type');
         $se = $Event['SubEvent'];
         if ($se == 0) { echo "<td>No Sub Events"; }

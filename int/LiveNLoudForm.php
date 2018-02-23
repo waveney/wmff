@@ -10,7 +10,7 @@
 
   if (isset($_POST['submit'])) {
     if (!isset($_POST['LnlCat']) || $_POST['LnlCat']<1) { echo "<p class=Err>Please select a competition category\n"; $err=1; };
-    if (strlen($_POST['Name']) < 2) { echo "<p class=Err>Please give your band's name\n"; $err=1; };
+    if (strlen($_POST['SName']) < 2) { echo "<p class=Err>Please give your band's name\n"; $err=1; };
     if (strlen($_POST['Style']) < 2) { echo "<p class=Err>Please give your band's music style\n"; $err=1; };
     if (!($_POST['TotalSize'] || strlen($_POST['Name1'])>6)) { echo "<p class=Err>Who is in the band?\n"; $err=1; };
     if (strlen($_POST['Contact']) < 6) { echo "<p class=Err>Please give the contact name\n"; $err=1; };
@@ -40,17 +40,17 @@
   echo "<form method=post action=LiveNLoudForm.php>";
   echo "<table border>\n";
   echo "<tr>" . fm_radio('Category',$lnlclasses,$_POST,"LnlCat",'',2) . "<td colspan=2>Choose the category of the majority of the members, in doubt select older\n";
-  echo "<tr>" . fm_text1("Band/Group/Act Name",$_POST,'Name',2);
+  echo "<tr>" . fm_text1("Band/Group/Act Name",$_POST,'SName',2);
   echo fm_text1('Style of Music',$_POST,'Style');
   echo "<tr><td colspan=2>Band/Act Members, or significant members of large groups\n";
   echo fm_text1("Total Size of Band/Act if more than 6",$_POST,'TotalSize',2);
   echo "<tr><td>Name<td>Instrument<td>Name<td>Instrument\n";
   for ($i=1;$i<=6;$i++) {
     echo (($i&1)?"<tr>":""); 
-    echo fm_text1($i,$_POST,"Name$i") . fm_text1('',$_POST,"Instr$i");
+    echo fm_text1($i,$_POST,"SName$i") . fm_text1('',$_POST,"Instr$i");
   }
   echo "<tr><td colspan=4>Main Contact:\n";
-  echo "<tr>" . fm_text('Name',$_POST,'Contact');
+  echo "<tr>" . fm_text('SName',$_POST,'Contact');
   echo "<tr>" . fm_text('Email',$_POST,'Email');
   echo "<tr>" . fm_text('Phone',$_POST,'Phone');
   echo "<tr>" . fm_text('Address',$_POST,'Address',4);

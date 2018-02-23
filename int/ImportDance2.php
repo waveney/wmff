@@ -35,7 +35,7 @@
 	  Put_Side($s);
 	  echo "Added location to $Name<br>\n";
 	} else {
-	  $s = array('Name'=>$Name,'Location'=>$Loc,'Type'=>'Appalachian','IsASide'=>1,'Website'=>$Web,'Notes'=>$Comments);
+	  $s = array('SName'=>$Name,'Location'=>$Loc,'Type'=>'Appalachian','IsASide'=>1,'Website'=>$Web,'Notes'=>$Comments);
 	  Insert_db('Sides',$s);
 	  echo "$Name is a new side<br>\n";
 	}

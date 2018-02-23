@@ -37,7 +37,7 @@ function Get_Music_Types($tup) {
   $res = $db->query("SELECT * FROM MusicTypes ORDER BY Importance DESC");
   if ($res) {
     while ($typ = $res->fetch_assoc()) {
-      $short[] = $typ['Name'];
+      $short[] = $typ['SName'];
       $full[$typ['TypeId']] = $typ;
     }
   }
@@ -66,7 +66,7 @@ function Put_Music_Type(&$now) {
 
 function Get_Band($act) {
   global $db;
-  $res = $db->query("SELECT * FROM BandMembers WHERE BandId=$act ORDER BY Name"); // May need to change order
+  $res = $db->query("SELECT * FROM BandMembers WHERE BandId=$act ORDER BY SName"); // May need to change order
   if ($res) {
     while($ev = $res->fetch_assoc()) $evs[] = $ev;
     if (isset($evs)) return $evs;
@@ -87,7 +87,7 @@ function Put_BandMember($memb) {
 }
 
 function Add_BandMember($bid,$name) {
-  $ar = array('BandId'=>$bid,'Name'=>$name);
+  $ar = array('BandId'=>$bid,'SName'=>$name);
   Insert_db('BandMembers',$ar);
 }
 
@@ -97,14 +97,14 @@ function UpdateBand($id) {
 // Updates
   $bi = 0;
   if ($CurBand) foreach ($CurBand as $b) {
-    if ($CurBand['Name'] != $_POST["BandMember$bi:" . $b['BandMemId']]) {
-      $b['Name'] = $_POST["BandMember$bi:" . $b['BandMemId']];
-      if ($b['Name']) {
+    if ($CurBand['SName'] != $_POST["BandMember$bi:" . $b['BandMemId']]) {
+      $b['SName'] = $_POST["BandMember$bi:" . $b['BandMemId']];
+      if ($b['SName']) {
         Put_BandMember($b);
       } else {
 	db_delete('BandMembers',$b['BandMemId']);
       }
-    } else if (!strlen($CurBand['Name'])) {
+    } else if (!strlen($CurBand['SName'])) {
 	db_delete('BandMembers',$b['BandMemId']);
     }
     $bi++;
@@ -207,12 +207,12 @@ function Select_Act_Come($type=0,$extra='') {
   static $Coming = array('');
   if ($Come_Loaded) return $Coming;
   $qry = "SELECT s.SideId, s.Name, s.Type FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
-	" AND s.IsAnAct=1 " . $extra . " ORDER BY s.Name";
+	" AND s.IsAnAct=1 " . $extra . " ORDER BY s.SName";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
       $x = ($type && $row['Type'])?( " ( " . $row['Type'] . " ) ") : "";
-      $Coming[$row['SideId']] = $row['Name'] . $x;
+      $Coming[$row['SideId']] = $row['SName'] . $x;
     }
   }
   $Come_Loaded = 1;
@@ -225,12 +225,12 @@ function Select_Other_Come($type=0,$extra='') {
   static $Coming = array('');
   if ($Come_Loaded) return $Coming;
   $qry = "SELECT s.SideId, s.Name, s.Type FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
-	" AND s.IsOther=1 " . $extra . " ORDER BY s.Name";
+	" AND s.IsOther=1 " . $extra . " ORDER BY s.SName";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
       $x = ($type && $row['Type'])?( " ( " . $row['Type'] . " ) ") : "";
-      $Coming[$row['SideId']] = $row['Name'] . $x;
+      $Coming[$row['SideId']] = $row['SName'] . $x;
     }
   }
   $Come_Loaded = 1;
@@ -240,7 +240,7 @@ function Select_Other_Come($type=0,$extra='') {
 function Select_Act_Come_Day($Day,$xtr='') { // This wont work - currently unused (I hope)
   global $db,$YEAR,$Coming_Type;
   $qry = "SELECT s.*, y.* FROM Sides s, ActYear y " .
-	 "WHERE s.SideId=y.SideId AND y.Year=$YEAR " . " AND y.$Day=1 $xtr ORDER BY s.Name";
+	 "WHERE s.SideId=y.SideId AND y.Year=$YEAR " . " AND y.$Day=1 $xtr ORDER BY s.SName";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
@@ -255,7 +255,7 @@ function &Select_Act_Come_All() {
   static $Come_Loaded = 0;
   static $Coming;
   if ($Coming) return $Coming;
-  $qry = "SELECT s.*, y.* FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR ORDER BY s.Name";
+  $qry = "SELECT s.*, y.* FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR ORDER BY s.SName";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
   return $Coming;
@@ -264,18 +264,18 @@ function &Select_Act_Come_All() {
 function &Act_All() {
   global $db;
   $All = array();
-  $qry = "SELECT SideId, Name FROM Sides s WHERE IsAnAct=1 ORDER BY Name";
+  $qry = "SELECT SideId, Name FROM Sides s WHERE IsAnAct=1 ORDER BY SName";
   $res = $db->query($qry);
-  if ($res) while ($row = $res->fetch_assoc()) $All[$row['SideId']] = $row['Name'];
+  if ($res) while ($row = $res->fetch_assoc()) $All[$row['SideId']] = $row['SName'];
   return $All;
 }
 
 function &Other_All() {
   global $db;
   $All = array();
-  $qry = "SELECT SideId, Name FROM Sides s WHERE IsOther=1 ORDER BY Name";
+  $qry = "SELECT SideId, Name FROM Sides s WHERE IsOther=1 ORDER BY SName";
   $res = $db->query($qry);
-  if ($res) while ($row = $res->fetch_assoc()) $All[$row['SideId']] = $row['Name'];
+  if ($res) while ($row = $res->fetch_assoc()) $All[$row['SideId']] = $row['SName'];
   return $All;
 }
 
@@ -498,9 +498,9 @@ function MusicMail($data,$name,$id,$direct) {
   }
   $Content = "$name,<p>";
   $Content .= "<span id=SideLink$id>Please use $direct</span> " .
-		"to add/correct details about " . $data['Name'] . "'s contact information, update social media links, " . 
+		"to add/correct details about " . $data['SName'] . "'s contact information, update social media links, " . 
 		"and information about you that appears on the festival website.<p>  $Msg";
-  $Content .= "Regards " . $USER['Name'] . "<p>\n" ;
+  $Content .= "Regards " . $USER['SName'] . "<p>\n" ;
   if ($AddC) $Content .= "<div id=SideProg$id>" . Show_Contract($id,$p) . "</div><p>\n";
 
   return urlencode($Content);

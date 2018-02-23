@@ -34,7 +34,7 @@
       $_POST{'Year'} = $YEAR;
       $ynum = Insert_db_post('General',$Gen);
     }
-  } elseif ($_GET{'yearnum'}) {
+  } elseif (isset($_GET{'yearnum'})) {
     $ynum = $_GET{'yearnum'};
     $Gen = Get_General($ynum);
   } elseif (isset($_GET{'Create'})) {

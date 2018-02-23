@@ -38,7 +38,7 @@
   echo "</thead><tbody>";
   if ($News) foreach($News as $t) {
     $i = $t['id'];
-    echo "<tr><td>$i<br><a href=NewsEdit.php?n=$i>Edit</a>" . fm_text1("",$t,'Name',1,'','',"Name$i");
+    echo "<tr><td>$i<br><a href=NewsEdit.php?n=$i>Edit</a>" . fm_text1("",$t,'SName',1,'','',"SName$i");
     echo "<td>" . fm_textinput("created$i",date('j M Y G:i',$t['created']));
     echo "<td>" . fm_checkbox("",$t,'display','',"display$i");
     echo "<td>" . fm_basictextarea($t,'content',3,3,'',"content$i");
@@ -59,7 +59,7 @@
   echo "<td><textarea name=content0 rows=3 cols=60></textarea>";
   echo "<td><input type=text name=image0>";
   echo "<td><input type=text name=caption0>";
-  echo "<td><input type=text size=10 name=author0 value =" . firstword($USER['Name']) . ">";
+  echo "<td><input type=text size=10 name=author0 value =" . firstword($USER['SName']) . ">";
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";

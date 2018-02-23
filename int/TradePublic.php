@@ -13,7 +13,7 @@ function Trade_Type_Table($class='') {
 
   foreach ($tts as $tt) {
     if ($tt['Addition']) continue;
-    echo "<tr><td>" . $tt['Name'];
+    echo "<tr><td>" . $tt['SName'];
     echo "<td>" . $tt['Description'];
     echo "<td>&pound;" . $tt['BasePrice'];
     if ($tt['PerDay']) echo " per day";
@@ -22,7 +22,7 @@ function Trade_Type_Table($class='') {
 
   foreach ($tts as $tt) {
     if (!$tt['Addition']) continue;
-    echo "In addition, " . $tt['Name'] . " is available at some locations from &pound;" . $tt['BasePrice'] . "<p>\n";
+    echo "In addition, " . $tt['SName'] . " is available at some locations from &pound;" . $tt['BasePrice'] . "<p>\n";
   }
 
 }

@@ -51,14 +51,14 @@
   echo "</thead><tbody>";
   foreach($Camps as $t) {
     $i = $t['id'];
-    echo "<tr><td>$i" . fm_text1("",$t,'Name',1,'','',"Name$i");
+    echo "<tr><td>$i" . fm_text1("",$t,'SName',1,'','',"SName$i");
     echo fm_number1('',$t,'Number','','',"Number$i");
     echo fm_text1('',$t,'Who',1,'','',"Who$i");
     echo fm_number1('',$t,'Priority','','',"Priority$i");
     echo fm_text1('',$t,'Notes',3,'','',"Notes$i");
     echo "\n";
   }
-  echo "<tr><td><td><input type=text name=Name0 >";
+  echo "<tr><td><td><input type=text name=SName0 >";
   echo "<td><input type=number name=Number0>";
   echo "<td><input type=text name=Who0 value=" . $USER['Login'] . ">";
   echo "<td><input type=number name=Priority0>";

@@ -23,11 +23,11 @@
   echo "<form method=post action=DanceTypes.php>";
   echo "<table border><tr><td>id<td>Name<td>Importance<td>Colour\n";
   foreach($Types as $i=>$t) {
-    echo "<tr><td>$i<td><input type=text name=Name$i value='" . $t['Name'] . "'>";
+    echo "<tr><td>$i<td><input type=text name=SName$i value='" . $t['SName'] . "'>";
     echo "<td><input type=text name=Importance$i value='" . $t['Importance'] . "'>\n";
     echo "<td><input type=text name=Colour$i value='" . $t['Colour'] . "'>\n";
   }
-  echo "<tr><td><td><input type=text name=Name0 >";
+  echo "<tr><td><td><input type=text name=SName0 >";
   echo "<td><input type=text name=Importance0>\n";
   echo "<td><input type=text name=Colour0>\n";
   echo "</table>";

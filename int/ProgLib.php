@@ -19,7 +19,7 @@ include_once("DateTime.php");
 function Set_Venue_Help() {
   static $t = array(
  	'ShortName'=>'Short name eg Cornmarket - OPTIONAL',
-	'Name'=>'Full name eg Daccombe International Stage',
+	'SName'=>'Full name eg Daccombe International Stage',
 	'DanceImportance'=>'Higher numbers get listed first',
 	'Description'=>'Sent to particpants so they know what to expect and where it is',
 	'GoogleMap'=>'Link for partipants to know exactly where to go',
@@ -44,7 +44,7 @@ function Get_Venues($type=0,$extra='') { //0 = short, 1 = full
   global $db;
   static $short,$full;
   if (!$short) {
-    $res = $db->query("SELECT * FROM Venues $extra ORDER BY Name");
+    $res = $db->query("SELECT * FROM Venues $extra ORDER BY SName");
     if ($res) {
       while ($Ven = $res->fetch_assoc()) {
         $i = $Ven['VenueId']; 
@@ -104,7 +104,7 @@ function Set_Event_Help() {
  	'Start'=>'Use 24hr clock for all times eg 1030, 1330',
 	'Sides'=>'Do not use this tool for dance programming use the tool under Dance, once the events have been created',
 	'Acts'=>'I hope to do something better eventually - Richard',
-	'Name'=>'Needed for now, need not be unique',
+	'SName'=>'Needed for now, need not be unique',
 	'Description'=>'Brief description of event for website and programme book, max 150 chars',
 	'Blurb'=>'Longer blurb if wanted, that will follow the description when this particular events is being looked at online',
 	'Setup'=>'IF the event has setup prior to the start time, set it here in minutes to block out the venue',
@@ -137,9 +137,9 @@ function Get_Event($eid,$new=0) {
   return 0; 
 }
 
-function Get_Event_VT($v,$t) {
+function Get_Event_VT($v,$t,$d) {
   global $db,$YEAR;
-  $res=$db->query("SELECT * FROM Events WHERE Year=$YEAR AND Venue=$v AND Start=$t");
+  $res=$db->query("SELECT * FROM Events WHERE Year=$YEAR AND Venue=$v AND Start=$t AND Day=$d");
   if ($res) return $res->fetch_assoc();
 }
 
@@ -242,7 +242,7 @@ $Event_Types_Full = array();
 function Event_Types_ReRead() {
   global $db, $Event_Types_Full;
   $Event_Types_Full = array();
-  $res = $db->query("SELECT * FROM EventTypes ORDER BY Name ");
+  $res = $db->query("SELECT * FROM EventTypes ORDER BY SName ");
   if ($res) while ($typ = $res->fetch_assoc()) $Event_Types_Full[$typ['ETypeNo']] = $typ;
   return $Event_Types_Full;
 }
@@ -253,7 +253,7 @@ function Get_Event_Types($tup=0) { // 0 just names, 1 all data
   global $Event_Types_Full;
   if ($tup) return $Event_Types_Full;
   $ans = array();
-  foreach($Event_Types_Full as $t=>$et) $ans[$t] = $et['Name'];
+  foreach($Event_Types_Full as $t=>$et) $ans[$t] = $et['SName'];
   return $ans;
 }
 
@@ -323,7 +323,7 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1) {
 	    }
 	  }
 	}
-	$ans .= NoBreak($thing['Name']);
+	$ans .= NoBreak($thing['SName']);
 	if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
         if ($link) $ans .= "</a>";
        }
@@ -376,7 +376,7 @@ function Price_Show(&$Ev) {
 }
 
 function VenName(&$V) {
-  return ($V['ShortName']?$V['ShortName']:$V['Name']);
+  return ($V['ShortName']?$V['ShortName']:$V['SName']);
 }
 
 function DayTable($d,$Types,$xtr='') {

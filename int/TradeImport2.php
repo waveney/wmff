@@ -41,12 +41,12 @@
 	if ($orec['Previous'] == 0) {
 	  $orec['Previous'] = 1;
 	  Put_Trader($orec);
-	  echo "Updated " . $orec['Name'] . "<br>";
+	  echo "Updated " . $orec['SName'] . "<br>";
 	} else {
 	  echo "Trader " . $stuff['Activity Type'] . " already in database.<br>";
 	}
       } else {
-	$rec['Name'] = $stuff['Activity Type'];
+	$rec['SName'] = $stuff['Activity Type'];
 	$rec['Contact'] = $stuff['Contact Name'];
 	$rec['Email'] = $stuff['Email address'];
         if (preg_match('/^07/',$stuff['Contact No.'])) {
@@ -66,12 +66,12 @@
         if (!$TestOnly) $TYid = Insert_db('TradeYear',$yr);
 
 /*
-echo $rec['Name'] . " ";
+echo $rec['SName'] . " ";
 var_dump($rec);
 var_dump($yr);
 echo "<p>";
 */
-      if (!$TestOnly) echo "Added " . $rec['Name'] . "<br>";
+      if (!$TestOnly) echo "Added " . $rec['SName'] . "<br>";
       }
     } else {
       if ($stuff['Activity Type'] == 'Food') $Ttype = 2;

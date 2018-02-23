@@ -14,7 +14,7 @@
   echo "To have text by an icon, set the Text Size.  For text without marker create a text type entry.<p>\n";
   
   $Types = Get_Map_Point_Types();
-  foreach ($Types as $t) $Icons[] = $t['Name'];
+  foreach ($Types as $t) $Icons[] = $t['SName'];
   array_unshift($Icons,"");
   $Pts = Get_Map_Points(1);
   if (UpdateMany('MapPoints','Put_Map_Point',$Pts,1)) {
@@ -41,7 +41,7 @@
   echo "</thead><tbody>";
   foreach($Pts as $t) {
     $i = $t['id'];
-    echo "<tr><td>$i" . fm_text1("",$t,'Name',1,'','',"Name$i");
+    echo "<tr><td>$i" . fm_text1("",$t,'SName',1,'','',"SName$i");
     echo "<td>" . fm_select($Icons,$t,'Type',0,'',"Type$i");
     echo fm_text1("",$t,'Lat',1,'','',"Lat$i");
     echo fm_text1("",$t,'Lng',1,'','',"Lng$i");
@@ -54,7 +54,7 @@
   }
 
   $t = array();
-  echo "<tr><td>" . fm_text1("",$t,'Name',1,'','',"Name0");
+  echo "<tr><td>" . fm_text1("",$t,'SName',1,'','',"SName0");
   echo "<td>" . fm_select2($Icons,$t,'Type',0,'',"Type0");
   echo fm_text1("",$t,'Lat',1,'','',"Lat0");
   echo fm_text1("",$t,'Lng',1,'','',"Lng0");

@@ -35,7 +35,7 @@
       }
     } else { /* New  */
       $proc = 1;
-      if (!isset($_POST['Name'])) {
+      if (!isset($_POST['SName'])) {
 	echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
 	$proc = 0;
       }
@@ -67,7 +67,7 @@
   echo '<form method=post action="AddOthers.php">';
   echo "<table width=90% border class=SideTable>\n";
     echo "<tr><th colspan=8><b>Public Information</b>";
-    echo "<tr>" . fm_text('Name', $Other,'Name',3,'','autocomplete=off');
+    echo "<tr>" . fm_text('SName', $Other,'SName',3,'','autocomplete=off');
       echo fm_text('Short Name', $Other,'ShortName') . "\n";
       echo fm_text('Type', $Other,'Type') . "\n";
 

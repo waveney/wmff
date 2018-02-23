@@ -29,12 +29,12 @@
   $email = Clean_Email($email);
   $key = $data['AccessKey'];
   if (isset($data[$xtr .'Contact'])) { $name = firstword($data[$xtr .'Contact']); }
-  else { $name = $data['Name']; }
+  else { $name = $data['SName']; }
 
   $ProgInfo = Show_Prog($t,$id);
 
   $link = "mailto:$email?from='" . $USER['Email'] .
-	 "'&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['Name']);
+	 "'&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SName']);
 
   $paste = 
          "$name,<p>PUT MESSAGE HERE<p>$ProgInfo<p>" .
@@ -42,7 +42,7 @@
 		"provide descriptions for our website and programme, photos and videos and " .
 	 	"give more precise information and see the most up to date programming by following " .
 	 	"<a href=http://wimbornefolk.co.uk/int/Direct.php?t=$type&id=$id&key=$key>this link</a>.<p>  " .
-	 	"Regards " . $USER['Name'] . "<p>" ;
+	 	"Regards " . $USER['SName'] . "<p>" ;
 
   echo json_encode(array('link' => $link,'paste' => $paste));
 
