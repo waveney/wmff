@@ -25,13 +25,13 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>May 1</a>\n";
   echo "</thead><tbody>";
 
-  $res=$db->query("SELECT * FROM SignUp WHERE Year=$THISYEAR AND State<2 AND Activity=5 ORDER BY Name");
+  $res=$db->query("SELECT * FROM SignUp WHERE Year=$THISYEAR AND State<2 AND Activity=5 ORDER BY SName");
   
   if ($res) {
     while ($lol = $res->fetch_assoc()) {
       $id = $lol['id'];
       echo "<tr><td>$id";
-      echo "<td>" . $lol['Name'];
+      echo "<td>" . $lol['SName'];
       echo "<td>" . $lol['Contact'];
       echo "<td>" . $lol['Email'];
       echo "<td>" . $lol['Style'];

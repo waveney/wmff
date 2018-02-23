@@ -2,6 +2,7 @@
 
 function Get_All_News($nid=0,$lim=50,$fut=0) { // 0 - Current, 1 = all, if current wont give those in future
   global $db;
+  $news = array();
   $now = time();
   $xtra = '';
   if ($nid==0 || $fut==0) $xtra .= " WHERE ";
@@ -28,7 +29,7 @@ function Put_News(&$now) {
 
 function News_List_Item(&$news) {
   $getid = $news['id'];
-  $gettitle = $news['Name'];
+  $gettitle = $news['SName'];
   $getdate = date('j M Y', $news['created']);
   echo "<p style=margin-bottom:10px;>$getdate | <a class=shonar href=/news/?id=$getid rel=bookmark style=color:#FFFFFF;><strong>$gettitle</strong></a></p>";  
 }
@@ -56,7 +57,7 @@ function News_Item(&$news,$tlim=500,$more=0,$class='newsimg') { // if tlim=0 all
     if ($news['caption']) echo "<br>" . $news['caption'];
     echo "</div>";
   }
-  echo "<h2 class=subtitle><a href=/int/newsitem.php?id=$getid rel=bookmark>" . $news['Name'] . "</a></h2>\n";
+  echo "<h2 class=subtitle><a href=/int/newsitem.php?id=$getid rel=bookmark>" . $news['SName'] . "</a></h2>\n";
   echo "<span class=newsdate>$getdate by $getauthor</span><p>\n";
   echo "<span class=newstext>$getcontent</span>\n";
 

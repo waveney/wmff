@@ -16,7 +16,7 @@
 
   $emails = Get_Emails('Dance');
 
-  SendEmail($emails,$Side['Name'] . " request invite",$Side['Name'] . " request an invite for $YEAR");
+  SendEmail($emails,$Side['SName'] . " request invite",$Side['SName'] . " request an invite for $YEAR");
 
   Show_Side($_GET{'sidenum'});
 ?>

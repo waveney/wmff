@@ -41,14 +41,14 @@
     } else { // New
       $proc = 1;
       $_POST['Created'] = time();
-      if (!isset($_POST['Name'])  || strlen($_POST['Name']) < 2) { // 
+      if (!isset($_POST['SName'])  || strlen($_POST['SName']) < 2) { // 
         echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
 	$proc = 0;
       }
       $b = Insert_db_post('Bugs',$Bug,$proc); 
     }
     if (!$USER['Bugs'] && $ReportSevs[$Bug['Severity']] && !file_exists('testing')) {
-      SendEmail(Get_Emails('Bugs'),"WMFF Bug report by " .$USER['Name'],json_encode($Bug));
+      SendEmail(Get_Emails('Bugs'),"WMFF Bug report by " .$USER['SName'],json_encode($Bug));
     }
   } elseif (isset($_GET{'b'})) {
     $b = $_GET{'b'};
@@ -72,7 +72,7 @@
       } else {
         echo fm_hidden('BugId',-1);
       }
-      echo fm_text('Title',$Bug,'Name',2,'','placeholder="Please give bug a short name"');
+      echo fm_text('Title',$Bug,'SName',2,'','placeholder="Please give bug a short name"');
       echo  "<td>Severity:" . fm_select($Severities, $Bug,'Severity');
       echo "<td>State:" . fm_select($Bug_Status,$Bug,'State');
       echo "<tr><td>Raised by:<td>" . fm_select($AllActive,$Bug,'Who'); 

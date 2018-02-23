@@ -19,7 +19,7 @@
   echo "<h2 class=subtitle>Steward / Volunteer Application Form</h2>\n";
   echo "<form method=post action=ViewStew.php>";
   echo "<table border>\n";
-  echo "<tr>" . fm_text('Name',$stew,'Name',2);
+  echo "<tr>" . fm_text('SName',$stew,'SName',2);
   echo fm_hidden('id',$id);
   echo "<tr>" . fm_text('Email',$stew,'Email',2);
   echo "<tr>" . fm_text('Phone(s)',$stew,'Phone',2);

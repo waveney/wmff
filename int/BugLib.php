@@ -8,7 +8,7 @@ foreach ($Bug_Status as $level=>$text) { $Bug_Type[$text] = $level; };
 
 function Set_Bug_Help() {
   static $t = array(
- 	'Name'=>'Short title for bug/Feature'
+ 	'SName'=>'Short title for bug/Feature'
   );
   Set_Help_Table($t);
 }

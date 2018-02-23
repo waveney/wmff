@@ -22,7 +22,7 @@
 
   echo "If you click on the email link, press control-V afterwards to paste the standard link into message.<p>";
 
-  $qry = "SELECT y.*, t.* FROM Trade AS t LEFT JOIN TradeYear AS y ON t.Tid = y.Tid AND y.Year=$YEAR ORDER BY Name";
+  $qry = "SELECT y.*, t.* FROM Trade AS t LEFT JOIN TradeYear AS y ON t.Tid = y.Tid AND y.Year=$YEAR ORDER BY SName";
   $res = $db->query($qry);
   $Trade_Types = Get_Trade_Types(1);
 
@@ -45,8 +45,8 @@
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Before</a>\n";
     echo "</thead><tbody>";
     while ($fetch = $res->fetch_assoc()) {
-      echo "<tr><td width=300><a href=Trade.php?id=" . $fetch['Tid'] . ">" . ($fetch['Name']?$fetch['Name']:'No Name Given') . "</a>";
-      echo "<td style='background:" . $Trade_Types[$fetch['TradeType']]['Colour'] . ";'>" . $Trade_Types[$fetch['TradeType']]['Name'];
+      echo "<tr><td width=300><a href=Trade.php?id=" . $fetch['Tid'] . ">" . ($fetch['SName']?$fetch['SName']:'No Name Given') . "</a>";
+      echo "<td style='background:" . $Trade_Types[$fetch['TradeType']]['Colour'] . ";'>" . $Trade_Types[$fetch['TradeType']]['SName'];
       echo "<td width=400>" . $fetch['GoodsDesc'];
       echo "<td>" . $fetch['Contact'];
       echo "<td>" . linkemailhtml($fetch,'Trade');

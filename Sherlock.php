@@ -13,7 +13,7 @@
   $Vens = Get_Venues(1);
 
   $Ett = -1;
-  foreach($Ets as $eti=>$et) if ($et['Name'] == $Type) $Ett = $eti;
+  foreach($Ets as $eti=>$et) if ($et['SName'] == $Type) $Ett = $eti;
   $Evs = array();
   $Complete = 0;
 
@@ -62,8 +62,8 @@
       echo "<tr>";
       echo "<td>" . $DayList[$E['Day']] . " " . ($MASTER['DateFri']+$E['Day']) ."th June $YEAR" . "<br>";
         echo "From: " . timecolon($E['Start']) . " to " . timecolon($E['End']);
-      echo "<td><strong><a href=/int/EventShow.php?e=$eid>" . $E['Name'] . "</a></strong>"; 
-      echo "<td><a href=/int/VenueShow.php?v=" . $E['Venue'] . ">" . $Vens[$E['Venue']]['Name'] . "</a>";
+      echo "<td><strong><a href=/int/EventShow.php?e=$eid>" . $E['SName'] . "</a></strong>"; 
+      echo "<td><a href=/int/VenueShow.php?v=" . $E['Venue'] . ">" . $Vens[$E['Venue']]['SName'] . "</a>";
       echo "<td>";
         if ($E['Description']) echo $E['Description'] . "<p>";
         echo "With: " . Get_Event_Participants($eid,1,15);

@@ -3,7 +3,7 @@
 // Will be replaced by direct handling like dance for 2018
 
 function OldMunge(&$stuff) { // Convert from James's Event database to form used for main workings
-  $EventTranslate = array('app'=>'App','title'=>'Name','link1'=>'Website','facebook'=>'Facebook','twitter'=>'Twitter','instagram'=>'Instagram',
+  $EventTranslate = array('app'=>'App','title'=>'SName','link1'=>'Website','facebook'=>'Facebook','twitter'=>'Twitter','instagram'=>'Instagram',
 		'youtube'=>'Video','description'=>'Blurb');
 
   $fluf['id'] = $stuff['id'];

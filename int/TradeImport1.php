@@ -44,8 +44,8 @@ function PostCode($txt) {
       $rec['TradeType'] = $TradType['National Charity'];
     }
 
-    $rec['Name'] = $tr['business'];
-    if ($rec['Name'] == '') $rec['Name'] = $tr['contactname'];
+    $rec['SName'] = $tr['business'];
+    if ($rec['SName'] == '') $rec['SName'] = $tr['contactname'];
     $rec['Contact'] = $tr['contactname'];
     $rec['Email'] = $tr['email'];
     $rec['GoodsDesc'] = $tr['products'];
@@ -58,7 +58,7 @@ function PostCode($txt) {
     $rec['BID'] = (strtolower($tr['bidlevy']) == 'yes'?1:0);    
     $rec['ChamberTrade'] = (strtolower($tr['chamber']) == 'yes'?1:0);    
     $rec['Previous'] = (((strtolower($tr['festivaltrader']) == 'yes') || ($tr['status'] == 'paid'))?1:0);
-    $rec['Address'] = MungeAddress($tr['invoiceaddress'],($rec['Name']=='Chilled'?1:0));
+    $rec['Address'] = MungeAddress($tr['invoiceaddress'],($rec['SName']=='Chilled'?1:0));
     $rec['PostCode'] = PostCode($tr['invoiceaddress']);
     $rec['PublicHealth'] = $tr['health'];
     
@@ -74,12 +74,12 @@ function PostCode($txt) {
     $TYid = Insert_db('TradeYear',$yr);
 
 /*
-echo $rec['Name'] . " ";
+echo $rec['SName'] . " ";
 var_dump($rec);
 var_dump($yr);
 echo "<p>";
 */
-    echo "Added " . $rec['Name'] . "<br>";
+    echo "Added " . $rec['SName'] . "<br>";
 
   }
 

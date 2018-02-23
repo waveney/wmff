@@ -36,7 +36,7 @@
   echo "</thead><tbody>";
   foreach($Pros as $t) {
     $i = $t['id'];
-    echo "<tr><td>$i" . fm_text1("",$t,'Name',1,'','',"Name$i");
+    echo "<tr><td>$i" . fm_text1("",$t,'SName',1,'','',"SName$i");
     echo "<td>" . fm_basictextarea($t,'Body',6,8,'',"Body$i");
     echo "\n";
   }

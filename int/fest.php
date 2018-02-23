@@ -413,7 +413,7 @@ function Report_Log($roll) {
       switch ($USER{'Subtype'}) {
       case 'Side':
         $Side = Get_Side($USERID);
-        $who = $Side['Name'];
+        $who = $Side['SName'];
         break;
       default :
         return;
@@ -630,20 +630,20 @@ function linkemail(&$data,$type="Side",$xtr='') {
   $email = Clean_Email($email);
   $key = $data['AccessKey'];
   if (isset($data['Contact'])) { $name = firstword($data['Contact']); }
-  else { $name = $data['Name']; }
+  else { $name = $data['SName']; }
   if ($type="Side") { $id = $data['SideId']; }
   else { $id = $data = $data['ActId']; };
 
   $ProgInfo = Show_Prog($type,$id);
 
   $lnk = "<a href=mailto:$email?from=" . $USER['Email'] .
-	 "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['Name']) . 
+	 "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SName']) . 
          "&body=" . urlencode("$name,\n\n" .
 	 	"You can check your programme times and update your side details at any time by visiting " .
 	 	"<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=$type&id=$id&key=$key>this link</a>.  " .
 		$ProgInfo . "\n\n" .
 		"PUT MESSAGE HERE\n\n" .
-	 	"\n\nRegards " . $USER['Name'] . "\n\n") .
+	 	"\n\nRegards " . $USER['SName'] . "\n\n") .
 	 ">Email</a>";
   return $lnk;
 }
@@ -664,20 +664,20 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
       $email = $data['AgentEmail'];
       $xtr = 'Agent';
       if (isset($data['AgentName'])) { $name = firstword($data['AgentName']); }
-      else { $name = $data['Name']; }
+      else { $name = $data['SName']; }
     } else if ($xtr == '!!') {
       if (!isset($data["Email"])) return "";
       $email = $data['Email'];
       $xtr = '';
       $Label = 'Direct ';
       if (isset($data[$xtr .'Contact'])) { $name = firstword($data[$xtr .'Contact']); }
-      else { $name = $data['Name']; }
+      else { $name = $data['SName']; }
     } else {
       if (!isset($data[$xtr . "Email"])) return "";
       $email = $data[$xtr . 'Email'];
       $Label = $xtr;
       if (isset($data[$xtr .'Contact'])) { $name = firstword($data[$xtr .'Contact']); }
-      else { $name = $data['Name']; }
+      else { $name = $data['SName']; }
     }
   } else {
     if ($xtr == '!!') $xtr = '';
@@ -685,7 +685,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
     $email = $data[$xtr . 'Email'];
     $Label = $xtr;
     if (isset($data[$xtr .'Contact'])) { $name = firstword($data[$xtr .'Contact']); }
-    else { $name = $data['Name']; }
+    else { $name = $data['SName']; }
   }
   if ($email == '') return "";
   $email = Clean_Email($email);
@@ -697,7 +697,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
   }
 
   $link = "'mailto:$email?from=" . $USER['Email'] .
-	 "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['Name']) . "'";
+	 "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SName']) . "'";
   $direct = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=$type&id=$id&key=$key>this link</a>  " ;
 
 // ONLY DANCE AT THE MOMENT...
@@ -713,7 +713,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
 		"(You'll also be able to view your programme times, once we've done the programme)<p>" .
 		"<div id=SideProg$id>$ProgInfo</div><p>" .
 		"PUT MESSAGE HERE<p>" .
-	 	"Regards " . $USER['Name'] . "<p>"); 
+	 	"Regards " . $USER['SName'] . "<p>"); 
       break;
 
     case 'Act':
@@ -731,7 +731,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
 		"update your Insurance and Risc Assessment etc. by visiting $direct.</div><p>" .
 		"Details of your pitch location, general trader information and particulars of setup and cleardown information will also appear there.<p>" .
 		"PUT MESSAGE HERE<p>" .
-	 	"Regards " . $USER['Name'] . "<p>" 
+	 	"Regards " . $USER['SName'] . "<p>" 
 		); 
       break;
 
@@ -739,7 +739,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
     default:
       $Content = urlencode("$name,<p>" .
 		"PUT MESSAGE HERE<p>" .
-	 	"Regards " . $USER['Name'] . "<p>"); 
+	 	"Regards " . $USER['SName'] . "<p>"); 
       break;
   }
 
@@ -850,14 +850,14 @@ function firstword($stuff) {
 
 function SAO_Report($i) {
   $OSide = Get_Side( $i ); 
-  $str = $OSide['Name'];
+  $str = $OSide['SName'];
   if ($OSide['Type']) $str .= " ( " . trim($OSide['Type']) . " )";
   return $str;
 }
 
 function SName(&$What) {
   if (isset($What['ShortName'])) if ($What['ShortName']) return $What['ShortName'];
-  return $What['Name'];
+  return $What['SName'];
 }
 
 function Social_Link(&$data,$site,$mode=0) { // mode:0 Return Site as text, mode 1: return blank/icon
@@ -923,7 +923,7 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
 	      }
 	    }
 	    $str .= "<tr><td>" . $DayList[$e['Day']] . "<td>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
-			"<td><a href=$host/int/EventShow.php?e=" . $e['EventId'] . ">" . $e['Name'] . "</a><td>";
+			"<td><a href=$host/int/EventShow.php?e=" . $e['EventId'] . ">" . $e['SName'] . "</a><td>";
 	    if ($VenC) $str .= " starting from ";
 	    $str .= "<a href=$host/int/VenueShow.php?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) ;
 	    $str .= "</a><td>";
@@ -933,7 +933,7 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
 	    $str .= "\n";
 	  } else { // Normal Event
 	    $str .= "<tr><td>" . $DayList[$e['Day']] . "<td>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
-			"<td><a href=$host/int/EventShow.php?e=" . $e['EventId'] . ">" . $e['Name'] . 
+			"<td><a href=$host/int/EventShow.php?e=" . $e['EventId'] . ">" . $e['SName'] . 
 			"</a><td><a href=$host/int/VenueShow.php?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a>";
 	    if ($With) {
 	      $str .= "<td>";
@@ -963,7 +963,7 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
         $Thing = Get_Side($id);
 	$Desc = ($Worst > 2)?"":'Current ';
 	if ($With) $str = "<td>With\n" . $str;
-        $str = "<h2>$Desc Programme for " . $Thing['Name'] . ":</h2>\n" .  "<table border><tr><td>Day<td>time<td>Event<td>Venue" . $str;
+        $str = "<h2>$Desc Programme for " . $Thing['SName'] . ":</h2>\n" .  "<table border><tr><td>Day<td>time<td>Event<td>Venue" . $str;
       }
     }
     if ($evc) {

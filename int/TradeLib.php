@@ -31,7 +31,7 @@ $Prefixes = array ('in','in the','by the');
 
 function Get_Email_Proformas() { 
   global $db;
-  $res = $db->query("SELECT * FROM EmailProformas ORDER BY Name ");
+  $res = $db->query("SELECT * FROM EmailProformas ORDER BY SName ");
   if ($res) {
     while ($typ = $res->fetch_assoc()) $full[$typ['id']] = $typ;
   }
@@ -43,7 +43,7 @@ function Get_Email_Proforma($id) {
   if (is_numeric($id)) {
     $res=$db->query("SELECT * FROM EmailProformas WHERE id=$id");
   } else {
-    $res=$db->query("SELECT * FROM EmailProformas WHERE Name='$id'");
+    $res=$db->query("SELECT * FROM EmailProformas WHERE SName='$id'");
   }
   if ($res) {
     $ans = $res->fetch_assoc();
@@ -60,10 +60,10 @@ function Put_Email_Proforma(&$now) {
 
 function Get_Trade_Locs($tup=0) { // 0 just names, 1 all data
   global $db;
-  $res = $db->query("SELECT * FROM TradeLocs ORDER BY Name ");
+  $res = $db->query("SELECT * FROM TradeLocs ORDER BY SName ");
   if ($res) {
     while ($typ = $res->fetch_assoc()) {
-      $short[$typ['TLocId']] = $typ['Name'];
+      $short[$typ['TLocId']] = $typ['SName'];
       $full[$typ['TLocId']] = $typ;
     }
   }
@@ -95,7 +95,7 @@ function Get_Trade_Types($tup=0) { // 0 just base names, 1 all data
     if ($res) while ($tt = $res->fetch_assoc()) $full[$tt['id']] = $tt;
   } else {
     $res = $db->query("SELECT * FROM TradePrices WHERE Addition=0 ORDER BY ListOrder");
-    if ($res) while ($tt = $res->fetch_assoc()) $full[$tt['id']] = $tt['Name'];
+    if ($res) while ($tt = $res->fetch_assoc()) $full[$tt['id']] = $tt['SName'];
   }
   return $full;
 }
@@ -121,11 +121,11 @@ function Get_Sponsors($tup=0) { // 0 Current, 1 all data
   global $db,$THISYEAR;
   $full = array();
   $yr = ($tup ?"" :" WHERE Year=$THISYEAR ");
-  $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY Name ");
+  $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY SName ");
   if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   if ($tup==0 && empty($full)) {
     $yr = " WHERE Year=" . ($THISYEAR-1);
-    $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY Name ");
+    $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY SName ");
     if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   }
   return $full;
@@ -133,7 +133,7 @@ function Get_Sponsors($tup=0) { // 0 Current, 1 all data
 
 function Get_Sponsor_Names() {
   $data = Get_Sponsors();
-  foreach ($data as $i=>$sp) $ans[$sp['id']]=$sp['Name'];
+  foreach ($data as $i=>$sp) $ans[$sp['id']]=$sp['SName'];
   return $ans;
 }
 
@@ -161,7 +161,7 @@ function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='') {
   if (isset($_POST{'Update'})) {
     if ($data) foreach($data as $t) {
       $i = $t[$indxname];
-      if (isset($_POST["Name$i"]) && $_POST["Name$i"] == '') {
+      if (isset($_POST["SName$i"]) && $_POST["SName$i"] == '') {
 	if ($Deletes) {
   	  db_delete($table,$t[$indxname]);
 	  return 1;
@@ -213,11 +213,11 @@ function Get_Traders_Coming($type=0) { // 0=names, 1=all
   global $db,$YEAR,$Trade_State;
   $data = array();
   $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Deposit Paid'] .
-		" ORDER BY Name";
+		" ORDER BY SName";
   $res = $db->query($qry);
   if (!$res || $res->num_rows == 0) return 0;
   while ($tr=$res->fetch_assoc()) {
-    $data[$tr['Tid']] = ($type?$tr:$tr['Name']);
+    $data[$tr['Tid']] = ($type?$tr:$tr['SName']);
   }
   return $data;
 }
@@ -309,7 +309,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
   echo "<form method=post id=mainform enctype='multipart/form-data' action=$Form>";
   echo "<table width=90% border class=SideTable>\n";
     echo "<tr><th colspan=8><b>Public Information</b>" . Help('PublicInfo');
-    echo "<tr>" . fm_text('Business Name', $Trad,'Name',2,'','autocomplete=off onchange=nameedit(event) oninput=nameedit(event) id=Name');
+    echo "<tr>" . fm_text('Business Name', $Trad,'SName',2,'','autocomplete=off onchange=nameedit(event) oninput=nameedit(event) id=Name');
     echo "<tr>";
       if (isset($Trad['Website']) && strlen($Trad['Website'])>1) {
 	echo fm_text(weblink($Trad['Website']),$Trad,'Website');
@@ -335,7 +335,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
       echo "<td>Trade Type:" . help('TradeType') . "<td colspan=7>";
       foreach ($TradeTypeData as $i=>$d) {
 	if ($d['Addition']) continue;
-	echo " <div class=KeepTogether style='background:" . $d['Colour'] . ";'>" . $d['Name'] . ": ";
+	echo " <div class=KeepTogether style='background:" . $d['Colour'] . ";'>" . $d['SName'] . ": ";
 	echo " <input type=radio name=TradeType $ADDALL value=$i ";
 	if ($Trad['TradeType'] == $i) echo " checked";
         echo " onclick='SetTradeType(" . $d['NeedPublicHealth'] . "," . $d['NeedCharityNum'] . "," .
@@ -565,18 +565,18 @@ function Email_Body(&$Trad,&$Trady,$messcat='Link',$simple=0) {
   $Link = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=Trade&id=$Tid&key=$Key><b>link</b></a>";
   $WmffLink = "<a href=http://wimbornefolk.co.uk/int/Trade.php?id=$Tid><b>link</b></a>";
   $Remove = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Remove.php?t=Trade&id=$Tid&key=$Key><b>here</b></a>";
-  $Contact = $Trad['Contact']? firstword($Trad['Contact']) : $Trad['Name'];
-  $Sender = $USER['Name'];
+  $Contact = $Trad['Contact']? firstword($Trad['Contact']) : $Trad['SName'];
+  $Sender = $USER['SName'];
 
   if (!$simple) {
     $Locs = Get_Trade_Locs(1);
     $Location = '';
-    if ($Trady['PitchLoc0']) $Location = $Locs[$Trady['PitchLoc0']]['Name'];
+    if ($Trady['PitchLoc0']) $Location = $Locs[$Trady['PitchLoc0']]['SName'];
     if ($Trady['PitchLoc1']) {
-      if ($Trady['PitchLoc2']) { $Location .= ", " . $Locs[$Trady['PitchLoc1']]['Name']; }
-      else { $Location .= " and " . $Locs[$Trady['PitchLoc1']]['Name']; }
+      if ($Trady['PitchLoc2']) { $Location .= ", " . $Locs[$Trady['PitchLoc1']]['SName']; }
+      else { $Location .= " and " . $Locs[$Trady['PitchLoc1']]['SName']; }
     };
-    if ($Trady['PitchLoc2']) { $Location .= " and " . $Locs[$Trady['PitchLoc2']]['Name']; }
+    if ($Trady['PitchLoc2']) { $Location .= " and " . $Locs[$Trady['PitchLoc2']]['SName']; }
 
     $Details = Get_Trade_Details($Trad,$Trady);
     $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $THISYEAR";
@@ -619,9 +619,9 @@ function Send_Trader_Email(&$Trad,&$Trady,$messcat='Link',$cont='') {
 
   $Mess = Email_Body($Trad,$Trady,$messcat);
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Wimborne Minster Folk Festival $THISYEAR and " . $Trad['Name'],$Mess);
+    SendEmail("Richard@wavwebs.com","Wimborne Minster Folk Festival $THISYEAR and " . $Trad['SName'],$Mess);
   } else {
-    SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $THISYEAR and " . $Trad['Name'],$Mess);
+    SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $THISYEAR and " . $Trad['SName'],$Mess);
   }
 
   $logf = fopen("LogFiles/TradeLog.txt","a");
@@ -634,9 +634,9 @@ function Send_Trader_Simple_Email(&$Trad,$messcat='Trade_Link') {
   $Mess = Email_Body($Trad,$Trad,$messcat,1);
   
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Wimborne Minster Folk Festival $THISYEAR and " . $Trad['Name'],$Mess);
+    SendEmail("Richard@wavwebs.com","Wimborne Minster Folk Festival $THISYEAR and " . $Trad['SName'],$Mess);
   } else {
-    SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $THISYEAR and " . $Trad['Name'],$Mess);
+    SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $THISYEAR and " . $Trad['SName'],$Mess);
   }
 }
 
@@ -645,7 +645,7 @@ function Old_Send_Trader_Email(&$Trad,$messcat='Link',$cont='') {
   $letter = '';
 
   if (isset($data[$xtr .'Contact'])) { $name = firstword($Trad[$xtr .'Contact']); }
-  else { $name = $Trad['Name']; }
+  else { $name = $Trad['SName']; }
   $id = $Trad['Tid'];
   $key = $Trad['AccessKey'];
   $to = $Trad[$xtr . 'Email'];
@@ -689,7 +689,7 @@ function Get_Trade_Details(&$Trad,&$Trady) {
   global $Trade_Days,$TradeLocData;
 
 //  $Body  = "\nWimborne Minster Folk festival Trading application\n";
-  $Body = "\nFrom: " . $Trad['Name'] . "\n";
+  $Body = "\nFrom: " . $Trad['SName'] . "\n";
   $Body .= "Goods: " . $Trad['GoodsDesc'] . "\n\n";
   if ($Trad['Website']) $Body .= "Website: " . $Trad['Website'] . "\n\n";
   $Body .= "Contact: " . $Trad['Contact'] . "\n";
@@ -708,16 +708,16 @@ function Get_Trade_Details(&$Trad,&$Trady) {
   $Body .= "For " . $Trady['Year'] .":\n";
   $Body .= "Days: " . $Trade_Days[$Trady['Days']] . "\n";
   $Body .= "Pitch:" . $Trady['PitchSize0'];
-  if ($Trady['PitchLoc0']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc0']]['Name'];
+  if ($Trady['PitchLoc0']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc0']]['SName'];
   if ($Trady['Power0']) $Body .= " with " . ($Trady["Power0"]> 0 ? $Trady['Power0'] . " Amps\n" : " own Euro 4 silent generator\n");
   if ($Trady['PitchSize1']) {
     $Body .= "\nPitch 2:" . $Trady['PitchSize1'];
-    if ($Trady['PitchLoc1']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc1']]['Name'];
+    if ($Trady['PitchLoc1']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc1']]['SName'];
     if ($Trady['Power1']) $Body .= " with " . $Trady['Power1'] . " Amps\n";
   }
   if ($Trady['PitchSize2']) {
     $Body .= "\nPitch 3:" . $Trady['PitchSize2'];
-    if ($Trady['PitchLoc2']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc2']]['Name'];
+    if ($Trady['PitchLoc2']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc2']]['SName'];
     if ($Trady['Power2']) $Body .= " with " . $Trady['Power2'] . " Amps\n";
   }
 
@@ -759,7 +759,7 @@ function Submit_Application(&$Trad,&$Trady,$Mode=0) {
 function Validate_Trade($Mode=0) { // Mode 1 for Staff Submit, less stringent
   global $TradeTypeData;
       $proc = 1;
-      if (!isset($_POST['Name']) || strlen($_POST['Name']) < 3 ) {
+      if (!isset($_POST['SName']) || strlen($_POST['SName']) < 3 ) {
 	echo "<h2 class=ERR>No Business Name Given</h2>\n";
 	$proc = 0;
       }
@@ -803,7 +803,7 @@ function Validate_Trade($Mode=0) { // Mode 1 for Staff Submit, less stringent
 
 function Trader_Name($Tid) {
   $Trad = Get_Trader($Tid);
-  return $Trad['Name'];
+  return $Trad['SName'];
 }
 
 function T_Deposit(&$Trad) {

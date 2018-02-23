@@ -37,7 +37,7 @@
   echo "</thead><tbody>";
   if ($Trads) foreach($Trads as $t) {
     $i = $t['id'];
-    echo "<tr><td>$i" . fm_text1("",$t,'Name',1,'','',"Name$i");
+    echo "<tr><td>$i" . fm_text1("",$t,'SName',1,'','',"SName$i");
     echo fm_number1('',$t,'ListOrder','','min=0 max=1000',"ListOrder$i");
     echo fm_text1('',$t,'Colour',1,'','',"Colour$i");
     echo fm_text1('',$t,'BasePrice',0.5,'','',"BasePrice$i");
@@ -52,7 +52,7 @@
     echo "<td>" . fm_basictextarea($t,'Description',2,1,'',"Description$i");
     echo "\n";
   }
-  echo "<tr><td><td><input type=text size=16 name=Name0 >";
+  echo "<tr><td><td><input type=text size=16 name=SName0 >";
   echo "<td><input type=number min=0 max=1000 name=ListOrder0>";
   echo "<td><input type=text size=16 name=Colour0>";
   echo "<td><input type=text size=8 name=BasePrice0>";

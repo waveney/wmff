@@ -19,7 +19,7 @@
 */
 
   $flds = "s.*, y.Invite, y.Coming";
-  $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR ORDER BY Name");
+  $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR ORDER BY SName");
   $tot_perf = 0;
 
   echo "<h2>Car Parking needed</h2>\n";

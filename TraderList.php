@@ -19,16 +19,16 @@
   if ($res) while ($trad = $res->fetch_assoc()) {
     echo "<div class=article>";
     if ($trad['Website']) echo weblinksimple($trad['Website']);
-    echo "<h2 class=articlettl>" . $trad['Name'] . "</h2>";
+    echo "<h2 class=articlettl>" . $trad['SName'] . "</h2>";
     if ($trad['Photo']) echo "<img class=articleimg src=" . $trad['Photo'] . ">";
     if ($trad['Website']) echo "</a>";
     echo "<p class=articletxt>" . $trad['GoodsDesc'];
-    echo "<p>Will be trading " . $Prefixes[$Locs[$trad['PitchLoc0']]['prefix']] . ' ' . $Locs[$trad['PitchLoc0']]['Name'];
+    echo "<p>Will be trading " . $Prefixes[$Locs[$trad['PitchLoc0']]['prefix']] . ' ' . $Locs[$trad['PitchLoc0']]['SName'];
     if ($trad['PitchLoc2']) {
-      echo ", " . $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc1']]['Name'] . " and " 
-		. $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc2']]['Name'];
+      echo ", " . $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc1']]['SName'] . " and " 
+		. $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc2']]['SName'];
     } else if ($trad['PitchLoc1']) {
-      echo " and " . $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc1']]['Name'];
+      echo " and " . $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc1']]['SName'];
     }
     if ($trad['Days']) echo " on " . $Trade_Days[$trad['Days']];
     echo "<p>";

@@ -26,7 +26,7 @@ Click on column header to sort by column.  Click on Side's name for more detail 
 
   echo "<div id=InformationPane></div><p>\n";
   $Types = Get_Dance_Types(1);
-  foreach ($Types as $i=>$ty) $Colour[strtolower($ty['Name'])] = $ty['Colour'];
+  foreach ($Types as $i=>$ty) $Colour[strtolower($ty['SName'])] = $ty['Colour'];
 
   echo "<h2>";
   $Loc = 0;
@@ -71,7 +71,7 @@ Click on column header to sort by column.  Click on Side's name for more detail 
     echo "</thead><tbody>";
     while ($fetch = $SideQ->fetch_assoc()) {
       $snum = $fetch['SideId'];
-      echo "<tr><td><a href=AddDance.php?sidenum=$snum>" . $fetch['Name'] . "</a>";
+      echo "<tr><td><a href=AddDance.php?sidenum=$snum>" . $fetch['SName'] . "</a>";
       if ($fetch['SideStatus']) {
 	echo "<td>DEAD";
       } else {
@@ -79,7 +79,7 @@ Click on column header to sort by column.  Click on Side's name for more detail 
 	$colour = '';
 	foreach($Types as $T) {
 	  if ($T['Colour'] == '') continue;
-	  $lct = "/" . strtolower($T['Name']) . "/";
+	  $lct = "/" . strtolower($T['SName']) . "/";
 	  if (preg_match($lct,$ty)) {
 	    $colour = $T['Colour'];
 	    break;

@@ -40,14 +40,14 @@ dance sides below, some of whom have travelled from the USA and Europe to be wit
 <?php
   global $db,$Coming_Type,$YEAR;
   $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, SideYear AS y " .
-           "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " ORDER BY s.Importance DESC, s.Name");
+           "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " ORDER BY s.Importance DESC, s.SName");
 
   while($side = $SideQ->fetch_assoc()) {
 
    echo "<div class=mini>";
    echo "<a href=/int/ShowDance.php?sidenum=" . $side['SideId'] . ">";
    if ($side['Photo']) echo "<img class=miniimg src='" . $side['Photo'] ."'>";
-   echo "<h2 class=minittl>" . $side['Name'] . "</h2></a>";
+   echo "<h2 class=minittl>" . $side['SName'] . "</h2></a>";
 //   echo "(" . $side['Type'] . ")<p>";
    echo "<div class=minitxt>" . $side['Description'] . "</div>";
    echo "</div>";

@@ -13,11 +13,11 @@
 */
 
 function Print_Thing($thing,$right=0) {
-  echo "<div class=EventMini id=" . AlphaNumeric($thing['Name']) . ">";
+  echo "<div class=EventMini id=" . AlphaNumeric($thing['SName']) . ">";
   echo "<a href=Show" . ($thing['IsAnAct']?"Music":'Dance') . ".php?sidenum=" . $thing['SideId'] . ">";
   if ($thing['Photo']) echo "<img class=EventMiniimg" . ($right?'right':'') . " src='" . $thing['Photo'] ."'>";
   echo "<h2 class=EventMinittl style='font-size:" . (27+ $thing['Importance']) . "px;'>"; 
-  echo $thing['Name'];  
+  echo $thing['SName'];  
   if (isset($thing['Type']) && $thing['Type']) echo " (" . $thing['Type'] . ") ";
   echo "</a></h2>";
   if ($thing['Description']) echo "<p class=EventMinitxt>" . $thing['Description'] . "</p>";
@@ -105,8 +105,8 @@ function Print_Participants($e,$when=0,$thresh=0) {
     }
   }
 
-  if (!strpos(strtolower($Ev['Name']),strtolower($ETs[$Ev['Type']]['Name']))) $xtra = " (" . $ETs[$Ev['Type']]['Name'] . ")";
-  echo "<h2 class=subtitle>" . $Ev['Name'] . "$xtra</h2>\n";
+  if (!strpos(strtolower($Ev['SName']),strtolower($ETs[$Ev['Type']]['SName']))) $xtra = " (" . $ETs[$Ev['Type']]['SName'] . ")";
+  echo "<h2 class=subtitle>" . $Ev['SName'] . "$xtra</h2>\n";
 
   if ($Ev['NonFest']) echo "This event is not run by the folk festival, but is shown here for your information.<p>\n";
   if ($Ev['Description']) echo $Ev['Description'] . "<P>";
@@ -175,7 +175,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
         if (isset($imps[$i])) {
           foreach ($imps[$i] as $thing) {
             if ($with++) echo ", ";
-	    echo "<a href=#" . AlphaNumeric($thing['Name']) . " style='font-size:" . (17+$i*2) . "'>" . $thing['Name'] . "</a>";
+	    echo "<a href=#" . AlphaNumeric($thing['SName']) . " style='font-size:" . (17+$i*2) . "'>" . $thing['SName'] . "</a>";
 	  }
 	}
       }

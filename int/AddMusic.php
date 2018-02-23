@@ -89,7 +89,7 @@
     } else { /* New Act */
       $proc = 1;
       $Side = array();
-      if (!isset($_POST['Name'])) {
+      if (!isset($_POST['SName'])) {
 	echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
 	$proc = 0;
       }

@@ -11,7 +11,7 @@
     $Old = $T;
     $T['AccessKey'] = rand_string(40);
     Update_db('Trade',$Old,$T);
-    echo "Updated " . $T['Name'] . "<br>";
+    echo "Updated " . $T['SName'] . "<br>";
   }
 
   dotail();

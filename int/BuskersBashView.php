@@ -19,13 +19,13 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>State/Actions</a>\n";
   echo "</thead><tbody>";
 
-  $res=$db->query("SELECT * FROM SignUp WHERE Year=$THISYEAR AND State<2 AND Activity=4 ORDER BY Name");
+  $res=$db->query("SELECT * FROM SignUp WHERE Year=$THISYEAR AND State<2 AND Activity=4 ORDER BY SName");
   
   if ($res) {
     while ($bb = $res->fetch_assoc()) {
       $id = $bb['id'];
       echo "<tr><td>$id";
-      echo "<td>" . $bb['Name'];
+      echo "<td>" . $bb['SName'];
       echo "<td>" . $bb['Contact'];
       echo "<td>" . $bb['Email'];
       echo "<td>" . weblink( $bb['Example'] , "Example");

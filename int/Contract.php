@@ -29,7 +29,7 @@ hire the below-identified Artist to perform an engagement and the Artist agrees 
 services, under the following terms and conditions:<p>\n";
 
   $str .= "This agreement for performance services is entered into by the performers(s) known as:<br>";
-  $str .= "<b>" . $Side['Name'] . " </b>(now referred to as Artist) and : <b>" . $Booked['Name'] . "</b> for and on behalf of
+  $str .= "<b>" . $Side['SName'] . " </b>(now referred to as Artist) and : <b>" . $Booked['SName'] . "</b> for and on behalf of
 Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
 
   $str .= "Performances:<p>";
@@ -62,7 +62,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
       $evday[$e['Day']]++;
       if ($e['Venue']) {
 	$v = $Venues[$e['Venue']];
-	$str .= "<a href=http://" . $_SERVER['HTTP_HOST'] . "/int/VenueShow.php?v=" . $v['VenueId'] . ">" . $v['Name'] . "</a><br>";
+	$str .= "<a href=http://" . $_SERVER['HTTP_HOST'] . "/int/VenueShow.php?v=" . $v['VenueId'] . ">" . $v['SName'] . "</a><br>";
         if ($v['Address']) $str .= $v['Address'] . "<br>" . $v['PostCode'] ."<br>";
         if ($v['Description']) $str .= $v['Description'];
 	if ($v['MusicRider']) $riders[$v] = 1;
@@ -71,7 +71,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
 	  if (!isset($pkvens[$v['VenueId']])) {
 	    $pkvens[$v['VenueId']] = 1;
 	    if ($pking) $pking .= ", ";
-	    $pking .= $v['Name'];
+	    $pking .= $v['SName'];
 	  }
 	}
       } else {

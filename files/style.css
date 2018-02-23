@@ -829,3 +829,15 @@ textarea:Focus
   border-spacing:5;
   width:auto;
 }
+.sponcontainer {
+  position:relative;
+  text-align:center;
+}
+.sponText {
+  position: absolute;
+  font-size:36;
+  top:50%;
+  left:50%;
+  text-shadow:10 10 10 white,-10 -10 10 white;
+  transform: translate(-50%, -50%);
+}

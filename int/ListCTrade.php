@@ -50,11 +50,11 @@
 
   if (isset($_GET{'INC'})) {
     if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR>Exclude Declined/Cancelled/Not Submitted</a></h2>";
-    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR ORDER BY Name";
+    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR ORDER BY SName";
   } else {  
     if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR&INC=1>Include Refunded/Cancelled/Not Submitted</a></h2>";
     $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Submitted'] .
-		" ORDER BY Name";
+		" ORDER BY SName";
   }
 
   $res = $db->query($qry);
@@ -89,9 +89,9 @@
       $Tid = $fetch['Tid'];
       $str .= "<tr><td>";
         if ($Acts) $str .= "<a href=Trade.php?id=$Tid>";
-        $str .= ($fetch['Name']?$fetch['Name']:'No Name Given');
+        $str .= ($fetch['SName']?$fetch['SName']:'No Name Given');
         if ($Acts) $str .= "</a>";
-      $str .= "<td style='background:" . $Trade_Types[$fetch['TradeType']]['Colour'] . ";'>" . $Trade_Types[$fetch['TradeType']]['Name'];
+      $str .= "<td style='background:" . $Trade_Types[$fetch['TradeType']]['Colour'] . ";'>" . $Trade_Types[$fetch['TradeType']]['SName'];
       $str .= "<td width=300>" . $fetch['GoodsDesc'];
       $str .= "<td>" . $fetch['Contact'];
       $str .= "<td>" . linkemailhtml($fetch,'Trade');
@@ -222,7 +222,7 @@
   echo "<p><table border id=narrowtable><tr><td>Type<td>Received<td>Total Accept<td>Total inc Quoted\n";
   foreach ($Trade_Types as $t) {
     if (isset($TrMon[$t['id']]) && $TrMon[$t['id']]) {
-      echo "<tr><td style='background:" . $t['Colour'] . ";'>" . $t['Name'] ;
+      echo "<tr><td style='background:" . $t['Colour'] . ";'>" . $t['SName'] ;
       echo "<td>&pound;" . $TrRec[$t['id']] . "<td>&pound;" . $TrSub[$t['id']] . "<td>&pound;" . $TrMon[$t['id']] . "\n";
     }
   }

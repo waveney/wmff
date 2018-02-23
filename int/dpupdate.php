@@ -34,19 +34,19 @@
 
     if ($src == 0 && $dst == 0 ) { // Nothing to do...
     } elseif ($src == 0) { // From Side to Grid
-      $Event = Get_Event_VT($dres[1],$dres[2]);
+      $Event = Get_Event_VT($dres[1],$dres[2],$Day);
       for ($i = 1; $i<5; $i++) if ($Event["Side$i"] == 0) { $Event["Side$i"] = $sSide; break; };
       Put_Event($Event);
     } elseif ($dst == 0) { // To Side
-      $Event = Get_Event_VT($sres[1],$sres[2]);
+      $Event = Get_Event_VT($sres[1],$sres[2],$Day);
       for ($i = 1; $i<5; $i++) if ($Event["Side$i"] == $sSide) { $Event["Side$i"] = 0; break; };
       Put_Event($Event);
     } else { // Grid to Grid
-      $Event = Get_Event_VT($sres[1],$sres[2]);
+      $Event = Get_Event_VT($sres[1],$sres[2],$Day);
       for ($i = 1; $i<5; $i++) if ($Event["Side$i"] == $sSide) { $Event["Side$i"] = 0; break; };
       Put_Event($Event);
 
-      $Event = Get_Event_VT($dres[1],$dres[2]);
+      $Event = Get_Event_VT($dres[1],$dres[2],$Day);
       for ($i = 1; $i<5; $i++) if ($Event["Side$i"] == 0) { $Event["Side$i"] = $sSide; break; };
       Put_Event($Event,1);
     }
