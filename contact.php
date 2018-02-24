@@ -22,7 +22,7 @@
 </tr>
 <tr>
 <td>Trade Stands</td>
-<td style="font-weight:bold; color:#00cc00;">Open</td>
+<td style="font-weight:bold; color:#cc0000;">Closed</td>
 <td><a href="/info/trade"><strong>Trade Stands</strong></a>
 </tr>
 <tr>
