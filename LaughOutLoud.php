@@ -62,8 +62,8 @@ All material should be original and the creation of the entrant. Plagiarism will
 
 <h3>What can we win?</h3>
 As well as the glory of taking part in the "Laugh Out Loud" New Act Comedy Competition, the winner
-of the final will receive <b>&pound;75 and a 10 minute slot alongside professional comedians at Wimborne
-Comedy Club</b> (for which expenses up to &pound;30 will be available).<p>
+of the final will receive <b>&pound;75 and paid spot alongside professional comedians at Wimborne
+Comedy Club</b>.<p>
 
 Prizes of &pound;50 and &pound;25 will be awarded to the finalists placed 2nd and 3rd respectively.<p>
 
