@@ -96,11 +96,22 @@ Calling all those of you who would like to take part in this year's Busker's Bas
 <p class=articletxt>Weekend and Day Passes are now on sale for the festival weekend.<br>Many event tickets are also available, more to come.</p>
 </div>
 
+<!--
 <div class=article>
 <a href=$host/info/trade>
 <h2 class=articlettl>Trade Stand Booking is Open</h2>
 <img class=articleimg src=/images/Trade-Stand-2016.jpg alt='Wimborne Minster Folk Festival'></a>
 <p class=articletxt>Booking is open for traders of all types.<p>
+</div>
+-->
+
+<div class=article>
+<a href=$host/LaughOutLoud.php>
+<h2 class=articlettl>Laugh Out Loud 2018</h2>
+<img class=articleimgsml src=/images/Lol2017/IMG_4441.jpg alt='Wimborne Minster Folk Festival'></a>
+<p class=articletxt>Are you funny? Do you want a chance to prove it - on stage, in front of a warm, supportive
+audience? If your answer is <b>YES!</b> then our <b>Laugh Out Loud</b> New Act Competition is just
+right for you.<P>
 </div>
 
 <div class=article>
@@ -110,8 +121,7 @@ Calling all those of you who would like to take part in this year's Busker's Bas
 <p class=articletxt>Live and Loud has been running for several years now with the intention of finding local talent from within the community to 
 showcase their work during the festival.<P>
 
-The competition is open to musicians of all ages, genres and group size. So, if you're part of a community group, band, duo, choir, a soloist or 
-even orchestra then complete an application form and get involved!</p>
+Applications are closed, the final is at 7:30 on 24th February.<p>
 </div>
 ";
 

@@ -4,12 +4,14 @@
   dohead("Laugh Out Loud");
 
 ?>
-<!--
 <div class="biodiv">
-<img src="/images/Stratus5.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
-<p>Stratus - Buskers Bash winners 2017
+<img src="/images/Lol2017/IMG_4441.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
+<p>
+<img src="/images/Lol2017/_MG_4832.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
+<p>
+<img src="/images/Lol2017/_MG_4632.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
+<p>Some of last years contestants
 </div>
--->
 <h2 class=subtitle>Wimborne Laugh Out Loud Competition 2018</h2>
 <h3>Comedy at Wimborne Minster Folk Festival</h3>
 Are you funny? Do you want a chance to prove it - on stage, in front of a warm, supportive
@@ -81,5 +83,7 @@ Please don't apply if you don't meet all of the criteria described above.<p>
 <h2 class=subtitle><a href=int/LaughForm.php>Application Form</a></h2>
 
 Please send any queries or questions to <a href=mailto:Comedy@wimbornefolk.co.uk>Comedy@wimbornefolk.co.uk</a>.<p>
+
+<h2 class=subtitle><a href=/gallery/2017lol.php>Gallery from 2017 Laugh Out Loud</a></h2>
 
 <?php dotail() ?>
