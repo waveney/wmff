@@ -82,7 +82,8 @@ However, every effort will be made to carry out the programme as advertised. <p>
 
 <li>Refunds: There are no refunds on any tickets and lost tickets cannot be replaced.<p>
 
-<li>Dogs: Please note that dogs will not be admitted to indoor Festival venues. However,
+<li>Dogs: Please note that dogs will not be admitted to all indoor Festival venues, although well
+behaved dogs will be allowed in the Allendale centre and some of the pubs. However,
 dogs to assist people with disabilities will be admitted to ALL venues. <p>
 
 <li>Wimborne Minster Folk Festival reserves the right to refuse admission to, or evict anyone from,
