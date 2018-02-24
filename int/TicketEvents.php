@@ -9,7 +9,7 @@
 
   $Vens = Get_Real_Venues(0);
 
-  $qry = "SELECT * FROM Events WHERE Year='$YEAR' AND Price!=0 ORDER BY Day,Start";
+  $qry = "SELECT * FROM Events WHERE Year='$YEAR' AND (DoorPrice!=0 OR Price1!=0) ORDER BY Day,Start";
   $Evs = $db->query($qry);
 
   $coln = 0;

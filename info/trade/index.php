@@ -40,7 +40,7 @@ indicate which local authority they are registered with.<p>
 
 <?php 
   include_once "int/TradePublic.php";
-  Trade_Type_Table('MauveTable');
+  Trade_Type_Table('Sattab');
 ?>
 
 <!--<h2 class=subtitle><a href=/int/Trader.php>To Trade Start Here</a></h2>-->
