@@ -16,8 +16,9 @@ We are proud to host a wide range of traders at Wimborne Minster Folk Festival a
 <a href=/TraderList.php>Partial List of traders</a><p>
 
 <h2 class="subtitle">Trade in 2018</h2>
-Applications for trading at the festival, which will be held over the weekend of 8, 9, 10 June 2018 are open. 
-Follow the <a href=/int/Trader.php>link</a> to apply. 
+Applications for trading at the festival, which will be held over the weekend of 8, 9, 10 June 2018 are closed.<p>
+
+<!--Follow the <a href=/int/Trader.php>link</a> to apply. -->
 Stay up to date with festival information by joining us on <a href="http://facebook.com/WimborneFolk" rel="tag" target="_blank">Facebook</a>, 
 <a href="http://twitter.com/WimborneFolk" rel="tag" target="_blank">Twitter</a> &amp;
 <a href="http://instagram.com/WimborneFolk" rel="tag" target="_blank">Instagram</a>.<p>
@@ -42,7 +43,7 @@ indicate which local authority they are registered with.<p>
   Trade_Type_Table('MauveTable');
 ?>
 
-<h2 class=subtitle><a href=/int/Trader.php>To Trade Start Here</a></h2>
+<!--<h2 class=subtitle><a href=/int/Trader.php>To Trade Start Here</a></h2>-->
 
 <?php 
   dotail();

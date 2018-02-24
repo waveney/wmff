@@ -44,7 +44,7 @@ function Select_Come($type=0,$extra='') {
   static $Come_Loaded = 0;
   static $Coming = array('');
   if ($Come_Loaded) return $Coming;
-  $qry = "SELECT s.SideId, s.Name, s.Type FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . 
+  $qry = "SELECT s.SideId, s.SName, s.Type FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . 
 	$Coming_Type['Y'] . " AND s.IsASide=1 " . $extra . " ORDER BY s.SName";
 //  echo "<!-- " . var_dump($qry) . " -->\n";
   $res = $db->query($qry);
