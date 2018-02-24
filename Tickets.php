@@ -16,17 +16,15 @@ Your ticket will grant you access to official festival concerts and ceilidhs lis
 During the festival weekend there are unofficial events in Wimborne that these tickets do
 not cover and we are unable to refund tickets bought in error.<p>
 
-Please note that there is a booking fee of &#163;1.00 per ticket when ordering tickets online. 
+Please note that there is a booking fee of &pound;1.00 per ticket when ordering tickets online. 
 Please take care whilst ordering tickets as we are unable to process exchanges or refunds.<p>
 
-Due to the restricted size of some venues used during the festival, <strong>tickets <u>DO NOT</u> 
-guarantee entry once capacity has been reached</strong>, so we advise arriving early for popular 
-performances to avoid dissapointment. Full terms and conditions can be read prior to checkout.<p>
-
-Please <a href="mailto:music@wimbornefolk.co.uk">Contact Us</a> if you require a carer ticket.<p>
+Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require a carer ticket.<p>
 
 Order your festival tickets and camping together, by selecting <strong>Continue Shopping</strong> 
 before you checkout!  Camping costs &pound;7.50pppn + booking fee in advance or &pound;8.50pppn on the gate.<p>
+
+<a href=TermsAndConditions.php>Full Terms and Conditions</a>.<p>
 
 <a href=/InfoCamping.php><b>Camping Information and Camping Tickets.</b></a><p>
 
@@ -36,20 +34,20 @@ before you checkout!  Camping costs &pound;7.50pppn + booking fee in advance or 
 </tr>
 <tr>
 <td><a href="https://www.ticketsource.co.uk/event/208030" rel="tag" target="_blank" style="font-size:18px"><strong>Weekend Pass</strong></a>
-<br />Adult (13+): <strong>&#163;50.00</strong>
-<br />Child (5-12): <strong>&#163;25.00</strong>
+<br />Adult (13+): <strong>&pound;50.00</strong>
+<br />Child (5-12): <strong>&pound;25.00</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
-<td style="width:70%">Book your Weekend Pass for official festival events. See below for the events that it covers.<p>
+<td style="width:70%">Book your Weekend Pass for official festival events. Events at the Tivoli are not covered by this pass.  See below for the events that it covers.<p>
 
 Only this ticket includes entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
 <td style="text-align:center; font-size:20px"><a href="https://www.ticketsource.co.uk/event/208030" rel="tag" target="_blank"><strong>Buy Now</strong></a></td>
 </tr>
 <tr>
 <td><a href="https://www.ticketsource.co.uk/event/210981" rel="tag" target="_blank" style="font-size:18px"><strong>Friday Pass</strong></a>
-<br />Adult (13+): <strong>&#163;15.00</strong>
-<br />Child (5-12): <strong>&#163;7.50</strong>
+<br />Adult (13+): <strong>&pound;15.00</strong>
+<br />Child (5-12): <strong>&pound;7.50</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
-<td style="width:70%">Book your Friday Pass for official festival events. See below for the events that it covers.<p>
+<td style="width:70%">Book your Friday Pass for official festival events. Events at the Tivoli are not covered by this pass.  See below for the events that it covers.<p>
 
 Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
 </td>
@@ -58,8 +56,8 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
 
 <tr>
 <td><a href="https://www.ticketsource.co.uk/event/211013" rel="tag" target="_blank" style="font-size:18px"><strong>Saturday Pass</strong></a>
-<br />Adult (13+): <strong>&#163;30.00</strong>
-<br />Child (5-12): <strong>&#163;15.00</strong>
+<br />Adult (13+): <strong>&pound;30.00</strong>
+<br />Child (5-12): <strong>&pound;15.00</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
 <td style="width:70%">Book your Saturday Pass for official festival events. See below for the events that it covers.<p>
 
@@ -70,8 +68,8 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
 
 <tr>
 <td><a href="https://www.ticketsource.co.uk/event/211014" rel="tag" target="_blank" style="font-size:18px"><strong>Sunday Pass</strong></a>
-<br />Adult (13+): <strong>&#163;20.00</strong>
-<br />Child (5-12): <strong>&#163;10.00</strong>
+<br />Adult (13+): <strong>&pound;20.00</strong>
+<br />Child (5-12): <strong>&pound;10.00</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
 <td style="width:70%">Book your Sunday Pass for official festival events. See below for the events that it covers.<p>
 
