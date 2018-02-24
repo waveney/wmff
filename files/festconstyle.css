@@ -709,19 +709,6 @@ input[type='file'] {
   float:left;
 }
 
-.MauveTable {
-  border:5;
-  padding:5;
-  background:#9b5ba4; 
-  border-color:#9b5ba4;
-  color:white;
-}
-
-.MauveTable td {
-  color:black; 
-  background:white;
-}
-
 #narrowtable {
   width:30%;
 }

@@ -841,17 +841,4 @@ textarea:Focus
   text-shadow:10 10 10 white,-10 -10 10 white;
   transform: translate(-50%, -50%);
 }
-.MauveTable {
-  border:5;
-  padding:5;
-  background:#9b5ba4; 
-  border-color:#9b5ba4;
-  color:white;
-}
-
-.MauveTable td {
-  padding:5;
-  color:black; 
-  background:white;
-}
 
