@@ -148,7 +148,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	  }
 	}
 	if (isset($VenuesUsed[$Ven])) {
-	  if (!$Venues[$Ven]['AllowMult']) $Merr .= "Performing multiple times at " . SName($Venues[$Ven]) . " on $day, ";
+	  if ($side['IsASide'] && !$Venues[$Ven]['AllowMult']) $Merr .= "Performing multiple times at " . SName($Venues[$Ven]) . " on $day, ";
 	} else {
 	  $VenuesUsed[$Ven] = 1;
 	}
@@ -206,7 +206,8 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 //if ($side['SideId']==290) echo "X4 $gap $oname $starttime<p>";
 //if ($side['SideId']==290) echo "Events are " . $Events[$e]['EventId'] . " and " . $Events[$oe]['EventId'] . "<p>";
 //if ($side['SideId']==356) echo "X4 $gap $oname $starttime<p> ";
-		  if ($gap <= 0) {
+		  if ($gap <= -20) {
+		  } else if ($gap <= 0) {
 		    if ($Rule['Major']) {
 //		      echo "Major Dancer Overlap on $day $start with $oname, ";
 		      $Err .= "Dancer Overlap on $day $start with $oname, ";
