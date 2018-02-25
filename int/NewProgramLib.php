@@ -53,24 +53,25 @@ function Grab_Data($day='') {
 //var_dump($evs);
   foreach ($evs as $ei=>$ev) {
     $eid = $ev['EventId'];
-    if (!$ev['BigEvent']) {
-      $v = $ev['Venue'];
-      $VenueUse[$v] = 1;
-      $t = timeround($ev['Start'],30);
-      $lineLimit[$t] = 2; // Min value
-      if ($ev['SubEvent'] < 0) { $et = $ev['SlotEnd']; } else { $et = $ev['End']; };
-      $duration = timereal($et) - timereal($ev['Start']);
+    $v = $ev['Venue'];
+    if ($ev['SubEvent'] < 0) { $et = $ev['SlotEnd']; } else { $et = $ev['End']; };
+    $duration = timereal($et) - timereal($ev['Start']);
+    $t = timeround($ev['Start'],30);
       
-      $EV[$v][$t]['e'] = $ei;
-      $EV[$v][$t]['d'] = $duration;
+    $EV[$v][$t]['e'] = $ei;
+    $EV[$v][$t]['d'] = $duration;
 
-      $ll = 0;
-      $plim=4;
-      if ($ev['SName'] && $ev['SName'] != 'Dancing') {
-        $EV[$v][$t]['n'] = $ev['SName'];
-	$ll = 1;
-        $plim =3;
-      }
+    $plim=4;
+    if ($ev['SName'] && $ev['SName'] != 'Dancing') {
+      $EV[$v][$t]['n'] = $ev['SName'];
+      $plim =3;
+    }
+
+    $lineLimit[$t] = min(2,$lineLimit[$t]); // Min value
+
+    if (!$ev['BigEvent']) {
+      $VenueUse[$v] = 1;
+
 /* This condenses sides and acts and others into grid - when you want to handle non-sides dpupdate only works for sides now */
       $parts=0;
       foreach ($cats as $kit) {
@@ -85,9 +86,45 @@ function Grab_Data($day='') {
           }
 	}
       }
-    } else if (!$ev['ExcludeCount']) {
+    } else { //BE
+      // $VenueUse[$v] = 1; Not marking venue (or other venmues) used for Big Events
       $Other = Get_Other_Things_For($eid);
-      foreach($Other as $i=>$o) if ($o['Type'] == 'Side') $SideCounts[$o['Identifier']]++;
+      $bes = $bev = array();
+      foreach($Other as $i=>$o) {
+        if ($o['Type'] == 'Venue') $bev[] = $o['Identifier'];
+        if ($o['Type'] == 'Side' |$o['Type'] == 'Act' || $o['Type'] == 'Other' ) $bes[] = $o['Identifier'];
+        if (!$ev['ExcludeCount']) if ($o['Type'] == 'Side') $SideCounts[$o['Identifier']]++;
+      }
+
+      foreach ($bev as $vi=>$ov) {
+	$EV[$ov][$t]['e'] = $ei;
+	$EV[$ov][$t]['d'] = $duration;
+	if (isset($EV[$v][$t]['n'])) $EV[$ov][$t]['n'] = $EV[$v][$t]['n'];
+	if (count($bes) < 3) {
+          $parts=0;
+	  foreach($bes as $si=>$s) {
+	    if ($parts++ <= $plim) {
+	      $lineLimit[$t] = max($lineLimit[$t],$parts);
+	      $EV[$ov][$t]["S$parts"] = $s;
+	    } else {
+	      $EV[$ov][$t]["S4"] = -1;
+	    }
+          }
+	}
+      }
+
+      if (count($bes) < 3) {
+        $parts=0;
+        foreach($bes as $si=>$s) {
+	  if ($parts++ <= $plim) {
+	    $lineLimit[$t] = max($lineLimit[$t],$parts);
+	    $EV[$v][$t]["S$parts"] = $s;
+	  } else {
+	    $EV[$v][$t]["S4"] = -1;
+	  }
+        }
+      }
+
     }
   }
 }

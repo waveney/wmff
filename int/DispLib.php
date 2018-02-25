@@ -44,4 +44,26 @@ function Get_Imps(&$e,&$imps,$clear=1,$all=0) {
   }
 }
 
+function Gallery($title,$dir,$credit='') {
+  dohead($title, '/files/gallery.css');
+
+  echo '<h2 class=maintitle>$title</h2>';
+  echo '<div id=galleryflex>';
+
+  if ($handle = opendir("../$dir")) {
+    while (false !== ($entry = readdir($handle))) {
+      if (preg_match('/^\./',$entry)) continue;
+      echo "<div class=galleryarticle><a href=/$dir/$entry><img class=galleryarticleimg src='/$dir/$entry'></a></div>\n";
+    }
+    closedir($handle);
+  }
+
+  if ($credit) {
+    echo '</div><h2 class="subtitle">Credits</h2>';
+    echo "<p>Photos by: $credit<p>";
+  }
+
+  dotail();
+}
+
 ?>
