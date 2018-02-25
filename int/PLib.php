@@ -363,7 +363,15 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
 	echo fm_text1('Daytime Spots',$Sidey,'SunDance',1,'class=ComeSun');
         echo "<tr>" .fm_text1('Earliest Spot',$Sidey,'SunArrive',1,'class=ComeSun');
         echo fm_text1('Latest Spot',$Sidey,'SunDepart',1,'class=ComeSun');  
-
+      if (Access('SysAdmin')) {
+        echo "<tr><td class=NotSide>" . fm_checkbox('Tuesday',$Sidey,'Tue') . "<td class=NotSide>" . fm_checkbox('Wednesday',$Sidey,'Wed');
+        echo "<td class=NotSide>" . fm_checkbox('Thursday',$Sidey,'Thur') . "<td class=NotSide>" . fm_checkbox('Monday',$Sidey,'Mon');
+      } else {
+	if ($Sidey['Tue']) echo fm_hidden('Tue',1);
+	if ($Sidey['Wed']) echo fm_hidden('Wed',1);
+	if ($Sidey['Thur']) echo fm_hidden('Thur',1);
+	if ($Sidey['Mon']) echo fm_hidden('Mon',1);
+      }
       if ($Mode) {
         echo "<tr>". fm_number1('Fee',$Sidey,'TotalFee','class=NotCSide') . fm_text('Other payments',$Sidey,'OtherPayment',3,'class=NotCSide');
       } else if ($Sidey['TotalFee']) {
