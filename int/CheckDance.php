@@ -106,8 +106,8 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
   foreach ($Sides as $si=>$side) {
     $Err = '';
     $Merr = '';
-    $LastDay = '';
-    $FirstTime = $LastTime = array(0,0,0);
+    $LastDay = -99;
+    $FirstTime = $LastTime = array();
     $LastT = 0;
     $DayCounts = array(0,0,0);
     $VenuesUsed = array();
@@ -296,12 +296,12 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 
         if ($side['Sat']) {
 	  if ($DayCounts[1] != $side['SatDance']) $Merr .= "Have " . $DayCounts[1] . " spots on Sat and wanted " . $side['SatDance'] . ", ";
-          if ($side['SatArrive'] && ($side['SatArrive'] > $FirstTime[1])) { $Err .= "Dancing on Sat before arriving, "; };
+          if ($side['SatArrive'] && $FirstTime[1] && ($side['SatArrive'] > $FirstTime[1])) { $Err .= "Dancing on Sat before arriving, "; };
           if ($side['SatDepart'] && ($side['SatDepart'] < $LastTime[1])) { $Err .= "Dancing on Sat after depature, "; };
 	}
         if ($side['Sun']) {
 	  if ($DayCounts[2] != $side['SunDance']) $Merr .= "Have " . $DayCounts[2] . " spots on Sun and wanted " . $side['SunDance'] . ", ";
-          if ($side['SunArrive'] && ($side['SunArrive'] > $FirstTime[2])) { $Err .= "Dancing on Sun before arriving, "; };
+          if ($side['SunArrive'] && $FirstTime[2] && ($side['SunArrive'] > $FirstTime[2])) { $Err .= "Dancing on Sun before arriving, "; };
           if ($side['SunDepart'] && ($side['SunDepart'] < $LastTime[2])) { $Err .= "Dancing on Sun after depature, "; };
 	}
         if ($side['Sat'] && $side['Procession'] != $InProcession) {
