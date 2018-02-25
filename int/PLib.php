@@ -363,7 +363,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
 	echo fm_text1('Daytime Spots',$Sidey,'SunDance',1,'class=ComeSun');
         echo "<tr>" .fm_text1('Earliest Spot',$Sidey,'SunArrive',1,'class=ComeSun');
         echo fm_text1('Latest Spot',$Sidey,'SunDepart',1,'class=ComeSun');  
-      if (Access('SysAdmin')) {
+      if (Mode) {
         echo "<tr><td class=NotSide>" . fm_checkbox('Tuesday',$Sidey,'Tue') . "<td class=NotSide>" . fm_checkbox('Wednesday',$Sidey,'Wed');
         echo "<td class=NotSide>" . fm_checkbox('Thursday',$Sidey,'Thur') . "<td class=NotSide>" . fm_checkbox('Monday',$Sidey,'Mon');
       } else {
