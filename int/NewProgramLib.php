@@ -67,7 +67,7 @@ function Grab_Data($day='') {
       $plim =3;
     }
 
-    $lineLimit[$t] = min(2,$lineLimit[$t]); // Min value
+    $lineLimit[$t] = max(2,$lineLimit[$t]); // Min value
 
     if (!$ev['BigEvent']) {
       $VenueUse[$v] = 1;
@@ -127,6 +127,8 @@ function Grab_Data($day='') {
 
     }
   }
+
+//var_dump($lineLimit);exit;
 }
 
 /*
