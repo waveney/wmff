@@ -121,7 +121,7 @@ right for you.<P>
 <p class=articletxt>Live and Loud has been running for several years now with the intention of finding local talent from within the community to 
 showcase their work during the festival.<P>
 
-Applications are closed, the final is at 7:30 on 24th February.<p>
+The final was on 24th February, the winners (Status, Bowen & Pounds and The Darwins) will feature here soon.<p>
 </div>
 ";
 
