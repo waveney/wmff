@@ -73,7 +73,7 @@ function Other_All($Except=-1) {
   static $Sides_Loaded = 0;
   if ($Other_Loaded == $Except) return $Other_All;
   $Other_All = array();
-  $slist = $db->query("SELECT OtherId, Name FROM OtherPart ORDER BY SName");
+  $slist = $db->query("SELECT OtherId, SName FROM OtherPart ORDER BY SName");
   while ($row = $slist->fetch_assoc()) {
     $Other_All[$row['OtherId']] = $row['SName'];
   }

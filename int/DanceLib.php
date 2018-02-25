@@ -18,7 +18,7 @@ function Sides_All($Except=-1,$All=1,$Include1=0,$Include2=0,$Include3=0,$Includ
   if ($All) {
     if ($Sides_Loaded == $Except) return $Sides_All;
     $Sides_All = array();
-    $slist = $db->query("SELECT SideId, Name FROM Sides WHERE SideStatus=0 ORDER BY SName");
+    $slist = $db->query("SELECT SideId, SName FROM Sides WHERE SideStatus=0 ORDER BY SName");
   } else {
     $Blist = Select_Come(1);
     if ($Except) unset($Blist[$Except]);
