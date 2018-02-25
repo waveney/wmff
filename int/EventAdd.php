@@ -233,7 +233,7 @@
       echo "<td>" . fm_checkbox('Family Event',$Event,'Family');
       echo "<td>" . fm_checkbox('Non Fest',$Event,'NonFest');
 
-      echo "<tr>" . fm_text('SName', $Event,'SName');
+      echo "<tr>" . fm_text('Name', $Event,'SName');
         echo "<td>Event Type:" . fm_select($Event_Types,$Event,'Type');
         $se = $Event['SubEvent'];
         if ($se == 0) { echo "<td>No Sub Events"; }
