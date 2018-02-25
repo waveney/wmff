@@ -135,7 +135,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	  if (!isset($side[$day])) { 
 	    $Err .= "Event Issue: Dances not allowed for on $day (yet), ";
 	  } elseif (!$side[$day]) { 
-	  $Err .= "Not at Festival on $day, ";
+	    $Err .= "Not at Festival on $day, ";
 	  } elseif ($day != $LastDay) {
 	    $VenuesUsed = array();
 	    $LastDay = $day;
