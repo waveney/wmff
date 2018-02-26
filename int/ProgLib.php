@@ -284,6 +284,7 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1) {
   $ans = "";
   $flds = array('Side','Act','Other');
   $res = $db->query("SELECT * FROM Events WHERE EventId='$Ev' OR SubEvent='$Ev' ORDER BY Day, Start DESC");
+  $found = array();
   if ($res) {
     $imps=array();
     while ($e = $res->fetch_assoc()) {
@@ -292,8 +293,11 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1) {
    	  if (isset($e["$f$i"])) { 
 	    $ee = $e["$f$i"];
 	    if ($ee) {
-	     $s = Get_Side($ee);  
-	     if ($s) $imps[$s['Importance']][] = $s; 
+	      if (!$found[$ee]) {
+	        $s = Get_Side($ee);  
+	        if ($s) $imps[$s['Importance']][] = $s; 
+	        $found[$ee]=1;
+	      }
 	    } 
 	  }
 	}
@@ -301,6 +305,60 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1) {
     }
 
     
+    $ks = array_keys($imps);
+    sort($ks);	
+    $things = 0;
+    foreach ( array_reverse($ks) as $imp) {
+      if ($imp) $ans .= "<span style='font-size:" . ($size+$imp*$mult) . "px'>";
+      foreach ($imps[$imp] as $thing) {
+	if ($things++) $ans .= ", ";
+	$link=0;
+	if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
+	if ($link) {
+	  if ($link ==1) {
+	    $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
+	  } else {
+	    if ($thing['IsASide']) {
+	      $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
+	    } else if ($thing['IsAnAct']) {
+	      $ans .= "<a href='/int/ShowMusic.php?sidenum=" . $thing['SideId'] . "'>";
+	    } else {
+	      $ans .= "<a href='/int/ShowMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
+	    }
+	  }
+	}
+	$ans .= NoBreak($thing['SName']);
+	if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
+        if ($link) $ans .= "</a>";
+       }
+      if ($imp) $ans .= "</span>";
+    }
+  }
+  if ($ans) return $ans;
+  return "Details to follow";
+}
+
+function Get_Other_Participants(&$Others,$l=0,$size=12,$mult=1) {
+  global $db;
+  include_once "DanceLib.php";
+  $imps=array();
+  $found = array();
+  $something = 0;
+  $ans = '';
+  foreach ($Others as $oi=>$o) {
+    if ($o['Type'] == 'Side' || $o['Type'] == 'Act' || $o['Type'] == 'Other') {
+      $si = $o['Identifier'];  
+      if (!$found[$si]) {
+        $s = Get_Side($si);  
+        if ($s) $imps[$s['Importance']][] = $s; 
+        $something = 1;
+	$found[$si] = 1;
+      }
+    }
+  }
+    
+//var_dump($imps);
+  if ($something) {
     $ks = array_keys($imps);
     sort($ks);	
     $things = 0;

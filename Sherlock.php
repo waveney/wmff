@@ -64,9 +64,20 @@
         echo "From: " . timecolon($E['Start']) . " to " . timecolon($E['End']);
       echo "<td><strong><a href=/int/EventShow.php?e=$eid>" . $E['SName'] . "</a></strong>"; 
       echo "<td><a href=/int/VenueShow.php?v=" . $E['Venue'] . ">" . $Vens[$E['Venue']]['SName'] . "</a>";
+      if ($E['BigEvent']) {
+	$Others = Get_Other_Things_For($eid);
+	foreach ($Others as $i=>$o) {
+	  if ($o['Type'] == 'Venue') echo ", <a href=/int/VenueShow.php?v=" . $o['Identifier'] . ">" . $Vens[$o['Identifier']]['SName'] . "</a>";
+	}
+      }
       echo "<td>";
         if ($E['Description']) echo $E['Description'] . "<p>";
-        echo "With: " . Get_Event_Participants($eid,1,15);
+        echo "With: ";
+	if ($E['BigEvent']) {
+	  echo Get_Other_Participants($Others,1,15);
+	} else {
+	  echo Get_Event_Participants($eid,1,15);
+	}
       echo "<td>" . Price_Show($E) . "\n";
     }
     echo "</table><p>";
