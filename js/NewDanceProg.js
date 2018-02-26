@@ -2,6 +2,7 @@
 var Dragged ;
 var nexthl = 0;
 var hlights = [];
+var sidlight = [];
 
 // Old format Le:t:l:s
 // New format Lv:t:l (L = G,S) - data-d: L:e:s:d:w L=(N,S)
@@ -125,8 +126,10 @@ var hlights = [];
       hlights[id]='';
     } else {
       $('.BGColour'+nexthl).removeClass('BGColour'+nexthl);
+      if (sidlight[nexthl]) $('#SideHL' + sidlight[nexthl]).prop("checked",false);
       $('.Side'+id).addClass('BGColour'+nexthl);
       hlights[id] = 'BGColour' + nexthl;
+      sidlight[nexthl] = id;
       nexthl++;
       if (nexthl>7) nexthl=0;
     }
