@@ -131,6 +131,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	$last_e = $Events[$e]['EventId'];
 	if ($last_e == $Procession) $InProcession = 1;
 	if ($Events[$e]['SubEvent'] < 0) { $End = $Events[$e]['SlotEnd']; } else { $End = $Events[$e]['End']; };
+//if ($si == 395) echo "$start - " . $LastTime[$day]. "<p>";
 	if ($side['IsASide']) {
 	  if (!isset($side[$day])) { 
 	    $Err .= "Event Issue: Dances not allowed for on $day (yet), ";
@@ -139,12 +140,12 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	  } elseif ($day != $LastDay) {
 	    $VenuesUsed = array();
 	    $LastDay = $day;
-	    $LastTime = $End;
+	    $LastTime[$day] = $End;
 	    $minorspots = 0;
-	  } elseif (timereal($start) - timereal($LastTime) < 20) { // Min 20 mins to allow for odd timing of some events
-	    $Err .= "Too close on $day $start to $LastTime at " . SName($Venues[$lastVen]) . ", ";
+	  } elseif (timereal($start) - timereal($LastTime[$day]) < 20) { // Min 20 mins to allow for odd timing of some events
+	    $Err .= "Too close on $day $start to " . $LastTime[$day] . " at " . SName($Venues[$lastVen]) . ", ";
 	  } else {
-	    $LastTime = $End;
+	    $LastTime[$day] = $End;
 	  }
 	}
 	if (isset($VenuesUsed[$Ven])) {
