@@ -123,38 +123,44 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
       foreach ($dancing[$si] as $dd=>$e) { // Checking for ~30 minute gaps
 	$Ven = $Events[$e]['Venue'];
 	$daynum = $Events[$e]['Day']; 
-	$day = $DayList[$daynum];
+	$daynam = $DayList[$daynum];
 	$start = $Events[$e]['Start'];
 	if ($Events[$e]['EventId'] == $last_e) {
-	  $Err .= "Doing the same event on $day at $start in " . SName($Venues[$Ven]) . ", ";
+	  $Err .= "Doing the same event on $daynam at $start in " . SName($Venues[$Ven]) . ", ";
 	}
 	$last_e = $Events[$e]['EventId'];
 	if ($last_e == $Procession) $InProcession = 1;
 	if ($Events[$e]['SubEvent'] < 0) { $End = $Events[$e]['SlotEnd']; } else { $End = $Events[$e]['End']; };
-//if ($si == 395) echo "$start - " . $LastTime[$day]. "<p>";
+//if ($si == 301) echo "$start - " . $LastTime[$daynum]. " $daynum - $LastDay<p>";
 	if ($side['IsASide']) {
-	  if (!isset($side[$day])) { 
-	    $Err .= "Event Issue: Dances not allowed for on $day (yet), ";
-	  } elseif (!$side[$day]) { 
-	    $Err .= "Not at Festival on $day, ";
-	  } elseif ($day != $LastDay) {
+//if ($si == 301) echo "Here 1<br>";
+	  if (!isset($side[$daynam])) { 
+//if ($si == 301) echo "Here 2<br>";
+	    $Err .= "Event Issue: Dances not allowed for on $daynam (yet), ";
+	  } elseif (!$side[$daynam]) { 
+//if ($si == 301) echo "Here 3<br>";
+	    $Err .= "Not at Festival on $daynam, ";
+	  } elseif ($daynum != $LastDay) {
+//if ($si == 301) echo "Here 4<br>";
 	    $VenuesUsed = array();
-	    $LastDay = $day;
-	    $LastTime[$day] = $End;
+	    $LastDay = $daynum;
+	    $LastTime[$daynum] = $End;
 	    $minorspots = 0;
-	  } elseif (timereal($start) - timereal($LastTime[$day]) < 20) { // Min 20 mins to allow for odd timing of some events
-	    $Err .= "Too close on $day $start to " . $LastTime[$day] . " at " . SName($Venues[$lastVen]) . ", ";
+	  } elseif (timereal($start) - timereal($LastTime[$daynum]) < 20) { // Min 20 mins to allow for odd timing of some events
+//if ($si == 301) echo "Here 5<br>";
+	    $Err .= "Too close on $daynam $start to " . $LastTime[$daynum] . " at " . SName($Venues[$lastVen]) . ", ";
 	  } else {
-	    $LastTime[$day] = $End;
+//if ($si == 301) echo "Here 6<br>";
+	    $LastTime[$daynum] = $End;
 	  }
 	}
 	if (isset($VenuesUsed[$Ven])) {
-	  if ($side['IsASide'] && !$Venues[$Ven]['AllowMult']) $Merr .= "Performing multiple times at " . SName($Venues[$Ven]) . " on $day, ";
+	  if ($side['IsASide'] && !$Venues[$Ven]['AllowMult']) $Merr .= "Performing multiple times at " . SName($Venues[$Ven]) . " on $daynam, ";
 	} else {
 	  $VenuesUsed[$Ven] = 1;
 	}
-	if ($Venues[$Ven]["Minor$day"]) {
-	  if ($minorspots++ && $side['IsASide']) $Merr .= "Performing $minorspots times at minor spots on $day,";
+	if ($Venues[$Ven]["Minor$daynam"]) {
+	  if ($minorspots++ && $side['IsASide']) $Merr .= "Performing $minorspots times at minor spots on $daynam,";
 	}
 	if ($side['IsASide'] && $surfs) {
 //if (!$Surfaces[$Venues[$Ven]['SurfaceType1']]) { echo "Surface - $Ven ..."; }
@@ -172,9 +178,9 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	  $ns = 0;
 	  for ($j=1; $j<5; $j++) if ($Events[$e]["Side$j"]>0) $ns++;
 	  if ($ns == 1) {
-	    if ($side['Share'] == $Share_Type['Always']) $Err .= "Do not like being alone ( $day " . $Events[$e]['Start'] . 
+	    if ($side['Share'] == $Share_Type['Always']) $Err .= "Do not like being alone ( $daynam " . $Events[$e]['Start'] . 
 				" at " . SName($Venues[$Events[$e]['Venue']]) . ", ";
-	  } else if ($side['Share'] == $Share_Type['Never']) $Err .= "Do not like sharing ( $day " . $Events[$e]['Start'] . 
+	  } else if ($side['Share'] == $Share_Type['Never']) $Err .= "Do not like sharing ( $daynam " . $Events[$e]['Start'] . 
 				" at " . SName($Venues[$Events[$e]['Venue']]) . ", ";
 	}
 
@@ -210,21 +216,21 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 		  if ($gap <= -20) {
 		  } else if ($gap <= 0) {
 		    if ($Rule['Major']) {
-//		      echo "Major Dancer Overlap on $day $start with $oname, ";
-		      $Err .= "Dancer Overlap on $day $start with $oname, ";
+//		      echo "Major Dancer Overlap on $daynam $start with $oname, ";
+		      $Err .= "Dancer Overlap on $daynam $start with $oname, ";
 		    } else {
 //echo "Events are " . $Events[$e]['EventId'] . " and " . $Events[$oe]['EventId'] . "<p>";
-//echo "Minor Dancer Overlap on $day $start with $oname, ";
-		      $Merr .= "Dancer Overlap on $day $start with $oname, ";
+//echo "Minor Dancer Overlap on $daynam $start with $oname, ";
+		      $Merr .= "Dancer Overlap on $daynam $start with $oname, ";
 		    }
 		  } elseif ($gap < 5) { // 
 		    if ($Rule['Major']) {
-		      $Err .= "No dancer Gap on $day $start with $oname, ";
+		      $Err .= "No dancer Gap on $daynam $start with $oname, ";
 		    } else {
-		      $Merr .= "No dancer Gap on $day $start with $oname, ";
+		      $Merr .= "No dancer Gap on $daynam $start with $oname, ";
 		    }
 		  } elseif ($gap < 20) { // Checking for 20, not 30 to allow for odd timings of some events
-		    $Merr .= "Little dancer Gap on $day $start with $oname, ";
+		    $Merr .= "Little dancer Gap on $daynam $start with $oname, ";
 		  }
 		}
 	      }
@@ -269,17 +275,17 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	      if ($Ev['SubEvent'] < 0) { $End = timereal($Ev['SlotEnd']); } else { $End = timereal($Ev['End']); }
 	      $Ven = $Ev['Venue'];
 	      if ($LastD == $Ev['Day'] && $start < ($LastT + 20)) {
-	        $day = $DayList[$LastD];
+	        $daynam = $DayList[$LastD];
 		if ($Ven == $LastVen) {
 		  $Consec += ($End - $LastT);
-		  if ($Consec > 65) $Merr .= "Performing for $Consec minutes on $day at " . $Ev['Start'] . ", ";
+		  if ($Consec > 65) $Merr .= "Performing for $Consec minutes on $daynam at " . $Ev['Start'] . ", ";
 	        } else {
 		  if ($Rule['Major']) {
 		    $Err .= "Playing at the same time in two locations: " . SName($Venues[$LastVen]) . " at " . timeformat($LastT) .
-				" on $day and at " . SName($Venues[$Ven]) . " at " . $Ev['Start'] . ", ";
+				" on $daynam and at " . SName($Venues[$Ven]) . " at " . $Ev['Start'] . ", ";
 	          } else {
 		    $Merr .= "Playing at the same time in two locations: " . SName($Venues[$LastVen]) . " at " . timeformat($LastT) .
-				" on $day and at " . SName($Venues[$Ven]) . " at " . $Ev['Start'] . ", ";
+				" on $daynam and at " . SName($Venues[$Ven]) . " at " . $Ev['Start'] . ", ";
 		  }
 		}
 	      } else {

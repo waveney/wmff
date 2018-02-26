@@ -38,7 +38,7 @@
      <a href=$host/WhatsonWhen.php class=NotYet>By Time</a>
      <a href=$host/WhatsonDanceProg.php class=NotYet>Dancing</a>
      <a href=$host/Sherlock.php?t=Music >Music</a>
-     <a href=$host/Sherlock.php?t=Special class=NotYet>Special Events</a>
+     <a href=$host/Sherlock.php?t=Special>Special Events</a>
      <a href=$host/Sherlock.php?t=Family>Family</a>
      <a href=$host/Sherlock.php?t=Ceildih >Ceildihs</a>
      <a href=$host/Sherlock.php?t=Workshop >Workshops</a>
