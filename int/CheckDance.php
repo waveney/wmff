@@ -148,7 +148,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	    $minorspots = 0;
 	  } elseif (timereal($start) - timereal($LastTime[$daynum]) < 20) { // Min 20 mins to allow for odd timing of some events
 //if ($si == 301) echo "Here 5<br>";
-	    $Err .= "Too close on $daynam $start to " . $LastTime[$daynum] . " at " . SName($Venues[$lastVen]) . ", ";
+	    if (!$Events[$e]['IgnoreClash']) $Err .= "Too close on $daynam $start to " . $LastTime[$daynum] . " at " . SName($Venues[$lastVen]) . ", ";
 	  } else {
 //if ($si == 301) echo "Here 6<br>";
 	    $LastTime[$daynum] = $End;

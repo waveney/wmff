@@ -110,6 +110,7 @@ function Set_Event_Help() {
 	'Setup'=>'IF the event has setup prior to the start time, set it here in minutes to block out the venue',
 	'Duration'=>'Duration in minutes of the event, this will normally be calculated from the End time',
 	'BigEvent'=>'For large events needing more than 4 participants of each type eg the procession',
+	'IgnoreClash'=>'Ignore two events at same time and surpress gap checking',
 	'Public'=>'Controls public visibility of Event, "Not Yet" and "Never" are handled the same',
 	'ExcludeCount'=>'For Big Events - if set exclude this event from Dance Spot counts - eg Procession',
 	'Price'=>'In pounds for entire event - there are no prices for sub events',
