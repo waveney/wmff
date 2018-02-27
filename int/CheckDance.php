@@ -112,7 +112,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
     $LastDay = -99;
     $LastT = 0;
     $FirstTime = $LastTime = $DayCounts = array(-3=>0,-2=>0,-1=>0,0=>0,1=>0,2=>0,3=>0);
-    $VenuesUsed = array();
+    $VenuesUsed = $Complained = array();
     $surfs = 0;
     $last_e = 0;
     $minorspots = 0;
@@ -158,12 +158,15 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	  }
 	}
 	if (isset($VenuesUsed[$Ven])) {
-	  if ($side['IsASide'] && !$Venues[$Ven]['AllowMult']) $Merr .= "Performing multiple times at " . SName($Venues[$Ven]) . " on $daynam, ";
+	  if ($side['IsASide'] && !$Venues[$Ven]['AllowMult'] && !isset($Complained[$Ven)) {
+	    $Merr .= "Performing multiple times at " . SName($Venues[$Ven]) . " on $daynam, ";
+	  }
+	  $Complained[$Ven]=1;
 	} else {
 	  $VenuesUsed[$Ven] = 1;
 	}
 	if (isset($Venues[$Ven]["Minor$daynam"]) && ($Venues[$Ven]["Minor$daynam"])) {
-	  if ($minorspots++ && $side['IsASide']) $Merr .= "Performing $minorspots times at minor spots on $daynam,";
+	  if ($minorspots++ && $side['IsASide']) $Merr .= "Performing $minorspots times at minor spots on $daynam, ";
 	}
 	if ($side['IsASide'] && $surfs) {
 //if (!$Surfaces[$Venues[$Ven]['SurfaceType1']]) { echo "Surface - $Ven ..."; }
@@ -323,7 +326,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
       // NOTE no checking (yet) of likes/dislikes
 
     } else {
-      $Merr .= 'No Events, ';
+      if ($side['IsASide']) $Merr .= 'No Events, ';
     }
 
     // Update error list and dance list cache?
