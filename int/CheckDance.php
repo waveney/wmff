@@ -130,8 +130,6 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	if ($Events[$e]['EventId'] == $last_e) {
 	  $Err .= "Doing the same event on $daynam at $start in " . SName($Venues[$Ven]) . ", ";
 	}
-	$last_e = $Events[$e]['EventId'];
-	if ($last_e == $Procession) $InProcession = 1;
 	if ($Events[$e]['SubEvent'] < 0) { $End = $Events[$e]['SlotEnd']; } else { $End = $Events[$e]['End']; };
 	if ($Events[$e]['BigEvent'] && ($Events[$e]['OtherPos'][$si] <= $Events[$e]['OtherCount']/2)) $End = timeadd($End, -30);
 //if ($si == 301) echo "$start - " . $LastTime[$daynum]. " $daynum - $LastDay<p>";
@@ -159,6 +157,10 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	    $LastTime[$daynum] = $End;
 	  }
 	}
+
+	$last_e = $Events[$e]['EventId'];
+	if ($last_e == $Procession) $InProcession = 1;
+
 	if (isset($VenuesUsed[$Ven])) {
 	  if ($side['IsASide'] && !$Venues[$Ven]['AllowMult'] && !isset($Complained[$Ven])) {
 	    $Merr .= "Performing multiple times at " . SName($Venues[$Ven]) . " on $daynam, ";
