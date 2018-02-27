@@ -345,7 +345,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
 	      if ($G["S$i"]) {
 	        $si = $G["S$i"];
 	        $s = &$Sides[$si];
-	        $txt = SName($s) . (($types && $s['Type'])?(" (" . $s['Type'] . ") "):"");
+	        $txt = SName($s) . (($types && $s['Type'])?(" (" . trim($s['Type']) . ") "):"");
 	        echo "<span data-d=$si class='DPESide Side$si'>";
 	        if ($condense && !$types) echo "<a href=/int/ShowDance.php?sidenum=$si>";
 	        echo $txt;
@@ -366,7 +366,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
         } else if ($G["S" . ($line+($G['n']?0:1))]) {
 	  $si = $G["S" . ($line + ($G['n']?0:1))];
 	  $s = &$Sides[$si];
-	  $txt = SName($s) . (($types && $s['Type'])?(" (" . $s['Type'] . ") "):"");
+	  $txt = SName($s) . (($types && $s['Type'])?(" (" . trim($s['Type']) . ") "):"");
 	  if (!$txt) $txt = "ERROR...";
 	  $class .= " Side$si";
 	  $rows = ($G['w']?('rowspan=' . (4-$line)):'');
@@ -758,7 +758,7 @@ function Prog_MG_Print($drag,$types,$format) {
 	  if ($sid) {
 	    $side = $Sides[$sid];
 	    echo SName($side);
-	    if ($types && $side['Type']) echo " (" . $side['Type'] . ")";
+	    if ($types && $side['Type']) echo " (" . trim($side['Type']) . ")";
 	    echo "<br>";
 	  }
 	}

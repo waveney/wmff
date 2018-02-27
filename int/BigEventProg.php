@@ -31,12 +31,14 @@
 
   $Sides = Select_Come_Day($Day,' AND y.Procession=1 ');
 
-  $Acts = Select_Act_Come(0);
-  $Others = Select_Other_Come(0);
+  $Acts = Select_Act_Come(1);
+  $Others = Select_Other_Come(1);
+
+//var_dump($Acts); exit;
 
 // Displays Grid
 function Prog_Grid() {
-  global $Event,$DAY,$Sides,$Acts,$Others,$Eid;
+  global $Event,$DAY,$Sides,$Acts,$Others,$Eid,$ActsD,$OthersD;
   $things = Get_Other_Things_For($Eid);
 
   echo "<div class=BEGridWrapper><div class=BEGridContainer>";
@@ -64,16 +66,16 @@ function Prog_Grid() {
 	  else $Sides[$id]['EventOrder'] = $CurOrder;
 	  break;
         case 'Act':
-	  echo SName($Acts[$id]);
-	  if ($Acts[$id]['Type']) echo " (" . trim($Acts[$id]['Type']) . ")";
-	  if (isset($Acts[$id]['EventOrder'])) { $Acts[$id]['EventOrder'] = '!!'; }
-	  else $Acts[$id]['EventOrder'] = $CurOrder;
+	  echo $Acts[$id];
+//	  if ($Acts[$id]['Type']) echo " (" . trim($Acts[$id]['Type']) . ")";
+	  if (isset($ActsD[$id]['EventOrder'])) { $ActsD[$id]['EventOrder'] = '!!'; }
+	  else $ActsD[$id]['EventOrder'] = $CurOrder;
 	  break;
         case 'Other':
-	  echo SName($Others[$id]);
-	  if ($Others[$id]['Type']) echo " (" . trim($Others[$id]['Type']) . ")";
-	  if (isset($Others[$id]['EventOrder'])) { $Others[$id]['EventOrder'] = '!!'; }
-	  else $Others[$id]['EventOrder'] = $CurOrder;
+	  echo $Others[$id];
+//	  if ($Others[$id]['Type']) echo " (" . trim($Others[$id]['Type']) . ")";
+	  if (isset($OthersD[$id]['EventOrder'])) { $OthersD[$id]['EventOrder'] = '!!'; }
+	  else $OthersD[$id]['EventOrder'] = $CurOrder;
 	  break;
         case 'Note':
 	  break;
@@ -95,10 +97,11 @@ function Prog_Grid() {
 
   echo "</tbody></table>";
   echo "</div></div>\n";
+
 }
 
 function Side_List() {
-  global $Event,$DAY,$Sides,$Acts,$Others,$Thing_Types;
+  global $Event,$DAY,$Sides,$Acts,$Others,$Thing_Types,$ActsD,$OthersD;
   $Show['ShowThings'] = 'Sides';
   echo "<div class=SideListWrapper>";
   echo fm_radio("Show",$Thing_Types,$Show,'ShowThings','onchange=ShowThing()',0);
@@ -110,8 +113,8 @@ function Side_List() {
   foreach ($Sides as $iid=>$side) {
     $id = $side['SideId'];
     echo "<tr><td draggable=true class='SideName' id=Z0:Side:$id ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event)>";
-    echo SName($side) . " (" . trim($side['Type']) . ")<td>";
-    echo "<img src=/images/icons/information.png onclick=dispinfo('Side',$id)>";
+    echo SName($side) . " (" . trim($side['Type']) . ")";
+    echo "<td><img src=/images/icons/information.png onclick=dispinfo('Side',$id)>";
     if (!$Event['ExcludeCount']) {
       echo "<td id=SideW$id align=right>" . $side[$DAY . "Dance"] . "<td id=SideH$id align=right>" . $SideCounts[$id];
     }
@@ -120,26 +123,29 @@ function Side_List() {
     echo "\n";
   }
   echo "</table><br><table border id=ActSide >";
-  if ($Acts) foreach ($Acts as $iid=>$act) {
-    $id = $act['ActId'];
+  echo "<tr><th>Act<th>i";
+  echo "<th>P\n";
+  if ($Acts) foreach ($Acts as $id=>$act) {
+    if (!$act) continue;
     echo "<tr><td draggable=true class='SideName' id=Z0:Act:$id ondragstart=drag(event) ondragover=allow(event) ondrop=dropside(event)>";
-    echo SName($act);
-    if ($act['Type']) echo " (" . trim($act['Type']) . ")<td>";
+    echo $act;
+//    if ($act['Type']) echo " (" . trim($act['Type']) . ")";
     echo "<td><img src=/images/icons/information.png onclick=dispinfo('Act',$id)>";
     echo "<td id=ActP$id>";
-    if (isset($act['EventOrder'])) echo $act['EventOrder'];
+    if (isset($ActsD[$id]['EventOrder'])) echo $ActsD[$id]['EventOrder'];
     echo "\n";
   }
   echo "</table><br><table border id=OtherSide >";
-  if ($Others) foreach ($Others as $iid=>$Other) {
-//var_dump("<p>",$Other);
-    $id = $Other['OtherId'];
+  echo "<tr><th>Other<th>i";
+  echo "<th>P\n";
+  if ($Others) foreach ($Others as $id=>$Other) {
+    if (!$Other) continue;
     echo "<tr><td draggable=true class='SideName' id=Z0:Other:$id ondragstart=drag(event) ondragover=allow(event) ondrop=dropside(event)>";
-    echo SName($Other);
-    if ($Other['Type']) echo " (" . trim($Other['Type']) . ")";
+    echo $Other;
+//    if ($Other['Type']) echo " (" . trim($Other['Type']) . ")";
     echo "<td><img src=/images/icons/information.png onclick=dispinfo('Other',$id)>";
     echo "<td id=OtherP$id>";
-    if (isset($Other['EventOrder'])) echo $Other['EventOrder'];
+    if (isset($OthersD[$id]['EventOrder'])) echo $OthersD[$id]['EventOrder'];
     echo "\n";
   }
   echo "</table></div></div>\n";

@@ -211,7 +211,7 @@ function Select_Act_Come($type=0,$extra='') {
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
-      $x = ($type && $row['Type'])?( " ( " . $row['Type'] . " ) ") : "";
+      $x = ($type && $row['Type'])?( " (" . trim($row['Type']) . ") ") : "";
       $Coming[$row['SideId']] = $row['SName'] . $x;
     }
   }
@@ -229,7 +229,7 @@ function Select_Other_Come($type=0,$extra='') {
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
-      $x = ($type && $row['Type'])?( " ( " . $row['Type'] . " ) ") : "";
+      $x = ($type && $row['Type'])?( " (" . trim($row['Type']) . ") ") : "";
       $Coming[$row['SideId']] = $row['SName'] . $x;
     }
   }

@@ -1,6 +1,7 @@
 <?php // INfomation tpo display things in programming
   include("fest.php");
   include("DanceLib.php");
+  include("MusicLib.php");
 
   global $YEAR,$OlapTypes,$OlapDays,$OlapCats,$Share_Spots;
   $t = $_GET['T'];
