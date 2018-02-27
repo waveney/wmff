@@ -162,7 +162,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	} else {
 	  $VenuesUsed[$Ven] = 1;
 	}
-	if (isset($Venues[$Ven]["Minor$daynam"])) && ($Venues[$Ven]["Minor$daynam"]) {
+	if (isset($Venues[$Ven]["Minor$daynam"]) && ($Venues[$Ven]["Minor$daynam"])) {
 	  if ($minorspots++ && $side['IsASide']) $Merr .= "Performing $minorspots times at minor spots on $daynam,";
 	}
 	if ($side['IsASide'] && $surfs) {
