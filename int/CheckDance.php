@@ -76,10 +76,12 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
       if ($e['BigEvent']) {
 	if ($e['SName'] == 'Procession') $Procession = $eid;
         $Other = Get_Other_Things_For($eid);
+	$sidcount = 1;
 	$Events[$eid]['Other'] = $Other;
 	foreach ($Other as $i=>$ot) {
 	  if ($ot['Type'] == 'Side') {
 	    $s = $ot['Identifier'];
+	    $Events[$eid]['OtherPos'][$s] = $sidcount++;
 	    if (isset($Sides[$s])) {
 	      $dancing[$s][] = $eid;
 	    } else {
@@ -89,6 +91,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	    }
 	  }
 	}
+	$Events[$eid]['OtherCount'] = $sidpos;
       }
     }
   } else {
@@ -131,6 +134,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	$last_e = $Events[$e]['EventId'];
 	if ($last_e == $Procession) $InProcession = 1;
 	if ($Events[$e]['SubEvent'] < 0) { $End = $Events[$e]['SlotEnd']; } else { $End = $Events[$e]['End']; };
+	if ($Events[$e]['BigEvent'] && ($Events[$e]['OtherPos'][$si] <= $Events[$e]['OtherCount']/2)) $End = timeadd($End, -30);
 //if ($si == 301) echo "$start - " . $LastTime[$daynum]. " $daynum - $LastDay<p>";
 	if ($side['IsASide']) {
 //if ($si == 301) echo "Here 1<br>";
