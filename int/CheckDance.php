@@ -158,7 +158,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	  }
 	}
 	if (isset($VenuesUsed[$Ven])) {
-	  if ($side['IsASide'] && !$Venues[$Ven]['AllowMult'] && !isset($Complained[$Ven)) {
+	  if ($side['IsASide'] && !$Venues[$Ven]['AllowMult'] && !isset($Complained[$Ven])) {
 	    $Merr .= "Performing multiple times at " . SName($Venues[$Ven]) . " on $daynam, ";
 	  }
 	  $Complained[$Ven]=1;
