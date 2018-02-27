@@ -91,7 +91,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	    }
 	  }
 	}
-	$Events[$eid]['OtherCount'] = $sidpos;
+	$Events[$eid]['OtherCount'] = $sidcount;
       }
     }
   } else {
@@ -110,9 +110,8 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
     $Err = '';
     $Merr = '';
     $LastDay = -99;
-    $FirstTime = $LastTime = array();
     $LastT = 0;
-    $DayCounts = array(0,0,0);
+    $FirstTime = $LastTime = $DayCounts = array(-3=>0,-2=>0,-1=>0,0=>0,1=>0,2=>0,3=>0);
     $VenuesUsed = array();
     $surfs = 0;
     $last_e = 0;
@@ -163,7 +162,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	} else {
 	  $VenuesUsed[$Ven] = 1;
 	}
-	if ($Venues[$Ven]["Minor$daynam"]) {
+	if (isset($Venues[$Ven]["Minor$daynam"])) && ($Venues[$Ven]["Minor$daynam"]) {
 	  if ($minorspots++ && $side['IsASide']) $Merr .= "Performing $minorspots times at minor spots on $daynam,";
 	}
 	if ($side['IsASide'] && $surfs) {
