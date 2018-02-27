@@ -91,7 +91,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	    }
 	  }
 	}
-	$Events[$eid]['OtherCount'] = $sidpos;
+	$Events[$eid]['OtherCount'] = $sidcount;
       }
     }
   } else {
@@ -110,10 +110,9 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
     $Err = '';
     $Merr = '';
     $LastDay = -99;
-    $FirstTime = $LastTime = array();
     $LastT = 0;
-    $DayCounts = array(0,0,0);
-    $VenuesUsed = array();
+    $FirstTime = $LastTime = $DayCounts = array(-3=>0,-2=>0,-1=>0,0=>0,1=>0,2=>0,3=>0);
+    $VenuesUsed = $Complained = array();
     $surfs = 0;
     $last_e = 0;
     $minorspots = 0;
@@ -131,8 +130,6 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	if ($Events[$e]['EventId'] == $last_e) {
 	  $Err .= "Doing the same event on $daynam at $start in " . SName($Venues[$Ven]) . ", ";
 	}
-	$last_e = $Events[$e]['EventId'];
-	if ($last_e == $Procession) $InProcession = 1;
 	if ($Events[$e]['SubEvent'] < 0) { $End = $Events[$e]['SlotEnd']; } else { $End = $Events[$e]['End']; };
 	if ($Events[$e]['BigEvent'] && ($Events[$e]['OtherPos'][$si] <= $Events[$e]['OtherCount']/2)) $End = timeadd($End, -30);
 //if ($si == 301) echo "$start - " . $LastTime[$daynum]. " $daynum - $LastDay<p>";
@@ -152,19 +149,28 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	    $minorspots = 0;
 	  } elseif (timereal($start) - timereal($LastTime[$daynum]) < 20) { // Min 20 mins to allow for odd timing of some events
 //if ($si == 301) echo "Here 5<br>";
-	    if (!$Events[$e]['IgnoreClash']) $Err .= "Too close on $daynam $start to " . $LastTime[$daynum] . " at " . SName($Venues[$lastVen]) . ", ";
+	    if (!$Events[$e]['IgnoreClash'] && !$Events[$last_e]['IgnoreClash'] ) {
+		$Err .= "Too close on $daynam $start to " . $LastTime[$daynum] . " at " . SName($Venues[$lastVen]) . ", ";
+	    }
 	  } else {
 //if ($si == 301) echo "Here 6<br>";
 	    $LastTime[$daynum] = $End;
 	  }
 	}
+
+	$last_e = $Events[$e]['EventId'];
+	if ($last_e == $Procession) $InProcession = 1;
+
 	if (isset($VenuesUsed[$Ven])) {
-	  if ($side['IsASide'] && !$Venues[$Ven]['AllowMult']) $Merr .= "Performing multiple times at " . SName($Venues[$Ven]) . " on $daynam, ";
+	  if ($side['IsASide'] && !$Venues[$Ven]['AllowMult'] && !isset($Complained[$Ven])) {
+	    $Merr .= "Performing multiple times at " . SName($Venues[$Ven]) . " on $daynam, ";
+	  }
+	  $Complained[$Ven]=1;
 	} else {
 	  $VenuesUsed[$Ven] = 1;
 	}
-	if ($Venues[$Ven]["Minor$daynam"]) {
-	  if ($minorspots++ && $side['IsASide']) $Merr .= "Performing $minorspots times at minor spots on $daynam,";
+	if (isset($Venues[$Ven]["Minor$daynam"]) && ($Venues[$Ven]["Minor$daynam"])) {
+	  if ($minorspots++ && $side['IsASide']) $Merr .= "Performing $minorspots times at minor spots on $daynam, ";
 	}
 	if ($side['IsASide'] && $surfs) {
 //if (!$Surfaces[$Venues[$Ven]['SurfaceType1']]) { echo "Surface - $Ven ..."; }
@@ -324,7 +330,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
       // NOTE no checking (yet) of likes/dislikes
 
     } else {
-      $Merr .= 'No Events, ';
+      if ($side['IsASide']) $Merr .= 'No Events, ';
     }
 
     // Update error list and dance list cache?

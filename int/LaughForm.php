@@ -12,7 +12,7 @@
     if (strlen($_POST['SName']) < 2) { echo "<p class=Err>Please give your act's name\n"; $err=1; };
     if (strlen($_POST['Contact']) < 6) { echo "<p class=Err>Please give the contact name\n"; $err=1; };
     Clean_Email($_POST{'Email'});
-    if (strlen($_POST['Email']) < 6) { echo "<p class=Err>Please give the contacts Email\n"; $err=1; };
+    if (strlen($_POST['Email']) < 6 || !strpos($_POST['Email'],'@')) { echo "<p class=Err>Please give the contacts Email\n"; $err=1; };
     if (strlen($_POST['Phone']) < 6) { echo "<p class=Err>Please give the contacts Phone number\n"; $err=1; };
     if (strlen($_POST['Style']) < 6) { echo "<p class=Err>Please give your comedy style\n"; $err=1; };
     if (strlen($_POST['Started']) < 4) { echo "<p class=Err>When did you start?\n"; $err=1; };
