@@ -269,7 +269,11 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 		$se = $Events[$sei];
 		if ($pos < 0 && ($oe['Day'] < $se['Day'] || ($oe['Day'] == $se['Day'] && $oe['Start'] < $se['Start']))) $pos = $p;
 	      }
-	      array_splice($Playing,$pos,0,$oei);
+              if ($pos >= 0) {
+                array_splice($Playing,$pos,0,$oei);
+              } else {
+                $Playing[] = $oei;
+              };
 	      $otherplaying = 1;
 	    }
 	  } // Playing now has events in order
@@ -278,23 +282,24 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	    $LastVen = 0;
 	    $Consec = 0;
 	    $LastD = -1;
-	    $LastT = 0;
+	    $LastET = 0;
 	    foreach ($Playing as $pd=>$e) {
 	      $Ev = $Events[$e];
 	      $start = timereal($Ev['Start']);
 	      if ($Ev['SubEvent'] < 0) { $End = timereal($Ev['SlotEnd']); } else { $End = timereal($Ev['End']); }
+              if ($Ev['BigEvent'] && ($Ev['OtherPos'][$si] <= $Ev['OtherCount']/2)) $End = timeadd($End, -30);
 	      $Ven = $Ev['Venue'];
-	      if ($LastD == $Ev['Day'] && $start < ($LastT + 20)) {
+	      if ($LastD == $Ev['Day'] && $start < ($LastET + 20)) {
 	        $daynam = $DayList[$LastD];
 		if ($Ven == $LastVen) {
-		  $Consec += ($End - $LastT);
+		  $Consec += ($End - $LastET);
 		  if ($Consec > 65) $Merr .= "Performing for $Consec minutes on $daynam at " . $Ev['Start'] . ", ";
 	        } else {
 		  if ($Rule['Major']) {
-		    $Err .= "Playing at the same time in two locations: " . SName($Venues[$LastVen]) . " at " . timeformat($LastT) .
+		    $Err .= "Playing at the same time in two locations: " . SName($Venues[$LastVen]) . " at $LastST-" . timeformat($LastET) .
 				" on $daynam and at " . SName($Venues[$Ven]) . " at " . $Ev['Start'] . ", ";
 	          } else {
-		    $Merr .= "Playing at the same time in two locations: " . SName($Venues[$LastVen]) . " at " . timeformat($LastT) .
+		    $Merr .= "Playing at the same time in two locations: " . SName($Venues[$LastVen]) . " at $LastST-" . timeformat($LastET) .
 				" on $daynam and at " . SName($Venues[$Ven]) . " at " . $Ev['Start'] . ", ";
 		  }
 		}
@@ -302,7 +307,8 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 		$Consec = 0;
 	      }
 	      $LastVen = $Ven;
-	      $LastT = $End;
+	      $LastET = $End;
+	      $LastST = timeformat($start);
 	      $LastD = $Ev['Day'];
 	    }
 	  }
