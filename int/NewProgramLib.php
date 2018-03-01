@@ -578,6 +578,7 @@ function Controls($level=0,$condense=0) {
   echo "<input type=submit name=d value=Sun $classSun>\n";
   echo "<tr>" . fm_radio("Info",$InfoLevels,$_GET,'EInfo',"onchange=UpdateInfo()");
   echo "</table>";
+  echo "<button onclick=clearHL()>Clear Highlights</button><br>";
 //  echo "<input type=submit id=smallsubmit value=Refresh>";
   echo "</form>\n";
   echo "<h2><a href=Staff.php>Staff Tools</a></h2></center>";

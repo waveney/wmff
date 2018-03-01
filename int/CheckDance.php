@@ -289,7 +289,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	      if ($Ev['SubEvent'] < 0) { $End = timereal($Ev['SlotEnd']); } else { $End = timereal($Ev['End']); }
               if ($Ev['BigEvent'] && ($Ev['OtherPos'][$si] <= $Ev['OtherCount']/2)) $End = timeadd($End, -30);
 	      $Ven = $Ev['Venue'];
-	      if ($LastD == $Ev['Day'] && $start < ($LastET + 20)) {
+	      if ($LastD == $Ev['Day'] && $start < ($LastET + 20) && $side[$DayList[$Ev['Day']]]) {
 	        $daynam = $DayList[$LastD];
 		if ($Ven == $LastVen) {
 		  $Consec += ($End - $LastET);

@@ -344,7 +344,8 @@ div.whileDragging {
 
 .InfoWrapper {
   width: 350px
-  height: 50vh; 
+  height: 30vh; 
+  max-height: 30vh; 
   overflow: hidden;
   position: fixed;
   bottom:0;
@@ -517,8 +518,7 @@ p {
 }
 
 #ProgDayHL {
-  background-color:#C274F6;
-  color:#421486;
+  background-color:red;
 }
 
 .WMFF_FAQ {
