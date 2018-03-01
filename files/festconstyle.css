@@ -517,8 +517,10 @@ p {
   max-width:100%;
 }
 
-#ProgDayHL {
+.ProgDayHL, #ProgDayHL {
   background-color:red;
+  color:white;
+  font-weight:bold;
 }
 
 .WMFF_FAQ {

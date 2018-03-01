@@ -266,7 +266,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
   global $DAY,$Times,$Back_Times,$grid,$lineLimit,$EV,$Sides,$SideCounts,$VenueUse,$evs,$MaxOther,$VenueInfo,$Venues,$VenueNames,$OtherLocs,$Sand,$VenueList;
 
   echo "<div class=GridWrapper$format><div class=GridContainer$format>";
-  echo "<table border id=Grid><thead><tr><th id=DayId width=60>$DAY";
+  echo "<table border id=Grid><thead><tr><th id=DayId width=60 class=ProgDayHL>$DAY";
   $OtherInUse = array();
   foreach ($VenueList as $v) if ($v > 0) {
     if ($condense && $VenueInfo[$v]["Minor$DAY"]) {
@@ -397,7 +397,7 @@ function Prog_Grid($drag=1,$types=1,$condense=0,$format='') {
   global $DAY,$Times,$lineLimit,$EV,$Sides,$SideCounts,$VenueUse,$evs,$MaxOther,$VenueInfo,$Venues,$VenueNames,$OtherLocs,$Sand;
 
   echo "<div class=GridWrapper$format><div class=GridContainer$format>";
-  echo "<table border id=Grid><thead><tr><th id=DayId>$DAY";
+  echo "<table border id=Grid><thead><tr><th id=ProgDayId>$DAY";
   foreach ($Venues as $v) if (isset($VenueUse[$v])) {
     if ($condense && $VenueInfo[$v]["Minor$DAY"]) {
 //      $OtherLocs[] = $v;
