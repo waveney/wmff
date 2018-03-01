@@ -128,13 +128,14 @@
       }
       if ($col8 == "Complete?") {
         echo "<td>";
-	if ($fetch['Insurance'] && 
+	if ($fetch['Insurance'] && $fetch['Mobile'] &&
 		((($fetch['Performers'] > 0) && $fetch['Address']) || ($fetch['Performers'] < 0)) && 
 		($fetch['Sat'] || $fetch['Sun'])) { echo "Yes"; }
 	else {
 	  if ($fetch['Insurance']) echo "I"; 
 	  if ($fetch['Performers'] != 0) echo "P"; 
 	  if ($fetch['Address']) echo "A"; 
+	  if ($fetch['Mobile']) echo "M"; 
 	  if (!$fetch['Sat'] && !$fetch['Sun'] ) echo "?"; 
 	}
       }
