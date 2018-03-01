@@ -850,9 +850,9 @@ function firstword($stuff) {
 
 function SAO_Report($i) {
   $OSide = Get_Side( $i ); 
-  $str = $OSide['SName'];
-  if ($OSide['Type']) $str .= " ( " . trim($OSide['Type']) . " )";
-  return $str;
+  $str = "<a href=/int/ShowSide.php?sidenum=$i>" . $OSide['SName'];
+  if ($OSide['Type']) $str .= " (" . trim($OSide['Type']) . ")";
+  return $str . "</a>";
 }
 
 function SName(&$What) {
