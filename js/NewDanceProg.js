@@ -169,3 +169,15 @@ var InfoPaneDefault = '';
 function infoclose(e) {
   $("#InfoPane").html(InfoPaneDefault);
 }
+
+function ClearHL() {
+  for (var hl=0; hl<8;hl++) {
+    if (sidlight[hl]) {
+      var oc=hlights[sidlight[hl]];
+      $('.'+oc).removeClass(oc);
+      hlights[id]='';
+    }
+  }
+  sidlight = [];
+  nexthl = 0;
+}
