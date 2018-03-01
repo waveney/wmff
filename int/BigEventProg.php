@@ -61,7 +61,8 @@ function Prog_Grid() {
       echo "ondragstart=drag(event) ondrop=dropgrid(event) ondragover=allow(event)>";
       switch ($tt) {
         case 'Side':
-	  echo SName($Sides[$id]) . " (" . trim($Sides[$id]['Type']) . ")";
+	  echo SName($Sides[$id]);
+	  if ($Sides[$id]['Type']) echo " (" . trim($Sides[$id]['Type']) . ")";
 	  if (isset($Sides[$id]['EventOrder'])) { $Sides[$id]['EventOrder'] = '!!'; }
 	  else $Sides[$id]['EventOrder'] = $CurOrder;
 	  break;
@@ -113,7 +114,8 @@ function Side_List() {
   foreach ($Sides as $iid=>$side) {
     $id = $side['SideId'];
     echo "<tr><td draggable=true class='SideName' id=Z0:Side:$id ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event)>";
-    echo SName($side) . " (" . trim($side['Type']) . ")";
+    echo SName($side);
+    if ($side['Type']) echo " (" . trim($side['Type']) . ")";
     echo "<td><img src=/images/icons/information.png onclick=dispinfo('Side',$id)>";
     if (!$Event['ExcludeCount']) {
       echo "<td id=SideW$id align=right>" . $side[$DAY . "Dance"] . "<td id=SideH$id align=right>" . $SideCounts[$id];

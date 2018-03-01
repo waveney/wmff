@@ -3,6 +3,7 @@ var Dragged ;
 var nexthl = 0;
 var hlights = [];
 var sidlight = [];
+var InfoPaneDefault = '';
 
 // Old format Le:t:l:s
 // New format Lv:t:l (L = G,S) - data-d: L:e:s:d:w L=(N,S)
@@ -115,6 +116,7 @@ var sidlight = [];
 
 // Should work on New as unchanged
   function dispinfo(t,s) {
+    if (InfoPaneDefault == '') InfoPaneDefault = $("#InfoPane").html();
     $("#InfoPane").load("dpinfo.php", "S=" + s + "&T=" + t);
   }
 
@@ -163,3 +165,7 @@ var sidlight = [];
       $('#AddRow' + t).hide();
     }
   }
+
+function infoclose(e) {
+  $("#InfoPane").html(InfoPaneDefault);
+}

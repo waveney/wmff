@@ -344,7 +344,8 @@ div.whileDragging {
 
 .InfoWrapper {
   width: 350px
-  height: 50vh; 
+  height: 30vh; 
+  max-height: 30vh; 
   overflow: hidden;
   position: fixed;
   bottom:0;

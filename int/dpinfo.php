@@ -28,7 +28,7 @@
 
   echo "<table><tr><td>";
   echo "<h2>" . SName($data) . "</h2>\n";
-  echo "<td align=right><a href=$link>Edit</a></table>\n";
+  echo "<td align=right><a href=$link>Edit</a> <a onclick=infoclose(event)>X</a></table>\n";
   echo "<table>";
   if ($data['Type']) echo "<tr><td>Type:<td>" . $data['Type'];
   if ($data['Description']) echo "<tr valign=top><td>Desc:<td>" . $data['Description'];
