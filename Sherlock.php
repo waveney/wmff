@@ -12,13 +12,17 @@
   $Ets = Get_Event_Types(1);
   $Vens = Get_Venues(1);
 
+  $Extras = array('Music'=>' OR ListMusic=1');
+
+
   $Ett = -1;
   foreach($Ets as $eti=>$et) if ($et['SName'] == $Type) $Ett = $eti;
+  $xtr = (isset($Extras[$Type]))? $Extras[$Type] : '';
   $Evs = array();
   $Complete = 0;
 
   if ($Ett >= 0) { 
-    $ans = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND Type=$Ett AND SubEvent<1 ORDER BY Day,Start"); // Need to work with release settings as well
+    $ans = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND ( Type=$Ett $xtr ) AND SubEvent<1 ORDER BY Day,Start"); // Need to work with release settings as well
     if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
     if (count($Evs) > 1) $Types = $Ets[$Ett]['Plural'];
     $Complete = $Ets[$Ett]['State'];

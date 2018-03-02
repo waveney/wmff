@@ -228,6 +228,8 @@
       $hidemday =  ($Event['LongEvent'])?'':'hidden ';
       echo "<td class=NotSide>" . fm_checkbox('Big Event',$Event,'BigEvent');
       echo "<td class=NotSide>" . fm_checkbox('Ignore Clashes',$Event,'IgnoreClash');
+      echo "<td class=NotSide>" . fm_checkbox('Also Dance',$Event,'ListDance');
+      echo "<td class=NotSide>" . fm_checkbox('Also Music',$Event,'ListMusic');
 
       echo "<tr><td>" . fm_checkbox('Special Event',$Event,'Special');
       echo "<td>" . fm_checkbox('Family Event',$Event,'Family');
