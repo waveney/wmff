@@ -40,7 +40,7 @@ function Grab_Data($day='',$Media='Dance') {
   } else if (isset($_GET{'d'})) { $DAY = $_GET{'d'}; } else { $DAY='Sat'; }
 
   if (!isset($_GET{'EInfo'})) $_GET{'EInfo'} = 0;
-  for ($t=10;$t<19;$t++) {
+  for ($t=10;$t<($Media=='Dance'?19:24);$t++) {
     $Times[] = $t*100;
     if ($Media != 'Dance') $Times[] = $t*100+15;
     $Times[] = $t*100+30;
@@ -66,6 +66,7 @@ function Grab_Data($day='',$Media='Dance') {
     $eid = $ev['EventId'];
     $v = $ev['Venue'];
     if ($ev['SubEvent'] < 0) { $et = $ev['SlotEnd']; } else { $et = $ev['End']; };
+    if ($et == 0 || $ev['Start']==0) continue; // Skip events with undefined times
     $duration = timereal($et) - timereal($ev['Start']);
     $t = timeround($ev['Start'],$Round);
       
@@ -932,6 +933,16 @@ function Notes_Music_Pane() {
   echo "This is just a visual display of the Music programme.  No editing can be done currently.<br>";
   echo "<div>";
 }
+
+TODO/PROBLEMS
+Merge Stage/Not Stage in Square
+Hide/Trim unused times
+What appears as "Music"?  Do workshops?  Do Sessions?  Do Ceildihs?  
+  Should include sessions and workshops at venues that are not dance only
+
+Pick up music sub events and handle appropriately
+
+
 
 */
 ?>
