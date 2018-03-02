@@ -15,7 +15,7 @@ $Coming_idx = array('','R','Y','N','P','NY');
 $Coming_Type = array_flip($Coming_idx);
 $Invite_States = array('','Yes','YES!','No','Maybe');
 $Invite_Type = array_flip($Invite_States);
-$Surfaces = array ('','Tarmac','Flagstones','Grass','Stage','Astroturf','Wood');
+$Surfaces = array ('','Tarmac','Flagstones','Grass','Stage','Astroturf','Wood','Carpet');
 $Side_Statuses = array("Alive","Dead");
 $Share_Spots = array('Prefered','Always','Never','Sometimes');
 $Share_Type = array_flip($Share_Spots);
@@ -642,7 +642,6 @@ function linkemail(&$data,$type="Side",$xtr='') {
 	 	"You can check your programme times and update your side details at any time by visiting " .
 	 	"<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=$type&id=$id&key=$key>this link</a>.  " .
 		$ProgInfo . "\n\n" .
-		"PUT MESSAGE HERE\n\n" .
 	 	"\n\nRegards " . $USER['SName'] . "\n\n") .
 	 ">Email</a>";
   return $lnk;
@@ -712,7 +711,6 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
 		"You can update information at any time, until the programme goes to print. " .
 		"(You'll also be able to view your programme times, once we've done the programme)<p>" .
 		"<div id=SideProg$id>$ProgInfo</div><p>" .
-		"PUT MESSAGE HERE<p>" .
 	 	"Regards " . $USER['SName'] . "<p>"); 
       break;
 
@@ -730,7 +728,6 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
 		"Please add/correct details about your business, contact information, your product descriptions, pitch and power requirements, " . 
 		"update your Insurance and Risc Assessment etc. by visiting $direct.</div><p>" .
 		"Details of your pitch location, general trader information and particulars of setup and cleardown information will also appear there.<p>" .
-		"PUT MESSAGE HERE<p>" .
 	 	"Regards " . $USER['SName'] . "<p>" 
 		); 
       break;
@@ -738,7 +735,6 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
 // For OTHER at present
     default:
       $Content = urlencode("$name,<p>" .
-		"PUT MESSAGE HERE<p>" .
 	 	"Regards " . $USER['SName'] . "<p>"); 
       break;
   }

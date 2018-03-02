@@ -3,7 +3,7 @@
 //  A_Check('Steward');
 
   global $DAY;
-  include_once("ProgramLib.php");
+  include_once("NewProgramLib.php");
 
   $Cond = 0;
   if (isset($_GET{'Cond'})) $Cond = $_GET{'Cond'};
@@ -20,22 +20,25 @@
 
   Prog_Headers($Public,$head,'Music');
   if ($day != 'Fri') {
-    Grab_Music_Data('Fri');
-//    Scan_Data($Cond);
+    Grab_Music_Data('Fri','Music');
+    Scan_Data($Cond,'Music');
     if ($Public) echo "<p><h2>Friday Music</h2><p>\n";
-    Prog_Music_Grid(0,0,$Cond,$Public);
+    Create_Grid($Cond,'Music');
+    Print_Grid(0,0,$Cond,$Public,'Music');
   }
   if ($day != 'Sat') {
-    Grab_Music_Data("Sat");
-//      Scan_Data($Cond);
+    Grab_Music_Data("Sat",'Music');
+    Scan_Data($Cond,'Music');
     echo "<p><h2>Saturday Music</h2></p>\n";
-    Prog_Music_Grid(0,0,$Cond,$Public);
+    Create_Grid($Cond,'Music');
+    Print_Grid(0,0,$Cond,$Public,'Music');
   }
   if ($day != 'Sun') {
-    Grab_Music_Data("unt");
-//      Scan_Data($Cond);
+    Grab_Music_Data("Sun",'Music');
+    Scan_Data($Cond,'Music');
     echo "<p><h2>Sunday Music</h2></p>\n";
-    Prog_Music_Grid(0,0,$Cond,$Public);
+    Create_Grid($Cond,'Music');
+    Print_Grid(0,0,$Cond,$Public,'Music');
   }
 
   if ($head) {
