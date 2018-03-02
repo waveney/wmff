@@ -87,7 +87,7 @@
     }
     if (Access('SysAdmin')) {
       echo "<p><table><tr><td>";
-      echo "<li class=smalltext><a href=ShowMusicProg.php?Cond=1&Pub=1&Y=$YEAR>Public Music Programme</a>";
+      echo "<li class=smalltext><a href=ShowMusicProg.php?Pub=1&Y=$YEAR>Public Music Programme</a>";
       echo "<li class=smalltext><a href=MusicTypes.php>Set Music Types</a>";
       echo "<li class=smalltext><a href=ResetImageSizes.php>Scan and save Image sizes</a>";
       echo "</table><p>\n";
