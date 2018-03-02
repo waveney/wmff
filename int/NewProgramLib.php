@@ -17,11 +17,12 @@ function Prog_Headers($Public='',$headers =1,$What='Dance') {
   echo "</head><body>\n";
 
   include_once("DanceLib.php");
+  include_once("MusicLib.php");
   include_once("ProgLib.php");
   if ($Public && $headers) include_once("files/navigation.php");
 }
 
-function Grab_Data($day='') {
+function Grab_Data($day='',$Media='Dance') {
   global $DAY,$Times,$Back_Times,$lineLimit,$Sides,$SideCounts,$EV,$VenueUse,$evs,$Sand;
 
   $cats = array('Side','Act','Other');
@@ -41,22 +42,32 @@ function Grab_Data($day='') {
   if (!isset($_GET{'EInfo'})) $_GET{'EInfo'} = 0;
   for ($t=10;$t<19;$t++) {
     $Times[] = $t*100;
+    if ($Media != 'Dance') $Times[] = $t*100+15;
     $Times[] = $t*100+30;
+    if ($Media != 'Dance') $Times[] = $t*100+45;
   }
 
   $Back_Times = array_reverse($Times);
-  $Sides = Select_Come_Day($DAY);
+  if ($Media == 'Dance') {
+    $Sides = Select_Come_Day($DAY);
+    $Round = 30;
+    $DefLineLim = 2;
+  } else {
+    $Sides = Select_Act_Come($DAY);
+    $Round = 15;
+    $DefLineLim = 1;
+  }
   foreach ($Sides as $i=>$s) { $SideCounts[$i]=0; }
-  foreach ($Times as $t) $lineLimit[$t]=2;
+  foreach ($Times as $t) $lineLimit[$t]=$DefLineLim;
 
-  $evs = Get_Events_For('Dance',$DAY);
+  $evs = Get_Events_For($Media,$DAY);
 //var_dump($evs);
   foreach ($evs as $ei=>$ev) {
     $eid = $ev['EventId'];
     $v = $ev['Venue'];
     if ($ev['SubEvent'] < 0) { $et = $ev['SlotEnd']; } else { $et = $ev['End']; };
     $duration = timereal($et) - timereal($ev['Start']);
-    $t = timeround($ev['Start'],30);
+    $t = timeround($ev['Start'],$Round);
       
     $EV[$v][$t]['e'] = $ei;
     $EV[$v][$t]['d'] = $duration;
@@ -100,7 +111,7 @@ function Grab_Data($day='') {
 	$EV[$ov][$t]['e'] = $ei;
 	$EV[$ov][$t]['d'] = $duration;
 	if (isset($EV[$v][$t]['n'])) $EV[$ov][$t]['n'] = $EV[$v][$t]['n'];
-	if (count($bes) < 3) {
+	if (count($bes) < ($DefLineLim + 1)) {
           $parts=0;
 	  foreach($bes as $si=>$s) {
 	    if ($parts++ <= $plim) {
@@ -113,7 +124,7 @@ function Grab_Data($day='') {
 	}
       }
 
-      if (count($bes) < 3) {
+      if (count($bes) < ($DefLineLim + 1)) {
         $parts=0;
         foreach($bes as $si=>$s) {
 	  if ($parts++ <= $plim) {
@@ -137,10 +148,18 @@ function Grab_Data($day='') {
   3) Events with titles
 */
 
-function Scan_Data($condense=0) {
+function Scan_Data($condense=0,$Media='Dance') {
   global $DAY,$Times,$Back_Times,$lineLimit,$EV,$Sides,$SideCounts,$VenueUse,$evs,$MaxOther,$VenueInfo,$Venues,$VenueNames,$OtherLocs;
   
-  $Venues = Get_Venues_For('Dance');
+  if ($Media == 'Dance') {
+    $Round = 30;
+    $DefLineLimit = 2;
+  } else {
+    $Round = 15;
+    $DefLineLimit = 1;
+  }
+
+  $Venues = Get_Venues_For($Media);
   $VenueNames = Get_Real_Venues(0);
   $VenueInfo = Get_Real_Venues(1);
   $OtherLocs = array();
@@ -162,8 +181,8 @@ function Scan_Data($condense=0) {
           for ($i=1;$i<5;$i++) if (isset($EV[$v][$time]["S$i"]) && $EV[$v][$time]["S$i"] ) $inuse = 1;
 	  if ($inuse) {
 	    $ThisO++;
-	    if ($EV[$v][$time]['d'] != 30) {
-	      $slots = ceil(timereal($EV[$v][$time]['d'])/30);
+	    if ($EV[$v][$time]['d'] != $Round) {
+	      $slots = ceil(timereal($EV[$v][$time]['d'])/$Round);
 	      $i=0; 
 	      while(isset($OtherLocUse[$i]['t']) && $OtherLocUse[$i]['t']>0) $i++;
 	      $OtherLocUse[$i]['t'] = $slots;
@@ -189,8 +208,16 @@ function Scan_Data($condense=0) {
   grid[v][t][d: duration, n:name, err:error, w:wrap, s1..4:participants, e:evnt, h:hide]
 */
 // Creates Raw Grid
-function Create_Grid($condense=0) { 
+function Create_Grid($condense=0,$Media='Dance') { 
   global $DAY,$Times,$Back_Times,$grid,$lineLimit,$EV,$Sides,$SideCounts,$VenueUse,$evs,$MaxOther,$VenueInfo,$Venues,$VenueNames,$OtherLocs,$Sand,$VenueList;
+
+  if ($Media == 'Dance') {
+    $Round = 30;
+    $DefLineLimit = 2;
+  } else {
+    $Round = 15;
+    $DefLineLimit = 1;
+  }
 
   $ForwardUse = array();
   $grid = array();
@@ -210,14 +237,14 @@ function Create_Grid($condense=0) {
 	  // find original forward point and mark overlap
 	  foreach($Back_Times as $bt) if (($bt < $t) && ($grid[$v][$t]['c'] > 1)) { $grid[$v][$t]['err'] = 1; break; };
 	}
-	$ForwardUse[$v] = max(0,$ForwardUse[$v]-30);
+	$ForwardUse[$v] = max(0,$ForwardUse[$v]-$Round);
 	$grid[$v][$t]['h'] = 1;
       } else if (!$ev) {
 	// No action I think
       } else {
-	if ($ev['d'] > 30) { // Blockout ahead and wrap this event
+	if ($ev['d'] > $Round) { // Blockout ahead and wrap this event
 	  $grid[$v][$t]['d'] = $ev['d'];
-	  $ForwardUse[$v] = $ev['d'] - 30;
+	  $ForwardUse[$v] = $ev['d'] - $Round;
 	}
 	$grid[$v][$t]['e'] = $ev['e'];
 	if ($ev['n']) $grid[$v][$t]['n'] = $ev['n'];
@@ -262,8 +289,16 @@ function Test_Dump() { // far far from complete
   ? = special
 */
 
-function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
+function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
   global $DAY,$Times,$Back_Times,$grid,$lineLimit,$EV,$Sides,$SideCounts,$VenueUse,$evs,$MaxOther,$VenueInfo,$Venues,$VenueNames,$OtherLocs,$Sand,$VenueList;
+
+  if ($Media == 'Dance') {
+    $Round = 30;
+    $DefLineLimit = 2;
+  } else {
+    $Round = 15;
+    $DefLineLimit = 1;
+  }
 
   echo "<div class=GridWrapper$format><div class=GridContainer$format>";
   echo "<table border id=Grid><thead><tr><th id=DayId width=60 class=ProgDayHL>$DAY";
@@ -334,9 +369,9 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
 	  echo "$OtherLoc<td hidden id=$id $DRAG $dev class=$class>&nbsp;";
         } else if ($G['h']) {
 	  echo "$OtherLoc<td hidden id=$id $DRAG $dev class=$class>&nbsp;";
-        } else if ($G['d'] > 30) {
+        } else if ($G['d'] > $Round) {
           if ($line == 0) {
-	    $rows = ceil($G['d']/30)*4;
+	    $rows = ceil($G['d']/$Round)*4;
 	    // Need to create a wrapped event - not editble here currently
 	    echo "$OtherLoc<td id=$id $WDRAG $dev rowspan=$rows valign=top data-d=W>";
 	    if ($G['n']) echo "<span class=DPNamed>" . $G['n'] . "<br></span>";
@@ -393,7 +428,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='') {
 */
 
 // Displays Grid
-function Prog_Grid($drag=1,$types=1,$condense=0,$format='') {
+function Prog_Grid($drag=1,$types=1,$condense=0,$format='',$Media) {
   global $DAY,$Times,$lineLimit,$EV,$Sides,$SideCounts,$VenueUse,$evs,$MaxOther,$VenueInfo,$Venues,$VenueNames,$OtherLocs,$Sand;
 
   echo "<div class=GridWrapper$format><div class=GridContainer$format>";
@@ -622,6 +657,7 @@ function InfoPane() {
 function Grab_Music_Data($day='') {
   global $DAY,$Times,$lineLimit,$Sides,$EV,$VenueUse,$evs,$Sand;
 
+  include_once("MusicLib.php");
   $Times = array();
   $lineLimit = array();
   $SideCounts = array();
@@ -674,10 +710,10 @@ function Grab_Music_Data($day='') {
   }
 }
 
-/* Go through a big grid writting every thing in, then scan for compression, then print out - Should do this for dance as well - The cell actionw will be different
+/* Go through a big grid writting every thing in, then scan for compression, then print out - The cell actionw will be different
    Slots can be moved and stretched, and allow for sound check before
 
-   $grid[v][t][i0-4][d] i0 for label, i1-4 for parts 1-4, d= data per cell i = id, l=len (mins), s=sound check before(mins)
+   $grid[v][t][n d e p1-4] i0 for label, i1-4 for parts 1-4, d= data per cell i = id, l=len (mins), s=sound check before(mins)
    $gridv[v] use count - venue event count
    $gridt[t] use count - time use count (any number of acts) 
    $gridn[t] Name use count - time use count (any number of acts) 
@@ -694,7 +730,7 @@ function Prog_Music_Grid($drag=1,$types=1,$condense=0,$format='') {
 }
 
 function Prog_MG_Everything() {
-  global $DAY,$Times,$grid,$gridv,$gridt,$gridti;
+  global $DAY,$Times,$grid,$gridv,$gridt,$gridti,$evs,$EV;
 
   foreach ($evs as $ei=>$ev) {
     $eid = $ev['EventId'];
