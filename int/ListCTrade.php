@@ -219,14 +219,15 @@
 
   if (!$Sum) echo $str;
 
-  echo "<p><table border id=narrowtable><tr><td>Type<td>Received<td>Total Accept<td>Total inc Quoted\n";
+  echo "<p><table border id=narrowtable><tr><td>Type<td>Received<td>Total Accept<td>Total inc Quoted<td>Details\n";
   foreach ($Trade_Types as $t) {
     if (isset($TrMon[$t['id']]) && $TrMon[$t['id']]) {
       echo "<tr><td style='background:" . $t['Colour'] . ";'>" . $t['SName'] ;
-      echo "<td>&pound;" . $TrRec[$t['id']] . "<td>&pound;" . $TrSub[$t['id']] . "<td>&pound;" . $TrMon[$t['id']] . "\n";
+      echo "<td>&pound;" . $TrRec[$t['id']] . "<td>&pound;" . $TrSub[$t['id']] . "<td>&pound;" . $TrMon[$t['id']];
+      echo "<td><a href=ListDTrade.php?t=" . $t['id'] . ">Details</a>\n";
     }
   }
-  echo "<tr><td>Total Fees<td>&pound;$totrec<td>&pound;$totsub<td>&pound;$totfee\n";
+  echo "<tr><td>Total Fees<td>&pound;$totrec<td>&pound;$totsub<td>&pound;$totfee<td>\n";
   echo "</table>\n";
   echo "<table border id=narrowtable><tr><td>State<td>Number\n";
   foreach ($Trade_States as $i=>$state) {
