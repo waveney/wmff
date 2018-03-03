@@ -31,7 +31,7 @@
 
 //echo "$qry<p>";
   $res = $db->query($qry);
-  $totfee = $totrec = $totsub = 0;
+  $totdep = $totbal = $totrec = 0;
 
   if (!$res || $res->num_rows==0) {
     echo "<h2>No Traders Found</h2>\n";
@@ -114,14 +114,20 @@
       $str .= "<td>$fee";
       $str .= "<td>$Dep";
       $str .= "<td>" . (($Dep <= $tot)?$Dep:$tot);
+      
       $str .= "<td>$DepDet";
       $str .= "<td>$Bal";
       $str .= "<td>" . (($tot >= $Dep)?($tot-$Dep):0);
       $str .= "<td>$BalDet";
 
       $str .= "<td>$tot";
+
+      $totdep += (($Dep <= $tot)?$Dep:$tot);
+      $totbal += (($tot >= $Dep)?($tot-$Dep):0);
+      $totrec += $tot;
     }
     echo "$str\n";
+    echo "<tr><td>Totals:<td><td><td><td><td>$totdep<td><td><td>$totbal<td><td>$totrec\n";
     echo "</table><p>";
   }
   dotail();
