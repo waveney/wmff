@@ -450,4 +450,12 @@ function DayTable($d,$Types,$xtr='') {
   }
   return 0;
 }
+
+function &Get_Active_Venues($All=0) {
+  global $db,$YEAR;
+  $res = $db->query("SELECT DISTINCT v.* FROM Venues v, Events e WHERE ( v.VenueId=e.Venue AND e.Year=$YEAR AND v.PartVirt=0) OR v.IsVirtual ORDER BY v.SName");
+  if ($res) while($ven = $res->fetch_assoc()) $ans[] = $ven;
+  return $ans;
+}
+
 ?>

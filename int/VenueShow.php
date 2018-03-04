@@ -39,7 +39,7 @@ function PrintImps(&$imps) {
     foreach($Vens as $vi=>$ov) if ($ov['PartVirt'] == $V) {
       $VenList[] = $vi;
       $VenNames[] = $ov['SName'];
-      foreach ($ov as $key=>$val) if ($val) $Ven[$key] = $val;
+//      foreach ($ov as $key=>$val) if ($val) $Ven[$key] = $val;
     }
   }
 
@@ -85,7 +85,13 @@ function PrintImps(&$imps) {
   $Acts=&Select_Act_Full();
   $Others=&Select_Other_Full();
 
-  $res = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND (Venue=$V OR BigEvent=1) ORDER BY Day, Start");
+  if ($Ven['IsVirtual']) {
+    $res = $db->query("SELECT DISTINCT e.* FROM Events e, Venues v WHERE Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1 OR " .
+		"( e.Venue=v.VenueId AND v.PartVirt=$V )) ORDER BY Day, Start");
+  } else {
+    $res = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND (Venue=$V OR BigEvent=1) ORDER BY Day, Start");
+  }
+
   if (!$res) {
     "<h3>There are currently no scheduled events here</h3>\n";
     dotail();

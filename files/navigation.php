@@ -34,7 +34,7 @@
 <div class=dropdown onmouseover=NoHoverSticky(event)>
   <a onclick=NavStick(event)>Whats On</a>
   <div class=dropdown-content>
-     <a href=$host/WhatsonWhere.php class=NotYet>By Venue</a>
+     <a href=$host/WhatsonWhere.php >By Venue</a>
      <a href=$host/WhatsonWhen.php class=NotYet>By Time</a>
      <a href=$host/WhatsonDanceProg.php class=NotYet>Dancing</a>
      <a href=$host/Sherlock.php?t=Music >Music</a>
@@ -42,7 +42,7 @@
      <a href=$host/Sherlock.php?t=Family>Family</a>
      <a href=$host/Sherlock.php?t=Ceildih >Ceildihs</a>
      <a href=$host/Sherlock.php?t=Workshop >Workshops</a>
-     <a href=$host/Sherlock.php?t=Comedy class=NotYet>Comedy</a>
+     <a href=$host/Sherlock.php?t=Comedy >Comedy</a>
      <a href=$host/Sherlock.php?t=Session >Sessions</a>
      <a href=$host/Sherlock.php?t=Craft class=NotYet>Craft</a>
   </div>
