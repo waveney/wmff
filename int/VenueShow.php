@@ -82,8 +82,8 @@ function PrintImps(&$imps) {
   echo "Click on the event name or time to get more detail.<p>";
 
   $sides=&Select_Come_All();
-  $Acts=&Select_Act_Come_All();
-  $Others=&Select_Other_Come();
+  $Acts=&Select_Act_Full();
+  $Others=&Select_Other_Full();
 
   $res = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND (Venue=$V OR BigEvent=1) ORDER BY Day, Start");
   if (!$res) {
