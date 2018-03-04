@@ -1042,8 +1042,18 @@ function dotail() {
   echo "</body></html>\n";
 }
  
-function NoBreak($t) {
-  return preg_replace('/ /','&nbsp;',$t);
+function NoBreak($t,$Max=0) {
+  if ($Max == 0) return preg_replace('/ /','&nbsp;',$t);
+  $Words = preg_split('/ /',$t);
+  $Count = -1;
+  foreach($Words as $word) {
+    if (++$Count == 0) { 
+      $NewTxt = $word;
+    } else { 
+      $NewTxt .= ( ($Count % $Max)==0?' ':'&nbsp;') . $word;
+    }
+  }
+  return $NewTxt;
 }
 
 function FormatList(&$l) {
