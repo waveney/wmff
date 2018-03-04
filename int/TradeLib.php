@@ -1089,7 +1089,7 @@ function Send_Trade_Finance_Email(&$Trad,&$Trady,$messcat) {
 
 // Highly recursive set of actions - some trigger others 
 function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='') {
-  global $Trade_State,$TradeTypeData,$Trade_Email;
+  global $Trade_State,$TradeTypeData,$Trade_Email,$USER;
   $Tchng = $Ychng = 0;
   $PaidSoFar = $Trady['TotalPaid'];
   $CurState = $NewState = $Trady['BookingState'];
