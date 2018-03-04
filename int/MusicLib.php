@@ -237,6 +237,24 @@ function Select_Other_Come($type=0,$extra='') {
   return $Coming;
 }
 
+function Select_Act_Full() {
+  global $db,$YEAR;
+  $qry = "SELECT s.*, y.* FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
+	" AND s.IsAnAct=1 ORDER BY s.SName";
+  $res = $db->query($qry);
+  if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
+  return $Coming;
+}
+
+function Select_Other_Full() {
+  global $db,$YEAR;
+  $qry = "SELECT s.SideId, s.SName, s.Type FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
+	" AND s.IsOther=1 ORDER BY s.SName";
+  $res = $db->query($qry);
+  if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
+  return $Coming;
+}
+
 function Select_Act_Come_Day($Day,$xtr='') { // This wont work - currently unused (I hope)
   global $db,$YEAR,$Coming_Type;
   $qry = "SELECT s.*, y.* FROM Sides s, ActYear y " .

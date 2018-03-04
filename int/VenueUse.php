@@ -17,6 +17,7 @@
   global $db, $YEAR;
   include_once("ProgLib.php");
   include_once("DanceLib.php");
+  include_once("MusicLib.php");
   $sides=&Select_Come_All();
   $Acts=&Select_All_Acts();
   $Other=&Select_All_Other();
