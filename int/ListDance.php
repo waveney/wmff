@@ -130,14 +130,16 @@
         echo "<td>";
 	if ($fetch['Insurance'] && $fetch['Mobile'] &&
 		((($fetch['Performers'] > 0) && $fetch['Address']) || ($fetch['Performers'] < 0)) && 
-		($fetch['Sat'] || $fetch['Sun'])) { echo "Yes"; }
-	else {
+		($fetch['Sat'] || $fetch['Sun'])) { 
+	  echo "Yes"; 
+        } else {
 	  if ($fetch['Insurance']) echo "I"; 
 	  if ($fetch['Performers'] != 0) echo "P"; 
 	  if ($fetch['Address']) echo "A"; 
 	  if ($fetch['Mobile']) echo "M"; 
 	  if (!$fetch['Sat'] && !$fetch['Sun'] ) echo "?"; 
 	}
+        if ($fetch['Insurance'] == 1) echo " (Check)";
       }
 
 //      for($i=1;$i<5;$i++) {
@@ -147,10 +149,5 @@
     echo "</tbody></table>\n";
   }
   
+  dotail();
 ?>
-  
-</div>
-
-<?php include("files/footer.php"); ?>
-</body>
-</html>
