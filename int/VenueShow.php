@@ -13,6 +13,7 @@
 
 function PrintImps(&$imps,$NotAllFree,$Price) {
   global $ll;
+//var_dump($imps);
   $ks = array_keys($imps);
   sort($ks);	
   $things = 0;
@@ -22,16 +23,18 @@ function PrintImps(&$imps,$NotAllFree,$Price) {
         $things++;
 	if ((($things % $ll) == 1) && ($things != 1)) echo "<tr><td><td>";
         echo "<td>";
+	$scale = $thing['Importance'];
         if ($thing['Photo']) echo " <a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . 
-		"><img style='vertical-align:middle;max-height:" . (100+20*$imp) .";' height=" . (100+20*$imp) . " src=" . $thing['Photo'] . "></a>";
+		"><img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
+		(100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $thing['Photo'] . "></a>";
 	echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SName'],3) . "</a>";
         if (isset($thing['Type']) && (strlen($thing['Type'])>1)) echo " " . NoBreak("(" . $thing['Type'] . ")");
-        if ($NotAllFree && (($things % $ll) == 0)) echo "<td>" . ($things == $ll)?$Price:'';
+        if ($NotAllFree && (($things % $ll) == 0)) echo "<td>" . (($things == $ll)?$Price:'');
       }
     if ($imp) echo "</span>";
   }
   if (($things % $ll) == 1) echo "<td>&nbsp;";
-  if ($NotAllFree && (($things % $ll) == 1)) echo "<td>" . ($things == $ll)?$Price:'&nbsp;';
+  if ($NotAllFree && (($things % $ll) == 1)) echo "<td>" . (($things == $ll)?$Price:'&nbsp;');
 }
 
   $V = $_GET['v'];
@@ -120,15 +123,15 @@ function PrintImps(&$imps,$NotAllFree,$Price) {
 	    if ($thing['Identifier']==$V) $found = 1; 
 	    break;
 	  case 'Side':
-            $e['With'][$sides[$thing['Identifier']]['Importance']][] = $sides[$thing['Identifier']];
+            if ($thing['Identifier']) $e['With'][0][] = $sides[$thing['Identifier']];
 	    $WithC++;
 	    break;
 	  case 'Act':
-            $e['With'][$Acts[$thing['Identifier']]['Importance']][] = $Acts[$thing['Identifier']];
+            if ($thing['Identifier']) $e['With'][0][] = $Acts[$thing['Identifier']];
 	    $WithC++;
 	    break;
 	  case 'Other':
-            $e['With'][$Others[$thing['Identifier']]['Importance']][] = $Others[$thing['Identifier']];
+            if ($thing['Identifier']) $e['With'][0][] = $Others[$thing['Identifier']];
 	    $WithC++;
 	    break;
 	  default:
@@ -172,7 +175,7 @@ function PrintImps(&$imps,$NotAllFree,$Price) {
     $things = 0;
     if ($e['With']) $imps = $e['With'];
     $ImpC = ImpCount($imps);
-    $rows = max(1,ceil($ImpC/2));
+    $rows = 1; // max(1,ceil($ImpC/2));
 
     if ($e['SubEvent'] <0) { // has subes
       if ($e['LongEvent'] && !$imps) continue;
