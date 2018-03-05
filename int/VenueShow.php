@@ -107,8 +107,8 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
                 " ORDER BY Day, Start");
   }
 
-  if (!$res) {
-    "<h3>There are currently no scheduled events here</h3>\n";
+  if (!$res || $res->num_rows==0) {
+    echo "<h3>There are currently no publicised events here</h3>\n";
     dotail();
     exit;
   }
@@ -158,7 +158,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
   }
 
   if (!isset($EVs) || !$EVs) {
-    "<h3>There are currently no scheduled events here</h3>\n";
+    echo "<h3>There are currently no publicised events here</h3>\n";
     dotail();
     exit;
   }
