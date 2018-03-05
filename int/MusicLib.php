@@ -248,7 +248,7 @@ function Select_Act_Full() {
 
 function Select_Other_Full() {
   global $db,$YEAR;
-  $qry = "SELECT s.SideId, s.SName, s.Type FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
+  $qry = "SELECT s.*, y.* FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
 	" AND s.IsOther=1 ORDER BY s.SName";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;

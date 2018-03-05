@@ -100,10 +100,10 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
   $xtr = $Mode?'':"AND (e.Type=t.ETypeNo AND t.State>1)";
 
   if ($Ven['IsVirtual']) {
-    $res = $db->query("SELECT DISTINCT e.* FROM Events e, Venues v, EventTypes t WHERE Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1 OR " .
+    $res = $db->query("SELECT DISTINCT e.* FROM Events e, Venues v, EventTypes t WHERE e.Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1 OR " .
                 "( e.Venue=v.VenueId AND v.PartVirt=$V )) $xtr ORDER BY Day, Start");
   } else {
-    $res = $db->query("SELECT DISTINCT * FROM Events e, EventTypes t WHERE e.Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1) $xtr " .
+    $res = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1) $xtr " .
                 " ORDER BY Day, Start");
   }
 

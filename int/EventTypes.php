@@ -11,6 +11,7 @@
   echo "<div class='content'><h2>Manage Event Types</h2>\n";
   echo "Please don't have too many types.<p>\n";
   echo "The only event types that should be not public are Sound Checks (probably)<p>\n";
+  echo "Set Inc Type to indicate event type in description if it is not part of the events name.<p>";
   echo "State drives lots: - set to draft to enable the performers to see their own events. Set to complete when all events of given type are in<p>\n";
   
   $Types = Get_Event_Types(1);
@@ -35,6 +36,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Use Imp</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Format</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>State</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Inc Type</a>\n";
   echo "</thead><tbody>";
   foreach($Types as $t) {
     $i = $t['ETypeNo'];
@@ -48,6 +50,7 @@
     echo "<td>" . fm_checkbox('',$t,'UseImp','',"UseImp$i");
     echo fm_number1('',$t,'Format','','min=0 max=1000',"Format$i");
     echo "<td>" . fm_select($EType_States,$t,'State',0,'',"State$i");
+    echo "<td>" . fm_checkbox('',$t,'IncType','',"IncType$i");
     echo "\n";
   }
   echo "<tr><td><td><input type=text name=SName0 >";
@@ -60,6 +63,7 @@
   echo "<td><input type=checkbox name=UseImp0>";
   echo "<td><input type=number min=0 max=1000 name=Format0>";
   echo "<td>" . fm_select($EType_States,$t,"State0");
+  echo "<td><input type=checkbox name=IncType0>";
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";
