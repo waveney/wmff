@@ -48,6 +48,7 @@
     $col6 = "Sat";
     $col7 = "Sun";
     $col8 = "Complete?";
+    $Comp = $Stot = 0;
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
     $SideQ = $db->query("SELECT $flds FROM Sides AS s, SideYear as y WHERE s.IsASide=1 AND s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . 
@@ -127,11 +128,13 @@
 	if ($fetch['Workshops']) echo "Y";
       }
       if ($col8 == "Complete?") {
+	$stot++;
         echo "<td>";
 	if ($fetch['Insurance'] && $fetch['Mobile'] &&
 		((($fetch['Performers'] > 0) && $fetch['Address']) || ($fetch['Performers'] < 0)) && 
 		($fetch['Sat'] || $fetch['Sun'])) { 
 	  echo "Yes"; 
+	  $Comp++;
         } else {
 	  if ($fetch['Insurance']) echo "I"; 
 	  if ($fetch['Performers'] != 0) echo "P"; 
@@ -147,6 +150,9 @@
 //      }
     }
     echo "</tbody></table>\n";
+    if ($col8 == "Complete?") {
+      echo "Complete: $Comp / $stot<br>\n";
+    }
   }
   
   dotail();
