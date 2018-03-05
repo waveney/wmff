@@ -97,7 +97,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
   $Acts=&Select_Act_Full();
   $Others=&Select_Other_Full();
 
-  $xtr = $Mode?'':"AND (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )";
+  $xtr = $Mode?'':"AND ( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 ))";
 
   if ($Ven['IsVirtual']) {
     $res = $db->query("SELECT DISTINCT e.* FROM Events e, Venues v, EventTypes t WHERE e.Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1 OR " .
