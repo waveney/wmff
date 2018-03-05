@@ -97,12 +97,14 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
   $Acts=&Select_Act_Full();
   $Others=&Select_Other_Full();
 
+  $xtr = $Mode?'':"AND (e.Type=t.ETypeNo AND t.State>1)";
+
   if ($Ven['IsVirtual']) {
     $res = $db->query("SELECT DISTINCT e.* FROM Events e, Venues v, EventTypes t WHERE Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1 OR " .
-		"( e.Venue=v.VenueId AND v.PartVirt=$V )) AND ( $Mode=1 OR (e.Type=t.ETypeNo AND t.State>1)) ORDER BY Day, Start");
+                "( e.Venue=v.VenueId AND v.PartVirt=$V )) $xtr ORDER BY Day, Start");
   } else {
-    $res = $db->query("SELECT DISTINCT * FROM Events e, EventTypes t WHERE e.Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1) AND " .
-		"( $Mode=1 OR (e.Type=t.ETypeNo AND t.State>1)) ORDER BY Day, Start");
+    $res = $db->query("SELECT DISTINCT * FROM Events e, EventTypes t WHERE e.Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1) $xtr " .
+                " ORDER BY Day, Start");
   }
 
   if (!$res) {
