@@ -37,7 +37,10 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
   if ($things > $ll && ($things % $ll) == 1) echo "<td>&nbsp;";
 }
 
-  $V = $_GET['v'];
+  $V = (isset($_GET['v'])? $_GET['v']: $_POST['v']);
+  
+  $Mode = $_GET['Mode']; // If present show everything
+
   if (!is_numeric($V)) exit("Invalid Venue Number");
   $Ven = Get_Venue($V);
   if ($Ven['IsVirtual']) {
@@ -95,10 +98,11 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
   $Others=&Select_Other_Full();
 
   if ($Ven['IsVirtual']) {
-    $res = $db->query("SELECT DISTINCT e.* FROM Events e, Venues v WHERE Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1 OR " .
-		"( e.Venue=v.VenueId AND v.PartVirt=$V )) ORDER BY Day, Start");
+    $res = $db->query("SELECT DISTINCT e.* FROM Events e, Venues v, EventTypes t WHERE Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1 OR " .
+		"( e.Venue=v.VenueId AND v.PartVirt=$V )) AND ( $Mode=1 OR (e.Type=t.ETypeNo AND t.State>1)) ORDER BY Day, Start");
   } else {
-    $res = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND (Venue=$V OR BigEvent=1) ORDER BY Day, Start");
+    $res = $db->query("SELECT DISTINCT * FROM Events e, EventTypes t WHERE e.Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1) AND " .
+		"( $Mode=1 OR (e.Type=t.ETypeNo AND t.State>1)) ORDER BY Day, Start");
   }
 
   if (!$res) {
@@ -182,7 +186,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
       $parname = $e['SName']; 
       $lastevent = $ei;
       echo "<tr><td rowspan=$rows valign=top><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
-		"</a><td colspan=" . ($imps?$ll:$ll+1) . " valign=top><a href=EventShow.php?e=$eid>" . $parname . "</a>";
+		"</a><td colspan=" . ($imps?$ll+1:$ll+1) . " valign=top><a href=EventShow.php?e=$eid>" . $parname . "</a>";
       if ($e['Description']) echo "<br>" . $e['Description'];
 
       if ($imps) {

@@ -36,13 +36,13 @@ function Get_Imps(&$e,&$imps,$clear=1,$all=0) {
   for($i=1;$i<5;$i++) {
     if (isset($e["Side$i"])) { if ($ee = $e["Side$i"])  { 
 	$s = Get_Side($ee);  
-	if ($s && ($all || $ets >1 || ($ets==1 && Access('Participant','Side',$s)))) $imps[$useimp?0:$s['Importance']][] = $s; }; };
+	if ($s && ($all || $ets >1 || ($ets==1 && Access('Participant','Side',$s)))) $imps[$useimp?$s['Importance']:0][] = $s; }; };
     if (isset($e["Act$i"]))  { if ($ee = $e["Act$i"])   { 
 	$s = Get_Side($ee); 
-	if ($s && ($all || $ets >1 || ($ets==1 && Access('Participant','Act',$s)))) $imps[$useimp?0:$s['Importance']][] = $s; }; };
+	if ($s && ($all || $ets >1 || ($ets==1 && Access('Participant','Act',$s)))) $imps[$useimp?$s['Importance']:0][] = $s; }; };
     if (isset($e["Other$i"])){ if ($ee = $e["Other$i"]) { 
 	$s = Get_Side($ee);  
-	if ($s && ($all || $ets >1 || ($ets==1 && Access('Participant','Other',$s)))) $imps[$useimp?0:$s['Importance']][] = $s; }; };
+	if ($s && ($all || $ets >1 || ($ets==1 && Access('Participant','Other',$s)))) $imps[$useimp?$s['Importance']:0][] = $s; }; };
   }
 }
 
