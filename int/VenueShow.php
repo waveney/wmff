@@ -11,7 +11,7 @@
   
   global $db, $YEAR,$ll;
 
-function PrintImps(&$imps,$NotAllFree,$Price) {
+function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
   global $ll;
 //var_dump($imps);
   $ks = array_keys($imps);
@@ -21,20 +21,20 @@ function PrintImps(&$imps,$NotAllFree,$Price) {
     if ($imp) echo "<span style='font-size:" . (15+$imp*1) . "'>";
       foreach ($imps[$imp] as $thing) {
         $things++;
-	if ((($things % $ll) == 1) && ($things != 1)) echo "<tr><td><td>";
-        echo "<td>";
+	if ((($things % $ll) == 1) && ($things != 1)) echo "<tr>"; // <td><td>";
+        echo ($ll > 1 && $things == $ImpC && ($ImpC %2) == 1)?"<td colspan=$ll>":"<td>";
 	$scale = $thing['Importance'];
         if ($thing['Photo']) echo " <a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . 
 		"><img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
 		(100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $thing['Photo'] . "></a>";
 	echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SName'],3) . "</a>";
         if (isset($thing['Type']) && (strlen($thing['Type'])>1)) echo " " . NoBreak("(" . $thing['Type'] . ")");
-        if ($NotAllFree && (($things % $ll) == 0)) echo "<td>" . (($things == $ll)?$Price:'');
+        if ($NotAllFree && ($things == $ll)) echo "<td rowspan=$rows valign=top>$Price";
       }
     if ($imp) echo "</span>";
   }
-  if (($things % $ll) == 1) echo "<td>&nbsp;";
-  if ($NotAllFree && (($things % $ll) == 1)) echo "<td>" . (($things == $ll)?$Price:'&nbsp;');
+  if ($NotAllFree && ($things < $ll)) echo "<td>&nbsp;<td rowspan=$row valign=top>$Price";
+  if ($things > $ll && ($things % $ll) == 1) echo "<td>&nbsp;";
 }
 
   $V = $_GET['v'];
@@ -175,44 +175,44 @@ function PrintImps(&$imps,$NotAllFree,$Price) {
     $things = 0;
     if ($e['With']) $imps = $e['With'];
     $ImpC = ImpCount($imps);
-    $rows = 1; // max(1,ceil($ImpC/2));
+    $rows = max(1,ceil($ImpC/2));
 
     if ($e['SubEvent'] <0) { // has subes
       if ($e['LongEvent'] && !$imps) continue;
       $parname = $e['SName']; 
       $lastevent = $ei;
-      echo "<tr><td rowspan=$rows><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
-		"</a><td rowspan=$rows colspan=" . ($imps?$ll:$ll+1) . "><a href=EventShow.php?e=$eid>" . $parname . "</a>";
+      echo "<tr><td rowspan=$rows valign=top><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
+		"</a><td colspan=" . ($imps?$ll:$ll+1) . " valign=top><a href=EventShow.php?e=$eid>" . $parname . "</a>";
       if ($e['Description']) echo "<br>" . $e['Description'];
 
       if ($imps) {
-        if (!$e['LongEvent']) echo "<tr><td>&nbsp;<td>" . timecolon($e['Start']) . " - " . timecolon($e['SlotEnd']);
-        PrintImps($imps,$NotAllFree,Price_Show($e));
+        if (!$e['LongEvent']) echo "<tr><td rowspan=$rows >&nbsp;<td rowspan=$rows  valign=top>" . timecolon($e['Start']) . " - " . timecolon($e['SlotEnd']);
+        PrintImps($imps,$NotAllFree,Price_Show($e),$rows,$ImpC);
       } else if (!$e['LongEvent'] && $NotAllFree) echo "<td>" . Price_Show($e);
     } else if ($e['SubEvent'] == 0) { // Is stand alone
       $lastDay = $e['Day'];
       $parname = $e['SName'];
-      echo "<tr><td rowspan=$rows><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
-		"</a><td rowspan=$rows ><a href=EventShow.php?e=$eid>" . $parname . "</a>";
+      echo "<tr><td rowspan=$rows valign=top><a href=EventShow.php?e=$eid valign=top>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
+		"</a><td rowspan=$rows  valign=top><a href=EventShow.php?e=$eid>" . $parname . "</a>";
       if ($e['Description']) echo "<br>" . $e['Description'];
-      PrintImps($imps,$NotAllFree,Price_Show($e));
+      PrintImps($imps,$NotAllFree,Price_Show($e),$rows,$ImpC);
     } else { // Is a sube
       if ($e['LongEvent'] && $lastevent != $e['SubEvent']) {
 	$lastevent = $e['SubEvent'];
         $pare = &$EVs[$lastevent]; 
         $parname = $pare['SName']; 
-        echo "<tr><td><a href=EventShow.php?e=$lastevent>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
-		"</a><td ><a href=EventShow.php?e=$lastevent>" . $parname . "</a>";
+        echo "<tr><td rowspan=$rows valign=top ><a href=EventShow.php?e=$lastevent>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
+		"</a><td rowspan=$rows valign=top ><a href=EventShow.php?e=$lastevent>" . $parname . "</a>";
         if ($pare['Description']) echo "<br>" . $pare['Description'];
-        if ($imps) PrintImps($imps,$NotAllFree,Price_show($EVs[$e['SubEvent']]));
+        if ($imps) PrintImps($imps,$NotAllFree,Price_show($EVs[$e['SubEvent']]),$rows,$ImpC);
       } else if ($imps) {
-        echo "<tr><td>&nbsp;<td>";
+        echo "<tr><td rowspan=$rows >&nbsp;<td rowspan=$rows  valign=top>";
 	if ($parname != $e['SName']) {
 	  echo "<a href=EventShow.php?e=" . $e['SubEvent'] . ">" . $e['SName'] . "</a><br>";
           $parname = $pare['SName']; 
 	}
 	echo timecolon($e['Start']) . " - " . timecolon($e['End']);
-        PrintImps($imps,$NotAllFree,'&nbsp;');
+        PrintImps($imps,$NotAllFree,'&nbsp;',$rows,$ImpC);
       }
     }
   }
