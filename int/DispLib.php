@@ -44,6 +44,12 @@ function Get_Imps(&$e,&$imps,$clear=1,$all=0) {
   }
 }
 
+function ImpCount($imps) {
+  $c = 0;
+  foreach ($imps as $imp) foreach($imp as $s) $c++;
+  return $c;
+}
+
 function Gallery($title,$dir,$credit='') {
   dohead($title, '/files/gallery.css');
 
