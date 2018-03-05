@@ -190,11 +190,11 @@
     echo "<li><a href=VenueList.php>List Venues</a>\n";
     if (Access('Staff','Venues')) echo "<li><a href=EventList.php?Y=$YEAR>List Events</a>\n";
     if (Access('Staff','Venues')) echo "<li><a href=EventTypes.php>Event Types</a>\n";
-    echo "<li><form method=Post action=VenueUse.php class=staffform>";
+    echo "<li><form method=Post action=VenueShow.php?Mode=1 class=staffform>";
       echo "<input type=submit name=a value='Show Events at' id=staffformid>" . 
 		fm_hidden('Y',$YEAR) .
 		fm_select(Get_Venues(),0,'v',0," onchange=this.form.submit()") . "</form>\n";
-    echo "<li>Show Events at a Time\n";
+    //echo "<li>Show Events at a Time\n";
     //<li><a href=EventTime.php>List Events at a Time</a>
     if (Access('Staff','Venues') && $YEAR==$THISYEAR) echo "<li><a href=EventAdd.php>Create Event(s)</a>";
       echo "<li><a href=TicketEvents.php?Y=$YEAR>List Ticketed Events</a>\n";

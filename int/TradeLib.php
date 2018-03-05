@@ -686,11 +686,12 @@ function Old_Send_Trader_Email(&$Trad,$messcat='Link',$cont='') {
 }
 
 function Get_Trade_Details(&$Trad,&$Trady) {
-  global $Trade_Days,$TradeLocData;
+  global $Trade_Days,$TradeLocData,$TradeTypeData;
 
 //  $Body  = "\nWimborne Minster Folk festival Trading application\n";
   $Body = "\nFrom: " . $Trad['SName'] . "\n";
   $Body .= "Goods: " . $Trad['GoodsDesc'] . "\n\n";
+  $Body .= "Type: " . $TradeTypeData[$Trad['TradeType']] . "\n\n";
   if ($Trad['Website']) $Body .= "Website: " . $Trad['Website'] . "\n\n";
   $Body .= "Contact: " . $Trad['Contact'] . "\n";
   if ($Trad['Phone']) $Body .= "Phone: " . $Trad['Phone'] . "\n";
