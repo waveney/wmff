@@ -1,6 +1,8 @@
 <?php
   include_once("fest.php");
-  A_Check('Staff','Venues');
+  A_Check('Staff');
+
+//Access is for anyone with Venue to edit all, otherwise can Create and edit own only 
 ?>
 
 <html>
@@ -14,9 +16,10 @@
 <?php include("files/navigation.php"); ?>
 <?php
   include("ProgLib.php");
+  include("DocLib.php");
   include("DanceLib.php");
   include("MusicLib.php");
-  global $MASTER,$YEAR;
+  global $MASTER,$YEAR,$USERID;
 
   Set_Event_Help();
 
@@ -29,7 +32,30 @@
   $Venues = Get_Real_Venues(0);
   $Skip = 0;
 
-  echo "<div class='content'><h2>Add/Edit Events</h2>\n";
+  echo "<span class=floatright id=largeredsubmit onclick=($('.HelpDiv').show()) >HELP</span>";
+  echo "<div class=content>";
+  echo "<div class=HelpDiv hidden><h3>Help for Adding/Creating an Event</h3>";
+    echo "For most events you only need:<p>";
+    echo "<ul><li>A Name<li>A Type<li>A Venue<li>A Day<li>A Start and End Time</ul>";
+    echo "If you need to block off the venue before hand, give a setup time in minutes, eg 30.<p>";
+    echo "If you would like to give a small description, this will appear in the programme book and in lists of events.<p>";
+    echo "You may if you wish have a longer blurb, this will only appear on the webpage for this event.<p>";
+    echo "If it should be listed as a Family event, click the relevant box, for all complex cases contact Richard<p>";
+    echo "If it a simple event, with one particpant do the following, for larger events (concerts, a whole days dancing see below).<p>";
+    echo "<ul><li>Select the Side, Act or Other participant from the drop down lists (this can be done later if you have not yet decided).";
+    echo "<li>Click on Create</ul>The event will be created and appear on internal event lists.<p>";
+    echo "<h3>Concerts and similar events</h3>";
+    echo "For each act in the concert you need a subevent.<p>";
+    echo "On the right near the bottom it will say Add 1 sub events.  Change the 1 to the number of acts and click on <b>Add</b><p>";
+    echo "In the body of the event, it will now say <b>Has Sub Events</b>, click on that link.<p>";
+    echo "You will see a list of sub events - the first is the main event, you will need to change each of the others in turn for each act.<p>";
+    echo "Click on one of them, change the start and end times and select who is performing that spot, then click <b>Update</b>.<p>";
+    echo "To go back to the list of sub events click on <b>Is a Sub Event</b>";
+    echo "<h3>Dancing</h3>To divide into a number of sub events one for each half hour click on <b>Divide</b> the main event can hold the first spot.<p>";
+    echo "It is possible to edit sides into dancing here, but it is far far easier with the <b>Edit Dance Programme</b> from the main staff pages.<p>";
+    echo "A similar feature will appear eventually for music.<p>";
+  echo "</div>";
+  echo "<h2>Add/Edit Events</h2>\n";
   echo "<form method=post action='EventAdd.php'>\n";
   if (isset($_POST{'EventId'})) { // Response to update button
     $eid = $_POST{'EventId'};
@@ -187,15 +213,20 @@
         $Event = $_POST;
 	$proc = 0;
       }
+      if ($_POST['Owner'] == 0) $_POST['Owner'] = $USERID;
       Parse_TimeInputs($EventTimeFields,$EventTimeMinFields);
       $_POST{'Year'} = $YEAR;
       $eid = Insert_db_post('Events',$Event,$proc); //
       $empty = array();
       Check_4Changes($empty,$Event);
     }
-  } elseif (isset($_GET{'e'})) {
-    $eid = $_GET{'e'};
+  } elseif (isset($_GET['e'])) {
+    $eid = $_GET['e'];
     $Event = Get_Event($eid);
+    if (Access('Staff','Venues') || $Event['Owner'] == $USERID || $Event['Owner2'] == $USERID) { // Proceed
+    } else {
+      Error_Page("Insufficient Privilages");
+    }
   } else {
     $eid = -1;
     $Event = array();
@@ -206,6 +237,11 @@
 // Dance		Y		Y			Y	Y
 // Music			Y	Y			Y	Y
 // Other				Y		Y	Y	Y
+
+  $AllU = Get_AllUsers(0);
+  $AllA = Get_AllUsers(1);
+  $AllActive = array();
+  foreach ($AllU as $id=>$name) if ($AllA[$id] >= 2 && $AllA[$id] <= 6) $AllActive[$id]=$name;
 
 //var_dump($Event);
   if (isset($Err)) echo "<h2 class=ERR>$Err</h2>\n";
@@ -223,6 +259,7 @@
       echo "<td class=NotSide>" . fm_checkbox('Exclude From Spot Counts',$Event,'ExcludeCount');
       echo "<td class=NotSide>Public:" . fm_select($Public_Event_Types,$Event,'Public');
       echo "<td class=NotSide>Participant Visibility:" . fm_select($VisParts,$Event,'InvisiblePart');
+      echo "<td class=NotSide>Originator:" . fm_select($AllActive,$Event,'Owner',1);
 
       echo "<tr><td class=NotSide>" . fm_checkbox('Multiday Event',$Event,'LongEvent','onchange=$(".mday").show()');
       $hidemday =  ($Event['LongEvent'])?'':'hidden ';
@@ -234,6 +271,7 @@
       echo "<tr><td>" . fm_checkbox('Special Event',$Event,'Special');
       echo "<td>" . fm_checkbox('Family Event',$Event,'Family');
       echo "<td>" . fm_checkbox('Non Fest',$Event,'NonFest');
+      echo "<td>Alt Edit:" . fm_select($AllActive,$Event,'Owner2',1);
 
       echo "<tr>" . fm_text('Name', $Event,'SName');
         echo "<td>Event Type:" . fm_select($Event_Types,$Event,'Type');
@@ -267,24 +305,24 @@
       echo "<tr $adv>" . fm_textarea('Description <span id=DescSize></span>',$Event,'Description',5,2,'',
 			'maxlength=150 oninput=SetDSize("DescSize",150,"ShortBlurb") id=ShortBlurb'); 
       echo "<tr $adv>" . fm_textarea('Blurb',$Event,'Blurb',5,2,'','maxlength=2000');
-      echo "<tr><td>" . fm_checkbox('Bar',$Event,'Bar') . "<td>" . fm_checkbox('Food',$Event,'Food') . fm_text('Food/Bar text',$Event,'BarFoodText') . "\n";
+      echo "<tr><td>If the Venue doen't normally have a Bar or Food<td>" . fm_checkbox('Bar',$Event,'Bar') . "<td>" . fm_checkbox('Food',$Event,'Food') . fm_text('Food/Bar text',$Event,'BarFoodText') . "\n";
       if (!$Event['BigEvent']) {
 //        if ($et == 'Dance' || $et == 'Workshop' || $et == 'Mixed' || $et == 'Other') {
-          echo "<tr><td rowspan=2>Sides:";
+          echo "<tr><td rowspan=2>Sides:" . Help('Sides');
           for ($i=1; $i<5; $i++) {
 	    if ($i==3) echo "<tr>"; 
 	    echo "<td colspan=2>" . fm_select($SideList,$Event,'Side' . $i);
 	  }
 //        }
 //        if ($et == 'Music' || $et == 'Workshop' || $et == 'Mixed' || $et == 'Other') {
-          echo "<tr><td rowspan=2>Music:";
+          echo "<tr><td rowspan=2>Music:" . Help('Acts');
           for ($i=1; $i<5; $i++) {
 	    if ($i==3) echo "<tr>"; 
             echo "<td colspan=2>" .fm_select($ActList,$Event,'Act' . $i,1);
           }
 //        }
 //        if ($et == 'Craft' || $et == 'Workshop' || $et == 'Mixed' || $et == 'Other') {
-          echo "<tr><td rowspan=2>Other:";
+          echo "<tr><td rowspan=2>Other:" . Help('Others');
           for ($i=1; $i<5; $i++) {
 	    if ($i==3) echo "<tr>"; 
 	    echo "<td colspan=2>" .fm_select($OtherList,$Event,'Other' . $i,1);
@@ -321,7 +359,7 @@
         echo "<input type=Submit name=ACTION value=Divide>, \n";
         echo "<input type=Submit name=ACTION value=Delete onClick=\"javascript:return confirm('are you sure you want to delete this?');\">, \n";
 	echo "<input type=Submit name=ACTION value=Add>" . fm_smalltext('','Slots',1,2) . " sub events";
-	if (Access('SysAdmin') && $se != 0 ) echo "<input type=Submit name=ACTION value=Promote>";
+	if (Access('SysAdmin') && $se != 0 ) echo ", <input type=Submit name=ACTION value=Promote>";
         echo "</form>\n";
       }
       echo "</center>\n";
@@ -335,10 +373,6 @@
   if ($eid) echo ", <a href=EventAdd.php>Add another event</a>";
   if ($eid) echo ", <a href=EventShow.php?e=$eid>Show Event</a>";
   echo "</h2>\n";
+
+  dotail();
 ?>
-
-</div>
-
-<?php include("files/footer.php"); ?>
-</body>
-</html>
