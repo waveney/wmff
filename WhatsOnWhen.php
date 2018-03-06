@@ -43,7 +43,7 @@
     /* New day give table header, links to Dance Grid/Music Grid (if applicable), Events have click to expand */
     $dname = $DayLongList[$e['Day']];
 
-    if (DayTable($e['Day'],"Events","<button id=DayClick$dname class=DayExpand onclick=ShowDay('$dname')>Expand</button>")) {
+    if (DayTable($e['Day'],"Events","<button id=DayClick$dname class=DayExpand onclick=ShowDay('$dname')>Expand</button>","onclick=ShowDay('$dname')")) {
       echo "<tr class=Day$dname hidden><td>Time<td >What<td>Where<td>With<td>Price";
     }
         
