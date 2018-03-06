@@ -48,7 +48,7 @@
     $col6 = "Sat";
     $col7 = "Sun";
     $col8 = "Complete?";
-    $Comp = $Stot = 0;
+    $Comp = $stot = 0;
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
     $SideQ = $db->query("SELECT $flds FROM Sides AS s, SideYear as y WHERE s.IsASide=1 AND s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . 

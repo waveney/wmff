@@ -841,4 +841,7 @@ textarea:Focus
   text-shadow:10 10 10 white,-10 -10 10 white;
   transform: translate(-50%, -50%);
 }
-
+.DayExpand {
+  color:black;
+  font-weight:bold;
+} 
