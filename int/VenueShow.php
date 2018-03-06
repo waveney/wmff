@@ -38,11 +38,17 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
 }
 
   $V = (isset($_GET['v'])? $_GET['v']: $_POST['v']);
-  
+
   $Mode = $_GET['Mode']; // If present show everything
 
   if (!is_numeric($V)) exit("Invalid Venue Number");
   $Ven = Get_Venue($V);
+
+  if ($Ven['PartVirt']) {
+    $V = $Ven['PartVirt'];
+    $Ven = Get_Venue($V);
+  }
+
   if ($Ven['IsVirtual']) {
     $VirtVen = $Ven;
     $VenList = array();
