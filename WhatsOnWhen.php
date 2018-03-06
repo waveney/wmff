@@ -19,13 +19,13 @@
      More to come from event states and general
   */
   $More = 0; 
-  foreach ($Event_Types_Full as $et) if ($et['State'] != 4) $More = 1;
-  if ($MASTER['FamilyComplete'] != 4) $More = 1;
-  if ($MASTER['SpecialComplete'] != 4) $More = 1;
+  foreach ($Event_Types_Full as $et) if ($et['State'] != 4) $More++;
+  if ($MASTER['FamilyComplete'] != 4) $More++;
+  if ($MASTER['SpecialComplete'] != 4) $More++;
 
   echo "<h2 class=subtitle>What is on When?</h2>";
   echo "<script src=/js/WhatsWhen.js></script>";
-  if ($More) echo "<h3>Only publicised events are listed there are more to come</h3>\n";
+  if ($More) echo "<h3>Only publicised events are listed there are " . ($More > 2?"LOTS ":'') . "more to come</h3>\n";
   echo "<h2 class=subtitle>Click on a Day to expand <button id=ShowAll class=DayExpand onclick=ShowAll()>Expand All</button></h2>";
 
   $xtr = isset($_GET['Mode'])?'':"AND ( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 ))";
