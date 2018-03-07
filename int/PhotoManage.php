@@ -283,7 +283,6 @@ debugger;
     echo fm_hidden('PCAT',$Pcat) . fm_hidden("WHO",$Who);
     echo "Type: " . $PhotoCats[$dat['Pcat']] . "<br>";
     echo "For: $Name<br>";
-//echo "$Who<p>";
     echo "Shape: " . $Shapes[$Shape] . "<p>";
     echo fm_hidden('FinalLoc',$FinalLoc);
     if ($PhotoURL) {
@@ -316,6 +315,7 @@ debugger;
     echo "<input hidden type=submit name=Action value=Upload id=PhotoButton>";
     echo "&nbsp; &nbsp; &nbsp;" . fm_text('Location',$dat['Data'],$dat['Field'],1,'',"onchange=document.getElementById('NewLoc').click()",'NewImage');
     echo "<input type=submit name=Action value=Change id=NewLoc>";
+    echo "<input type=submit name=Action value=Rotate>";
   }
   
 function New_Image() {
@@ -332,6 +332,23 @@ function New_Image() {
   $dat['Put']($dat['Data']);
 }
 
+function Rotate_Image() {
+  $FinalLoc = $_POST['FinalLoc'];
+  $image = imagecreatefromstring(file_get_contents($FinalLoc));
+  $newimage = imagerotate($image,90,0);
+  $dat = &ImgData();
+  $suf = $dat['Suf'];
+  switch ($suf) {
+  case 'jpeg':
+  case 'jpg':
+    imagejpeg($newimage,$FinalLoc);
+    break;
+  case 'png':
+    imagepng($newimage,$FinalLoc);
+    break;
+  }
+}
+
 // var_dump($_POST);
   if (isset($_POST['Edit']) || isset($_POST['Current'])) {
     Edit_Photo('Current');
@@ -340,6 +357,7 @@ function New_Image() {
   } else if (isset($_POST['Action'])) {
     if ($_POST['Action'] == 'Upload') Upload_Image();
     if ($_POST['Action'] == 'Change') New_Image();
+    if ($_POST['Action'] == 'Rotate') Rotate_Image();
     Edit_Photo('Current');
   }
 
