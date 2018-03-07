@@ -60,7 +60,7 @@
 	echo fm_hidden('UserId',-1);
         $User['AccessLevel'] = $Access_Type['Committee'];
       }
-    echo "<tr>" . fm_text('SName', $User,'SName',1,'','autocomplete=off');
+    echo "<tr>" . fm_text('Name', $User,'SName',1,'','autocomplete=off');
     echo "<tr>" . fm_text('Email',$User,'Email',1,'','autocomplete=off');
     echo "<tr>" . fm_text('WMFF Email',$User,'WMFFemail',1,'','autocomplete=off');
     echo "<tr>" . fm_text('Login',$User,'Login');

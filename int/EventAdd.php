@@ -34,26 +34,34 @@
 
   echo "<span class=floatright id=largeredsubmit onclick=($('.HelpDiv').show()) >HELP</span>";
   echo "<div class=content>";
-  echo "<div class=HelpDiv hidden><h3>Help for Adding/Creating an Event</h3>";
-    echo "For most events you only need:<p>";
-    echo "<ul><li>A Name<li>A Type<li>A Venue<li>A Day<li>A Start and End Time</ul>";
-    echo "If you need to block off the venue before hand, give a setup time in minutes, eg 30.<p>";
-    echo "If you would like to give a small description, this will appear in the programme book and in lists of events.<p>";
-    echo "You may if you wish have a longer blurb, this will only appear on the webpage for this event.<p>";
-    echo "If it should be listed as a Family event, click the relevant box, for all complex cases contact Richard<p>";
-    echo "If it a simple event, with one particpant do the following, for larger events (concerts, a whole days dancing see below).<p>";
-    echo "<ul><li>Select the Side, Act or Other participant from the drop down lists (this can be done later if you have not yet decided).";
-    echo "<li>Click on Create</ul>The event will be created and appear on internal event lists.<p>";
-    echo "<h3>Concerts and similar events</h3>";
-    echo "For each act in the concert you need a subevent.<p>";
-    echo "On the right near the bottom it will say Add 1 sub events.  Change the 1 to the number of acts and click on <b>Add</b><p>";
-    echo "In the body of the event, it will now say <b>Has Sub Events</b>, click on that link.<p>";
-    echo "You will see a list of sub events - the first is the main event, you will need to change each of the others in turn for each act.<p>";
-    echo "Click on one of them, change the start and end times and select who is performing that spot, then click <b>Update</b>.<p>";
-    echo "To go back to the list of sub events click on <b>Is a Sub Event</b>";
-    echo "<h3>Dancing</h3>To divide into a number of sub events one for each half hour click on <b>Divide</b> the main event can hold the first spot.<p>";
-    echo "It is possible to edit sides into dancing here, but it is far far easier with the <b>Edit Dance Programme</b> from the main staff pages.<p>";
-    echo "A similar feature will appear eventually for music.<p>";
+  echo "<div class=HelpDiv hidden>";
+?>
+<h3>Help for Adding/Creating/Modifying an Event</h3>
+For most events you only need:<p>
+<ul><li>A Name (Can be pretty generic eg Dancing, Saturday Night Concert)
+<li>A Type (A Broad categorization as to what lists it appears in)<li>A Venue<li>A Day<li>A Start and End Time</ul>
+If you need to block off the venue before the event, give a setup time in minutes, eg 30.<p>
+If you would like to give a small description, this will appear in the programme book and in lists of events.<p>
+You may if you wish have a longer blurb, this will only appear on the webpage for this event.<p>
+If it should be listed as a Family event, click the relevant box.  A children's Workshop would be type workshop and have Family selected.<p>
+You do not normally need to set Duration, Bar/Food, Special, Alt Edit, Prices and Non Fest.  For all complex cases contact Richard (07718 511432)<p>
+Then click on <b>Create</b>.<p>
+If it a simple event, with one particpant do the following (this can be done later if you have not yet decided): 
+<ul><li>Select the Side, Act or Other participant from the drop down lists.
+<li>Click on <b>Update</b></ul><p>
+<h3>Concerts and similar events</h3>
+Each act in the concert needs a sub event.<p>
+On the right near the bottom it will say Add 1 sub events.  Change the 1 to the number of acts and click on <b>Add</b><p>
+In the body of the event, it will now say <b>Has Sub Events</b>, click on that link.<p>
+You will see a list of sub events - the first is the entire event (Concert), you will need to change each of the others in turn for each act.<p>
+Click on one of them, change the start and end times and select who is performing that spot, then click <b>Update</b>.<p>
+To go back to the list of sub events click on <b>Is a Sub Event</b>
+<h3>Dancing</h3>
+For example, setting up dancing in the cornmarket, create a single event that runs from 10am to 5pm, then divide it up into 30 minute sub events.<p>
+To divide into a number of sub events, one for each half hour, click on <b>Divide</b>.<p>
+It is possible to edit sides into dancing here, but it is far far easier with the <b>Edit Dance Programme</b> from the main staff pages.<p>
+A similar feature will appear eventually for music.<p>
+<?php
   echo "</div>";
   echo "<h2>Add/Edit Events</h2>\n";
   echo "<form method=post action='EventAdd.php'>\n";
@@ -305,7 +313,8 @@
       echo "<tr $adv>" . fm_textarea('Description <span id=DescSize></span>',$Event,'Description',5,2,'',
 			'maxlength=150 oninput=SetDSize("DescSize",150,"ShortBlurb") id=ShortBlurb'); 
       echo "<tr $adv>" . fm_textarea('Blurb',$Event,'Blurb',5,2,'','maxlength=2000');
-      echo "<tr><td>If the Venue doen't normally have a Bar or Food<td>" . fm_checkbox('Bar',$Event,'Bar') . "<td>" . fm_checkbox('Food',$Event,'Food') . fm_text('Food/Bar text',$Event,'BarFoodText') . "\n";
+      echo "<tr><td>If the Venue doesn't normally have a Bar or Food<td>" . fm_checkbox('Bar',$Event,'Bar') . 
+		"<td>" . fm_checkbox('Food',$Event,'Food') . fm_text('Food/Bar text',$Event,'BarFoodText') . "\n";
       if (!$Event['BigEvent']) {
 //        if ($et == 'Dance' || $et == 'Workshop' || $et == 'Mixed' || $et == 'Other') {
           echo "<tr><td rowspan=2>Sides:" . Help('Sides');

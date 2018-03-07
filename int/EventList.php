@@ -3,7 +3,7 @@
   A_Check('Staff');
 
   dostaffhead("List Events");
-  global $db,$Event_Types;
+  global $db,$Event_Types,$USERID;
   $yn = array('','Y');
   include("ProgLib.php");
   include("DocLib.php");
@@ -99,7 +99,7 @@
       echo "<tr><td>";
       echo "<input type=checkbox name=E$i class=SelectAllAble>";
       echo "<td>$i<td>";
-      if (Access('Staff','Venues')) echo "<a href=EventAdd.php?e=$i>";
+      if (Access('Staff','Venues') || $evnt['Owner']==$USERID || $evnt['Owner2']==$USERID) echo "<a href=EventAdd.php?e=$i>";
       if (strlen($evnt['SName']) >2) { echo $evnt['SName'] . "</a>"; } else { echo "Nameless</a>"; };
       echo "<td>" . $DayList[$evnt['Day']] . "<td>" . $evnt['Start'] . "<td>";
       if ($se > 0 && $evnt['SubEvent'] < 0) { echo $evnt['SlotEnd']; } else { echo $evnt['End']; }; 

@@ -201,6 +201,26 @@ function Get_Event4Act($Eid) {
   return $evs; 
 }
 
+function Get_Events4Other($snum,$yr=0) {
+  global $db,$YEAR;
+  if ($yr==0) $yr=$YEAR;
+  $res = $db->query("SELECT * FROM Events WHERE Year=$yr AND Other1=$snum ORDER BY Day, Start");
+  $evs = array();
+  if (!$res) return 0;
+  while ($ev = $res->fetch_assoc()) $evs[] = $ev;
+  return $evs; 
+}
+
+function Get_Event4Other($Eid) {
+  global $db,$YEAR;
+  if ($yr==0) $yr=$YEAR;
+  $res = $db->query("SELECT * FROM Events WHERE EventId=$Eid");
+  $evs = array();
+  if (!$res) return 0;
+  while ($ev = $res->fetch_assoc()) $evs[] = $ev;
+  return $evs; 
+}
+
 function Select_Act_Come($type=0,$extra='') {
   global $db,$YEAR;
   static $Come_Loaded = 0;
@@ -328,7 +348,7 @@ function Contract_Check($snum,$chkba=1,$ret=0) { // if ret=1 returns result numb
   include_once('ProgLib.php');
 // All Events have - Venue, Start, Duration, Type - Start & End/Duration can be TBD if event-type has a not critical flag set
   $InValid = 3;
-  $Evs = Get_Events4Act($snum,$YEAR);
+  $Evs = $Sidey['IsAnAct']?Get_Events4Act($snum,$YEAR):Get_Events4Other($snum,$YEAR);
   $types = Get_Event_Types(1);
   $Vens = Get_Real_Venues(1);
   $LastEv = 0;
@@ -382,7 +402,7 @@ function Contract_Changed(&$Sidey) {
     Put_ActYear($Sidey);
     return 1;
   } else {
-    $Evs = Get_Events4Act($snum,$YEAR);
+    $Evs = $Sidey['IsAnAct']?Get_Events4Act($snum,$YEAR):Get_Events4Other($snum,$YEAR);
     if ($Evs) {
       $Sidey['YearState'] = $Book_State['Booking'];
       Put_ActYear($Sidey);
@@ -403,7 +423,7 @@ function Contract_Changed_id($id) {
 function Contract_State_Check(&$Sidey,$chkba=1) {
   global $Book_State;
   $snum = $Sidey['SideId'];
-  $Evs = Get_Events4Act($snum,$Sidey['Year']);
+  $Evs = $Sidey['IsAnAct']?Get_Events4Act($snum,$Sidey['Year']):Get_Events4Other($snum,$Sidey['Year']);
   $Es = isset($Evs[0]);
   $Valid = (!Contract_Check($snum,$chkba));
   $ys = $Sidey['YearState'];
