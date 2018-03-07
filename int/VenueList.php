@@ -19,6 +19,7 @@
   include_once("ProgLib.php");
   $venues = Get_Venues(1);
 
+  $edit = Access('Staff','Venues');
   $coln = 0;
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
@@ -47,8 +48,16 @@
   if ($venues) {
     foreach ($venues as $Ven) {
       $i = $Ven['VenueId'];
-      echo "<tr><td>$i<td><a href=AddVenue.php?v=$i>" . $Ven['ShortName'] . "</a>";
-      echo "<td><a href=AddVenue.php?v=$i>" . $Ven['SName'] . "</a>"; 
+      echo "<tr><td>$i<td>";
+	if ($edit) echo "<a href=AddVenue.php?v=$i>";
+	echo $Ven['ShortName'];
+	if ($edit) echo "</a>";
+
+      echo "<td>";
+	if ($edit) echo "<a href=AddVenue.php?v=$i>";
+	echo $Ven['SName'];
+	if ($edit) echo "</a>";
+
       echo "<td>" . ($Ven['IsVirtual']?'Y':'');
       echo "<td>" . $Ven['Notes'] . "<td>" . $Venue_Status[$Ven['Status']];
       echo "<td>" . $Ven['DanceImportance'];

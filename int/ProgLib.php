@@ -103,8 +103,10 @@ function Set_Event_Help() {
   static $t = array(
  	'Start'=>'Use 24hr clock for all times eg 1030, 1330',
 	'Sides'=>'Do not use this tool for dance programming use the tool under Dance, once the events have been created',
-	'Acts'=>'I hope to do something better eventually - Richard',
+	'Acts'=>'Normally only select one Act/Other, if the event has many timed participants use sub-events',
+	'Others'=>'Normally only select one Act/Other, if the event has many timed participants use sub-events',
 	'SName'=>'Needed for now, need not be unique',
+	'Type'=>'Broad event category, if in doubt ask Richard',
 	'Description'=>'Brief description of event for website and programme book, max 150 chars',
 	'Blurb'=>'Longer blurb if wanted, that will follow the description when this particular events is being looked at online',
 	'Setup'=>'IF the event has setup prior to the start time, set it here in minutes to block out the venue',
@@ -120,6 +122,8 @@ function Set_Event_Help() {
 	'Family'=>'List as a family event',
 	'Special'=>'List as a Special event',
 	'LongEvent'=>'Enable event to ran over many days',
+	'Owner'=>'Who created the event, editable by this person, the Alt Edit and any with global edit rights',
+	'Owner2'=>'This person is also allowed to edit this event',
 	'Budget'=>'What part of the festival budget this Event comes under'
   );
   Set_Help_Table($t);

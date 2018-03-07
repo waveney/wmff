@@ -66,6 +66,13 @@ input[type=submit], .FakeButton {
   background-color:red;
 }
 
+#largeredsubmit {
+  font-size:24px;
+  background-color:red;
+  margin:10;
+  border:10;
+}
+
 .partnavbutton {
     padding:9.5px 10px;
     background-color:#a30046;

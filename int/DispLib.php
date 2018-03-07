@@ -28,10 +28,10 @@ function formatminimax(&$side,$link,$mnat=2) {
 
 // Check ET to see if imps should be found
 function Get_Imps(&$e,&$imps,$clear=1,$all=0) {
-  global $EventTypeData;
+  global $Event_Types_Full;
   $ETs = Get_Event_Types(1);
   $ets = $ETs[$e['Type']]['State']; 
-  $useimp = ($EventTypeData[$e['Type']]['UseImp'] && ($e['BigEvent']==0));
+  $useimp = ($Event_Types_Full[$e['Type']]['UseImp'] && ($e['BigEvent']==0));
   if ($clear) $imps = array();
   for($i=1;$i<5;$i++) {
     if (isset($e["Side$i"])) { if ($ee = $e["Side$i"])  { 

@@ -179,6 +179,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
 	  }
 	}
       }
+    echo "<p>";
     }
   }
 

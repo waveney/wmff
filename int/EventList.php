@@ -1,16 +1,17 @@
 <?php
   include_once("fest.php");
-  A_Check('Staff','Venues');
+  A_Check('Staff');
 
   dostaffhead("List Events");
-  global $db,$Event_Types;
+  global $db,$Event_Types,$USERID;
   $yn = array('','Y');
   include("ProgLib.php");
+  include("DocLib.php");
   include("EventCheck.php");
 
 //var_dump($Event_Types);
 
-  if (isset($_POST{'ACTION'})) {
+  if (isset($_POST{'ACTION'}) && Access('Staff','Venues')) {
     foreach ($_POST as $f=>$v) {
       if (preg_match('/E(\d*)/',$f,$res)) {
         $ev=$res[1];
@@ -62,6 +63,8 @@
     echo "<h2>List Events</h2>";
   }
 
+  $AllUsers = Get_AllUsers(0);
+
   $coln = 1;  // Start at 1 because of select all
   echo "<form method=post action=EventList.php>";
   echo "Click on Id/Name to edit, on Show for public page.<p>\n";
@@ -82,7 +85,9 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Size</a>\n";
   if ($se == 0) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Sub Events</a>\n";
   if ($se != 0) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>With</a>\n";
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Notes</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Fam</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Spec</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Owner</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Show</a>\n";
   echo "</thead><tbody>";
 
@@ -94,7 +99,7 @@
       echo "<tr><td>";
       echo "<input type=checkbox name=E$i class=SelectAllAble>";
       echo "<td>$i<td>";
-      if (Access('Staff','Venues')) echo "<a href=EventAdd.php?e=$i>";
+      if (Access('Staff','Venues') || $evnt['Owner']==$USERID || $evnt['Owner2']==$USERID) echo "<a href=EventAdd.php?e=$i>";
       if (strlen($evnt['SName']) >2) { echo $evnt['SName'] . "</a>"; } else { echo "Nameless</a>"; };
       echo "<td>" . $DayList[$evnt['Day']] . "<td>" . $evnt['Start'] . "<td>";
       if ($se > 0 && $evnt['SubEvent'] < 0) { echo $evnt['SlotEnd']; } else { echo $evnt['End']; }; 
@@ -118,19 +123,23 @@
 	} else {
 	}
       }
-      echo "<td>" . $evnt['Notes'];
       if ($se > 0 && $evnt['SubEvent'] < 0) echo " Full end: " . $evnt['End'] . " PARENT";
+      echo "<td>" . ($evnt['Family']?"Y":"");
+      echo "<td>" . ($evnt['Special']?"Y":"");
+      echo "<td>" . $AllUsers[$evnt['Owner']];
       echo "<td><a href=EventShow.php?e=$i>Show</a>\n";
     }
   }
   echo "</tbody></table>\n";
-  echo "Selected: <input type=Submit name=ACTION value=Delete " .
+  if (Access('Staff','Venues')) {
+    echo "Selected: <input type=Submit name=ACTION value=Delete " .
 	" onClick=\"javascript:return confirm('are you sure you want to delete these?');\">, "; 
-  echo "<input type=Submit name=ACTION value='Rename as'> ";
-  echo "<input type=text name=NewName>, <input type=Submit name=ACTION value='Move by'> ";
-  echo "<input type=text name=Minutes size=4> Minutes, ";
-  echo "<input type=Submit name=ACTION value='Move to'> " . fm_select(Get_Real_Venues(),0,'v') . ",";
-  echo "<input type=Submit name=LIST value='Show All'><br>\n";
+    echo "<input type=Submit name=ACTION value='Rename as'> ";
+    echo "<input type=text name=NewName>, <input type=Submit name=ACTION value='Move by'> ";
+    echo "<input type=text name=Minutes size=4> Minutes, ";
+    echo "<input type=Submit name=ACTION value='Move to'> " . fm_select(Get_Real_Venues(),0,'v') . ",";
+    echo "<input type=Submit name=LIST value='Show All'><br>\n";
+  }
   echo "</form>\n";
 
   if (Access('Committee','Venues')) {
