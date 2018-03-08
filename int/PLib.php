@@ -426,7 +426,6 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
 }
 
 //******************************************************* Music YEAR ***********************************************
-// This needs modification for non dance
 function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
   global $YEAR,$THISYEAR,$MASTER,$Invite_States,$Coming_States,$Mess,$Action,$ADDALL,$Invite_Type;
   global $DayList,$Book_States,$Book_State,$ContractMethods,$CurYear;
