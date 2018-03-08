@@ -71,4 +71,26 @@ function News_Item(&$news,$tlim=500,$more=0,$class='newsimg') { // if tlim=0 all
   if ($more==1 || ($more ==0 && $More)) echo "<p><a class=button href=/int/newsitem.php?id=$getid rel=bookmark style=\"color:#ffffff;\">Read More</a><p>";
   echo "</div>\n";
 }
+
+function Get_All_Articles($nid=0) { // 0 - Current, 1 = all, if current wont give those in future
+  global $db;
+  $Arts = array();
+  $res = $db->query("SELECT * FROM Articles " . ($nid?'':' WHERE InUse=1 '));
+  if ($res) while ($ns = $res->fetch_assoc())  $Arts[] = $ns;
+  return $Arts;
+}
+
+function Get_Article($id) {
+  global $db;
+  $res=$db->query("SELECT * FROM Articles WHERE id=$id");
+  if ($res) return $res->fetch_assoc();
+  return 0; 
+}
+
+function Put_Article(&$now) {
+  $e=$now['id'];
+  $Cur = Get_Article($e);
+  return Update_db('Article',$Cur,$now);
+}
+
 ?>

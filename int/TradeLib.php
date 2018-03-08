@@ -764,6 +764,12 @@ function Validate_Trade($Mode=0) { // Mode 1 for Staff Submit, less stringent
 	echo "<h2 class=ERR>No Business Name Given</h2>\n";
 	$proc = 0;
       }
+      
+      if ($Mode == 0 && ($TradeTypeData[$_POST['TradeType']]['TOpen'] == 0)) {
+	echo "<h2 class=ERR>Sorry that category is full for this year</h2>\n";
+	$proc = 0;
+      }
+
       if (!isset($_POST['Contact']) || strlen($_POST['Contact']) < 8 ) {
 	echo "<h2 class=ERR>No Contact Name Given</h2>\n";
 	$proc = 0;

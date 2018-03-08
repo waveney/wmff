@@ -208,8 +208,6 @@
   echo "<td class=Stafftd><h2>Other (Arts, Crafts, Children, Comedy)</h2>\n";
     echo "<ul>\n";
     echo "<li><a href=StewardView.php>Stewarding Applications</a>\n";
-    echo "<li><a href=NewsManage.php>News Management</a>";
-//    echo "<li><a href=Facebook.php>Embed Facebook as News</a>";
 //    if (Access('SysAdmin')) echo "<li><a href=NewsConvert1.php>Convert News</a>";
     if (Access('Staff','Photos')) {
       echo "<li><a href=PhotoUpload.php>Photo Upload</a>";
@@ -238,6 +236,10 @@
       echo "<li><a href=ListUsers.php>List Users</a>";
       echo "<li><a href=AddUser.php>Add User</a>";
       echo "<li><a href=UserDocs.php>Storage Used</a>";
+    }
+    if (Access('Committee','News')) {
+      echo "<li><a href=NewsManage.php>News Management</a>";
+      echo "<li><a href=ListArticles.php>Front Page Article Management</a>";
     }
     if (Access('Steward')) {
       echo "<li><a href=AddBug.php>New Bug/Feature request</a>\n";
