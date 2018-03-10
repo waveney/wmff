@@ -22,7 +22,7 @@
   $Complete = 0;
 
   if ($Ett >= 0) { 
-    $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventType t WHERE e.Year=$YEAR AND ( e.Type=$Ett $xtr ) AND e.SubEvent<1 AND " .
+    $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND ( e.Type=$Ett $xtr ) AND e.SubEvent<1 AND " .
 		"( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) ORDER BY e.Day, e.Start"); // Need to work with release settings as well
     if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
     if (count($Evs) > 1) $Types = $Ets[$Ett]['Plural'];
@@ -30,7 +30,7 @@
   } else { // Handle other Sherlock calls
     switch ($Type) {
       case 'Family':
-        $ans = $db->query("SELECT DISTINCT e.* FROM Events, EventType t WHERE e.Year=$YEAR AND e.Family=1 AND e.SubEvent<1 AND " .
+        $ans = $db->query("SELECT DISTINCT e.* FROM Events, EventTypes t WHERE e.Year=$YEAR AND e.Family=1 AND e.SubEvent<1 AND " .
 		"( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
 	$Types = "Family Event";
@@ -38,7 +38,7 @@
         $Complete = $MASTER[$Type . 'State'];
         break;
       case 'Special':
-        $ans = $db->query("SELECT DISTINCT e.* FROM Events, EventType t WHERE e.Year=$YEAR AND e.Special=1 AND (e.SubEvent<1 OR e.LongEvent=1) AND " .
+        $ans = $db->query("SELECT DISTINCT e.* FROM Events, EventTypes t WHERE e.Year=$YEAR AND e.Special=1 AND (e.SubEvent<1 OR e.LongEvent=1) AND " .
 		"( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
 	$Types = "Special Event";
