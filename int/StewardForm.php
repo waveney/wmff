@@ -32,8 +32,8 @@
       $id = Insert_db_post('Stewards',$stew);
     
       Email_Steward($stew,'Stew_Application',$stew['Email']);
-      Email_Steward($stew,'Stew_Paul','paul.gunovsky@gmail.com');
-      
+      Email_Steward($stew,'Stew_Paul','paulfolkfest@outlook.com');
+
       echo "<h2 class=subtitle>Thankyou for submitting your application</h2>";
       dotail();
       exit();
