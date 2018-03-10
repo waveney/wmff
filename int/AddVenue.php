@@ -1,6 +1,6 @@
 <?php
   include_once("fest.php");
-  A_Check('Committee','Venue');
+  A_Check('Committee','Venues');
 ?>
 
 <html>
