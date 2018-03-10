@@ -161,7 +161,7 @@ function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='') {
   if (isset($_POST{'Update'})) {
     if ($data) foreach($data as $t) {
       $i = $t[$indxname];
-      if (isset($_POST["SName$i"]) && $_POST["SName$i"] == '') {
+      if (isset($_POST["SNamei"]) && $_POST["SName$i"] == '') {
 	if ($Deletes) {
   	  db_delete($table,$t[$indxname]);
 	  return 1;

@@ -845,3 +845,35 @@ textarea:Focus
   color:black;
   font-weight:bold;
 } 
+.FlexContain {
+  display: flex;
+  flex-wrap: wrap;
+}
+.BigBlock {
+  width:480;
+  height:300;
+}
+.SmallBlock {
+  width:240;
+  height:150;
+}
+.BBtitle, SBtitle {
+  max-width:100%;
+  font-size:27px;
+  font-weight:bold;
+  color:#005c8f;
+  text-align:center;
+  transition:opacity .5s, filter .5s;
+  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+}
+.BBImg, .SBImg {
+  object-fit:contain;
+}
+.BBtxt, .SBtxt {
+  max-width:100%;
+  margin:0 0 0 0;
+  padding: 5px 10px 5px 0;
+  color:#000000;
+  word-wrap: break-word;
+  overflow:auto;
+}

@@ -90,7 +90,7 @@ function Get_Article($id) {
 function Put_Article(&$now) {
   $e=$now['id'];
   $Cur = Get_Article($e);
-  return Update_db('Article',$Cur,$now);
+  return Update_db('Articles',$Cur,$now);
 }
 
 ?>
