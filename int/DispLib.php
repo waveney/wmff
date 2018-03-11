@@ -75,6 +75,7 @@ function Gallery($title,$dir,$credit='') {
 }
 
 function ShowArticle($a,$mxat=0) {
+  echo "<div class=mnfloatleft>";
   $host = "https://" . $_SERVER{'HTTP_HOST'};
   if ($a['Image']) {
     $wi = $a['ImageWidth'];
@@ -87,13 +88,15 @@ function ShowArticle($a,$mxat=0) {
   } else {
     $fmt = 't';
   } // fmt t=txt, l=ls, p=pt, s=sq, b=ban
-  $mnmx = ($a['Importance'] >= $mnat?'BigBox':'SmallBox');
+  $mnmx = ($side['Importance'] >= $mnat?'maxi':'mini');
   $id = AlphaNumeric($a['SName']);
-  echo "<div class=$mnmx><a href=$host/" . $a['Link'] . ">";
-  echo "<div class=BBtitle style='font-size:" . (27+$a['Importance']*3) . "px'>" . $a['SName'] . "</div>";
-  if ($a['Image']) echo "<img class=BBImg src='" . $a['Image'] ."'>";
-  echo "</a><div class=BBtxt>" . $a['Text'] . "</div>";
-  echo "</div>\n";
+  echo "<div class=$mnmx" . "_$fmt id=$id>";
+  echo "<a href=/int/$link?sidenum=" . $side['SideId'] . ">";
+  if ($mnmx != 'maxi' && $a['Image']) echo "<div class=mnmximgwrap><img class=mnmximg src='" . $a['Image'] ."'></div>";
+  echo "<div class=mnmxttl style='font-size:" . (27+$side['Importance']*3) . "px'>" . $a['SName'] . "</div>";
+  if ($mnmx == 'maxi' && $a['Image']) echo "<div class=mnmximgwrap><img class=mnmximg src='" . $a['Image'] ."'></div>";
+  echo "</a><div class=mnmxtxt>" . $a['Text'] . "</div>";
+  echo "</div></div>\n";
 }
 
 function ShowArticles() {
@@ -158,7 +161,7 @@ function ShowArticles() {
   // Main Code
   include_once("NewsLib.php");
   $Arts = Get_All_Articles();
-  echo "<div class=FlexContain>";
+//  echo "<div class=FlexContain>";
   $Imps = array();
   foreach($Arts as $a) $Imps[$a['Importance']][] = $a;
 
