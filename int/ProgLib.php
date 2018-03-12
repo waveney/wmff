@@ -284,17 +284,54 @@ function Event_Has_Parts($e) {
   return 0;
 }
 
+function ListLinks(&$ev,$type,$single,$plural,$size,$mult) {
+
+      if ($e['Side1']) $ans .= "<br>" . ListLinks($e,'Side','Dance spot by','Dance spots by',$size,$mult);
+      break;
+
+      $ks = array_keys($imps);
+      sort($ks);	
+      $things = 0;
+      foreach ( array_reverse($ks) as $imp) {
+        if ($imp) $ans .= "<span style='font-size:" . ($size+$imp*$mult) . "px'>";
+        foreach ($imps[$imp] as $thing) {
+	  if ($things++) $ans .= ", ";
+	  $link=0;
+	  if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
+	  if ($link) {
+	    if ($link ==1) {
+	      $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
+	    } else {
+	      if ($thing['IsASide']) {
+	        $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
+	      } else if ($thing['IsAnAct']) {
+	        $ans .= "<a href='/int/ShowMusic.php?sidenum=" . $thing['SideId'] . "'>";
+	      } else {
+	        $ans .= "<a href='/int/ShowMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
+	      }
+	    }
+	  }
+	  $ans .= NoBreak($thing['SName']);
+	  if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
+          if ($link) $ans .= "</a>";
+        }
+  }
+}
+
 // Get Participants, Order by Importance/Time, if l>0 give part links as well
 function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1) {
-  global $db;
+  global $db,$Event_Types_Full;
+
   include_once "DanceLib.php";
   $ans = "";
   $flds = array('Side','Act','Other');
+  $MainEv = 0;
   $res = $db->query("SELECT * FROM Events WHERE EventId='$Ev' OR SubEvent='$Ev' ORDER BY Day, Start DESC");
   $found = array();
   if ($res) {
     $imps=array();
     while ($e = $res->fetch_assoc()) {
+      if ($e['EventId'] == $Ev) $MainEv = $e;
       foreach ($flds as $f) {
         for($i=1;$i<5;$i++) {
    	  if (isset($e["$f$i"])) { 
@@ -311,37 +348,46 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1) {
       }
     }
 
-    
-    $ks = array_keys($imps);
-    sort($ks);	
-    $things = 0;
-    foreach ( array_reverse($ks) as $imp) {
-      if ($imp) $ans .= "<span style='font-size:" . ($size+$imp*$mult) . "px'>";
-      foreach ($imps[$imp] as $thing) {
-	if ($things++) $ans .= ", ";
-	$link=0;
-	if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
-	if ($link) {
-	  if ($link ==1) {
-	    $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
-	  } else {
-	    if ($thing['IsASide']) {
+    switch ($Event_Types_Full[$MainEv['Type']]['SName']) {
+    case 'Ceildih':
+      $ans .= ListLinks($e,'Act','Music by','Music by',$size,$mult);
+      if ($e['Other1']) $ans .= " " . ListLinks($e,'Other','Caller','Callers',$size,$mult);
+      if ($e['Side1']) $ans .= "<br>" . ListLinks($e,'Side','Dance spot by','Dance spots by',$size,$mult);
+      break;
+
+    default: // Do default treatment below
+      $ks = array_keys($imps);
+      sort($ks);	
+      $things = 0;
+      foreach ( array_reverse($ks) as $imp) {
+        if ($imp) $ans .= "<span style='font-size:" . ($size+$imp*$mult) . "px'>";
+        foreach ($imps[$imp] as $thing) {
+	  if ($things++) $ans .= ", ";
+	  $link=0;
+	  if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
+	  if ($link) {
+	    if ($link ==1) {
 	      $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
-	    } else if ($thing['IsAnAct']) {
-	      $ans .= "<a href='/int/ShowMusic.php?sidenum=" . $thing['SideId'] . "'>";
 	    } else {
-	      $ans .= "<a href='/int/ShowMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
+	      if ($thing['IsASide']) {
+	        $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
+	      } else if ($thing['IsAnAct']) {
+	        $ans .= "<a href='/int/ShowMusic.php?sidenum=" . $thing['SideId'] . "'>";
+	      } else {
+	        $ans .= "<a href='/int/ShowMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
+	      }
 	    }
 	  }
-	}
-	$ans .= NoBreak($thing['SName']);
-	if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
-        if ($link) $ans .= "</a>";
-       }
-      if ($imp) $ans .= "</span>";
+	  $ans .= NoBreak($thing['SName']);
+	  if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
+          if ($link) $ans .= "</a>";
+        }
+        if ($imp) $ans .= "</span>";
+      }
+      break;
     }
+    if ($ans) return $ans;
   }
-  if ($ans) return $ans;
   return "Details to follow";
 }
 

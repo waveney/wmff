@@ -422,7 +422,10 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
 	  }
 	} else if ($line == 0 && $G['n']) {
 	  echo "$OtherLoc<td id=$id $DRAG $dev data-d='N' class=DPNamed>";
+	  if ($links) echo "<a href=/int/EventShow.php?e=" . $G['e'] . ">";
 	  echo $G['n'];
+	  if ($links) echo "</a>";
+	  echo "<br>";
 	} else if ($line != 0 && $G['w']) {
 	  echo "$OtherLoc<td id=$id $DRAG $dev hidden class=$class>&nbsp;";
 	  echo $G['n'];
