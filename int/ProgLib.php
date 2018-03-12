@@ -174,7 +174,9 @@ function Put_Event(&$now,$new=0) {
 
 function Get_Events_For($what,$Day) {
   global $db,$YEAR,$Day_Type;
-  $res=$db->query("SELECT e.* FROM Events e, EventTypes t WHERE Year=$YEAR AND e.Type=t.ETypeNo AND t.Has$what=1 AND Day=" . $Day_Type[$Day] );
+  $xtra = ($what=='Dance'?' OR e.ListDance=1 ':($what=='Music'?' OR e.ListMusic=1':''));
+  $res=$db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND ( e.Type=t.ETypeNo AND t.Has$what=1 AND e.Day=" . 
+		$Day_Type[$Day] . $xtra . ")" );
   if ($res) {
     while($ev = $res->fetch_assoc()) $evs[$ev['EventId']] = $ev;
     return $evs;

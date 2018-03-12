@@ -102,7 +102,7 @@ function Grab_Data($day='',$Media='Dance') {
       if ($parts) {
 //	if ($Latest < $et) echo "Found latest as $eid at $et in $v<p>";
         $Earliest = min($ev['Start'],$Earliest);
-        $Latest = max($et,$Latest);
+        $Latest = max(timeadd2($ev['Start'],30),$Latest);
       }
     } else { //BE
       // $VenueUse[$v] = 1; Not marking venue (or other venues) used for Big Events
