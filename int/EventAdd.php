@@ -356,7 +356,7 @@ A similar feature will appear eventually for music.<p>
     echo "</table>\n";
     if ($Event['BigEvent']) {
       echo "Use the <a href=BigEventProg.php?e=$eid>Big Event Programming Tool</a> to add sides, musicians and others to this event. ";
-      echo "Use the <a href=DisplayBE.php?e=$eid>Big Event Display</a> to get a simply display of the event.";
+      echo "Use the <a href=DisplayBE.php?e=$eid>Big Event Display</a> to get a simple display of the event.";
     }
   
     if ($eid > 0) {
