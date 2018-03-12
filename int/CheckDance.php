@@ -321,12 +321,12 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
         if ($side['Sat']) {
 	  if ($DayCounts[1] != $side['SatDance']) $Merr .= "Have " . $DayCounts[1] . " spots on Sat and wanted " . $side['SatDance'] . ", ";
           if ($side['SatArrive'] && $FirstTime[1] && ($side['SatArrive'] > $FirstTime[1])) { $Err .= "Dancing on Sat before arriving, "; };
-          if ($side['SatDepart'] && (($side['SatDepart']+30) < $LastTime[1])) { $Err .= "Dancing on Sat after depature, "; };
+          if ($side['SatDepart'] && (timeadd2($side['SatDepart'],30) < $LastTime[1])) { $Err .= "Dancing on Sat after depature, "; };
 	}
         if ($side['Sun']) {
 	  if ($DayCounts[2] != $side['SunDance']) $Merr .= "Have " . $DayCounts[2] . " spots on Sun and wanted " . $side['SunDance'] . ", ";
           if ($side['SunArrive'] && $FirstTime[2] && ($side['SunArrive'] > $FirstTime[2])) { $Err .= "Dancing on Sun before arriving, "; };
-          if ($side['SunDepart'] && (($side['SunDepart']+30) < $LastTime[2])) { $Err .= "Dancing on Sun after depature, "; };
+          if ($side['SunDepart'] && (timeadd2($side['SunDepart'],30) < $LastTime[2])) { $Err .= "Dancing on Sun after depature, "; };
 	}
         if ($side['Sat'] && $side['Procession'] != $InProcession) {
 	  if ($InProcession) { $Err .= "In the Procession, but don't want to be.  "; }
