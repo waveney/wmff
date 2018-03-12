@@ -41,7 +41,7 @@ function Grab_Data($day='',$Media='Dance') {
   } else if (isset($_GET{'d'})) { $DAY = $_GET{'d'}; } else { $DAY='Sat'; }
 
   if (!isset($_GET{'EInfo'})) $_GET{'EInfo'} = 0;
-  for ($t=10;$t<($Media=='Dance'?19:24);$t++) {
+  for ($t=10;$t<($Media=='Dance'?18:24);$t++) {
     $Times[] = $t*100;
     if ($Media != 'Dance') $Times[] = $t*100+15;
     $Times[] = $t*100+30;
@@ -393,13 +393,15 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
           if ($line == 0) {
 	    $rows = intval(ceil($G['d']/$Round))*4;
 	    // Need to create a wrapped event - not editble here currently
-	    echo "$OtherLoc<td id=$id $WDRAG $dev rowspan=$rows valign=top data-d=W>";
+	    $cls = ($G['n']?'class=DPNamed ':'');
+	    echo "$OtherLoc<td id=$id $WDRAG $dev $cls rowspan=$rows valign=top data-d=W>";
 	    if ($G['n']) {
-	      echo "<span class=DPNamed>";
+//	      echo "<span class=DPNamed>";
 	      if ($links) echo "<a href=/int/EventShow.php?e=" . $G['e'] . ">";
 	      echo $G['n'];
 	      if ($links) echo "</a>";
-	      echo "<br></span>";
+	      echo "<br>";
+//</span>";
 	    }
 	    echo "<span class=DPETimes>$t - " . timeadd($t,$G['d']) . "<br></span>";
 	    for($i=1; $i<5;$i++) {

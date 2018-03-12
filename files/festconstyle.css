@@ -290,14 +290,20 @@ input[type=password] {
   background:#eee;
   min-height:15;
   min-width:150px;
+  padding:2;
+}
+
+.DPGridDisp a {
+  color:black;
 }
 
 .DPNamed {
   font-size:12px;
-  background:#DB0;
+  background:#ffEEaa;
   color:black;
   min-height:15;
   min-width:150px;
+  margin:2;
 }
 
 .DPNotNamed {

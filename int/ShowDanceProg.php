@@ -24,6 +24,7 @@
     Grab_Data();
     Scan_Data($Cond);
     if ($Public) echo "<p><h2>Saturday Dance</h2><p>\n";
+    echo "This will be easier to use on a small screen soon.<p>";
     Create_Grid($Cond);
     Print_Grid(0,0,$Cond,$Public);
   }
@@ -32,6 +33,7 @@
       Grab_Data("Sun");
       Scan_Data($Cond);
       echo "<p><h2>Sunday Dance</h2></p>\n";
+      echo "This will be easier to use on a small screen soon.<p>";
       Create_Grid($Cond);
       Print_Grid(0,0,$Cond,$Public);
       dotail();
