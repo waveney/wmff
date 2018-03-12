@@ -176,7 +176,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 //if (!$Surfaces[$Venues[$Ven]['SurfaceType1']]) { echo "Surface - $Ven ..."; }
 	  if (($side["Surface_" . $Surfaces[$Venues[$Ven]['SurfaceType1']]]) || 
 	      ($side["Surface_" . $Surfaces[$Venues[$Ven]['SurfaceType2']]])) { // Good
-	  } else {
+	  } else if ($last_e != $Procession) {
 	    if(!isset($badvens[$Ven])) {
               $Err .= "Do not like dancing on the surfaces at " . SName($Venues[$Ven]) . ", ";
 	    }
