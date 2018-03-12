@@ -45,7 +45,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	  $dancing[$s][] = $eid;
 	  if (($Sides[$s][$DayList[$e['Day']]])) {
 		// No Action
-	  } else { 
+	  } else if ($Sides[$s]['IsASide']) { 
       	    echo "<a href=AddDance.php?sidenum=$s>" . $sidenames[$s] . "</a>: ";
       	    echo "<span class=red>Is listed doing an <a href=EventAdd.php?e=" . $e['EventId'] . ">event</a> at " . $e['Start'] . " in " . SName($Venues[$e['Venue']]) .
 		 " on " . $DayList[$e['Day']] . ", but is <b>NOT</b> there that day</span><br>\n";
@@ -55,7 +55,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	if ($s = $e["Act$i"]) {
 	  if (isset($Sides[$s])) {
 	    $dancing[$s][] = $eid;
-	  } else { // Should never get here, wont work anyway
+	  } else if ($Sides[$s]['IsASide']) { // Should never get here, wont work anyway
       	    echo "<a href=AddDance.php?sidenum=$s>" . $sidenames[$s] . "</a>: ";
       	    echo "<span class=red>Is listed doing an event at " . $e['Start'] . " in " . SName($Venues[$e['Venue']]) .
 		 " on " . $DayList[$e['Day']] . ", but is <b>NOT</b> there that day</span><br>\n";
@@ -65,7 +65,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	if ($s = $e["Other$i"]) {
 	  if (isset($Sides[$s])) {
 	    $dancing[$s][] = $eid;
-	  } else {
+	  } else if ($Sides[$s]['IsASide']) {
       	    echo "<a href=AddDance.php?sidenum=$s>" . $sidenames[$s] . "</a>: ";
       	    echo "<span class=red>Is listed doing an event at " . $e['Start'] . " in " . SName($Venues[$e['Venue']]) .
 		 " on " . $DayList[$e['Day']] . ", but is <b>NOT</b> there that day</span><br>\n";
