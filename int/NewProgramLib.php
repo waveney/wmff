@@ -318,7 +318,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
     if ($condense && $VenueInfo[$v]["Minor$DAY"]) {
     } else { 
       echo "<th class=DPGridTH id=Ven$v>";
-      if ($links) echo "<a href=/int/VenueShow?v=$v>"; 
+      if ($links) echo "<a href=/int/VenueShow.php?v=$v>"; 
       echo $VenueNames[$v];
       if ($links) echo "</a>";
     }
@@ -366,7 +366,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
 	      $rows = $G['d']?intval(ceil($G['d']/30))*4:4;
 	      $vv = $evs[$G['e']]['Venue']; 
 	      $OtherLoc = "<td id=XX data-d=X rowspan=$rows class=DPOvName>" ;
-              if ($links) $OtherLoc .= "<a href=/int/VenueShow?v=$vv>"; 
+              if ($links) $OtherLoc .= "<a href=/int/VenueShow.php?v=$vv>"; 
               $OtherLoc .= $VenueNames[$vv];
               if ($links) $OtherLoc .= "</a>";
 	    } else {
