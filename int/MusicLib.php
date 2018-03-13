@@ -280,6 +280,28 @@ function &Select_Act_Come_All() {
   return $Coming;
 }
 
+function &Select_Act_Come_Full() {
+  global $db,$YEAR,$Coming_Type;
+  static $Come_Loaded = 0;
+  static $Coming;
+  if ($Coming) return $Coming;
+  $qry = "SELECT s.*, y.* FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND s.IsAnAct=1 AND y.Year=$YEAR ORDER BY s.SName";
+  $res = $db->query($qry);
+  if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
+  return $Coming;
+}
+
+function &Select_Other_Come_Full() {
+  global $db,$YEAR,$Coming_Type;
+  static $Come_Loaded = 0;
+  static $Coming;
+  if ($Coming) return $Coming;
+  $qry = "SELECT s.*, y.* FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND s.IsOther=1 AND y.Year=$YEAR ORDER BY s.SName";
+  $res = $db->query($qry);
+  if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
+  return $Coming;
+}
+
 function &Act_All() {
   global $db;
   $All = array();

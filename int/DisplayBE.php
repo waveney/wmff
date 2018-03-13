@@ -15,8 +15,8 @@
   dostaffhead("Big Event Display");
 
   $Sides = Select_Come_All();
-  $Acts = Select_Act_Come(1);
-  $Others = Select_Other_Come(1);
+  $Acts = Select_Act_Come_Full();
+  $Others = Select_Other_Come_Full();
 
   $things = Get_Other_Things_For($Eid);
 

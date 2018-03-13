@@ -36,7 +36,7 @@
   <div class=dropdown-content>
      <a href=$host/WhatsOnWhere.php >By Venue</a>
      <a href=$host/WhatsOnWhen.php >By Time</a>
-     <a href=$host/WhatsOnDanceProg.php class=NotYet>Dancing</a>
+     <a href=$host/int/ShowDanceProg.php?Cond=1&Pub=1>Dancing</a>
      <a href=$host/Sherlock.php?t=Music >Music</a>
      <a href=$host/Sherlock.php?t=Special>Special Events</a>
      <a href=$host/Sherlock.php?t=Family>Family</a>
