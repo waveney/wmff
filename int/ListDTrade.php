@@ -96,7 +96,7 @@
 	else { $Bal = $fee; };
       } else {
 	if ($fee < 0) { $Bal = $fee = 0; }
-	else { $Bal = $fee - $Dep; }
+	else { $Bal = max($fee - $Dep, $fee-$tot); }
       }
       $Hist = $fetch['History'];
       if (preg_match_all('/Action: *Dep Paid *of *(.*? on .*?) by /',$Hist,$mtchs)) {

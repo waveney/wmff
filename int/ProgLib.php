@@ -349,7 +349,7 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1) {
     }
 
     switch ($Event_Types_Full[$MainEv['Type']]['SName']) {
-    case 'Ceildih':
+    case 'XCeildih':
       $ans .= ListLinks($e,'Act','Music by','Music by',$size,$mult);
       if ($e['Other1']) $ans .= " " . ListLinks($e,'Other','Caller','Callers',$size,$mult);
       if ($e['Side1']) $ans .= "<br>" . ListLinks($e,'Side','Dance spot by','Dance spots by',$size,$mult);

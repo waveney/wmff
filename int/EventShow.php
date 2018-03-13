@@ -193,11 +193,11 @@ function Print_Participants($e,$when=0,$thresh=0) {
   if (!$Se) { // Single Event Big Events not done yet
     if ($Ev['BigEvent']) {
       if ($OtherPart[1]) echo "Participants in order:<p>\n";
-      echo "<div class=floatleft><div class=mini>\n";
+      echo "<div class=mini style='width:480;'>\n";
       foreach ($OtherPart as $O) {
 	Print_Thing(Get_Side($O['Identifier']));
       }
-      echo "</div></div><br clear=all>\n";
+      echo "</div><br clear=all>\n";
     } else {
       Print_Participants($Ev);
     }
