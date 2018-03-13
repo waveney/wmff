@@ -219,12 +219,23 @@ input[type=password] {
   overflow: hidden;
 }
 
+#Grid, #Grid th, #Grid td {
+  padding:0;
+  margin:0;
+  margin-left:2;
+  padding-left:2;
+  border-radius:0;
+  border-collapse:collapse;
+}
+
 .smalltext {
   font-size:12px;
+  margin-left:2;
 }
 
 .smallertext {
   font-size:10px;
+  margin-left:2;
 }
 
 .GridContainer {
@@ -265,6 +276,11 @@ input[type=password] {
   width: 350px; 
 }
 
+.SideListContainer td, .SideListContainer th, .SideListContainer table {
+  border-radius:0;
+  border-collapse:collapse;
+}
+
 .SideDrag {
   background: #EEE;
   border:1;
@@ -290,14 +306,22 @@ input[type=password] {
   background:#eee;
   min-height:15;
   min-width:150px;
+  border-radius:0;
+  padding-left:2;
+}
+
+.DPGridDisp a {
+  color:black;
+  margin-left:2;
 }
 
 .DPNamed {
   font-size:12px;
-  background:#DB0;
+  background:#ffEEaa;
   color:black;
   min-height:15;
   min-width:150px;
+  margin:2;
 }
 
 .DPNotNamed {
@@ -351,8 +375,8 @@ div.whileDragging {
 
 .InfoWrapper {
   width: 350px
-  height: 30vh; 
-  max-height: 30vh; 
+  height: 29vh; 
+  max-height: 29vh; 
   overflow: hidden;
   position: fixed;
   bottom:0;
@@ -364,6 +388,7 @@ div.whileDragging {
 .InfoContainer {
   overflow-y: auto;
   width: 350px; 
+  height: 29vh; 
 }
 
 .DPControls {

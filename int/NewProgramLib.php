@@ -23,12 +23,13 @@ function Prog_Headers($Public='',$headers =1,$What='Dance') {
 }
 
 function Grab_Data($day='',$Media='Dance') {
-  global $DAY,$Times,$Back_Times,$lineLimit,$Sides,$SideCounts,$EV,$VenueUse,$evs,$Sand;
+  global $DAY,$Times,$Back_Times,$lineLimit,$Sides,$SideCounts,$EV,$VenueUse,$evs,$Sand,$Earliest,$Latest;
 
   $cats = array('Side','Act','Other');
   $Times = array();
   $lineLimit = array();
   $SideCounts = array();
+  $Earliest = 2400;  $Latest = 0;
   $EV = array();
   $VenueUse = array();
   $evs = array();
@@ -40,7 +41,7 @@ function Grab_Data($day='',$Media='Dance') {
   } else if (isset($_GET{'d'})) { $DAY = $_GET{'d'}; } else { $DAY='Sat'; }
 
   if (!isset($_GET{'EInfo'})) $_GET{'EInfo'} = 0;
-  for ($t=10;$t<($Media=='Dance'?19:24);$t++) {
+  for ($t=10;$t<($Media=='Dance'?18:24);$t++) {
     $Times[] = $t*100;
     if ($Media != 'Dance') $Times[] = $t*100+15;
     $Times[] = $t*100+30;
@@ -98,8 +99,13 @@ function Grab_Data($day='',$Media='Dance') {
           }
 	}
       }
+      if ($parts) {
+//	if ($Latest < $et) echo "Found latest as $eid at $et in $v<p>";
+        $Earliest = min($ev['Start'],$Earliest);
+        $Latest = max(timeadd2($ev['Start'],30),$Latest);
+      }
     } else { //BE
-      // $VenueUse[$v] = 1; Not marking venue (or other venmues) used for Big Events
+      // $VenueUse[$v] = 1; Not marking venue (or other venues) used for Big Events
       $Other = Get_Other_Things_For($eid);
       $bes = $bev = array();
       foreach($Other as $i=>$o) {
@@ -178,12 +184,13 @@ function Scan_Data($condense=0,$Media='Dance') {
       }
       foreach($OtherLocs as $v) {
         if (isset($EV[$v][$time]['e'])) {
+          if ($evs[$EV[$v][$time]['e']]['BigEvent']) continue;
           $inuse = 0;
           for ($i=1;$i<5;$i++) if (isset($EV[$v][$time]["S$i"]) && $EV[$v][$time]["S$i"] ) $inuse = 1;
 	  if ($inuse) {
 	    $ThisO++;
 	    if ($EV[$v][$time]['d'] != $Round) {
-	      $slots = ceil(timereal($EV[$v][$time]['d'])/$Round);
+	      $slots = intval(ceil(timereal($EV[$v][$time]['d'])/$Round));
 	      $i=0; 
 	      while(isset($OtherLocUse[$i]['t']) && $OtherLocUse[$i]['t']>0) $i++;
 	      $OtherLocUse[$i]['t'] = $slots;
@@ -292,7 +299,10 @@ function Test_Dump() { // far far from complete
 
 function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
   global $DAY,$Times,$Back_Times,$grid,$lineLimit,$EV,$Sides,$SideCounts,$VenueUse,$evs,$MaxOther,$VenueInfo,$Venues,$VenueNames,$OtherLocs,$Sand,$VenueList;
+  global $Earliest,$Latest;
 
+//var_dump($Earliest,$Latest);
+  $links = $condense && !$types;
   if ($Media == 'Dance') {
     $Round = 30;
     $DefLineLimit = 2;
@@ -307,7 +317,10 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
   foreach ($VenueList as $v) if ($v > 0) {
     if ($condense && $VenueInfo[$v]["Minor$DAY"]) {
     } else { 
-      echo "<th class=DPGridTH id=Ven$v>" . $VenueNames[$v];
+      echo "<th class=DPGridTH id=Ven$v>";
+      if ($links) echo "<a href=/int/VenueShow?v=$v>"; 
+      echo $VenueNames[$v];
+      if ($links) echo "</a>";
     }
   } else {
     echo "<th class=DPGridTH id=OLoc$v>Other Location<th class=DPGridTH id=OWhat$v>What";
@@ -317,6 +330,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
   $DRAG = ($drag)?"draggable=true ondragstart=drag(event) ondrop=drop(event,$Sand) ondragover=allow(event)":"";
   $WDRAG = ($drag)?"ondrop=drop(event,$Sand) ondragover=allow(event)":"";
   foreach ($Times as $t) {
+    if ($condense && ($t < $Earliest || $t >= $Latest)) continue;
     echo "<tr><th rowspan=4 width=60 valign=top id=RowTime$t>$t";
     if ($drag && $lineLimit[$t]<4) {
       echo "<button class=botx onclick=UnhideARow($t) id=AddRow$t>+</button>";
@@ -330,15 +344,16 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
         $G = &$grid[$v][$t];
 	if ($v > 0) { // Search oluse for free entry, mark as used for n slots - at end of time loop decrement any used
           if ($condense && $VenueInfo[$v]["Minor$DAY"]) {
+            if ($evs[$G['e']]['BigEvent']) continue;
 	    if ($G && $line == 0 && ($G['S1'] || $G['S2'] || $G['n']) ) {
 	      $OtherFound = 0;
 	      for ($i=1; $i<= $MaxOther; $i++) if (!$OtherInUse[$i]) { $OtherFound=$i; break; }
 	      if ($OtherFound) {
-	        $OtherInUse[$OtherFound] = max(1,ceil($G['d']/30));
+	        $OtherInUse[$OtherFound] = max(1,intval(ceil($G['d']/30)));
 	        $grid[-$OtherFound][$t] = $G; 
 	      } else {
 		// Run out of Others - need to report something
-		echo "RUN OUT OF OTHERS";
+		echo "<span class=Err>RUN OUT OF OTHERS</span>";
 	      }
 	    }
 	    continue;
@@ -348,8 +363,12 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
 	    if ($OtherInUse[$v]) {
 	      continue;
 	    } else if ($G['S1'] || $G['S2'] || $G['n']) {
-	      $rows = $G['d']?ceil($G['d']/30)*4:4;
-	      $OtherLoc = "<td id=XX data-d=X rowspan=$rows class=DPOvName>" . $VenueNames[$evs[$G['e']]['Venue']]; // . $G['e'];
+	      $rows = $G['d']?intval(ceil($G['d']/30))*4:4;
+	      $vv = $evs[$G['e']]['Venue']; 
+	      $OtherLoc = "<td id=XX data-d=X rowspan=$rows class=DPOvName>" ;
+              if ($links) $OtherLoc .= "<a href=/int/VenueShow?v=$vv>"; 
+              $OtherLoc .= $VenueNames[$vv];
+              if ($links) $OtherLoc .= "</a>";
 	    } else {
 	      $OtherLoc = "<td id=XXX data-d=X rowspan=4>&nbsp";
 	    }
@@ -372,10 +391,16 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
 	  echo "$OtherLoc<td hidden id=$id $DRAG $dev class=$class>&nbsp;";
         } else if ($G['d'] > $Round) {
           if ($line == 0) {
-	    $rows = ceil($G['d']/$Round)*4;
+	    $rows = intval(ceil($G['d']/$Round))*4;
 	    // Need to create a wrapped event - not editble here currently
-	    echo "$OtherLoc<td id=$id $WDRAG $dev rowspan=$rows valign=top data-d=W>";
-	    if ($G['n']) echo "<span class=DPNamed>" . $G['n'] . "<br></span>";
+	    $cls = ($G['n']?'class=DPNamed ':'');
+	    echo "$OtherLoc<td id=$id $WDRAG $dev $cls rowspan=$rows valign=top data-d=W>";
+	    if ($G['n']) {
+	      if ($links) echo "<a href=/int/EventShow.php?e=" . $G['e'] . ">";
+	      echo $G['n'];
+	      if ($links) echo "</a>";
+	      echo "<br>";
+	    }
 	    echo "<span class=DPETimes>$t - " . timeadd($t,$G['d']) . "<br></span>";
 	    for($i=1; $i<5;$i++) {
 	      if ($G["S$i"]) {
@@ -383,9 +408,9 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
 	        $s = &$Sides[$si];
 	        $txt = SName($s) . (($types && $s['Type'])?(" (" . trim($s['Type']) . ") "):"");
 	        echo "<span data-d=$si class='DPESide Side$si'>";
-	        if ($condense && !$types) echo "<a href=/int/ShowDance.php?sidenum=$si>";
+	        if ($links) echo "<a href=/int/ShowDance.php?sidenum=$si>";
 	        echo $txt;
-	  	if ($condense && !$types) echo "</a>";
+	  	if ($links) echo "</a>";
 	        echo "<br></span>";
                 if (!$evs[$G['e']]['ExcludeCount']) $SideCounts[$si]++;
 	      }
@@ -395,7 +420,10 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
 	  }
 	} else if ($line == 0 && $G['n']) {
 	  echo "$OtherLoc<td id=$id $DRAG $dev data-d='N' class=DPNamed>";
+	  if ($links) echo "<a href=/int/EventShow.php?e=" . $G['e'] . ">";
 	  echo $G['n'];
+	  if ($links) echo "</a>";
+	  echo "<br>";
 	} else if ($line != 0 && $G['w']) {
 	  echo "$OtherLoc<td id=$id $DRAG $dev hidden class=$class>&nbsp;";
 	  echo $G['n'];
@@ -407,11 +435,9 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
 	  $class .= " Side$si";
 	  $rows = ($G['w']?('rowspan=' . (4-$line)):'');
 	  echo "$OtherLoc<td id=$id $DRAG $dev data-d=$si $rows class='$class'>";
-	  if ($condense && !$types) echo "<a href=/int/ShowDance.php?sidenum=$si>";
-//if ($si==338) {echo "$line "; var_dump($G); };
-
+	  if ($links) echo "<a href=/int/ShowDance.php?sidenum=$si>";
 	  echo $txt;
-	  if ($condense && !$types) echo "</a>";
+	  if ($links) echo "</a>";
           if (!$evs[$G['e']]['ExcludeCount']) $SideCounts[$si]++;
 	} else {
 	  echo "$OtherLoc<td id=$id $DRAG $dev class=$class>&nbsp;";
@@ -420,155 +446,6 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
       echo "\n";
     }
     foreach ($OtherInUse as $i=>$O) if ($O) $OtherInUse[$i]--;
-  }
-  echo "</tbody></table>";
-  echo "</div></div>\n";
-}
-/* TODO
-  Add to long events
-*/
-
-// Displays Grid
-function Prog_Grid($drag=1,$types=1,$condense=0,$format='',$Media) {
-  global $DAY,$Times,$lineLimit,$EV,$Sides,$SideCounts,$VenueUse,$evs,$MaxOther,$VenueInfo,$Venues,$VenueNames,$OtherLocs,$Sand;
-
-  echo "<div class=GridWrapper$format><div class=GridContainer$format>";
-  echo "<table border id=Grid><thead><tr><th id=ProgDayId>$DAY";
-  foreach ($Venues as $v) if (isset($VenueUse[$v])) {
-    if ($condense && $VenueInfo[$v]["Minor$DAY"]) {
-//      $OtherLocs[] = $v;
-    } else { 
-      echo "<th class=DPGridTH id=Ven$v>" . $VenueNames[$v];
-    }
-  }
-  if ($condense) {
-    for($i=1; $i<=$MaxOther; $i++) {
-      echo "<th class=DPGridTH id=OLoc$i>Other Location<th class=DPGridTH id=OWhat$i>What";
-    }
-  }
-  echo "</tr></thead><tbody>";
-
-  foreach ($Times as $time) {
-    $NoShare = array();
-    $EventNames = '';
-    $EventNamesUsed = 0;
-
-/*
-    foreach ($Venues as $v) {
-      if (!isset($VenueUse[$v])) continue;
-      if ($condense && $VenueInfo[$v]["Minor$DAY"]) continue; // do at end
-
-      if (isset($EV[$v][$time]['e']) && isset($EV[$v][$time]['n'])) {
-        $EventNames .= "<td class=DPNamed>" . $EV[$v][$time]['n']; 
-	$EventNamesUsed = 1;
-      } else {
-        $EventNames .= "<td class=DPNotNamed>";
-      }
-    }
-    if ($condense) foreach($OtherLocs as $v) {
-      if (isset($EV[$v][$time]['e']) && isset($EV[$v][$time]['n'])) {
-        $EventNames .= "<td class=DPNotNamed><td class=DPNamed>";
-	$EventNames .= $EV[$v][$time]['n']; 
-	$EventNamesUsed = 1;
-      } else {
-        $EventNames .= "<td class=DPNotNamed><td class=DPNotNamed>";
-      }
-    }
-*/
-
-    echo "<tr><th rowspan=4>$time";
-//    if ($drag && $lineLimit[$time]<4) {
-//      echo "<div class=botrightwrap><div class=botrightcont><button class=botx onclick=UnhideARow($time) id=AddRow$time>+</button></div></div>";
-//    }
-    for ($line=0; $line < 4; $line++) {
-      $sl = "S" .($line+1);
-      if ($line) echo "<tr>";
-      if ($line >= $lineLimit[$time]) continue;
-      foreach ($Venues as $v) {
-	if (!isset($VenueUse[$v])) continue;
-	if ($condense && $VenueInfo[$v]["Minor$DAY"]) continue; // do at end
-        if (isset($EV[$v][$time]['e'])) {
-          $eid = $EV[$v][$time]['e'];
-	  $ee = $evs[$eid]['EventId'];
-
-	  $sll = $sl;
-	  $lin = $line;
-	  if (isset($EV[$v][$time]['n'])) {
-	    if ($line == 0) {
-	      echo "<td id=Z$ee:$v:$time:0:0 class=DPNamed>" .$EV[$v][$time]['n'];
-	      continue;
-	    } else {
-	      $sll = "S$line";
-	      $lin = $line-1;
-	    }
-	  }
-          if (isset($EV[$v][$time][$sll])) { $s = $EV[$v][$time][$sll]; } else { $s = 0; }
-	  $row = '';
-	  if ($s && $Sides[$s]['Share'] == 2) { $row=' rowspan=' . $lineLimit[$time]; $NoShare[$v] = 1; }
-	  else if ($NoShare[$v]) $row=' hidden';
-          echo "<td id=G$ee:$v:$time:$lin:$s class='DPGridDisp Side$s'";
-	  if ($drag) echo "draggable=true ondragstart=drag(event) ondrop=drop(event,$Sand) ondragover=allow(event)";
-	  echo "$row>";
-          if ($s && ($drag || $evs[$eid]['InvisiblePart'] == 0)) {
-            if (isset($Sides[$s])) {
-	      if ($condense && !$types) echo "<a href=/int/ShowDance.php?sidenum=$s>";
-              echo SName($Sides[$s]);
-	      if ($types) echo " (" . trim($Sides[$s]['Type']) . ")";;
-	      if ($condense && !$types) echo "</a>";
-              if (!$evs[$eid]['ExcludeCount']) $SideCounts[$s]++;
-            } else {
-              echo "ERROR...";
-            }
-          } else {
-            echo "&nbsp;";
-	  }
-        } else {
-          echo "<td class=DPGridGrey>&nbsp;";
-        }
-      }
-      if ($condense) {
- 	foreach($OtherLocs as $v) {
-          if (isset($EV[$v][$time]['e'])) {
-            $eid = $EV[$v][$time]['e'];
-	    $ee = $evs[$eid]['EventId'];
-	    $inuse = 0;
-	    for ($i=1;$i<5;$i++) if (isset($EV[$v][$time]["S$i"]) && $EV[$v][$time]["S$i"] ) $inuse = 1;
-	    if ($inuse) {
-	      if ($line == 0) echo "<td class=DPGridDisp rowspan=" . $lineLimit[$time] . ">" . $VenueNames[$v];
-	      $sll = $sl;
-	      if (isset($EV[$v][$time]['n'])) {
-	        if ($line == 0) {
-	          echo "<td id=Z$ee:$v:$time:0:0 class=DPNamed>" .$EV[$v][$time]['n'];
-	          continue;
-	        } else {
-	          $sll = "S$line";
-	        }
-	      }
-              if (isset($EV[$v][$time][$sll])) { $s = $EV[$v][$time][$sll]; } else { $s = 0; }
-	      $row = '';
-	      if ($s && $Sides[$s]['Share'] == 2) { $row=' rowspan=' . $lineLimit[$time]; $NoShare[$v] = 1; }
-	      else if ($NoShare[$v]) $row=' hidden';
-              echo "<td id=G$ee:$v:$time:$line:$s class='DPGridDisp Side$s'";
-	      if ($drag) echo "draggable=true ondragstart=drag(event) ondrop=drop(event,$Sand) ondragover=allow(event)";
-	      echo "$row>";
-              if ($s && ($drag || $evs[$eid]['InvisiblePart'] == 0)) {
-                if (isset($Sides[$s])) {
-	          if ($condense && !$types) echo "<a href=/int/ShowDance.php?sidenum=$s>";
-                  echo SName($Sides[$s]);
-	          if ($types) echo " (" . trim($Sides[$s]['Type']) .")";;
-	          if ($condense && !$types) echo "</a>";
-                  if (!$evs[$eid]['ExcludeCount']) $SideCounts[$s]++;
-                } else {
-                  echo "ERROR...";
-                }
-              } else {
-                echo "&nbsp;";
-	      }
-            }
-          }
-        }
-      }
-    }
   }
   echo "</tbody></table>";
   echo "</div></div>\n";
@@ -641,7 +518,7 @@ function MusicErrorPane($level=0) {
 
 function Notes_Pane() {
   echo "<div id=Notes_Pane>";
-  echo "To add a 3rd or 4th side to a time edit the event, for more than 4 use a Big Event.<br>";
+  echo "To add a 3rd or 4th side to a time click on the + sign at the time needed, for more than 4 use a Big Event.<br>";
   echo "To remove a side drag back to the side list.<br>";
   echo "Events > 30 mins shown for info, change using Edit Event (for now).<br>";
   echo "<div>";

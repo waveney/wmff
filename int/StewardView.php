@@ -16,7 +16,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Email</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Phone</a>\n";
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Steward</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Stewarding</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Tech</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Artistic</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Media</a>\n";

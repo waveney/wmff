@@ -101,8 +101,8 @@
       echo "<td>$i<td>";
       if (Access('Staff','Venues') || $evnt['Owner']==$USERID || $evnt['Owner2']==$USERID) echo "<a href=EventAdd.php?e=$i>";
       if (strlen($evnt['SName']) >2) { echo $evnt['SName'] . "</a>"; } else { echo "Nameless</a>"; };
-      echo "<td>" . $DayList[$evnt['Day']] . "<td>" . $evnt['Start'] . "<td>";
-      if ($se > 0 && $evnt['SubEvent'] < 0) { echo $evnt['SlotEnd']; } else { echo $evnt['End']; }; 
+      echo "<td>" . $DayList[$evnt['Day']] . "<td>" . timecolon($evnt['Start']) . "<td>";
+      if ($se > 0 && $evnt['SubEvent'] < 0) { echo timecolon($evnt['SlotEnd']); } else { echo timecolon($evnt['End']); }; 
       echo "<td>" . $Venues[$evnt['Venue']] . "<td>" . $Event_Types[$evnt['Type']];
       echo "<td>" . $Public_Event_Types[$evnt['Public']];
       echo "<td>" ; 
