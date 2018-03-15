@@ -25,7 +25,7 @@
 
   echo "<h2 class=subtitle>What is on When?</h2>";
   echo "<script src=/js/WhatsWhen.js></script>";
-  if ($More) echo "<h3>Only publicised events are listed there are " . ($More > 2?"LOTS ":'') . "more to come</h3>\n";
+  if ($More) echo "<h3>Only publicised events are listed, there are " . ($More > 2?"LOTS ":'') . "more to come</h3>\n";
   echo "<h2 class=subtitle>Click on a Day to expand <button id=ShowAll class=DayExpand onclick=ShowAll()>Expand All</button></h2>";
 
   $xtr = isset($_GET['Mode'])?'':"AND ( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 ))";
@@ -43,7 +43,7 @@
     /* New day give table header, links to Dance Grid/Music Grid (if applicable), Events have click to expand */
     $dname = $DayLongList[$e['Day']];
 
-    if (DayTable($e['Day'],"Events","<button id=DayClick$dname class=DayExpand onclick=ShowDay('$dname')>Expand</button>","onclick=ShowDay('$dname')")) {
+    if (DayTable($e['Day'],"Events","<button id=DayClick$dname class=DayExpand)>Expand</button>","onclick=ShowDay('$dname')")) {
       echo "<tr class=Day$dname hidden><td>Time<td >What<td>Where<td>With<td>Price";
     }
         

@@ -161,25 +161,34 @@ function Print_Participants($e,$when=0,$thresh=0) {
 
   // Headlines
   if ($ETs[$Ev['Type']]['UseImp']) {
-    // scan e + se by imp , then if any imp > 0 list them, with in page links
-    $imps=array();
-    $sublst = array($Ev);
-    $sublst = array_merge($sublst,$Subs);
-    foreach ($sublst as $e) Get_imps($e,$imps,0);
-    $HighImp = 0;
-    foreach ($Importance as $i=>$v) if ($i > 0 && isset($imps[$i])) $HighImp = $i;
-    if ($HighImp) {
-      echo "With: ";
-      $with = 0;
-      foreach(array_reverse(array_keys($imps)) as $i) {
-        if (isset($imps[$i])) {
-          foreach ($imps[$i] as $thing) {
-            if ($with++) echo ", ";
-	    echo "<a href=#" . AlphaNumeric($thing['SName']) . " style='font-size:" . (17+$i*2) . "'>" . $thing['SName'] . "</a>";
+    switch ($ETs[$Ev['Type']]['SName']) {
+    case 'Ceildih':
+      echo Get_Event_Participants($Eid,0,$size=17,$mult=2);
+      break;
+
+    default:
+      // scan e + se by imp , then if any imp > 0 list them, with in page links
+      $imps=array();
+      $sublst = array($Ev);
+      $sublst = array_merge($sublst,$Subs);
+      foreach ($sublst as $e) Get_imps($e,$imps,0);
+      $HighImp = 0;
+      foreach ($Importance as $i=>$v) if ($i > 0 && isset($imps[$i])) $HighImp = $i;
+      if ($HighImp) {
+        echo "With: ";
+        $with = 0;
+        $ks = array_keys($imps);
+        sort($ks);
+        foreach(array_reverse($ks) as $i) {
+          if (isset($imps[$i])) {
+            foreach ($imps[$i] as $thing) {
+              if ($with++) echo ", ";
+	      echo "<a href=#" . AlphaNumeric($thing['SName']) . " style='font-size:" . (17+$i*2) . "'>" . $thing['SName'] . "</a>";
+	    }
 	  }
-	}
+        }
+      echo "<p>";
       }
-    echo "<p>";
     }
   }
 
