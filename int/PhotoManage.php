@@ -89,7 +89,7 @@ function Upload_Image() {
       $pos = &$dat['Data'][$dat['Field']];
       if (isset($pos) && $pos == ("/" . $target_file)) {
         $pos = $_POST[$dat['Field']] = "/" . $target_file . "?" . rand();
-        $dat['Put']($dat['Data']));
+        $dat['Put']($dat['Data']);
         return "The image has been replaced by ". basename( $_FILES["PhotoForm"]["name"]) ;
       } else {
         $pos = $_POST[$dat['Field']] = "/" . $target_file . "?" . rand();
