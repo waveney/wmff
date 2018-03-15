@@ -135,7 +135,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
       foreach ($O as $i=>$thing) {
 	switch ($thing['Type']) {
 	  case 'Venue':
-	    if (in_array($V,$VenList)) $found = 1; 
+	    if (in_array($thing['Identifier'],$VenList)) $found = 1; 
 	    break;
 	  case 'Side':
             if ($thing['Identifier']) $e['With'][0][] = $sides[$thing['Identifier']];
