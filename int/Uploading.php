@@ -141,9 +141,11 @@ function Upload_Image($Dir='Sides',$fld) {
       } 
       if ($Side) {
         if (isset($Side[$fld]) && $Side[$fld] == "/" . $target_file) {
+          $Side[$fld] = $_POST[$fld] = "/" . $target_file . "?" . rand();
+          $Put($Side);
           return "The photo has been replaced by ". basename( $_FILES["PhotoForm"]["name"]) ;
         } else {
-          $Side[$fld] = $_POST[$fld] = "/" . $target_file;
+          $Side[$fld] = $_POST[$fld] = "/" . $target_file . "?" . rand();
           if ($Put($Side)) {
             return "The file ". basename( $_FILES["PhotoForm"]["name"]). " has been uploaded.";
           } else {

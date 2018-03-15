@@ -761,6 +761,9 @@ textarea:Focus
   max-height:190px;
   min-height:100px;
 }
+.mnmxtxt {
+  word-wrap: break-word;
+}
 .maxi_p .mnmximg, .maxi_s .mnmximg {
   max-width:350px;
   max-height:380px;

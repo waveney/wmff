@@ -105,9 +105,12 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
 
   $xtr = $Mode?'':"AND ( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 ))";
 
+  $VenList[] = $V;
   if ($Ven['IsVirtual']) {
     $res = $db->query("SELECT DISTINCT e.* FROM Events e, Venues v, EventTypes t WHERE e.Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1 OR " .
                 "( e.Venue=v.VenueId AND v.PartVirt=$V )) $xtr ORDER BY Day, Start");
+    $parts = $db->query("SELECT VenueId FROM Venues v WHERE v.PartVirt=$V");
+    while ($part = $parts->fetch_assoc()) $VenList[] = $part['VenueId'];
   } else {
     $res = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1) $xtr " .
                 " ORDER BY Day, Start");
@@ -132,7 +135,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
       foreach ($O as $i=>$thing) {
 	switch ($thing['Type']) {
 	  case 'Venue':
-	    if ($thing['Identifier']==$V) $found = 1; 
+	    if (in_array($V,$VenList)) $found = 1; 
 	    break;
 	  case 'Side':
             if ($thing['Identifier']) $e['With'][0][] = $sides[$thing['Identifier']];

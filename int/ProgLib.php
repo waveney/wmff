@@ -285,37 +285,44 @@ function Event_Has_Parts($e) {
 }
 
 function ListLinks(&$ev,$type,$single,$plural,$size,$mult) {
-
-      if ($e['Side1']) $ans .= "<br>" . ListLinks($e,'Side','Dance spot by','Dance spots by',$size,$mult);
-      break;
-
-      $ks = array_keys($imps);
-      sort($ks);	
-      $things = 0;
-      foreach ( array_reverse($ks) as $imp) {
-        if ($imp) $ans .= "<span style='font-size:" . ($size+$imp*$mult) . "px'>";
-        foreach ($imps[$imp] as $thing) {
-	  if ($things++) $ans .= ", ";
-	  $link=0;
-	  if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
-	  if ($link) {
-	    if ($link ==1) {
-	      $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
-	    } else {
-	      if ($thing['IsASide']) {
-	        $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
-	      } else if ($thing['IsAnAct']) {
-	        $ans .= "<a href='/int/ShowMusic.php?sidenum=" . $thing['SideId'] . "'>";
-	      } else {
-	        $ans .= "<a href='/int/ShowMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
-	      }
-	    }
-	  }
-	  $ans .= NoBreak($thing['SName']);
-	  if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
-          if ($link) $ans .= "</a>";
-        }
+  $things = 0;
+  $imps = array();
+  for($i=1;$i<5;$i++) {
+    if (isset($ev["$type$i"])) if ($ee = $ev["$type$i"])  { 
+      $s = Get_Side($ee);  
+      if ($s) $imps[$s['Importance']][] = $s; 
+      $things++;
+    }
   }
+
+//echo "LL $type $things<br>";
+//var_dump($ev);
+  if ($things == 0) return '';
+  $ks = array_keys($imps);
+  $think = array();
+  sort($ks);	
+  $things = 0;
+  foreach ( array_reverse($ks) as $imp) {
+    if ($imp) $ans .= "<span style='font-size:" . ($size+$imp*$mult) . "px'>";
+    foreach ($imps[$imp] as $thing) {
+      $things++;
+      if ($thing['IsASide']) {
+        $ttxt = "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
+      } else if ($thing['IsAnAct']) {
+	$ttxt = "<a href='/int/ShowMusic.php?sidenum=" . $thing['SideId'] . "'>";
+      } else {
+        $ttxt = "<a href='/int/ShowMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
+      }
+      $ttxt .= NoBreak($thing['SName']);
+      if (isset($thing['Type']) && $thing['Type']) $ttxt .= NoBreak(" (" . $thing['Type'] . ")");
+      $ttxt .= "</a>";
+      $think[] = $ttxt;
+    }
+  }
+  if ($things == 1) return $single . " " . $think[0];
+  $ans = $plural . " " . $think[0];
+  for ($i = 2; $i<$things; $i++) $ans .= ", " . $think[$i-1];
+  return $ans . " and " . $think[$things-1];
 }
 
 // Get Participants, Order by Importance/Time, if l>0 give part links as well
@@ -349,10 +356,11 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1) {
     }
 
     switch ($Event_Types_Full[$MainEv['Type']]['SName']) {
-    case 'XCeildih':
-      $ans .= ListLinks($e,'Act','Music by','Music by',$size,$mult);
-      if ($e['Other1']) $ans .= " " . ListLinks($e,'Other','Caller','Callers',$size,$mult);
-      if ($e['Side1']) $ans .= "<br>" . ListLinks($e,'Side','Dance spot by','Dance spots by',$size,$mult);
+    case 'Ceildih':
+      $ans .= ListLinks($MainEv,'Act','Music by','Music by',$size,$mult);
+      if ($MainEv['Other1']) $ans .= "; " . ListLinks($MainEv,'Other','Caller','Callers',$size,$mult);
+      if ($MainEv['Side1']) $ans .= "<br>" . ListLinks($MainEv,'Side','Dance spot by','Dance spots by',$size,$mult);
+      if ($ans) $ans .= "<p>";
       break;
 
     default: // Do default treatment below

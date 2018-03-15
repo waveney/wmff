@@ -88,9 +88,11 @@ function Upload_Image() {
       } 
       $pos = &$dat['Data'][$dat['Field']];
       if (isset($pos) && $pos == ("/" . $target_file)) {
+        $pos = $_POST[$dat['Field']] = "/" . $target_file . "?" . rand();
+        $dat['Put']($dat['Data']));
         return "The image has been replaced by ". basename( $_FILES["PhotoForm"]["name"]) ;
       } else {
-        $pos = $_POST[$dat['Field']] = "/" . $target_file;
+        $pos = $_POST[$dat['Field']] = "/" . $target_file . "?" . rand();
         if ($dat['Put']($dat['Data'])) {
           return "The file ". basename( $_FILES["PhotoForm"]["name"]). " has been uploaded.";
         } else {
@@ -113,7 +115,7 @@ if (isset($_FILES['croppedImage'])) {
   $dir = dirname($Loc);
   if (!file_exists($dir)) mkdir($dir,0777,true);
   if (move_uploaded_file($_FILES["croppedImage"]["tmp_name"], $Loc)) {
-    $dat['Data'][$dat['Field']] = $Loc;
+    $dat['Data'][$dat['Field']] = $Loc . "?" . rand();
     $dat['Put']($dat['Data']);
     echo "Success";
   } else {

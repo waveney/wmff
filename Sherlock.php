@@ -22,7 +22,7 @@
   $Complete = 0;
 
   if ($Ett >= 0) { 
-    $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND ( e.Type=$Ett $xtr ) AND e.SubEvent<1 AND " .
+    $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND ( e.Type=$Ett $xtr ) AND e.SubEvent<1 AND e.Venue!=0 AND " .
 		"( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) ORDER BY e.Day, e.Start"); // Need to work with release settings as well
     if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
     if (count($Evs) > 1) $Types = $Ets[$Ett]['Plural'];
@@ -30,7 +30,7 @@
   } else { // Handle other Sherlock calls
     switch ($Type) {
       case 'Family':
-        $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND e.Family=1 AND e.SubEvent<1 AND " .
+        $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND e.Family=1 AND e.SubEvent<1 AND e.Venue!=0 AND " .
 		"( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
 	$Types = "Family Event";
@@ -38,7 +38,7 @@
         $Complete = $MASTER[$Type . 'State'];
         break;
       case 'Special':
-        $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND e.Special=1 AND (e.SubEvent<1 OR e.LongEvent=1) AND " .
+        $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND e.Special=1 AND (e.SubEvent<1 OR e.LongEvent=1) AND e.Venue!=0 AND " .
 		"( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
 	$Types = "Special Event";
@@ -57,14 +57,19 @@
 		"$Types for $YEAR", // Complete
 		);
 
+  $NotAllFree = 0;
+  foreach($Evs as $e) if ($e['Price1']) $NotAllFree = 1;
+
   if ($Evs && $Complete) {
     echo "<h2 class=subtitle>" . $Titles[$Complete] . "</h2>";
+
+    if ($NotAllFree == 0) echo "All $Types are free.<p>";
 
     echo "Click on the event name for more information.<p>";
 
     foreach ($Evs as $i=>$E) {
       $eid = $E['EventId'];
-      if (DayTable($E['Day'],$Types,($Complete>2?'':'(More to come)'))) echo "<tr><td>When<td>What<td>Where<td>Description<td>Price\n";
+      if (DayTable($E['Day'],$Types,($Complete>2?'':'(More to come)'))) echo "<tr><td>When<td>What<td>Where<td>Description" . ($NotALlFree?"<td>Price\n":"\n");
 
       echo "<tr>";
       echo "<td>"; // . $DayList[$E['Day']] . " " . ($MASTER['DateFri']+$E['Day']) ."th June $YEAR" . "<br>";
@@ -85,7 +90,8 @@
 	} else {
 	  echo Get_Event_Participants($eid,1,15);
 	}
-      echo "<td>" . Price_Show($E) . "\n";
+      if ($NotAllFree) echo "<td>" . Price_Show($E);
+      echo "\n";
     }
     echo "</table><p>";
 
