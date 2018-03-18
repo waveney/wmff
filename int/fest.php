@@ -873,7 +873,7 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
     $str = '';
     include_once("ProgLib.php");
     include_once("DanceLib.php");
-    $Evs = Get_All_Events_For($type,$id);
+    $Evs = Get_All_Events_For($type,$id,$all);
     $ETs = Get_Event_Types(1);
 //echo "Type: $type, $id<p>";
 //var_dump($Evs);
@@ -890,7 +890,9 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
 	for ($i = 1; $i<5;$i++) if ($e["Other$i"] && $e["Other$i"] != $id) { $With = 1; break 2; }
       }
 	
+      $UsedNotPub = 0;
       foreach ($Evs as $e) {
+	$cls = ($e['Public']<2?'':' class=NotCSide ');
         if ($all || $ETs[$e['Type']]['State'] > 1 || ($ETs[$e['Type']]['State'] == 1 && Access('Participant',$type,$id))) {
 	  $evc++;
  	  $Worst = min($ETs[$e['Type']]['State'],$Worst);
@@ -921,21 +923,21 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
 		break;
 	      }
 	    }
-	    $str .= "<tr><td>" . $DayList[$e['Day']] . "<td>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
-			"<td><a href=$host/int/EventShow.php?e=" . $e['EventId'] . ">" . $e['SName'] . "</a><td>";
+	    $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
+			"<td $cls><a href=$host/int/EventShow.php?e=" . $e['EventId'] . ">" . $e['SName'] . "</a><td $cls>";
 	    if ($VenC) $str .= " starting from ";
 	    $str .= "<a href=$host/int/VenueShow.php?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) ;
-	    $str .= "</a><td>";
+	    $str .= "</a><td $cls>";
 	    if ($PrevI || $NextI) $str .= "In position $Position";
 	    if ($PrevI) { $str .= ", After " . SAO_Report($PrevI); };
 	    if ($NextI) { $str .= ", Before " . SAO_Report($NextI); };
 	    $str .= "\n";
 	  } else { // Normal Event
-	    $str .= "<tr><td>" . $DayList[$e['Day']] . "<td>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
-			"<td><a href=$host/int/EventShow.php?e=" . $e['EventId'] . ">" . $e['SName'] . 
-			"</a><td><a href=$host/int/VenueShow.php?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a>";
+	    $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
+			"<td $cls><a href=$host/int/EventShow.php?e=" . $e['EventId'] . ">" . $e['SName'] . 
+			"</a><td $cls><a href=$host/int/VenueShow.php?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a>";
 	    if ($With) {
-	      $str .= "<td>";
+	      $str .= "<td $cls>";
 	      $withc=0;
 	      for ($i=1;$i<5;$i++) {
 	        if ($e["Side$i"] > 0 && $e["Side$i"] != $id && $type == 'Side') { 
@@ -957,12 +959,14 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
         } else { // Debug Code
 //	  echo "State: " . $ETs[$e['Type']]['State'] ."<p>";
 	}
+	if ($cls) $UsedNotPub = 1;
       }
       if ($evc) {
         $Thing = Get_Side($id);
 	$Desc = ($Worst > 2)?"":'Current ';
 	if ($With) $str = "<td>With\n" . $str;
-        $str = "<h2>$Desc Programme for " . $Thing['SName'] . ":</h2>\n" .  "<table border><tr><td>Day<td>time<td>Event<td>Venue" . $str;
+        $str = "<h2>$Desc Programme for " . $Thing['SName'] . ":</h2>\n" . ($UsedNotPub?"<span class=NotCSide>These are not currently public<p>\n</span>":"") .
+		"<table border><tr><td>Day<td>time<td>Event<td>Venue" . $str;
       }
     }
     if ($evc) {
