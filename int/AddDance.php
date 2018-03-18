@@ -20,7 +20,7 @@
 <body>
 
 <?php
-  global $YEAR,$THISYEAR,$Mess;
+  global $YEAR,$THISYEAR,$Mess,$BUTTON;
   include("files/navigation.php");
   echo '<div class="content"><h2>Add/Edit Dance Side</h2>';
   global $Mess,$Action,$Dance_TimeFeilds;      
@@ -122,18 +122,18 @@
   }
 
   if ($snum > 0) {
-    if (Access('SysAdmin')) echo "<div class=floatright><input type=Submit id=smallsubmit name='NewAccessKey' value='New Access Key'></div>\n";
-    echo "<Center><input type=Submit name='Update' value='Save Changes'>\n";
+    if (Access('SysAdmin')) echo "<div class=floatright><input type=Submit id=smallsubmit name='NewAccessKey' class=Button$BUTTON value='New Access Key'></div>\n";
+    echo "<Center><input type=Submit name='Update' value='Save Changes' class=Button$BUTTON >\n";
     if (!isset($Sidey['Coming']) || $Sidey['Coming'] == 0) {
       if (!isset($Sidey['Invited']) || $Sidey['Invited'] == '') {
-	echo " <input type=submit name=InviteAct value=Invite> ";
+	echo " <input type=submit name=InviteAct value=Invite  class=Button$BUTTON > ";
       } else {
-	echo " <input type=submit name=ReminderAct value=Reminder> ";
+	echo " <input type=submit name=ReminderAct value=Reminder class=Button$BUTTON > ";
       }
     } 
     echo "</center>\n";
   } else { 
-    echo "<Center><input type=Submit name=Create value='Create'></center>\n";
+    echo "<Center><input type=Submit name=Create value='Create' class=Button$BUTTON ></center>\n";
   }
   echo "</form>\n";
 

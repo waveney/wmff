@@ -3,7 +3,7 @@
   A_Check('Staff');
 
   dostaffhead("List Events");
-  global $db,$Event_Types,$USERID;
+  global $db,$Event_Types,$USERID,$Importance;
   $yn = array('','Y');
   include("ProgLib.php");
   include("DocLib.php");
@@ -83,10 +83,11 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Public</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Price</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Size</a>\n";
-  if ($se == 0) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Sub Events</a>\n";
+  if ($se == 0) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Sub Es</a>\n";
   if ($se != 0) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>With</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Fam</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Spec</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Imp</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Owner</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Show</a>\n";
   echo "</thead><tbody>";
@@ -126,6 +127,7 @@
       if ($se > 0 && $evnt['SubEvent'] < 0) echo " Full end: " . $evnt['End'] . " PARENT";
       echo "<td>" . ($evnt['Family']?"Y":"");
       echo "<td>" . ($evnt['Special']?"Y":"");
+      echo "<td>" . $Importance[$evnt['Importance']];
       echo "<td>" . $AllUsers[$evnt['Owner']];
       echo "<td><a href=EventShow.php?e=$i>Show</a>\n";
     }

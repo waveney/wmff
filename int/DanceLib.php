@@ -29,7 +29,6 @@ function Sides_All($Except=-1,$All=1,$Include1=0,$Include2=0,$Include3=0,$Includ
       if ($Include3) $Blist[$Include3] = $LongList[$Include3];
       if ($Include4) $Blist[$Include4] = $LongList[$Include4];
     }
-//    sort($Blist,SORT_STRING);
     return $Blist;
   }
   if ($slist) while ($row = $slist->fetch_assoc()) {

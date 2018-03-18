@@ -124,6 +124,7 @@ function Set_Event_Help() {
 	'LongEvent'=>'Enable event to ran over many days',
 	'Owner'=>'Who created the event, editable by this person, the Alt Edit and any with global edit rights',
 	'Owner2'=>'This person is also allowed to edit this event',
+	'Importance'=>'Affects appearance of event on home page',
 	'Budget'=>'What part of the festival budget this Event comes under'
   );
   Set_Help_Table($t);
@@ -183,9 +184,9 @@ function Get_Events_For($what,$Day) {
   }
 }
 
-function Get_All_Events_For($what,$wnum) {
+function Get_All_Events_For($what,$wnum,$All=0) {
   global $db,$YEAR;
-  $qry="SELECT DISTINCT e.* FROM Events e, BigEvent b WHERE Year=$YEAR AND Public<2 AND ( " .
+  $qry="SELECT DISTINCT e.* FROM Events e, BigEvent b WHERE Year=$YEAR " . ($All?'':"AND Public<2") . " AND ( " .
 		"Side1=$wnum OR Side2=$wnum OR Side3=$wnum OR Side4=$wnum OR " .
 		"Act1=$wnum OR Act2=$wnum OR Act3=$wnum OR Act4=$wnum OR " .
 		"Other1=$wnum OR Other2=$wnum OR Other3=$wnum OR Other4=$wnum " .

@@ -59,11 +59,15 @@
     if ($t == 'Side') echo "- Spots " . $datay["SunDance"];
   };
    
-  if ($datay['SatArrive']) echo "<tr><td>Sat Start<td>" . $datay['SatArrive'];
-  if ($datay['SatDepart']) echo "<tr><td>Sat Depart<td>" . $datay['SatDepart'];
+  if ($datay['Sat']) {
+    if ($datay['SatArrive']) echo "<tr><td>Sat Start<td>" . $datay['SatArrive'];
+    if ($datay['SatDepart']) echo "<tr><td>Sat Depart<td>" . $datay['SatDepart'];
+  }
   
-  if ($datay['SunArrive']) echo "<tr><td>Sun Start<td>" . $datay['SunArrive'];
-  if ($datay['SunDepart']) echo "<tr><td>Sun Depart<td>" . $datay['SunDepart'];
+  if ($datay['Sun']) {
+    if ($datay['SunArrive']) echo "<tr><td>Sun Start<td>" . $datay['SunArrive'];
+    if ($datay['SunDepart']) echo "<tr><td>Sun Depart<td>" . $datay['SunDepart'];
+  }
   
   if ($datay['YNotes']) echo "<tr><td>notes<td class=smalltext>" . $datay['YNotes'];
   if ($datay['PrivNotes']) echo "<tr><td>notes<td class=smalltext>" . $datay['PrivNotes'];
@@ -74,7 +78,7 @@
     $OtherCat =  ($O['Sid1'] == $s)?'Cat2':'Cat1';
     
     echo "<tr><td>Olap " . substr($OlapTypes[$O['Type']],0,1) . ($O['Major']?' M ':' m ');
-    echo "<td>" . $OlapDays[$O['Days']] . " " . $OlapCat[$O[$OtherCat]] . " " . Get_Side_Name($O[$Other]);
+    echo "<td>" . ($O['Days']?$OlapDays[$O['Days']]:'') . " " . $OlapCat[$O[$OtherCat]] . " " . Get_Side_Name($O[$Other]);
   } 
 
   if ($data['NoiseLevel']) echo "<tr><td>Noise:<td>" . $Noise_Levels[$data['NoiseLevel']];
