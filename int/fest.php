@@ -3,9 +3,12 @@
 /* Various common code across fest con tools */
 
 $YEAR = $THISYEAR = 2018;
+$BUTTON = 0;
 
 if (isset($_POST{'Y'})) $YEAR = $_POST{'Y'};
 if (isset($_GET{'Y'})) $YEAR = $_GET{'Y'};
+if (isset($_POST{'B'})) $BUTTON = ($_POST{'B'}+1) % 4;
+if (isset($_GET{'B'})) $BUTTON = ($_GET{'B'}+1) % 4;
 
 if (!is_numeric($YEAR)) exit("Invalid Year");
 
@@ -187,7 +190,7 @@ function Add_Help_Table(&$table) {
 function help($fld) {
   global $HelpTable;
   if (!isset($HelpTable[$fld])) return;
-  return " <img src=/images/icons/help.png id=Help4$fld title='" . $HelpTable[$fld] . "'> ";
+  return " <img src=/images/icons/help.png id=Help4$fld title='" . $HelpTable[$fld] . "' style='margin-bottom:-4;'> ";
 }
 
 function htmlspec($data) {

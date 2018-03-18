@@ -40,6 +40,7 @@
 <tr><td>@Music_Many<td>How many Acts and a random one
 <tr><td>@Other_Imp<td>A Random Other act with some importance
 <tr><td>@Other_Many<td>How many Others and a random one
+<tr><td>@Select<td>Highlight Events of selected Importance, Text gives number to do, All means all
 </table>\n<p>
 
 <H2>Articles</h2>

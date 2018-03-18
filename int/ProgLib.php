@@ -124,6 +124,7 @@ function Set_Event_Help() {
 	'LongEvent'=>'Enable event to ran over many days',
 	'Owner'=>'Who created the event, editable by this person, the Alt Edit and any with global edit rights',
 	'Owner2'=>'This person is also allowed to edit this event',
+	'Importance'=>'Affects appearance of event on home page',
 	'Budget'=>'What part of the festival budget this Event comes under'
   );
   Set_Help_Table($t);

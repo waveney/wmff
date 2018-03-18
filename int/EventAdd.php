@@ -19,7 +19,7 @@
   include("DocLib.php");
   include("DanceLib.php");
   include("MusicLib.php");
-  global $MASTER,$YEAR,$USERID;
+  global $MASTER,$YEAR,$USERID,$Importance;
 
   Set_Event_Help();
 
@@ -51,7 +51,7 @@ If it a simple event, with one particpant do the following (this can be done lat
 <li>Click on <b>Update</b></ul><p>
 <h3>Concerts and similar events</h3>
 Each act in the concert needs a sub event.<p>
-On the right near the bottom it will say Add 1 sub events.  Change the 1 to the number of acts and click on <b>Add</b><p>
+On the right near the bottom it will say Add 1 sub events.  Change the 1 to the number of acts and click on <b>Add</b> (further acts can be added later if needed)<p>
 In the body of the event, it will now say <b>Has Sub Events</b>, click on that link.<p>
 You will see a list of sub events - the first is the entire event (Concert), you will need to change each of the others in turn for each act.<p>
 Click on one of them, change the start and end times and select who is performing that spot, then click <b>Update</b>.<p>
@@ -280,6 +280,7 @@ A similar feature will appear eventually for music.<p>
       echo "<td>" . fm_checkbox('Family Event',$Event,'Family');
       echo "<td>" . fm_checkbox('Non Fest',$Event,'NonFest');
       echo "<td>Alt Edit:" . fm_select($AllActive,$Event,'Owner2',1);
+      echo "<td class=NotSide>Importance: " . fm_select($Importance,$Event,'Importance');
 
       echo "<tr>" . fm_text('Name', $Event,'SName');
         echo "<td>Event Type:" . fm_select($Event_Types,$Event,'Type');

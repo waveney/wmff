@@ -42,7 +42,7 @@ option {
   min-height:1em;
 }
 
-input[type=submit], .FakeButton {
+input[type=submit], .FakeButton, input[type=submit] .Button0 {
   font-size:20px;
   padding:5px;
   border:2px;
@@ -50,6 +50,34 @@ input[type=submit], .FakeButton {
   margin:2px;
   background-color:#8234C6;
   color:white;
+}
+
+input[type=submit] .Button1 {
+  font-size:20px;
+  padding:5px;
+  border:2px;
+  border-color:white;
+  margin:2px;
+  color:white;
+  background-color:#82f4C6;
+}
+input[type=submit] .Button2 {
+  font-size:20px;
+  padding:5px;
+  border:2px;
+  border-color:white;
+  margin:2px;
+  color:white;
+  background-color:#8234f6;
+}
+input[type=submit] .Button3 {
+  font-size:20px;
+  padding:5px;
+  border:2px;
+  border-color:white;
+  margin:2px;
+  color:white;
+  background-color:#f234C6;
 }
 
 #smallsubmit {
