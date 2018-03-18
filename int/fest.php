@@ -637,7 +637,7 @@ function linkemail(&$data,$type="Side",$xtr='') {
   if ($type="Side") { $id = $data['SideId']; }
   else { $id = $data = $data['ActId']; };
 
-  $ProgInfo = Show_Prog($type,$id);
+  $ProgInfo = Show_Prog($type,$id,1);
 
   $lnk = "<a href=mailto:$email?from=" . $USER['Email'] .
 	 "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SName']) . 
@@ -706,7 +706,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
   switch ($type) {
     case 'Side':
     case 'Dance':
-      $ProgInfo = Show_Prog($type,$id);
+      $ProgInfo = Show_Prog($type,$id,1);
       $Content = urlencode("$name,<p>" .
 	 	"<div id=SideLink$id>" .
 		"Please add/correct details about your side's contact information and your preferences in " .
