@@ -879,6 +879,8 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
 //var_dump($Evs);
     $evc=0;
     $Worst= 99;
+    $EventLink = ($all?'EventAdd.php':'EventShow.php');
+    $VenueLink = ($all?'AddVenue.php':'VenueShow.php');
     $host = "https://" . $_SERVER{'HTTP_HOST'};
     $Venues = Get_Real_Venues(1);
     if ($Evs) { // Show IF all or EType state > 1 or (==1 && participant)
@@ -924,9 +926,9 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
 	      }
 	    }
 	    $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
-			"<td $cls><a href=$host/int/EventShow.php?e=" . $e['EventId'] . ">" . $e['SName'] . "</a><td $cls>";
+			"<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SName'] . "</a><td $cls>";
 	    if ($VenC) $str .= " starting from ";
-	    $str .= "<a href=$host/int/VenueShow.php?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) ;
+	    $str .= "<a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) ;
 	    $str .= "</a><td $cls>";
 	    if ($PrevI || $NextI) $str .= "In position $Position";
 	    if ($PrevI) { $str .= ", After " . SAO_Report($PrevI); };
@@ -934,8 +936,8 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
 	    $str .= "\n";
 	  } else { // Normal Event
 	    $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
-			"<td $cls><a href=$host/int/EventShow.php?e=" . $e['EventId'] . ">" . $e['SName'] . 
-			"</a><td $cls><a href=$host/int/VenueShow.php?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a>";
+			"<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SName'] . 
+			"</a><td $cls><a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a>";
 	    if ($With) {
 	      $str .= "<td $cls>";
 	      $withc=0;
