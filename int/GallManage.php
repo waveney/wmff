@@ -8,8 +8,8 @@
   include_once("TradeLib.php");
 
   $coln = 0;
-  $Gals = Get_Gallery($gid);
-  if (UpdateMany('Galleries','Put_Gallery',$cwGalsTypes,1)) $Gals = Get_GAlleries();
+  $Gals = Get_Gallery_Names($gid);
+  if (UpdateMany('Galleries','Put_Gallery_Name',$cwGalsTypes,1)) $Gals = Get_Gallery_Names();
 
   $coln = 0;
   echo "<h2>Galleries</h2><p>";

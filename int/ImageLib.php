@@ -77,7 +77,7 @@ function Get_Gallery_Names() {
   global $db;
   $res=$db->query("SELECT * FROM Galleries");
   if ($res) {
-    while ($g = $res->fetch_assoc()) $ans[] = $g;
+    while ($g = $res->fetch_assoc()) $ans[$g['id']] = $g;
     return $ans;
   }
 }
@@ -97,7 +97,7 @@ function Get_Gallery_Photos($id) {
   global $db;
   $res=$db->query("SELECT * FROM GallPhotos WHERE Galid=$id");
   if ($res) {
-    while ($g = $res->fetch_assoc()) $ans[] = $g;
+    while ($g = $res->fetch_assoc()) $ans[$g['id']] = $g;
     return $ans;
   }
 }
