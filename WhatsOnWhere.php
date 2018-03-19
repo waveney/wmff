@@ -10,7 +10,7 @@
   $Vens = Get_Active_Venues();
 
   echo "<h2 class=subtitle>Select a Venue</h2>";
-  echo "All these venues have events schedualled.<p>  May have events that are public yet.<p>" .
+  echo "All these venues have events schedualled.<p>  Many have events that are not public yet.<p>" .
 	"There will be many more venues listed when the programme is complete.<p>";
   echo "<ul>";
   foreach ($Vens as $ven) {
