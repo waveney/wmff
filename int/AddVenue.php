@@ -96,7 +96,8 @@
   }
   echo "</form>\n";
   echo "<h2><a href=VenueList.php>List Venues</a> , \n";
-    echo "<a href=AddVenue.php>Add Another Venue</a></h2>";
+    echo "<a href=AddVenue.php>Add Another Venue</a>, \n";
+    echo "<a href=VenueShow.php?v=$vid&Mode=1>Show Venue</a></h2>";
 ?>
 
 </div>

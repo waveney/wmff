@@ -27,7 +27,7 @@ Click on Side's name for more detail and programme when available.<br>
     echo "<table id=indextable border>\n";
     echo "<thead><tr>";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
-    if (!$Min) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Type</a>\n";
+    /* if (!$Min)*/ echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Type</a>\n";
     echo "<th><a href=javascript:sorttable(" . $coln++ . ",'T')>Description</a>\n";
 
     if (!$Min) echo "<th><a href=javascript:sorttable(" . $coln++ . ",'T')>Sat</a>\n";

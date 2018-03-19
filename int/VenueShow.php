@@ -197,7 +197,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
       $parname = $e['SName']; 
       $lastevent = $ei;
       echo "<tr><td rowspan=$rows valign=top><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
-		"</a><td colspan=" . ($imps?$ll+1:$ll+1) . " valign=top><a href=EventShow.php?e=$eid>" . $parname . "</a>";
+		"</a><td colspan=" . ($imps?$ll+($e['LongEvent']?0:1):$ll+1) . " valign=top><a href=EventShow.php?e=$eid>" . $parname . "</a>";
       if ($e['Description']) echo "<br>" . $e['Description'];
 
       if ($imps) {
