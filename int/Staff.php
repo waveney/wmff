@@ -155,6 +155,8 @@
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=0&Pub=1&Head=0&Day=Sun&Y=$YEAR>Dance Programme - Sun - no headers</a>";
 //      echo "<li class=smalltext><a href=ImportDance2.php>Import Appalachian List</a>"; // Should never be needed again
       echo "</table>\n";
+    } else if (Access('Staff','Dance')) {
+      echo "<li class=smalltext><a href=LineUpDance.php?MIN&Y=$YEAR>Picture free List of Dance Sides Coming</a>\n";
     }
     echo "</ul>\n";
 
@@ -212,6 +214,7 @@
     if (Access('Staff','Photos')) {
       echo "<li><a href=PhotoUpload.php>Photo Upload</a>";
       echo "<li><a href=PhotoManage.php>Photo Manage</a>";
+      echo "<li><a href=GallManage.php>Gallery Manage</a>";
     }
     echo "<p>";
     

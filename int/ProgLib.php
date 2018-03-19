@@ -221,7 +221,6 @@ function Get_BigEvent($b) {
     return $BigEvent[$b];
   }
   return 0; 
-
 }
 
 function Put_BigEvent($now) {
