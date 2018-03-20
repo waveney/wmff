@@ -70,7 +70,7 @@ function Gallery($id,$embed=0) {
   $Imgs = Get_Gallery_Photos($Gal['id']);
   if ($Imgs) {
     foreach ($Imgs as $img) {
-      echo "<div class=galleryarticle><a href=/$dir/$entry><img class=galleryarticleimg src='" . $img['File'] . "'></a>";
+      echo "<div class=galleryarticle><a href='/" . $img['File'] . "'><img class=galleryarticleimg src='" . $img['File'] . "'></a>";
       if ($img['Caption']) echo "<div class=gallerycaption> " . $img['Caption'] . "</div>";
       echo "</div>\n";
     }

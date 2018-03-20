@@ -3,7 +3,6 @@
   column-left: 350px;
   column-right: 350px;
   column-gap: 25px;
-  column-count:5;
 }
 .galleryarticle {
   min-width:33%;
@@ -15,7 +14,10 @@
   margin-bottom:25px;
 }
 .galleryarticleimg {
-  width:100%;
+  max-width:100%;
+  max-height:300px;
+  display:block;
+  margin:0 auto;
   border-radius:15px;
   transition:background-color .5s;
 }
@@ -23,4 +25,5 @@
   background-color:#005983;
   text-align:center;
   color:#FFFFFF;
+  border-radius:15px;
 }
