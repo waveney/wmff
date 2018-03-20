@@ -95,7 +95,7 @@ function Put_Gallery_Name(&$now) {
 
 function Get_Gallery_Photos($id) {
   global $db;
-  $res=$db->query("SELECT * FROM GallPhotos WHERE Galid=$id");
+  $res=$db->query("SELECT * FROM GallPhotos WHERE Galid=$id ORDER BY RelOrder");
   if ($res) {
     while ($g = $res->fetch_assoc()) $ans[$g['id']] = $g;
     return $ans;

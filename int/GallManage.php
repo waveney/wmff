@@ -25,6 +25,7 @@
     echo fm_text1("",$g,'SName',1,'','',"SName$i") . "</a>";
     echo fm_text1("",$g,'Credits',6,'','',"Credits$i") . "</a>";
     echo "<td><a href=GallCManage.php?g=" . $g['id'] . ">Edit</a>";
+    echo "<td><a href=ShowGallery.php?g=" . $g['id'] . ">Show</a>";
     echo "\n";
   }
   echo "<tr><td><td><input type=text size=20 name=SName0 >";
