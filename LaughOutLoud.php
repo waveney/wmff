@@ -84,6 +84,6 @@ Please don't apply if you don't meet all of the criteria described above.<p>
 
 Please send any queries or questions to <a href=mailto:Comedy@wimbornefolk.co.uk>Comedy@wimbornefolk.co.uk</a>.<p>
 
-<h2 class=subtitle><a href=/gallery/2017lol.php>Gallery from 2017 Laugh Out Loud</a></h2>
+<h2 class=subtitle><a href=int/ShowGallery.php?g=3>Gallery from 2017 Laugh Out Loud</a></h2>
 
 <?php dotail() ?>
