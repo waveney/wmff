@@ -74,11 +74,12 @@
 <div class=dropdown onmouseover=NoHoverSticky(event)>
   <a href=$host/gallery>Gallery</a>
   <div class=dropdown-content>
-     <a href=$host/gallery/2017>2017 Photos</a>
+     <a href=$host/int/ShowGallery.php?g=2>2017 Photos</a>
      <a href=$host/gallery/2016>2016 Photos</a>
      <a href=$host/gallery/2015>2015 Photos</a>
      <a href=$host/gallery/2014>2014 Photos</a>
      <a href=$host/gallery/2013>2013 Photos</a>
+     <a href=$host/int/ShowGallery.php?g=1>2018 Live and Loud</a>
   </div>
 </div>
 <div class=dropdown onmouseover=NoHoverSticky(event)>

@@ -1,23 +1,16 @@
-<html>
-<head>
-<title>Wimborne Minster Folk Festival | Dance Sides</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("int/festcon.php"); ?>
-<?php include_once("int/DanceLib.php"); ?>
-</head>
-<body>
-<?php include_once("files/navigation.php"); ?>
-<div class="content"><h2>Dance Sides</h2>
-
+<?php
+  include_once("fest.php");
+  include_once("int/festcon.php");
+  include_once("int/DanceLib.php");
+/*
 Click on column header to sort by column.<br>
 Click on Side's name for more detail and programme when available.<br>
-
-<?php
+*/
 
   $yn = array('','Y');
   $Min = isset($_GET{'MIN'});
   $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, SideYear AS y " .
-	   "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " ORDER BY s.Importance DESC, s.SName");
+	   "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " ORDER BY s.SName");
 
   if (!$SideQ || $SideQ->num_rows==0) {
     echo "<h2>No Sides Found</h2>\n";
@@ -41,9 +34,10 @@ Click on Side's name for more detail and programme when available.<br>
     echo "</thead><tbody>";
     while ($side = $SideQ->fetch_assoc()) {
       if (strlen($side['SName']) < 2) $side['SName'] .= " PADDED";
-      echo "<tr><td><a href=/int/ShowDance.php?sidenum=" . $side['SideId'] . ">" . $side['SName'] . "</a></td>";
-      if (!$Min) echo "<td>" . $side['Type'] . "</td>";
-      echo "<td>" . $side['Description'] . "</td>";
+      echo "<tr><td>" . $side['SName'];
+//      echo "<tr><td><a href=/int/ShowDance.php?sidenum=" . $side['SideId'] . ">" . $side['SName'] . "</a>";
+/*      if (!$Min)*/ echo "<td>" . $side['Type'] ;
+      echo "<td>" . $side['CostumeDesc'] ;
       if (!$Min) echo "<td>" . $yn[$side['Sat']] . "</td>";
       if (!$Min) echo "<td>" . $yn[$side['Sun']] . "</td>";
 /*
@@ -73,11 +67,4 @@ Click on Side's name for more detail and programme when available.<br>
     }
     echo "</tbody></table>\n";
   }
-  
 ?>
-  
-</div>
-
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>

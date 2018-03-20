@@ -72,4 +72,45 @@ function Image_Validate($img) {
     return "Unknown Image type for Photo";
   }
 }
+
+function Get_Gallery_Names() {
+  global $db;
+  $res=$db->query("SELECT * FROM Galleries");
+  if ($res) {
+    while ($g = $res->fetch_assoc()) $ans[$g['id']] = $g;
+    return $ans;
+  }
+}
+
+function Get_Gallery_Name($id) {
+  global $db;
+  $res=$db->query("SELECT * FROM Galleries WHERE id=$id");
+  if ($res) return $res->fetch_assoc();
+}
+
+function Put_Gallery_Name(&$now) {
+  $Cur = Get_Gallery_Name($now['id']);
+  Update_db('Galleries',$Cur,$now);
+}
+
+function Get_Gallery_Photos($id) {
+  global $db;
+  $res=$db->query("SELECT * FROM GallPhotos WHERE Galid=$id ORDER BY RelOrder");
+  if ($res) {
+    while ($g = $res->fetch_assoc()) $ans[$g['id']] = $g;
+    return $ans;
+  }
+}
+
+function Get_Gallery_Photo($id) {
+  global $db;
+  $res=$db->query("SELECT * FROM GallPhotos WHERE id=$id");
+  if ($res) return $res->fetch_assoc();
+}
+
+function Put_Gallery_Photo(&$now) {
+  $Cur = Get_Gallery_Photo($now['id']);
+  Update_db('GallPhotos',$Cur,$now);
+}
+
 ?>

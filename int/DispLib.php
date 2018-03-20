@@ -52,26 +52,38 @@ function ImpCount($imps) {
   return $c;
 }
 
-function Gallery($title,$dir,$credit='') {
-  dohead($title, '/files/gallery.css');
+function Gallery($id,$embed=0) {
+  if (!$embed) dohead($title, '/files/gallery.css');
+  include_once("ImageLib.php");
 
-  echo '<h2 class=maintitle>$title</h2>';
+  if (is_numeric($id)) {
+    $Gal = db_get('Galleries',"id='$id'");
+  } else {
+    $Gal = db_get('Galleries',"SName='$id'");
+  }
+  if (!$Gal) Error_Page("Gallery $id does not exist");
+
+  $name = $Gal['SName'];
+  echo "<h2 class=maintitle>$name</h2><p>";
   echo '<div id=galleryflex>';
 
-  if ($handle = opendir("../$dir")) {
-    while (false !== ($entry = readdir($handle))) {
-      if (preg_match('/^\./',$entry)) continue;
-      echo "<div class=galleryarticle><a href=/$dir/$entry><img class=galleryarticleimg src='/$dir/$entry'></a></div>\n";
+  $Imgs = Get_Gallery_Photos($Gal['id']);
+  if ($Imgs) {
+    foreach ($Imgs as $img) {
+      echo "<div class=galleryarticle><a href=/$dir/$entry><img class=galleryarticleimg src='" . $img['File'] . "'></a>";
+      if ($img['Caption']) echo "<div class=gallerycaption> " . $img['Caption'] . "</div>";
+      echo "</div>\n";
     }
-    closedir($handle);
+  } else {
+    echo "<h2 class=Err>Sorry that Gallery is empty</h2>\n";
   }
 
-  if ($credit) {
+  if ($Gal['Credits']) {
     echo '</div><h2 class="subtitle">Credits</h2>';
-    echo "<p>Photos by: $credit<p>";
+    echo "<p>Photos by: " . $Gal['Credits'] . "<p>";
   }
 
-  dotail();
+  if (!$embed) dotail();
 }
 
 function ShowArticle($a,$mxat=0) {

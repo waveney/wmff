@@ -151,7 +151,7 @@ function Put_Sponsor(&$now) {
 }
 
 // Works for simple tables
-function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='') {
+function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$Mstr='SName') {
   global $TableIndexes;
   include_once("DateTime.php");
   $Flds = table_fields($table);
@@ -161,7 +161,7 @@ function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='') {
   if (isset($_POST{'Update'})) {
     if ($data) foreach($data as $t) {
       $i = $t[$indxname];
-      if (isset($_POST["SNamei"]) && $_POST["SName$i"] == '') {
+      if (isset($_POST["$Mstr$i"]) && $_POST["$Mstr$i"] == '') {
 	if ($Deletes) {
   	  db_delete($table,$t[$indxname]);
 	  return 1;
@@ -181,7 +181,7 @@ function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='') {
 	$Putfn($t);
       }
     }
-    if ($_POST["SName0"] != '') {
+    if ($_POST[$Mstr . "0"] != '') {
       $t = array();
       foreach ($Flds as $fld=>$ftyp) {
 	if ($fld == $indxname) continue;

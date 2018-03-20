@@ -117,11 +117,11 @@ right for you.<P>
 <div class=article>
 <a href=$host/LiveNLoud.php>
 <h2 class=articlettl>Live and Loud 2018</h2>
-<img class=articleimgsml src=/images/hellohawaii.jpg alt='Wimborne Minster Folk Festival'></a>
+<img class=articleimgsml src='/images/Lnl2018/3-The Darwins.jpg' alt='Wimborne Minster Folk Festival'></a>
 <p class=articletxt>Live and Loud has been running for several years now with the intention of finding local talent from within the community to 
 showcase their work during the festival.<P>
 
-The final was on 24th February, the winners (Status, Bowen & Pounds and The Darwins) will feature here soon.<p>
+The final was on 24th February (Status, Bowen & Pounds and The Darwins).<p>
 </div>
 ";
 
