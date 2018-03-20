@@ -124,7 +124,7 @@
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";
-  echo "<h2><a href=GallManage.php>Back to Galleries</a></h2><p>\n";
+  echo "<h2><a href=GallManage.php>Back to Galleries</a>, <a href=ShowGallery.php?g=$Galid>Show Gallery</a></h2><p>\n";
 
   dotail();
 
