@@ -5,6 +5,37 @@
 
 ?>
 <div class="biodiv">
+<img src="/images/Lnl2018/5-Stratus.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
+<img src="/images/Lnl2018//9-Bowen and Pounds.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
+<img src="/images/Lnl2018/3-The Darwins.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
+<p>Stratus, Bowen and Pounds, The Darwins - Winners in 2018.
+</div>
+
+
+<h2 class=subtitle>Wimborne Live &amp; Loud 2018</h2>
+
+Live and Loud has been running for several years now with the intention of finding local talent from 
+within the community to showcase their work during the festival. <p>
+
+The competition is open to musicians of all ages, genres and group size. So, if you're part of a community group, 
+band, duo, choir, a soloist or even orchestra then complete an application form and get involved!<p>  
+
+Live and Loud 2018 is sponsored by <a href="http://partyinthepaddock.com">Party In The Paddock</a><p>
+
+This year, the competition was divided into 3 categories, the final was on 24th February 2018:<p>
+<ul>
+<li>Live and Louder (Under 16s) - Winners: <b>Stratus</b>
+<li>Live and Loud (17-44) - Winners: <b>Bowen and Pounds</b>
+<li>Still Alive and Loud (45+) - Winners: <b>The Darwins</b>
+</ul><p>
+
+<h3><a href=/int/ShowGallery.php?g=1>Gallery of 2018 Photos</a></h3>
+
+<?php
+/* Page for 2018 follows...
+
+?>
+<div class="biodiv">
 <img src="/images/hellohawaii.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
 <p>Hello Hawaii - Live and Loud winners 2017
 </div>
@@ -71,5 +102,6 @@ The Allendale Community centre, is on Hanham Road, Wimborne, Dorset, BH21 1AS.<P
 
 Applications are now closed.<p>
 <?php 
+  */
   dotail();
 ?>

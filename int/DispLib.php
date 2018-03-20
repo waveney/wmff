@@ -70,9 +70,9 @@ function Gallery($id,$embed=0) {
   $Imgs = Get_Gallery_Photos($Gal['id']);
   if ($Imgs) {
     foreach ($Imgs as $img) {
-      echo "<div class=galleryarticle><a href=/$dir/$entry><div class=galleryarticleimg><img src='" . $img['File'] . "'></a>";
+      echo "<div class=galleryarticle><a href=/$dir/$entry><img class=galleryarticleimg src='" . $img['File'] . "'></a>";
       if ($img['Caption']) echo "<div class=gallerycaption> " . $img['Caption'] . "</div>";
-      echo "</div></div>\n";
+      echo "</div>\n";
     }
   } else {
     echo "<h2 class=Err>Sorry that Gallery is empty</h2>\n";
