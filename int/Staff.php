@@ -228,6 +228,7 @@
     }
     echo "<li><a href=LaughView.php?Y=$YEAR>Show Laugh Out Loud applications</a>";
     if (Access('Committee')) echo "<li><a href=Campsite.php?Y=$YEAR>Manage Campsite Use</a>\n"; 
+    if (Access('Committee')) echo "<li><a href=CarerTickets.php?Y=$YEAR>Manage Carer Tickets</a>\n"; 
 
     echo "</ul>\n";
 

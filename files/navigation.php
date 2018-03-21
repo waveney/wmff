@@ -72,7 +72,7 @@
   </div>
 </div>
 <div class=dropdown onmouseover=NoHoverSticky(event)>
-  <a href=$host/gallery>Gallery</a>
+  <a onclick=NavStick(event)>Gallery</a>
   <div class=dropdown-content>
      <a href=$host/int/ShowGallery.php?g=2>2017 Photos</a>
      <a href=$host/gallery/2016>2016 Photos</a>
@@ -80,10 +80,11 @@
      <a href=$host/gallery/2014>2014 Photos</a>
      <a href=$host/gallery/2013>2013 Photos</a>
      <a href=$host/int/ShowGallery.php?g=1>2018 Live and Loud</a>
+     <a href=$host/int/ShowGallery.php?g=3>2017 Laugh Out Loud</a>
   </div>
 </div>
 <div class=dropdown onmouseover=NoHoverSticky(event)>
-  <a href=$host/Also.php >Also</a>
+  <a onclick=NavStick(event)>Also</a>
   <div class=dropdown-content>
      <a href=$host/LiveNLoud.php >Live and Loud</a>
      <a href=$host/LaughOutLoud.php>Laugh out Loud</a>
