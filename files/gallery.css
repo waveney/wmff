@@ -2,7 +2,7 @@
   column-width:300px;
   column-left: 350px;
   column-right: 350px;
-  column-gap: 25px;
+  column-gap: 15px;
 }
 .galleryarticle {
   min-width:33%;
@@ -11,7 +11,7 @@
   min-width:250px;
   width:100%;
   display: inline-block;
-  margin-bottom:25px;
+  margin-bottom:15px;
 }
 .galleryarticleimg {
   max-width:100%;

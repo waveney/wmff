@@ -15,6 +15,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Act Name</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Contact</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Email</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Phone</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Style</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Started</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Bio</a>\n";
@@ -34,6 +35,7 @@
       echo "<td>" . $lol['SName'];
       echo "<td>" . $lol['Contact'];
       echo "<td>" . $lol['Email'];
+      echo "<td>" . $lol['Phone'];
       echo "<td>" . $lol['Style'];
       echo "<td>" . $lol['Started'];
       echo "<td>" . $lol['Bio'];
