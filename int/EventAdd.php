@@ -19,6 +19,7 @@
   include("DocLib.php");
   include("DanceLib.php");
   include("MusicLib.php");
+  include("EventCheck.php");
   global $MASTER,$YEAR,$USERID,$Importance;
 
   Set_Event_Help();
@@ -46,6 +47,8 @@ You may if you wish have a longer blurb, this will only appear on the webpage fo
 If it should be listed as a Family event, click the relevant box.  A children's Workshop would be type workshop and have Family selected.<p>
 You do not normally need to set Duration, Bar/Food, Special, Alt Edit, Prices and Non Fest.  For all complex cases contact Richard (07718 511432)<p>
 Then click on <b>Create</b>.<p>
+See if any errors are reported at the top of the event - they currently are a bit cryptic but any event clashes involving this event will be listed 
+- resolve them please.<p>
 If it a simple event, with one particpant do the following (this can be done later if you have not yet decided): 
 <ul><li>Select the Side, Act or Other participant from the drop down lists.
 <li>Click on <b>Update</b></ul><p>
@@ -63,6 +66,7 @@ It is possible to edit sides into dancing here, but it is far far easier with th
 A similar feature will appear eventually for music.<p>
 <?php
   echo "</div>";
+
   echo "<h2>Add/Edit Events</h2>\n";
   echo "<form method=post action='EventAdd.php'>\n";
   if (isset($_POST{'EventId'})) { // Response to update button
@@ -245,6 +249,8 @@ A similar feature will appear eventually for music.<p>
 // Dance		Y		Y			Y	Y
 // Music			Y	Y			Y	Y
 // Other				Y		Y	Y	Y
+
+  if ($eid > 0) EventCheck($eid);
 
   $AllU = Get_AllUsers(0);
   $AllA = Get_AllUsers(1);
