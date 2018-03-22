@@ -125,6 +125,7 @@ function Set_Event_Help() {
 	'Owner'=>'Who created the event, editable by this person, the Alt Edit and any with global edit rights',
 	'Owner2'=>'This person is also allowed to edit this event',
 	'Importance'=>'Affects appearance of event on home page',
+	'NoPart'=>'Set if the event has no particpants (Sides, Acts or Other)',
 	'Budget'=>'What part of the festival budget this Event comes under'
   );
   Set_Help_Table($t);
@@ -396,7 +397,7 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1) {
     }
     if ($ans) return $ans;
   }
-  if ($Event_Types_Full[$MainEv['Type']]['NoPart'] == 0) return "Details to follow";
+  if ($Event_Types_Full[$MainEv['Type']]['NoPart'] == 0 && $MainEv['NoPart']==0) return "Details to follow";
   return "";
 }
 

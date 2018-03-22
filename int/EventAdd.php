@@ -294,6 +294,7 @@ A similar feature will appear eventually for music.<p>
         if ($se == 0) { echo "<td>No Sub Events"; }
         elseif ($se < 0) { echo "<td><a href=EventList.php?se=$eid>Has Sub Events</a>"; }
         else { echo "<td><a href=EventList.php?se=$se>Is a Sub Event</a>"; };
+        echo "<td class=NotSide>" . fm_checkbox('No Part',$Event,'NoPart');
 
       if ($se <= 0) {
 	echo "<tr>";
