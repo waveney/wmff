@@ -13,6 +13,7 @@
   echo "The only event types that should be not public are Sound Checks (probably)<p>\n";
   echo "Set Inc Type to indicate event type in description if it is not part of the events name.<p>";
   echo "State drives lots: - set to draft to enable the performers to see their own events. Set to complete when all events of given type are in<p>\n";
+  echo "Set <b>No Part</b> if event type is valid without any participants.<p>";
   
   $Types = Get_Event_Types(1);
   if (UpdateMany('EventTypes','Put_Event_Type',$Types,1)) $Types = Event_Types_ReRead();
@@ -37,6 +38,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Format</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>State</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Inc Type</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>No Part</a>\n";
   echo "</thead><tbody>";
   foreach($Types as $t) {
     $i = $t['ETypeNo'];
@@ -51,6 +53,7 @@
     echo fm_number1('',$t,'Format','','min=0 max=1000',"Format$i");
     echo "<td>" . fm_select($EType_States,$t,'State',0,'',"State$i");
     echo "<td>" . fm_checkbox('',$t,'IncType','',"IncType$i");
+    echo "<td>" . fm_checkbox('',$t,'NoPart','',"NoPart$i");
     echo "\n";
   }
   echo "<tr><td><td><input type=text name=SName0 >";
@@ -64,6 +67,7 @@
   echo "<td><input type=number min=0 max=1000 name=Format0>";
   echo "<td>" . fm_select($EType_States,$t,"State0");
   echo "<td><input type=checkbox name=IncType0>";
+  echo "<td><input type=checkbox name=NoPart0>";
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";

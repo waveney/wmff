@@ -396,7 +396,8 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1) {
     }
     if ($ans) return $ans;
   }
-  return "Details to follow";
+  if ($Event_Types_Full[$MainEv['Type']]['NoPart'] == 0) return "Details to follow";
+  return "";
 }
 
 function Get_Other_Participants(&$Others,$l=0,$size=12,$mult=1) {
