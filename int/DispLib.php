@@ -232,6 +232,8 @@ function ShowArticles() {
 	  break;
 	case '@Other_Many':
 	  break;
+	case '@Select' :
+	  break;
 	}
       } else {
 	ShowArticle($a);

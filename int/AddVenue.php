@@ -36,8 +36,11 @@
   } elseif (isset($_GET{'v'})) {
     $vid = $_GET{'v'};
     $Venue = Get_Venue($vid);
-  } else {
+  } elseif (isset($_GET['Copy'])) {
+    $cvid = $_GET['Copy'];
+    $Venue = Get_Venue($cvid);
     $vid = -1;
+  } else {
     $Venue = array();
   }
 
@@ -97,6 +100,7 @@
   echo "</form>\n";
   echo "<h2><a href=VenueList.php>List Venues</a> , \n";
     echo "<a href=AddVenue.php>Add Another Venue</a>, \n";
+    echo "<a href=AddVenue.php?Copy=$vid>Copy To Another Venue</a>, \n";
     echo "<a href=VenueShow.php?v=$vid&Mode=1>Show Venue</a></h2>";
 ?>
 
