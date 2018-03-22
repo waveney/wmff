@@ -84,11 +84,10 @@
       }
       echo "<td>";
         if ($E['Description']) echo $E['Description'] . "<p>";
-        echo "With: ";
 	if ($E['BigEvent']) {
-	  echo Get_Other_Participants($Others,1,15);
+	  echo Get_Other_Participants($Others,1,15,1, 'With: ');
 	} else {
-	  echo Get_Event_Participants($eid,1,15);
+	  echo Get_Event_Participants($eid,1,15,1, 'With: ');
 	}
       if ($NotAllFree) echo "<td>" . Price_Show($E);
       echo "\n";

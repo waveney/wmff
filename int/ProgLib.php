@@ -327,7 +327,7 @@ function ListLinks(&$ev,$type,$single,$plural,$size,$mult) {
 }
 
 // Get Participants, Order by Importance/Time, if l>0 give part links as well
-function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1) {
+function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
   global $db,$Event_Types_Full;
 
   include_once "DanceLib.php";
@@ -395,13 +395,13 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1) {
       }
       break;
     }
-    if ($ans) return $ans;
+    if ($ans) return "$prefix$ans";
   }
-  if ($Event_Types_Full[$MainEv['Type']]['NoPart'] == 0 && $MainEv['NoPart']==0) return "Details to follow";
+  if ($Event_Types_Full[$MainEv['Type']]['NoPart'] == 0 && $MainEv['NoPart']==0) return $prefix . "Details to follow";
   return "";
 }
 
-function Get_Other_Participants(&$Others,$l=0,$size=12,$mult=1) {
+function Get_Other_Participants(&$Others,$l=0,$size=12,$mult=1,$prefix) {
   global $db;
   include_once "DanceLib.php";
   $imps=array();
@@ -451,8 +451,8 @@ function Get_Other_Participants(&$Others,$l=0,$size=12,$mult=1) {
       if ($imp) $ans .= "</span>";
     }
   }
-  if ($ans) return $ans;
-  return "Details to follow";
+  if ($ans) return "$prefix$ans";
+  return $prefix . "Details to follow";
 }
 
 function Price_Show(&$Ev) {
