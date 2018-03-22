@@ -7,7 +7,7 @@
  * Check for don't use ifs
  */
 
-function EventCheck() {
+function EventCheck($checkid=0) {
   global $db, $YEAR, $DayList;
   $Venues = Get_Venues(1); // All info not just names
 
@@ -34,7 +34,7 @@ function EventCheck() {
 	} else {
 	  if ($Venues[$ev['EventId']]['SetupOverlap']) {
 	    if ($end <= timeadd($ev['Start'] && $EVENT_Types[$LastEvent['Type']]['HasDance'] )) { // No error
-	    } else {
+	    } else if ($checkid==0 || $checkid==$ev['EventId'] || $checkid==$LastEvent['EventId']) {
 	      echo "The <a href=EventAdd.php?e=" . $ev['EventId'] . ">Event</a> at " . SName($Venues[$ev['Venue']]) . " starting at " .
 		   $ev['Start'] . " on " . $DayList[$ev['Day']] . " clashes with <a href=EventAdd.php?e=" . 
 		   $LastEvent['EventId'] . ">this event</a><p>\n";
@@ -42,7 +42,7 @@ function EventCheck() {
 	    }
 	  } else {
 	    if ($ev['SubEvent'] == $LastEvent['EventId'] && $LastEventEmpty) { // No Error
-	    } else {
+	    } else if ($checkid==0 || $checkid==$ev['EventId'] || $checkid==$LastEvent['EventId']) {
 	      echo "The <a href=EventAdd.php?e=" . $ev['EventId'] . ">Event</a> at " . SName($Venues[$ev['Venue']]) . " starting at " .
 		   $ev['Start'] . " on " . $DayList[$ev['Day']] . " clashes with <a href=EventAdd.php?e=" . 
 		   $LastEvent['EventId'] . ">this event</a><p>\n";
@@ -71,10 +71,12 @@ function EventCheck() {
 		  $chkstart = timereal($ce['Start']) - $ce['Setup'];
 		  $chkend = timereal($ce['SubEvent']<0 ? $ce['SlotEnd'] : $ce['End']);
 	          if (($chkstart >= $realstart && $chkstart < $realend) || ($chkend > $realstart && $chkend <= $realend)) {
-	            echo "The <a href=EventAdd.php?e=" . $ev['EventId'] . ">Big Event</a> at " . $Venues[$ce['Venue']]['SName'] . " starting at " .
+	            if ($checkid==0 || $checkid==$ev['EventId'] || $checkid==$ce['EventId']) {
+	              echo "The <a href=EventAdd.php?e=" . $ev['EventId'] . ">Big Event</a> at " . $Venues[$ce['Venue']]['SName'] . " starting at " .
 		           $ev['Start'] . " on " . $DayList[$ev['Day']] . " clashes with <a href=EventAdd.php?e=" . 
 		           $ce['EventId'] . ">this event" . "</a><p>\n";
-	            $errors++;
+	              $errors++;
+		    }
 		  }
 	        }
 	      }
@@ -92,10 +94,12 @@ function EventCheck() {
 	  	if ($coe['Type'] == 'Venue') {
 	          foreach($Other as $oi=>$oe) {
 	            if ($oe['Type'] == 'Venue' && $coe['Identifier'] == $oe['Identifier']) { // Clash
-	              echo "The <a href=EventAdd.php?e=" . $ev['EventId'] . ">Big Event</a>  starting at " .
+	              if ($checkid==0 || $checkid==$ev['EventId'] || $checkid==$ce['EventId']) {
+	                echo "The <a href=EventAdd.php?e=" . $ev['EventId'] . ">Big Event</a>  starting at " .
 		             $ev['Start'] . " on " . $DayList[$ev['Day']] . " clashes with <a href=EventAdd.php?e=" . 
 		             $ce['EventId'] . ">this big event</a> on use of " . SName($Venues[$oe['Identifier']]) . "<p>\n";
-	              $errors++;
+	                $errors++;
+		      }
 		    }
 		  }
 		}
@@ -118,18 +122,20 @@ function EventCheck() {
 	    $chkstart = timereal($fv['Start']) - $fv['Setup'];
 	    $chkend = timereal($fv['SubEvent']<0 ? $fv['SlotEnd'] : $fv['End']);
 	    if (($chkstart > $realstart && $chkstart < $realend) || ($chkend > $realstart && $chkend < $realend)) { // In use...
-	      echo "The <a href=EventAdd.php?e=" . $ev['EventId'] . ">Event</a> is at " . SName($Venues[$ev['Venue']]) . " when " . 
-		SName($Venues[$fv['Venue']]) . " is being used for <a href=EventAdd.php?e=" . $fv['EventId'] . ">This Event</a>.<p>\n";
-	      $errors++;
+	      if ($checkid==0 || $checkid==$ev['EventId'] || $checkid==$fv['EventId']) {
+	        echo "The <a href=EventAdd.php?e=" . $ev['EventId'] . ">Event</a> is at " . SName($Venues[$ev['Venue']]) . " when " . 
+	    	  SName($Venues[$fv['Venue']]) . " is being used for <a href=EventAdd.php?e=" . $fv['EventId'] . ">This Event</a>.<p>\n";
+	        $errors++;
+	      }
 	    }
           }
         }
       }
     }
 
-    if ($errors == 0) echo "No errors found<p>\n";
+    if ($errors == 0 && $checkid == 0) echo "No errors found<p>\n";
   } else {
     echo "No events have been found...<p>\n";
   }
-}	      
+}      
 ?>
