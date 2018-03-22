@@ -841,9 +841,8 @@ textarea:Focus
 .sponText {
   position: absolute;
   font-size:36;
-  top:50%;
+  top:10;
   left:50%;
-  text-shadow:10 10 10 white,-10 -10 10 white;
   transform: translate(-50%, -50%);
 }
 .DayExpand {

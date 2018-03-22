@@ -12,6 +12,8 @@
   if (UpdateMany('Sponsors','Put_Sponsor',$Spons,0)) $Spons=Get_Sponsors(1);
 
   echo "Year is the most recent year they are a sponsor.  Importance is a relative value (not yet used).<p>\n";
+  echo "Don't use Both - it does not work...<p>\n";
+
   $coln = 0;
   echo "<form method=post>";
   echo "<table id=indextable border>\n";
