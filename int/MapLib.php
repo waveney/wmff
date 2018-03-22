@@ -48,7 +48,7 @@ function Update_MapPoints() {
   file_put_contents("../cache/mapptypes.json",json_encode($types)); 
 
   $data = array();
-  $res = $db->query("SELECT * FROM Venues WHERE Status=0 AND Lat!='' ");// Normal Code
+  $res = $db->query("SELECT * FROM Venues WHERE Status=0 AND Lat!='' AND MapImp>=0 ");// Normal Code
 //  $res = $db->query("SELECT * FROM Venues WHERE Lat!='' "); // ALL VENUES
   if ($res) while($ven = $res->fetch_assoc()) {
     $data[] = array('id'=>$ven['VenueId'], 'name'=>$ven['SName'], 'lat'=>$ven['Lat'], 'long'=>$ven['Lng'],

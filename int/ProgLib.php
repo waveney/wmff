@@ -31,7 +31,7 @@ function Set_Venue_Help() {
 	'Food'=>'Does the venue serve food?',
 	'BarFoodText'=>'Any text that expands on the food and drink available',
 	'Website'=>'If the venue has a website put it here',
-	'MapImp'=>'Range 0-20, 0 means 16 which is default, 15 is VERY important, 18 very minor',
+	'MapImp'=>'Range 0-20, 0 means 16 which is default, 15 is VERY important, 18 very minor, -1 do not display',
 	'DirectionsExtra'=>'Extra info to be put at end of directions to venue',
 	'IsVirtual'=>'Combined site for display purposes, do not use for real events',
 	'PartVirt'=>'What virtual site this is part of (if any)',
