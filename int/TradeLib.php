@@ -28,6 +28,7 @@ $Trade_Email = array('','Trade_Decline','Trade_Refunded','Trade_Cancel','Trade_S
 $ButTrader = array('Submit','Accept','Decline','Cancel'); // Actions Traders can do
 $Trade_Days = array('Both','Saturday Only','Sunday Only');
 $Prefixes = array ('in','in the','by the');
+$TaxiAuthorities = array('East Dorset','Poole','Bournemouth');
 
 function Get_Email_Proformas() { 
   global $db;
@@ -1241,6 +1242,26 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='') {
     $Trady['History'] .= "Action: $Hist $Action $xtra on " . date('j M Y H:i') . " by $By.\n";
     Put_Trade_Year($Trady);
   }
+}
+
+function Get_Taxis() {
+  global $db,$YEAR;
+  $cs = array();
+  $res = $db->query("SELECT * FROM TaxiCompanies ORDER BY Authority,SName");
+  if ($res) while($c = $res->fetch_assoc()) $cs[] = $c;
+  return $cs;
+}
+
+function Get_Taxi($id) {
+  global $db;
+  $res = $db->query("SELECT * FROM TaxiCompanies WHERE id=$id");
+  if ($res) while($c = $res->fetch_assoc()) return $c;
+}
+
+function Put_Taxi($now) {
+  $e=$now['id'];
+  $Cur = Get_Taxi($e);
+  return Update_db('TaxiCompanies',$Cur,$now);
 }
 
 ?>
