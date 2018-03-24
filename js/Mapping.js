@@ -79,7 +79,7 @@ function initMap() {
 
   gmap = map = new google.maps.Map(document.getElementById('map'), {
     center: Center,
-    mapTypeId: 'hybrid',
+    mapTypeId: (MapZoom>13?'hybrid':'roadmap'),
     zoom: MapZoom,
     });
 

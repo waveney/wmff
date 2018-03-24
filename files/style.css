@@ -26,7 +26,7 @@ body
     font-size:22px;
     padding:0;
     }
-A:link 
+A:link, .FakeLink
     {
     text-decoration: none; 
     color: #005983;
@@ -880,4 +880,12 @@ textarea:Focus
   color:#000000;
   word-wrap: break-word;
   overflow:auto;
+}
+.PurpButton {
+  padding:5;
+  text-size:45px;
+  font-weight:bold;
+  color:white !important;
+  background:purple;
+  border-radius:15px;
 }

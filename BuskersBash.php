@@ -21,9 +21,7 @@ April.<p>
 
 There will be performance spots around town, including The Square. This year, as well as the public
 using voting tokens to select the finalists, you can also collect cash for yourself.
-Check out more information - Buskers Bash Guidelines. Applications close 24th March.<p>
-
-<h2 class=subtitle><a href=int/BuskersBashForm.php>Application Form</a></h2>
+Check out more information - Buskers Bash Guidelines. Applications are closed.<p>
 
 Please send any queries or questions to <a href=mailto:BuskersBash@wimbornefolk.co.uk>BuskersBash@wimbornefolk.co.uk</a>.<p>
 
@@ -77,9 +75,9 @@ receive a prize of &pound;50
 <li>Thank you for joining us, &amp; helping to make Buskers Bash an ongoing success.
 </ul>
 
-We hope that you enjoy your day with us in Wimborne.
+We hope that you enjoy your day with us in Wimborne.<p>
 
-<h2 class=subtitle><a href=int/BuskersBashForm.php>Application Form</a></h2>
+Applications are closed.<p>
 <?php 
   dotail();
 ?>

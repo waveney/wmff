@@ -203,6 +203,7 @@
     if (Access('Committee','Venues')) echo "<li><a href=MapPoints.php>Additional Map Points</a>\n";
     if (Access('SysAdmin')) echo "<li><a href=MapPTypes.php>Map Point Types</a>\n";
     echo "<li><a href=$host/Map.php>Map</a>\n";
+    if (Access('SysAdmin')) echo "<li><a href=BusTimes.php>Fetch and Cache Bus Times</a>\n";
     echo "</ul>\n";
 
 // *********************** OTHER *****************************************************************
@@ -229,6 +230,7 @@
     echo "<li><a href=LaughView.php?Y=$YEAR>Show Laugh Out Loud applications</a>";
     if (Access('Committee')) echo "<li><a href=Campsite.php?Y=$YEAR>Manage Campsite Use</a>\n"; 
     if (Access('Committee')) echo "<li><a href=CarerTickets.php?Y=$YEAR>Manage Carer Tickets</a>\n"; 
+    if (Access('Staff')) echo "<li><a href=TaxiCompanies.php>Manage Taxi Company List</a>\n"; 
 
     echo "</ul>\n";
 
