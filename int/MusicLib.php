@@ -189,6 +189,11 @@ function Get_Events4Act($snum,$yr=0) {
   $evs = array();
   if (!$res) return 0;
   while ($ev = $res->fetch_assoc()) $evs[] = $ev;
+ 
+  $res = $db->query("SELECT DISTINCT e.* FROM Events e, BigEvent b WHERE e.Year=$yr AND e.BigEvent=1 AND e.EventId=b.Event AND " .
+		"( b.Type='Act' OR b.Type='Other') AND b.Identifier=$snum");
+  if ($res) while ($ev = $res->fetch_assoc()) $evs[] = $ev;
+
   return $evs; 
 }
 
