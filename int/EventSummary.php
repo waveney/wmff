@@ -14,7 +14,7 @@
   $sp = $fam = 0;
   foreach ($Types as $t) {
     $c = 0;
-    $Ett = $t['id'];
+    $Ett = $t['ETypeNo'];
     $ans = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND Type=$Ett");
     if ($ans) while ($e = $ans->fetch_assoc()) { 
       $Evs[] = $e; 
