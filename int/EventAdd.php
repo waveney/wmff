@@ -232,6 +232,15 @@ A similar feature will appear eventually for music.<p>
       $empty = array();
       Check_4Changes($empty,$Event);
     }
+  } elseif (isset($_GET['COPY'])) {
+    $oeid = $_GET['COPY'];
+    $Event = Get_Event($oeid);
+    $eid = -1;
+    $Event['EventId'] = 0;
+    if (Access('Staff','Venues') || $Event['Owner'] == $USERID || $Event['Owner2'] == $USERID) { // Proceed
+    } else {
+      Error_Page("Insufficient Privilages");
+    }
   } elseif (isset($_GET['e'])) {
     $eid = $_GET['e'];
     $Event = Get_Event($eid);
@@ -388,6 +397,7 @@ A similar feature will appear eventually for music.<p>
   }
   echo "<h2><a href=EventList.php>List Events</a>";
   if ($eid) echo ", <a href=EventAdd.php>Add another event</a>";
+  if ($eid) echo ", <a href=EventAdd.php?COPY=$eid>Copy to another event</a>";
   if ($eid) echo ", <a href=EventShow.php?e=$eid>Show Event</a>";
   echo "</h2>\n";
 
