@@ -40,7 +40,7 @@
      <a href=$host/Sherlock.php?t=Music >Music</a>
      <a href=$host/Sherlock.php?t=Special>Special Events</a>
      <a href=$host/Sherlock.php?t=Family>Family</a>
-     <a href=$host/Sherlock.php?t=Ceildih >Ceildihs</a>
+     <a href=$host/Sherlock.php?t=Ceilidh >Ceilidhs</a>
      <a href=$host/Sherlock.php?t=Workshop >Workshops</a>
      <a href=$host/Sherlock.php?t=Comedy >Comedy</a>
      <a href=$host/Sherlock.php?t=Session >Sessions</a>
