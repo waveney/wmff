@@ -276,7 +276,7 @@ A similar feature will appear eventually for music.<p>
         echo "<tr><td>Event Id:" . $eid . fm_hidden('EventId',$eid);
       } else {
         echo fm_hidden('EventId',-1);
-        $Event['Day'] = 1;
+        if (!isset($_GET['COPY'])) $Event['Day'] = 1;
       }
 //      echo fm_text('SE',$Event,'SubEvent');
       echo "<td class=NotSide>" . fm_checkbox('Exclude From Spot Counts',$Event,'ExcludeCount');

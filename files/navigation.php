@@ -44,7 +44,8 @@
      <a href=$host/Sherlock.php?t=Workshop >Workshops</a>
      <a href=$host/Sherlock.php?t=Comedy >Comedy</a>
      <a href=$host/Sherlock.php?t=Session >Sessions</a>
-     <a href=$host/Sherlock.php?t=Craft class=NotYet>Craft</a>
+     <a href=$host/Sherlock.php?t=Craft>Craft</a>
+     <a href=$host/Sherlock.php?t=Other>Other</a>
   </div>
 </div>
 <a href=$host/Tickets.php onmouseover=NoHoverSticky()>Tickets</a>
