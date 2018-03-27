@@ -27,7 +27,7 @@
   }
   echo "<tr><td>Family<td>$fam";
   echo "<tr><td>Special<td>$sp";
-  echo "<tr><td>Total<td>$sp";
+  echo "<tr><td>Total<td>$tot";
     
   echo "</table>\n";
   dotail();
