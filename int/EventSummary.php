@@ -11,7 +11,7 @@
 
   echo "<table class=TueTab><tr><td>Event type<td>Number";
 
-  $sp = $fam = 0;
+  $tot = $sp = $fam = 0;
   foreach ($Types as $t) {
     $c = 0;
     $Ett = $t['ETypeNo'];
@@ -23,9 +23,11 @@
       if ($e['Special']) $sp++;
     };
     echo "<tr><td>" . $t['SName'] . "<td>" . $c;
+    $tot += $c;
   }
   echo "<tr><td>Family<td>$fam";
   echo "<tr><td>Special<td>$sp";
+  echo "<tr><td>Total<td>$sp";
     
   echo "</table>\n";
   dotail();
