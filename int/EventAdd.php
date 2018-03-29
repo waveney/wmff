@@ -332,6 +332,10 @@ A similar feature will appear eventually for music.<p>
       echo "<tr $adv>" . fm_textarea('Blurb',$Event,'Blurb',5,2,'','maxlength=2000');
       echo "<tr><td>If the Venue doesn't normally have a Bar or Food<td>" . fm_checkbox('Bar',$Event,'Bar') . 
 		"<td>" . fm_checkbox('Food',$Event,'Food') . fm_text('Food/Bar text',$Event,'BarFoodText') . "\n";
+      echo "<tr>" . fm_text1('Image',$Event,'Image',1,'class=NotSide','class=NotSide') .
+                    fm_text1('Website',$Event,'Website',1,'class=NotSide','class=NotSide') ;
+      echo          fm_text1('Special Price Text',$Event,'SpecPrice',1,'class=NotSide','class=NotSide') .
+                    fm_text1('Special Price Link',$Event,'SpecPriceLink',1,'class=NotSide','class=NotSide') ;
       if (!$Event['BigEvent']) {
 //        if ($et == 'Dance' || $et == 'Workshop' || $et == 'Mixed' || $et == 'Other') {
           echo "<tr><td rowspan=2>Sides:" . Help('Sides');

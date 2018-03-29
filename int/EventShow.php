@@ -120,11 +120,18 @@ function Print_Participants($e,$when=0,$thresh=0) {
     echo "<tr><td>Starting at:<td>" . timecolon($Ev['Start']) . "\n";
     echo "<tr><td>Finishing at:<td>" . timecolon($Ev['End']) . "\n";
   }
-  if ($Ev['Price1']) {
-    echo "<tr><td>Price:<td>" . Price_Show($Ev) . ", or by Weekend ticket or " . $DayLongList[$Ev['Day']] . " ticket\n";
+  if ($Ev['Price1'] || $Ev['SpecPrice']) {
+    echo "<tr><td>Price:<td>";
+    if ($Ev['SpecPrice']) {
+      echo $Ev['SpecPrice'];
+    } else {
+      echo Price_Show($Ev) . ", or by Weekend ticket or " . $DayLongList[$Ev['Day']] . " ticket\n";
+    }
     if ($Ev['TicketCode']) {
       $bl = "<a href=https://www.ticketsource.co.uk/event/" . $Ev['TicketCode'] . " target=_blank>" ;
       echo " -  <strong>$bl Buy Now</a></strong>\n";
+    } else if ($Ev['SpecPriceLink']) {
+      echo " -  <strong><a href=" . $Ev['SpecPriceLink'] . " target=_blank>Buy Now</a></strong>\n";
     }
   } else {
     echo "<tr><td>Price:<td>Free\n";
@@ -192,7 +199,9 @@ function Print_Participants($e,$when=0,$thresh=0) {
     }
   }
 
+  if ($Ev['Image']) echo "<img src=" . $Ev['Image'] . ">";
   if ($Ev['Blurb']) echo "<div style='width:800px;'>" . $Ev['Blurb'] . "</div><P>";
+  if ($Ev['Website']) echo "<h3>" . weblink($Ev['Website'],'Website for this event') . "</h3><p>\n";
 
 
 
