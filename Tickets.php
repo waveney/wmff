@@ -86,12 +86,12 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
   global $YEAR,$db,$DayList,$MASTER;
 
   $Vens = Get_Venues(1);
-  $qry = "SELECT * FROM Events WHERE Year='$YEAR' AND Price1!=0 AND TicketCode!='' AND SubEvent<=0 ORDER BY Day,Start";
+  $qry = "SELECT * FROM Events WHERE Year='$YEAR' AND ((Price1!=0 AND TicketCode!='') OR SpecPrice!='')  AND SubEvent<=0 AND (Public=0 || Public=1) ORDER BY Day,Start";
   $Evs = $db->query($qry);
 
   while ($E = $Evs->fetch_assoc()) {
     DayTable($E['Day'],"Event Tickets",($MASTER['PriceComplete' . $E['Day']]?'':'(More to come)'));
-    $bl = "<a href=https://www.ticketsource.co.uk/event/" . $E['TicketCode'] . " target=_blank>" ;
+    $bl = "<a href=" . ($E['SpecPriceLink']? $E['SpecPriceLink'] : ("https://www.ticketsource.co.uk/event/" . $E['TicketCode'])) . " target=_blank>" ;
     echo "<tr><td><strong><a href=/int/EventShow.php?e=" . $E['EventId'] . ">" . $E['SName'] . "</a></strong><br>"; 
       echo Price_Show($E);
     echo "<td>" . $DayList[$E['Day']] . " " . ($MASTER['DateFri']+$E['Day']) ."th June $YEAR" . "<br>";
@@ -100,7 +100,8 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
     echo "<td style='width:50%'>";
       if ($E['Description']) echo $E['Description'] . "<br>";
       echo Get_Event_Participants($E['EventId'],1,15);
-    echo "<td><strong>$bl Buy Now</a></strong>\n";
+    echo "<td>";
+    if ($E['TicketCode'] || $E['SpecPriceLink']) echo "<strong>$bl Buy Now</a></strong>\n";
   }
 ?>
 

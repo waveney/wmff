@@ -126,6 +126,7 @@ function Set_Event_Help() {
 	'Owner2'=>'This person is also allowed to edit this event',
 	'Importance'=>'Affects appearance of event on home page',
 	'NoPart'=>'Set if the event has no particpants (Sides, Acts or Other)',
+	'Image'=>'These are all for handling weird cases only',
 	'Budget'=>'What part of the festival budget this Event comes under'
   );
   Set_Help_Table($t);
@@ -457,6 +458,9 @@ function Get_Other_Participants(&$Others,$l=0,$size=12,$mult=1,$prefix) {
 
 function Price_Show(&$Ev) {
   global $MASTER;
+
+  if ($Ev['SpecPrice']) return $Ev['SpecPrice'];
+
   $dats = array();
   $str = '';
   $Cpri = $Ev['Price1'];

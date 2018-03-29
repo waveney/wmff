@@ -108,9 +108,13 @@
       echo "<td>" . $Public_Event_Types[$evnt['Public']];
       echo "<td>" ; 
       if ($evnt['SubEvent'] <= 0 ) {
-	if ($evnt['Price1']) { echo "&pound;" . $evnt['Price1']; } else echo "Free";
-	if ($evnt['Price2']) echo " /&pound;" . $evnt['Price2']; 
-	if ($evnt['DoorPrice']) echo " /&pound;" . $evnt['DoorPrice']; 
+	if ($evnt['SpecPrice']) {
+	  echo $evnt['SpecPrice'];
+	} else {
+	  if ($evnt['Price1']) { echo "&pound;" . $evnt['Price1']; } else echo "Free";
+	  if ($evnt['Price2']) echo " /&pound;" . $evnt['Price2']; 
+	  if ($evnt['DoorPrice']) echo " /&pound;" . $evnt['DoorPrice']; 
+	}
       }
       echo "<td>" .($evnt['BigEvent'] ? "Big" : "Normal" );
       if ($se == 0) {
