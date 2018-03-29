@@ -1245,7 +1245,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='') {
 }
 
 function Get_Taxis() {
-  global $db,$YEAR;
+  global $db;
   $cs = array();
   $res = $db->query("SELECT * FROM TaxiCompanies ORDER BY Authority,SName");
   if ($res) while($c = $res->fetch_assoc()) $cs[] = $c;
@@ -1262,6 +1262,26 @@ function Put_Taxi($now) {
   $e=$now['id'];
   $Cur = Get_Taxi($e);
   return Update_db('TaxiCompanies',$Cur,$now);
+}
+
+function Get_OtherLinks($xtra='') {
+  global $db;
+  $cs = array();
+  $res = $db->query("SELECT * FROM OtherLinks $xtra");
+  if ($res) while($c = $res->fetch_assoc()) $cs[] = $c;
+  return $cs;
+}
+
+function Get_OtherLink($id) {
+  global $db;
+  $res = $db->query("SELECT * FROM OtherLinks WHERE id=$id");
+  if ($res) while($c = $res->fetch_assoc()) return $c;
+}
+
+function Put_OtherLink($now) {
+  $e=$now['id'];
+  $Cur = Get_OtherLink($e);
+  return Update_db('OtherLinks',$Cur,$now);
 }
 
 ?>

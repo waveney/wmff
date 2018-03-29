@@ -180,6 +180,7 @@
       echo "<li><a href=Trade2CSV.php>Traders as CSV</a>\n";
     }
     if (Access('Staff','Sponsors')) echo "<li><a href=Sponsors.php>Sponsors</a>\n";
+    if (Access('SysAdmin')) echo "<li><a href=LinkManage.php>Manage Other Fest Links</a>\n";
     if (Access('Committee','Bugs')) {
       echo "<p>";
       echo "<li class=smalltext><a href=TEmailProformas.php>EMail Proformas</a>";
