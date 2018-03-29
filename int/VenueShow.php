@@ -9,10 +9,10 @@
   include_once("MusicLib.php");
   include_once("DispLib.php");
   
-  global $db, $YEAR,$ll;
+  global $db, $YEAR,$ll,$SpecialImage;
 
 function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
-  global $ll;
+  global $ll,$SpecialImage;
 //var_dump($imps);
   $ks = array_keys($imps);
   sort($ks);	
@@ -24,7 +24,11 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
 	if ((($things % $ll) == 1) && ($things != 1)) echo "<tr>"; // <td><td>";
         echo ($ll > 1 && $things == $ImpC && ($ImpC %2) == 1)?"<td colspan=$ll>":"<td>";
 	$scale = $thing['Importance'];
-        if ($thing['Photo']) echo " <a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . 
+	if ($SpecialImage) {
+	  echo " <a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . 
+		"><img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
+		(100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $SpecialImage . "></a>";
+	} elseif ($thing['Photo']) echo " <a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . 
 		"><img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
 		(100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $thing['Photo'] . "></a>";
 	echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SName'],3) . "</a>";
@@ -186,6 +190,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
       $lastevent = -99;
     }
 
+    $SpecialImage = 0;
     Get_Imps($e,$imps,1,(Access('Staff')?1:0));
     $things = 0;
     if ($e['With']) $imps = $e['With'];
@@ -210,6 +215,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
       echo "<tr><td rowspan=$rows valign=top><a href=EventShow.php?e=$eid valign=top>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
 		"</a><td rowspan=$rows  valign=top><a href=EventShow.php?e=$eid>" . $parname . "</a>";
       if ($e['Description']) echo "<br>" . $e['Description'];
+      if ($e['Image']) $SpecialImage = $e['Image'];
       PrintImps($imps,$NotAllFree,Price_Show($e),$rows,$ImpC);
     } else { // Is a sube
       if ($e['LongEvent'] && $lastevent != $e['SubEvent']) {
