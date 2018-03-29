@@ -90,6 +90,7 @@
      <a href=$host/LiveNLoud.php >Live and Loud</a>
      <a href=$host/LaughOutLoud.php>Laugh out Loud</a>
      <a href=$host/BuskersBash.php>Buskers Bash</a>
+     <a href=$host/OtherFest.php>Other Festivals</a>
   </div>
 </div>
 <a href=$host/contact.php onmouseover=NoHoverSticky()>Contact</a>
