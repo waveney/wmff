@@ -100,7 +100,8 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
     echo "<td style='width:50%'>";
       if ($E['Description']) echo $E['Description'] . "<br>";
       echo Get_Event_Participants($E['EventId'],1,15);
-    echo "<td><strong>$bl Buy Now</a></strong>\n";
+    echo "<td>";
+    if ($E['TicketCode'] || $E['SpecPriceLink']) echo "<strong>$bl Buy Now</a></strong>\n";
   }
 ?>
 
