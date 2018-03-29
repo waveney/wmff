@@ -86,7 +86,7 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
   global $YEAR,$db,$DayList,$MASTER;
 
   $Vens = Get_Venues(1);
-  $qry = "SELECT * FROM Events WHERE Year='$YEAR' AND ((Price1!=0 AND TicketCode!='') OR SpecPrice!='')  AND SubEvent<=0 ORDER BY Day,Start";
+  $qry = "SELECT * FROM Events WHERE Year='$YEAR' AND ((Price1!=0 AND TicketCode!='') OR SpecPrice!='')  AND SubEvent<=0 AND (Public=0 || Public=1) ORDER BY Day,Start";
   $Evs = $db->query($qry);
 
   while ($E = $Evs->fetch_assoc()) {
