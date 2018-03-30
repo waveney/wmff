@@ -55,15 +55,16 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
 
   if ($Ven['IsVirtual']) {
     $VirtVen = $Ven;
+    $VenName = $Ven['SName'];
     $VenList = array();
     $VenNames = array();
     $Vens = Get_Real_Venues(1);  
     foreach($Vens as $vi=>$ov) if ($ov['PartVirt'] == $V) {
       $VenList[] = $vi;
-      $VenNames[] = $ov['SName'];
-//      foreach ($ov as $key=>$val) if ($val) $Ven[$key] = $val;
+      $VenNames[$ov['VenueId']] = preg_replace('/' . $VenName . '/','',$ov['SName']);
     }
   }
+
 
   echo "<h2 class=subtitle>" . $Ven['SName'] . "</h2>";
 
@@ -180,6 +181,9 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
 
   if (!$NotAllFree) echo "All events here are Free.<p>\n";
 
+//var_dump($VirtVen);
+
+
   $lastevent = -99;
   foreach ($EVs as $ei=>$e) {
     $eid = $e['EventId'];
@@ -201,8 +205,9 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
       if ($e['LongEvent'] && !$imps) continue;
       $parname = $e['SName']; 
       $lastevent = $ei;
-      echo "<tr><td rowspan=$rows valign=top><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
-		"</a><td colspan=" . ($imps?$ll+($e['LongEvent']?0:1):$ll+1) . " valign=top><a href=EventShow.php?e=$eid>" . $parname . "</a>";
+      echo "<tr><td rowspan=$rows valign=top><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) .  "</a>";
+      if ($VirtVen) echo "<br>" . $VenNames[$e['Venue']];
+      echo "<td colspan=" . ($imps?$ll+($e['LongEvent']?0:1):$ll+1) . " valign=top><a href=EventShow.php?e=$eid>" . $parname . "</a>";
       if ($e['Description']) echo "<br>" . $e['Description'];
 
       if ($imps) {
@@ -212,8 +217,9 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
     } else if ($e['SubEvent'] == 0) { // Is stand alone
       $lastDay = $e['Day'];
       $parname = $e['SName'];
-      echo "<tr><td rowspan=$rows valign=top><a href=EventShow.php?e=$eid valign=top>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
-		"</a><td rowspan=$rows  valign=top><a href=EventShow.php?e=$eid>" . $parname . "</a>";
+      echo "<tr><td rowspan=$rows valign=top><a href=EventShow.php?e=$eid valign=top>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . "</a>";
+      if ($VirtVen) echo "<br>" . $VenNames[$e['Venue']];
+      echo "<td rowspan=$rows  valign=top><a href=EventShow.php?e=$eid>" . $parname . "</a>";
       if ($e['Description']) echo "<br>" . $e['Description'];
       if ($e['Image']) $SpecialImage = $e['Image'];
       PrintImps($imps,$NotAllFree,Price_Show($e),$rows,$ImpC);
@@ -222,8 +228,9 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
 	$lastevent = $e['SubEvent'];
         $pare = &$EVs[$lastevent]; 
         $parname = $pare['SName']; 
-        echo "<tr><td rowspan=$rows valign=top ><a href=EventShow.php?e=$lastevent>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . 
-		"</a><td rowspan=$rows valign=top ><a href=EventShow.php?e=$lastevent>" . $parname . "</a>";
+        echo "<tr><td rowspan=$rows valign=top ><a href=EventShow.php?e=$lastevent>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . "</a>";
+        if ($VirtVen) echo "<br>" . $VenNames[$e['Venue']];
+	echo "<td rowspan=$rows valign=top ><a href=EventShow.php?e=$lastevent>" . $parname . "</a>";
         if ($pare['Description']) echo "<br>" . $pare['Description'];
         if ($imps) PrintImps($imps,$NotAllFree,Price_show($EVs[$e['SubEvent']]),$rows,$ImpC);
       } else if ($imps) {
