@@ -88,6 +88,7 @@ On Saturday 14th April, Wimborne will come alive to the sound of traditional str
 range of buskers. Organised for the second year by the committee of Wimborne Minster Folk Festival.
 Calling all those of you who would like to take part in this year's Busker's Bash.<p>
 
+Events start in the square at 10:30 with Polly Morris and Buskers around town from 11:30.<p>
 </div>
 <div class=article>
 <a href=$host/Tickets.php>

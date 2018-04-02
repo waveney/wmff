@@ -57,6 +57,7 @@ The Articles in use will be displayed on the top page.  Sorting by Importance th
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Image</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Importance</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>In Use</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Scale</a>\n";
   echo "</thead><tbody>";
   if ($Arts) foreach($Arts as $t) {
     $i = $t['id'];
@@ -67,6 +68,7 @@ The Articles in use will be displayed on the top page.  Sorting by Importance th
     echo "<td>" . fm_textinput("Image$i",$t['Image']);
     echo "<td>" . fm_select($Importance,$t,'Importance',0,'',"Importance$i");
     echo "<td>" . fm_checkbox("",$t,'InUse','',"InUse$i");
+    echo "<td>" . fm_smalltext('',"Scale$i",$t['Scale']);
     echo "\n";
   }
   echo "<tr><td>";
@@ -76,6 +78,7 @@ The Articles in use will be displayed on the top page.  Sorting by Importance th
     echo "<td>" . fm_textinput("Image0",'');
     echo "<td>" . fm_select($Importance,$t,'Importance0');
     echo "<td>" . fm_checkbox("",$t,'InUse','',"InUse0");
+    echo "<td>" . fm_smalltext('',"Scale0",1);
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";

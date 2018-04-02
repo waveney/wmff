@@ -206,7 +206,7 @@ function fm_addall($txt) {
 
 function fm_textinput($field,$value='',$extra='') {
   global $ADDALL;
-  $str = "<input type=text name=$field $extra size=16 $ADDALL";
+  $str = "<input type=text name=$field size=16 $extra $ADDALL";
   if ($value) $str .= " value=\"" . htmlspec($value) . '"';
   return $str  .">";
 }

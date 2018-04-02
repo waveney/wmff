@@ -87,6 +87,7 @@ function Gallery($id,$embed=0) {
 }
 
 function ShowArticle($a,$mxat=0) {
+  if (!isset($a['Scale'])) $s['Scale'] = 1;
   echo "<div class=mnfloatleft>";
   $host = "https://" . $_SERVER{'HTTP_HOST'};
   if ($a['Image']) {
@@ -116,17 +117,13 @@ function ShowArticles() {
   // Specials data gathering - DANCE
     $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND y.Coming=" . $Coming_Type['Y']);
     $Dsc = 0;
-    if ($ans) {
-      $r = $ans->fetch_assoc();
-      $Dsc=$r['Total'];
-    }
+//    if ($ans) $Dsc= ($ans->fetch_assoc())['Total'];
 
     $ans = $db->query("SELECT s.Photo,s.SideId FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.Coming=" . 
 		    $Coming_Type['Y'] . " ORDER BY RAND() LIMIT 1");
     if ($ans) {
-      $p = $ans->fetch_assoc();
-      $DPhoto = $p['Photo'];
-      $DMany = $p;
+      $DMany = $ans->fetch_assoc();
+      $DPhoto = $DMany['Photo'];
     } else {
       $DPhoto = "/images/Hobos-Morris-2016.jpg";
     }
@@ -144,17 +141,13 @@ function ShowArticles() {
     // Music stuff
     $ans = $db->query("SELECT count(*) AS Total FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND y.YearState>0 ");
     $Msc = 0;
-    if ($ans) {
-      $r = $ans->fetch_assoc();
-      $Msc=$r['Total'];
-    }
+//    if ($ans) $Msc= ($ans->fetch_assoc())['Total'];
 
     $ans = $db->query("SELECT s.Photo,s.SideId FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.YearState>0 " . 
 			" ORDER BY RAND() LIMIT 1");
     if ($ans) {
-      $p = $ans->fetch_assoc();
-      $MPhoto = $p['Photo'];
-      $MMany = $p;
+      $MMany = $ans->fetch_assoc();
+      $MPhoto = $MMany['Photo'];
     } else {
       $MPhoto = "/images/Hobos-Morris-2016.jpg";
     }

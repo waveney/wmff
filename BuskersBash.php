@@ -16,6 +16,8 @@ you can find music at various venues throughout the town, including The Square. 
 is by members of the public using tokens purchased on the day. The grand finals will be in the early
 evening decided by a group of experienced judges, &amp; encouraged by public participation!<p>
 
+Events start in the square at 10:30 with Polly Morris and Buskers around town from 11:30.<p>
+
 Calling all those of you who would like to take part in this year's Busker's Bash, on Saturday 14th
 April.<p>
 
