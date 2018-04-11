@@ -43,6 +43,7 @@
       echo "<li><a href=Search.php>Search Document Storage</a>\n";
     }
     echo "<p>";
+    echo "<li><a href=ProgrammeDraft1.pdf>Programme Draft</a>\n";
     echo "<li><a href=StaffHelp.php>General Help</a>\n";
 
     if (0 && Access('SysAdmin')) {
