@@ -37,10 +37,10 @@ Wimborne has good road connections with easy access from the A31, B3082 and B307
 <h2 class="subtitle">By Public Transport</h2>
 
 The most convienent train station is <strong>Poole</strong>, with train services operated by 
-<a href="http://www.southwesttrains.co.uk" rel="tag" target="_blank">South West Trains</a>.<p>
+<a href="https://www.southwesternrailway.com" target="_blank">South Western Railway</a>.<p>
 
 <a name=Buses></a>Regular buses service Wimborne during the folk festival from Poole and Bournemouth. Bus services are operated by 
-<a href="http://morebus.co.uk" rel="tag" target="_blank">More Buses</a> (3, 4 & 13).<p>
+<a href="http://morebus.co.uk" target="_blank">More Buses</a> (3, 4 & 13).<p>
 
 Route 3 runs every 30 minutes to and from <b>Poole</b> to <b>Wimborne</b> Monday to Saturday daytime (and is faster).<p>
 Route 4 runs every 30 minutes to and from <b>Poole</b> to <b>Wimborne</b> every day (but is slower). 
@@ -48,7 +48,7 @@ Note: Only half of Route 4 Buses go as far as Wimborne, only those that do are l
 
 Route 13 goes to and from <b>Bournemouth</b> to <b>Wimborne</b> every 30 minutes Monday to Saturday daytime and hourly on Sunday and the evening.<p>
 
-These are the currently publicised Bus times, there will probably be additional buses in the evenings, over the festival.<p>
+These are the currently publicised Bus times, there will be additional buses in the evenings, over the festival, when they known they will be shown here.<p>
 <table border class=TueTab>
 <tr><td>Route<td colspan=3>To Wimborne<td colspan=3>From Wimborne
 <tr><td>Route 3<td><a onclick=ShowBus('3.1') class=FakeLink>Friday</a>
