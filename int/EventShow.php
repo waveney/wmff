@@ -150,11 +150,13 @@ function Print_Participants($e,$when=0,$thresh=0) {
 	if ($ct++) echo ", ";
         echo "<a href=VenueShow.php?v=$OVi>" . $OVens[$OVi] . "</a>";
       }
-    } else {
+    } else if ($Ven['VenueId']) {
       echo "Where:<td><a href=VenueShow.php?v=" . $Ven['VenueId'] . ">" . VenName($Ven) . "</a>";
 //      echo "<div class=floatright><a onclick=ShowDirect(" . $Ven['VenueId'] . ")>Directions</a></div>\n";
       if ($Ven['Address']) echo " - " . $Ven['Address'] . $Ven['PostCode'] ."\n";
       if ($Ven['Description']) echo "<br>" . $Ven['Description'] . "\n";
+    } else {
+      echo "Where: <b>Not Yet Known</b><p>\n";
     }
 
   if ($Ven['Bar'] || $Ev['Bar'] || $Ven['Food'] || $Ev['Food'] || $Ven['BarFoodText'] || $Ev['BarFoodText']) {

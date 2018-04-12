@@ -372,8 +372,8 @@
     echo fm_hidden('d', $d);
     echo fm_hidden('FileAction', 'Upload');
     echo '<input type="file" name="uploads[]" multiple onchange=this.form.submit()>';
+    echo " &nbsp; &nbsp; Do not upload more than 15M at once, for large files contact <a href=mailto:Richard@wavwebs.com>Richard</a>.\n";
     echo "</form>\n";
-
     echo '<form action="Dir.php" method="post">';
     echo fm_hidden('d', $d);
     echo fm_simpletext('New Directory',$_POST,'DirName');
