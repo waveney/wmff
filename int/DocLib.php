@@ -260,7 +260,7 @@ function Doc_List($file,$opts=0) {
 //  echo Doc_Access($file['Access']) . "<td>";
   if ($opts & 1) echo "<a href=Dir.php?d=$d>Directory</a> ";
   echo "<a href=ShowFile.php?d=$fid>Download</a> ";
-  if (Access('Committee','Docs') || $dir['who'] == $USERID || $sub['who'] == $USERID ) {
+  if (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID ) {
     echo "<a href=Dir.php?f=$fid&d=$d&FileAction=Rename1>Rename</a> "; 
     echo "<a href=Dir.php?f=$fid&d=$d&FileAction=Move1>Move</a> "; 
     echo "<a href='Dir.php?f=$fid&d=$d&FileAction=Delete' " .

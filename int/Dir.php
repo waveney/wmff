@@ -59,15 +59,15 @@
         } else {
 	  umask(0);
 	  $ans = mkdir ($ndir,0777,1);
-	  $newrec = "INSERT INTO Directories SET Name='" . addslashes($NewDir) . "', who=$USERID, Created=" . time() . ", Parent=" . $d;
-          $res = $db->query($newrec); 
+	  $newrec = array('SName'=>addslashes($NewDir), 'Who'=>$USERID, 'Created'=>time(), 'Parent'=> $d);
+          Insert_db('Directories',$newrec);
   	  $subs = Get_SubDirList($d); // Refresh list
 	}
       }  
       break;
     case 'Delete':
       /* delete all files and directories (recurse) set d to Parent then do dir, log it */
-      if ($d > 0 && (Access('Committee','Docs') || $dir['who'] == $USERID || $sub['who'] == $USERID )) {
+      if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {
         $Parent = $dir['Parent'];
         DeleteAll($d);
         $d = $Parent;
@@ -79,7 +79,7 @@
       }
       break;
     case 'Rename1':
-      if ($d > 0 && (Access('Committee','Docs') || $dir['who'] == $USERID || $sub['who'] == $USERID )) {
+      if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {
   	echo '<form action="Dir.php" method="post">';
   	echo fm_hidden('d', $d);
         echo "<h2>Rename " . htmlspec($dir['SName']) . "</h2>";
@@ -92,7 +92,7 @@
       }
       break;
     case 'Rename':
-      if ($d > 0 && (Access('Committee','Docs') || $dir['who'] == $USERID || $sub['who'] == $USERID )) {
+      if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {
         $NewDir = $_POST{'DirName'};
 	if ($dir['SName'] == $NewDir) break;
 	$fullname = Dir_FullName($d);
@@ -109,7 +109,7 @@
       }
       break;
     case 'Move1':
-      if ($d > 0 && (Access('Committee','Docs') || $dir['who'] == $USERID || $sub['who'] == $USERID )) {
+      if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {
   	echo '<form action="Dir.php" method="post">';
   	echo fm_hidden('d', $d);
         echo "<h2>Move " . htmlspec($dir['SName']) . " to </h2>";
@@ -122,7 +122,7 @@
       }
       break;
     case 'Move':
-      if ($d > 0 && (Access('Committee','Docs') || $dir['who'] == $USERID || $sub['who'] == $USERID )) {
+      if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {
         $NewDir = $_POST{'NewDir'};
 	$name = $dir['SName'];
 	if ($dir['Parent'] == $NewDir) break;
@@ -182,7 +182,7 @@
 
     switch ($Act) {
       case 'Rename1':
-        if (Access('Committee','Docs') || $finf['who'] == $USERID || $dir['who'] == $USERID ) {
+        if (Access('Committee','Docs') || $finf['Who'] == $USERID || $dir['Who'] == $USERID ) {
   	  echo '<form action="Dir.php" method="post">';
   	  echo fm_hidden('d', $d) . fm_hidden('f', $f);
           echo "<h2>Rename " . htmlspec($finf['SName']) . "</h2>";
@@ -195,7 +195,7 @@
         }
 	break;
       case 'Rename':
-        if (Access('Committee','Docs') || $finf['who'] == $USERID || $dir['who'] == $USERID ) {
+        if (Access('Committee','Docs') || $finf['Who'] == $USERID || $dir['Who'] == $USERID ) {
           $NewDoc = $_POST{'DocName'};
 	  if ($finf['SName'] == $NewDoc) break;
 	  $fullname = File_FullName($f);
@@ -212,7 +212,7 @@
         }
 	break;
       case 'Move1':
-        if (Access('Committee','Docs') || $finf['who'] == $USERID || $dir['who'] == $USERID ) {
+        if (Access('Committee','Docs') || $finf['Who'] == $USERID || $dir['Who'] == $USERID ) {
   	  echo '<form action="Dir.php" method="post">';
   	  echo fm_hidden('d', $d) . fm_hidden('f', $f);
           echo "<h2>Move " . htmlspec($finf['SName']) . " to </h2>";
@@ -225,7 +225,7 @@
         }
 	break;
       case 'Move':
-        if (Access('Committee','Docs') || $finf['who'] == $USERID || $dir['who'] == $USERID ) {
+        if (Access('Committee','Docs') || $finf['Who'] == $USERID || $dir['Who'] == $USERID ) {
           $NewDir = $_POST{'NewDir'};
 	  $name = $finf['SName'];
 	  if ($finf['Dir'] == $NewDir) break;
@@ -264,7 +264,7 @@
         }
 	break;
       case 'Delete':
-        if (Access('Committee','Docs') || $finf['who'] == $USERID || $dir['who'] == $USERID ) {
+        if (Access('Committee','Docs') || $finf['Who'] == $USERID || $dir['Who'] == $USERID ) {
           DeleteFile($f);
         } else {
           $ErrMess = "Insufficient Priviledge";
@@ -334,7 +334,7 @@
       if (isset($pdir['Created'])) echo date('d/m/y H:i:s',$pdir['Created']);
 //      echo "<td>" . Doc_Access($pdir['Access']);
       echo "<td>";
-      if ($pid > 0 && (Access('Committee','Docs') || $pdir['who'] == $USERID || $pdir['who'] == $USERID )) {
+      if ($pid > 0 && (Access('Committee','Docs') || $pdir['Who'] == $USERID || $pdir['Who'] == $USERID )) {
         echo " <a href=Dir.php?d=$pid&Action=Rename1>Rename</a>"; 
         echo " <a href=Dir.php?d=$pid&Action=Move1>Move</a>"; 
         echo " <a href='Dir.php?d=$pid&Action=Delete' onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a>"; 
@@ -352,7 +352,7 @@
         echo "<td>Directory";
         echo "<td>" . date('d/m/y H:i:s',$sub['Created']) . "<td>";
 //	echo Doc_Access($sub['Access']) . "<td>";
-        if (Access('Committee','Docs') || $dir['who'] == $USERID  || $sub['who'] == $USERID ) {
+        if (Access('Committee','Docs') || $dir['Who'] == $USERID  || $sub['Who'] == $USERID ) {
           echo " <a href=Dir.php?d=$pid&Action=Rename1>Rename</a>"; 
           echo " <a href=Dir.php?d=$pid&Action=Move1>Move</a>"; 
           echo " <a href='Dir.php?d=$pid&Action=Delete' onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a>"; 
@@ -382,11 +382,7 @@
 
     SearchForm();
   }
+
+  dotail();
 ?>
-
-</div>
-
-<?php include("files/footer.php"); ?>
-</body>
-</html>
 

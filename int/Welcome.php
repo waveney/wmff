@@ -17,20 +17,20 @@
 
   if (isset($_GET['U'])) {
     $uid = $_GET['U'];
-    $user = Get_User($uid);
+    $User = Get_User($uid);
 
-    if (!$user['Email']) {
-      Error_Page('No Email Set up for ' . $user['SName']);
+    if (!$User['Email']) {
+      Error_Page('No Email Set up for ' . $User['SName']);
     };
     $newpwd = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') , 0 , 10 );
     $hash = crypt($newpwd,"WM");
     $User['password'] = $hash;
     Put_User($User);
 
-    $letter = firstword($user['SName']) . "<p>Welcome to the Wimborne Minster Folk Festival staff pages.<p>" .
+    $letter = firstword($User['SName']) . "<p>Welcome to the Wimborne Minster Folk Festival staff pages.<p>" .
 	"It is initially accessed by using the <a href=http://wimbornefolk.co.uk/int/Login.php>Login</a> at the bottom of any page below " .
 	"the copyright statement on any page of the <a href=http://wimbornefolk.co.uk>website</a>.<p>" .
-	"Your username is : " . $user['Login'] ."<br>" .
+	"Your username is : " . $User['Login'] ."<br>" .
 	"Initial password : $newpwd<p>" .
 	"When you are logged in, an extra tab will apear on the navigation bar 'Staff Tools' this gives access to the database and ".
 	"document storage.<p>" .
@@ -43,7 +43,7 @@
 	"If something is not obvious please tell me and I will improve it.<p>" .
 	"Richard";
  
-    SendEmail($user['Email'],"Welcome " . firstword($user['SName']) . " to WMFF Staff pages",$letter);
+    SendEmail($User['Email'],"Welcome " . firstword($User['SName']) . " to WMFF Staff pages",$letter);
 
     echo "Email sent:<p>$letter";
   } else {
