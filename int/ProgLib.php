@@ -35,6 +35,7 @@ function Set_Venue_Help() {
 	'DirectionsExtra'=>'Extra info to be put at end of directions to venue',
 	'IsVirtual'=>'Combined site for display purposes, do not use for real events',
 	'PartVirt'=>'What virtual site this is part of (if any)',
+	'SupressFree'=>'If the venue has an entry change set this',
 	'Minor'=>'Treatment of venue in final dance grid'
   );
   Set_Help_Table($t);

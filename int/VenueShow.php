@@ -96,13 +96,6 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
     Init_Map(0,$V,18);
 
   $ETs = Get_Event_Types(1);
-  $AllDone = 1;
-  foreach ($ETs as $ei=>$et) if ($et['State'] != 4) $AllDone = 0;
-  $comps = array('Family','Special');
-  foreach($comps as $c) if ($MASTER[$c . "State"] != 4) $AllDone = 0;
-
-  echo "<h2 class=subtitle>" . ($AllDone?'':" CURRENT ") . "PROGRAMME OF EVENTS" . ($AllDone?'':" (Others may follow)") . "</h2>";
-  echo "Click on the event name or time to get more detail.<p>";
 
   $sides=&Select_Come_All();
   $Acts=&Select_Act_Full();
@@ -127,8 +120,9 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
     exit;
   }
   
-  $NotAllFree=0;
+  $NotAllFree=0; 
   $LastDay = -99;
+  $ETused = array();
   $MaxEvDay = array();
   while ($e = $res->fetch_assoc()) {
     if ($LastDay != $e['Day']) { $MaxEv = 0; $LastDay = $e['Day']; };
@@ -167,6 +161,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
       }
     }
     $EVs[$e['EventId']] = $e;
+    $ETused[$e['EventType']] = 1;
     $MaxEvDay[$e['Day']] = $MaxEv = max($MaxEv,$WithC);
     if ($e['DoorPrice'] || $e['Price1'] || $e['SpecPrice']) $NotAllFree=1;
   }
@@ -177,9 +172,15 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
     exit;
   }
 
+  $AllDone = 1;
+  foreach ($ETs as $ei=>$et) if ($ETused[$ei] && $et['State'] != 4) $AllDone = 0;
+  $comps = array('Family','Special');
+  foreach($comps as $c) if ($MASTER[$c . "State"] != 4) $AllDone = 0;
 
+  echo "<h2 class=subtitle>" . ($AllDone?'':" CURRENT ") . "PROGRAMME OF EVENTS" . ($AllDone?'':" (Others may follow)") . "</h2>";
+  echo "Click on the event name or time to get more detail.<p>";
 
-  if (!$NotAllFree) echo "All events here are Free.<p>\n";
+  if (!$NotAllFree && $Ven['SupressFree']==0) echo "All events here are Free.<p>\n";
 
 //var_dump($VirtVen);
 

@@ -148,8 +148,8 @@
 //      echo "<li class=smalltext><a href=ModifyDance2.php>Modify Dance Structure #2</a>\n";
       echo "<li class=smalltext><a href=WhereDance.php?Y=$YEAR>Where did Dance Sides Come from</a>\n";
       echo "<td>";
-      echo "<li class=smalltext><a href=PrintLabels.php&Y=$YEAR>Print Address Labels</a>";
-      echo "<li class=smalltext><a href=CarPark.php&Y=$YEAR>Car Park Tickets</a>";
+      echo "<li class=smalltext><a href=PrintLabels.php?Y=$YEAR>Print Address Labels</a>";
+      echo "<li class=smalltext><a href=CarPark.php?Y=$YEAR>Car Park Tickets</a>";
       if ($YEAR == $THISYEAR) echo "<li class=smalltext><a href=WristbandsSent.php>Mark Wristbands Sent</a>";
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR>Public Dance Programme</a>";
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=0&Pub=1&Head=0&Day=Sat&Y=$YEAR>Dance Programme - Sat - no headers</a>";
