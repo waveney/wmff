@@ -95,7 +95,11 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
     echo "<tr><td><strong><a href=/int/EventShow.php?e=" . $E['EventId'] . ">" . $E['SName'] . "</a></strong><br>"; 
       echo Price_Show($E);
     echo "<td>" . $DayList[$E['Day']] . " " . ($MASTER['DateFri']+$E['Day']) ."th June $YEAR" . "<br>";
-      echo "At: <a href=/int/VenueShow.php?v=" . $E['Venue'] . ">" . VenName($Vens[$E['Venue']]) . "</a><br>";
+      if ($E['Venue']) {
+	echo "At: <a href=/int/VenueShow.php?v=" . $E['Venue'] . ">" . VenName($Vens[$E['Venue']]) . "</a><br>";
+      } else {
+	echo "At: </b>Venue not yet known</b><br>";
+      }
       echo "From: " . timecolon($E['Start']) . " to " . timecolon($E['End']);
     echo "<td style='width:50%'>";
       if ($E['Description']) echo $E['Description'] . "<br>";

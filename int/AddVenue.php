@@ -66,7 +66,8 @@
     echo          fm_text('MapImp',$Venue,'MapImp',1);
     echo "<tr>" . fm_text('Image',$Venue,'Image',1);
     echo          fm_text('Website',$Venue,'Website',1);
-    echo "<tr><td>" . fm_checkbox('Bar',$Event,'Bar') . "<td>" . fm_checkbox('Food',$Event,'Food') . fm_text('Food/Bar text',$Event,'BarFoodText') . "\n";
+    echo     "<td>" . fm_checkbox('Supress Free',$Venue,'SupressFree');
+    echo "<tr><td>" . fm_checkbox('Bar',$Venue,'Bar') . "<td>" . fm_checkbox('Food',$Venue,'Food') . fm_text('Food/Bar text',$Venue,'BarFoodText') . "\n";
     echo "<tr>" . fm_text('Notes',$Venue,'Notes',3);
     echo "<td colspan=2>Do NOT use if:" . fm_select($RealSites,$Venue,'DontUseIf',1) . " In use";
     echo "<tr><td>Status<td>" . fm_select($Venue_Status,$Venue,'Status');

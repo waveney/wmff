@@ -28,19 +28,18 @@
     Put_User($User);
 
     $letter = firstword($User['SName']) . "<p>Welcome to the Wimborne Minster Folk Festival staff pages.<p>" .
-	"It is initially accessed by using the <a href=http://wimbornefolk.co.uk/int/Login.php>Login</a> at the bottom of any page below " .
-	"the copyright statement on any page of the <a href=http://wimbornefolk.co.uk>website</a>.<p>" .
+	"It is initially accessed by using the <a href=https://wimbornefolk.co.uk/int/Login.php>Login</a> at the bottom of any page below " .
+	"the copyright statement on any page of the <a href=https://wimbornefolk.co.uk>website</a>.<p>" .
 	"Your username is : " . $User['Login'] ."<br>" .
 	"Initial password : $newpwd<p>" .
 	"When you are logged in, an extra tab will apear on the navigation bar 'Staff Tools' this gives access to the database and ".
 	"document storage.<p>" .
 	"Everyone can use the document storage.  To save any files for use by the festival.  <p>" .
 	"Everyone can use the simple reporting of problems and requesting features.<p>" .
-	"Everyone can set a new password, and will shortly be able to set a few preferences.<p>" .
 	"Access to other areas is restricted, most things can be read by everbody, " .
 	"but the creation and editing is restricted to relevant people.<p>" .
-	"Dance is ready for full use, as are many features of Music, Trade, News and Sponsors.<p>" .
-	"If something is not obvious please tell me and I will improve it.<p>" .
+	"Dance is ready for full use, as are most features of Music, Trade, News and Sponsors.<p>" .
+	"If something is not obvious please tell me and I will try and improve it.<p>" .
 	"Richard";
  
     SendEmail($User['Email'],"Welcome " . firstword($User['SName']) . " to WMFF Staff pages",$letter);
