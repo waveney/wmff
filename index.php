@@ -7,7 +7,12 @@
   include("int/TradeLib.php");
   echo '<script src="/js/HomePage.js"></script>';
   echo "</head><body>\n";
-  echo '<a href="/" ><h1>Wimborne Minster Folk Festival | 8, 9, 10 June 2018</h1></a>';
+  echo "<div id=HeadRow>";
+  echo "<a href=/InfoBuses.php><img src=/images/icons/leftspon.jpg id=leftspon hidden></a>";
+  echo "<a href=/><img id=HeadBan src=/images/icons/WimborneFolkV3Banner-V6.png ></a>";
+  echo "<a href=/InfoBuses.php><img src=/images/icons/rightspon.jpg id=rightspon hidden></a>";
+  echo "</div>\n";
+  echo "<script src=/js/WmffAds.js></script>";
   include_once("files/navigation.php");
   echo "<div class=content>";
   $host= "https://" . $_SERVER['HTTP_HOST'];
