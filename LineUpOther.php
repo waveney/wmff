@@ -4,7 +4,7 @@
   dohead("Other Line-up");
 ?>
 
-<h2 class="maintitle">Other/Family Line-up</h2>
+<h2 class="maintitle">Other/Comedy/Family Line-up</h2>
 We are putting together an exciting and varied line-up for your enjoyment at this year's festival. 
 They will be on various venues around town at both ticketed and free events. 
 

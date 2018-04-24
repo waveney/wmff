@@ -26,9 +26,9 @@
   <div class=dropdown-content>
      <a href=$host/LineUpDance.php>Dance</a>
      <a href=$host/LineUpMusic.php>Music</a>
-     <a href=$host/LineUpComedy.php class=NotYet>Comedy</a>
+<!--     <a href=$host/LineUpComedy.php class=NotYet>Comedy</a> -->
      <a href=$host/TraderList.php>Traders</a>
-     <a href=$host/LineUpOther.php>Family/Other</a>
+     <a href=$host/LineUpOther.php>Family/Comedy/Other</a>
   </div>
 </div>
 <div class=dropdown onmouseover=NoHoverSticky(event)>
