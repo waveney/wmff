@@ -3,6 +3,8 @@
   
   doheadpart('8, 9, 10 June 2018');
 
+  global $MASTER;
+  $V = $MASTER['V'];
   include("files/facebook.php");
   include("int/TradeLib.php");
   echo '<script src="/js/HomePage.js"></script>';
@@ -12,7 +14,7 @@
   echo "<a href=/><img id=HeadBan src=/images/icons/WimborneFolkV3Banner-V6.png ></a>";
   echo "<a href=/InfoBuses.php><img src=/images/icons/rightspon.jpg id=rightspon hidden></a>";
   echo "</div>\n";
-  echo "<script src=/js/WmffAds.js></script>";
+  echo "<script src=/js/WmffAds.js?V=$V></script>";
   include_once("files/navigation.php");
   echo "<div class=content>";
   $host= "https://" . $_SERVER['HTTP_HOST'];
