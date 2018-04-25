@@ -1,14 +1,15 @@
 
 function setHeadRow() {
+  debugger;
   var ww = window.innerWidth;
-  var scale = Math.floor(ww*250/(550*2+864+20));
+  var scale = Math.floor(ww*250/(550*2+864+20+25));
   if (scale>250) scale=250;
 
   if (ww < 1000) {
     if (ww < 500) {
       scale = 250
     } else {
-      scale = Math.floor(ww*250/(550+864+25));
+      scale = Math.floor(ww*250/(550+864+25+25));
     }
   }
 
