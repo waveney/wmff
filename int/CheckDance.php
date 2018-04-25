@@ -250,7 +250,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
         $Ev = $Events[$e];
 	$lastVen = $Ven;
         $LastTime[$Ev['Day']] = $End;
-        if ($LastDay != $Ev['Day']) $FirstTime[$Ev['Day']] = $Ev['Start'];
+        if ($FirstTime[$Ev['Day']] == 0) $FirstTime[$Ev['Day']] = $Ev['Start'];
         $LastDay = $Ev['Day'];
       }
 
