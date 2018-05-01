@@ -14,12 +14,12 @@
     Clean_Email($_POST{'Email'});
     if (strlen($_POST['Email']) < 6 || !strpos($_POST['Email'],'@')) { echo "<p class=Err>Please give the contacts Email\n"; $err=1; };
     if (strlen($_POST['Phone']) < 6) { echo "<p class=Err>Please give the contacts Phone number\n"; $err=1; };
-    if (strlen($_POST['Style']) < 6) { echo "<p class=Err>Please give your comedy style\n"; $err=1; };
+    if (strlen($_POST['Style']) < 3) { echo "<p class=Err>Please give your comedy style\n"; $err=1; };
     if (strlen($_POST['Started']) < 4) { echo "<p class=Err>When did you start?\n"; $err=1; };
     if (!$_POST['Avail1'] && !$_POST['Avail2'] && !$_POST['Avail3']) { echo "<p class=Err>What Dates are you Available?\n"; $err=1; };
     if (!$err) {
 //      echo "<P>VALID...<P>";
-      $_POST['AccessCode'] = rand_string(40);
+      $_POST['AccessKey'] = rand_string(40);
       $_POST['Year'] = $THISYEAR;
       $_POST['Activity'] = 5;
       $id = Insert_db_post('SignUp',$lol);
@@ -39,7 +39,7 @@
   echo "<table border>\n";
   echo "<tr>" . fm_text("Act Name",$_POST,'SName',2);
   echo "<tr><td colspan=4>Main Contact:\n";
-  echo "<tr>" . fm_text('SName',$_POST,'Contact');
+  echo "<tr>" . fm_text('Name',$_POST,'Contact');
   echo "<tr>" . fm_text('Email',$_POST,'Email');
   echo "<tr>" . fm_text('Phone',$_POST,'Phone');
   echo "<tr>" . fm_text('Comedy style',$_POST,'Style');

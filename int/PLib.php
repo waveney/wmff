@@ -23,7 +23,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
   if ($Side['IsAnAct']) Add_Act_Help();
   if ($Side['IsOther']) Add_Act_Help();
 
-  if ($Side['Photo']) echo "<img class=floatright src=" . $Side['Photo'] . " height=80>\n";
+  if ( isset($Side['Photo']) && ($Side['Photo'])) echo "<img class=floatright src=" . $Side['Photo'] . " height=80>\n";
   echo "<input  class=floatright type=Submit name='Update' value='Save Changes' form=mainform>";
   if ($Mode && isset($Side['Email']) && strlen($Side['Email']) > 5) {
     echo "If you click on the ";
@@ -63,7 +63,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
     echo "<tr><th colspan=8><b>Public Information</b>" . Help('PublicInfo');
     echo "<tr>" . fm_text(($Side['IsASide']?'Team Name':'Act Name'), $Side,'SName',3,'','autocomplete=off onchange=nameedit(event) oninput=nameedit(event) id=SName');
       $snx = 'class=ShortName';
-      if (((isset($Side['SName'])) && (strlen($Side['SName']) > 20) ) || (strlen($Side['ShortName']) != 0)) { 
+      if (((isset($Side['SName'])) && (strlen($Side['SName']) > 20) ) || (isset($Side['ShortName']) && strlen($Side['ShortName']) != 0)) { 
 	if (strlen($Side['ShortName']) == 0) $Side['ShortName'] = substr($Side['SName'],0,20);
       } else {
 	$snx .= ' hidden';
@@ -128,7 +128,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
       echo fm_hidden('IsOther',$Side['IsOther']);
     }
 
-    echo "<tr id=AgentDetail " . ($Side['HasAgent']?"":"hidden") . ">";
+    echo "<tr id=AgentDetail " . (isset($Side['HasAgent']) && $Side['HasAgent']?"":"hidden") . ">";
       echo fm_text('<span id=AgentLabel>Agent</span>',$Side,'AgentName');
       echo fm_text1('Email',$Side,'AgentEmail',2);
       echo fm_text('Phone',$Side,'AgentPhone');
@@ -170,7 +170,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
 
 // PA 
     echo "<tr " . (($Side['IsASide'] && !$Side['IsAnAct'] && !$Side['IsOther'])?$Adv:"") . ">";
-      if ($Side['StagePA'] == '') $Side['StagePA'] = 'None';
+      if (!isset($Side['StagePA']) || ($Side['StagePA'] == '')) $Side['StagePA'] = 'None';
       echo "<td>PA Requirements:";
       $f = ($Side['StagePA'] == '@@FILE@@');
       echo "<td>Text <input type=radio $ADDALL name=StagePAtext value=1 onchange=setStagePA(event) id=StagePAtext " . ($f?"":"checked") . "> " .
@@ -234,7 +234,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
       $row = 0;
       echo "<tr id=OverlapRow$row class=NotSide><td rowspan=$rows class=NotSide>Overlap Rules: \n"; //<button type=button onclick=AddOverlapRow()>+</button>\n";
       for ($i = 0; $i < $rows; $i++) {
-        $O = $olaps[$i];
+        $O = (isset($olaps[$i]) ? $olaps[$i] : ['Sid1'=>$snum,'Cat2'=>0]);
 	$Other =  ($O['Sid1'] == $snum)?'Sid2':'Sid1';
 	$OtherCat =  ($O['Sid1'] == $snum)?'Cat2':'Cat1';
 	if ($i) echo "<tr id=OverlapRow$i class=NotSide>";
@@ -316,7 +316,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
     }
   
     echo fm_hidden('Year',$year);
-    if ($Sidey['syId']) echo fm_hidden('syId',$Sidey['syId']);
+    if (isset($Sidey['syId']) && ($Sidey['syId'])) echo fm_hidden('syId',$Sidey['syId']);
 
     echo "<table width=90% border class=SideTable>\n";
 
@@ -387,7 +387,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
 
 	  if ($Mode){
             echo "<td class=NotCSide colspan=2>" . fm_radio('Insurance',$InsuranceStates,$Sidey,'Insurance','',0);
-            if ($Sidey['Insurance']) {
+            if (isset($Sidey['Insurance']) && $Sidey['Insurance']) {
               $files = glob("Insurance/$YEAR/Sides/$snum.*");
               if ($files) {
 		$Current = $files[0];
@@ -475,7 +475,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
     }
   
     echo fm_hidden('Year',$year);
-    if ($Sidey['ActId']) echo fm_hidden('ActId',$Sidey['ActId']);
+    if (isset($Sidey['ActId']) && $Sidey['ActId']) echo fm_hidden('ActId',$Sidey['ActId']);
 
     echo "<table width=90% border class=SideTable>\n";
 /* General Controls */
@@ -495,7 +495,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
       echo "<tr>". fm_number1('Fee',$Sidey,'TotalFee','class=NotCSide');
       echo fm_text('Other payments',$Sidey,'OtherPayment',3,(isset($Sidey['OtherPayment']) && strlen($Sidey['OtherPayment'])>1?'class=NotCSide':'class=NotCSide'));
       echo "<td class=NotSide>" . fm_checkbox("Allow Camping",$Sidey,'EnableCamp');
-      echo "<td" . ($Sidey['EnableCamp']?"":" class=NotSide") . ">Camping " . fm_checkbox('Fri',$Sidey,'CampFri') . 
+      echo "<td" . ((isset($Sidey['EnableCamp']) && $Sidey['EnableCamp'])?"":" class=NotSide") . ">Camping " . fm_checkbox('Fri',$Sidey,'CampFri') . 
 		fm_checkbox('Sat',$Sidey,'CampSat') . fm_checkbox('Sun',$Sidey,'CampSun');
     } else {
       echo "<tr><td>Fee:<td>&pound;" . $Sidey['TotalFee'];

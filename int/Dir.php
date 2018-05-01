@@ -348,7 +348,7 @@
       foreach($subs as $sub) {
         $pid = $sub['DirId'];
         echo "<tr><td><a href=Dir.php?d=$pid>" . htmlspec($sub['SName']) . "</a>";
-        echo "<td>" . $AllU[$sub['Who']];
+        echo "<td>" . (isset($AllU[$sub['Who']])?$AllU[$sub['Who']]: "Unknown");
         echo "<td>Directory";
         echo "<td>" . date('d/m/y H:i:s',$sub['Created']) . "<td>";
 //	echo Doc_Access($sub['Access']) . "<td>";

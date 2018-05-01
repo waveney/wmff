@@ -115,6 +115,7 @@
         switch ($$ff) {
 
         case 'Book State': 
+	  if (!isset($State)) $State = 0;
 	  echo "<td style='background-color:" . $Book_Colour[$Book_States[$State]] . "'>" . $Book_States[$State];
           break;
 
@@ -127,7 +128,7 @@
 	  $acts = $Book_Actions[$Book_States[$State]];
 	  if ($acts) {
 	    $acts = preg_split('/,/',$acts); 
-	    echo "<form>" . fm_Hidden('SEL',$_GET['SEL']) . fm_hidden('SideId',$fetch['SideId']) . (isset($_GET['t'])? fm_hidden('t',$_GET[t]) : '') ;
+	    echo "<form>" . fm_Hidden('SEL',$_GET['SEL']) . fm_hidden('SideId',$fetch['SideId']) . (isset($_GET['t'])? fm_hidden('t',$_GET['t']) : '') ;
 	    foreach($acts as $ac) {
               if ($ac == 'Contract') {
 		$NValid = Contract_Check($fetch['SideId'],0);

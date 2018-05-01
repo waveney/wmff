@@ -46,10 +46,12 @@
       }
       $unum = Insert_db_post('FestUsers',$User,$proc);
     }
-  } elseif ($_GET{'usernum'}) {
+  } elseif (isset($_GET{'usernum'}) && $_GET{'usernum'}) {
     $unum = $_GET{'usernum'};
     $User = Get_User($unum);
-  } 
+  } else {
+    $unum = -1;
+  }
 
 //  echo "<!-- " . var_dump($User) . " -->\n";
   echo "<table width=90% border>\n";
@@ -73,7 +75,7 @@
       if ((($r++)&1) == 0) echo "<tr>";
       echo "<td>Change " . $sec . ":" . fm_select($Area_Levels,$User,$sec);
     }
-    echo "<tr><td>Last Login:<td>" . date('d/m/y H:i:s',$User['LastAccess']);
+    if (isset($User['LastAccess'])) echo "<tr><td>Last Login:<td>" . date('d/m/y H:i:s',$User['LastAccess']);
     if (Access('SysAdmin')) {
       echo "<tr>" . fm_text('Change Sent',$User,'ChangeSent',1,'','readonly');
       echo "<tr>" . fm_text('Access Key',$User,'AccessKey',1,'','readonly');

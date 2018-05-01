@@ -398,7 +398,7 @@ function Contract_Check($snum,$chkba=1,$ret=0) { // if ret=1 returns result numb
 
 // Update Year State if appapropriate
 function Contract_Changed(&$Sidey) {
-  global $Book_State;
+  global $Book_State,$YEAR;
   $snum = $Sidey['SideId'];
   if ($Sidey['YearState'] == $Book_State['Booked']) {
     $chk = Contract_Check($snum);
@@ -430,10 +430,12 @@ function Contract_Changed_id($id) {
 
 function Contract_State_Check(&$Sidey,$chkba=1) {
   global $Book_State;
+  if (!isset($Sidey['SideId'])) return 0;
   $snum = $Sidey['SideId'];
   $Evs = Get_Events4Act($snum,$Sidey['Year']);
   $Es = isset($Evs[0]);
   $Valid = (!Contract_Check($snum,$chkba));
+  if (!isset($Sidey['YearState'])) $Sidey['YearState'] = $Book_State['None'];
   $ys = $Sidey['YearState'];
   switch ($ys) {
 

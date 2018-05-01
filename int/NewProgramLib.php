@@ -20,6 +20,7 @@ function Prog_Headers($Public='',$headers =1,$What='Dance') {
   include_once("MusicLib.php");
   include_once("ProgLib.php");
   if ($Public && $headers) include_once("files/navigation.php");
+  ini_set('display_errors', '0');
 }
 
 function Grab_Data($day='',$Media='Dance') {

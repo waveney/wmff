@@ -104,7 +104,7 @@
       if (strlen($evnt['SName']) >2) { echo $evnt['SName'] . "</a>"; } else { echo "Nameless</a>"; };
       echo "<td>" . $DayList[$evnt['Day']] . "<td>" . timecolon($evnt['Start']) . "<td>";
       if ($se > 0 && $evnt['SubEvent'] < 0) { echo timecolon($evnt['SlotEnd']); } else { echo timecolon($evnt['End']); }; 
-      echo "<td>" . $Venues[$evnt['Venue']] . "<td>" . $Event_Types[$evnt['Type']];
+      echo "<td>" . (isset($Venues[$evnt['Venue']]) ? $Venues[$evnt['Venue']] : "Unknown") . "<td>" . $Event_Types[$evnt['Type']];
       echo "<td>" . $Public_Event_Types[$evnt['Public']];
       echo "<td>" ; 
       if ($evnt['SubEvent'] <= 0 ) {
@@ -132,7 +132,7 @@
       echo "<td>" . ($evnt['Family']?"Y":"");
       echo "<td>" . ($evnt['Special']?"Y":"");
       echo "<td>" . $Importance[$evnt['Importance']];
-      echo "<td>" . $AllUsers[$evnt['Owner']];
+      echo "<td>" . (isset($AllUsers[$evnt['Owner']]) ? $AllUsers[$evnt['Owner']] : "") ;
       echo "<td><a href=EventShow.php?e=$i>Show</a>\n";
     }
   }

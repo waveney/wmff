@@ -34,8 +34,8 @@
     echo "<td>" . $E['End'];
     echo "<td><a href=EventAdd.php?e=" . $E['EventId'] . ">" . $E['SName'] . "</a>";
     echo "<td>Coming...";
-    echo "<td>" . $Vens[$E['Venue']];
-    echo "<td>" . $E['Price'];
+    echo "<td>" . (isset($Vens[$E['Venue']])? $Vens[$E['Venue']] : "Unknown");
+    echo "<td>" . $E['Price1'];
     echo "<td>" . $E['DoorPrice'];
     echo "<td><a href=https://www.ticketsource.co.uk/event/" . $E['TicketCode'] . "><strong>Buy Now</strong></a>\n";
     echo "<td>" . $E['Public'];

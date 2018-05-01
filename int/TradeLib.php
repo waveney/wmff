@@ -278,7 +278,7 @@ Any generator must meet the Euro 4 silent generator standard.',
 
 function Default_Trade($id) {
   global $YEAR;
-  return array('Year'=>$YEAR,$Tid=>$id,'PitchSize0'=>'3Mx3M','Power0'=>0);
+  return array('Year'=>$YEAR,'Tid'=>$id,'PitchSize0'=>'3Mx3M','Power0'=>0);
 
 }
 
@@ -286,7 +286,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
   global $YEAR,$ADDALL,$Mess,$Action,$Trader_Status,$TradeTypeData,$TradeLocData;
   Set_Trade_Help();
 
-  if ($Trad['Photo']) echo "<img class=floatright src=" . $Trad['Photo'] . " height=80>\n";
+  if (isset($Trad['Photo']) && $Trad['Photo']) echo "<img class=floatright src=" . $Trad['Photo'] . " height=80>\n";
   if ($Tid > 0) echo "<input  class=floatright type=Submit name='Update' value='Save Changes' form=mainform>";
   if ($Mode && isset($Trad['Email']) && strlen($Trad['Email']) > 5) {
     echo "If you click on the " . linkemailhtml($Trad,'Trade');
@@ -413,12 +413,13 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
     echo "<h2>Details for $year</h2>";
   }
   echo fm_hidden('Year',$year);
-  if ($Trady['TYid']) echo fm_hidden('TYid',$Trady['TYid']);
+  if (isset($Trady['TYid']) && $Trady['TYid']) echo fm_hidden('TYid',$Trady['TYid']);
 
   $TradeLocs = Get_Trade_Locs();
 
   echo "<table width=90% border class=SideTable>\n";
-  echo fm_hidden('Year',$year) . fm_hidden('TYid',$Trady['TYid']);
+  echo fm_hidden('Year',$year);
+  if (isset($Trady['TYid'])) echo fm_hidden('TYid',$Trady['TYid']);
 
   if ($Mode) {
     echo "<td class=NotCSide>Booking State:" . help('BookingState') . "<td colspan=2 class=NotCSide>";
@@ -427,7 +428,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
 	if( preg_match('/^-/',$cls)) continue;
 	echo " <div class='KeepTogether $cls'>$ts: ";
 	echo " <input type=radio name=BookingState $ADDALL value=$i ";
-	if ($Trady['BookingState'] == $i) echo " checked";
+	if (isset($Trady['BookingState']) && ($Trady['BookingState'] == $i)) echo " checked";
 	echo ">&nbsp;</div>\n ";
       }
 //    echo fm_radio("Booking State",$Trade_States,$Trady,'BookingState','class=NotCSide',1,'colspan=2 class=NotCSide');
@@ -455,7 +456,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
   echo "<tr><td>Days:<td>" . fm_select($Trade_Days,$Trady,'Days');
   echo "<tr><td>Requested Pitch Sizes, 3x3M is default" . Help('PitchSize');
   echo "<td>Power Requirements" . Help('Power') . "<br>3 Amps - Lighting, 13 Amps - 1 Kettle...";
-  if ($Trady['PitchLoc0']) {
+  if (isset($Trady['PitchLoc0']) && $Trady['PitchLoc0']) {
     echo "<td>Location<td>Pitch Number";
   } else {
     echo "<td>Location (When Assigned)<td>Pitch Number";

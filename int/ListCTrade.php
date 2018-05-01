@@ -36,10 +36,7 @@
 
   $Trade_Types = Get_Trade_Types(1);
   $TradeLocs = Get_Trade_Locs();
-  $TrMon = array();
-  $TrRec = array();
-  $TrSub = array();
-  $TrState = array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+  $TrMon = $TrRec = $TrSub = $TrState = array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 
   if (isset($_GET['ACTION'])) {
     $Tid = $_GET['id'];
@@ -121,7 +118,7 @@
 		break;
 	      default:
 	      }
-	    $str .= "<button class=floatright name=ACTION value='$ac' type=submit " . $ButExtra[$ac] . " >$ac</button>";
+	    $str .= "<button class=floatright name=ACTION value='$ac' type=submit " . (isset($ButExtra[$ac])?$ButExtra[$ac]:"") . " >$ac</button>";
 	  }
 	  $str .= "</form>";
 	}

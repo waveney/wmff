@@ -12,8 +12,7 @@ $Days = array('Wed'=>'Wednesday','Thu'=>'Thursday','Fri'=>'Friday','Sat'=>'Satur
 $Relations = array('Husband','Wife','Partner','Son','Daughter','Mother','Father','Brother','Sister','Grandchild','Grandparent','Guardian','Uncle','Aunty',
 		'Son/Daughter in law', 'Friend','Other');
 
-
-
+$SignUpActivities = array_merge($lnlclasses,['Buskers Bash','Laugh Out Loud']);
 
 function Get_lnl_Details(&$lnl) {
   global $lnlclasses,$yesno;
@@ -82,10 +81,10 @@ function Get_lol_Details(&$lol) {
   $Body .= "\n\n";
 
   $Body .= "Started:" . $lol['Started'] . "\n";
-  if ($lol['Style']) $Body .= "Style:" . $lol['Style'] . "\n";
-  if ($lol['Example']) $Body .= "Example:" . $lol['Example'] . "\n";
-  if ($lol['Equipment']) $Body .= "Equipment:" . $lol['Equipment'] . "\n";
-  if ($lol['Bio']) $Body .= "Bio:" . $lol['Bio'] . "\n";
+  if (isset($lol['Style'])) $Body .= "Style:" . $lol['Style'] . "\n";
+  if (isset($lol['Example'])) $Body .= "Example:" . $lol['Example'] . "\n";
+  if (isset($lol['Equipment'])) $Body .= "Equipment:" . $lol['Equipment'] . "\n";
+  if (isset($lol['Bio'])) $Body .= "Bio:" . $lol['Bio'] . "\n";
 
   $Body .= "Available on Tuesday March 6th? " . $yesno[$lol['Avail1']] . "\n";
   $Body .= "Available on Tuesday April 10th? " . $yesno[$lol['Avail2']] . "\n";

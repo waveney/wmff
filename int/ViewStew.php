@@ -1,6 +1,5 @@
 <?php
   include_once("fest.php");
-  A_Check('Committee');
 
   dostaffhead("View Stewarding form");
   include_once("SignupLib.php");
@@ -9,10 +8,12 @@
   if (isset($_POST{'id'})) { /* Response to update button */
     $id = $_POST['id'];
     $stew = Get_Steward($id);
+    A_Check('Participant','Steward',$id);
     Clean_Email($_POST{'Email'});
     Update_db_post('Stewards',$stew);
   } else {
     $id = $_GET['id'];
+    A_Check('Participant','Steward',$id);
     $stew = Get_Steward($id);
   }
 
