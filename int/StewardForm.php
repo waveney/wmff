@@ -27,7 +27,7 @@
     Clean_Email($_POST{'Email'});
     if (!$err) {
 //      echo "<P>VALID...<P>";
-      $_POST['AccessCode'] = rand_string(40);
+      $_POST['AccessKey'] = rand_string(40);
       $_POST['Year'] = $THISYEAR;
       $id = Insert_db_post('Stewards',$stew);
     

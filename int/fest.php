@@ -336,7 +336,7 @@ function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field
     $ex = preg_replace('/###F/',("'" . $field2 . "'"),$ex);
     $ex = preg_replace('/###V/',("'" . $i . "'"),$ex);
     $str .= "<input type=radio name=$field2 $ADDALL $ex value='$i'";
-    if ($data[$field] == $i) $str .= " checked";
+    if (isset($data[$field]) && ($data[$field] == $i)) $str .= " checked";
     $str .= ">\n";
   }
   return $str;
@@ -507,7 +507,7 @@ function Insert_db($table, &$from, &$data=0, $proced=1) {
         $dbform = addslashes($from{$fname});
         if ($data) $data[$fname] = $dbform;
         $newrec .= " $fname=" . '"' . $dbform . '"';
-      } elseif ($ftype == "tinyint" || sftype == 'smallint') {
+      } elseif ($ftype == "tinyint" || $ftype == 'smallint') {
         $dbform = 0;
 	if ($from{$fname}) {
 	  if ((string)(int)$from{$fname} = $from{$fname}) { $dbform = $from{$fname}; } else { $dbform = 1; };

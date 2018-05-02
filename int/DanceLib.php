@@ -447,9 +447,9 @@ function UpdateOverlaps($snum) {
   $Exist = Get_Overlaps_For($snum);
 // Scan each existing and any added rules
   $Rule = 0;
-  while (isset($_POST["OlapSide$Rule"]) || isset($_POST["OlapAct$Rule"]) || isset($_POST["OlapSide$Rule"])) {
-    $O = $StO = $Exist[$Rule];
-    if (!$O) { $O = array(); $O['Sid1'] = $snum; }
+  while ((isset($_POST["OlapSide$Rule"]) || isset($_POST["OlapAct$Rule"]) || isset($_POST["OlapOther$Rule"])) && 
+	 isset($_POST["OlapActiveRule"]) && isset($_POST["OlapMajor$Rule"])) {
+    $O = $StO = (isset($Exist[$Rule]) ? $Exist[$Rule] : ['Sid1'=>$snum,'Cat2'=>0]);
     $Other = ($O['Sid1'] == $snum)?'Sid2':'Sid1'; //???????
     $OtherCat = ($O['Sid1'] == $snum)?'Cat2':'Cat1'; //???????
     $O['Type'] = $_POST["OlapType$Rule"];
@@ -478,4 +478,5 @@ function UpdateOverlaps($snum) {
   }
 }
       
+
 ?>

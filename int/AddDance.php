@@ -28,6 +28,7 @@
 //var_dump($_POST);
   $Action = 0; 
   $Mess = '';
+  $snum = -1;
   if (isset($_POST{'Action'})) {
     include("Uploading.php");
     $Action = $_POST{'Action'};
@@ -111,6 +112,7 @@
     }
   } else {
     $Sidey = Default_SY();
+    $Side = ['SideId'=>$snum,'IsASide'=>1,'IsAnAct'=>0,'IsOther'=>0];
   }
 
   Show_Part($Side,'Side',1,'AddDance.php');

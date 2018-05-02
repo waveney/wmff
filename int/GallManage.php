@@ -8,7 +8,7 @@
   include_once("TradeLib.php");
 
   $coln = 0;
-  $Gals = Get_Gallery_Names($gid);
+  $Gals = Get_Gallery_Names();
   if (UpdateMany('Galleries','Put_Gallery_Name',$Gals,1)) $Gals = Get_Gallery_Names();
 
   $coln = 0;
@@ -21,7 +21,8 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Credits</a>\n";
   echo "</thead><tbody>";
   foreach($Gals as $g) {
-    echo "<tr><td>" . $g['id'];
+    $i =  $g['id'];
+    echo "<tr><td>" . $i;
     echo fm_text1("",$g,'SName',1,'','',"SName$i") . "</a>";
     echo fm_text1("",$g,'Credits',6,'','',"Credits$i") . "</a>";
     echo "<td><a href=GallCManage.php?g=" . $g['id'] . ">Edit</a>";

@@ -38,10 +38,9 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
   $ETs = Get_Event_Types();
   $evc = $evd = $evv = 0;
   $riders = array();
-  $evday = array(0,0,0);
-  $pkday = array(0,0,0);
+  $evday = $pkday = [-3=>0,-2=>0,-1=>0,0=>0,1=>0,2=>0,3=>0];
   $pkvens = array();
-  $pkking = "";
+  $pking = "";
   if (!$Evs) {
     return "";  // With no events there is no conract, not even a draft
   } else {

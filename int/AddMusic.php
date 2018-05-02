@@ -123,6 +123,7 @@
     $Sidey = Default_AY();
     $type = 'Act';
     if (isset($_GET['t']) && $_GET['t'] =='O') $type = 'Other';
+    $Side = ['SideId'=>$snum,'IsASide'=>0,'IsAnAct'=>($type == 'Act'?1:0),'IsOther'=>($type=='Act'?0:1)];
   }
 
   Show_Part($Side,$type,1,'AddMusic.php');

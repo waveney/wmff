@@ -32,7 +32,7 @@ function EventCheck($checkid=0) {
 	if ($ev['Start'] == $ev['End']) continue; // Skip this at present - don't even update last
 	if ($end <= timeadd($ev['Start'],-$ev['Setup'])) { // No error
 	} else {
-	  if ($Venues[$ev['EventId']]['SetupOverlap']) {
+	  if ($Venues[$ev['Venue']]['SetupOverlap']) {
 	    if ($end <= timeadd($ev['Start'] && $EVENT_Types[$LastEvent['Type']]['HasDance'] )) { // No error
 	    } else if ($checkid==0 || $checkid==$ev['EventId'] || $checkid==$LastEvent['EventId']) {
 	      echo "The <a href=EventAdd.php?e=" . $ev['EventId'] . ">Event</a> at " . SName($Venues[$ev['Venue']]) . " starting at " .
@@ -112,7 +112,7 @@ function EventCheck($checkid=0) {
 
     foreach ($evlist as $e=>$ev) { //Check for don't use if other venue used
       if ($e['BigEvent']) continue; // For now
-      if ($Venues[$ev['Venue']]['DontUseIf']) {
+      if (isset($Venues[$ev['Venue']]['DontUseIf']) && $Venues[$ev['Venue']]['DontUseIf']) {
 	$block = $Venues[$ev['Venue']]['DontUseIf'];
 	$realstart = timereal($ev['Start']) - $ev['Setup'];
 	$realend = timereal($ev['SubEvent']<0 ? $ev['SlotEnd'] : $ev['End']);

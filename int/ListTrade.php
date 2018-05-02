@@ -45,8 +45,10 @@
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Before</a>\n";
     echo "</thead><tbody>";
     while ($fetch = $res->fetch_assoc()) {
+      $tt = $fetch['TradeType'];
+      if ($tt == 0) $tt=1;
       echo "<tr><td width=300><a href=Trade.php?id=" . $fetch['Tid'] . ">" . ($fetch['SName']?$fetch['SName']:'No Name Given') . "</a>";
-      echo "<td style='background:" . $Trade_Types[$fetch['TradeType']]['Colour'] . ";'>" . $Trade_Types[$fetch['TradeType']]['SName'];
+      echo "<td style='background:" . $Trade_Types[$tt]['Colour'] . ";'>" . $Trade_Types[$tt]['SName'];
       echo "<td width=400>" . $fetch['GoodsDesc'];
       echo "<td>" . $fetch['Contact'];
       echo "<td>" . linkemailhtml($fetch,'Trade');
@@ -55,6 +57,7 @@
       echo "<td>" . ($fetch['Status']?$Trader_Status[$fetch['Status']]:'');
       echo "<td id=TR" . $fetch['Tid'];
         $stat = $fetch['BookingState'];
+        if (!$stat) $stat = 1;
         if ($stat == $Trade_State['Fully Paid'] && ($fetch['Insurance'] == 0 || $fetch['RiskAssessment'] == 0)) {
           echo " class=TSNoInsRA>Paid";
           if ($fetch['Insurance'] ==0) echo ", no Insurance";

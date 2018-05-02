@@ -19,7 +19,7 @@
     if (!$_POST['TickBox']) { echo "<p class=Err>Please Tick the Box to show you have read the guidelines\n"; $err=1; };
     if (!$err) {
 //      echo "<P>VALID...<P>";
-      $_POST['AccessCode'] = rand_string(40);
+      $_POST['AccessKey'] = rand_string(40);
       $_POST['Year'] = $THISYEAR;
       $_POST['Activity'] = 4;
       $id = Insert_db_post('SignUp',$bb);

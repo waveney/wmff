@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <?php    
+  global $MASTER;
   $V = $MASTER['V'];
     include_once("int/analyticstracking.php");
     echo "<link href=/files/style.css?V=$V type=text/css rel=stylesheet />";

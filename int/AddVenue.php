@@ -42,12 +42,13 @@
     $vid = -1;
   } else {
     $Venue = array();
+    $vid = -1;
   }
 
   $RealSites = Get_Real_Venues(0);
   $VirtSites = Get_Virtual_Venues();
 
-  echo "<div class=floatright><img src=" . $Venue['Image'] . " width=400></div>";
+  if (isset($Venue['Image'])) echo "<div class=floatright><img src=" . $Venue['Image'] . " width=400></div>";
   echo "<table style='width:70%' border>\n";
     if (isset($vid) && $vid > 0) {
       echo "<tr><td>Venue Id:<td>";
