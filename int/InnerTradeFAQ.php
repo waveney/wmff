@@ -15,6 +15,7 @@ return <<<XXXXXX
 <li>Saturday:<br>
 	<ul>
 	<li>Food in the square: 9:00am to 1am
+	<li>Willow Walk: 9:00am to 6pm
 	<li>All other trading: 9:00am to 7pm
 	</ul>
 <li>Sunday:<br>
