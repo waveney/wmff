@@ -886,3 +886,6 @@ textarea:Focus
   background:purple;
   border-radius:15px;
 }
+#leftspon, #rightspon {
+  max-height:100;
+}

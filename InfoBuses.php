@@ -25,6 +25,8 @@ Route 13 goes to and from <b>Bournemouth</b> to <b>Wimborne</b> every 30 minutes
 These are the currently publicised Bus times, there will be additional buses in the evenings (until 1:30am), over the festival, 
 when they known they will be shown here.<p>
 
+Note there will be a temporary bus stop by the Campsite, this is on the route of the 3, and the 4 in the evenings and on Sunday.<p>
+
 <table border class=TueTab>
 <tr><td>Route<td colspan=3>To Wimborne<td colspan=3>From Wimborne
 <tr><td>Route 3<td><a onclick=ShowBus('3.1') class=FakeLink>Friday</a>
