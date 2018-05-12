@@ -126,7 +126,7 @@
   if ($Side['IsAnAct'] || $Side['IsOther']) {
     $type = 'Act';
     if (!$Side['IsAnAct'] && $Side['IsOther']) $type = 'Other';
-    Show_Act_Year($snum,$acty,$YEAR,$type,1);
+//    Show_Act_Year($snum,$acty,$YEAR,$type,1);
   }
 
   if ($snum > 0) {
