@@ -55,7 +55,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
       $evc++;
       if ($e['SubEvent'] < 0) { $End = $e['SlotEnd']; } else { $End = $e['End']; };
       if (($e['Start'] != 0) && ($End != 0) && ($e['Duration'] == 0)) $e['Duration'] = timeadd2real($End, - $e['Start']);
-      $str .= "<tr><td>$evc<td>" . $e['CName'] . "<td>" . $DayList[$e['Day']] . " " . ($MASTER['DateFri']+$e['Day']) ."th June $YEAR";
+      $str .= "<tr><td>$evc<td>" . $e['SName'] . "<td>" . $DayList[$e['Day']] . " " . ($MASTER['DateFri']+$e['Day']) ."th June $YEAR";
       if ($ctype == 1 ) $str .= "<td>" . ($e['Start']? ( timecolon(timeadd2($e['Start'],- $e['Setup']) )) : "TBD" ) ;
       $str .= "<td>" . ($e['Start']?timecolon($e['Start']):"TBD");
       $str .= "<td>" . ($e['Duration']? ( $e['Duration'] . " minutes") :"TBD"); 
