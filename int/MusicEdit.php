@@ -55,11 +55,11 @@
 	if ($Mess) $_POST{'Photo'} = $Side['Photo'];
       }
       if (isset($_POST{'Contract'})) { 
-	Contract_Save($Side,$Sidey); 
+	Contract_Save($Side,$Sidey,1); 
       } elseif (isset($_POST{'Decline'})) { 
 	Contract_Decline($Side,$Sidey); 
       }
-      Update_db_post('Sides',$Side);
+      Update_db_post('Sides',$Side,1);
       if ($_POST{'Year'} == $THISYEAR) {
         if ($Sidey) {
 	  $Sve_Sidey = $Sidey;

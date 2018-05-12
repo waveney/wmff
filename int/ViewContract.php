@@ -16,10 +16,12 @@
   global $YEAR;
 
   $snum=0;
+  $ctype = 1;
   if (isset($_GET{'sidenum'})) $snum = $_GET{'sidenum'};
+  if (isset($_GET{'ctype'})) $ctype = $_GET{'ctype'};
 
   $Side = Get_Side($snum);
-  $Sidey = Get_ActYear($snum);
+  $Sidey = (($ctype==0) ? Get_SideYear($snum) : Get_ActYear($snum));
   $Opt = 0;
   $IssNum = $Sidey['Contracts']; 
   if ($Sidey['YearState'] == $Book_State['Booked']) $Opt += 1;
@@ -30,8 +32,10 @@
   case 0:
   case 1:
   case 2:
+    echo Show_Contract($snum,0,$ctype);
+    break;
   case 3:
-    echo Show_Contract($snum);
+    echo Show_Contract($snum,1,$ctype);
     break;
   default:
     ViewFile("Contracts/$YEAR/$snum.$IssNum.html");

@@ -325,11 +325,13 @@ function Set_Side_Help() {
 	'Contact'=>'Main Contact',
 	'AgentName'=>'Main Contact',
 	'DirContact'=>'Direct Performer Contact',
-	'Address'=>'Where to send performers wristbands and car park tickets',
+	'Address'=>'Where to send performers wristbands and any tickets',
 	'AltContact'=>'Alternative Contact',
 	'Location'=>'Where in the country they are from',
 	'PublicInfo'=>'Anything here may appear on the festival website where appropriate',
 	'PrivateInfo'=>'Anything here is ONLY visible to you and the relevant members of the festival',
+	'NeedBank'=>'Set this to enable bank details for dance sides (for payments)',
+	'Bank'=>'If you expect to be paid, please fill your bank details in',
 	'Testing'=>'Testing Only'
   );
   Set_Help_Table($t);
@@ -452,7 +454,7 @@ function UpdateOverlaps($snum) {
     $O = $StO = (isset($Exist[$Rule]) ? $Exist[$Rule] : ['Sid1'=>$snum,'Cat2'=>0]);
     $Other = ($O['Sid1'] == $snum)?'Sid2':'Sid1'; //???????
     $OtherCat = ($O['Sid1'] == $snum)?'Cat2':'Cat1'; //???????
-    $O['Type'] = $_POST["OlapType$Rule"];
+    $O['OType'] = $_POST["OlapType$Rule"];
     $O['Major'] = $_POST["OlapMajor$Rule"];
     $O['Days'] = $_POST["OlapDays$Rule"];
     $O['Active'] = $_POST["OlapActive$Rule"];
