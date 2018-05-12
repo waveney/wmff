@@ -4,22 +4,22 @@
   include_once("ProgLib.php"); 
   include_once("PLib.php"); 
 
-function Show_Contract($snum,$mode=0) { // mode=-1 Draft,0 proposed, 1 freeze reason - see contractConfirm
-  global $Mess,$Action,$MASTER,$Cat_Type,$YEAR,$THISYEAR,$DayList,$Event_Types;
+function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-1 Draft,0 proposed, 1 freeze reason - see contractConfirm, ctype 0=Side,1=act,2=other
+  global $Mess,$Action,$MASTER,$Cat_Type,$YEAR,$THISYEAR,$DayList,$Event_Types,$ContractMethods;
 
-  $FullDay = array('Friday', 'Saturday', 'Sunday');
+  $FullDay = [-3=>'Tuesday',-2=>'Wednesday',-1=>'Thursday',0=>'Friday',1=> 'Saturday',2=> 'Sunday',3=>'Monday'];
 
   $str = "<div class=content900>\n";
 
   $Side = Get_Side($snum);
-  $Sidey = Get_Actyear($snum,$YEAR);
+  $Sidey = ($ctype == 0 ? Get_SideYear($snum,$YEAR) : Get_ActYear($snum,$YEAR) );
   $Booked = Get_User($Sidey['BookedBy']);
   $kwd = ($mode < 0?'DRAFT':($mode ==0?'Proposed':''));
 
   $str .= "<h2>Wimborne Minster Folk Festival - WimborneFolk.co.uk - $kwd Contract</h2>\n";
   if ($kwd) $str .= "<em><b>$kwd contract:</b></em><p>\n";
 
-  $str .= "Standard Agreement between Band/Artist/Performer & Employer.<p>\n";
+  $str .= "Standard Agreement between " . ($ctype == 1?"Band/Artist/Performer":"Performer") . " & Employer.<p>\n";
 
   $str .= "This Agreement made as of " . date('d/m/Y',  ($Sidey['ContractDate']>0?$Sidey['ContractDate']:time())) . 
 	" by and between the parties identified below.<p>\n";
@@ -29,7 +29,7 @@ hire the below-identified Artist to perform an engagement and the Artist agrees 
 services, under the following terms and conditions:<p>\n";
 
   $str .= "This agreement for performance services is entered into by the performers(s) known as:<br>";
-  $str .= "<b>" . $Side['SName'] . " </b>(now referred to as Artist) and : <b>" . $Booked['SName'] . "</b> for and on behalf of
+  $str .= "<b>" . $Side['SName'] . " </b>(now referred to as Artist) and <b>" . $Booked['SName'] . "</b> for and on behalf of
 Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
 
   $str .= "Performances:<p>";
@@ -46,13 +46,17 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
   } else {
     $Venues = Get_Real_Venues(1);
     $str .= "<table border>";
-    $str .= "<tr><td>Number<td>Event Type<td>Date<td>On Stage at<td>Start<td>Duration<td colspan=3>Where\n";
+    if ($ctype == 1) { 
+      $str .= "<tr><td>Number<td>Event Name<td>Date<td>On Stage at<td>Start<td>Duration<td colspan=3>Where\n";
+    } else {
+      $str .= "<tr><td>Number<td>Event Name<td>Date<td>Start<td>Duration<td colspan=3>Where\n";
+    }
     foreach($Evs as $e) {
       $evc++;
       if ($e['SubEvent'] < 0) { $End = $e['SlotEnd']; } else { $End = $e['End']; };
       if (($e['Start'] != 0) && ($End != 0) && ($e['Duration'] == 0)) $e['Duration'] = timeadd2real($End, - $e['Start']);
-      $str .= "<tr><td>$evc<td>" . $ETs[$e['Type']] . "<td>" . $DayList[$e['Day']] . " " . ($MASTER['DateFri']+$e['Day']) ."th June $YEAR";
-      $str .= "<td>" . ($e['Start']? ( timecolon(timeadd2($e['Start'],- $e['Setup']) )) : "TBD" ) ;
+      $str .= "<tr><td>$evc<td>" . $e['SName'] . "<td>" . $DayList[$e['Day']] . " " . ($MASTER['DateFri']+$e['Day']) ."th June $YEAR";
+      if ($ctype == 1 ) $str .= "<td>" . ($e['Start']? ( timecolon(timeadd2($e['Start'],- $e['Setup']) )) : "TBD" ) ;
       $str .= "<td>" . ($e['Start']?timecolon($e['Start']):"TBD");
       $str .= "<td>" . ($e['Duration']? ( $e['Duration'] . " minutes") :"TBD"); 
       $evd += $e['Duration'];
@@ -60,18 +64,22 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
       $str .= "<td>";
       $evday[$e['Day']]++;
       if ($e['Venue']) {
-	$v = $Venues[$e['Venue']];
-	$str .= "<a href=http://" . $_SERVER['HTTP_HOST'] . "/int/VenueShow.php?v=" . $v['VenueId'] . ">" . $v['SName'] . "</a><br>";
-        if ($v['Address']) $str .= $v['Address'] . "<br>" . $v['PostCode'] ."<br>";
-        if ($v['Description']) $str .= $v['Description'];
-	if ($v['MusicRider']) $riders[$v] = 1;
-	if ($v['Parking']) {
-	  $pkday[$e['Day']]++;
-	  if (!isset($pkvens[$v['VenueId']])) {
-	    $pkvens[$v['VenueId']] = 1;
-	    if ($pking) $pking .= ", ";
-	    $pking .= $v['SName'];
+        if (isset($Venues[$e['Venue']])) {
+	  $v = $Venues[$e['Venue']];
+	  $str .= "<a href=http://" . $_SERVER['HTTP_HOST'] . "/int/VenueShow.php?v=" . $v['VenueId'] . ">" . $v['SName'] . "</a><br>";
+          if ($v['Address']) $str .= $v['Address'] . "<br>" . $v['PostCode'] ."<br>";
+ //         if ($v['Description']) $str .= $v['Description'];
+	  if ($v['MusicRider']) $riders[$v] = 1;
+	  if ($v['Parking']) {
+	    $pkday[$e['Day']]++;
+	    if (!isset($pkvens[$v['VenueId']])) {
+	      $pkvens[$v['VenueId']] = 1;
+	      if ($pking) $pking .= ", ";
+	      $pking .= $v['SName'];
+	    }
 	  }
+        } else {
+	  $str .= "Venue Unknown";
 	}
       } else {
         $str .= "TBD";
@@ -92,7 +100,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
     }
   }
 
-  $str .= "ON ARRIVAL: Please report to Info Desk in the square (manned from 2pm Friday)<p>\n";
+  if ($ctype == 1) $str .= "ON ARRIVAL: Please report to Info Desk in the square (manned from 2pm Friday)<p>\n";
 
   if ($Side['StagePA'] == 'None') {
     $str .= "If you have any PA/Technical requirments, please fill in the relevant section on your Acts pesonal record.<p>\n";
@@ -108,7 +116,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
   if (strlen($Sidey['Rider']) > 5) $str .= "<b>Rider:</b> " . $Sidey['Rider'] . "<p>\n";
   // Extra for supplied camping
 
-  $faq = include("InnerMusicFAQ.php");
+  $faq = ($ctype > 1 ? include("InnerMusicFAQ.php") : "Payment: All payments will be made by BACS, within 48 hours of the end of the Festival. Cash will not be used for payments. Any queries should be submitted through the employer." );
 
   if ($pking) {
     $allfree = 1;

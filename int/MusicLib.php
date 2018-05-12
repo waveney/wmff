@@ -184,16 +184,25 @@ function Actisknown($snum,$yr) {
 function Get_Events4Act($snum,$yr=0) {
   global $db,$YEAR;
   if ($yr==0) $yr=$YEAR;
+/*
   $res = $db->query("SELECT * FROM Events WHERE Year=$yr AND ( Act1=$snum OR Act2=$snum OR Act3=$snum OR Act4=$snum OR " .
-		"Other1=$snum OR Other2=$snum OR Other3=$snum OR Other4=$snum) ORDER BY Day, Start");
+		"Other1=$snum OR Other2=$snum OR Other3=$snum OR Other4=$snum OR " .
+		"Side1=$snum OR Side2=$snum OR Side3=$snum OR Side4=$snum) ORDER BY Day, Start");
+*/
+  $res = $db->query("SELECT DISTINCT e.* FROM Events e, BigEvent b WHERE e.Year=$yr AND ( e.Act1=$snum OR e.Act2=$snum OR e.Act3=$snum OR e.Act4=$snum OR " .
+		"e.Other1=$snum OR e.Other2=$snum OR e.Other3=$snum OR e.Other4=$snum OR " .
+		"e.Side1=$snum OR e.Side2=$snum OR e.Side3=$snum OR e.Side4=$snum " .
+		" OR ( e.BigEvent=1 AND e.EventId=b.Event AND ( b.type='Side' OR b.Type='Act' OR b.Type='Other') AND b.Identifier=$snum ) ) " .
+		" ORDER BY Day, Start");
   $evs = array();
   if (!$res) return 0;
   while ($ev = $res->fetch_assoc()) $evs[] = $ev;
  
+/*
   $res = $db->query("SELECT DISTINCT e.* FROM Events e, BigEvent b WHERE e.Year=$yr AND e.BigEvent=1 AND e.EventId=b.Event AND " .
-		"( b.Type='Act' OR b.Type='Other') AND b.Identifier=$snum");
+		"( b.type='Side' OR b.Type='Act' OR b.Type='Other') AND b.Identifier=$snum");
   if ($res) while ($ev = $res->fetch_assoc()) $evs[] = $ev;
-
+*/
   return $evs; 
 }
 
@@ -365,7 +374,7 @@ function Contract_Check($snum,$chkba=1,$ret=0) { // if ret=1 returns result numb
     if ($LastEv) {
       if (($e['Day'] == $LastEv['Day']) && ($e['Start'] > 0) && ($e['Venue'] >0)) {
         if ($LastEv['SubEvent'] < 0) { $End = $LastEv['SlotEnd']; } else { $End = $LastEv['End']; };
-	if ($End > 0) {
+	if (($End > 0) && !$LastEv['IgnoreClash'] && !$e['IgnoreClash']) {
 	  if ($End > $e['Start']) $InValid = 6;
 	  if ($InValid < 5 && $End == $e['Start'] && $LastEv['Venue'] != $e['Venue']) $InValid = 6;
 	}

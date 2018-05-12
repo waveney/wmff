@@ -197,7 +197,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 	if (!$Events[$e]['ExcludeCount']) $DayCounts[$daynum]++;
 
 	foreach ($Olaps as $Rule) {
-	  if ($Rule['Type'] == 0) { // Dancer Olap
+	  if ($Rule['OType'] == 0) { // Dancer Olap
 	    $Other = ($Rule['Sid1'] == $side['SideId'])?'Sid2':'Sid1';
   	    $o = $Rule[$Other];
 //if ($side['SideId']==290) { var_dump($Rule); echo "Rule: $Other $o<p>\n"; var_dump($e); };
@@ -255,7 +255,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
       }
 
       foreach ($Olaps as $Rule) {
-	if ($Rule['Type'] == 1) { // Musician Olap
+	if ($Rule['OType'] == 1) { // Musician Olap
 	  $Other = ($Rule['Sid1'] == $side['SideId'])?'Sid2':'Sid1';
   	  $o = $Rule[$Other];
 	// Musician Overlaps - can do same spot multi sides and 2 consecutive spots, not 3+ - 

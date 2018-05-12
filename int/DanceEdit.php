@@ -60,6 +60,13 @@
 	$Mess = Image_Validate($_POST{'Photo'});
 	if ($Mess) $_POST{'Photo'} = $Side['Photo'];
       }
+
+      if (isset($_POST{'Contract'})) { 
+	Contract_Save($Side,$Sidey,1); 
+      } elseif (isset($_POST{'Decline'})) { 
+	Contract_Decline($Side,$Sidey,1); 
+      }
+
       Update_db_post('Sides',$Side);
       if ($_POST{'Year'} == $THISYEAR) {
         if ($Sidey) {
