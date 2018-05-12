@@ -29,7 +29,7 @@ hire the below-identified Artist to perform an engagement and the Artist agrees 
 services, under the following terms and conditions:<p>\n";
 
   $str .= "This agreement for performance services is entered into by the performers(s) known as:<br>";
-  $str .= "<b>" . $Side['SName'] . " </b>(now referred to as Artist) and : <b>" . $Booked['SName'] . "</b> for and on behalf of
+  $str .= "<b>" . $Side['SName'] . " </b>(now referred to as Artist) and <b>" . $Booked['SName'] . "</b> for and on behalf of
 Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
 
   $str .= "Performances:<p>";
