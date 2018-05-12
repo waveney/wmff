@@ -46,13 +46,17 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
   } else {
     $Venues = Get_Real_Venues(1);
     $str .= "<table border>";
-    $str .= "<tr><td>Number<td>Event Type<td>Date<td>On Stage at<td>Start<td>Duration<td colspan=3>Where\n";
+    if ($ctype == 1) { 
+      $str .= "<tr><td>Number<td>Event Name<td>Date<td>On Stage at<td>Start<td>Duration<td colspan=3>Where\n";
+    } else {
+      $str .= "<tr><td>Number<td>Event Name<td>Date<td>Start<td>Duration<td colspan=3>Where\n";
+    }
     foreach($Evs as $e) {
       $evc++;
       if ($e['SubEvent'] < 0) { $End = $e['SlotEnd']; } else { $End = $e['End']; };
       if (($e['Start'] != 0) && ($End != 0) && ($e['Duration'] == 0)) $e['Duration'] = timeadd2real($End, - $e['Start']);
-      $str .= "<tr><td>$evc<td>" . $ETs[$e['Type']] . "<td>" . $DayList[$e['Day']] . " " . ($MASTER['DateFri']+$e['Day']) ."th June $YEAR";
-      $str .= "<td>" . ($e['Start']? ( timecolon(timeadd2($e['Start'],- $e['Setup']) )) : "TBD" ) ;
+      $str .= "<tr><td>$evc<td>" . $e['CName']] . "<td>" . $DayList[$e['Day']] . " " . ($MASTER['DateFri']+$e['Day']) ."th June $YEAR";
+      if ($ctype == 1 ) $str .= "<td>" . ($e['Start']? ( timecolon(timeadd2($e['Start'],- $e['Setup']) )) : "TBD" ) ;
       $str .= "<td>" . ($e['Start']?timecolon($e['Start']):"TBD");
       $str .= "<td>" . ($e['Duration']? ( $e['Duration'] . " minutes") :"TBD"); 
       $evd += $e['Duration'];
@@ -64,7 +68,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
 	  $v = $Venues[$e['Venue']];
 	  $str .= "<a href=http://" . $_SERVER['HTTP_HOST'] . "/int/VenueShow.php?v=" . $v['VenueId'] . ">" . $v['SName'] . "</a><br>";
           if ($v['Address']) $str .= $v['Address'] . "<br>" . $v['PostCode'] ."<br>";
-          if ($v['Description']) $str .= $v['Description'];
+ //         if ($v['Description']) $str .= $v['Description'];
 	  if ($v['MusicRider']) $riders[$v] = 1;
 	  if ($v['Parking']) {
 	    $pkday[$e['Day']]++;
