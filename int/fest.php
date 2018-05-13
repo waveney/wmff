@@ -1056,6 +1056,7 @@ function dotail() {
   echo "</div>";
   include_once("files/footer.php");
   echo "</body></html>\n";
+  exit;
 }
  
 function NoBreak($t,$Max=0) {

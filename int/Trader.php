@@ -22,6 +22,7 @@
       echo "<h3><a href=Trader.php?NEW>Please register as a new trader</a></h3>";
 //      echo "<h3>THIS HAS A BUG AT THE MOMENT PLEASE TRY LATER</h3>";
       dotail();
+      exit;
     }
     $Trad = $res->fetch_assoc();
     if (!isset($Trad['AccessKey']) || strlen($Trad['AccessKey'] != 40)) {
@@ -32,11 +33,13 @@
     echo "<h3>A direct link has been emailed to you, you can use this at anytime to book, update your records, ";
     echo "see details of your pitch(es) and other usefull information.</h3>";
     dotail();
+    exit;
   }
 
   if (isset($_GET['NEW'])) {
     Trade_Main(0,'TraderPage.php',-1);
     dotail();
+    exit;
   } 
 
   if ($USER{'AccessLevel'} == $Access_Type['Participant']) {
