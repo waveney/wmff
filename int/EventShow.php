@@ -14,13 +14,18 @@
 
 function Print_Thing($thing,$right=0) {
   echo "<div class=EventMini id=" . AlphaNumeric($thing['SName']) . ">";
-  echo "<a href=Show" . ($thing['IsAnAct']?"Music":'Dance') . ".php?sidenum=" . $thing['SideId'] . ">";
-  if ($thing['Photo']) echo "<img class=EventMiniimg" . ($right?'right':'') . " src='" . $thing['Photo'] ."'>";
-  echo "<h2 class=EventMinittl style='font-size:" . (27+ $thing['Importance']) . "px;'>"; 
-  echo $thing['SName'];  
-  if (isset($thing['Type']) && $thing['Type']) echo " (" . $thing['Type'] . ") ";
-  echo "</a></h2>";
-  if ($thing['Description']) echo "<p class=EventMinitxt>" . $thing['Description'] . "</p>";
+  if (( $thing['IsASide'] && $thing['Coming'] != 2) || (($thing['IsAnAct'] || $thing['IsOther']) && $thing['YearState'] < 2)) {
+    echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SName'],3) . "</a>";
+    echo " are no longer coming";
+  } else {
+    echo "<a href=Show" . ($thing['IsAnAct']?"Music":'Dance') . ".php?sidenum=" . $thing['SideId'] . ">";
+    if ($thing['Photo']) echo "<img class=EventMiniimg" . ($right?'right':'') . " src='" . $thing['Photo'] ."'>";
+    echo "<h2 class=EventMinittl style='font-size:" . (27+ $thing['Importance']) . "px;'>"; 
+    echo $thing['SName'];  
+    if (isset($thing['Type']) && $thing['Type']) echo " (" . $thing['Type'] . ") ";
+    echo "</a></h2>";
+    if ($thing['Description']) echo "<p class=EventMinitxt>" . $thing['Description'] . "</p>";
+  }
   echo "</div>\n";
 }
 
@@ -53,7 +58,12 @@ function Print_Participants($e,$when=0,$thresh=0) {
       if ($things && (($things&1) == 0)) echo "<tr><td>";
       $things++;
       echo "<td>";
-      formatminimax($thing,'ShowDance.php',$thresh); // 99 should be from Event type
+      if (( $thing['IsASide'] && $thing['Coming'] != 2) || (($thing['IsAnAct'] || $thing['IsOther']) && $thing['YearState'] < 2)) {
+        echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SName'],3) . "</a>";
+        echo " are no longer coming";
+      } else {
+        formatminimax($thing,'ShowDance.php',$thresh); // 99 should be from Event type
+      }
     }
   }
   echo "\n";

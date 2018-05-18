@@ -889,3 +889,7 @@ textarea:Focus
 #leftspon, #rightspon {
   max-height:100;
 }
+.Cancel {
+  color:red;
+  font-weight:bold;
+}

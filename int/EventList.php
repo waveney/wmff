@@ -104,7 +104,8 @@
       if (strlen($evnt['SName']) >2) { echo $evnt['SName'] . "</a>"; } else { echo "Nameless</a>"; };
       echo "<td>" . $DayList[$evnt['Day']] . "<td>" . timecolon($evnt['Start']) . "<td>";
       if ($se > 0 && $evnt['SubEvent'] < 0) { echo timecolon($evnt['SlotEnd']); } else { echo timecolon($evnt['End']); }; 
-      echo "<td>" . (isset($Venues[$evnt['Venue']]) ? $Venues[$evnt['Venue']] : "Unknown") . "<td>" . $Event_Types[$evnt['Type']];
+      echo "<td>" . (isset($Venues[$evnt['Venue']]) ? $Venues[$evnt['Venue']] : "Unknown");
+      echo "<td>" . ($evnt['Status'] == 1 ? "<div class=Cancel>Cancelled</div> " : "") . (isset($Event_Types[$evnt['Type']]) ? $Event_Types[$evnt['Type']] : "?" );
       echo "<td>" . $Public_Event_Types[$evnt['Public']];
       echo "<td>" ; 
       if ($evnt['SubEvent'] <= 0 ) {

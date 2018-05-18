@@ -480,5 +480,9 @@ function UpdateOverlaps($snum) {
   }
 }
       
+function Side_ShortName($si) {
+  $side = Get_Side($si);
+  return $side[($side['ShortName']?'ShortName':'SName')];
+}
 
 ?>
