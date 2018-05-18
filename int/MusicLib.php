@@ -351,8 +351,10 @@ function Contract_Save($Side,$Sidey,$Reason) {
 
 function Contract_Decline($Side,$Sidey,$Reason) {
   global $THISYEAR,$Book_State;
-  $_POST['YearState'] = $Book_State['Declined'];
-  $_POST['PrivNotes'] .= ", Contract Declined " . date('d/m/Y');
+  $Sidey['YearState'] = $_POST['YearState'] = $Book_State['Declined'];
+  $Note = ", Contract Declined " . date('d/m/Y');
+  $Sidey['PrivNotes'] .= $Note;
+  if (isset($_POST['PrivNotes'])) $_POST['PrivNotes'] .= $Note;
   Put_ActYear($Sidey);
   return 1;
 }

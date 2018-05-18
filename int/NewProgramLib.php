@@ -432,7 +432,9 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
 	  $si = $G["S" . ($line + ($G['n']?0:1))];
 	  $s = &$Sides[$si];
 	  $txt = SName($s) . (($types && $s['Type'])?(" (" . trim($s['Type']) . ") "):"");
-	  if (!$txt) $txt = "ERROR...";
+	  if (!$txt) {
+	    if (!$condense) $txt = "<span class=Cancel>ERR (" . Side_ShortName($si) . ")</span>";
+	  }
 	  $class .= " Side$si";
 	  $rows = ($G['w']?('rowspan=' . (4-$line)):'');
 	  echo "$OtherLoc<td id=$id $DRAG $dev data-d=$si $rows class='$class'>";

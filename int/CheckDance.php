@@ -35,7 +35,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
   $sidenames = Sides_Name_List();
   $sideercount = 0;
 
-  $res = $db->query("SELECT e.* FROM Events e WHERE Year=$YEAR ORDER BY Day, Start" );
+  $res = $db->query("SELECT e.* FROM Events e WHERE Year=$YEAR AND Status=0 ORDER BY Day, Start" );
   if ($res) {
     while ($e = $res->fetch_assoc()) {
       $eid = $e['EventId'];

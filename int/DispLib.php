@@ -28,21 +28,21 @@ function formatminimax(&$side,$link,$mnat=2) {
 
 // Check ET to see if imps should be found
 function Get_Imps(&$e,&$imps,$clear=1,$all=0) {
-  global $Event_Types_Full;
+  global $Event_Types_Full,$YEAR;
   $ETs = Get_Event_Types(1);
   $ets = $ETs[$e['Type']]['State']; 
   $useimp = ($Event_Types_Full[$e['Type']]['UseImp'] && ($e['BigEvent']==0));
   if ($clear) $imps = array();
   for($i=1;$i<5;$i++) {
     if (isset($e["Side$i"])) { if ($ee = $e["Side$i"])  { 
-	$s = Get_Side($ee);  
-	if ($s && ($all || $ets >1 || ($ets==1 && Access('Participant','Side',$s)))) $imps[$useimp?$s['Importance']:0][] = $s; }; };
+	$s = array_merge(Get_Side($ee), Get_SideYear($ee,$YEAR)); 
+	if ($s && ($all || (( $s['Coming'] == 2) && ($ets >1 || ($ets==1 && Access('Participant','Side',$s)))))) $imps[$useimp?$s['Importance']:0][] = $s; }; };
     if (isset($e["Act$i"]))  { if ($ee = $e["Act$i"])   { 
-	$s = Get_Side($ee); 
-	if ($s && ($all || $ets >1 || ($ets==1 && Access('Participant','Act',$s)))) $imps[$useimp?$s['Importance']:0][] = $s; }; };
+	$s = array_merge(Get_Side($ee), Get_ActYear($ee,$YEAR)); 
+	if ($s && ($all || (( $s['YearState'] >= 2) && ($ets >1 || ($ets==1 && Access('Participant','Act',$s)))))) $imps[$useimp?$s['Importance']:0][] = $s; }; };
     if (isset($e["Other$i"])){ if ($ee = $e["Other$i"]) { 
-	$s = Get_Side($ee);  
-	if ($s && ($all || $ets >1 || ($ets==1 && Access('Participant','Other',$s)))) $imps[$useimp?$s['Importance']:0][] = $s; }; };
+	$s = array_merge(Get_Side($ee), Get_ActYear($ee,$YEAR)); 
+	if ($s && ($all || (( $s['YearState'] >= 2) && ($ets >1 || ($ets==1 && Access('Participant','Other',$s)))))) $imps[$useimp?$s['Importance']:0][] = $s; }; };
   }
 }
 

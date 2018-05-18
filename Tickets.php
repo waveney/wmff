@@ -126,9 +126,9 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
 <p>If you're looking to combine a weekend of official festival events and a trip to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>, then book your tickets with us!</p>
 
 <h2 class="subtitle">Official Ticket Outlets</h2>
-<p>Event tickets and day/weekend passes are on sale at these Wimborne outlets, with zero booking fee* (but not the camping tickets):</p>
+<p>Event tickets and day/weekend passes are on sale at these Wimborne outlets, with zero booking fee*:</p>
 <ul>
-<li><strong>The Allendale Centre</strong>, Wimborne, BH21 1AS</li>
+<li><strong>The Allendale Centre</strong>, Wimborne, BH21 1AS (but not the camping tickets)</li>
 <li><strong>Tourist Information Centre</strong>, Wimborne, BH21 1HR &#8211; Telephone bookings: 01202 886116</li>
 </ul>
 

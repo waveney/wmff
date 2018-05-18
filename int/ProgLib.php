@@ -128,6 +128,7 @@ function Set_Event_Help() {
 	'Importance'=>'Affects appearance of event on home page',
 	'NoPart'=>'Set if the event has no particpants (Sides, Acts or Other)',
 	'Image'=>'These are all for handling weird cases only',
+	'Status'=>'Only mark as cancelled to have it appear in online lists and say cancelled, otherwise just delete',
 	'Budget'=>'What part of the festival budget this Event comes under'
   );
   Set_Help_Table($t);
@@ -148,7 +149,7 @@ function Get_Event($eid,$new=0) {
 
 function Get_Event_VT($v,$t,$d) {
   global $db,$YEAR;
-  $res=$db->query("SELECT * FROM Events WHERE Year=$YEAR AND Venue=$v AND Start=$t AND Day=$d");
+  $res=$db->query("SELECT * FROM Events WHERE Year=$YEAR AND Venue=$v AND Start=$t AND Day=$d AND Status=0");
   if ($res) return $res->fetch_assoc();
 }
 
@@ -179,7 +180,7 @@ function Put_Event(&$now,$new=0) {
 function Get_Events_For($what,$Day) {
   global $db,$YEAR,$Day_Type;
   $xtra = ($what=='Dance'?' OR e.ListDance=1 ':($what=='Music'?' OR e.ListMusic=1':''));
-  $res=$db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND (( e.Type=t.ETypeNo AND t.Has$what=1) $xtra ) AND e.Day=" . 
+  $res=$db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND Status=0 AND (( e.Type=t.ETypeNo AND t.Has$what=1) $xtra ) AND e.Day=" . 
 		$Day_Type[$Day] );
   if ($res) {
     while($ev = $res->fetch_assoc()) $evs[$ev['EventId']] = $ev;
@@ -330,9 +331,10 @@ function ListLinks(&$ev,$type,$single,$plural,$size,$mult) {
 
 // Get Participants, Order by Importance/Time, if l>0 give part links as well
 function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
-  global $db,$Event_Types_Full;
+  global $db,$Event_Types_Full,$YEAR;
 
   include_once "DanceLib.php";
+  include_once "MusicLib.php";
   $ans = "";
   $flds = array('Side','Act','Other');
   $MainEv = 0;
@@ -347,8 +349,14 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
    	  if (isset($e["$f$i"])) { 
 	    $ee = $e["$f$i"];
 	    if ($ee) {
-	      if (!$found[$ee]) {
-	        $s = Get_Side($ee);  
+	      if (!isset($found[$ee]) || !$found[$ee]) {
+		if ($flds == 0) {
+	          $s = array_merge(Get_Side($ee), Get_SideYear($eee,$YEAR));  
+		  $s['NotComing'] = ($s['Coming'] != 2);
+		} else {
+	          $s = array_merge(Get_Side($ee), Get_ActYear($ee,$YEAR));
+		  $s['NotComing'] = ($s['YearState'] < 2);
+		}  
 	        if ($s) $imps[$s['Importance']][] = $s; 
 	        $found[$ee]=1;
 	      }
@@ -375,23 +383,27 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
         foreach ($imps[$imp] as $thing) {
 	  if ($things++) $ans .= ", ";
 	  $link=0;
-	  if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
-	  if ($link) {
-	    if ($link ==1) {
-	      $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
-	    } else {
-	      if ($thing['IsASide']) {
+	  if ($thing['NotComing']) {
+	    $ans .= "<del>" . NoBreak($thing['SName']) . "</del>";
+	  } else {
+	    if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
+	    if ($link) {
+	      if ($link ==1) {
 	        $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
-	      } else if ($thing['IsAnAct']) {
-	        $ans .= "<a href='/int/ShowMusic.php?sidenum=" . $thing['SideId'] . "'>";
 	      } else {
-	        $ans .= "<a href='/int/ShowMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
+	        if ($thing['IsASide']) {
+	          $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
+	        } else if ($thing['IsAnAct']) {
+	          $ans .= "<a href='/int/ShowMusic.php?sidenum=" . $thing['SideId'] . "'>";
+	        } else {
+	          $ans .= "<a href='/int/ShowMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
+	        }
 	      }
 	    }
+	    $ans .= NoBreak($thing['SName']);
+	    if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
+            if ($link) $ans .= "</a>";
 	  }
-	  $ans .= NoBreak($thing['SName']);
-	  if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
-          if ($link) $ans .= "</a>";
         }
         if ($imp) $ans .= "</span>";
       }

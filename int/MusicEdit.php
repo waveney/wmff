@@ -57,7 +57,7 @@
       if (isset($_POST{'Contract'})) { 
 	Contract_Save($Side,$Sidey,1); 
       } elseif (isset($_POST{'Decline'})) { 
-	Contract_Decline($Side,$Sidey); 
+	Contract_Decline($Side,$Sidey,1); 
       }
       Update_db_post('Sides',$Side,1);
       if ($_POST{'Year'} == $THISYEAR) {
