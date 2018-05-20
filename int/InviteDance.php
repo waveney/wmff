@@ -13,18 +13,18 @@
 <?php include_once("festcon.php"); ?>
 </head>
 <body>
-<?php include("files/navigation.php"); ?>
-<div class="content"><h2>Invite Dance Sides</h2>
-<div id=hidden hidden></div>
-
-Click on column header to sort by column.  Click on Side's name for more detail and programme when available,<p>
-
-<?php
+<?php 
+  include("files/navigation.php"); 
   include("DanceLib.php"); 
   global $YEAR,$THISYEAR;
+  echo "<div class=content><h2>Invite Dance Sides $YEAR</h2>\n";
+
+  echo "Click on column header to sort by column.  Click on Side's name for more detail and programme when available,<p>";
+
   echo "If you click on the email link, press control-V afterwards to paste the standard link into message.<p>";
 
   echo "<div id=InformationPane></div><p>\n";
+  echo fm_hidden('Year',$YEAR);
   $Types = Get_Dance_Types(1);
   foreach ($Types as $i=>$ty) $Colour[strtolower($ty['SName'])] = $ty['Colour'];
 
@@ -33,19 +33,19 @@ Click on column header to sort by column.  Click on Side's name for more detail 
   if (isset($_GET{'LOC'})) $Loc = $_GET{'LOC'};
   $Contact =0;
   if (isset($_GET{'CONT'})) $Contact = $_GET{'CONT'};
-  if ($Loc == 0) echo "<a href=InviteDance.php?LOC=1" . ($Contact?"&CONT=1":"") . ">Show Location</a> &nbsp; &nbsp; &nbsp; &nbsp;\n";
-  if ($Contact == 0) echo "<a href=InviteDance.php?CONT=1" .($Loc?"&LOC=1":"") . ">Show Contact</a>\n";
+  if ($Loc == 0) echo "<a href=InviteDance.php?LOC=1" . ($Contact?"&CONT=1":"") . "&Y=$YEAR>Show Location</a> &nbsp; &nbsp; &nbsp; &nbsp;\n";
+  if ($Contact == 0) echo "<a href=InviteDance.php?CONT=1" .($Loc?"&LOC=1":"") . "&Y=$YEAR>Show Contact</a>\n";
   echo "</h2>";
 
-  $LastYear = $THISYEAR-1;
+  $LastYear = $YEAR-1;
   $flds = "s.*, ly.Invite AS LyInvite, ly.Coming AS LyComing, y.Invite, y.Invited, y.Coming";
-  $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$THISYEAR " .
+  $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR " .
 			"LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE s.IsASide=1 AND s.SideStatus=0 ORDER BY SName");
   $col5 = "Invited $LastYear";
   $col6 = "Coming $LastYear";
-  $col7 = "Invite $THISYEAR";
-  $col8 = "Invited $THISYEAR";
-  $col9 = "Coming $THISYEAR";
+  $col7 = "Invite $YEAR";
+  $col8 = "Invited $YEAR";
+  $col9 = "Coming $YEAR";
 
   if (!$SideQ || $SideQ->num_rows==0) {
     echo "<h2>No Sides Found</h2>\n";
@@ -71,7 +71,7 @@ Click on column header to sort by column.  Click on Side's name for more detail 
     echo "</thead><tbody>";
     while ($fetch = $SideQ->fetch_assoc()) {
       $snum = $fetch['SideId'];
-      echo "<tr><td><a href=AddDance.php?sidenum=$snum>" . $fetch['SName'] . "</a>";
+      echo "<tr><td><a href=AddDance.php?sidenum=$snum&Y=$YEAR>" . $fetch['SName'] . "</a>";
       if ($fetch['SideStatus']) {
 	echo "<td>DEAD";
       } else {

@@ -76,8 +76,8 @@
       Parse_TimeInputs($Dance_TimeFeilds);      
 
       Update_db_post('Sides',$Side);
-      if ($_POST{'Year'} == $THISYEAR) {
-        if ($Sidey) {
+      if ($_POST{'Year'} >= $THISYEAR) {
+        if (isset($Sidey) && $Sidey){
           Update_db_post('SideYear',$Sidey);
         } else {
 	  $Sidey['Year'] = $THISYEAR;

@@ -102,7 +102,7 @@
   echo "<td class=Stafftd><h2>Dance</h2>\n";
     echo "<ul>\n";
     if (Access('Staff','Dance')) {
-      echo "<li><a href=InviteDance.php>Invite Dance Sides</a>\n";
+      echo "<li><a href=InviteDance.php?Y=$YEAR>Invite Dance Sides</a>\n";
     }
     if (Access('Committee')) {
       echo "<li><a href=ListDance.php?SEL=ALL&Y=$YEAR>List All Dance Sides in Database</a>\n";
@@ -110,7 +110,7 @@
       echo "<li><a href=DanceSummary.php?Y=$YEAR>Dance Sides Summary</a>\n";
     }
     if (Access('Staff','Dance')) {
-      echo "<li><a href=AddDance.php>Add Dance Side to Database</a>"; 
+      echo "<li><a href=AddDance.php?Y=$YEAR>Add Dance Side to Database</a>"; 
     }
 
 //      echo "<li><input class=typeahead type=text placeholder='Find a Side'>\n";

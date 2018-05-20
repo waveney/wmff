@@ -15,7 +15,7 @@ case 'I':
   if (!$Sidey) $Sidey = Default_SY($id);
   date_default_timezone_set('GMT');
   if (strlen($Sidey['Invited'])) $Sidey['Invited'] .= ", ";
-  $Sidey['Invited'] .= date('j/n');
+  $Sidey['Invited'] .= date('j/n/y');
   Put_SideYear($Sidey);
   echo $Sidey['Invited'];
   break;

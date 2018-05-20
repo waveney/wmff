@@ -4,7 +4,7 @@
 $CurYear = date('Y');
 
 function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
-  global $MASTER,$Side_Statuses,$Importance,$Surfaces,$Noise_Levels,$Share_Spots,$Mess,$Action,$ADDALL,$CurYear,$THISYEAR,$OlapTypes,$OlapCats,$OlapDays;
+  global $MASTER,$Side_Statuses,$Importance,$Surfaces,$Noise_Levels,$Share_Spots,$Mess,$Action,$ADDALL,$CurYear,$THISYEAR,$YEAR,$OlapTypes,$OlapCats,$OlapDays;
   if ($CatT == '') {
     $CatT = ($Side['IsASide'] ? 'Side' : $Side['IsAnAct'] ? 'Act' : 'Other');
   } else {
@@ -16,7 +16,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
     }
   }
 
-  $Mstate = ($THISYEAR == $CurYear);
+  $Mstate = ($THISYEAR == $CurYear && $THISYEAR == $YEAR);
 
   Set_Side_Help();
   $snum=$Side['SideId'];
@@ -255,7 +255,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
       if (Access('SysAdmin')) {
         echo fm_nontext('Access Key',$Side,'AccessKey',3,'class=NotSide','class=NotSide'); 
         if (isset($Side['AccessKey'])) {
-          echo "<td class=NotSide><a href=Direct.php?id=$snum&key=" . $Side['AccessKey'] . ">Use</a>" . help('Testing');
+          echo "<td class=NotSide><a href=Direct.php?id=$snum&key=" . $Side['AccessKey'] . "&Y=$YEAR>Use</a>" . help('Testing');
         }
       }
     }
@@ -284,7 +284,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
   Set_Side_Year_Help();
   if ($CatT != 'Side') Add_Act_Year_Help();
 
-  $Mstate = $THISYEAR == $CurYear;
+  $Mstate = ( $THISYEAR == $CurYear && $THISYEAR == $YEAR) ;
 
   $Adv = '';
   $Imp = '';
@@ -303,20 +303,27 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
     
 //var_dump($Sidey);var_dump($Invite_Type);
     $Self = $_SERVER{'PHP_SELF'};
-    if ($year > $CurYear) {
-      if ($Mode && isknown($snum,$CurYear)) 
-	echo "<div class=floatright><h2><a href=$Self?sidenum=$snum&Y=$CurYear>$CurYear</a></h2></div>";  
-      echo "<h2>Dancing in $year</h2>";
-    } else if ($year == $THISYEAR) {
-      if ($Mode && isknown($snum,$CurYear-1)) 
-	echo "<div class=floatright><h2><a href=$Self?sidenum=$snum&Y=" . ($CurYear-1) . ">" . ($CurYear-1) . "</a></h2></div>";  
-      echo "<h2>Dancing in $year</h2>";
-    } else {
-      if ($Mode) echo "<div class=floatright><h2><a href=$Self?sidenum=$snum>$THISYEAR</a></h2></div>"; 
-      echo "<h2>Details of Dancing in $year</h2>";
+    echo "<div class=floatright><h2>";
+    $OList = [];
+    if (isknown($snum,$year-1)) $OList[] = $year-1;
+    if (Get_General($year+1) && (isknown($snum,$year+1) || (($year+1) >= $THISYEAR))) $OList[] = $year+1;
+    if ($year != $THISYEAR) $OList[] = $THISYEAR;
+    
+    sort($OList);
+    if (count($OList)) {
+      $last = -1;
+      foreach ($OList as $dv) {
+        if ($dv == $last) continue;
+        echo " <a href=$Self?sidenum=$snum&Y=$dv>$dv</a> ";
+        $last = $dv;
+      }
     }
+
+    echo "</h2></div>";
+    echo "<h2>Dancing in $year</h2>";
   
     echo fm_hidden('Year',$year);
+    echo fm_hidden('Y',$year);
     if (isset($Sidey['syId']) && ($Sidey['syId'])) echo fm_hidden('syId',$Sidey['syId']);
 
     echo "<table width=90% border class=SideTable>\n";
@@ -334,21 +341,25 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
 	}
 
         echo "<td>" . fm_select($Coming_States ,$Sidey,'Coming',0,'id=Coming_states');
-          echo fm_text("<span $Imp>How Many Performers Wristbands</span>",$Sidey,'Performers',0.5,'','onchange=updateimps()');
-          if ($Mode) {
-            echo fm_checkbox("Sent",$Sidey,"WristbandsSent"); 
-          } else {
-            if ($Sidey['WristbandsSent']) {
-  	      $tmp['Ignored2'] = 1;
-	      echo fm_checkbox('Sent',$tmp,'Ignored2','disabled');
+          if ($Mstate) { 
+	    echo fm_text("<span $Imp>How Many Performers Wristbands</span>",$Sidey,'Performers',0.5,'','onchange=updateimps()');
+            if ($Mode) {
+              echo fm_checkbox("Sent",$Sidey,"WristbandsSent"); 
+            } else {
+              if ($Sidey['WristbandsSent']) {
+  	        $tmp['Ignored2'] = 1;
+	        echo fm_checkbox('Sent',$tmp,'Ignored2','disabled');
+              }
+              echo fm_hidden('WristbandsSent',$Sidey['WristbandsSent']);
             }
+          } else {
             echo fm_hidden('WristbandsSent',$Sidey['WristbandsSent']);
-          }
+	  }
         if ($Mstate) {
 //          echo fm_text('QE Car Park Tickets',$Sidey,'CarPark');
         }
   
-      echo "<tr><td rowspan=5>Coming on:";
+      echo "<tr><td rowspan=5>" . ((isset($Sidey['Invited']) && $Sidey['Invited']) ? "Coming on:" : "Would like to come on:" );
         echo "<td>" . fm_checkbox('Friday',$Sidey,'Fri','onchange=ComeSwitch(event)');
 //	echo fm_text1('Daytime Spots',$Sidey,'FriDance',1,'class=ComeFri');
         echo "<td class=ComeFri>" . fm_checkbox('Dance Friday Eve?',$Sidey,'FriEve');
@@ -497,7 +508,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
 
           if ($Mess && $Action == 'Insurance') echo "<td colspan=2>$Mess\n"; 
         } else {
-  	  echo "<td>Insurance:<td colspan=3>You will be able to upload your Insurance here in $THISYEAR\n";
+  	  echo "<td>Insurance:<td colspan=3>You will be able to upload your Insurance here in $YEAR\n";
         }
 
 /*
@@ -539,7 +550,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
   Set_Side_Year_Help();
   if ($CatT != 'Side') Add_Act_Year_Help();
 
-  $Mstate = $THISYEAR == $CurYear;
+  $Mstate = ($THISYEAR == $CurYear && $THISYEAR == $YEAR);
 
   $Adv = '';
   $Imp = '';
@@ -569,6 +580,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
     }
   
     echo fm_hidden('Year',$year);
+    echo fm_hidden('Y',$year);
     if (isset($Sidey['ActId']) && $Sidey['ActId']) echo fm_hidden('ActId',$Sidey['ActId']);
 
     echo "<table width=90% border class=SideTable>\n";

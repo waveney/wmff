@@ -9,7 +9,8 @@ function ChangeInvite(ev) {
   var snumm = id.match(/Invite(\d*)/);
   var snum = snumm[1];
   var iv = ev.target.value;
-  $("#InformationPane").load("setfields.php", "I=" + snum + "&O=Y&F=Invite&V=" + iv );
+  var year = $("#Year").val();
+  $("#InformationPane").load("setfields.php", "I=" + snum + "&O=Y&F=Invite&V=" + iv + "&Y=" + year);
 }
 
 function ReportTed(ev) {
@@ -17,6 +18,7 @@ function ReportTed(ev) {
   var id=ev.target.id;
   var snumm = id.match(/(\d+)/);
   var snum = snumm[1];
-  $("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=I" );
+  var year = $("#Year").val();
+  $("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=I&Y=" + year);
 }
 

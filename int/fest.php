@@ -10,7 +10,7 @@ if (isset($_GET{'Y'})) $YEAR = $_GET{'Y'};
 if (isset($_POST{'B'})) $BUTTON = ($_POST{'B'}+1) % 4;
 if (isset($_GET{'B'})) $BUTTON = ($_GET{'B'}+1) % 4;
 
-if (!is_numeric($YEAR)) exit("Invalid Year");
+if (!is_numeric($YEAR)) { var_dump($YEAR); exit("Invalid Year"); };
 
 $Noise_Levels = array("Middling","Quiet","Noisy");
 $Coming_States = array('','Recieved','Coming','Not coming','Possibly','Not coming, please ask next year');
@@ -702,7 +702,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
 
   $link = "'mailto:$email?from=" . $USER['Email'] .
 	 "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SName']) . "'";
-  $direct = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=$type&id=$id&key=$key>this link</a>  " ;
+  $direct = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=$type&id=$id&key=$key&Y=$YEAR>this link</a>  " ;
 
 // ONLY DANCE AT THE MOMENT...
   switch ($type) {

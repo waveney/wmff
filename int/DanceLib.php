@@ -364,7 +364,7 @@ function Set_Side_Year_Help() {
 
 function Default_SY($id=0) { 
   global $YEAR,$USERID;
-  $ans = array('SatDance'=>3,'SunDance'=>4,'Year'=>$YEAR,'Procession'=>1);
+  $ans = array('SatDance'=>3,'SunDance'=>4,'Year'=>$YEAR,'Procession'=>1,'Invited'=>'');
   if ($id) $ans['SideId'] = $id;
   return $ans;
 }
