@@ -23,7 +23,6 @@
   */
 
   $Now = getdate();
-  $Now['hours']++;
 // Fudge for testing...
   $Now['mon'] = 6;
   $Now['mday']= 9;
@@ -74,7 +73,13 @@
     echo "<td><a href=/int/EventShow.php?e=$eid>" . $e['SName'] . "</a>";
     if ($e['Description']) echo "<br>" . $e['Description'];
     echo "<td><a href=/int/VenueShow.php?v=" . $e['Venue'] . ">" . $Vens[$e['Venue']]['SName'] . "</a>";
-    echo "<td>" . Get_Event_Participants($eid,1,15);
+    if ($e['BigEvent']) {
+      $Others = Get_Other_Things_For($eid);
+      foreach ($Others as $i=>$o) {
+        if ($o['Type'] == 'Venue') echo ", <a href=/int/VenueShow.php?v=" . $o['Identifier'] . ">" . $Vens[$o['Identifier']]['SName'] . "</a>";
+      }
+    }
+    echo "<td>" . ($e['BigEvent'] ? Get_Other_Participants($Others,1,15,1, 'With: ') : Get_Event_Participants($eid,1,15));
     echo "<td>" . Price_Show($e);
     $something = 1;
   }
