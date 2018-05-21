@@ -25,7 +25,7 @@
 
   echo "<h2 class=subtitle>What is on When?</h2>";
   echo "<script src=/js/WhatsWhen.js></script>";
-  if ($More) echo "<h3>Only publicised events are listed, there are " . ($More > 2?"LOTS ":'') . "more to come</h3>\n";
+  if ($More) echo "<h3>Only publicised events are listed, there are " . ($More > 3?"LOTS ":'') . "more to come</h3>\n";
   echo "<h2 class=subtitle>Click on a Day to expand <button id=ShowAll class=DayExpand onclick=ShowAll()>Expand All</button></h2>";
 
   $xtr = isset($_GET['Mode'])?'':"AND ( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 ))";
@@ -64,7 +64,7 @@
     } else {
       echo "<td>Unknown";
     }
-    echo "<td>" . ($e['BigEvent'] ? Get_Other_Participants($Others,1,15,1, 'With: ') : Get_Event_Participants($eid,1,15);
+    echo "<td>" . ($e['BigEvent'] ? Get_Other_Participants($Others,1,15,1, 'With: ') : Get_Event_Participants($eid,1,15));
     echo "<td>" . Price_Show($e);
   }
   echo "</table>\n";

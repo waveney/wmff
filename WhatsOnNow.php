@@ -23,6 +23,7 @@
   */
 
   $Now = getdate();
+  $Now['hours']++;
 // Fudge for testing...
   $Now['mon'] = 6;
   $Now['mday']= 9;
