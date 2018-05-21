@@ -12,17 +12,13 @@
   include_once("files/navigation.php");
   echo "<div class='content'><h2>Requested</h2>\n";
 
-  $Side=Get_Side(snum);
+  $Side=Get_Side($snum);
 
   $emails = Get_Emails('Dance');
 
   SendEmail($emails,$Side['SName'] . " request invite",$Side['SName'] . " request an invite for $YEAR");
 
-  Show_Side($_GET{'sidenum'});
-?>
-  
-</div>
+  Show_Side($snum);
 
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>
+  dotail();
+?>

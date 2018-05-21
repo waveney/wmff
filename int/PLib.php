@@ -298,11 +298,11 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
   }
 
   if ($Mode == 0 && (!isset($Sidey['Coming']) || $Sidey['Coming'] == 0) && (!isset($Sidey['Invite']) || $Sidey['Invite'] >= $Invite_Type['No'])) {
-    echo "<h2><a href=DanceRequest.php?sidenum=$snum>Request Invite for $THISYEAR</a></h2>";
+    if ($YEAR >= $THISYEAR) echo "<h2><a href=DanceRequest.php?sidenum=$snum&Y=$YEAR>Request Invite for $YEAR</a></h2>";
   } else {
     
 //var_dump($Sidey);var_dump($Invite_Type);
-    $Self = $_SERVER{'PHP_SELF'};
+    $Self = ($Mode ? $_SERVER{'PHP_SELF'} : "DanceEdit.php");
     echo "<div class=floatright><h2>";
     $OList = [];
     if (isknown($snum,$year-1)) $OList[] = $year-1;
@@ -340,20 +340,22 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
           echo "Status:";
 	}
 
-        echo "<td>" . fm_select($Coming_States ,$Sidey,'Coming',0,'id=Coming_states');
+//        echo "<td>" . fm_select($Coming_States ,$Sidey,'Coming',0,'id=Coming_states');
+        echo "<td colspan=3>" . fm_radio('',$Coming_States ,$Sidey,'Coming','',0,'id=Coming_states');
+//function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field2='') {
           if ($Mstate) { 
 	    echo fm_text("<span $Imp>How Many Performers Wristbands</span>",$Sidey,'Performers',0.5,'','onchange=updateimps()');
             if ($Mode) {
-              echo fm_checkbox("Sent",$Sidey,"WristbandsSent"); 
+              if (isset($Sidey['WristbandsSent'])) echo fm_checkbox("Sent",$Sidey,"WristbandsSent"); 
             } else {
               if ($Sidey['WristbandsSent']) {
   	        $tmp['Ignored2'] = 1;
 	        echo fm_checkbox('Sent',$tmp,'Ignored2','disabled');
               }
-              echo fm_hidden('WristbandsSent',$Sidey['WristbandsSent']);
+              if (isset($Sidey['WristbandsSent'])) echo fm_hidden('WristbandsSent',$Sidey['WristbandsSent']);
             }
           } else {
-            echo fm_hidden('WristbandsSent',$Sidey['WristbandsSent']);
+            if (isset($Sidey['WristbandsSent'])) echo fm_hidden('WristbandsSent',$Sidey['WristbandsSent']);
 	  }
         if ($Mstate) {
 //          echo fm_text('QE Car Park Tickets',$Sidey,'CarPark');
@@ -387,7 +389,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
       if ($Mode) {
         echo "<tr>". fm_number1('Fee',$Sidey,'TotalFee','class=NotCSide') . fm_text('Other payments',$Sidey,'OtherPayment',3,'class=NotCSide');
       } else if ($Sidey['TotalFee']) {
-	echo "<tr><td class=NotCSide>Fee:<td>&pound;" . $Sidey['TotalFee'];
+	echo "<tr><td>Fee:<td>&pound;" . $Sidey['TotalFee'];
 	if ($Sidey['OtherPayment']) echo fm_text('Other payments',$Sidey,'OtherPayment',1,'disabled readonly');
       }
 
@@ -561,7 +563,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
   }
 
   if ($Mode == 0 && (!isset($Sidey['YearState']) || $Sidey['YearState'] == 0)) {
-    echo "<h2><a href=MusicRequest.php?sidenum=$snum>Request Invite for $THISYEAR</a></h2>";
+    if ($YEAR >= $THISYEAR) echo "<h2><a href=MusicRequest.php?sidenum=$snum&Y=$YEAR>Request Invite for $THISYEAR</a></h2>";
   } else {
     
 //var_dump($Sidey);var_dump($Invite_Type);
