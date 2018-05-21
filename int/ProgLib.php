@@ -116,7 +116,7 @@ function Set_Event_Help() {
 	'IgnoreClash'=>'Ignore two events at same time and surpress gap checking',
 	'Public'=>'Controls public visibility of Event, "Not Yet" and "Never" are handled the same',
 	'ExcludeCount'=>'For Big Events - if set exclude this event from Dance Spot counts - eg Procession',
-	'Price'=>'In pounds for entire event - there are no prices for sub events',
+	'Price'=>'In pounds for entire event - there are no prices for sub events - negative prices have special meanings -1 = museum',
 	'Venue'=>'For Big Events - put the starting Venue here',
 	'SlotEnd'=>'If a large event is divided into a number of slots, this is the end of the first slot, not needed otherwise',
 	'NonFest'=>'Event not run by the Festival, but included in programme - only for friendly non fesival events',

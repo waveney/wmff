@@ -23,9 +23,10 @@
   */
 
   $Now = getdate();
+  $Now['hours']++; // Festivals is BST server is UTC
 // Fudge for testing...
-  $Now['mon'] = 6;
-  $Now['mday']= 9;
+//  $Now['mon'] = 6;
+//  $Now['mday']= 9;
  
   if (($Now['year'] != $THISYEAR) || ($Now['mon'] != 6) || ($Now['mday'] < ($MASTER['DateFri']-3)) || ($Now['mday'] > ($MASTER['DateFri']+3))) { // Not during festival
     echo "<h3>There are no festival events today</h3>\n";
@@ -79,7 +80,7 @@
         if ($o['Type'] == 'Venue') echo ", <a href=/int/VenueShow.php?v=" . $o['Identifier'] . ">" . $Vens[$o['Identifier']]['SName'] . "</a>";
       }
     }
-    echo "<td>" . ($e['BigEvent'] ? Get_Other_Participants($Others,1,15,1, 'With: ') : Get_Event_Participants($eid,1,15));
+    echo "<td>" . ($e['BigEvent'] ? Get_Other_Participants($Others,1,15,1) : Get_Event_Participants($eid,1,15));
     echo "<td>" . Price_Show($e);
     $something = 1;
   }
