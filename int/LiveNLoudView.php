@@ -4,7 +4,7 @@
 
   dostaffhead("List Live N Load Applications");
   global $db,$THISYEAR;
-  include("SignupLib.php");
+  include_once("SignupLib.php");
 
   $coln = 0;  
   echo "<form method=post action=LiveNLoudView.php>";

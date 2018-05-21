@@ -8,14 +8,14 @@
 <title>WMFF Staff | List Traders</title>
 <script src="/js/clipboard.min.js"></script>
 <script src="/js/emailclick.js"></script>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 </head>
 <body>
 <?php 
   global $YEAR,$THISYEAR,$Trade_States,$Trader_Status;
-  include("files/navigation.php");
-  include("TradeLib.php");
+  include_once("files/navigation.php");
+  include_once("TradeLib.php");
   echo "<div class=content><h2>List Traders $YEAR</h2>\n";
 
   echo "Click on column header to sort by column.  Click on Traders's name for more detail<p>\n";
@@ -77,6 +77,6 @@
   
 </div>
 
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>

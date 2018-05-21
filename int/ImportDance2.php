@@ -3,7 +3,7 @@
   A_Check('SysAdmin');
 
   dostaffhead("Appalchian Import");
-  include("DanceLib.php");
+  include_once("DanceLib.php");
 
   global $YEAR;
   

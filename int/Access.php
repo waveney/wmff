@@ -1,7 +1,7 @@
 <?php
 // Direct improved....
 
-  include("fest.php");
+  include_once("fest.php");
   global $USER,$USERID;
   include_once("DanceLib.php");
   include_once("MusicLib.php");
@@ -57,6 +57,6 @@
 
   $_GET['id'] = $id;
   dostaffhead($CakeTypes[$t]);
-  include($includes[$t]); // Should not return
+  include_once($includes[$t]); // Should not return
   dotail();
 ?>

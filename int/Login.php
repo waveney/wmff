@@ -100,7 +100,7 @@ function Set_Password($user,$msg='') {
     echo "<input type=submit Name=ACTION value='Set New Password'><p>\n";
     echo "</form></div>\n";
 
-    include("files/footer.php");
+    include_once("files/footer.php");
     echo " </body> </html>\n";
     exit;
   }
@@ -146,7 +146,7 @@ function Login($errmsg='', $message='') {
   echo "<input type=submit Name=ACTION value='Lost your password'>\n";
   echo "</form></div>\n";
 
-  include("files/footer.php");
+  include_once("files/footer.php");
   echo " </body> </html>\n";
   exit;
 }
@@ -202,7 +202,7 @@ function NewPasswd() {
       setcookie('WMFF2',0,1,'/');
       setcookie('WMFF',0,1,'/');
       if (file_exists("testing")) Login();
-      include("../index.php"); 
+      include_once("../index.php"); 
       exit;
     case 'LIMITED' :
       Login(Limited()); // No Return;

@@ -2,7 +2,7 @@
 // Updates to data following on screen drag drops, returns info pane html
 //    $("#Infomation").load("dpupdate.php", "D=" + dstId + "&S=" + srcId + "&Y=" + $("#DayId").text() + "&E=" + 
 //			$("input[type='radio'][name='EInfo']:checked").val()	);
-//  include("minimalfiles/header.php");
+//  include_once("minimalfiles/header.php");
 /* ids are
 	E$CurOrder::	Empty box
 	N$CurOrder::	Note id
@@ -19,9 +19,9 @@
 D=Z0:Side:32&S=S10:Side:32&EV=167&E=
 */
 
-  include("fest.php");
-  include("ProgLib.php");
-  include("CheckDance.php");
+  include_once("fest.php");
+  include_once("ProgLib.php");
+  include_once("CheckDance.php");
 
   if (isset($_GET['D'])) {
     $dstId = $_GET['D'];  

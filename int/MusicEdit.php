@@ -21,7 +21,7 @@
   $Mess = '';
 /*    User Editing of Side Data */ ////////// DUFF
   if (isset($_POST{'Action'})) {
-    include("Uploading.php");
+    include_once("Uploading.php");
     $Action = $_POST{'Action'};
     switch ($Action) {
     case 'Insurance':

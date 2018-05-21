@@ -6,14 +6,14 @@
 <html>
 <head>
 <title>WMFF Staff | Add/Change Bug</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 </head>
 <body>
-<?php include("files/navigation.php"); ?>
+<?php include_once("files/navigation.php"); ?>
 <?php
-  include("DocLib.php");
-  include("BugLib.php");
+  include_once("DocLib.php");
+  include_once("BugLib.php");
   global $USERID,$USER;
 
   Set_Bug_Help();
@@ -96,6 +96,6 @@
 
 </div>
 
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>

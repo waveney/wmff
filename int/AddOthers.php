@@ -6,7 +6,7 @@
 <html>
 <head>
 <title>Wimborne Folk Festival Committee</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 <?php include_once("OtherLib.php"); ?>
 </head>
@@ -14,7 +14,7 @@
 
 <?php
   global $YEAR;
-  include("files/navigation.php");
+  include_once("files/navigation.php");
   echo '<div class="content"><h2>Add/Edit Other Participant</h2>';
 
 //  echo "<!-- " . var_dump($_POST) . " -->\n";
@@ -179,6 +179,6 @@
 
 </div>
 
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>

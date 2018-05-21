@@ -9,13 +9,13 @@
 <script src="/js/clipboard.min.js"></script>
 <script src="/js/emailclick.js"></script>
 <script src="/js/InviteThings.js"></script>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 </head>
 <body>
 <?php 
-  include("files/navigation.php"); 
-  include("DanceLib.php"); 
+  include_once("files/navigation.php"); 
+  include_once("DanceLib.php"); 
   global $YEAR,$THISYEAR;
   echo "<div class=content><h2>Invite Dance Sides $YEAR</h2>\n";
 
@@ -122,6 +122,6 @@
   
 </div>
 
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>

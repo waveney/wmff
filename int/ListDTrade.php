@@ -8,13 +8,13 @@
 <title>WMFF Staff | List Traders in Detail</title>
 <script src="/js/clipboard.min.js"></script>
 <script src="/js/emailclick.js"></script>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 </head>
 <body>
 <?php 
   global $YEAR,$THISYEAR,$Trade_States,$Trade_StateClasses,$Trade_State,$TS_Actions,$ButExtra;
-  include("files/navigation.php");
+  include_once("files/navigation.php");
   include_once("TradeLib.php");
 
   $Trade_Types = Get_Trade_Types(1);

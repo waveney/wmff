@@ -6,17 +6,17 @@
 <html>
 <head>
 <title>Wimborne Folk Festival Committee</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 </head>
 <body>
-<?php include("files/navigation.php"); ?>
+<?php include_once("files/navigation.php"); ?>
 <div class="content">
 
 <?php
   global $db;
   $yn = array('','Y');
-  include("OtherLib.php");
+  include_once("OtherLib.php");
 
   $People = Get_Other_People(0);
   echo "If you click on the email link, press control-V afterwards to paste the standard link into message.<p>";
@@ -52,6 +52,6 @@
 ?>
   
 </div>
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>

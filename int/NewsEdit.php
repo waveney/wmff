@@ -13,7 +13,7 @@
   $Action = 0; 
   $Mess = '';
   if (isset($_POST{'Action'})) {
-    include("Uploading.php");
+    include_once("Uploading.php");
     $Action = $_POST{'Action'};
     switch ($Action) {
     case 'Photo':

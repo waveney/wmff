@@ -6,12 +6,12 @@
 <html>
 <head>
 <title>WMFF Staff | Music Types</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 <?php include_once("MusicLib.php"); ?>
 </head>
 <body>
-<?php include("files/navigation.php"); ?>
+<?php include_once("files/navigation.php"); ?>
 <?php
 
   $Types=Get_Music_Types(1);
@@ -53,6 +53,6 @@
 
 </div>
 
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>

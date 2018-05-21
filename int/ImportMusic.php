@@ -6,7 +6,7 @@
 <html>
 <head>
 <title>WMFF Staff | Music Import</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 <?php include_once("MusicLib.php"); ?>
 </head>
@@ -14,7 +14,7 @@
 
 <?php
   global $YEAR,$db;
-  include("files/navigation.php");
+  include_once("files/navigation.php");
   
 function Descript($stuff) {
   $Ans = preg_split("/\./",$stuff,2);

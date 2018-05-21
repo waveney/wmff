@@ -1,7 +1,7 @@
 <html>
 <head>
 <title>Wimborne Minster Folk Festival | Request</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 <?php include_once("DanceLib.php"); ?>
 </head>
@@ -9,7 +9,7 @@
 <?php
   $snum=$_GET{'sidenum'};
   A_Check('Participant','Side',$snum);
-  include("files/navigation.php");
+  include_once("files/navigation.php");
   echo "<div class='content'><h2>Requested</h2>\n";
 
   $Side=Get_Side(snum);
@@ -23,6 +23,6 @@
   
 </div>
 
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>

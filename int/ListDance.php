@@ -8,14 +8,14 @@
 <title>WMFF Staff | List Dance</title>
 <script src="/js/clipboard.min.js"></script>
 <script src="/js/emailclick.js"></script>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 </head>
 <body>
 <?php 
   global $YEAR,$THISYEAR;
-  include("files/navigation.php"); 
-  include("DanceLib.php"); 
+  include_once("files/navigation.php"); 
+  include_once("DanceLib.php"); 
   echo "<div class=content><h2>List Dance Sides $YEAR</h2>\n";
 
   echo "Click on column header to sort by column.  Click on Side's name for more detail and programme when available,<p>\n";

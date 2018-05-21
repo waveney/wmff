@@ -6,12 +6,12 @@
 <html>
 <head>
 <title>WMFF Staff | Dance Types</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 <?php include_once("DanceLib.php"); ?>
 </head>
 <body>
-<?php include("files/navigation.php"); ?>
+<?php include_once("files/navigation.php"); ?>
 <?php
   include_once("TradeLib.php");
 
@@ -38,6 +38,6 @@
 
 </div>
 
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>

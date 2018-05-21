@@ -5,13 +5,13 @@
 
 <head>
 <title>WMFF Staff | Search</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 </head>
 <body>
 <?php
-  include("files/navigation.php"); 
-  include("DocLib.php");
+  include_once("files/navigation.php"); 
+  include_once("DocLib.php");
 
   echo '<div class="content">';
 
@@ -72,7 +72,7 @@
 
 </div>
 
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>
 

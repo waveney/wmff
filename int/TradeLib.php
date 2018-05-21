@@ -862,7 +862,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
   $Action = 0; 
   $Mess = '';
   if (isset($_POST{'Action'})) {
-    include("Uploading.php");
+    include_once("Uploading.php");
     $Action = $_POST{'Action'};
     switch ($Action) {
     case 'PASpecUpload':
@@ -878,7 +878,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
       if (Access('SysAdmin')) {
 	$Tid = $_POST{'Tid'};
         db_delete('Trade',$Tid);
-        include("Staff.php");  // No return
+        include_once("Staff.php");  // No return
       }
       break;
     default:

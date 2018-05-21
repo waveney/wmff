@@ -1,5 +1,5 @@
 <?php
-  include("fest.php");
+  include_once("fest.php");
 
   dostaffhead("Live and Loud Application", "/js/Participants.js");
   A_Check('SysAdmin'); // lock out for this year

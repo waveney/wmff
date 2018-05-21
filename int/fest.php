@@ -159,7 +159,7 @@ function A_Check($level,$subtype=0,$thing=0) {
   global $db;
   Set_User();
   if (!$USERID) {
-    include("int/Login.php");
+    include_once("int/Login.php");
     Login();
   }
   if (Access($level,$subtype,$thing)) return;
@@ -789,7 +789,7 @@ function Error_Page ($message) {
     case 'Sponsor' :
     case 'Other' :
     default:
-      include("index.php");
+      include_once("index.php");
       exit;
     }
 
@@ -807,7 +807,7 @@ function Error_Page ($message) {
     exit;			// Just in case
     
   default:
-    include("index.php"); 
+    include_once("index.php"); 
   }
 
 }
@@ -1044,7 +1044,7 @@ function dostaffhead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5=
   echo "<html><head>";
   echo "<title>WMFF Staff | $title</title>\n";
   include_once("files/header.php");
-  include("festcon.php");
+  include_once("festcon.php");
   echo "<script src=/js/tablesort.js?V=$V></script>\n";
   echo "<script src=/js/Tools.js?V=$V></script>\n";
   if ($extra1) doextras($extra1,$extra2,$extra3,$extra4,$extra5);

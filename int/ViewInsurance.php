@@ -6,7 +6,7 @@
 <html>
 <head>
 <title>WMFF Staff | View Insurance</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 <?php include_once("DanceLib.php"); ?>
 <?php include_once("OtherLib.php"); ?>
@@ -16,7 +16,7 @@
 
 <?php
   global $YEAR,$USERID;
-  include("files/navigation.php");
+  include_once("files/navigation.php");
   echo '<div class="content"><h2>Insurance</h2>';
 
   if (isset($_GET{'sidenum'})) {
@@ -47,6 +47,6 @@
 
 </div>
 
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>

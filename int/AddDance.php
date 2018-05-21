@@ -21,7 +21,7 @@
 
 <?php
   global $YEAR,$THISYEAR,$Mess,$BUTTON;
-  include("files/navigation.php");
+  include_once("files/navigation.php");
   echo '<div class="content"><h2>Add/Edit Dance Side</h2>';
   global $Mess,$Action,$Dance_TimeFeilds;      
 
@@ -30,7 +30,7 @@
   $Mess = '';
   $snum = -1;
   if (isset($_POST{'Action'})) {
-    include("Uploading.php");
+    include_once("Uploading.php");
     $Action = $_POST{'Action'};
     switch ($Action) {
     case 'PASpecUpload':

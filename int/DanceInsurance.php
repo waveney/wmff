@@ -1,13 +1,13 @@
 <html>
 <head>
 <title>Wimborne Minster Folk Festival | Insurance Upload</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 <?php include_once("DanceLib.php"); ?>
 </head>
 <body>
 <?php 
-//  include("files/navigation.php"); 
+//  include_once("files/navigation.php"); 
 // <div class="content"><h2>Upload Insurance</h2>
   global $YEAR,$Mess,$Where;
   $snum = $_POST{'Id'};
@@ -85,11 +85,11 @@ exit;
     }
   }
 
-  include($From);
+  include_once($From);
   exit();
 //  $Act($snum);
 ?>
 
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>

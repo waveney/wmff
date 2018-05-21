@@ -3,7 +3,7 @@
   A_Check('Staff');
 
   dostaffhead("Stewarding Applications");
-  include("SignupLib.php");
+  include_once("SignupLib.php");
   global $db,$THISYEAR,$StewClasses;
 
   echo "Click on name for full info<p>";

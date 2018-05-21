@@ -6,18 +6,18 @@
 <html>
 <head>
 <title>WMFF Staff | List Bugs</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 </head>
 <body>
-<?php include("files/navigation.php"); ?>
+<?php include_once("files/navigation.php"); ?>
 <div class="content">
 
 <?php
   global $db;
   $yn = array('','Y');
-  include("BugLib.php");
-  include("DocLib.php");
+  include_once("BugLib.php");
+  include_once("DocLib.php");
 
   $AllU = Get_AllUsers(0);
   $AllA = Get_AllUsers(1);
@@ -58,6 +58,6 @@
 ?>
   
 </div>
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>

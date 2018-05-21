@@ -1,7 +1,7 @@
 <?php 
 // Set fields in data
-include("fest.php");
-include("DanceLib.php");
+include_once("fest.php");
+include_once("DanceLib.php");
 
 $id = $_GET['I'];
 $Opt = $_GET['O'];

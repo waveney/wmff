@@ -4,7 +4,7 @@
 
   dostaffhead("List Buskers Bash Applications");
   global $db,$THISYEAR;
-  include("SignupLib.php");
+  include_once("SignupLib.php");
 
   $coln = 0;  
   echo "<form method=post action=BuskersBashView.php>";
