@@ -306,6 +306,7 @@ function ListLinks(&$ev,$type,$single,$plural,$size,$mult) {
   $think = array();
   sort($ks);	
   $things = 0;
+  $ans = '';
   foreach ( array_reverse($ks) as $imp) {
     if ($imp) $ans .= "<span style='font-size:" . ($size+$imp*$mult) . "px'>";
     foreach ($imps[$imp] as $thing) {
@@ -350,12 +351,19 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
 	    $ee = $e["$f$i"];
 	    if ($ee) {
 	      if (!isset($found[$ee]) || !$found[$ee]) {
+		$s = Get_Side($ee);
 		if ($flds == 0) {
-	          $s = array_merge(Get_Side($ee), Get_SideYear($eee,$YEAR));  
-		  $s['NotComing'] = ($s['Coming'] != 2);
+		  $sy = Get_SideYear($ee,$YEAR);
+		  if ($sy) {
+	            $s = array_merge($s, $sy);  
+		    $s['NotComing'] = ($s['Coming'] != 2);
+		  } else $s['NotComing'] = 1;
 		} else {
-	          $s = array_merge(Get_Side($ee), Get_ActYear($ee,$YEAR));
-		  $s['NotComing'] = ($s['YearState'] < 2);
+		  $sy = Get_ActYear($ee,$YEAR);
+		  if ($sy) {
+	            $s = array_merge($s, $sy);  
+		    $s['NotComing'] = ($s['YearState'] < 2);
+		  } else $s['NotComing'] = 1;
 		}  
 	        if ($s) $imps[$s['Importance']][] = $s; 
 	        $found[$ee]=1;

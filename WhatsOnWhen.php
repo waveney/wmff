@@ -51,7 +51,11 @@
     echo "<tr class=Day$dname hidden><td>" . timecolon($e['Start']) . " - " . timecolon($e['End']); 
     echo "<td><a href=/int/EventShow.php?e=$eid>" . $e['SName'] . "</a>";
     if ($e['Description']) echo "<br>" . $e['Description'];
-    echo "<td><a href=/int/VenueShow.php?v=" . $e['Venue'] . ">" . $Vens[$e['Venue']]['SName'] . "</a>";
+    if (isset($Vens[$e['Venue']]['SName'])) {
+      echo "<td><a href=/int/VenueShow.php?v=" . $e['Venue'] . ">" . $Vens[$e['Venue']]['SName'] . "</a>";
+    } else {
+      echo "<td>Unknown";
+    }
     echo "<td>" . Get_Event_Participants($eid,1,15);
     echo "<td>" . Price_Show($e);
   }
