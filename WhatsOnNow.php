@@ -61,7 +61,7 @@
     if ($e['BigEvent'] == 0) {
       if ($e['Side1'] == 0 && $e['Side2'] == 0 && $e['Side3'] == 0 && $e['Side4'] == 0 &&
           $e['Act1'] == 0 && $e['Act2'] == 0 && $e['Act3'] == 0 && $e['Act4'] == 0 &&
-          $e['Other1'] == 0 && $e['Other2'] == 0 && $e['Other3'] == 0 && $e['Other4'] == 0 ) continue; // Nobody there - may need an override...
+          $e['Other1'] == 0 && $e['Other2'] == 0 && $e['Other3'] == 0 && $e['Other4'] == 0 && $e['NoPart'] == 0) continue; // Nobody there 
     }
 
     $dname = $DayLongList[$e['Day']];

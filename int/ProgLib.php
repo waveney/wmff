@@ -352,7 +352,7 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
 	    if ($ee) {
 	      if (!isset($found[$ee]) || !$found[$ee]) {
 		$s = Get_Side($ee);
-		if ($f == 0) {
+		if ($f == 'Side') {
 		  $sy = Get_SideYear($ee,$YEAR);
 //var_dump($sy); echo "<P>";
 		  if ($sy) {
