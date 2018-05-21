@@ -345,29 +345,33 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
     $imps=array();
     while ($e = $res->fetch_assoc()) {
       if ($e['EventId'] == $Ev) $MainEv = $e;
-      foreach ($flds as $f) {
-        for($i=1;$i<5;$i++) {
-   	  if (isset($e["$f$i"])) { 
-	    $ee = $e["$f$i"];
-	    if ($ee) {
-	      if (!isset($found[$ee]) || !$found[$ee]) {
-		$s = Get_Side($ee);
-		if ($f == 'Side') {
-		  $sy = Get_SideYear($ee,$YEAR);
+      if ($e['BigEvent']) {
+
+      } else {
+        foreach ($flds as $f) {
+          for($i=1;$i<5;$i++) {
+   	    if (isset($e["$f$i"])) { 
+	      $ee = $e["$f$i"];
+	      if ($ee) {
+	        if (!isset($found[$ee]) || !$found[$ee]) {
+		  $s = Get_Side($ee);
+		  if ($f == 'Side') {
+		    $sy = Get_SideYear($ee,$YEAR);
 //var_dump($sy); echo "<P>";
-		  if ($sy) {
-	            $s = array_merge($s, $sy);  
-		    $s['NotComing'] = ($s['Coming'] != 2);
-		  } else $s['NotComing'] = 1;
-		} else {
-		  $sy = Get_ActYear($ee,$YEAR);
-		  if ($sy) {
-	            $s = array_merge($s, $sy);  
-		    $s['NotComing'] = ($s['YearState'] < 2);
-		  } else $s['NotComing'] = 1;
-		}  
-	        if ($s) $imps[$s['Importance']][] = $s; 
-	        $found[$ee]=1;
+		    if ($sy) {
+	              $s = array_merge($s, $sy);  
+		      $s['NotComing'] = ($s['Coming'] != 2);
+		    } else $s['NotComing'] = 1;
+		  } else {
+		    $sy = Get_ActYear($ee,$YEAR);
+		    if ($sy) {
+	              $s = array_merge($s, $sy);  
+		      $s['NotComing'] = ($s['YearState'] < 2);
+		    } else $s['NotComing'] = 1;
+		  }  
+	          if ($s) $imps[$s['Importance']][] = $s; 
+	          $found[$ee]=1;
+		}
 	      }
 	    } 
 	  }

@@ -43,6 +43,9 @@
     /* New day give table header, links to Dance Grid/Music Grid (if applicable), Events have click to expand */
     $dname = $DayLongList[$e['Day']];
 
+    if ($e['BigEvent']) {
+      $Others = Get_Other_Things_For($eid);
+    }
     if (DayTable($e['Day'],"Events","<button id=DayClick$dname class=DayExpand)>Expand</button>","onclick=ShowDay('$dname')")) {
       echo "<tr class=Day$dname hidden><td>Time<td >What<td>Where<td>With<td>Price";
     }
@@ -51,12 +54,17 @@
     echo "<tr class=Day$dname hidden><td>" . timecolon($e['Start']) . " - " . timecolon($e['End']); 
     echo "<td><a href=/int/EventShow.php?e=$eid>" . $e['SName'] . "</a>";
     if ($e['Description']) echo "<br>" . $e['Description'];
-    if (isset($Vens[$e['Venue']]['SName'])) {
+    if ($e['BigEvent']) {
+      echo "<td>";
+	foreach ($Others as $i=>$o) {
+	  if ($o['Type'] == 'Venue') echo ", <a href=/int/VenueShow.php?v=" . $o['Identifier'] . ">" . $Vens[$o['Identifier']]['SName'] . "</a>";
+	}
+    } else if (isset($Vens[$e['Venue']]['SName'])) {
       echo "<td><a href=/int/VenueShow.php?v=" . $e['Venue'] . ">" . $Vens[$e['Venue']]['SName'] . "</a>";
     } else {
       echo "<td>Unknown";
     }
-    echo "<td>" . Get_Event_Participants($eid,1,15);
+    echo "<td>" . ($e['BigEvent'] ? Get_Other_Participants($Others,1,15,1, 'With: ') : Get_Event_Participants($eid,1,15);
     echo "<td>" . Price_Show($e);
   }
   echo "</table>\n";
