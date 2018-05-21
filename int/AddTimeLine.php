@@ -4,8 +4,8 @@
 
   dostaffhead("Add/Change Timeline Entry");
 
-  include("DocLib.php");
-  include("TLLib.php");
+  include_once("DocLib.php");
+  include_once("TLLib.php");
   global $USERID,$USER,$YEAR,$TL_States,$TL_State,$TL_Importance;
 
   Set_TimeLine_Help();

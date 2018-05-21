@@ -25,7 +25,7 @@
 
   echo "<h2 class=subtitle>What is on When?</h2>";
   echo "<script src=/js/WhatsWhen.js></script>";
-  if ($More) echo "<h3>Only publicised events are listed, there are " . ($More > 2?"LOTS ":'') . "more to come</h3>\n";
+  if ($More) echo "<h3>Only publicised events are listed, there are " . ($More > 3?"LOTS ":'') . "more to come</h3>\n";
   echo "<h2 class=subtitle>Click on a Day to expand <button id=ShowAll class=DayExpand onclick=ShowAll()>Expand All</button></h2>";
 
   $xtr = isset($_GET['Mode'])?'':"AND ( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 ))";
@@ -51,8 +51,18 @@
     echo "<tr class=Day$dname hidden><td>" . timecolon($e['Start']) . " - " . timecolon($e['End']); 
     echo "<td><a href=/int/EventShow.php?e=$eid>" . $e['SName'] . "</a>";
     if ($e['Description']) echo "<br>" . $e['Description'];
-    echo "<td><a href=/int/VenueShow.php?v=" . $e['Venue'] . ">" . $Vens[$e['Venue']]['SName'] . "</a>";
-    echo "<td>" . Get_Event_Participants($eid,1,15);
+    if (isset($Vens[$e['Venue']]['SName'])) {
+      echo "<td><a href=/int/VenueShow.php?v=" . $e['Venue'] . ">" . $Vens[$e['Venue']]['SName'] . "</a>";
+    } else {
+      echo "<td>Unknown";
+    }
+    if ($e['BigEvent']) {
+      $Others = Get_Other_Things_For($eid);
+      foreach ($Others as $i=>$o) {
+        if ($o['Type'] == 'Venue') echo ", <a href=/int/VenueShow.php?v=" . $o['Identifier'] . ">" . $Vens[$o['Identifier']]['SName'] . "</a>";
+      }
+    }
+    echo "<td>" . ($e['BigEvent'] ? Get_Other_Participants($Others,1,15,1) : Get_Event_Participants($eid,1,15));
     echo "<td>" . Price_Show($e);
   }
   echo "</table>\n";

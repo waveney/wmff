@@ -22,7 +22,7 @@
   $Mess = '';
 /*    User Editing of Side Data */ ////////// DUFF
   if (isset($_POST{'Action'})) {
-    include("Uploading.php");
+    include_once("Uploading.php");
     $Action = $_POST{'Action'};
     switch ($Action) {
     case 'PASpecUpload':
@@ -68,8 +68,8 @@
       }
 
       Update_db_post('Sides',$Side);
-      if ($_POST{'Year'} == $THISYEAR) {
-        if ($Sidey) {
+      if ($_POST{'Year'} >= $THISYEAR) {
+        if (isset($Sidey) && $Sidey){
           Update_db_post('SideYear',$Sidey);
         } else {
 	  $Sidey['Year'] = $THISYEAR;

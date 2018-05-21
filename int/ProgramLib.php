@@ -4,10 +4,10 @@ function Prog_Headers($Public='',$headers =1,$What='Dance') {
   echo "<html><head>";
   if ($Public && $headers) { 
     echo "<title>Wimborne Minster Folk Festival | $What Programme</title>\n"; 
-    include("files/header.php"); 
+    include_once("files/header.php"); 
   } else { 
     echo "<title>WMFF Staff | $What Programme</title>\n"; 
-    include("minimalheader.php"); 
+    include_once("minimalheader.php"); 
   }
   echo '<script src="/js/jquery-3.2.1.min.js"></script>
 <script src="js/tableHeadFixer.js"></script>

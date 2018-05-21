@@ -1,6 +1,6 @@
 <?php
 //  Return email link
-  include("fest.php");
+  include_once("fest.php");
   include_once("DanceLib.php");
   global $USER,$USERID;
 

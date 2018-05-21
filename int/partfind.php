@@ -1,7 +1,7 @@
 <?php
 // Participant finder
 
-  include("fest.php");
+  include_once("fest.php");
   $x = '';
   $k = $_GET['S'];
   if (isset($_GET['X'])) $x = "AND " . $_GET['X'];

@@ -37,7 +37,7 @@ before you checkout!  Camping costs &pound;7.50pppn + booking fee in advance or 
 <br />Adult (13+): <strong>&pound;50.00</strong>
 <br />Child (5-12): <strong>&pound;25.00</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
-<td style="width:70%">Book your Weekend Pass for official festival events. Events at the Tivoli are not covered by this pass.  See below for the events that it covers.<p>
+<td style="width:70%">Book your Weekend Pass for official festival events. <!--Events at the Tivoli are not covered by this pass.-->  See below for the events that it covers.<p>
 
 Only this ticket includes entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
 <td style="text-align:center; font-size:20px"><a href="https://www.ticketsource.co.uk/event/208030" rel="tag" target="_blank"><strong>Buy Now</strong></a></td>
@@ -47,7 +47,7 @@ Only this ticket includes entry to <a href="http://partyinthepaddock.com" rel="t
 <br />Adult (13+): <strong>&pound;15.00</strong>
 <br />Child (5-12): <strong>&pound;7.50</strong>
 <br />Infant (0-4): <strong>Free</strong></td>
-<td style="width:70%">Book your Friday Pass for official festival events. Events at the Tivoli are not covered by this pass.  See below for the events that it covers.<p>
+<td style="width:70%">Book your Friday Pass for official festival events. <!--Events at the Tivoli are not covered by this pass.-->  See below for the events that it covers.<p>
 
 Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
 </td>
@@ -86,7 +86,7 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
   global $YEAR,$db,$DayList,$MASTER;
 
   $Vens = Get_Venues(1);
-  $qry = "SELECT * FROM Events WHERE Year='$YEAR' AND ((Price1!=0 AND TicketCode!='') OR SpecPrice!='')  AND SubEvent<=0 AND (Public=0 || Public=1) ORDER BY Day,Start";
+  $qry = "SELECT * FROM Events WHERE Year='$YEAR' AND ((Price1!=0 AND TicketCode!='') OR SpecPriceLink!='')  AND SubEvent<=0 AND (Public=0 || Public=1) ORDER BY Day,Start";
   $Evs = $db->query($qry);
 
   while ($E = $Evs->fetch_assoc()) {

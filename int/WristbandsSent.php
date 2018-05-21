@@ -2,7 +2,7 @@
   include_once("fest.php");
   A_Check('Committee','Dance');
   dostaffhead("Mark Wristbands as sent");
-  include("DanceLib.php");
+  include_once("DanceLib.php");
 
   $sides = Select_Come_All();
   $sc = 0;

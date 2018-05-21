@@ -6,11 +6,11 @@
 <html>
 <head>
 <title>WMFF Staff | Music Help</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 </head>
 <body>
-<?php include("files/navigation.php"); ?>
+<?php include_once("files/navigation.php"); ?>
 <div class="content">
 <p>
 <h2>Introduction</h2>
@@ -43,6 +43,6 @@ or <a href=AddBug.php>Raise a bug or Feature request</a>.<p>
 
 </div>
 
-<?php include("files/footer.php");  ?>
+<?php include_once("files/footer.php");  ?>
 </body></html>
 

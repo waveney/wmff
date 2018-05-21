@@ -116,7 +116,7 @@ function Set_Event_Help() {
 	'IgnoreClash'=>'Ignore two events at same time and surpress gap checking',
 	'Public'=>'Controls public visibility of Event, "Not Yet" and "Never" are handled the same',
 	'ExcludeCount'=>'For Big Events - if set exclude this event from Dance Spot counts - eg Procession',
-	'Price'=>'In pounds for entire event - there are no prices for sub events',
+	'Price'=>'In pounds for entire event - there are no prices for sub events - negative prices have special meanings -1 = museum',
 	'Venue'=>'For Big Events - put the starting Venue here',
 	'SlotEnd'=>'If a large event is divided into a number of slots, this is the end of the first slot, not needed otherwise',
 	'NonFest'=>'Event not run by the Festival, but included in programme - only for friendly non fesival events',
@@ -306,6 +306,7 @@ function ListLinks(&$ev,$type,$single,$plural,$size,$mult) {
   $think = array();
   sort($ks);	
   $things = 0;
+  $ans = '';
   foreach ( array_reverse($ks) as $imp) {
     if ($imp) $ans .= "<span style='font-size:" . ($size+$imp*$mult) . "px'>";
     foreach ($imps[$imp] as $thing) {
@@ -344,21 +345,33 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
     $imps=array();
     while ($e = $res->fetch_assoc()) {
       if ($e['EventId'] == $Ev) $MainEv = $e;
-      foreach ($flds as $f) {
-        for($i=1;$i<5;$i++) {
-   	  if (isset($e["$f$i"])) { 
-	    $ee = $e["$f$i"];
-	    if ($ee) {
-	      if (!isset($found[$ee]) || !$found[$ee]) {
-		if ($flds == 0) {
-	          $s = array_merge(Get_Side($ee), Get_SideYear($eee,$YEAR));  
-		  $s['NotComing'] = ($s['Coming'] != 2);
-		} else {
-	          $s = array_merge(Get_Side($ee), Get_ActYear($ee,$YEAR));
-		  $s['NotComing'] = ($s['YearState'] < 2);
-		}  
-	        if ($s) $imps[$s['Importance']][] = $s; 
-	        $found[$ee]=1;
+      if ($e['BigEvent']) {
+
+      } else {
+        foreach ($flds as $f) {
+          for($i=1;$i<5;$i++) {
+   	    if (isset($e["$f$i"])) { 
+	      $ee = $e["$f$i"];
+	      if ($ee) {
+	        if (!isset($found[$ee]) || !$found[$ee]) {
+		  $s = Get_Side($ee);
+		  if ($f == 'Side') {
+		    $sy = Get_SideYear($ee,$YEAR);
+//var_dump($sy); echo "<P>";
+		    if ($sy) {
+	              $s = array_merge($s, $sy);  
+		      $s['NotComing'] = ($s['Coming'] != 2);
+		    } else $s['NotComing'] = 1;
+		  } else {
+		    $sy = Get_ActYear($ee,$YEAR);
+		    if ($sy) {
+	              $s = array_merge($s, $sy);  
+		      $s['NotComing'] = ($s['YearState'] < 2);
+		    } else $s['NotComing'] = 1;
+		  }  
+	          if ($s) $imps[$s['Importance']][] = $s; 
+	          $found[$ee]=1;
+		}
 	      }
 	    } 
 	  }
@@ -384,6 +397,7 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
 	  if ($things++) $ans .= ", ";
 	  $link=0;
 	  if ($thing['NotComing']) {
+// var_dump($thing);exit;
 	    $ans .= "<del>" . NoBreak($thing['SName']) . "</del>";
 	  } else {
 	    if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;

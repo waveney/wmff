@@ -6,7 +6,7 @@
 <html>
 <head>
 <title>WMFF Staff | Add/Change Participant</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 <?php include_once("PartLib.php"); ?>
 <script src="/js/clipboard.min.js"></script>
@@ -21,7 +21,7 @@
   else if (isset($_POST['T'])) { $type = $PTypes[$_POST['T']]; }
   else $type = "Other";
 
-  include("files/navigation.php");
+  include_once("files/navigation.php");
   echo '<div class="content"><h2>Add/Edit Participant</h2>';
 
 //var_dump($_POST);
@@ -191,6 +191,6 @@
 
 </div>
 
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>

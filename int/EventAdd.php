@@ -8,18 +8,18 @@
 <html>
 <head>
 <title>WMFF Staff | Add/Change Event</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 <script src="/js/Participants.js"></script>
 </head>
 <body>
-<?php include("files/navigation.php"); ?>
+<?php include_once("files/navigation.php"); ?>
 <?php
-  include("ProgLib.php");
-  include("DocLib.php");
-  include("DanceLib.php");
-  include("MusicLib.php");
-  include("EventCheck.php");
+  include_once("ProgLib.php");
+  include_once("DocLib.php");
+  include_once("DanceLib.php");
+  include_once("MusicLib.php");
+  include_once("EventCheck.php");
   global $MASTER,$YEAR,$USERID,$Importance;
 
   Set_Event_Help();

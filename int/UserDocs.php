@@ -6,16 +6,16 @@
 <html>
 <head>
 <title>WMFF Staff | Doc Usage</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 </head>
 <body>
-<?php include("files/navigation.php"); ?>
+<?php include_once("files/navigation.php"); ?>
 <div class="content"><h2>File storage used</h2>
 
 <?php
 
-  include("DocLib.php");
+  include_once("DocLib.php");
   $AllU = Get_AllUsers();
 
 
@@ -40,6 +40,6 @@
 ?>
   
 </div>
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>

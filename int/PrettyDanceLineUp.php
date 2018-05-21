@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <title>Wimborne Minster Folk Festival | Dance Line-up</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("int/fest.php"); ?>
 <?php include_once("int/DanceLib.php"); ?>
 </head>
@@ -24,7 +24,7 @@
     </script>
 
 <a href="/" rel="bookmark"><h1>Wimborne Minster Folk Festival | Dance Line-up</h1></a>
-<?php include("files/navigation.php"); ?>
+<?php include_once("files/navigation.php"); ?>
 <div class="content">
 
 <h2 class="maintitle">Dance Line-up</h2>
@@ -60,6 +60,6 @@ dance sides below, some of whom have travelled from the USA and Europe to be wit
 
 
 </div>
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>

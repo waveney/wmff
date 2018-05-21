@@ -1,5 +1,5 @@
 <?php
-  include("fest.php");
+  include_once("fest.php");
 
   dostaffhead("Buskers Bash Application", "/js/Participants.js");
 

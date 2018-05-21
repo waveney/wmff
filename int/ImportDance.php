@@ -6,7 +6,7 @@
 <html>
 <head>
 <title>WMFF Staff | Dance CSV Import</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 <?php include_once("DanceLib.php"); ?>
 </head>
@@ -66,7 +66,7 @@
 // $Coming_States = array('','Recieved','Yes','No','Probably','Possibly','No clash','No, invite next year');
 // $Invite_States = array('','Yes','YES','No','Prob','Poss','No Way');
 
-  include("files/navigation.php");
+  include_once("files/navigation.php");
 
   if (!isset($_FILES['CSVfile'])) {
     echo '<div class="content"><h2>Import Dance Sides</h2>';
@@ -155,6 +155,6 @@
 
 </div>
 
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>

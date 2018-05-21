@@ -5,9 +5,9 @@
   dostaffhead("List Events");
   global $db,$Event_Types,$USERID,$Importance;
   $yn = array('','Y');
-  include("ProgLib.php");
-  include("DocLib.php");
-  include("EventCheck.php");
+  include_once("ProgLib.php");
+  include_once("DocLib.php");
+  include_once("EventCheck.php");
 
 //var_dump($Event_Types);
 
@@ -108,7 +108,7 @@
       echo "<td>" . ($evnt['Status'] == 1 ? "<div class=Cancel>Cancelled</div> " : "") . (isset($Event_Types[$evnt['Type']]) ? $Event_Types[$evnt['Type']] : "?" );
       echo "<td>" . $Public_Event_Types[$evnt['Public']];
       echo "<td>" ; 
-      if ($evnt['SubEvent'] <= 0 ) {
+      if ($evnt['SubEvent'] <= 0 || ($evnt['SpecPrice'])) {
 	if ($evnt['SpecPrice']) {
 	  echo $evnt['SpecPrice'];
 	} else {

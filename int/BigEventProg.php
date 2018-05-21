@@ -6,7 +6,7 @@
 <html>
 <head>
 <title>WMFF Staff | Big Event Programming</title>
-<?php include("minimalheader.php"); ?>
+<?php include_once("minimalheader.php"); ?>
 <script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script src="js/tableHeadFixer.js"></script>
 <script src="js/BigE.js"></script>

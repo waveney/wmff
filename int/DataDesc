@@ -5,4 +5,8 @@ Venues and Map Points
 
 Google Maps API key AIzaSyBPxpYmezfuaG9M1aVLBDjI0srpmJlfPPY
 
+YEAR and THISYEAR
+  YEAR is the year the action is about (defaults to THISYEAR, but can switch by adding Y=2999 to any link.  THISYEAR is the Festival coming.  
+It will be set from early July to the next year.  CurrentYear where used is the actual calenda year.
+
 

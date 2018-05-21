@@ -6,7 +6,7 @@
 <html>
 <head>
 <title>WMFF Staff | Document Storage</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 <script>
   function uploaddocs(dir) {
@@ -16,8 +16,8 @@
 </head>
 <body>
 <?php
-  include("files/navigation.php"); 
-  include("DocLib.php");
+  include_once("files/navigation.php"); 
+  include_once("DocLib.php");
   global $USERID;
 
   echo '<div class="content">';

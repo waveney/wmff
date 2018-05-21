@@ -2,7 +2,7 @@
 <head>
 <title>Wimborne Minster Folk Festival | Photo Upload</title>
 <?php 
-  include("files/header.php");
+  include_once("files/header.php");
   include_once("festcon.php");
   include_once("DanceLib.php"); 
   include_once("ImageLib.php"); 
@@ -12,7 +12,7 @@
 <body>
 <?php
 
-//  include("files/navigation.php"); 
+//  include_once("files/navigation.php"); 
 // <div class="content"><h2>Upload Photo</h2>
 
   global $db,$Mess,$Where;
@@ -86,11 +86,11 @@ echo "H5";
       $Mess = "Sorry, there was an error uploading your file.";
     }
   }
-  include($From);
+  include_once($From);
   exit();
   $Act($snum);
 ?>
 
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>

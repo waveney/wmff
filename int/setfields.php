@@ -1,7 +1,7 @@
 <?php 
 // Set fields in data
-include("fest.php");
-include("DanceLib.php");
+include_once("fest.php");
+include_once("DanceLib.php");
 
 $id = $_GET['I'];
 $Opt = $_GET['O'];
@@ -15,7 +15,7 @@ case 'I':
   if (!$Sidey) $Sidey = Default_SY($id);
   date_default_timezone_set('GMT');
   if (strlen($Sidey['Invited'])) $Sidey['Invited'] .= ", ";
-  $Sidey['Invited'] .= date('j/n');
+  $Sidey['Invited'] .= date('j/n/y');
   Put_SideYear($Sidey);
   echo $Sidey['Invited'];
   break;

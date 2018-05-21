@@ -6,7 +6,7 @@
 <html>
 <head>
 <title>Wimborne Folk Festival Committee</title>
-<?php include("minimalfiles/header.php"); ?>
+<?php include_once("minimalfiles/header.php"); ?>
 <script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script src="js/tableHeadFixer.js"></script>
 <script src="js/DanceProg.js"></script>

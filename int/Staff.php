@@ -12,7 +12,7 @@
 <html>
 <head>
 <title>WMFF Staff | Staff Tools</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 <script src="/js/jquery-3.2.1.min.js"></script>
 <script src="/js/jquery.typeahead.min.js"></script>
@@ -72,7 +72,7 @@
     if (Access('Staff','Music')) {
       echo "<li>Invite Music Acts\n";
 //      echo "<li><a href=InviteMusic.php>Invite Music Acts</a>\n";
-      echo "<li><a href=AddMusic.php>Add Music Act to Database</a>\n"; 
+      echo "<li><a href=AddMusic.php?Y=$YEAR>Add Music Act to Database</a>\n"; 
       echo "<li>Find Act"; // <a href=AddDance.php>Add Dance Side</a>"; 
 /*
 //      if ($YEAR == $THISYEAR) echo "<li><a href=MusicProg.php?>Edit Music Programming</a>";
@@ -102,7 +102,7 @@
   echo "<td class=Stafftd><h2>Dance</h2>\n";
     echo "<ul>\n";
     if (Access('Staff','Dance')) {
-      echo "<li><a href=InviteDance.php>Invite Dance Sides</a>\n";
+      echo "<li><a href=InviteDance.php?Y=$YEAR>Invite Dance Sides</a>\n";
     }
     if (Access('Committee')) {
       echo "<li><a href=ListDance.php?SEL=ALL&Y=$YEAR>List All Dance Sides in Database</a>\n";
@@ -110,7 +110,7 @@
       echo "<li><a href=DanceSummary.php?Y=$YEAR>Dance Sides Summary</a>\n";
     }
     if (Access('Staff','Dance')) {
-      echo "<li><a href=AddDance.php>Add Dance Side to Database</a>"; 
+      echo "<li><a href=AddDance.php?Y=$YEAR>Add Dance Side to Database</a>"; 
     }
 
 //      echo "<li><input class=typeahead type=text placeholder='Find a Side'>\n";
@@ -169,7 +169,7 @@
       echo "<li><a href=ListTrade.php?Y=$YEAR>List All Traders</a>\n";
       echo "<li><a href=TradeFAQ.php>Trade FAQ</a>\n";
     if (Access('Staff','Stalls')) {
-      echo "<li><a href=Trade.php>Add Trader</a>\n";
+      echo "<li><a href=Trade.php?Y=$YEAR>Add Trader</a>\n";
       echo "<li><a href=ListCTrade.php?Y=$YEAR&SUM>Traders Summary</a>\n";
       echo "<li><a href=TradeLocs.php>Trade Locations</a>\n";
       if (Access('SysAdmin')) echo "<li><a href=TradeTypes.php>Trade Types and base Prices</a>\n";
@@ -178,7 +178,7 @@
 //      if (Access('SysAdmin')) echo "<li><a href=TradeImport2.php>Merge Mandy's Trade Data</a>\n";
       if (Access('SysAdmin')) echo "<li><a href=TradeImport3.php>Fix Access Keys</a>\n";
 //      echo "<li><a href=/admin/trade/index.php>Old Trade Stand Section</a>\n";
-      echo "<li><a href=Trade2CSV.php>Traders as CSV</a>\n";
+      echo "<li><a href=Trade2CSV.php?Y=$YEAR>Traders as CSV</a>\n";
     }
     if (Access('Staff','Sponsors')) echo "<li><a href=Sponsors.php>Sponsors</a>\n";
     if (Access('SysAdmin')) echo "<li><a href=LinkManage.php>Manage Other Fest Links</a>\n";
@@ -191,7 +191,7 @@
 // *********************** VENUES & EVENTS *******************************************************
   echo "<td class=Stafftd><h2>Venues and Events</h2>\n";
     echo "<ul>\n";
-    echo "<li><a href=VenueList.php>List Venues</a>\n";
+    echo "<li><a href=VenueList.php?Y=$YEAR>List Venues</a>\n";
     echo "<li><a href=EventList.php?Y=$YEAR>List Events</a>\n";
     if (Access('Staff','Venues')) echo "<li><a href=EventTypes.php>Event Types</a>\n";
     echo "<li><form method=Post action=VenueShow.php?Mode=1 class=staffform>";
@@ -207,6 +207,7 @@
     echo "<li><a href=$host/Map.php>Map</a>\n";
     echo "<li><a href=EventSummary.php?Y=$YEAR>Event Summary</a>\n";
 //    if (Access('SysAdmin')) echo "<li><a href=BusTimes.php>Fetch and Cache Bus Times</a>\n";
+//    echo "<li><a href=VenuePoster.php?Y=$YEAR>Venue Posters</a>\n";
     echo "</ul>\n";
 
 // *********************** OTHER *****************************************************************

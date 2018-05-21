@@ -21,7 +21,7 @@
   $Mess = '';
 /*    User Editing of Side Data */ ////////// DUFF
   if (isset($_POST{'Action'})) {
-    include("Uploading.php");
+    include_once("Uploading.php");
     $Action = $_POST{'Action'};
     switch ($Action) {
     case 'Insurance':
@@ -60,8 +60,8 @@
 	Contract_Decline($Side,$Sidey,1); 
       }
       Update_db_post('Sides',$Side,1);
-      if ($_POST{'Year'} == $THISYEAR) {
-        if ($Sidey) {
+      if ($_POST{'Year'} >= $THISYEAR) {
+        if (isset($Sidey) && $Sidey){
 	  $Sve_Sidey = $Sidey;
           Update_db_post('ActYear',$Sidey);
 	  if (ActYear_Check4_Change($Sve_Sidey,$Sidey)) $Sidey = Get_Actyear($snum);

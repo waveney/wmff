@@ -6,14 +6,14 @@
 <html>
 <head>
 <title>WMFF Staff | Welcome</title>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 </head>
 <body>
 
 <?php
-  include("files/navigation.php");
-  include("UserLib.php");
+  include_once("files/navigation.php");
+  include_once("UserLib.php");
 
   if (isset($_GET['U'])) {
     $uid = $_GET['U'];
@@ -52,6 +52,6 @@
 
 </div>
 
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>

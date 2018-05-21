@@ -116,7 +116,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
   if (strlen($Sidey['Rider']) > 5) $str .= "<b>Rider:</b> " . $Sidey['Rider'] . "<p>\n";
   // Extra for supplied camping
 
-  $faq = ($ctype > 1 ? include("InnerMusicFAQ.php") : "Payment: All payments will be made by BACS, within 48 hours of the end of the Festival. Cash will not be used for payments. Any queries should be submitted through the employer." );
+  $faq = ($ctype > 1 ? include_once("InnerMusicFAQ.php") : "Payment: All payments will be made by BACS, within 48 hours of the end of the Festival. Cash will not be used for payments. Any queries should be submitted through the employer." );
 
   if ($pking) {
     $allfree = 1;

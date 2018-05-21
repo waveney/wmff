@@ -8,13 +8,13 @@
 <title>WMFF Staff | List Music Acts</title>
 <script src="/js/clipboard.min.js"></script>
 <script src="/js/emailclick.js"></script>
-<?php include("files/header.php"); ?>
+<?php include_once("files/header.php"); ?>
 <?php include_once("festcon.php"); ?>
 </head>
 <body>
 <?php 
   global $YEAR,$THISYEAR,$Book_Colour,$Book_States,$Book_Actions,$Book_ActionExtras;
-  include("files/navigation.php"); 
+  include_once("files/navigation.php"); 
   include_once("DanceLib.php"); 
   include_once("MusicLib.php"); 
 

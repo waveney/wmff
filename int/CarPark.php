@@ -7,7 +7,7 @@
 <html>
 <head>
 <title>WMFF Staff | Print Dance Address Labels</title>
-<?php include("minimalheader.php"); ?>
+<?php include_once("minimalheader.php"); ?>
 <?php include_once("festcon.php"); ?>
 </head>
 <body>

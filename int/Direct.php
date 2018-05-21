@@ -1,8 +1,8 @@
 <?php
-  include("fest.php");
+  include_once("fest.php");
   global $USER,$USERID;
-  include("DanceLib.php");
-  include("MusicLib.php");
+  include_once("DanceLib.php");
+  include_once("MusicLib.php");
   include_once("TradeLib.php");
 
   if ( !isset($_GET{'id'}) || !isset($_GET{'key'})) Error_Page("Invalid link"); // No return
@@ -28,8 +28,8 @@
     $USER{'AccessLevel'} = $Access_Type['Participant'];
     $USER{'Subtype'} = 'Trader';
     $USER{'UserId'} = $USERID = $Tid;
-    include("files/navigation.php");
-    include("TraderPage.php");
+    include_once("files/navigation.php");
+    include_once("TraderPage.php");
     exit;
   } else { 
     $SideId = $_GET{'id'};
@@ -54,24 +54,24 @@
     $USER{'AccessLevel'} = $Access_Type['Participant'];
     $USER{'Subtype'} = $Type;
     $USER{'UserId'} = $USERID = $SideId;
-    include("files/navigation.php");
+    include_once("files/navigation.php");
     switch ($Type) {
     case 'Side':
-      include("DanceEdit.php");
+      include_once("DanceEdit.php");
       exit;
     case 'Act':
     case 'Other':
-      include("MusicEdit.php");
+      include_once("MusicEdit.php");
       exit;
     default:
-      include("OtherEdit.php");
+      include_once("OtherEdit.php");
       exit;
     }
   }
 
 ?>
 </div>
-<?php include("files/footer.php"); ?>
+<?php include_once("files/footer.php"); ?>
 </body>
 </html>
 
