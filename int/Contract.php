@@ -58,7 +58,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
       $str .= "<tr><td>$evc<td>" . $e['SName'] . "<td>" . $DayList[$e['Day']] . " " . ($MASTER['DateFri']+$e['Day']) ."th June $YEAR";
       if ($ctype == 1 ) $str .= "<td>" . ($e['Start']? ( timecolon(timeadd2($e['Start'],- $e['Setup']) )) : "TBD" ) ;
       $str .= "<td>" . ($e['Start']?timecolon($e['Start']):"TBD");
-      $str .= "<td>" . ($e['Duration']? ( $e['Duration'] . " minutes") :"TBD"); 
+      $str .= "<td>" . ($e['Duration']? DurationFormat($e['Duration']) :"TBD"); 
       $evd += $e['Duration'];
       if ($e['Duration'] == 0) $evv = 1;
       $str .= "<td>";
@@ -88,7 +88,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
     $str .= "</table>\n";
   } 
 
-  $str .= "Total of $evc events, with a total duration of " . ($evv?"at least ":"") . "$evd minutes.<p>\n";
+  $str .= "Total of $evc events, with a total duration of " . ($evv?"at least ":"") . DurationFormat($evd) . "<p>\n";
 
   $str .= "Total Fee: &pound;" . $Sidey['TotalFee'];
   if ($Sidey['OtherPayment']) $str .= " plus " . $Sidey['OtherPayment'];

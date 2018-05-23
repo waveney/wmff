@@ -95,7 +95,7 @@
     }
     $Sent_Count = 0;
     $StartAt = (isset($_POST['STARTAT']) ? ($_POST['STARTAT']) : 0);
-    $EndAt = $StartAt +20; // Batch size 5 for testing 20 in real life
+    $EndAt = $StartAt +10; // Batch size 5 for testing 20 in real life
 
 //var_dump($Sent_Count,$StartAt,$EndAt,$_POST['STARTAT']);
 //var_dump($_POST);
