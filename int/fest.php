@@ -845,7 +845,7 @@ function First_Sent($stuff) {
 }
 
 function firstword($stuff) {
-  if (preg_match('/(\S*?)\s/',$stuff,$s)) return $s[1];
+  if (preg_match('/(\S*?)\s/',trim($stuff),$s)) return $s[1];
   return $stuff;
 }
 

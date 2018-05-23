@@ -43,7 +43,8 @@
     $_POST['Mess'] = preg_replace('/\*SENDER\*/',$Sender,$Mess);
 
     echo "<form method=post><table class=Devemail>";
-    echo "<tr><td colspan=8>" .fm_checkbox("Just list who it would go to do not actually send anything",$_POST,'JustList');
+    echo "<tr><td colspan=8>" . fm_checkbox("Just list who it would go to do not actually send anything",$_POST,'JustList');
+    echo "<tr>" . fm_text('Start at', $_POST,'STARTAT');
     echo "<tr>" . fm_textarea('Message',$_POST,'Mess',10,25);
     echo "<tr><td colspan=10><input type=submit name=SEND value='BID and Chamber of Trade only'>\n";
     echo "<input type=submit name=SEND value='Previous traders not members of BID'>\n";
@@ -92,6 +93,12 @@
       echo "None found!";
       dotail();
     }
+    $Sent_Count = 0;
+    $StartAt = (isset($_POST['STARTAT']) ? ($_POST['STARTAT']) : 0);
+    $EndAt = $StartAt +20; // Batch size 5 for testing 20 in real life
+
+//var_dump($Sent_Count,$StartAt,$EndAt,$_POST['STARTAT']);
+//var_dump($_POST);
     while ($Trad = $res->fetch_assoc()) {
       $ThisMess = $Mess;
       $Tid = $Trad['Tid'];
@@ -102,7 +109,7 @@
       };
 
       if ($Trad['Contact']) {
-        $Contact = firstword($Trad['Contact']);
+        $Contact = firstword(trim($Trad['Contact']));
       } else {
 	$Contact = $Trad['SName'];
       }
@@ -112,22 +119,33 @@
       $Link = "<a href=http://wimbornefolk.co.uk/int/Direct.php?t=Trade&id=$Tid&key=$Key><b>link</b></a>";
       $Remove = "<a href=http://wimbornefolk.co.uk/int/Remove.php?t=Trade&id=$Tid&key=$Key><b>here</b></a>";
     
-      if ( isset($_POST['JustList']) && $_POST['JustList']) {
-        echo "Would send to " . $Trad['SName'] . "<br>";
-        continue;
-      }
-      $ThisMess = preg_replace('/\*WHO\*/',$Contact,$ThisMess);
-      $ThisMess = preg_replace('/\*LINK\*/',$Link,$ThisMess);
-      $ThisMess = preg_replace('/\*HERE\*/',$Remove,$ThisMess);
-      $ThisMess = preg_replace('/\*LIMITED\*/',$Limited,$ThisMess);
+      if ($Sent_Count >= $StartAt && $Sent_Count < $EndAt) {
+        if ( isset($_POST['JustList']) && $_POST['JustList']) {
+          echo "Would send to " . $Trad['SName'] . "<br>";
+        } else {
+          $ThisMess = preg_replace('/\*WHO\*/',$Contact,$ThisMess);
+          $ThisMess = preg_replace('/\*LINK\*/',$Link,$ThisMess);
+          $ThisMess = preg_replace('/\*HERE\*/',$Remove,$ThisMess);
+          $ThisMess = preg_replace('/\*LIMITED\*/',$Limited,$ThisMess);
 // Need to update history in future as appropriate
-      if (file_exists("testing")) {
-	echo "Would send to " . $Trad['SName'] . "<p> $ThisMess <p>";
-      } else {
+          if (file_exists("testing")) {
+  	    echo "Would send to " . $Trad['SName'] . "<p> $ThisMess <p>";
+          } else {
 // exit; // Testing backstopdd
-	SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $THISYEAR and " . $Trad['SName'],$ThisMess);
-	echo "Sent to " . $Trad['SName'] . "<br>";
+	    SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $THISYEAR and " . $Trad['SName'],$ThisMess);
+	    echo "Sent to " . $Trad['SName'] . "<br>";
+          }
+	}
       }
+      $Sent_Count++;
+    }
+    if ($Sent_Count > $EndAt) {
+      echo "<P><form method=post>";
+      echo fm_hidden('STARTAT', $EndAt+1) . fm_hidden('Mess',$Mess) . fm_hidden('SEND',$_POST['SEND']) ; 
+      if (isset($_POST['JustList'])) echo fm_hidden('JustList',$_POST['JustList']);
+      echo "<input type=submit name=MORE value='Next batch " . $EndAt . "'>\n";
+    } else {
+      echo "All Done";
     }
   }
 
