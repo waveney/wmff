@@ -43,12 +43,14 @@
     $_POST['Mess'] = preg_replace('/\*SENDER\*/',$Sender,$Mess);
 
     echo "<form method=post><table class=Devemail>";
+    echo "<tr><td colspan=8>" .fm_checkbox("Just list who it would go to do not actually send anything",$_POST,'JustList');
     echo "<tr>" . fm_textarea('Message',$_POST,'Mess',10,25);
     echo "<tr><td colspan=10><input type=submit name=SEND value='BID and Chamber of Trade only'>\n";
     echo "<input type=submit name=SEND value='Previous traders not members of BID'>\n";
     echo "<input type=submit name=SEND value='Other traders'>\n";
     echo "<input type=submit name=SEND value='All traders'>\n";
     echo "<input type=submit name=SEND value='All Accepted Traders'>\n";
+    echo "<input type=submit name=SEND value='All Non - Accepted Traders'>\n";
     echo "</table><form>\n";
   } else {
     $Limited = '';
@@ -73,6 +75,10 @@
 
     case 'All Accepted Traders':
       $qry = "SELECT t.*, y.* FROM Trade t, TradeYear y WHERE t.Tid=y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Accepted'];
+      break;
+
+    case 'All Non - Accepted Traders':
+      $qry = "SELECT t.*, y.* FROM Trade t, TradeYear y WHERE t.Tid=y.Tid AND y.Year=$YEAR AND y.BookingState<" . $Trade_State['Accepted'];
       break;
 
     default:
@@ -100,27 +106,30 @@
       } else {
 	$Contact = $Trad['SName'];
       }
+
+      if ($Trad['SName'] == '') continue;
+
       $Link = "<a href=http://wimbornefolk.co.uk/int/Direct.php?t=Trade&id=$Tid&key=$Key><b>link</b></a>";
       $Remove = "<a href=http://wimbornefolk.co.uk/int/Remove.php?t=Trade&id=$Tid&key=$Key><b>here</b></a>";
     
+      if ( isset($_POST['JustList']) && $_POST['JustList']) {
+        echo "Would send to " . $Trad['SName'] . "<br>";
+        continue;
+      }
       $ThisMess = preg_replace('/\*WHO\*/',$Contact,$ThisMess);
       $ThisMess = preg_replace('/\*LINK\*/',$Link,$ThisMess);
       $ThisMess = preg_replace('/\*HERE\*/',$Remove,$ThisMess);
       $ThisMess = preg_replace('/\*LIMITED\*/',$Limited,$ThisMess);
-// DETAILS TBD
-      $Trady = Get_TradeYear($Tid);
-      $Trady['SentInvite'] = date();
-      Put_TradeYear($Trady);
+// Need to update history in future as appropriate
       if (file_exists("testing")) {
 	echo "Would send to " . $Trad['SName'] . "<p> $ThisMess <p>";
       } else {
-exit;
-	SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $THISYEAR and " . $Trad['SName'],$ThisMess,"Content-type: text/html;");
+// exit; // Testing backstopdd
+	SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $THISYEAR and " . $Trad['SName'],$ThisMess);
 	echo "Sent to " . $Trad['SName'] . "<br>";
       }
     }
   }
-    
 
   dotail();
 ?>
