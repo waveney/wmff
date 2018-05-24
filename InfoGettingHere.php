@@ -43,15 +43,14 @@ The most convienent train station is <strong>Poole</strong>, with train services
 <a href="http://morebus.co.uk" target="_blank">More Buses</a> (3, 4 & 13).<p>
 
 Route 3 runs every 30 minutes to and from <b>Poole</b> to <b>Wimborne</b> Monday to Saturday daytime (and is faster).<p>
-Route 4 runs every 30 minutes to and from <b>Poole</b> to <b>Wimborne</b> every day (but is slower). 
-Note: Only half of Route 4 Buses go as far as Wimborne, only those that do are listed in the tables below.<p>
+Route 4 runs every 30 minutes to and from <b>Poole</b> to <b>Wimborne</b> every day (but is slower). <p>
+Note: Only half of Route 4 Buses go as far as Wimborne, only those that do, are listed in the tables below.<p>
 
 Route 13 goes to and from <b>Bournemouth</b> to <b>Wimborne</b> every 30 minutes Monday to Saturday daytime and hourly on Sunday and the evening.<p>
 
-These are the currently publicised Bus times, there will be additional buses in the evenings (until 1:30am), over the festival, 
-when they known they will be shown here.<p>
+Note there will be a temporary bus stop by the Campsite, this is on the route of the 3, and the 4's that go via Corfe Mullen in the evenings and on Sunday.<p>
 
-Note there will be a temporary bus stop by the Campsite, this is on the route of the 3, and the 4 in the evenings and on Sunday.<p>
+Buses in <span class=ExtraBus>Bold Blue</span> are additional buses being run for the festival.<p>
 
 <table border class=TueTab>
 <tr><td>Route<td colspan=3>To Wimborne<td colspan=3>From Wimborne
