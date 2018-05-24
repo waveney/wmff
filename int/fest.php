@@ -851,7 +851,7 @@ function firstword($stuff) {
 
 function SAO_Report($i) {
   $OSide = Get_Side( $i ); 
-  $str = "<a href=/int/ShowSide.php?sidenum=$i>" . $OSide['SName'];
+  $str = "<a href=/int/ShowDance.php?sidenum=$i>" . $OSide['SName'];
   if ($OSide['Type']) $str .= " (" . trim($OSide['Type']) . ")";
   return $str . "</a>";
 }

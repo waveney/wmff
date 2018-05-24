@@ -570,7 +570,7 @@ function Extended_Prog($type,$id,$all=0) {
 	      case 'Side':
 	      case 'Act':
 	      case 'Other':
-		if ($O['Identifier'] == $id && $O['Type'] == $type) { 
+		if ($O['Identifier'] == $e['ActAs']) { 
 		  $Found = 1; 
 		} else {
 		  if ($Found && $NextI==0) { $NextI=$O['Identifier']; $NextT=$O['Type']; }
