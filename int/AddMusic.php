@@ -141,5 +141,6 @@
   echo "</form>\n";
 
   echo Show_Prog('Act',$snum,1);
+  echo Extended_Prog('Act',$snum,1);
   dotail();
 ?>

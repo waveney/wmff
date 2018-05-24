@@ -417,8 +417,16 @@ function Has_Info(&$data) {
 
 function Get_Overlaps_For($id,$act=0) { // if act only active
   global $db;
-  $Os = array();
-  $res = $db->query("SELECT * FROM Overlaps WHERE (Sid1=$id OR Sid2=$id) " . ($act?' AND Active=1':''));
+  $Os = [];
+  $res = $db->query("SELECT * FROM Overlaps WHERE (Sid1=$id OR Sid2=$id)" . ($act?' AND Active=1':''));
+  if ($res) while ($o = $res->fetch_assoc()) $Os[] = $o;
+  return $Os;
+}
+
+function Get_Active_Overlaps_For($id) { // if act only active
+  global $db;
+  $Os = [];
+  $res = $db->query("SELECT * FROM Overlaps WHERE (Sid1=$id OR Sid2=$id) AND Sid1!=0 AND Sid2!=0 AND Active=1");
   if ($res) while ($o = $res->fetch_assoc()) $Os[] = $o;
   return $Os;
 }
@@ -447,17 +455,20 @@ function Put_Overlaps(&$Ovs) {
   
 function UpdateOverlaps($snum) {
   $Exist = Get_Overlaps_For($snum);
+//var_dump($Exist);echo "<p>";
+//var_dump($_POST);echo "<p>";
+
 // Scan each existing and any added rules
   $Rule = 0;
-  while ((isset($_POST["OlapSide$Rule"]) || isset($_POST["OlapAct$Rule"]) || isset($_POST["OlapOther$Rule"])) && 
-	 isset($_POST["OlapActiveRule"]) && isset($_POST["OlapMajor$Rule"])) {
+  while ((isset($_POST["OlapSide$Rule"]) || isset($_POST["OlapAct$Rule"]) || isset($_POST["OlapOther$Rule"])) || 
+	 isset($_POST["OlapActive$Rule"]) || isset($_POST["OlapMajor$Rule"])) {
     $O = $StO = (isset($Exist[$Rule]) ? $Exist[$Rule] : ['Sid1'=>$snum,'Cat2'=>0]);
     $Other = ($O['Sid1'] == $snum)?'Sid2':'Sid1'; //???????
     $OtherCat = ($O['Sid1'] == $snum)?'Cat2':'Cat1'; //???????
     $O['OType'] = $_POST["OlapType$Rule"];
-    $O['Major'] = $_POST["OlapMajor$Rule"];
+    $O['Major'] = (isset($_POST["OlapMajor$Rule"]) ? $_POST["OlapMajor$Rule"] :0);
     $O['Days'] = $_POST["OlapDays$Rule"];
-    $O['Active'] = $_POST["OlapActive$Rule"];
+    $O['Active'] = (isset($_POST["OlapActive$Rule"]) ? $_POST["OlapActive$Rule"] :0);
     $Cat = $O[$OtherCat] = $_POST["OlapCat$Rule"];
     switch ($Cat) {
     case 0: //Side
@@ -470,7 +481,7 @@ function UpdateOverlaps($snum) {
       $O[$Other] = $_POST["OlapOther$Rule"];
       break;
     }    
-    if ($O['id']) {
+    if ((isset($O['id'])) && $O['id']) {
       Update_db('Overlaps',$StO,$O); 
     } else if ($O[$Other]) {
       Insert_db('Overlaps',$O); 
@@ -485,4 +496,148 @@ function Side_ShortName($si) {
   return $side[($side['ShortName']?'ShortName':'SName')];
 }
 
+
+function EventCmp($a,$b) {
+  if ($a['Day'] != $b['Day'] ) return (($a['Day'] < $b['Day']) ? -1 : 1);
+  if ($a['Start'] == $b['Start']) return 0;
+  return (($a['Start'] < $b['Start']) ? -1 : 1);
+}
+
+/* Get Overlaps - if none return empty string, if not public return,
+/  otherwise get programmes for all overlaps and merge together and list as a timetable
+/ */
+function Extended_Prog($type,$id,$all=0) { 
+    global $DayList,$MASTER,$OlapCats;
+    $Olaps = Get_Active_Overlaps_For($id,1);
+    if (!$Olaps) return "";
+
+    include_once("ProgLib.php");
+    $str = '';
+    $Evs = Get_All_Events_For($type,$id,$all);
+    $ETs = Get_Event_Types(1);
+//echo "Type: $type, $id<p>";
+//var_dump($Evs);
+    $evc=0;
+    $Worst= 99;
+    $EventLink = ($all?'EventAdd.php':'EventShow.php');
+    $VenueLink = ($all?'AddVenue.php':'VenueShow.php');
+    $host = "https://" . $_SERVER{'HTTP_HOST'};
+
+    foreach ($Evs as $ei=>$e) $Evs[$ei]['ActAs'] = $id;
+    $Found = 0;
+    // Go through each Olap and add events
+    foreach($Olaps as $O) {
+      $Oid = ($O['Sid1'] == $id ? $O['Sid2'] : $O['Sid1']);
+      $Oct = ($O['Sid1'] == $id ? $O['Cat2'] : $O['Cat1']);
+      $OEvs = Get_All_Events_For($OlapCats[$Oct],$Oid,$all);
+      if (!$OEvs) continue;
+      foreach ($OEvs as $oe=>$e) $OEvs[$oe]['ActAs'] = $Oid;
+      $Evs = array_merge($Evs,$OEvs);
+      $Found = 1;
+    }
+    if (!$Found) return ""; // No new events found
+
+    usort($Evs,"EventCmp"); 
+    
+//var_dump($Evs); exit;
+    $Venues = Get_Real_Venues(1);
+    if ($Evs) { // Show IF all or EType state > 1 or (==1 && participant)
+      $With = 0;
+      foreach ($Evs as $e) {
+	if ($e["BigEvent"]) { $With = 1; break; }
+	for ($i = 1; $i<5;$i++) if ($e["Side$i"] && $e["Side$i"] != $id) { $With = 1; break 2; }
+	for ($i = 1; $i<5;$i++) if ($e["Act$i"] && $e["Act$i"] != $id) { $With = 1; break 2; }
+	for ($i = 1; $i<5;$i++) if ($e["Other$i"] && $e["Other$i"] != $id) { $With = 1; break 2; }
+      }
+	
+      $UsedNotPub = 0;
+      foreach ($Evs as $e) {
+	$cls = ($e['Public']<2?'':' class=NotCSide ');
+        if ($all || $ETs[$e['Type']]['State'] > 1 || ($ETs[$e['Type']]['State'] == 1 && Access('Participant',$type,$id))) {
+	  $evc++;
+ 	  $Worst = min($ETs[$e['Type']]['State'],$Worst);
+	  if ($e['BigEvent']) { // Big Event
+	    $Others = Get_Other_Things_For($e['EventId']);
+	    $VenC=0;
+	    $PrevI=0;
+	    $NextI=0;
+	    $PrevT=0;
+	    $NextT=0;
+	    $Found=0;
+	    $Position=1;
+	    foreach ($Others as $O) {
+	      switch ($O['Type']) {
+	      case 'Side':
+	      case 'Act':
+	      case 'Other':
+		if ($O['Identifier'] == $e['ActAs']) { 
+		  $Found = 1; 
+		} else {
+		  if ($Found && $NextI==0) { $NextI=$O['Identifier']; $NextT=$O['Type']; }
+		  if (!$Found) { $PrevI=$O['Identifier']; $PrevT=$O['Type']; $Position++; }
+		}
+		break;
+	      case 'Venue':
+		$VenC++;
+	      default:
+		break;
+	      }
+	    }
+	    $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
+			"<td>" . SAO_Report($e['ActAs']) .
+			"<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SName'] . "</a><td $cls>";
+	    if ($VenC) $str .= " starting from ";
+	    $str .= "<a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) ;
+	    $str .= "</a><td $cls>";
+	    if ($PrevI || $NextI) $str .= "In position $Position";
+	    if ($PrevI) { $str .= ", After " . SAO_Report($PrevI); };
+	    if ($NextI) { $str .= ", Before " . SAO_Report($NextI); };
+	    $str .= "\n";
+	  } else { // Normal Event
+	    $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
+			"<td>" . SAO_Report($e['ActAs']) .
+			"<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SName'] . 
+			"</a><td $cls><a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a>";
+	    if ($With) {
+	      $str .= "<td $cls>";
+	      $withc=0;
+	      for ($i=1;$i<5;$i++) {
+	        if ($e["Side$i"] > 0 && $e["Side$i"] != $id && $type == 'Side') { 
+	          if ($withc++) $str .= ", "; 
+		  $str .= SAO_Report($e["Side$i"]);
+                }
+	        if ($e["Act$i"] > 0 && $e["Act$i"] != $id && $type == 'Act') { 
+	          if ($withc++) $str .= ", ";
+		  $str .= SAO_Report($e["Act$i"]);
+                }
+	        if ($e["Other$i"] > 0 && $e["Other$i"] != $id && $type == 'Other') { 
+	          if ($withc++) $str .= ", ";
+		  $str .= SAO_Report($e["Other$i"]);
+                }
+	      }
+	    }
+	    $str .= "\n";
+	  }
+        } else { // Debug Code
+//	  echo "State: " . $ETs[$e['Type']]['State'] ."<p>";
+	}
+	if ($cls) $UsedNotPub = 1;
+      }
+      if ($evc) {
+        $Thing = Get_Side($id);
+	$Desc = ($Worst > 2)?"":'Current ';
+	if ($With) $str = "<td>With\n" . $str;
+        $str = "<h2>$Desc Programme for " . $Thing['SName'] . " including overlaps:</h2>\n" . 
+		($UsedNotPub?"<span class=NotCSide>These are not currently public<p>\n</span>":"") .
+		"<table border><tr><td>Day<td>time<td>As<td>Event<td>Venue" . $str;
+      }
+    }
+    if ($evc) {
+      $str .= "</table>\n";    
+    }
+
+//var_dump($str);
+
+  return $str;
+}
 ?>

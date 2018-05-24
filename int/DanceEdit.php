@@ -118,6 +118,7 @@
   echo "</form>\n";
 
   echo Show_Prog('Side',$snum);
+  echo Extended_Prog('Side',$snum);
 
   dotail();
 ?>
