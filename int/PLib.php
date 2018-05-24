@@ -22,6 +22,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
   $snum=$Side['SideId'];
   if ($Side['IsAnAct']) Add_Act_Help();
   if ($Side['IsOther']) Add_Act_Help();
+  $Sidey = Get_SideYear($snum);
 
   if ( isset($Side['Photo']) && ($Side['Photo'])) echo "<img class=floatright src=" . $Side['Photo'] . " height=80>\n";
   echo "<input  class=floatright type=Submit name='Update' value='Save Changes' form=mainform>";
@@ -48,7 +49,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
     echo "  <span class=NotCSide>Marked are visible if set, but not changeable by participants.</span>";
   } else {
     $Adv = ''; // 'class=Adv'; // NEEDS MODING FOR NON DANCE
-    if ($Mstate && $Side['IsASide']) {
+    if ($Mstate && $Side['IsASide'] && isset($Sidey['Coming']) && $Sidey['Coming']==2 ) {
       echo "<h2 class=floatright>You have <span id=ImpC>0</span> of 4 <span class=red>Most Important</span> Dance things filled in </h2>";
       $Imp = 'class=imp';
     }
@@ -297,29 +298,33 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
     if ($Mstate)  $Imp = 'class=imp';
   }
 
+  $Request = 0;
   if ($Mode == 0 && (!isset($Sidey['Coming']) || $Sidey['Coming'] == 0) && (!isset($Sidey['Invite']) || $Sidey['Invite'] >= $Invite_Type['No'])) {
     if ($YEAR >= $THISYEAR) echo "<h2><a href=DanceRequest.php?sidenum=$snum&Y=$YEAR>Request Invite for $YEAR</a></h2>";
-  } else {
+    $Request = 1;
+  } 
     
 //var_dump($Sidey);var_dump($Invite_Type);
-    $Self = ($Mode ? $_SERVER{'PHP_SELF'} : "DanceEdit.php");
-    echo "<div class=floatright><h2>";
-    $OList = [];
-    if (isknown($snum,$year-1)) $OList[] = $year-1;
-    if (Get_General($year+1) && (isknown($snum,$year+1) || (($year+1) >= $THISYEAR))) $OList[] = $year+1;
-    if ($year != $THISYEAR) $OList[] = $THISYEAR;
+  $Self = ($Mode ? $_SERVER{'PHP_SELF'} : "DanceEdit.php");
+  echo "<div class=floatright><h2>";
+  $OList = [];
+  if (isknown($snum,$year-1)) $OList[] = $year-1;
+  if (Get_General($year+1) && (isknown($snum,$year+1) || (($year+1) >= $THISYEAR))) $OList[] = $year+1;
+  if ($year != $THISYEAR) $OList[] = $THISYEAR;
     
-    sort($OList);
-    if (count($OList)) {
-      $last = -1;
-      foreach ($OList as $dv) {
-        if ($dv == $last) continue;
-        echo " <a href=$Self?sidenum=$snum&Y=$dv>$dv</a> ";
-        $last = $dv;
-      }
+  sort($OList);
+  if (count($OList)) {
+    $last = -1;
+    foreach ($OList as $dv) {
+      if ($dv == $last) continue;
+      echo " <a href=$Self?sidenum=$snum&Y=$dv>$dv</a> ";
+      $last = $dv;
     }
+  }
 
-    echo "</h2></div>";
+  echo "</h2></div>";
+
+  if ($Request == 0) {
     echo "<h2>Dancing in $year</h2>";
   
     echo fm_hidden('Year',$year);

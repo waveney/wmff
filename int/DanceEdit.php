@@ -86,8 +86,8 @@
     $Side = Get_Side($snum);
     if ($Side) {
       $Sideyrs = Get_Sideyears($snum);
-      if (isset($Sideyrs[$THISYEAR])) {
-        $Sidey = $Sideyrs[$THISYEAR];
+      if (isset($Sideyrs[$YEAR])) {
+        $Sidey = $Sideyrs[$YEAR];
       } else {
         $Sidey = Default_SY();
       }
