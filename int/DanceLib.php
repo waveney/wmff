@@ -514,6 +514,7 @@ function Extended_Prog($type,$id,$all=0) {
     include_once("ProgLib.php");
     $str = '';
     $Evs = Get_All_Events_For($type,$id,$all);
+    if (!$Evs) return "";
     $ETs = Get_Event_Types(1);
 //echo "Type: $type, $id<p>";
 //var_dump($Evs);
