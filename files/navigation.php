@@ -57,6 +57,7 @@
      <a href=$host/InfoCamping.php>Camping</a>
      <a href=$host/InfoParking.php>Parking</a>
      <a href=$host/InfoGettingHere.php>Travel - Trains, Buses and Taxis</a>
+     <a href=$host/InfoWater.php>Water Bottle Refills</a>
      <a href=$host/InfoSponsors.php>Sponsorship</a>
      <a href=$host/InfoStewards.php>Stewards</a>
      <a href=$host/info/trade>Trade Stands</a>
@@ -66,6 +67,7 @@
      <a href=$host/InfoData.php>Data Records</a>
   </div>
 </div>
+<!--
 <div class=dropdown onmouseover=NoHoverSticky(event)>
   <a href=$host/About.php class=NotYet>About</a>
   <div class=dropdown-content>
@@ -74,6 +76,7 @@
      <a href=$host/FestivalHistory.php class=NotYet>Festival History</a>
   </div>
 </div>
+-->
 <div class=dropdown onmouseover=NoHoverSticky(event)>
   <a onclick=NavStick(event)>Gallery</a>
   <div class=dropdown-content>

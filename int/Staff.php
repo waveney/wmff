@@ -180,10 +180,10 @@
 //      echo "<li><a href=/admin/trade/index.php>Old Trade Stand Section</a>\n";
       echo "<li><a href=Trade2CSV.php?Y=$YEAR>Traders as CSV</a>\n";
     }
-    if (Access('Staff','Sponsors')) echo "<li><a href=Sponsors.php>Sponsors</a>\n";
-    if (Access('SysAdmin')) echo "<li><a href=LinkManage.php>Manage Other Fest Links</a>\n";
-    if (Access('Committee','Bugs')) {
-      echo "<p>";
+    if (Access('SysAdmin')) {
+      echo "<li><a href=Sponsors.php>Sponsors</a>\n";
+      echo "<li><a href=WaterManage.php>Water Refills</a>\n";
+      echo "<li><a href=LinkManage.php>Manage Other Fest Links</a>\n";
       echo "<li class=smalltext><a href=TEmailProformas.php>EMail Proformas</a>";
     }
     echo "</ul>\n";

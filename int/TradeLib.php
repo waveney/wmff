@@ -117,7 +117,6 @@ function Put_Trade_Type(&$now) {
   return Update_db('TradePrices',$Cur,$now);
 }
 
-
 function Get_Sponsors($tup=0) { // 0 Current, 1 all data
   global $db,$THISYEAR;
   $full = array();
@@ -149,6 +148,33 @@ function Put_Sponsor(&$now) {
   $e=$now['id'];
   $Cur = Get_Sponsor($e);
   return Update_db('Sponsors',$Cur,$now);
+}
+
+function Get_WaterRefills($tup=0) { // 0 Current, 1 all data
+  global $db,$THISYEAR;
+  $full = array();
+  $yr = ($tup ?"" :" WHERE Year=$THISYEAR ");
+  $res = $db->query("SELECT * FROM Water $yr ORDER BY SName ");
+  if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
+  if ($tup==0 && empty($full)) {
+    $yr = " WHERE Year=" . ($THISYEAR-1);
+    $res = $db->query("SELECT * FROM Water $yr ORDER BY SName ");
+    if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
+  }
+  return $full;
+}
+
+function Get_WaterRefill($id) {
+  global $db;
+  $res=$db->query("SELECT * FROM Water WHERE id=$id");
+  if ($res) return $res->fetch_assoc();
+  return 0; 
+}
+
+function Put_WaterRefill(&$now) {
+  $e=$now['id'];
+  $Cur = Get_WaterRefill($e);
+  return Update_db('Water',$Cur,$now);
 }
 
 // Works for simple tables
