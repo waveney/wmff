@@ -9,38 +9,42 @@
   
   global $db, $YEAR,$ll,$SpecialImage;
 
-function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
+function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   global $ll,$SpecialImage;
 //var_dump($imps);
-  $ks = array_keys($imps);
-  sort($ks);	
-  $things = 0;
-  foreach ( array_reverse($ks) as $imp) {
-    if ($imp) echo "<span style='font-size:" . (15+$imp*1) . "'>";
-      foreach ($imps[$imp] as $thing) {
-        $things++;
-	if ((($things % $ll) == 1) && ($things != 1)) echo "<tr>"; // <td><td>";
-        echo ($ll > 1 && $things == $ImpC && ($ImpC %2) == 1)?"<td colspan=$ll>":"<td>";
-	$scale = $thing['Importance'];
+  if ($imps) {
+    $ks = array_keys($imps);
+    sort($ks);	
+    $things = 0;
+    if (count($ks) > $maxwith) echo "With " . count($ks) . " participants including: ";
+    foreach ( array_reverse($ks) as $imp) {
+      if ($things >= $maxwith) continue;
+      if ($imp) echo "<span style='font-size:" . (15+$imp*1) . "'>";
+        foreach ($imps[$imp] as $thing) {
+          $things++;
+	  if ((($things % $ll) == 1) && ($things != 1)) echo "<tr>"; // <td><td>";
+          echo ($ll > 1 && $things == $ImpC && ($ImpC %2) == 1)?"<td colspan=$ll>":"<td>";
+	  $scale = $thing['Importance'];
 //var_dump($thing);
-	if (( $thing['IsASide'] && $thing['Coming'] != 2) || (($thing['IsAnAct'] || $thing['IsOther']) && $thing['YearState'] < 2)) {
-	  echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SName'],3) . "</a>";
-	  echo " are no longer coming";
-	} else {
-	  if ($SpecialImage) {
-	    echo " <a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . 
-		  "><img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
-		  (100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $SpecialImage . "></a>";
-	  } elseif ($thing['Photo']) echo " <a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . 
-		  "><img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
-		  (100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $thing['Photo'] . "></a>";
-	  echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SName'],3) . "</a>";
-          if (isset($thing['Type']) && (strlen($thing['Type'])>1)) echo " " . NoBreak("(" . $thing['Type'] . ")");
-	}
-        if ($NotAllFree && ($things == $ll)) echo "<td rowspan=$rows valign=top>$Price";
-      }
-    if ($imp) echo "</span>";
-  }
+	  if (( $thing['IsASide'] && $thing['Coming'] != 2) || (($thing['IsAnAct'] || $thing['IsOther']) && $thing['YearState'] < 2)) {
+	    echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SName'],3) . "</a>";
+	    echo " are no longer coming";
+	  } else {
+	    if ($SpecialImage) {
+	      echo " <a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . 
+		    "><img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
+		    (100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $SpecialImage . "></a>";
+	    } elseif ($thing['Photo']) echo " <a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . 
+		    "><img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
+		    (100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $thing['Photo'] . "></a>";
+	    echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SName'],3) . "</a>";
+            if (isset($thing['Type']) && (strlen($thing['Type'])>1)) echo " " . NoBreak("(" . $thing['Type'] . ")");
+	  }
+          if ($NotAllFree && ($things == $ll)) echo "<td rowspan=$rows valign=top>$Price";
+        }
+      if ($imp) echo "</span>";
+    } 
+  } else  echo "<td>&nbsp;";
   if ($NotAllFree && ($things < $ll)) echo "<td rowspan=$rows valign=top>$Price";
   if ($things > $ll && ($things % $ll) == 1) echo "<td>&nbsp;";
 }
@@ -123,7 +127,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
   $Acts=&Select_Act_Full();
   $Others=&Select_Other_Full();
 
-  $xtr = $Mode?'':"AND ( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 ))";
+  $xtr = $Mode?'':"AND (e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) AND t.Public=1 ";
 
   $VenList[] = $V;
   if ($Ven['IsVirtual']) {
@@ -199,8 +203,10 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
   $comps = array('Family','Special');
   foreach($comps as $c) if ($MASTER[$c . "State"] != 4) $AllDone = 0;
 
-  echo "<h2 class=subtitle>" . ($AllDone?'':" CURRENT ") . "PROGRAMME OF EVENTS" . ($AllDone?'':" (Others may follow)") . "</h2></center>";
-  if (!$Poster) echo "Click on the event name or time to get more detail.<p>";
+  if (!$Poster) {
+    echo "<h2 class=subtitle>" . ($AllDone?'':" CURRENT ") . "PROGRAMME OF EVENTS" . ($AllDone?'':" (Others may follow)") . "</h2></center>";
+    echo "Click on the event name or time to get more detail.<p>";
+  }
 
   if (!$NotAllFree && $Ven['SupressFree']==0) echo "All events here are Free.<p>\n";
 
@@ -247,7 +253,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
       if ($e['Status'] == 1) echo "<br><div class=Cancel>CANCELLED</div>";
       if ($e['Description']) echo "<br>" . $e['Description'];
       if ($e['Image']) $SpecialImage = $e['Image'];
-      PrintImps($imps,$NotAllFree,Price_Show($e),$rows,$ImpC);
+      PrintImps($imps,$NotAllFree,Price_Show($e),$rows,$ImpC,2);
     } else { // Is a sube
       if ($e['LongEvent'] && $lastevent != $e['SubEvent']) {
 	$lastevent = $e['SubEvent'];
