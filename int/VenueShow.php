@@ -11,12 +11,12 @@
 
 function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   global $ll,$SpecialImage;
+  $things = 0;
 //var_dump($imps);
-  if ($imps) {
+  if ($ImpC) {
     $ks = array_keys($imps);
     sort($ks);	
-    $things = 0;
-    if (count($ks) > $maxwith) echo "With " . count($ks) . " participants including: ";
+    if ($ImpC > $maxwith) echo "With $ImpC participants including: ";
     foreach ( array_reverse($ks) as $imp) {
       if ($things >= $maxwith) continue;
       if ($imp) echo "<span style='font-size:" . (15+$imp*1) . "'>";
@@ -280,16 +280,14 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
 
   if ($Poster) {
     echo "<div class=floatright id=qrcode></div>";
-    echo "<h3> To find out more scan this:<br>or visit wimbornefolk.co.uk</h3>";
-    echo "<script type='text/javascript'>
-      var qrcode = new QRCode(document.getElementById('qrcode'), {
-	text: 'https://wimbornefolk.co.uk/int/VenueShow.php?V=$V',
-	width: 120,
-	height: 120,
-	colorDark : '#000000',
-	colorLight : '#ffffff',
+    echo "<h3> To find out more scan this:<br>or visit wimbornefolk.co.uk</h3>"; // pixels should be multiple of 41
+    echo '<script type="text/javascript">
+      var qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: "https://wimbornefolk.co.uk/int/VenueShow.php?V=' . $V . '",
+	width: 164,
+	height: 164,
       });
-      </script>";
+      </script>';
     echo "</body></html>\n";
   } else {
     dotail();
