@@ -190,6 +190,7 @@
 
 // *********************** VENUES & EVENTS *******************************************************
   echo "<td class=Stafftd><h2>Venues and Events</h2>\n";
+    $Vens = Get_Venues();
     echo "<ul>\n";
     echo "<li><a href=VenueList.php?Y=$YEAR>List Venues</a>\n";
     echo "<li><a href=EventList.php?Y=$YEAR>List Events</a>\n";
@@ -197,9 +198,11 @@
     echo "<li><form method=Post action=VenueShow.php?Mode=1 class=staffform>";
       echo "<input type=submit name=a value='Show Events at' id=staffformid>" . 
 		fm_hidden('Y',$YEAR) .
-		fm_select(Get_Venues(),0,'v',0," onchange=this.form.submit()") . "</form>\n";
-    //echo "<li>Show Events at a Time\n";
-    //<li><a href=EventTime.php>List Events at a Time</a>
+		fm_select($Vens,0,'v',0," onchange=this.form.submit()") . "</form>\n";
+    echo "<li><form method=Post action=VenueShow.php?Poster=1 class=staffform>";
+      echo "<input type=submit name=a value='Poster For' id=Posterid>" . 
+		fm_hidden('Y',$YEAR) .
+		fm_select($Vens,0,'v',0," onchange=this.form.submit()") . "</form>\n";
     if (Access('Staff') && $YEAR==$THISYEAR) echo "<li><a href=EventAdd.php>Create Event(s)</a>";
     if (Access('SysAdmin')) echo "<li><a href=TicketEvents.php?Y=$YEAR>List Ticketed Events</a>\n";
     if (Access('Committee','Venues')) echo "<li><a href=MapPoints.php>Additional Map Points</a>\n";
