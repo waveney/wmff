@@ -18,9 +18,9 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
     sort($ks);	
     if ($ImpC > $maxwith) echo "With $ImpC participants including: ";
     foreach ( array_reverse($ks) as $imp) {
-      if ($things >= $maxwith) continue;
       if ($imp) echo "<span style='font-size:" . (15+$imp*1) . "'>";
         foreach ($imps[$imp] as $thing) {
+          if ($things >= $maxwith) continue;
           $things++;
 	  if ((($things % $ll) == 1) && ($things != 1)) echo "<tr>"; // <td><td>";
           echo ($ll > 1 && $things == $ImpC && ($ImpC %2) == 1)?"<td colspan=$ll>":"<td>";
@@ -45,8 +45,8 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
       if ($imp) echo "</span>";
     } 
   } else  echo "<td>&nbsp;";
-  if ($NotAllFree && ($things < $ll)) echo "<td rowspan=$rows valign=top>$Price";
   if ($things > $ll && ($things % $ll) == 1) echo "<td>&nbsp;";
+  if ($NotAllFree && ($things < $ll)) echo "<td rowspan=$rows valign=top>$Price";
 }
 
   $V = (isset($_GET['v'])? $_GET['v']: $_POST['v']);
