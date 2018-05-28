@@ -163,15 +163,15 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
 	    if (in_array($thing['Identifier'],$VenList)) $found = 1; 
 	    break;
 	  case 'Side':
-            if ($thing['Identifier']) $e['With'][($Poster?$thing['Importance']:0)][] = (isset($sides[$thing['Identifier']])?$sides[$thing['Identifier']]:0);
+            if ($thing['Identifier']) $e['With'][($Poster?$sides[$thing['Identifier']]['Importance']:0)][] = $sides[$thing['Identifier']];
 	    $WithC++;
 	    break;
 	  case 'Act':
-            if ($thing['Identifier']) $e['With'][($Poster?$thing['Importance']:0)][] = $Acts[$thing['Identifier']];
+            if ($thing['Identifier']) $e['With'][($Poster?$Acts[$thing['Identifier']]['Importance']:0)][] = $Acts[$thing['Identifier']];
 	    $WithC++;
 	    break;
 	  case 'Other':
-            if ($thing['Identifier']) $e['With'][($Poster?$thing['Importance']:0)][] = $Others[$thing['Identifier']];
+            if ($thing['Identifier']) $e['With'][($Poster?$Others[$thing['Identifier']]['Importance']:0)][] = $Others[$thing['Identifier']];
 	    $WithC++;
 	    break;
 	  default:
