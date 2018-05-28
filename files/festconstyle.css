@@ -176,7 +176,7 @@ input[type=password] {
   margin:0 0 0 0;
 }
 
-#staffformid {
+#staffformid, #Posterid {
   font-size:17px;
   color: #005983;
   background-color:white;
@@ -792,4 +792,26 @@ input[type='file'] {
   margin:2px;
   vertical-align:top;
   font-size:13px;
+}
+#Poster {
+  width:1000px !important;
+  max-width:1000px !important;
+  font-size:18px;
+}
+#Postertitle {
+  font-size:60px;
+  text-transform: uppercase;
+}
+#Poster h3 {
+  font-size:40px;
+}
+#Poster table {
+  width:100%; 
+}
+#Poster table th {
+  color:white;
+  border-radius:5px;
+  font-weight:normal;
+  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+  font-size:35px;
 }

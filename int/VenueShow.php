@@ -1,8 +1,6 @@
 <?php
   include_once("fest.php");
 
-  dohead("Venue Details");
-
   include_once("ProgLib.php");
   include_once("int/MapLib.php");
   include_once("DanceLib.php");
@@ -50,6 +48,14 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
   $V = (isset($_GET['v'])? $_GET['v']: $_POST['v']);
 
   $Mode = (isset($_GET['Mode']) ? $_GET['Mode'] : 0 ) ; // If present show everything
+  $Poster = (isset($_GET['Poster']) ? $_GET['Poster'] : 0 ) ; // If present do Poster Mode - No Navigation/Trailer, but add new trailer with web and QR
+
+  if ($Poster) {
+    doheadpart("Venue Details","js/qrcode.js","files/festconstyle.css");
+    echo "</head><body>\n";
+  } else {
+    dohead("Venue Details");
+  }
 
   if (!is_numeric($V)) exit("Invalid Venue Number");
   $Ven = Get_Venue($V);
@@ -73,7 +79,14 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
     $VirtVen = 0;
   }
 
-  echo "<h2 class=subtitle>" . $Ven['SName'] . "</h2>";
+  if ($Poster) {
+    echo "<div id=Poster>"; 
+    echo "<center>";
+    echo "<img src=/images/icons/Long-Banner-Logo.png height=100>";
+    echo "<h2 class=subtitle id=Postertitle>" . $Ven['SName'] . "</h2>";
+  } else {
+    echo "<h2 class=subtitle>" . $Ven['SName'] . "</h2>";
+  }
 
   /* Desc        Picture
      Address	 Map
@@ -81,26 +94,28 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
      Programme
   */
 
-  if ($Ven['Description']) echo $Ven['Description'] . "<p>\n";
-  if ($Ven['Address']) echo "Address: " . $Ven['Address'] . " " . $Ven['PostCode'] ."<p>\n";
-  echo "<button onclick=ShowDirect($V)>Directions</button>\n";
-  if ($Ven['Bar'] || $Ven['Food'] || $Ven['BarFoodText']) {
-    if ($Ven['Bar']) echo "<img src=/images/icons/baricon.png width=50 title='There is a bar'> ";
-    if ($Ven['Food']) echo "<img src=/images/icons/foodicon.jpeg width=50 title='There is Food'> ";
-    if ($Ven['BarFoodText']) echo " " . $Ven['BarFoodText'] . "<P>\n";
-  }
-
-  echo "<div class=venueimg>";
-    if ($Ven['Image']) {
-      echo "<img width=100% src=" . $Ven['Image'] . ">";
-    } else {
-      echo "No Image Yet<p>";
+  if (!$Poster) {
+    if ($Ven['Description']) echo $Ven['Description'] . "<p>\n";
+    if ($Ven['Address']) echo "Address: " . $Ven['Address'] . " " . $Ven['PostCode'] ."<p>\n";
+    echo "<button onclick=ShowDirect($V)>Directions</button>\n";
+    if ($Ven['Bar'] || $Ven['Food'] || $Ven['BarFoodText']) {
+      if ($Ven['Bar']) echo "<img src=/images/icons/baricon.png width=50 title='There is a bar'> ";
+      if ($Ven['Food']) echo "<img src=/images/icons/foodicon.jpeg width=50 title='There is Food'> ";
+      if ($Ven['BarFoodText']) echo " " . $Ven['BarFoodText'] . "<P>\n";
     }
-    echo "<p><div id=MapWrap>";
-    echo "<div id=DirPaneWrap><div id=DirPane><div id=DirPaneTop></div><div id=Directions></div></div></div>";
-    echo "<p><div id=map></div></div>";
-    echo "</div>\n";
-    Init_Map(0,$V,18);
+
+    echo "<div class=venueimg>";
+      if ($Ven['Image']) {
+        echo "<img width=100% src=" . $Ven['Image'] . ">";
+      } else {
+        echo "No Image Yet<p>";
+      }
+      echo "<p><div id=MapWrap>";
+      echo "<div id=DirPaneWrap><div id=DirPane><div id=DirPaneTop></div><div id=Directions></div></div></div>";
+      echo "<p><div id=map></div></div>";
+      echo "</div>\n";
+      Init_Map(0,$V,18);
+   }
 
   $ETs = Get_Event_Types(1);
 
@@ -144,7 +159,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
 	    if (in_array($thing['Identifier'],$VenList)) $found = 1; 
 	    break;
 	  case 'Side':
-            if ($thing['Identifier']) $e['With'][0][] = $sides[$thing['Identifier']];
+            if ($thing['Identifier']) $e['With'][0][] = (isset($sides[$thing['Identifier']])?$sides[$thing['Identifier']]:0);
 	    $WithC++;
 	    break;
 	  case 'Act':
@@ -184,8 +199,8 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
   $comps = array('Family','Special');
   foreach($comps as $c) if ($MASTER[$c . "State"] != 4) $AllDone = 0;
 
-  echo "<h2 class=subtitle>" . ($AllDone?'':" CURRENT ") . "PROGRAMME OF EVENTS" . ($AllDone?'':" (Others may follow)") . "</h2>";
-  echo "Click on the event name or time to get more detail.<p>";
+  echo "<h2 class=subtitle>" . ($AllDone?'':" CURRENT ") . "PROGRAMME OF EVENTS" . ($AllDone?'':" (Others may follow)") . "</h2></center>";
+  if (!$Poster) echo "Click on the event name or time to get more detail.<p>";
 
   if (!$NotAllFree && $Ven['SupressFree']==0) echo "All events here are Free.<p>\n";
 
@@ -248,7 +263,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
         echo "<tr><td rowspan=$rows >&nbsp;<td rowspan=$rows  valign=top>";
 	if ($parname != $e['SName']) {
 	  echo "<a href=EventShow.php?e=" . $e['SubEvent'] . ">" . $e['SName'] . "</a><br>";
-          $parname = $pare['SName']; 
+          $parname = (isset($pare['SName'])? $pare['SName'] : "Unknown"); 
 	}
 	echo timecolon($e['Start']) . " - " . timecolon($e['End']);
         PrintImps($imps,$NotAllFree,'&nbsp;',$rows,$ImpC);
@@ -257,5 +272,20 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC) {
   }
   echo "</table>\n";
 
-  dotail();
+  if ($Poster) {
+    echo "<div class=floatright id=qrcode></div>";
+    echo "<h3> To find out more scan this:<br>or visit wimbornefolk.co.uk</h3>";
+    echo "<script type='text/javascript'>
+      var qrcode = new QRCode(document.getElementById('qrcode'), {
+	text: 'https://wimbornefolk.co.uk/int/VenueShow.php?V=$V',
+	width: 120,
+	height: 120,
+	colorDark : '#000000',
+	colorLight : '#ffffff',
+      });
+      </script>";
+    echo "</body></html>\n";
+  } else {
+    dotail();
+  }
 ?>

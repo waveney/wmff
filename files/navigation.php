@@ -109,7 +109,7 @@
 ";
 
   global $USERID;
-  if ( $USER{'AccessLevel'} == $Access_Type['Participant'] ) {
+  if ( isset($USER{'AccessLevel'}) && $USER{'AccessLevel'} == $Access_Type['Participant'] ) {
     echo "<div class=Staff><div class=navigation>";
     switch ($USER{'Subtype'}) {
     case 'Side':
