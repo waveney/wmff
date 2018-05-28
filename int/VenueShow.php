@@ -247,13 +247,14 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
     } else if ($e['SubEvent'] == 0) { // Is stand alone
       $lastDay = $e['Day'];
       $parname = $e['SName'];
+      if ($Poster) $rows = 1; // Only ever show first row
       echo "<tr><td rowspan=$rows valign=top><a href=EventShow.php?e=$eid valign=top>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . "</a>";
       if ($VirtVen) echo "<br>" . $VenNames[$e['Venue']];
       echo "<td rowspan=$rows  valign=top><a href=EventShow.php?e=$eid>" . $parname . "</a>";
       if ($e['Status'] == 1) echo "<br><div class=Cancel>CANCELLED</div>";
       if ($e['Description']) echo "<br>" . $e['Description'];
       if ($e['Image']) $SpecialImage = $e['Image'];
-      PrintImps($imps,$NotAllFree,Price_Show($e),$rows,$ImpC,2);
+      PrintImps($imps,$NotAllFree,Price_Show($e),$rows,$ImpC,($Poster?2:100));
     } else { // Is a sube
       if ($e['LongEvent'] && $lastevent != $e['SubEvent']) {
 	$lastevent = $e['SubEvent'];
