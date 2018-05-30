@@ -46,7 +46,7 @@
       $Side = Get_Side($snum);
       if ($Side) {
         $Sideyrs = Get_Sideyears($snum);
-        if (isset($Sideyrs[$THISYEAR])) $Sidey = $Sideyrs[$THISYEAR];
+        if (isset($Sideyrs[$YEAR])) $Sidey = $Sideyrs[$YEAR];
       } else {
         echo "<h2 class=ERR>Could not find Side $snum</h2>\n";
       }

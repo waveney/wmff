@@ -5,7 +5,10 @@
   include_once("TradeLib.php");
   include_once("ProgLib.php");
 
+$Who = $Pcat = 0;
+
 function ImgData() {
+  global $Who,$Pcat;
   $Pcat = $_POST['PCAT'];
   $Who = (isset($_POST['WHO']) && strlen($_POST['WHO']) ? $_POST['WHO'] : $_POST["WHO$Pcat"]);
 
@@ -54,6 +57,7 @@ function ImgData() {
 }
 
 function Upload_Image() {
+  global $Who,$Pcat;
   include_once("ImageLib.php"); 
   $dat = &ImgData();
   if (file_exists($dat['FinalLoc'] . "." . $dat['Suf'])) {
@@ -222,13 +226,18 @@ debugger;
   
 
   function Select_Photos() {
+    global $Who,$Pcat;
     global $Shapes,$Shape,$PhotoCats,$Lists;
+    $mouse = 0;
+    if (isset($_POST['PCAT'])) {
+      $mouse = $_POST['PCAT'];
+    } else {
+      $_POST['PCAT']=0;
+    }
     echo "<h2>Select Photo to modify</h2><p>\n";
     echo "<form method=post action=PhotoManage.php>";
     echo fm_radio("Target shape",$Shapes,$_POST,'SHAPE','',0) . "<p>";
     echo fm_radio("Photo For",$PhotoCats,$_POST,'PCAT','onclick=PCatSel(event)',0);
-    $mouse = 0;
-    if (isset($_POST['PCAT'])) $mouse = $_POST['PCAT'];
     $i=0;
     foreach($Lists as $cat=>$dog) {
       echo "<span id=MPC_$i " . ($cat == $PhotoCats[$mouse]?'':'hidden') . "> : " . fm_select($dog,$_POST,"WHO$i") . "</span>";
@@ -239,6 +248,7 @@ debugger;
   }
 
   function Edit_Photo($type='Current') {
+    global $Who,$Pcat;
     global $Shapes,$Shape, $Lists,$PhotoCats;
 //var_dump($_POST);
     $dat = &ImgData();
@@ -321,6 +331,7 @@ debugger;
   }
   
 function New_Image() {
+  global $Who,$Pcat;
   $dat = &ImgData();
   $suf = $dat['Suf'];
   if (file_exists($dat['FinalLoc'] . ".$suf")) {
@@ -335,6 +346,7 @@ function New_Image() {
 }
 
 function Rotate_Image() {
+  global $Who,$Pcat;
   $FinalLoc = $_POST['FinalLoc'];
   $image = imagecreatefromstring(file_get_contents($FinalLoc));
   $newimage = imagerotate($image,90,0);

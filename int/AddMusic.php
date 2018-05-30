@@ -52,7 +52,7 @@
       $Side = Get_Side($snum);
       if ($Side) {
         $Actyrs = Get_Actyears($snum);
-        if (isset($Actyrs[$THISYEAR])) $Sidey = $Actyrs[$THISYEAR];
+        if (isset($Actyrs[$YEAR])) $Sidey = $Actyrs[$YEAR];
       } else {
         echo "<h2 class=ERR>Could not find Act $snum</h2>\n";
       }

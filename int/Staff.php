@@ -26,6 +26,7 @@
   include_once("ProgLib.php");
 
   $Years = Get_Years();
+  $Days = array('All','Sat','Sun');
 
   echo '<div class="content">';
   if (isset($ErrorMessage)) echo "<h2 class=ERR>$ErrorMessage</h2>";
@@ -189,6 +190,7 @@
     echo "</ul>\n";
 
 // *********************** VENUES & EVENTS *******************************************************
+  $_POST['DAYS'] = 0; $_POST['Pics'] = 1;
   echo "<td class=Stafftd><h2>Venues and Events</h2>\n";
     $Vens = Get_Venues();
     echo "<ul>\n";
@@ -202,7 +204,9 @@
     echo "<li><form method=Post action=VenueShow.php?Poster=1 class=staffform>";
       echo "<input type=submit name=a value='Poster For' id=Posterid>" . 
 		fm_hidden('Y',$YEAR) .
-		fm_select($Vens,0,'v',0," onchange=this.form.submit()") . "</form>\n";
+		fm_select($Vens,0,'v',0," onchange=this.form.submit()") . 
+		fm_radio('',$Days,$_POST,'DAYS','',0) . fm_checkbox('Pics',$_POST,'Pics') .
+		"</form>\n";
     if (Access('Staff') && $YEAR==$THISYEAR) echo "<li><a href=EventAdd.php>Create Event(s)</a>";
     if (Access('SysAdmin')) echo "<li><a href=TicketEvents.php?Y=$YEAR>List Ticketed Events</a>\n";
     if (Access('Committee','Venues')) echo "<li><a href=MapPoints.php>Additional Map Points</a>\n";

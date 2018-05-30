@@ -7,10 +7,10 @@
   include_once("MusicLib.php");
   include_once("DispLib.php");
   
-  global $db, $YEAR,$ll,$SpecialImage;
+  global $db, $YEAR,$ll,$SpecialImage,$Pictures;
 
 function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
-  global $ll,$SpecialImage;
+  global $ll,$SpecialImage,$Pictures;
   $things = 0;
 //var_dump($imps);
   if ($ImpC) {
@@ -30,13 +30,14 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
 	    echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SName'],3) . "</a>";
 	    echo " are no longer coming";
 	  } else {
-	    if ($SpecialImage) {
-	      echo " <a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . 
-		    "><img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
-		    (100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $SpecialImage . "></a>";
-	    } elseif ($thing['Photo']) echo " <a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . 
-		    "><img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
-		    (100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $thing['Photo'] . "></a>";
+	    echo " <a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">";
+//echo "HELLO $Pictures<p>";
+	    if ($Pictures) {
+	      if ($SpecialImage) { echo "<img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
+		    (100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $SpecialImage . ">";
+	      } elseif ($thing['Photo']) echo "<img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
+		    (100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $thing['Photo'] . ">";
+	    }
 	    echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SName'],3) . "</a>";
             if (isset($thing['Type']) && (strlen($thing['Type'])>1)) echo " " . NoBreak("(" . $thing['Type'] . ")");
 	  }
@@ -57,8 +58,10 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   if ($Poster) {
     doheadpart("Venue Details","js/qrcode.js","files/festconstyle.css");
     echo "</head><body>\n";
+    $Pictures = (isset($_POST['Pics']) && ($_POST['Pics'] == 'on'));
   } else {
     dohead("Venue Details");
+    $Pictures = 1;
   }
 
   if (!is_numeric($V)) exit("Invalid Venue Number");
@@ -86,8 +89,9 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   if ($Poster) {
     echo "<div id=Poster>"; 
     echo "<center>";
-    echo "<img src=/images/icons/Long-Banner-Logo.png height=100>";
-    echo "<h2 class=subtitle id=Postertitle>" . $Ven['SName'] . "</h2>";
+    echo "<h2 class=subtitle id=Postertitle>";
+    echo "<img src=/images/icons/Long-Banner-Logo.png height=100><br>";
+    echo $Ven['SName'] . "</h2>";
   } else {
     echo "<h2 class=subtitle>" . $Ven['SName'] . "</h2>";
   }
@@ -128,6 +132,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   $Others=&Select_Other_Full();
 
   $xtr = $Mode?'':"AND (e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) AND t.Public=1 ";
+  if ($Poster && ($_POST['DAYS'] > 0 )) $xtr .= " AND Day=" . $_POST['DAYS'];
 
   $VenList[] = $V;
   if ($Ven['IsVirtual']) {
@@ -280,12 +285,12 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
 
   if ($Poster) {
     echo "<div class=floatright id=qrcode></div>";
-    echo "<h3> To find out more scan this:<br>or visit wimbornefolk.co.uk</h3>"; // pixels should be multiple of 41
+    echo "<h3> To find out more scan this:<br>to visit wimbornefolk.co.uk</h3>"; // pixels should be multiple of 41
     echo '<script type="text/javascript">
       var qrcode = new QRCode(document.getElementById("qrcode"), {
 	text: "https://wimbornefolk.co.uk/int/VenueShow.php?V=' . $V . '",
-	width: 164,
-	height: 164,
+	width: 123,
+	height: 123,
       });
       </script>';
     echo "</body></html>\n";
