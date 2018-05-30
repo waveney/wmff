@@ -18,9 +18,11 @@
 
 <p><iframe src="http://tunein.com/embed/player/s217355/" width="320px" height="100px" frameborder="0"></iframe></p>
 
-<!--
-<p><a href="Radiopop.php" rel="bookmark" target="_blank">Click here for Pop-Out Player</a></p>
--->
+<h2 class=subtitle>Jingle being played on Radio Wimborne and Forest FM</h2>
+<video controls>
+  <source src="files/Wimborne_MFF_Slide_Show.mp4" type="video/mp4">
+</video>
+
 
 <?php 
   dotail();
