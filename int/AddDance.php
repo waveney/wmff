@@ -54,7 +54,7 @@
       $Side = Get_Side($snum);
       if ($Side) {
         $Sideyrs = Get_Sideyears($snum);
-        if (isset($Sideyrs[$THISYEAR])) $Sidey = $Sideyrs[$THISYEAR];
+        if (isset($Sideyrs[$YEAR])) $Sidey = $Sideyrs[$YEAR];
       } else {
         echo "<h2 class=ERR>Could not find Side $snum</h2>\n";
       }
@@ -134,7 +134,7 @@
     echo "<Center><input type=Submit name='Update' value='Save Changes' class=Button$BUTTON >\n";
     if (!isset($Sidey['Coming']) || $Sidey['Coming'] == 0) {
       if (!isset($Sidey['Invited']) || $Sidey['Invited'] == '') {
-	echo " <input type=submit name=InviteAct value=Invite  class=Button$BUTTON > ";
+	 echo " <input type=submit name=InviteAct value=Invite  class=Button$BUTTON > ";
       } else {
 	echo " <input type=submit name=ReminderAct value=Reminder class=Button$BUTTON > ";
       }
