@@ -132,7 +132,10 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   $Others=&Select_Other_Full();
 
   $xtr = $Mode?'':"AND (e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) AND t.Public=1 ";
-  if ($Poster && ($_POST['DAYS'] > 0 )) $xtr .= " AND Day=" . $_POST['DAYS'];
+  if ($Poster) {
+    if ($_POST['DAYS'] == 1 ) $xtr .= " AND Day!=2";
+    if ($_POST['DAYS'] == 2 ) $xtr .= " AND Day=2";
+  }
 
   $VenList[] = $V;
   if ($Ven['IsVirtual']) {
