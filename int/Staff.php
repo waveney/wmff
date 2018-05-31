@@ -26,7 +26,7 @@
   include_once("ProgLib.php");
 
   $Years = Get_Years();
-  $Days = array('All','Sat','Sun','&lt;Sat');
+  $Days = array('All','Sat','Sun','&lt;Sat','Sat&amp;Sun');
 
   echo '<div class="content">';
   if (isset($ErrorMessage)) echo "<h2 class=ERR>$ErrorMessage</h2>";
