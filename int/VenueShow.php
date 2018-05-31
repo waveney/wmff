@@ -91,7 +91,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
     echo "<center>";
     echo "<h2 class=subtitle id=Postertitle>";
     echo "<img src=/images/icons/Long-Banner-Logo.png height=100><br>";
-    $namlen = strlen($Ven['SName'];
+    $namlen = strlen($Ven['SName']);
     if ($namlen > 22) {
       $siz = 60 - floor(($namlen-22)/2);
       echo "<span style='font-size:$siz;'>" . $Ven['SName'] . "</span></h2>";
