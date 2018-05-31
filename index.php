@@ -85,7 +85,8 @@ if ($ans) {
   echo "<p class=articletxt>$sc Dance teams have already confirmed for 2018. Many of your favourite teams and some brand new faces.\n";
   echo "</div>";
 
-  echo "
+?>
+<!--
 <div class=article>
 <a href=$host/BuskersBash.php>
 <h2 class=articlettl>Buskers Bash 2018</h2>
@@ -97,11 +98,14 @@ Calling all those of you who would like to take part in this year's Busker's Bas
 
 Events start in the square at 10:30 with Polly Morris and Buskers around town from 11:30.<p>
 </div>
+-->
+
 <div class=article>
 <a href=$host/Tickets.php>
 <h2 class=articlettl>Buy Tickets and Wristbands</h2>
 <img class=articleimg src=/images/Weekend-Wristband.jpg alt='Wimborne Minster Folk Festival'></a>
-<p class=articletxt>Weekend and Day Passes are now on sale for the festival weekend.<br>Many event tickets are also available, more to come.</p>
+<p class=articletxt>Weekend and Day Passes are now on sale for the festival weekend.<br>Many event tickets are also available.  Online
+purchases close at midnight Thursday June 7th.</p>
 </div>
 
 <!--
@@ -113,6 +117,24 @@ Events start in the square at 10:30 with Polly Morris and Buskers around town fr
 </div>
 -->
 
+<div class=article>
+<h2 class=articlettl>Jingle on Radio Wimborne and Forest FM</h2>
+<video width=500 height=320 controls src="files/Wimborne_MFF_Slide_Show.mp4"></video>
+</div>
+
+<div class=article>
+<h2 class=articlettl>Next years dates</h2>
+<p class=articletxt>The 2019 Wimborne Minster Folk Festival will be from 14th to 16th of June 2019.
+</div>
+
+<div class=article>
+<a href=int/VenueShow.php?v=44>
+<h2 class=articlettl>Microbreweries</h2>
+<img class=articleimg src=/images/icons/beerfest.jpeg></a>
+<p class=articletxt>New for 2018 - the Microbreweries.  Just off the high st, with 8 local breweries, food, dance and music.
+</div>
+
+<!--
 <div class=article>
 <a href=$host/LaughOutLoud.php>
 <h2 class=articlettl>Laugh Out Loud 2018</h2>
@@ -131,7 +153,9 @@ showcase their work during the festival.<P>
 
 The final was on 24th February (Status, Bowen & Pounds and The Darwins).<p>
 </div>
-";
+-->
+
+<?php
 
   $ans = $db->query("SELECT count(*) AS Total FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND y.YearState>0 ");
   $sc = 0;
@@ -179,7 +203,8 @@ The final was on 24th February (Status, Bowen & Pounds and The Darwins).<p>
 <a href=$host/InfoCamping.php >
 <h2 class=articlettl>Official Festival Campsite</h2>
 <img class=articleimg src=/images/Wimborne-Folk-Festival-Campsite.jpg alt='Wimborne Minster Folk Festival'></a>
-<p class=articletxt>Plan your stay at the festival and book a pitch at Meadows Campsite, which is within a short few minute walk from the town centre.</p>
+<p class=articletxt>Plan your stay at the festival and book a pitch at Meadows Campsite, which is within a short few minute walk from the town centre.
+Online booking will close at midnight on Thursday June 7th (after which you can still pay at the gate)</p>
 </div>
 </div>
 ";
