@@ -171,7 +171,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
       $O = Get_Other_Things_For($e['EventId']);
       $found = ($e['Venue'] == $V); 
 //      if (!$O && !$found) continue;
-      if ($Ven['IsVirtual'] && (in_array($e['Venue'],$VenList)) $found = 1; 
+      if ( !$found && $Ven['IsVirtual'] && in_array($e['Venue'],$VenList)) $found = 1; 
       foreach ($O as $i=>$thing) {
 	switch ($thing['Type']) {
 	  case 'Venue':
