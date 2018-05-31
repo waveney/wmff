@@ -127,6 +127,13 @@ purchases close at midnight Thursday June 7th.</p>
 <p class=articletxt>The 2019 Wimborne Minster Folk Festival will be from 14th to 16th of June 2019.
 </div>
 
+<div class=article>
+<a href=int/VenueShow.php?v=44>
+<h2 class=articlettl>Microbreweries</h2>
+<img class=articleimg src=/images/icons/beerfest.jpeg></a>
+<p class=articletxt>New for 2018 - the Microbreweries.  Just off the high st, with 8 local breweries, food, dance and music.
+</div>
+
 <!--
 <div class=article>
 <a href=$host/LaughOutLoud.php>
