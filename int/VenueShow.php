@@ -142,7 +142,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
     if ($_POST['DAYS'] == 1 ) $xtr .= " AND Day!=2";
     if ($_POST['DAYS'] == 2 ) $xtr .= " AND Day=2";
     if ($_POST['DAYS'] == 3 ) $xtr .= " AND Day<1";
-    if ($_POST['DAYS'] == 3 ) $xtr .= " AND Day>0";
+    if ($_POST['DAYS'] == 4 ) $xtr .= " AND Day>0";
   }
 
   $VenList[] = $V;
