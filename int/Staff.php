@@ -26,7 +26,7 @@
   include_once("ProgLib.php");
 
   $Years = Get_Years();
-  $Days = array('All','Sat','Sun');
+  $Days = array('All','Sat','Sun','&lt;Sat','Sat&amp;Sun');
 
   echo '<div class="content">';
   if (isset($ErrorMessage)) echo "<h2 class=ERR>$ErrorMessage</h2>";
@@ -192,7 +192,7 @@
 // *********************** VENUES & EVENTS *******************************************************
   $_POST['DAYS'] = 0; $_POST['Pics'] = 1;
   echo "<td class=Stafftd><h2>Venues and Events</h2>\n";
-    $Vens = Get_Venues();
+    $Vens = Get_AVenues();
     echo "<ul>\n";
     echo "<li><a href=VenueList.php?Y=$YEAR>List Venues</a>\n";
     echo "<li><a href=EventList.php?Y=$YEAR>List Events</a>\n";

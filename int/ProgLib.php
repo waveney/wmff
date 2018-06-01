@@ -58,6 +58,23 @@ function Get_Venues($type=0,$extra='') { //0 = short, 1 = full
   return $short;
 }
 
+function Get_AVenues($type=0,$extra='') { //0 = short, 1 = full
+  global $db;
+  static $short,$full;
+  if (!$short) {
+    $res = $db->query("SELECT * FROM Venues WHERE status=0 $extra ORDER BY SName");
+    if ($res) {
+      while ($Ven = $res->fetch_assoc()) {
+        $i = $Ven['VenueId']; 
+        $short[$i] = SName($Ven);
+        $full[$i] = $Ven;
+      }
+    }
+  }
+  if ($type) return $full;
+  return $short;
+}
+
 function Get_Real_Venues($type=0) { // 0 =short, 1 =full
   $Vens = Get_Venues(1);
   $real = array();
