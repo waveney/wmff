@@ -120,7 +120,12 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
 
     echo "<div class=venueimg>";
       if ($Ven['Image']) {
-        echo "<img width=100% src=" . $Ven['Image'] . ">";
+        echo "<img width=100% src=" . $Ven['Image'] . "><br>";
+	if ($Ven['Caption']) echo $Ven['Caption'] . "<br>";
+      }
+      if ($Ven['Image2']) {
+        echo "<img width=100% src=" . $Ven['Image2'] . "><br>";
+	if ($Ven['Caption2']) echo $Ven['Caption2'] . "<br>";
       } else {
         echo "No Image Yet<p>";
       }

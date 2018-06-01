@@ -48,7 +48,15 @@
   $RealSites = Get_Real_Venues(0);
   $VirtSites = Get_Virtual_Venues();
 
-  if (isset($Venue['Image'])) echo "<div class=floatright><img src=" . $Venue['Image'] . " width=400></div>";
+  if (isset($Venue['Image']) && $Venue['Image']) {
+    echo "<div class=floatright><img src=" . $Venue['Image'] . " width=400><br>";
+    if (isset($Venue['Caption']) && $Venue['Caption']) echo $Venue['Caption'] . "<br>"; 
+    if (isset($Venue['Image2']) && ($Venue['Image2'])) {
+      echo "<img src=" . $Venue['Image2'] . " width=400><br>";
+      if (isset($Venue['Caption2']) && $Venue['Caption2']) echo $Venue['Caption2'] . "<br>"; 
+    }    
+    echo "</div>";
+  }
   echo "<table style='width:70%' border>\n";
     if (isset($vid) && $vid > 0) {
       echo "<tr><td>Venue Id:<td>";
@@ -66,7 +74,10 @@
     echo          fm_text('Long',$Venue,'Lng',1);
     echo          fm_text('MapImp',$Venue,'MapImp',1);
     echo "<tr>" . fm_text('Image',$Venue,'Image',1);
-    echo          fm_text('Website',$Venue,'Website',1);
+    echo          fm_text('Caption',$Venue,'Caption',1);
+    echo          fm_text('Image2',$Venue,'Image2',1);
+    echo          fm_text('Caption2',$Venue,'Caption2',1);
+    echo "<tr>" . fm_text('Website',$Venue,'Website',1);
     echo     "<td>" . fm_checkbox('Supress Free',$Venue,'SupressFree');
     echo "<tr><td>" . fm_checkbox('Bar',$Venue,'Bar') . "<td>" . fm_checkbox('Food',$Venue,'Food') . fm_text('Food/Bar text',$Venue,'BarFoodText') . "\n";
     echo "<tr>" . fm_text('Notes',$Venue,'Notes',3);
