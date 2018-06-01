@@ -192,7 +192,7 @@
 // *********************** VENUES & EVENTS *******************************************************
   $_POST['DAYS'] = 0; $_POST['Pics'] = 1;
   echo "<td class=Stafftd><h2>Venues and Events</h2>\n";
-    $Vens = Get_Venues();
+    $Vens = Get_AVenues();
     echo "<ul>\n";
     echo "<li><a href=VenueList.php?Y=$YEAR>List Venues</a>\n";
     echo "<li><a href=EventList.php?Y=$YEAR>List Events</a>\n";

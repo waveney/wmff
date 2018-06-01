@@ -17,8 +17,9 @@
   global $Surfaces,$YEAR;
   $yn = array('','Y');
   include_once("ProgLib.php");
-  $venues = Get_Venues(1);
+  $venues = ((isset($_GET['ALL'])) ? Get_Venues(1) : Get_AVenues(1));
 
+  if (!isset($_GET['ALL'])) echo "<h2>Click <a href=VenueList.php?ALL>All</a> to see not in use Venues</h2>";
   $edit = Access('Staff','Venues');
   $coln = 0;
   echo "<table id=indextable border>\n";
