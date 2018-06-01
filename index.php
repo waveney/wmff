@@ -101,7 +101,9 @@ Events start in the square at 10:30 with Polly Morris and Buskers around town fr
 -->
 
 <div class=article>
-<a href=$host/Tickets.php>
+<?php
+  echo "<a href=$host/Tickets.php>";
+?>
 <h2 class=articlettl>Buy Tickets and Wristbands</h2>
 <img class=articleimg src=/images/Weekend-Wristband.jpg alt='Wimborne Minster Folk Festival'></a>
 <p class=articletxt>Weekend and Day Passes are now on sale for the festival weekend.<br>Many event tickets are also available.  Online
@@ -128,7 +130,9 @@ purchases close at midnight Thursday June 7th.</p>
 </div>
 
 <div class=article>
-<a href=int/VenueShow.php?v=44>
+<?php
+  echo "<a href=$host/int/VenueShow.php?v=44>";
+?>
 <h2 class=articlettl>Microbreweries</h2>
 <img class=articleimg src=/images/icons/beerfest.jpeg></a>
 <p class=articletxt>New for 2018 - the Microbreweries.  Just off the high st, with 8 local breweries, food, dance and music.
