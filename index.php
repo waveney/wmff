@@ -121,7 +121,7 @@ purchases close at midnight Thursday June 7th.</p>
 
 <div class=article>
 <h2 class=articlettl>Jingle on Radio Wimborne and Forest FM</h2>
-<video width=500 height=320 controls src="files/Wimborne_MFF_Slide_Show.mp4"></video>
+<video width=400 height=260 controls src="files/Wimborne_MFF_Slide_Show.mp4"></video>
 </div>
 
 <div class=article>
