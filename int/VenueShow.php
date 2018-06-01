@@ -130,7 +130,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
 	if ($Ven['Caption2']) echo $Ven['Caption2'] . "<br>";
 	$Img = 1;
       } 
-      if (!$Imp) echo "No Image Yet<p>";
+      if (!$Img) echo "No Image Yet<p>";
       
       echo "<p><div id=MapWrap>";
       echo "<div id=DirPaneWrap><div id=DirPane><div id=DirPaneTop></div><div id=Directions></div></div></div>";
