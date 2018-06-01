@@ -38,6 +38,11 @@ function ImgData() {
       $Field = 'Image';
       $FinalLoc = "images/Venues/" . $Who;
       $Put_Data = 'Put_Venue';
+    case 6: // Venue2
+      $Data = Get_Venue($Who);
+      $Field = 'Image2';
+      $FinalLoc = "images/Venues/" . $Who . "I2";
+      $Put_Data = 'Put_Venue';
     }
   $ArcLoc = $FinalLoc;
   $ArcLoc = preg_replace('/images/','ArchiveImages',$ArcLoc);
@@ -56,8 +61,13 @@ function ImgData() {
 	);
 }
 
+function Change_Rand(&$dat) {
+  $dat['Data']['Field'] .= rand(0,9);
+  $dat['Put']($dat['Data']);
+}
+
 function Upload_Image() {
-  global $Who,$Pcat;
+  global $Who,$Pcat,$db;
   include_once("ImageLib.php"); 
   $dat = &ImgData();
   if (file_exists($dat['FinalLoc'] . "." . $dat['Suf'])) {
@@ -73,6 +83,7 @@ function Upload_Image() {
   $target_file = $dat['FinalLoc'] . ".$suffix";
   $uploadOk = 1;
   // Check if image file is a actual image or fake image
+//var_dump($_FILES);
   $check = getimagesize($_FILES["PhotoForm"]["tmp_name"]);
   if ($check == false) {
     return "<div class=Err>File is not an image</div>";
@@ -151,7 +162,7 @@ if (isset($_FILES['croppedImage'])) {
   $aspect = array('4/3','1/1','3/4','7/2','NaN');
   $Shape = 0;
   if (isset($_POST['SHAPE'])) $Shape = $_POST['SHAPE'];
-  $PhotoCats = array('Sides','Acts','Others','Traders','Sponsors','Venues');
+  $PhotoCats = array('Sides','Acts','Others','Traders','Sponsors','Venues','Venue2');
 
   $Lists = array(
 	'Sides'=> Select_Come(),
@@ -160,6 +171,7 @@ if (isset($_FILES['croppedImage'])) {
 	'Traders'=>Get_Traders_Coming(0),
 	'Sponsors'=>Get_Sponsor_Names(),
 	'Venues'=>Get_Venues(0),
+	'Venues2'=>Get_Venues(0),
 	);
 
 ?>
@@ -270,9 +282,13 @@ debugger;
         if (!file_exists($ArcD)) mkdir($ArcD,0777,true);
   
 	if (preg_match('/^\/(.*)/',$PhotoURL,$mtch)) {
-	  $img = file_get_contents($mtch[1]);
+	  $url = preg_replace('/\?.*/','',$mtch[1]);
+//var_dump($url);
+	  $img = file_get_contents($url);
 	} else {
-          $img = file_get_contents($PhotoURL);
+	  $url = preg_replace('/\?.*/','',$PhotoURL);
+//var_dump($url);
+          $img = file_get_contents($url);
 	};
   
         if ($img) {
@@ -361,6 +377,7 @@ function Rotate_Image() {
     imagepng($newimage,$FinalLoc);
     break;
   }
+  Change_Rand($dat);
 }
 
 // var_dump($_POST);
