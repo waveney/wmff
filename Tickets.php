@@ -28,6 +28,11 @@ before you checkout!  Camping costs &pound;7.50pppn + booking fee in advance or 
 
 <a href=/InfoCamping.php><b>Camping Information and Camping Tickets.</b></a><p>
 
+<!--
+<b>Note: Online Ticket sales will stop at midnight on Thursday 7th of June.  Event tickets will be available from the 
+Allendale Information point once it has opened on Friday.</b><p>.
+-->
+
 <p><table cellspacing="5" cellpadding="5" style="background-color:#39a5d8; border-color:#39a5d8">
 <tr>
 <th colspan="5">Festival Passes</th>

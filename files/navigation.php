@@ -20,7 +20,7 @@
   echo "
 <div class=navigation>
 <a href=$host/ onmouseover=NoHoverSticky()>Home</a>
-<a href=$host/news.php onmouseover=NoHoverSticky()>News</a>
+<!-- <a href=$host/news.php onmouseover=NoHoverSticky()>News</a> -->
 <div class=dropdown onmouseover=NoHoverSticky(event)>
   <a onclick=NavStick(event)>Line-up</a>
   <div class=dropdown-content>
@@ -61,7 +61,7 @@
      <a href=$host/InfoSponsors.php>Sponsorship</a>
      <a href=$host/InfoStewards.php>Stewards</a>
      <a href=$host/info/trade>Trade Stands</a>
-     <a href=$host/RoadClosure.php class=NotYet>Road Closures</a>
+     <a href=$host/RoadClosure.php >Road Closures</a>
      <a href=$host/info/thanks>With Thanks</a>
      <a href=$host/RadioWimborne.php>Radio Wimborne</a>
      <a href=$host/InfoData.php>Data Records</a>
