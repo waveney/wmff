@@ -446,7 +446,7 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
   return "";
 }
 
-function Get_Other_Participants(&$Others,$l=0,$size=12,$mult=1,$prefix) {
+function Get_Other_Participants(&$Others,$l=0,$size=12,$mult=1,$prefix='') {
   global $db;
   include_once "DanceLib.php";
   $imps=array();
