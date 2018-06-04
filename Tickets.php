@@ -2,7 +2,7 @@
   include_once("int/fest.php");
 
   dohead("Tickets");
-
+  global $MASTER;
 ?>
 <div class="biodiv">
 <img src="http://wimbornefolk.co.uk/images/Mawkin-Accordion.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
@@ -43,7 +43,10 @@ Allendale Information point once it has opened on Friday at 2pm.  Camping ticket
 <td style="width:70%">Book your Weekend Pass for official festival events. <!--Events at the Tivoli are not covered by this pass.-->  See below for the events that it covers.<p>
 
 Only this ticket includes entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
-<td style="text-align:center; font-size:20px"><a href="https://www.ticketsource.co.uk/event/208030" rel="tag" target="_blank"><strong>Buy Now</strong></a></td>
+<?php
+  if ($MASTER['TicketControl'] == 1) echo "<td style='text-align:center; font-size:20px'><a href='https://www.ticketsource.co.uk/event/208030' " .
+					" target=_blank><strong>Buy Now</strong></a></td>";
+?>
 </tr>
 <tr>
 <td><a href="https://www.ticketsource.co.uk/event/210981" rel="tag" target="_blank" style="font-size:18px"><strong>Friday Pass</strong></a>
@@ -54,7 +57,10 @@ Only this ticket includes entry to <a href="http://partyinthepaddock.com" rel="t
 
 Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
 </td>
-<td style="text-align:center; font-size:20px"><a href="https://www.ticketsource.co.uk/event/210981" rel="tag" target="_blank"><strong>Buy Now</strong></a></td>
+<?php
+  if ($MASTER['TicketControl'] == 1) echo "<td style='text-align:center; font-size:20px'><a href='https://www.ticketsource.co.uk/event/210981' " .
+					" target=_blank><strong>Buy Now</strong></a></td>";
+?>
 </tr>
 
 <tr>
@@ -66,7 +72,10 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
 
 Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
 </td>
-<td style="text-align:center; font-size:20px"><a href="https://www.ticketsource.co.uk/event/211013" rel="tag" target="_blank"><strong>Buy Now</strong></a></td>
+<?php
+  if ($MASTER['TicketControl'] == 1) echo "<td style='text-align:center; font-size:20px'><a href='https://www.ticketsource.co.uk/event/211013' " .
+					" target=_blank><strong>Buy Now</strong></a></td>";
+?>
 </tr>
 
 <tr>
@@ -78,7 +87,10 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
 
 Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
 </td>
-<td style="text-align:center; font-size:20px"><a href="https://www.ticketsource.co.uk/event/211014" rel="tag" target="_blank"><strong>Buy Now</strong></a></td>
+<?php
+  if ($MASTER['TicketControl'] == 1) echo "<td style='text-align:center; font-size:20px'><a href='https://www.ticketsource.co.uk/event/211014' " .
+					" target=_blank><strong>Buy Now</strong></a></td>";
+?>
 </tr>
 </table>
 
@@ -107,8 +119,7 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
     echo "<td style='width:50%'>";
       if ($E['Description']) echo $E['Description'] . "<br>";
       echo Get_Event_Participants($E['EventId'],1,15);
-    echo "<td>";
-    if ($E['TicketCode'] || $E['SpecPriceLink']) echo "<strong>$bl Buy Now</a></strong>\n";
+    if (($MASTER['TicketControl'] == 1) && ($E['TicketCode'] || $E['SpecPriceLink'])) echo "<td><strong>$bl Buy Now</a></strong>\n";
   }
 ?>
 
