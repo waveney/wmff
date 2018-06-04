@@ -36,6 +36,7 @@ $Book_Actions = array('None'=>'Book','Declined'=>'Book,Contract','Booking'=>'Con
 $Book_ActionExtras = array('Book'=>'', 'Contract'=>'', 'Decline'=>'', 'Cancel'=>'', 'Confirm'=>'');
 $Book_Colour = array('None'=>'White','Declined'=>'pink','Booking'=>'yellow','Contract Ready'=>'orange','Booked'=>'lime');
 $EType_States = array('Very Early','Draft','Partial','Provisional','Complete');
+$TicketStates = array('Not Yet','Open','Closed');
 $OlapTypes = array('Dancer','Musician');
 $OlapDays = array('All','Sat Only','Sun Only','None');
 $OlapCats = array('Side','Act','Other');

@@ -4,7 +4,7 @@
 
   dostaffhead("General Settings");
 
-  global $EType_States;
+  global $EType_States,$TicketStates;
   include_once("DateTime.php");
   $Dates = array('PriceChange1','PriceChange2');
 
@@ -71,6 +71,7 @@
     echo "<tr><td>Priced Complete Fri:" . fm_checkbox('',$Gen,'PriceComplete0') . "<td>This and all completes surpress more to come on tickets/events\n";
     echo "<tr><td>Priced Complete Sat:" . fm_checkbox('',$Gen,'PriceComplete1') . "<td>This and all completes surpress more to come on tickets/events\n";
     echo "<tr><td>Priced Complete Sun:" . fm_checkbox('',$Gen,'PriceComplete2') . "<td>This and all completes surpress more to come on tickets/events\n";
+    echo "<tr><td>Ticket Control:<td>" . fm_select($TicketStates,$Gen,'TicketControl') . "<td>Master Ticketing control\n";
 
 //    $comps = array('Ceildih','Session','Workshop','Concert','Family','Comedy','Special','Craft');
 
