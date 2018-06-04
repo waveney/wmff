@@ -2,6 +2,7 @@
   include_once("int/fest.php");
 
   dohead("Camping");
+  global $MASTER;
 
   include_once("int/MapLib.php");
 ?>
@@ -20,6 +21,9 @@ The Meadows Campsite during the folk festival weekend<p>
 Our official campsite is run by Meadows Camping, a picturesque, local, secure, well managed temporary campsite for the folk festival weekend. 
 The site is just a 10 minute walk from the town centre over Julian's bridge.<p>
 
+<?php
+if ($MASTER['TicketControl'] == 1) {
+?>
 Camping at Meadows Campsite this year is <strong>&pound;7.50</strong> per person per night (+ booking fee) when booked in 
 advance online or <strong>&pound;8.50</strong> per person per night on the gate. Under 10's are free.<p>
 
@@ -62,6 +66,22 @@ Allendale Information point once it has opened on Friday at 2pm.  Camping ticket
 </a>
 
 </table>
+
+<?php 
+} else {
+?>
+
+<b>Online booking has now closed</b><p>
+
+Camping at Meadows Campsite this year is <strong>&pound;8.50</strong> per person per night at the gate. Under 10's are free.<p>
+
+The site has toilets, showers, food and good 24 hour security. Entry to the campsite is by camping wristband only.<p>
+
+Please be aware that access to/from the town on foot is over Julian's bridge, which has no footpath, so please take care when crossing at all times.</p>
+
+<?php
+}
+?>
 
 For more information about the campsite, visit <a href="http://merleyhallfarm.co.uk/camping" rel="tag"><strong>MerleyHallFarm.co.uk</strong></a>, but
 please book through these links above.<p>
