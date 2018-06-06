@@ -136,9 +136,13 @@ function Show_Side($snum,$Message='') {
 	  if ($syear['Fri'] || $syear['Sat'] || $syear['Sun']) {
 	    echo " on ";
 	    $lst = array();
+	    if ($syear['Tue']) $lst[] = 'Tuesday';
+	    if ($syear['Wed']) $lst[] = 'Wednesday';
+	    if ($syear['Thur']) $lst[] = 'Thursday';
 	    if ($syear['Fri']) $lst[] = 'Friday';
 	    if ($syear['Sat']) $lst[] = 'Saturday';
 	    if ($syear['Sun']) $lst[] = 'Sunday';
+	    if ($syear['Mon']) $lst[] = 'Monday';
 	    echo FormatList($lst);
 	  }
 	  break;
