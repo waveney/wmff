@@ -37,7 +37,7 @@
   $today = ($Now['mday']-$MASTER['DateFri']);
 
   $res = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND Day=$today $xtr ORDER BY Start");
-  $StartLim = (($today < 0 || $today>2) ? 0 : ($Now['hours']+2)*100 );
+  $StartLim = (($today < 0 || $today>2) ? 2400 : ($Now['hours']+2)*100 );
   $EndLim = (($today < 0 || $today>2) ? 0 : ($Now['hours'])*100 + $Now['minutes']);
 
   if (!$res || $res->num_rows==0) {
