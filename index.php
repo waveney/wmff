@@ -39,9 +39,7 @@ You can wander through Wimborne and enjoy any of the free shows, or buy tickets 
 <div id="flex">
 
 <div class=article>
-<?php
-  echo "<a href=$host/Tickets.php>";
-?>
+<a href=https://wimbornefolk.co.uk/int/ShowDance.php?sidenum=371>
 <h2 class=articlettl>Tashi Lhunpo Tibetan Monks</h2>
 <img class=articleimg src=/images/2018Pics/MOnks2.jpg alt='Wimborne Minster Folk Festival'></a>
 <p class=articletxt>The Monks are already here in Wimborne making their Mandala in the Priest House Museum.  They have a stall in the Priest House garden with
