@@ -38,6 +38,17 @@
 You can wander through Wimborne and enjoy any of the free shows, or buy tickets to see one of our headline acts.</div>
 <div id="flex">
 
+<div class=article>
+<?php
+  echo "<a href=$host/Tickets.php>";
+?>
+<h2 class=articlettl>Tashi Lhunpo Tibetan Monks</h2>
+<img class=articleimg src=/images/2018Pics/MOnks2.jpg alt='Wimborne Minster Folk Festival'></a>
+<p class=articletxt>The Monks are already here in Wimborne making their Mandala in the Priest House Museum.  They have a stall in the Priest House garden with
+lots of lovely things...
+</p>
+</div>
+
 <?php 
 global $db,$THISYEAR,$Coming_Type;
 $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND y.Coming=" . $Coming_Type['Y']);
@@ -118,6 +129,14 @@ purchases close at midnight Thursday June 7th.</p>
 <p class=articletxt>Booking is open for traders of all types.<p>
 </div>
 -->
+
+<div class=article>
+<a href=https://wimbornefolk.co.uk/int/EventShow.php?e=965.php>
+<h2 class=articlettl>Comedy Night</h2>
+<img class=articleimg src=http://media.ents24network.com/image/000/247/590/096d19bc204cb59115ff8765d67bd68aa54007f7.jpg alt='Wimborne Minster Folk Festival'></a>
+<p class=articletxt>'A laugh a Minute' Comedy Night Friday 8th QE School 8pm - 10:30pm Phil Jerrod, The Polly Morris Band plus the six finalists of 
+The National Comedy Competition.
+</div>
 
 <div class=article>
 <h2 class=articlettl>Jingle on Radio Wimborne and Forest FM</h2>
