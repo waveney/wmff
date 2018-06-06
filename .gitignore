@@ -4,6 +4,7 @@ int/.*.swp
 tickets
 OldStuff/*
 !images/icons
+!images/2018Pics
 images/*.*
 images/Sponsors
 images/Sides
