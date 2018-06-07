@@ -55,7 +55,7 @@ Please don't use the limited cycle racks on the High Street and by the Minster.<
 The High Street carpark will be closed from 6pm Thursday to be transformed into a festival venue (its inaccessible for cars anyway during the festival).<p>
 
 The Hanham Road south car park will not be a public car park during the festival.  Part will be used for Bicycle parking (see above), 
-part used for festival organisers and stewards.<p>
+part used for the main taxi rank.<p>
 
 <?php
   dotail();
