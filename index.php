@@ -116,7 +116,7 @@ Events start in the square at 10:30 with Polly Morris and Buskers around town fr
 <h2 class=articlettl>Buy Tickets and Wristbands</h2>
 <img class=articleimg src=/images/Weekend-Wristband.jpg alt='Wimborne Minster Folk Festival'></a>
 <p class=articletxt>Weekend and Day Passes are now on sale for the festival weekend.<br>Many event tickets are also available.  Online
-purchases close at midnight Thursday June 7th.</p>
+purchases close at 6am Friday June 8th.</p>
 </div>
 
 <!--

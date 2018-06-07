@@ -31,7 +31,7 @@ The site has toilets, showers, food and good 24 hour security. Entry to the camp
 
 Please be aware that access to/from the town on foot is over Julian's bridge, which has no footpath, so please take care when crossing at all times.</p>
 
-<b>Note: Online Ticket sales will stop at midnight on Thursday 7th of June.  Event tickets and passes will be available from the 
+<b>Note: Online Ticket sales will stop at 6am on Friday 8th of June.  Event tickets and passes will be available from the 
 Allendale Information point once it has opened on Friday at 2pm.  Camping tickets may be bought at the gate.</b><p>.
 
 <table cellspacing="5" cellpadding="5" style="background-color:#59B404; border-color:#59B404; width:50%;">
