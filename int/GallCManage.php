@@ -30,6 +30,7 @@
 	$suf = pathinfo($entry,PATHINFO_EXTENSION);
         if ($suf == 'jpg' || $suf == 'jpeg' || $suf == 'png') {
 	  $file = $Prefix . '/' . $entry;
+          Image_Convert($file,800,536,$file);
 	  if (!db_get('GallPhotos',"Galid=$Galid AND File='$file'")) { // not already in gallery
 	    $dat = array('File'=>$file,'Galid'=>$Galid);
   	    Insert_db('GallPhotos',$dat);
