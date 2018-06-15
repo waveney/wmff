@@ -28,15 +28,19 @@
       while (false !== ($entry = readdir($handle))) {
         if (preg_match('/^\./',$entry)) continue;
 	$suf = pathinfo($entry,PATHINFO_EXTENSION);
-        if ($suf == 'jpg' || $suf == 'jpeg' || $suf == 'png') {
+        $lcsuf = strtolower($suf);
+
+        if ($lcsuf == 'jpg' || $lcsuf == 'jpeg' || $lcsuf == 'png') {
 	  $file = $Prefix . '/' . $entry;
-          Image_Convert($file,800,536,$file);
-	  if (!db_get('GallPhotos',"Galid=$Galid AND File='$file'")) { // not already in gallery
-	    $dat = array('File'=>$file,'Galid'=>$Galid);
+	  $strfile = $Prefix . '/' . pathinfo($entry,PATHINFO_FILENAME) . '.' . $lcsuf;
+          Image_Convert($file,800,536,$strfile);
+	  if ($file != $strfile) unlink($file);
+	  if (!db_get('GallPhotos',"Galid=$Galid AND File='$strfile'")) { // not already in gallery
+	    $dat = array('File'=>$strfile,'Galid'=>$Galid);
   	    Insert_db('GallPhotos',$dat);
 	    $ImpCount++;
 	  } else {
-	    $ImpLog .= "Ignoring $file - already in Gallery<br>";
+	    $ImpLog .= "Ignoring $strfile - already in Gallery<br>";
 	  }
         }
       }
