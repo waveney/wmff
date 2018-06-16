@@ -27,6 +27,6 @@ Click on the name of a team, or their photograph to find out more about them and
   
   echo "<div style='clear:both;'>";
   echo "<b><a href=/int/ShowDanceProg.php?Cond=1&Pub=1&Y=2017>Complete Dance Programme for 2017</a>, ";
-  echo "<a href=/line-up/dance/index.php?Y=2017>Dance Line Up 2017</a></b><p>";
+  echo "<a href=/LineUpDance.php?Y=2017>Dance Line Up 2017</a></b><p>";
   dotail();
 ?>
