@@ -35,7 +35,7 @@
 </div>
 -->
 <div class=centhead>The 2019 Festival will be from Friday 14th to Sunday 16th of June 2019.<br>
-Eveving thing you can see on this site is from the fabulous 2018 festival. </div> 
+Everything you can see on this site is from the fabulous 2018 festival. </div> 
 <div id="flex">
 
 <div class=article>
