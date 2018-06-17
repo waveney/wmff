@@ -20,7 +20,7 @@
   $host= "https://" . $_SERVER['HTTP_HOST'];
 ?>
 
-<center><h2 class="maintitle">Welcome to Wimborne Minster Folk Festival 2018</h2></center>
+<center><h2 class="maintitle">Welcome to Wimborne Minster Folk Festival</h2></center>
 
 <!--
 <p>Go on, get social with us on <a href="http://facebook.com/WimborneFolk" rel="tag"><strong>Facebook</strong></a>, <a href="http://twitter.com/WimborneFolk" rel="tag"><strong>Twitter</strong></a> & <a href="http://instagram.com/WimborneFolk" rel="tag"><strong>Instagram</strong></a> with <strong>#WimborneFolk</strong>.</p>
@@ -34,8 +34,8 @@
 </ul>
 </div>
 -->
-<div class=centhead>In the second weekend of June, we will be bringing the town alive with an exciting mix of music &amp; dance. <br>
-You can wander through Wimborne and enjoy any of the free shows, or buy tickets to see one of our headline acts.</div>
+<div class=centhead>The 2019 Festival will be from Friday 14th to Sunday 16th of June 2019.<br>
+Eveving thing you can see on this site is from the fabulous 2018 festival. </div> 
 <div id="flex">
 
 <div class=article>

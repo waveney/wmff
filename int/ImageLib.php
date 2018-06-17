@@ -1,5 +1,7 @@
 <?php // Image manipulation
 
+$Medias = ['Photo','Video'];
+
 function Image_Convert($src,$Twidth,$Theight,$target) {
   $suffix = pathinfo($target,PATHINFO_EXTENSION);
 
