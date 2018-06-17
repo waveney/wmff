@@ -80,13 +80,12 @@
 <div class=dropdown onmouseover=NoHoverSticky(event)>
   <a onclick=NavStick(event)>Gallery</a>
   <div class=dropdown-content>
-     <a href=$host/gallery/gallery2018.php>2018 Photos</a>
+     <a href=$host/gallery/gallery2018.php>2018 Photos and Videos</a>
      <a href=$host/int/ShowGallery.php?g=2>2017 Photos</a>
      <a href=$host/gallery/2016>2016 Photos</a>
      <a href=$host/gallery/2015>2015 Photos</a>
      <a href=$host/gallery/2014>2014 Photos</a>
      <a href=$host/gallery/2013>2013 Photos</a>
-<!--     <a href=$host/int/ShowGallery.php?g=1>2018 Live and Loud</a> -->
      <a href=$host/int/ShowGallery.php?g=3>2017 Laugh Out Loud</a>
   </div>
 </div>
