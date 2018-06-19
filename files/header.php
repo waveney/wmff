@@ -16,10 +16,10 @@
     echo "<link href=/files/dropdown.css?V=$V type=text/css rel=stylesheet />\n";
 ?>
 
-    <link href="/css/responsiveslides.css" type="text/css" rel="stylesheet" />
+<!--    <link href="/css/responsiveslides.css" type="text/css" rel="stylesheet" /> -->
     <script src="/js/jquery-3.2.1.min.js"></script>
     <link href="/files/themes.css" type="text/css" rel="stylesheet" />
     <script src="/js/lightbox.js"></script>
     <link href="/css/lightbox.css" rel="stylesheet" />
 
-    <script src="/js/responsiveslides.min.js"></script>
+<!--    <script src="/js/responsiveslides.min.js"></script> -->
