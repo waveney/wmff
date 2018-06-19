@@ -7,7 +7,7 @@
   $start = (isset($_GET['s'])?$_GET['s']:0);
 // Get gallery and start (default 0)
 // Setup show and start it
-  if (strlen($id<10)) {
+  if (strlen($id)<10) {
     if (is_numeric($id)) {
       $Gal = db_get('Galleries',"id='$id'");
     } else {
