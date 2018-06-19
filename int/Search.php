@@ -27,7 +27,7 @@
     if (isset($_POST{'Titles'}) || !isset($_POST{'Cont'})) {
       if ($from) $xtr .= " AND Created>$from ";
       if ($until) $xtr .= " AND Created<$until ";
-      $qry = "SELECT * FROM Documents WHERE SName LIKE '%$targ%' $xtr";
+      $qry = "SELECT * FROM Documents WHERE SName COLLATE UTF8_GENERAL_CI LIKE '%$targ%' $xtr";
       $res = $db->query($qry);
       if ($res && $res->num_rows) {
 	Doc_Table_Head();
@@ -40,7 +40,7 @@
     }
 
     if (isset($_POST{'Cont'})) {
-      exec("grep -lr '" . $targ . "' Store", $greplst);
+      exec("grep -lir '" . $targ . "' Store", $greplst);
       if ($greplst) {
         foreach($greplst as $file) {
 	  $doc = Find_Doc_For($file);
