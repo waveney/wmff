@@ -93,14 +93,14 @@
   echo "<form method=post action=GallCManage.php>";
     echo fm_hidden('g',$Galid);
     echo "<h3>Import Photos</h3>Give Name of Directory (All Images will be imported) or Full Prefix (Any File with that Prefix will be imported): ";
-    echo fm_textinput('FilePrefix',$_POST['FilePrefix']);
+    echo fm_textinput('FilePrefix',isset($_POST['FilePrefix'])?$_POST['FilePrefix']:"");
     echo "<input type=submit name=IMPORT value=Import>";
     echo "</form><p>";
 
   echo "<h3>Current Gallery</h3>\n";
 
   $Gal = Get_Gallery_Photos($Galid);
-  if (UpdateMany('GallPhotos','Put_Gallery_Photo',$Gal,1,'','','File')) $Gal = Get_Gallery_Photos($Galid);
+  if (UpdateMany('GallPhotos','Put_Gallery_Photo',$Gal,2,'','','File')) $Gal = Get_Gallery_Photos($Galid);
 
   echo "If used Order controls the order of pictures appearing, two pictures of the same Order value may appear in any order.<p>\n";
   $coln = 0;

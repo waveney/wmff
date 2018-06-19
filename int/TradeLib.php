@@ -178,6 +178,7 @@ function Put_WaterRefill(&$now) {
 }
 
 // Works for simple tables
+// Deletes = 0 none, 1=one, 2=many
 function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$Mstr='SName') {
   global $TableIndexes;
   include_once("DateTime.php");
@@ -191,7 +192,7 @@ function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$M
       if (isset($_POST["$Mstr$i"]) && $_POST["$Mstr$i"] == '') {
 	if ($Deletes) {
   	  db_delete($table,$t[$indxname]);
-	  return 1;
+	  if ($Deletes == 1) return 1;
         }
 	continue;
       } else {
@@ -201,7 +202,7 @@ function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$M
 	    $t[$fld] = Date_BestGuess($_POST["$fld$i"]);
 	  } else if (in_array($fld,$TimeFlds)) {
 	    $t[$fld] = Time_BestGuess($_POST["$fld$i"]);
-	  } else {
+	  } else if (isset($_POST["$fld$i"])) {
             $t[$fld] = $_POST["$fld$i"];
 	  }
         }

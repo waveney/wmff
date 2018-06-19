@@ -53,7 +53,6 @@ function ImpCount($imps) {
 }
 
 function Gallery($id,$embed=0) {
-  if (!$embed) dohead($title, '/files/gallery.css');
   include_once("ImageLib.php");
 
   if (is_numeric($id)) {
@@ -64,15 +63,20 @@ function Gallery($id,$embed=0) {
   if (!$Gal) Error_Page("Gallery $id does not exist");
 
   $name = $Gal['SName'];
+  if (!$embed) dohead($name, '/files/gallery.css');
   echo "<h2 class=maintitle>$name</h2><p>";
+  echo "Click on any slide to start a Slide Show with that slide.<p>\n";
   echo '<div id=galleryflex>';
 
   $Imgs = Get_Gallery_Photos($Gal['id']);
+  $count = 0;
   if ($Imgs) {
     foreach ($Imgs as $img) {
-      echo "<div class=galleryarticle><a href='/" . $img['File'] . "'><img class=galleryarticleimg src='" . $img['File'] . "'></a>";
+//      echo "<div class=galleryarticle><a href='/" . $img['File'] . "'><img class=galleryarticleimg src='" . $img['File'] . "'></a>";
+      echo "<div class=galleryarticle><a href=/int/SlideShow.php?g=$id&s=$count><img class=galleryarticleimg src='" . $img['File'] . "'></a>";
       if ($img['Caption']) echo "<div class=gallerycaption> " . $img['Caption'] . "</div>";
       echo "</div>\n";
+      $count++;
     }
   } else {
     echo "<h2 class=Err>Sorry that Gallery is empty</h2>\n";
