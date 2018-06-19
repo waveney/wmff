@@ -43,6 +43,7 @@
 	keyboardEnabled: true,
 	autoControls: true,
 	auto: true,
+	pagerType: "short",
 ';
   echo "startSlide: $start,\n";
   echo '
