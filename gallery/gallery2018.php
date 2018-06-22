@@ -59,6 +59,13 @@
 </div>
 
 <div class="article">
+<a href="/int/ShowGallery.php?g=12">
+<h2 class="articlettl">Comedy Night 2018/h2>
+<img class="articleimg" src="https://wimbornefolk.co.uk/int/images/gallery/2018/Comedy/WMFFFriComedy_JoElkington-5009.jpg" ></a>
+<p class="articletxt">
+</div>
+
+<div class="article">
 <a href="/int/ShowGallery.php?g=1">
 <h2 class="articlettl">Live and Loud 2018</h2>
 <img class="articleimg" src="https://wimbornefolk.co.uk/images/Lnl2018/5-Stratus.jpg" ></a>

@@ -44,6 +44,7 @@
 	autoControls: true,
 	auto: true,
 	pagerType: "short",
+	stopAutoOnClick: true,
 ';
   echo "startSlide: $start,\n";
   echo '
