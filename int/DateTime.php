@@ -13,9 +13,10 @@ function Date_BestGuess($txt) {
   $Months = array('jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec');
   $daysOfM = array(31,28,31,30,31,30,31,31,30,31,30,31);
   $yr = $day = $mnth = 0;
-  if (preg_match('/(\d+)\/(\d+)\/?(\d+?)/',$txt,$mtch)) {
+  if (preg_match('/(\d+)\/(\d+)\/?(\d+)?/',$txt,$mtch)) {
     $day = $mtch[1];
     $mnth = $mtch[2];
+    if ($mtch[3]) $yr = $mtch[3];
   } else if (preg_match('/(\d+)-(\d+)-(\d+)/',$txt,$mtch)) {
     $day = $mtch[3];
     $mnth = $mtch[2];
@@ -30,7 +31,10 @@ function Date_BestGuess($txt) {
     if ($day < 0) $day = $daysOfM[$mnth-1];
   } 
 
-  if ($yr) return mktime(0,0,0,$mnth,$day,$yr);
+  if ($yr) {
+    if (strlen($yr)<4) $yr+=2000;
+    return mktime(0,0,0,$mnth,$day,$yr);
+  }
   if ($mnth <= 6) return mktime(0,0,0,$mnth,$day,$THISYEAR);
   return mktime(0,0,0,$mnth,$day,$THISYEAR-1);
 }
