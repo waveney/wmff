@@ -68,10 +68,6 @@
       exit;
     }
   }
-
+  dotail();
 ?>
-</div>
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>
 

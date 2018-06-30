@@ -23,9 +23,9 @@
         $stuff = getimagesize($a['Image']);
       }
       if ($stuff) {
-	$i = $a['id'];
-	$_POST['ImageWidth' . $i] = $stuff[0];
-	$_POST['ImageHeight' . $i] = $stuff[1];
+        $i = $a['id'];
+        $_POST['ImageWidth' . $i] = $stuff[0];
+        $_POST['ImageHeight' . $i] = $stuff[1];
       }
     }
   }

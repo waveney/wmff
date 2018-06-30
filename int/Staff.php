@@ -7,28 +7,16 @@
   }
   A_Check('Upload');
   $host= "https://" . $_SERVER['HTTP_HOST'];
-?>
 
-<html>
-<head>
-<title>WMFF Staff | Staff Tools</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-<script src="/js/jquery-3.2.1.min.js"></script>
-<script src="/js/jquery.typeahead.min.js"></script>
-<link href="/css/jquery.typeahead.min.css" type="text/css" rel="stylesheet" />
-<script src="/js/Staff.js"></script>
-</head>
-<body>
-<?php
+  dostaffhead("Staff Pages", "/js/jquery.typeahead.min.js", "/css/jquery.typeahead.min.css", "/js/Staff.js");
+
   global $YEAR,$THISYEAR;
-  include_once("files/navigation.php");
+
   include_once("ProgLib.php");
 
   $Years = Get_Years();
   $Days = array('All','Sat','Sun','&lt;Sat','Sat&amp;Sun');
 
-  echo '<div class="content">';
   if (isset($ErrorMessage)) echo "<h2 class=ERR>$ErrorMessage</h2>";
 
   echo "<div class=floatright><h2>";
@@ -117,12 +105,12 @@
 //      echo "<li><input class=typeahead type=text placeholder='Find a Side'>\n";
     if (0 && Access('SysAdmin')) {
       echo "<li>";
-//	echo "<form id=form-sidefind name=form-sidefind>\n";
+//        echo "<form id=form-sidefind name=form-sidefind>\n";
       echo "<span class=typeahead__container><span class=typeahead__field>\n";
       echo "<span class=typeahead__query><input class=findaside name=sidefind type=search placeholder='Find Side' autocomplete=off></span>";
       echo "<span class=typeahead__button><button type=submit><i class=typeahead__search-icon></i></button></span>\n";
       echo "</span></span>";
-//	echo "</form>\n"; 
+//        echo "</form>\n"; 
     } else {
       echo "<li>Find a Side\n";
 //         echo "<li><input class=typeahead type=text placeholder='Find a Side'>\n";
@@ -131,8 +119,8 @@
     echo "<li><a href=DanceFAQ.php>Dance FAQ</a>\n";
     if (Access('Staff','Dance')) {
       if ($YEAR == $THISYEAR) {
-	/* echo "<li><a href=DanceProg.php?Y=$YEAR>Edit Dance Programme</a>"; */
-	echo "<li><a href=NewDanceProg.php?Y=$YEAR>Edit Dance Programme</a>";
+        /* echo "<li><a href=DanceProg.php?Y=$YEAR>Edit Dance Programme</a>"; */
+        echo "<li><a href=NewDanceProg.php?Y=$YEAR>Edit Dance Programme</a>";
       } else {
         echo "<li><a href=DanceProg.php?Y=$YEAR&SAND>Edit 2017 Dance Programme in Sandbox</a>";
       }
@@ -199,14 +187,14 @@
     if (Access('Staff','Venues')) echo "<li><a href=EventTypes.php>Event Types</a>\n";
     echo "<li><form method=Post action=VenueShow.php?Mode=1 class=staffform>";
       echo "<input type=submit name=a value='Show Events at' id=staffformid>" . 
-		fm_hidden('Y',$YEAR) .
-		fm_select($Vens,0,'v',0," onchange=this.form.submit()") . "</form>\n";
+                fm_hidden('Y',$YEAR) .
+                fm_select($Vens,0,'v',0," onchange=this.form.submit()") . "</form>\n";
     echo "<li><form method=Post action=VenueShow.php?Poster=1 class=staffform>";
       echo "<input type=submit name=a value='Poster For' id=Posterid>" . 
-		fm_hidden('Y',$YEAR) .
-		fm_select($Vens,0,'v',0," onchange=this.form.submit()") . 
-		fm_radio('',$Days,$_POST,'DAYS','',0) . fm_checkbox('Pics',$_POST,'Pics') .
-		"</form>\n";
+                fm_hidden('Y',$YEAR) .
+                fm_select($Vens,0,'v',0," onchange=this.form.submit()") . 
+                fm_radio('',$Days,$_POST,'DAYS','',0) . fm_checkbox('Pics',$_POST,'Pics') .
+                "</form>\n";
     if (Access('Staff') && $YEAR==$THISYEAR) echo "<li><a href=EventAdd.php>Create Event(s)</a>";
     if (Access('SysAdmin')) echo "<li><a href=TicketEvents.php?Y=$YEAR>List Ticketed Events</a>\n";
     if (Access('Committee','Venues')) echo "<li><a href=MapPoints.php>Additional Map Points</a>\n";

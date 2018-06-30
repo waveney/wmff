@@ -51,7 +51,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
     }
   }
   $ks = array_keys($imps);
-  sort($ks);	
+  sort($ks);        
   $things = 0;
   foreach ( array_reverse($ks) as $imp) {
     foreach ($imps[$imp] as $thing) {
@@ -101,16 +101,16 @@ function Print_Participants($e,$when=0,$thresh=0) {
     $Others = Get_Other_Things_For($Eid);
     foreach ($Others as $o) {
       switch ($o['Type']) {
-	case 'Venue': 
-	  $OtherVenues[] = $o; 
-	  break;
-	case 'Act':
-	case 'Side':
-	case 'Other':
-	  $OtherPart[] = $o;
-	  break;
-	default:
-	  break;
+        case 'Venue': 
+          $OtherVenues[] = $o; 
+          break;
+        case 'Act':
+        case 'Side':
+        case 'Other':
+          $OtherPart[] = $o;
+          break;
+        default:
+          break;
       }
     }
   }
@@ -156,8 +156,8 @@ function Print_Participants($e,$when=0,$thresh=0) {
       echo "<tr><td>Also at:<td>";
       $ct=0;
       foreach ($OtherVenues as $Ov) {
-	$OVi = $Ov['Identifier'];
-	if ($ct++) echo ", ";
+        $OVi = $Ov['Identifier'];
+        if ($ct++) echo ", ";
         echo "<a href=VenueShow.php?v=$OVi>" . $OVens[$OVi] . "</a>";
       }
     } else if ($Ven['VenueId']) {
@@ -202,9 +202,9 @@ function Print_Participants($e,$when=0,$thresh=0) {
           if (isset($imps[$i])) {
             foreach ($imps[$i] as $thing) {
               if ($with++) echo ", ";
-	      echo "<a href=#" . AlphaNumeric($thing['SName']) . " style='font-size:" . (17+$i*2) . "'>" . $thing['SName'] . "</a>";
-	    }
-	  }
+              echo "<a href=#" . AlphaNumeric($thing['SName']) . " style='font-size:" . (17+$i*2) . "'>" . $thing['SName'] . "</a>";
+            }
+          }
         }
       echo "<p>";
       }
@@ -225,7 +225,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
       if ($OtherPart[1]) echo "Participants in order:<p>\n";
       echo "<div class=mini style='width:480;'>\n";
       foreach ($OtherPart as $O) {
-	Print_Thing(Get_Side($O['Identifier']));
+        Print_Thing(Get_Side($O['Identifier']));
       }
       echo "</div><br clear=all>\n";
     } else {

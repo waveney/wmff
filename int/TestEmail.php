@@ -21,7 +21,7 @@
 
     $letter = firstword($user['SName']) . ",<p>" .
         "This is a message via the other server if so progress many now be possible...<p>".
-	"Richard";
+        "Richard";
  
     SendEmail($user['Email'],"Welcome " . firstword($user['SName']) . " to WMFF Staff pages",$letter);
 

@@ -53,12 +53,12 @@ function Forgot() {
         $ans['AccessKey'] = $rand_hash;
         Put_User($ans);
         $message = "A limited use link has been emailed to you";
-	if (file_exists("Testing")) {
+        if (file_exists("Testing")) {
           $message .= "</h2>Email link is <a href=Login.php?ACTION=LIMITED&U=$user&A=$rand_hash>$user $rand_hash</a><h2>";
         } else {
           SendEmail($ans['Email'],"Wimborne Minster Folk Festival",$ans['SName'] . "<p>\n\nYour limited duration " .
-				"<a href=https://wimbornefolk.co.uk/int/Login.php?ACTION=LIMITED&U=$user&A=$rand_hash>New Password link</a>.");
-	}
+                                "<a href=https://wimbornefolk.co.uk/int/Login.php?ACTION=LIMITED&U=$user&A=$rand_hash>New Password link</a>.");
+        }
         return $message;
       }
     }
@@ -160,14 +160,14 @@ function NewPasswd() {
       if ($ans['ChangeSent']+36000 > time()) {
         if ($_POST{'password'} == $_POST{'confirm'}) {
           if (strlen($_POST{'password'}) > 5) { // using crypt rather than password_hash so it works on php 3.3
-	    $hash = crypt($_POST{'password'},"WM");
-	    $ans['password'] = $hash;
+            $hash = crypt($_POST{'password'},"WM");
+            $ans['password'] = $hash;
             $ans['Yale'] = rand_string(40);
-	    $USER = $ans;
-	    $USERID = $user;
+            $USER = $ans;
+            $USERID = $user;
             setcookie('WMFF2',$ans['Yale'],($_POST{'RememberMe'} ? mktime(0,0,0,1,1,$YEAR+1) : 0 ),'/');
-      	    Put_User($ans);
-     	    include ("Staff.php"); // no return wanted
+                  Put_User($ans);
+                 include ("Staff.php"); // no return wanted
             exit;
           }
           Set_Password($user,"Password too short");

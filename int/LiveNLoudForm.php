@@ -58,7 +58,7 @@
   echo "<tr>" . fm_text('Song Titles',$_POST,'Songs',3);
   echo " (It does not matter if you choose to perform different songs on the night)";
   echo "<tr>" . fm_text('Equipment Needed',$_POST,'Equipment',3) . 
-		" Drum Kit, Mics &amp; Mic Stands, Sound Desk, Amps, Lighting and Tech support will be provided.";
+                " Drum Kit, Mics &amp; Mic Stands, Sound Desk, Amps, Lighting and Tech support will be provided.";
   echo "<tr><td colspan=2>Are you able to perform a 30 minute set at the Folk Festival?<td>" . fm_radio('',$yesno,$_POST,'FolkFest','',0);
   echo "<tr><td colspan=2>Are you available on Friday 8th June, during the Folk Festival?<td>" . fm_radio('',$yesno,$_POST,'FFFri','',0);
   echo "<tr><td colspan=2>Are you available on Saturday 9th June, during the Folk Festival?<td>" . fm_radio('',$yesno,$_POST,'FFSat','',0);

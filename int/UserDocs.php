@@ -1,23 +1,10 @@
 <?php
   include_once("fest.php");
   A_Check('Committee');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | Doc Usage</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php include_once("files/navigation.php"); ?>
-<div class="content"><h2>File storage used</h2>
-
-<?php
-
+  dostaffhead("Doc Usgae");
   include_once("DocLib.php");
   $AllU = Get_AllUsers();
-
 
   $qry = "SELECT Who, Sum(filesize), Count(*) FROM Documents WHERE State=0 GROUP BY Who ORDER BY Who";
   $res = $db->query($qry);
@@ -36,10 +23,6 @@
     echo "<tr><td>" . $usr[0] . "<td>" . $AllU[$usr[0]] . "<td>" . $usr[2] . "<td align=right>" . formatBytes($usr[1]) . "\n";
   }
   echo "</tbody></table>\n";
-  
+  dotail();
 ?>
-  
-</div>
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>
+

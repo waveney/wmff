@@ -52,15 +52,15 @@ function Update_MapPoints() {
 //  $res = $db->query("SELECT * FROM Venues WHERE Lat!='' "); // ALL VENUES
   if ($res) while($ven = $res->fetch_assoc()) {
     $data[] = array('id'=>$ven['VenueId'], 'name'=>$ven['SName'], 'lat'=>$ven['Lat'], 'long'=>$ven['Lng'],
-	'imp'=>$ven['MapImp'],'icon'=>$ven['IconType'],'atxt'=>0,'desc'=>$ven['Description'],
-	'usage'=>(($ven['Dance']?'D':'_').($ven['Music']?'M':'_').($ven['Child']?'F':'_').($ven['Craft']?'C':'_').($ven['Other']?'O':'_')),
-	'image'=>$ven['Image'],'extra'=>$ven['DirectionsExtra']);
+        'imp'=>$ven['MapImp'],'icon'=>$ven['IconType'],'atxt'=>0,'desc'=>$ven['Description'],
+        'usage'=>(($ven['Dance']?'D':'_').($ven['Music']?'M':'_').($ven['Child']?'F':'_').($ven['Craft']?'C':'_').($ven['Other']?'O':'_')),
+        'image'=>$ven['Image'],'extra'=>$ven['DirectionsExtra']);
   }
 
   $res = $db->query("SELECT * FROM MapPoints WHERE InUse=0");
   if ($res) while($mp = $res->fetch_assoc()) {
     $data[] = array('id'=>(1000000+$mp['id']), 'name'=>$mp['SName'], 'lat'=>$mp['Lat'], 'long'=>$mp['Lng'],
-	'imp'=>$mp['MapImp'],'icon'=>$mp['Type'],'atxt'=>$mp['AddText'],'direct'=>$mp['Directions'],'link'=>$mp['Link']);
+        'imp'=>$mp['MapImp'],'icon'=>$mp['Type'],'atxt'=>$mp['AddText'],'direct'=>$mp['Directions'],'link'=>$mp['Link']);
   }
 
   return file_put_contents("../cache/mappoints.json",json_encode($data));

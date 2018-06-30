@@ -32,10 +32,10 @@
       echo "<td>" . $lnl['Style'];
       echo "<td style='background:" . $Colours[$lnl['Activity']] . ";'>" . $lnlclasses[$lnl['Activity']];
       if ($lnl['TotalSize']) {
-	$siz = $lnl['TotalSize'];
+        $siz = $lnl['TotalSize'];
       } else {
-	$siz = 0;
-	for ($i=1;$i<7;$i++) if ($lnl["SName$i"]) $siz++;
+        $siz = 0;
+        for ($i=1;$i<7;$i++) if ($lnl["SName$i"]) $siz++;
       }
       echo "<td>$siz";
       echo "<td>" . $lnl['Contact'];

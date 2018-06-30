@@ -1,19 +1,8 @@
 <?php
   include_once("fest.php");
   A_Check('Steward');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | List Events</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php include_once("files/navigation.php"); ?>
-<div class="content"><h2>List Venues</h2>
-
-<?php
+  dostaffhead("List Venues");
   global $Surfaces,$YEAR;
   $yn = array('','Y');
   include_once("ProgLib.php");
@@ -50,14 +39,14 @@
     foreach ($venues as $Ven) {
       $i = $Ven['VenueId'];
       echo "<tr><td>$i<td>";
-	if ($edit) echo "<a href=AddVenue.php?v=$i>";
-	echo $Ven['ShortName'];
-	if ($edit) echo "</a>";
+        if ($edit) echo "<a href=AddVenue.php?v=$i>";
+        echo $Ven['ShortName'];
+        if ($edit) echo "</a>";
 
       echo "<td>";
-	if ($edit) echo "<a href=AddVenue.php?v=$i>";
-	echo $Ven['SName'];
-	if ($edit) echo "</a>";
+        if ($edit) echo "<a href=AddVenue.php?v=$i>";
+        echo $Ven['SName'];
+        if ($edit) echo "</a>";
 
       echo "<td>" . ($Ven['IsVirtual']?'Y':'');
       echo "<td>" . $Ven['Notes'] . "<td>" . $Venue_Status[$Ven['Status']];
@@ -81,9 +70,5 @@
   if (Access('Committee','Venues')) {
     echo "<h2><a href=AddVenue.php>Add Venue</a></h2>";
   }
+  dotail();
 ?>
-  
-</div>
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>

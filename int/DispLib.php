@@ -35,14 +35,14 @@ function Get_Imps(&$e,&$imps,$clear=1,$all=0) {
   if ($clear) $imps = array();
   for($i=1;$i<5;$i++) {
     if (isset($e["Side$i"])) { if ($ee = $e["Side$i"])  { 
-	$s = array_merge(Get_Side($ee), Get_SideYear($ee,$YEAR)); 
-	if ($s && ($all || (( $s['Coming'] == 2) && ($ets >1 || ($ets==1 && Access('Participant','Side',$s)))))) $imps[$useimp?$s['Importance']:0][] = $s; }; };
+        $s = array_merge(Get_Side($ee), Get_SideYear($ee,$YEAR)); 
+        if ($s && ($all || (( $s['Coming'] == 2) && ($ets >1 || ($ets==1 && Access('Participant','Side',$s)))))) $imps[$useimp?$s['Importance']:0][] = $s; }; };
     if (isset($e["Act$i"]))  { if ($ee = $e["Act$i"])   { 
-	$s = array_merge(Get_Side($ee), Get_ActYear($ee,$YEAR)); 
-	if ($s && ($all || (( $s['YearState'] >= 2) && ($ets >1 || ($ets==1 && Access('Participant','Act',$s)))))) $imps[$useimp?$s['Importance']:0][] = $s; }; };
+        $s = array_merge(Get_Side($ee), Get_ActYear($ee,$YEAR)); 
+        if ($s && ($all || (( $s['YearState'] >= 2) && ($ets >1 || ($ets==1 && Access('Participant','Act',$s)))))) $imps[$useimp?$s['Importance']:0][] = $s; }; };
     if (isset($e["Other$i"])){ if ($ee = $e["Other$i"]) { 
-	$s = array_merge(Get_Side($ee), Get_ActYear($ee,$YEAR)); 
-	if ($s && ($all || (( $s['YearState'] >= 2) && ($ets >1 || ($ets==1 && Access('Participant','Other',$s)))))) $imps[$useimp?$s['Importance']:0][] = $s; }; };
+        $s = array_merge(Get_Side($ee), Get_ActYear($ee,$YEAR)); 
+        if ($s && ($all || (( $s['YearState'] >= 2) && ($ets >1 || ($ets==1 && Access('Participant','Other',$s)))))) $imps[$useimp?$s['Importance']:0][] = $s; }; };
   }
 }
 
@@ -124,7 +124,7 @@ function ShowArticles() {
 //    if ($ans) $Dsc= ($ans->fetch_assoc())['Total'];
 
     $ans = $db->query("SELECT s.Photo,s.SideId FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.Coming=" . 
-		    $Coming_Type['Y'] . " ORDER BY RAND() LIMIT 1");
+                    $Coming_Type['Y'] . " ORDER BY RAND() LIMIT 1");
     if ($ans) {
       $DMany = $ans->fetch_assoc();
       $DPhoto = $DMany['Photo'];
@@ -132,10 +132,10 @@ function ShowArticles() {
       $DPhoto = "/images/Hobos-Morris-2016.jpg";
     }
     $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.Coming=" . 
-			    $Coming_Type['Y'] . " AND s.Importance!=0 ORDER BY RAND() LIMIT 2");
+                            $Coming_Type['Y'] . " AND s.Importance!=0 ORDER BY RAND() LIMIT 2");
     if (!$ans) {
       $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.Coming=" . 
-			$Coming_Type['Y'] . " ORDER BY RAND() LIMIT 2");
+                        $Coming_Type['Y'] . " ORDER BY RAND() LIMIT 2");
     }
     if ($ans) {
       $Dstuff = $ans->fetch_assoc();
@@ -148,7 +148,7 @@ function ShowArticles() {
 //    if ($ans) $Msc= ($ans->fetch_assoc())['Total'];
 
     $ans = $db->query("SELECT s.Photo,s.SideId FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.YearState>0 " . 
-			" ORDER BY RAND() LIMIT 1");
+                        " ORDER BY RAND() LIMIT 1");
     if ($ans) {
       $MMany = $ans->fetch_assoc();
       $MPhoto = $MMany['Photo'];
@@ -157,10 +157,10 @@ function ShowArticles() {
     }
 
     $ans = $db->query("SELECT s.* FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.YearState>0 " . 
-			" AND s.Importance!=0 ORDER BY RAND() LIMIT 2");
+                        " AND s.Importance!=0 ORDER BY RAND() LIMIT 2");
     if (!$ans) {
       $ans = $db->query("SELECT s.* FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.YearState>0 " . 
-			" ORDER BY RAND() LIMIT 2");
+                        " ORDER BY RAND() LIMIT 2");
     }
     if ($ans) {
       $Mstuff = $ans->fetch_assoc();
@@ -175,65 +175,65 @@ function ShowArticles() {
   foreach($Arts as $a) $Imps[$a['Importance']][] = $a;
 
   $ks = array_keys($Imps);
-  sort($ks);	
+  sort($ks);        
   foreach ( array_reverse($ks) as $imp) {
     shuffle($Imps[$imp]);
     foreach ($Imps[$imp] as $a) {
       if (substr($a['SName'],0,1) == '@') { // Special
-	switch ($a['SName']) {
-	case '@Dance_Imp':
-	  ShowArticle(array(
-		'SName'=>$Dstuff['SName'], 
-		'Link'=>('int/ShowDance.php?sidenum=' . $Dstuff['SideId']),
-		'Text'=>$Dstuff['Description'],
-		'Image'=>$Dstuff['Photo'],
-		'ImageWidth'=>$Dstuff['ImageWidth'],
-		'ImageHeight'=>$Dstuff['ImageHeight'],
-		'Importance'=>$imp
-		));
-	  break;
-	case '@Dance_Many':
-	  ShowArticle(array(
-		'SName'=>"Dancing in $THISYEAR",
-		'Link'=>"$host/LineUpDance.php",
-		'Text'=>"$Dsc Dance teams have already confirmed for $THISYEAR.  Many of your favourite teams and some new faces.\n",
-		'Image'=>$DPhoto,
-		'ImageWidth'=>$DMany['ImageWidth'],
-		'ImageHeight'=>$DMany['ImageHeight'],
-		'Importance'=>$imp
-		));
-	  break;
-	case '@Music_Imp':
-	  ShowArticle(array(
-		'SName'=>$Mstuff['SName'], 
-		'Link'=>('int/ShowMusic.php?sidenum=' . $Mstuff['SideId']),
-		'Text'=>$Mstuff['Description'],
-		'Image'=>$Mstuff['Photo'],
-		'ImageWidth'=>$Mstuff['ImageWidth'],
-		'ImageHeight'=>$Mstuff['ImageHeight'],
-		'Importance'=>$imp
-		));
-	  break;
-	case '@Music_Many':
-	  ShowArticle(array(
-		'SName'=>"Music in $THISYEAR",
-		'Link'=>"$host/LineUpMusic.php",
-		'Text'=>"$Msc Music acts have already confirmed for $THISYEAR.\n",
-		'Image'=>$MPhoto,
-		'ImageWidth'=>$MMany['ImageWidth'],
-		'ImageHeight'=>$MMany['ImageHeight'],
-		'Importance'=>$imp
-		));
-	  break;
-	case '@Other_Imp':
-	  break;
-	case '@Other_Many':
-	  break;
-	case '@Select' :
-	  break;
-	}
+        switch ($a['SName']) {
+        case '@Dance_Imp':
+          ShowArticle(array(
+                'SName'=>$Dstuff['SName'], 
+                'Link'=>('int/ShowDance.php?sidenum=' . $Dstuff['SideId']),
+                'Text'=>$Dstuff['Description'],
+                'Image'=>$Dstuff['Photo'],
+                'ImageWidth'=>$Dstuff['ImageWidth'],
+                'ImageHeight'=>$Dstuff['ImageHeight'],
+                'Importance'=>$imp
+                ));
+          break;
+        case '@Dance_Many':
+          ShowArticle(array(
+                'SName'=>"Dancing in $THISYEAR",
+                'Link'=>"$host/LineUpDance.php",
+                'Text'=>"$Dsc Dance teams have already confirmed for $THISYEAR.  Many of your favourite teams and some new faces.\n",
+                'Image'=>$DPhoto,
+                'ImageWidth'=>$DMany['ImageWidth'],
+                'ImageHeight'=>$DMany['ImageHeight'],
+                'Importance'=>$imp
+                ));
+          break;
+        case '@Music_Imp':
+          ShowArticle(array(
+                'SName'=>$Mstuff['SName'], 
+                'Link'=>('int/ShowMusic.php?sidenum=' . $Mstuff['SideId']),
+                'Text'=>$Mstuff['Description'],
+                'Image'=>$Mstuff['Photo'],
+                'ImageWidth'=>$Mstuff['ImageWidth'],
+                'ImageHeight'=>$Mstuff['ImageHeight'],
+                'Importance'=>$imp
+                ));
+          break;
+        case '@Music_Many':
+          ShowArticle(array(
+                'SName'=>"Music in $THISYEAR",
+                'Link'=>"$host/LineUpMusic.php",
+                'Text'=>"$Msc Music acts have already confirmed for $THISYEAR.\n",
+                'Image'=>$MPhoto,
+                'ImageWidth'=>$MMany['ImageWidth'],
+                'ImageHeight'=>$MMany['ImageHeight'],
+                'Importance'=>$imp
+                ));
+          break;
+        case '@Other_Imp':
+          break;
+        case '@Other_Many':
+          break;
+        case '@Select' :
+          break;
+        }
       } else {
-	ShowArticle($a);
+        ShowArticle($a);
       }
     }
   }

@@ -8,10 +8,10 @@
 
   $Last = $THISYEAR-1;
   $Places = array('General Images'=>'images',
-	"Gallery for $Last"=>"images/gallery/$Last",
-	"Gallery for $THISYEAR"=>"images/gallery/$THISYEAR",
-	"Icons"=>"images/icons",
-	"Sponsors"=>"images/Sponsors");
+        "Gallery for $Last"=>"images/gallery/$Last",
+        "Gallery for $THISYEAR"=>"images/gallery/$THISYEAR",
+        "Icons"=>"images/icons",
+        "Sponsors"=>"images/Sponsors");
   $Pflip = array_flip($Places);
 
 // var_dump($_POST);

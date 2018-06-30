@@ -28,10 +28,10 @@
     echo "<h2>";
     foreach ($Messages as $mes) {
       if ($mes['id'] == $Messkey) {
-	echo $mes['SName'];
-	$Mess = $mes['Body'];
+        echo $mes['SName'];
+        $Mess = $mes['Body'];
       } else {
-	echo "<a href=EmailTraders.php?MessNum=" . $mes['id'] . ">" . $mes['SName'] . "</a>";
+        echo "<a href=EmailTraders.php?MessNum=" . $mes['id'] . ">" . $mes['SName'] . "</a>";
       }
       echo "&nbsp; &nbsp; &nbsp; ";
     }
@@ -83,7 +83,7 @@
       break;
 
     default:
-	echo "Don't know that selection sorry";
+        echo "Don't know that selection sorry";
         dotail();
     }
     $Mess = $_POST['Mess'];
@@ -104,14 +104,14 @@
       $Tid = $Trad['Tid'];
       $Key = $Trad['AccessKey'];
       if (!$Key) {
-	echo "Ommitting " . $Trad['SName'] . " as it does not have an Access Key.<br>";
-	continue;
+        echo "Ommitting " . $Trad['SName'] . " as it does not have an Access Key.<br>";
+        continue;
       };
 
       if ($Trad['Contact']) {
         $Contact = firstword(trim($Trad['Contact']));
       } else {
-	$Contact = $Trad['SName'];
+        $Contact = $Trad['SName'];
       }
 
       if ($Trad['SName'] == '') continue;
@@ -129,13 +129,13 @@
           $ThisMess = preg_replace('/\*LIMITED\*/',$Limited,$ThisMess);
 // Need to update history in future as appropriate
           if (file_exists("testing")) {
-  	    echo "Would send to " . $Trad['SName'] . "<p> $ThisMess <p>";
+              echo "Would send to " . $Trad['SName'] . "<p> $ThisMess <p>";
           } else {
 // exit; // Testing backstopdd
-	    SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $THISYEAR and " . $Trad['SName'],$ThisMess);
-	    echo "Sent to " . $Trad['SName'] . "<br>";
+            SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $THISYEAR and " . $Trad['SName'],$ThisMess);
+            echo "Sent to " . $Trad['SName'] . "<br>";
           }
-	}
+        }
       }
       $Sent_Count++;
     }

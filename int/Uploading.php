@@ -151,7 +151,7 @@ function Upload_Image($Dir='Sides',$fld) {
           } else {
             return "<div class=Err>File uploaded but database did not update... " . $db->error . "</div>";
           }
-	}
+        }
       }
     } else {
       return "<div class=Err>Sorry, there was an error uploading your file.</div>";

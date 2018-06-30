@@ -1,20 +1,10 @@
 <?php
   include_once("fest.php");
   A_Check('Steward');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | List Traders in Detail</title>
-<script src="/js/clipboard.min.js"></script>
-<script src="/js/emailclick.js"></script>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php 
+  dostaffhead("List Traders in Detail", "/js/clipboard.min.js", "/js/emailclick.js");
+
   global $YEAR,$THISYEAR,$Trade_States,$Trade_StateClasses,$Trade_State,$TS_Actions,$ButExtra;
-  include_once("files/navigation.php");
   include_once("TradeLib.php");
 
   $Trade_Types = Get_Trade_Types(1);
@@ -27,7 +17,7 @@
   $Type = $_GET['t'];
 
   $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND (y.BookingState=" . $Trade_State['Deposit Paid'] .
-		" OR y.BookingState=" . $Trade_State['Fully Paid'] . " ) AND t.TradeType=$Type ORDER BY SName";
+                " OR y.BookingState=" . $Trade_State['Fully Paid'] . " ) AND t.TradeType=$Type ORDER BY SName";
 
 //echo "$qry<p>";
   $res = $db->query($qry);
@@ -63,52 +53,52 @@
         $stat = $fetch['BookingState'];
         if ($stat == $Trade_State['Fully Paid'] && ($fetch['Insurance'] == 0 || $fetch['RiskAssessment'] == 0)) {
           $str .= " class=TSNoInsRA>";
-	} else {
-	  $str .= " class=" . $Trade_StateClasses[$stat] . ">";
-	}
-	if ($Acts && $Act ) {
-	  $Acts = preg_split('/,/',$Act); 
-	  $str .= "<form>" . fm_Hidden('id',$Tid);
-	  foreach($Acts as $ac) {
-	    switch ($ac) {
-	      case 'Quote':
-		if ($fetch['Fee'] == 0) continue 2;
-		break;
-	      case 'Accept':
-		if ($fetch['Fee'] == 0) continue 2;
-		break;
-	      case 'Paid':
-		if ($fetch['Fee'] == 0) continue 2;
-		break;
-	      default:
-	      }
-	    $str .= "<button class=floatright name=ACTION value='$ac' type=submit " . $ButExtra[$ac] . " >$ac</button>";
-	  }
-	  $str .= "</form>";
-	}
-	$str .= $Trade_States[$stat];
+        } else {
+          $str .= " class=" . $Trade_StateClasses[$stat] . ">";
+        }
+        if ($Acts && $Act ) {
+          $Acts = preg_split('/,/',$Act); 
+          $str .= "<form>" . fm_Hidden('id',$Tid);
+          foreach($Acts as $ac) {
+            switch ($ac) {
+              case 'Quote':
+                if ($fetch['Fee'] == 0) continue 2;
+                break;
+              case 'Accept':
+                if ($fetch['Fee'] == 0) continue 2;
+                break;
+              case 'Paid':
+                if ($fetch['Fee'] == 0) continue 2;
+                break;
+              default:
+              }
+            $str .= "<button class=floatright name=ACTION value='$ac' type=submit " . $ButExtra[$ac] . " >$ac</button>";
+          }
+          $str .= "</form>";
+        }
+        $str .= $Trade_States[$stat];
 
       $Dep = T_Deposit($fetch);
       $fee = $ftxt = $fetch['Fee'];
       $tot = $fetch['TotalPaid'];
       if ($Dep == 0) {
-	if ($fee < 0) { $ftxt = "Free"; $Bal = 0; }
-	else { $Bal = $fee; };
+        if ($fee < 0) { $ftxt = "Free"; $Bal = 0; }
+        else { $Bal = $fee; };
       } else {
-	if ($fee < 0) { $Bal = $fee = 0; }
-	else { $Bal = max($fee - $Dep, $fee-$tot); }
+        if ($fee < 0) { $Bal = $fee = 0; }
+        else { $Bal = max($fee - $Dep, $fee-$tot); }
       }
       $Hist = $fetch['History'];
       if (preg_match_all('/Action: *Dep Paid *of *(.*? on .*?) by /',$Hist,$mtchs)) {
-	$DepDet = implode('<br>',$mtchs[1]);
+        $DepDet = implode('<br>',$mtchs[1]);
       } else {
-	$DepDet = '';
+        $DepDet = '';
       }
 
       if (preg_match_all('/Action: *Paid *(.*? on .*?) by /',$Hist,$mtchs)) {
-	$BalDet = implode('<br>',$mtchs[1]);
+        $BalDet = implode('<br>',$mtchs[1]);
       } else {
-	$BalDet = '';
+        $BalDet = '';
       }
 
       $str .= "<td>$fee";

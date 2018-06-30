@@ -1,48 +1,38 @@
 <?php
   include_once("fest.php");
   A_Check('Committee','Users');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | Add/Change User</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-
-<?php
-  include_once("files/navigation.php");
+  dostaffhead("Add/Change User");
   include_once("UserLib.php");
 
   Set_User_Help();
 
-  echo "<div class='content'><h2>Add/Edit Fest Con Users</h2>\n";
+  echo "<h2>Add/Edit Fest Con Users</h2>\n";
   echo "<form method=post action='AddUser.php'>\n";
   if (isset($_POST{'UserId'})) { /* Response to update button */
     $unum = $_POST{'UserId'};
-    if ($unum > 0) { 				// existing User
+    if ($unum > 0) {                                 // existing User
       $User = Get_User($unum);
       if (isset($_POST{'ACTION'})) {
         switch ($_POST{'ACTION'}) {
-	case 'Set Password' :
-	  $hash = crypt($_POST{'NewPass'},"WM");
-	  $User['password'] = $hash;
-	  $a = Put_User($User);
-	  break;
-	}
+        case 'Set Password' :
+          $hash = crypt($_POST{'NewPass'},"WM");
+          $User['password'] = $hash;
+          $a = Put_User($User);
+          break;
+        }
       } else {
         Update_db_post('FestUsers',$User);
       }
     } else { /* New User */
       $proc = 1;
       if (!isset($_POST['SName'])) {
-	echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
-	$proc = 0;
+        echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
+        $proc = 0;
       }
       if ($proc && !isset($_POST['Login'])) {
-	echo "<h2 class=ERR>NO login GIVEN</h2>\n";
-	$proc = 0;
+        echo "<h2 class=ERR>NO login GIVEN</h2>\n";
+        $proc = 0;
       }
       $unum = Insert_db_post('FestUsers',$User,$proc);
     }
@@ -57,9 +47,9 @@
   echo "<table width=90% border>\n";
     echo "<tr><td>User Id:<td>";
       if (isset($unum) && $unum > 0) {
-	echo $unum . fm_hidden('UserId',$unum);
+        echo $unum . fm_hidden('UserId',$unum);
       } else {
-	echo fm_hidden('UserId',-1);
+        echo fm_hidden('UserId',-1);
         $User['AccessLevel'] = $Access_Type['Committee'];
       }
     echo "<tr>" . fm_text('Name', $User,'SName',1,'','autocomplete=off');
@@ -96,10 +86,6 @@
   echo "<a href=ListUsers.php>List Users</a> , \n";
   if ($unum >0) echo "<a href=AddUser.php>Add Another User</a>\n";
   echo "</h2>";
+
+  dotail();
 ?>
-
-</div>
-
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>

@@ -46,8 +46,8 @@
     if ($side['Performers'] < 1 || strlen($side['Address']) < 10 || $side['WristbandsSent']) continue;
     if ($PerLine == 3) {
       if (($Lines%8) == 7) {
-	echo "</table>";
-	echo "<table class=adrlabels border>";
+        echo "</table>";
+        echo "<table class=adrlabels border>";
       }
       echo "<tr>";
       $Lines++;
@@ -79,7 +79,7 @@
       if ($l == 0) echo " &nbsp; &nbsp; <span class=floatright><span class=smalltext>" . $side['Performers'] . "</span></span>";
       if ($l++ < $LINESADR) { 
         $ind .= "&nbsp; ";
-	echo "<br>"; 
+        echo "<br>"; 
       } else { 
         $ind = "&nbsp; ";
       }
@@ -91,6 +91,6 @@
   while ($PerLine++ < 3) echo "<td class=adrlabbox><br>"; 
   echo "</table>\n";
   echo "</body></html>\n";
-
+?>
       
  

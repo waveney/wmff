@@ -1,25 +1,15 @@
 <?php
   include_once("fest.php");
   A_Check('Steward');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | List Traders</title>
-<script src="/js/clipboard.min.js"></script>
-<script src="/js/emailclick.js"></script>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php 
+  dostaffhead("List Traders", "/js/clipboard.min.js", "/js/emailclick.js");
+
   global $YEAR,$THISYEAR,$Trade_States,$Trade_StateClasses,$Trade_State,$TS_Actions,$ButExtra;
-  include_once("files/navigation.php");
   include_once("TradeLib.php");
 
   $Sum = isset($_GET['SUM']);
   if ($Sum) {
-    echo "<div class=content><h2>Traders Summary $YEAR</h2>\n";
+    echo "<h2>Traders Summary $YEAR</h2>\n";
   } else {
     echo "<div class=content><h2>List Traders $YEAR</h2>\n";
 
@@ -51,7 +41,7 @@
   } else {  
     if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR&INC=1>Include Refunded/Cancelled/Not Submitted</a></h2>";
     $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Submitted'] .
-		" ORDER BY SName";
+                " ORDER BY SName";
   }
 
   $res = $db->query($qry);
@@ -96,84 +86,84 @@
         $stat = $fetch['BookingState'];
         if ($stat == $Trade_State['Fully Paid'] && ($fetch['Insurance'] == 0 || $fetch['RiskAssessment'] == 0)) {
           $str .= " class=TSNoInsRA>";
-	} else {
-	  $str .= " class=" . $Trade_StateClasses[$stat] . ">";
-	}
+        } else {
+          $str .= " class=" . $Trade_StateClasses[$stat] . ">";
+        }
         $TrState[$stat]++;
 
-	$Act = $TS_Actions[$stat];
-	if ($Acts && $Act ) {
-	  $Acts = preg_split('/,/',$Act); 
-	  $str .= "<form>" . fm_Hidden('id',$Tid);
-	  foreach($Acts as $ac) {
-	    switch ($ac) {
-	      case 'Quote':
-		if ($fetch['Fee'] == 0) continue 2;
-		break;
-	      case 'Accept':
-		if ($fetch['Fee'] == 0) continue 2;
-		break;
-	      case 'Paid':
-		if ($fetch['Fee'] == 0) continue 2;
-		break;
-	      default:
-	      }
-	    $str .= "<button class=floatright name=ACTION value='$ac' type=submit " . (isset($ButExtra[$ac])?$ButExtra[$ac]:"") . " >$ac</button>";
-	  }
-	  $str .= "</form>";
-	}
+        $Act = $TS_Actions[$stat];
+        if ($Acts && $Act ) {
+          $Acts = preg_split('/,/',$Act); 
+          $str .= "<form>" . fm_Hidden('id',$Tid);
+          foreach($Acts as $ac) {
+            switch ($ac) {
+              case 'Quote':
+                if ($fetch['Fee'] == 0) continue 2;
+                break;
+              case 'Accept':
+                if ($fetch['Fee'] == 0) continue 2;
+                break;
+              case 'Paid':
+                if ($fetch['Fee'] == 0) continue 2;
+                break;
+              default:
+              }
+            $str .= "<button class=floatright name=ACTION value='$ac' type=submit " . (isset($ButExtra[$ac])?$ButExtra[$ac]:"") . " >$ac</button>";
+          }
+          $str .= "</form>";
+        }
         if ($stat == $Trade_State['Fully Paid'] && ($fetch['Insurance'] == 0 || $fetch['RiskAssessment'] == 0)) {
-	  $str .= "Paid";
+          $str .= "Paid";
           if ($fetch['Insurance'] ==0) $str .= ", no Insurance";
           if ($fetch['RiskAssessment'] ==0) $str .= ", no Risk Assess";
-	} else {
-	  $str .= $Trade_States[$stat];
+        } else {
+          $str .= $Trade_States[$stat];
         }
       $str .= "<td>";
         $Dep = T_Deposit($fetch);
-	$fee = $fetch['Fee'];
-	if ($Dep == 0) {
-	  if ($fee < 0) { $str .= "Free"; }
-	  else if ($fee == 0) { $str .= "?"; }
-	  else { $str .= $fee; };
-	} else {
-	  if ($fee < 0) { $str .= "D:$Dep<br>B:0<br>T:0"; }
-	  else if ($fee == 0) { $str .= "D:$Dep<br>B:?<br>T:?"; }
-	  else { $str .= "D:$Dep<br>B:" . ($fee - $Dep) . "<br>T:$fee"; }
-	}
+        $fee = $fetch['Fee'];
+        if ($Dep == 0) {
+          if ($fee < 0) { $str .= "Free"; }
+          else if ($fee == 0) { $str .= "?"; }
+          else { $str .= $fee; };
+        } else {
+          if ($fee < 0) { $str .= "D:$Dep<br>B:0<br>T:0"; }
+          else if ($fee == 0) { $str .= "D:$Dep<br>B:?<br>T:?"; }
+          else { $str .= "D:$Dep<br>B:" . ($fee - $Dep) . "<br>T:$fee"; }
+        }
       $str .= "<td>";
-	if ($fetch['Days'] ==0) {
-	  $str .= "Y<td>Y";
-	} elseif ($fetch['Days'] == 1) { 
-	  $str .= "Y<td>";
-	} else {
-	  $str .= "<td>Y";
-	}
+        if ($fetch['Days'] ==0) {
+          $str .= "Y<td>Y";
+        } elseif ($fetch['Days'] == 1) { 
+          $str .= "Y<td>";
+        } else {
+          $str .= "<td>Y";
+        }
 //      $str .= "<td>" . (1000000+$fetch['TYid']);
       $str .= "<td>" . $fetch['PitchSize0'];
         if ($fetch['PitchSize1']) $str .= "<br>" . $fetch['PitchSize1'];
         if ($fetch['PitchSize2']) $str .= "<br>" . $fetch['PitchSize2'];
       $str .= "<td>" . $fetch['Power0'];
         if ($fetch['PitchSize1']) {
-	  $str .= "<br>";
-	  $str .= $fetch['Power1'];
+          $str .= "<br>";
+          $str .= $fetch['Power1'];
         }
         if ($fetch['PitchSize2']) {
-	  $str .= "<br>";
-	  $str .= $fetch['Power2'];
+          $str .= "<br>";
+          $str .= $fetch['Power2'];
         }
       $str .= "<td>";
-	for ($i = 0; $i<3; $i++) {
-	  if ($fetch["PitchSize$i"]) {
-	    if ($i) $str .= "<br>";
+        for ($i = 0; $i<3; $i++) {
+          if ($fetch["PitchSize$i"]) {
+            if ($i) $str .= "<br>";
             if ($fetch["PitchLoc$i"]) {
- 	      $str .= NoBreak($TradeLocs[$fetch["PitchLoc$i"]]);
+               $str .= NoBreak($TradeLocs[$fetch["PitchLoc$i"]]);
               if ($fetch["PitchNum$i"]) $str .= "&nbsp;" . $fetch["PitchNum$i"];
-	    } else {
-	      $str .= "&nbsp;";
-	    }
-	  }
-	}
+            } else {
+              $str .= "&nbsp;";
+            }
+          }
+        }
       $inscols= array('red','yellow','lime');
       $str .= "<td style='background:" . ($inscols[$fetch['Insurance']]) . ";'>" . ($fetch['Insurance']?"Y":'');
 //      $str .= "<td style='background:" . ($fetch['Insurance']?'lime':'red') .";'>" . ($fetch['Insurance']?"Y":'');
@@ -181,34 +171,34 @@
 
       if ($Trade_Types[$fetch['TradeType']]['NeedPublicHealth']) {
         if ($fetch['PublicHealth']) {
-  	  if ($fetch['BookingState'] >= $Trade_State['Submitted']) {
+            if ($fetch['BookingState'] >= $Trade_State['Submitted']) {
             $str .= "<td"  . ($fetch['HealthChecked']?'':' style="background:red;"') . ">";
-  	    $str .= "<form>" . fm_Hidden('id',$Tid);
-	    if ($Acts && !$fetch['HealthChecked']) $str .= "<button class=floatright name=ACTION value=Checked type=submit >Checked</button>";
-	    $str .= "</form>";
-	  } else {
-	    $str .= "<td>";
-	  }
-	  $str .= $fetch['PublicHealth'];
+              $str .= "<form>" . fm_Hidden('id',$Tid);
+            if ($Acts && !$fetch['HealthChecked']) $str .= "<button class=floatright name=ACTION value=Checked type=submit >Checked</button>";
+            $str .= "</form>";
+          } else {
+            $str .= "<td>";
+          }
+          $str .= $fetch['PublicHealth'];
         } else {
-	  $str .= "<td style='background:red;'><b>MISSING</b>";
+          $str .= "<td style='background:red;'><b>MISSING</b>";
         }
       } else {
-	$str .= "<td>";
+        $str .= "<td>";
       }
       if ($fee > 0) {
-	$totfee += $fee;
-	$totrec += $fetch['TotalPaid'];
-	if (!isset($TrMon[$fetch['TradeType']])) {
-	  $TrMon[$fetch['TradeType']] = $fee;
-	} else {
-	  $TrMon[$fetch['TradeType']] += $fee;
-	}
-	$TrRec[$fetch['TradeType']] += $fetch['TotalPaid'];
-	if ($stat >= $Trade_State['Submitted'] && $stat != $Trade_State['Quoted'] && $stat != $Trade_State['Wait List']) {
-	  $TrSub[$fetch['TradeType']] += $fee;
-	  $totsub += $fee;
-	}
+        $totfee += $fee;
+        $totrec += $fetch['TotalPaid'];
+        if (!isset($TrMon[$fetch['TradeType']])) {
+          $TrMon[$fetch['TradeType']] = $fee;
+        } else {
+          $TrMon[$fetch['TradeType']] += $fee;
+        }
+        $TrRec[$fetch['TradeType']] += $fetch['TotalPaid'];
+        if ($stat >= $Trade_State['Submitted'] && $stat != $Trade_State['Quoted'] && $stat != $Trade_State['Wait List']) {
+          $TrSub[$fetch['TradeType']] += $fee;
+          $totsub += $fee;
+        }
       }
     }
     $str .= "</tbody></table>\n";
@@ -231,11 +221,6 @@
     if (isset($TrState[$i]) && $TrState[$i]>0) echo "<tr><td class=" . $Trade_StateClasses[$i] . ">$state<td>" . $TrState[$i];
   }
   echo "</table><p>";
-  
+  dotail();
 ?>
-  
-</div>
 
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>

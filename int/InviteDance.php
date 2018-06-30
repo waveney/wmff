@@ -1,23 +1,13 @@
 <?php
   include_once("fest.php");
   A_Check('Steward');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | Invite Dance</title>
-<script src="/js/clipboard.min.js"></script>
-<script src="/js/emailclick.js"></script>
-<script src="/js/InviteThings.js"></script>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php 
+  dostaffhead("Invite Dance", "/js/clipboard.min.js", "/js/emailclick.js", "/js/InviteThings.js");
+
   include_once("files/navigation.php"); 
   include_once("DanceLib.php"); 
   global $YEAR,$THISYEAR;
-  echo "<div class=content><h2>Invite Dance Sides $YEAR</h2>\n";
+  echo "<h2>Invite Dance Sides $YEAR</h2>\n";
 
   echo "Click on column header to sort by column.  Click on Side's name for more detail and programme when available,<p>";
 
@@ -40,7 +30,7 @@
   $LastYear = $YEAR-1;
   $flds = "s.*, ly.Invite AS LyInvite, ly.Coming AS LyComing, y.Invite, y.Invited, y.Coming";
   $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR " .
-			"LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE s.IsASide=1 AND s.SideStatus=0 ORDER BY SName");
+                        "LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE s.IsASide=1 AND s.SideStatus=0 ORDER BY SName");
   $col5 = "Invited $LastYear";
   $col6 = "Coming $LastYear";
   $col7 = "Invite $YEAR";
@@ -73,23 +63,23 @@
       $snum = $fetch['SideId'];
       echo "<tr><td><a href=AddDance.php?sidenum=$snum&Y=$YEAR>" . $fetch['SName'] . "</a>";
       if ($fetch['SideStatus']) {
-	echo "<td>DEAD";
+        echo "<td>DEAD";
       } else {
-	$ty = strtolower($fetch['Type']);
-	$colour = '';
-	foreach($Types as $T) {
-	  if ($T['Colour'] == '') continue;
-	  $lct = "/" . strtolower($T['SName']) . "/";
-	  if (preg_match($lct,$ty)) {
-	    $colour = $T['Colour'];
-	    break;
-	  }
-	}
+        $ty = strtolower($fetch['Type']);
+        $colour = '';
+        foreach($Types as $T) {
+          if ($T['Colour'] == '') continue;
+          $lct = "/" . strtolower($T['SName']) . "/";
+          if (preg_match($lct,$ty)) {
+            $colour = $T['Colour'];
+            break;
+          }
+        }
         if ($colour) {
-	  echo "<td style='background:$colour;'>" . $fetch['Type'];
+          echo "<td style='background:$colour;'>" . $fetch['Type'];
         } else {
-	  echo "<td>" . $fetch['Type'];
-	}
+          echo "<td>" . $fetch['Type'];
+        }
       }
       if ($Contact) echo "<td>" . $fetch['Contact'];
       if ($Loc) echo "<td>" . $fetch['Location'];
@@ -117,11 +107,5 @@
     }
     echo "</tbody></table>\n";
   }
-  
+  dotail();
 ?>
-  
-</div>
-
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>

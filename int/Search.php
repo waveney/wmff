@@ -1,19 +1,11 @@
 <?php
   include_once("fest.php");
   A_Check('Staff','Docs');
-?>
 
-<head>
-<title>WMFF Staff | Search</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php
+  dostaffhead("Document Search");
+
   include_once("files/navigation.php"); 
   include_once("DocLib.php");
-
-  echo '<div class="content">';
 
   $table = 0;
   $lsted = array();
@@ -30,12 +22,12 @@
       $qry = "SELECT * FROM Documents WHERE SName COLLATE UTF8_GENERAL_CI LIKE '%$targ%' $xtr";
       $res = $db->query($qry);
       if ($res && $res->num_rows) {
-	Doc_Table_Head();
-	$table = 1;
-	while($doc = $res->fetch_assoc()) {
-	  Doc_List($doc,1);
-	  $lsted[$doc['DocId']]=1;
-	}
+        Doc_Table_Head();
+        $table = 1;
+        while($doc = $res->fetch_assoc()) {
+          Doc_List($doc,1);
+          $lsted[$doc['DocId']]=1;
+        }
       }
     }
 
@@ -43,20 +35,20 @@
       exec("grep -lir '" . $targ . "' Store", $greplst);
       if ($greplst) {
         foreach($greplst as $file) {
-	  $doc = Find_Doc_For($file);
-	  if (!$doc) continue;
+          $doc = Find_Doc_For($file);
+          if (!$doc) continue;
 //echo "from = $from until = $until now =" . time() . "doc= ". var_dump($doc) . "<P>";
-	  if ($_POST{'Who'}) if ($doc['Who'] != $_POST{'Who'}) continue;
-	  if ($from) if ($doc['Created'] < $from) continue;
-	  if ($until) if ($doc['Created'] > $until) continue;
-	  if (isset($lsted[$doc['DocId']])) continue;
+          if ($_POST{'Who'}) if ($doc['Who'] != $_POST{'Who'}) continue;
+          if ($from) if ($doc['Created'] < $from) continue;
+          if ($until) if ($doc['Created'] > $until) continue;
+          if (isset($lsted[$doc['DocId']])) continue;
           if (!$table) {
-	    Doc_Table_Head();
-	    $table = 1;
-	  }
-	  Doc_List($doc,1);
-	  $lsted[$doc['DocId']]=1;
-	}
+            Doc_Table_Head();
+            $table = 1;
+          }
+          Doc_List($doc,1);
+          $lsted[$doc['DocId']]=1;
+        }
       }
     }
 
@@ -68,11 +60,7 @@
   }
 
   SearchForm();
+
+  dotail();
 ?>
-
-</div>
-
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>
 

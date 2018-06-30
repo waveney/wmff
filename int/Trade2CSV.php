@@ -15,7 +15,7 @@
   
   
   $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Submitted'] .
-		" ORDER BY SName";
+                " ORDER BY SName";
 
   $res = $db->query($qry);
   while ($fetch = $res->fetch_assoc()) {
@@ -26,18 +26,18 @@
 
     fputcsv($output, array(
         ($fetch['SName']?$fetch['SName']:'No Name Given'),
-	$TradeTypeData[$fetch['TradeType']]['SName'],
-	$fetch['GoodsDesc'],
+        $TradeTypeData[$fetch['TradeType']]['SName'],
+        $fetch['GoodsDesc'],
         $fetch['Contact'],
         $fetch['Email'],
-	$fetch['Website'],
+        $fetch['Website'],
         $Trader_Status[$fetch['Status']],
-	$Trade_States[$fetch['BookingState']],
+        $Trade_States[$fetch['BookingState']],
         $fetch['BID'],
         $fetch['ChamberTrade'],
         $fetch['Previous'],
-	$locs
-	));
+        $locs
+        ));
 
   }
 

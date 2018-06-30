@@ -1,17 +1,8 @@
 <?php
   include_once("fest.php");
   A_Check('Committee','Venues');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | Add/Change Venue</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php include_once("files/navigation.php"); ?>
-<?php
+  dostaffhead("Add/Change Venue");
   include_once("ProgLib.php");
   include_once("MapLib.php");
 
@@ -21,14 +12,14 @@
   echo "<form method=post action='AddVenue.php'>\n";
   if (isset($_POST{'VenueId'})) { /* Response to update button */
     $vid = $_POST{'VenueId'};
-    if ($vid > 0) { 				// existing Venue
+    if ($vid > 0) {                                 // existing Venue
       $Venue = Get_Venue($vid);
       Update_db_post('Venues',$Venue);
     } else { /* New */
       $proc = 1;
       if (!isset($_POST['SName'])) {
-	echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
-	$proc = 0;
+        echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
+        $proc = 0;
       }
       $vid = Insert_db_post('Venues',$Venue,$proc);
     }
@@ -95,7 +86,8 @@
     echo "<tr><td>" . fm_simpletext("Dance Importance",$Venue,'DanceImportance','size=4');
     echo "<td>" . fm_simpletext("Music Importance",$Venue,'MusicImportance','size=4');
     echo "<td>" . fm_simpletext("Other Importance",$Venue,'OtherImportance','size=4');
-    echo "<tr><td colspan=2>Treat as Minor for Dance on:" . help('Minor') . "<td>" . fm_checkbox('Sat',$Venue,'MinorSat') . "<td>" . fm_checkbox('Sun',$Venue,'MinorSun');
+    echo "<tr><td colspan=2>Treat as Minor for Dance on:" . help('Minor') . "<td>" . fm_checkbox('Sat',$Venue,'MinorSat') ;
+    echo "<td>" . fm_checkbox('Sun',$Venue,'MinorSun');
     echo "<tr><td>Surfaces:<td>" . fm_select($Surfaces,$Venue,'SurfaceType1',1);
     echo "<td>" . fm_select($Surfaces,$Venue,'SurfaceType2',1) . "\n";
     echo "<tr>" . fm_text('Dance Rider',$Venue,'DanceRider',5);
@@ -115,10 +107,7 @@
     echo "<a href=AddVenue.php>Add Another Venue</a>, \n";
     echo "<a href=AddVenue.php?Copy=$vid>Copy To Another Venue</a>, \n";
     echo "<a href=VenueShow.php?v=$vid&Mode=1>Show Venue</a></h2>";
+
+  dotail();
 ?>
 
-</div>
-
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>

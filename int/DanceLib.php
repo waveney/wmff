@@ -44,7 +44,7 @@ function Select_Come($type=0,$extra='') {
   static $Coming = array('');
   if ($Come_Loaded) return $Coming;
   $qry = "SELECT s.SideId, s.SName, s.Type FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . 
-	$Coming_Type['Y'] . " AND s.IsASide=1 " . $extra . " ORDER BY s.SName";
+        $Coming_Type['Y'] . " AND s.IsASide=1 " . $extra . " ORDER BY s.SName";
 //  echo "<!-- " . var_dump($qry) . " -->\n";
   $res = $db->query($qry);
   if ($res) {
@@ -61,7 +61,7 @@ function Select_Come($type=0,$extra='') {
 function Select_Come_Day($Day,$xtr='') {
   global $db,$YEAR,$Coming_Type;
   $qry = "SELECT s.*, y.* FROM Sides s, SideYear y " .
-	 "WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " AND y.$Day=1 $xtr ORDER BY s.SName";
+         "WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " AND y.$Day=1 $xtr ORDER BY s.SName";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
@@ -77,7 +77,7 @@ function &Select_Come_All() {
   static $Coming;
   if ($Coming) return $Coming;
   $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] .
-	" ORDER BY s.SName";
+        " ORDER BY s.SName";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
 
@@ -127,44 +127,44 @@ function Show_Side($snum,$Message='') {
 
     if (isset($syear)) {
       switch ($syear['Coming']) {
-	case $Coming_Type['N']:
-	case $Coming_Type['NY']:
-	  echo "Not Coming this year";
-	  break;
-	case $Coming_Type['Y']:
-	  echo "Coming";
-	  if ($syear['Fri'] || $syear['Sat'] || $syear['Sun']) {
-	    echo " on ";
-	    $lst = array();
-	    if ($syear['Tue']) $lst[] = 'Tuesday';
-	    if ($syear['Wed']) $lst[] = 'Wednesday';
-	    if ($syear['Thur']) $lst[] = 'Thursday';
-	    if ($syear['Fri']) $lst[] = 'Friday';
-	    if ($syear['Sat']) $lst[] = 'Saturday';
-	    if ($syear['Sun']) $lst[] = 'Sunday';
-	    if ($syear['Mon']) $lst[] = 'Monday';
-	    echo FormatList($lst);
-	  }
-	  break;
-	case $Coming_Type['P']:
-	  echo "Probably coming";
-	  if ($syear['Fri'] || $syear['Sat'] || $syear['Sun']) {
-	    echo " on ";
-	    $lst = array();
-	    if ($syear['Tue']) $lst[] = 'Tuesday';
-	    if ($syear['Wed']) $lst[] = 'Wednesday';
-	    if ($syear['Thur']) $lst[] = 'Thursday';
-	    if ($syear['Fri']) $lst[] = 'Friday';
-	    if ($syear['Sat']) $lst[] = 'Saturday';
-	    if ($syear['Sun']) $lst[] = 'Sunday';
-	    if ($syear['Mon']) $lst[] = 'Monday';
-	    echo FormatList($lst);
-	  }
-	  break;
-	case $Coming_Type['R']:
-	case $Coming_Type['']:
-	default:
-//	  echo "Invited";
+        case $Coming_Type['N']:
+        case $Coming_Type['NY']:
+          echo "Not Coming this year";
+          break;
+        case $Coming_Type['Y']:
+          echo "Coming";
+          if ($syear['Fri'] || $syear['Sat'] || $syear['Sun']) {
+            echo " on ";
+            $lst = array();
+            if ($syear['Tue']) $lst[] = 'Tuesday';
+            if ($syear['Wed']) $lst[] = 'Wednesday';
+            if ($syear['Thur']) $lst[] = 'Thursday';
+            if ($syear['Fri']) $lst[] = 'Friday';
+            if ($syear['Sat']) $lst[] = 'Saturday';
+            if ($syear['Sun']) $lst[] = 'Sunday';
+            if ($syear['Mon']) $lst[] = 'Monday';
+            echo FormatList($lst);
+          }
+          break;
+        case $Coming_Type['P']:
+          echo "Probably coming";
+          if ($syear['Fri'] || $syear['Sat'] || $syear['Sun']) {
+            echo " on ";
+            $lst = array();
+            if ($syear['Tue']) $lst[] = 'Tuesday';
+            if ($syear['Wed']) $lst[] = 'Wednesday';
+            if ($syear['Thur']) $lst[] = 'Thursday';
+            if ($syear['Fri']) $lst[] = 'Friday';
+            if ($syear['Sat']) $lst[] = 'Saturday';
+            if ($syear['Sun']) $lst[] = 'Sunday';
+            if ($syear['Mon']) $lst[] = 'Monday';
+            echo FormatList($lst);
+          }
+          break;
+        case $Coming_Type['R']:
+        case $Coming_Type['']:
+        default:
+//          echo "Invited";
       }
       echo "<p>";
     }
@@ -302,70 +302,70 @@ function isknown($snum,$yr) {
 
 function Set_Side_Help() {
   static $t = array(
-	'SName'=>'To appear on website and in the programme',
-	'ShortName'=>'IF the sides name is more than 20 characters, give a short form to appear on the Grid.',
-	'Type'=>'For example North West, Border',
-	'Importance'=>'Only raise the importance for those that really need it.  They get front billing and bigger fonts in publicity',
-	'OverlapsD'=>'Sides that share Dancers - Where possible, there will be a 30 minute gap between any spot by any of these sides',
-	'OverlapsM'=>'Sides that share Musicians - These can perform at the same spot at the same time, or consecutive times',
-	'Blurb'=>'Longer description, for the webpage on the festival website about the side, only seen when a user clicks a link for more info on them - OPTIONAL',
-	'CostumeDesc'=>'Short description of costume and where in the country they are from, for the programme book',
-	'Description'=>'Short blurb to describe the performers, for lists of performers on the website',
-	'Website'=>'If more than one seperate with spaces (mainly for music acts)',
-	'Facebook'=>'If more than one seperate with spaces (mainly for music acts)',
-	'Twitter'=>'If more than one seperate with spaces (mainly for music acts)',
-	'Instagram'=>'If more than one seperate with spaces (mainly for music acts)',
-	'Video'=>'Of the side - can use a YouTube embed or share link',
-	'Likes'=>'Venues prefered, sides like to share with',
-	'Dislikes'=>'Venues disliked, sides do not want to share with - not in use',
-	'Pre2017'=>'Previous Wimbornes/Invites etc',
-	'AccessKey'=>'Allows user editing of many fields.  When you use the Email links here it is always appended to the message',
-	'Photo'=>'Give URL of photo to use or upload one',
-	'Mobile'=>'As an emergency contact number, this is important',
-	'NoiseLevel'=>'Loud PAs are noisy, a single violin or flute is quiet',
-	'Surfaces'=>'What surfaces can be danced on, if none are set all is assumed. Note the Square and Crownmead have flagstones',
-	'SideStatus'=>'If the side is disbanded mark as dead',
-	'StagePA'=>'Mainly Appalachian Sides, give PA Reqs as text or upload a file',
-	'DataCheck'=>'Not yet working',
-	'MorrisAnimal'=>'If the side has a morris animal - what kind is it',
-	'Workshops'=>'That the side could run',
-	'Overlaps'=>'Do you overlap with any dance sides or other performers who might be at Wimborne, if so please describe in detail and we will try and prevent clashes',
-	'Contact'=>'Main Contact',
-	'AgentName'=>'Main Contact',
-	'DirContact'=>'Direct Performer Contact',
-	'Address'=>'Where to send performers wristbands and any tickets',
-	'AltContact'=>'Alternative Contact',
-	'Location'=>'Where in the country they are from',
-	'PublicInfo'=>'Anything here may appear on the festival website where appropriate',
-	'PrivateInfo'=>'Anything here is ONLY visible to you and the relevant members of the festival',
-	'NeedBank'=>'Set this to enable bank details for dance sides (for payments)',
-	'Bank'=>'If you expect to be paid, please fill your bank details in',
-	'Testing'=>'Testing Only'
+        'SName'=>'To appear on website and in the programme',
+        'ShortName'=>'IF the sides name is more than 20 characters, give a short form to appear on the Grid.',
+        'Type'=>'For example North West, Border',
+        'Importance'=>'Only raise the importance for those that really need it.  They get front billing and bigger fonts in publicity',
+        'OverlapsD'=>'Sides that share Dancers - Where possible, there will be a 30 minute gap between any spot by any of these sides',
+        'OverlapsM'=>'Sides that share Musicians - These can perform at the same spot at the same time, or consecutive times',
+        'Blurb'=>'Longer description, for the webpage on the festival website about the side, only seen when a user clicks a link for more info on them - OPTIONAL',
+        'CostumeDesc'=>'Short description of costume and where in the country they are from, for the programme book',
+        'Description'=>'Short blurb to describe the performers, for lists of performers on the website',
+        'Website'=>'If more than one seperate with spaces (mainly for music acts)',
+        'Facebook'=>'If more than one seperate with spaces (mainly for music acts)',
+        'Twitter'=>'If more than one seperate with spaces (mainly for music acts)',
+        'Instagram'=>'If more than one seperate with spaces (mainly for music acts)',
+        'Video'=>'Of the side - can use a YouTube embed or share link',
+        'Likes'=>'Venues prefered, sides like to share with',
+        'Dislikes'=>'Venues disliked, sides do not want to share with - not in use',
+        'Pre2017'=>'Previous Wimbornes/Invites etc',
+        'AccessKey'=>'Allows user editing of many fields.  When you use the Email links here it is always appended to the message',
+        'Photo'=>'Give URL of photo to use or upload one',
+        'Mobile'=>'As an emergency contact number, this is important',
+        'NoiseLevel'=>'Loud PAs are noisy, a single violin or flute is quiet',
+        'Surfaces'=>'What surfaces can be danced on, if none are set all is assumed. Note the Square and Crownmead have flagstones',
+        'SideStatus'=>'If the side is disbanded mark as dead',
+        'StagePA'=>'Mainly Appalachian Sides, give PA Reqs as text or upload a file',
+        'DataCheck'=>'Not yet working',
+        'MorrisAnimal'=>'If the side has a morris animal - what kind is it',
+        'Workshops'=>'That the side could run',
+        'Overlaps'=>'Do you overlap with any dance sides or other performers who might be at Wimborne, if so please describe in detail and we will try and prevent clashes',
+        'Contact'=>'Main Contact',
+        'AgentName'=>'Main Contact',
+        'DirContact'=>'Direct Performer Contact',
+        'Address'=>'Where to send performers wristbands and any tickets',
+        'AltContact'=>'Alternative Contact',
+        'Location'=>'Where in the country they are from',
+        'PublicInfo'=>'Anything here may appear on the festival website where appropriate',
+        'PrivateInfo'=>'Anything here is ONLY visible to you and the relevant members of the festival',
+        'NeedBank'=>'Set this to enable bank details for dance sides (for payments)',
+        'Bank'=>'If you expect to be paid, please fill your bank details in',
+        'Testing'=>'Testing Only'
   );
   Set_Help_Table($t);
 }
 
 function Set_Side_Year_Help() {
   static $t = array(
-	'Performers'=>'Number of Dancers and Musicians that will want wristbands, put -1 if none are wanted',
-	'FriEve'=>'Would you like to have some dancing on Friday Evening?',
-	'SatEve'=>'Would you like to have some dancing on Saturday Evening?',
-	'FriDance'=>'Number of Dance spots requested on Friday, the default assumption is 0',
-	'SatDance'=>'Number of Dance spots requested on Saturday, the default assumption is 3 plus the procession',
-	'SunDance'=>'Number of Dance spots requested on Sunday, the default assumption is 4 for Morris Sides and 3 for Stage Sides',
-	'Share'=>'Do you like shared or dedicated dance spots?', 
-	'CarPark'=>'Number of free car park tickets for parking at QE school (10 minute walk to square)',
-	'Overlaps'=>'If you overlap with other dance sides, musical acts or other participants this allows control of programming to prevent clashes:
-		* If the overlap is with a dance side that is known to the system, select that side, then select type of overlap,
-		* Musicans can play at the same location in consecutive times, but never three in a row,
-		* Dancers wherever possible have a 30 minute gap between dances,
-		* Major overlaps will always be avoided, Minor overlaps will be avoided if possible,
-		* If the overlap is only for part of the festival please indicate when.
-		* If the overlap is not with a currently listed side please put your overlap as a note.',
-	'SatArrive'=>'The earliest time (eg 1000), if blank no restrictions are assumed',
-	'SatDepart'=>'The start of the last spot (eg 1600).  If blank no restictions are assumed.',
-	'SunArrive'=>'The earliest time (eg 1000), if blank no restrictions are assumed',
-	'SunDepart'=>'The start of the last spot (eg 1600).  If blank no restictions are assumed.' 
+        'Performers'=>'Number of Dancers and Musicians that will want wristbands, put -1 if none are wanted',
+        'FriEve'=>'Would you like to have some dancing on Friday Evening?',
+        'SatEve'=>'Would you like to have some dancing on Saturday Evening?',
+        'FriDance'=>'Number of Dance spots requested on Friday, the default assumption is 0',
+        'SatDance'=>'Number of Dance spots requested on Saturday, the default assumption is 3 plus the procession',
+        'SunDance'=>'Number of Dance spots requested on Sunday, the default assumption is 4 for Morris Sides and 3 for Stage Sides',
+        'Share'=>'Do you like shared or dedicated dance spots?', 
+        'CarPark'=>'Number of free car park tickets for parking at QE school (10 minute walk to square)',
+        'Overlaps'=>'If you overlap with other dance sides, musical acts or other participants this allows control of programming to prevent clashes:
+                * If the overlap is with a dance side that is known to the system, select that side, then select type of overlap,
+                * Musicans can play at the same location in consecutive times, but never three in a row,
+                * Dancers wherever possible have a 30 minute gap between dances,
+                * Major overlaps will always be avoided, Minor overlaps will be avoided if possible,
+                * If the overlap is only for part of the festival please indicate when.
+                * If the overlap is not with a currently listed side please put your overlap as a note.',
+        'SatArrive'=>'The earliest time (eg 1000), if blank no restrictions are assumed',
+        'SatDepart'=>'The start of the last spot (eg 1600).  If blank no restictions are assumed.',
+        'SunArrive'=>'The earliest time (eg 1000), if blank no restrictions are assumed',
+        'SunDepart'=>'The start of the last spot (eg 1600).  If blank no restictions are assumed.' 
   );
   Set_Help_Table($t);
 }
@@ -469,7 +469,7 @@ function UpdateOverlaps($snum) {
 // Scan each existing and any added rules
   $Rule = 0;
   while ((isset($_POST["OlapSide$Rule"]) || isset($_POST["OlapAct$Rule"]) || isset($_POST["OlapOther$Rule"])) || 
-	 isset($_POST["OlapActive$Rule"]) || isset($_POST["OlapMajor$Rule"])) {
+         isset($_POST["OlapActive$Rule"]) || isset($_POST["OlapMajor$Rule"])) {
     $O = $StO = (isset($Exist[$Rule]) ? $Exist[$Rule] : ['Sid1'=>$snum,'Cat2'=>0]);
     $Other = ($O['Sid1'] == $snum)?'Sid2':'Sid1'; //???????
     $OtherCat = ($O['Sid1'] == $snum)?'Cat2':'Cat1'; //???????
@@ -553,92 +553,92 @@ function Extended_Prog($type,$id,$all=0) {
     if ($Evs) { // Show IF all or EType state > 1 or (==1 && participant)
       $With = 0;
       foreach ($Evs as $e) {
-	if ($e["BigEvent"]) { $With = 1; break; }
-	for ($i = 1; $i<5;$i++) if ($e["Side$i"] && $e["Side$i"] != $id) { $With = 1; break 2; }
-	for ($i = 1; $i<5;$i++) if ($e["Act$i"] && $e["Act$i"] != $id) { $With = 1; break 2; }
-	for ($i = 1; $i<5;$i++) if ($e["Other$i"] && $e["Other$i"] != $id) { $With = 1; break 2; }
+        if ($e["BigEvent"]) { $With = 1; break; }
+        for ($i = 1; $i<5;$i++) if ($e["Side$i"] && $e["Side$i"] != $id) { $With = 1; break 2; }
+        for ($i = 1; $i<5;$i++) if ($e["Act$i"] && $e["Act$i"] != $id) { $With = 1; break 2; }
+        for ($i = 1; $i<5;$i++) if ($e["Other$i"] && $e["Other$i"] != $id) { $With = 1; break 2; }
       }
-	
+        
       $UsedNotPub = 0;
       foreach ($Evs as $e) {
-	$cls = ($e['Public']<2?'':' class=NotCSide ');
+        $cls = ($e['Public']<2?'':' class=NotCSide ');
         if ($all || $ETs[$e['Type']]['State'] > 1 || ($ETs[$e['Type']]['State'] == 1 && Access('Participant',$type,$id))) {
-	  $evc++;
- 	  $Worst = min($ETs[$e['Type']]['State'],$Worst);
-	  if ($e['BigEvent']) { // Big Event
-	    $Others = Get_Other_Things_For($e['EventId']);
-	    $VenC=0;
-	    $PrevI=0;
-	    $NextI=0;
-	    $PrevT=0;
-	    $NextT=0;
-	    $Found=0;
-	    $Position=1;
-	    foreach ($Others as $O) {
-	      switch ($O['Type']) {
-	      case 'Side':
-	      case 'Act':
-	      case 'Other':
-		if ($O['Identifier'] == $e['ActAs']) { 
-		  $Found = 1; 
-		} else {
-		  if ($Found && $NextI==0) { $NextI=$O['Identifier']; $NextT=$O['Type']; }
-		  if (!$Found) { $PrevI=$O['Identifier']; $PrevT=$O['Type']; $Position++; }
-		}
-		break;
-	      case 'Venue':
-		$VenC++;
-	      default:
-		break;
-	      }
-	    }
-	    $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
-			"<td>" . SAO_Report($e['ActAs']) .
-			"<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SName'] . "</a><td $cls>";
-	    if ($VenC) $str .= " starting from ";
-	    $str .= "<a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) ;
-	    $str .= "</a><td $cls>";
-	    if ($PrevI || $NextI) $str .= "In position $Position";
-	    if ($PrevI) { $str .= ", After " . SAO_Report($PrevI); };
-	    if ($NextI) { $str .= ", Before " . SAO_Report($NextI); };
-	    $str .= "\n";
-	  } else { // Normal Event
-	    $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
-			"<td>" . SAO_Report($e['ActAs']) .
-			"<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SName'] . 
-			"</a><td $cls><a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a>";
-	    if ($With) {
-	      $str .= "<td $cls>";
-	      $withc=0;
-	      for ($i=1;$i<5;$i++) {
-	        if ($e["Side$i"] > 0 && $e["Side$i"] != $id && $type == 'Side') { 
-	          if ($withc++) $str .= ", "; 
-		  $str .= SAO_Report($e["Side$i"]);
+          $evc++;
+           $Worst = min($ETs[$e['Type']]['State'],$Worst);
+          if ($e['BigEvent']) { // Big Event
+            $Others = Get_Other_Things_For($e['EventId']);
+            $VenC=0;
+            $PrevI=0;
+            $NextI=0;
+            $PrevT=0;
+            $NextT=0;
+            $Found=0;
+            $Position=1;
+            foreach ($Others as $O) {
+              switch ($O['Type']) {
+              case 'Side':
+              case 'Act':
+              case 'Other':
+                if ($O['Identifier'] == $e['ActAs']) { 
+                  $Found = 1; 
+                } else {
+                  if ($Found && $NextI==0) { $NextI=$O['Identifier']; $NextT=$O['Type']; }
+                  if (!$Found) { $PrevI=$O['Identifier']; $PrevT=$O['Type']; $Position++; }
                 }
-	        if ($e["Act$i"] > 0 && $e["Act$i"] != $id && $type == 'Act') { 
-	          if ($withc++) $str .= ", ";
-		  $str .= SAO_Report($e["Act$i"]);
+                break;
+              case 'Venue':
+                $VenC++;
+              default:
+                break;
+              }
+            }
+            $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
+                        "<td>" . SAO_Report($e['ActAs']) .
+                        "<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SName'] . "</a><td $cls>";
+            if ($VenC) $str .= " starting from ";
+            $str .= "<a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) ;
+            $str .= "</a><td $cls>";
+            if ($PrevI || $NextI) $str .= "In position $Position";
+            if ($PrevI) { $str .= ", After " . SAO_Report($PrevI); };
+            if ($NextI) { $str .= ", Before " . SAO_Report($NextI); };
+            $str .= "\n";
+          } else { // Normal Event
+            $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
+                        "<td>" . SAO_Report($e['ActAs']) .
+                        "<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SName'] . 
+                        "</a><td $cls><a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a>";
+            if ($With) {
+              $str .= "<td $cls>";
+              $withc=0;
+              for ($i=1;$i<5;$i++) {
+                if ($e["Side$i"] > 0 && $e["Side$i"] != $id && $type == 'Side') { 
+                  if ($withc++) $str .= ", "; 
+                  $str .= SAO_Report($e["Side$i"]);
                 }
-	        if ($e["Other$i"] > 0 && $e["Other$i"] != $id && $type == 'Other') { 
-	          if ($withc++) $str .= ", ";
-		  $str .= SAO_Report($e["Other$i"]);
+                if ($e["Act$i"] > 0 && $e["Act$i"] != $id && $type == 'Act') { 
+                  if ($withc++) $str .= ", ";
+                  $str .= SAO_Report($e["Act$i"]);
                 }
-	      }
-	    }
-	    $str .= "\n";
-	  }
+                if ($e["Other$i"] > 0 && $e["Other$i"] != $id && $type == 'Other') { 
+                  if ($withc++) $str .= ", ";
+                  $str .= SAO_Report($e["Other$i"]);
+                }
+              }
+            }
+            $str .= "\n";
+          }
         } else { // Debug Code
-//	  echo "State: " . $ETs[$e['Type']]['State'] ."<p>";
-	}
-	if ($cls) $UsedNotPub = 1;
+//          echo "State: " . $ETs[$e['Type']]['State'] ."<p>";
+        }
+        if ($cls) $UsedNotPub = 1;
       }
       if ($evc) {
         $Thing = Get_Side($id);
-	$Desc = ($Worst > 2)?"":'Current ';
-	if ($With) $str = "<td>With\n" . $str;
+        $Desc = ($Worst > 2)?"":'Current ';
+        if ($With) $str = "<td>With\n" . $str;
         $str = "<h2>$Desc Programme for " . $Thing['SName'] . " including overlaps:</h2>\n" . 
-		($UsedNotPub?"<span class=NotCSide>These are not currently public<p>\n</span>":"") .
-		"<table border><tr><td>Day<td>time<td>As<td>Event<td>Venue" . $str;
+                ($UsedNotPub?"<span class=NotCSide>These are not currently public<p>\n</span>":"") .
+                "<table border><tr><td>Day<td>time<td>As<td>Event<td>Venue" . $str;
       }
     }
     if ($evc) {

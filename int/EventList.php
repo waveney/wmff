@@ -15,29 +15,29 @@
     foreach ($_POST as $f=>$v) {
       if (preg_match('/E(\d*)/',$f,$res)) {
         $ev=$res[1];
-	$Event = Get_Event($ev);
+        $Event = Get_Event($ev);
 
         switch ($_POST{'ACTION'}) {
         case 'Delete' :
-	  $Event['Year'] -= 1000;
-	  $Event['SubEvent'] = 0;
-	  break;
+          $Event['Year'] -= 1000;
+          $Event['SubEvent'] = 0;
+          break;
 
         case 'Rename as':
-	  $Event['SName'] = $_POST{'NewName'};
-	  break;
+          $Event['SName'] = $_POST{'NewName'};
+          break;
 
         case 'Move by':
-	  if ($delta = $_POST{'Minutes'}) {
-	    $Event['Start'] = timeadd($Event['Start'],$delta);
-	    $Event['End'] = timeadd($Event['End'],$delta);
-	    if ($Event['SlotEnd']) $Event['SlotEnd'] = timeadd($Event['SlotEnd'],$delta);
-	  }
-	  break;
+          if ($delta = $_POST{'Minutes'}) {
+            $Event['Start'] = timeadd($Event['Start'],$delta);
+            $Event['End'] = timeadd($Event['End'],$delta);
+            if ($Event['SlotEnd']) $Event['SlotEnd'] = timeadd($Event['SlotEnd'],$delta);
+          }
+          break;
 
         case 'Move to':
-	  if ($v = $_POST{'v'}) $Event['Venue'] = $v;
-	  break;
+          if ($v = $_POST{'v'}) $Event['Venue'] = $v;
+          break;
         }
         Put_Event($Event);
       }
@@ -109,25 +109,25 @@
       echo "<td>" . $Public_Event_Types[$evnt['Public']];
       echo "<td>" ; 
       if ($evnt['SubEvent'] <= 0 || ($evnt['SpecPrice'])) {
-	if ($evnt['SpecPrice']) {
-	  echo $evnt['SpecPrice'];
-	} else {
-	  if ($evnt['Price1']) { echo "&pound;" . $evnt['Price1']; } else echo "Free";
-	  if ($evnt['Price2']) echo " /&pound;" . $evnt['Price2']; 
-	  if ($evnt['DoorPrice']) echo " /&pound;" . $evnt['DoorPrice']; 
-	}
+        if ($evnt['SpecPrice']) {
+          echo $evnt['SpecPrice'];
+        } else {
+          if ($evnt['Price1']) { echo "&pound;" . $evnt['Price1']; } else echo "Free";
+          if ($evnt['Price2']) echo " /&pound;" . $evnt['Price2']; 
+          if ($evnt['DoorPrice']) echo " /&pound;" . $evnt['DoorPrice']; 
+        }
       }
       echo "<td>" .($evnt['BigEvent'] ? "Big" : "Normal" );
       if ($se == 0) {
         if ($evnt['SubEvent'] == 0) { echo "<td>No\n"; }
-	else { echo "<td><a href=EventList.php?se=$i>Yes</a>\n"; }
+        else { echo "<td><a href=EventList.php?se=$i>Yes</a>\n"; }
       }
       if ($se != 0) {
-	echo "<td>";
-	if ($evnt['SubEvent']>0) {
-	  echo Get_Event_Participants($i,2) ;
-	} else {
-	}
+        echo "<td>";
+        if ($evnt['SubEvent']>0) {
+          echo Get_Event_Participants($i,2) ;
+        } else {
+        }
       }
       if ($se > 0 && $evnt['SubEvent'] < 0) echo " Full end: " . $evnt['End'] . " PARENT";
       echo "<td>" . ($evnt['Family']?"Y":"");
@@ -140,7 +140,7 @@
   echo "</tbody></table>\n";
   if (Access('Staff','Venues')) {
     echo "Selected: <input type=Submit name=ACTION value=Delete " .
-	" onClick=\"javascript:return confirm('are you sure you want to delete these?');\">, "; 
+        " onClick=\"javascript:return confirm('are you sure you want to delete these?');\">, "; 
     echo "<input type=Submit name=ACTION value='Rename as'> ";
     echo "<input type=text name=NewName>, <input type=Submit name=ACTION value='Move by'> ";
     echo "<input type=text name=Minutes size=4> Minutes, ";

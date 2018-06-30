@@ -22,7 +22,7 @@ function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-1 Draft,0 proposed, 1 
   $str .= "Standard Agreement between " . ($ctype == 1?"Band/Artist/Performer":"Performer") . " & Employer.<p>\n";
 
   $str .= "This Agreement made as of " . date('d/m/Y',  ($Sidey['ContractDate']>0?$Sidey['ContractDate']:time())) . 
-	" by and between the parties identified below.<p>\n";
+        " by and between the parties identified below.<p>\n";
 
   $str .= "In consideration for the following covenants, conditions, and promises, the Employer identified below agrees to
 hire the below-identified Artist to perform an engagement and the Artist agrees to provide such performance
@@ -65,22 +65,22 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
       $evday[$e['Day']]++;
       if ($e['Venue']) {
         if (isset($Venues[$e['Venue']])) {
-	  $v = $Venues[$e['Venue']];
-	  $str .= "<a href=http://" . $_SERVER['HTTP_HOST'] . "/int/VenueShow.php?v=" . $v['VenueId'] . ">" . $v['SName'] . "</a><br>";
+          $v = $Venues[$e['Venue']];
+          $str .= "<a href=http://" . $_SERVER['HTTP_HOST'] . "/int/VenueShow.php?v=" . $v['VenueId'] . ">" . $v['SName'] . "</a><br>";
           if ($v['Address']) $str .= $v['Address'] . "<br>" . $v['PostCode'] ."<br>";
  //         if ($v['Description']) $str .= $v['Description'];
-	  if ($v['MusicRider']) $riders[$v] = 1;
-	  if ($v['Parking']) {
-	    $pkday[$e['Day']]++;
-	    if (!isset($pkvens[$v['VenueId']])) {
-	      $pkvens[$v['VenueId']] = 1;
-	      if ($pking) $pking .= ", ";
-	      $pking .= $v['SName'];
-	    }
-	  }
+          if ($v['MusicRider']) $riders[$v] = 1;
+          if ($v['Parking']) {
+            $pkday[$e['Day']]++;
+            if (!isset($pkvens[$v['VenueId']])) {
+              $pkvens[$v['VenueId']] = 1;
+              if ($pking) $pking .= ", ";
+              $pking .= $v['SName'];
+            }
+          }
         } else {
-	  $str .= "Venue Unknown";
-	}
+          $str .= "Venue Unknown";
+        }
       } else {
         $str .= "TBD";
       }
@@ -124,8 +124,8 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
     for ($i=0;$i<3;$i++) {
       if ($evday[$i] > 0 && $pkday[$i] == 0) $allfree = 0;
       if ($evday[$i] > 0 && $pkday[$i] != 0) {
-	if ($freon) $freon .= " and ";
-	$freon .= $FullDay[$i];
+        if ($freon) $freon .= " and ";
+        $freon .= $FullDay[$i];
       }
     }
 

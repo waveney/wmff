@@ -5,12 +5,12 @@ $Colours = array('white','lime','orange','grey');
 $yesno = array('','Yes','No');
 $States = array('Submitted','Paid','Cancelled');
 $StewClasses = array('Stewarding'=> '(Info Points, Concerts, Road Closures, Street Collecting etc)',
-		'Technical' => '(Stage Crew, Runners, Setup/Packdown etc)',
-		'Artistic' => '(Setting up art displays, town decorations etc)', 
-		'Media' => '(Photography, Videography etc)');
+                'Technical' => '(Stage Crew, Runners, Setup/Packdown etc)',
+                'Artistic' => '(Setting up art displays, town decorations etc)', 
+                'Media' => '(Photography, Videography etc)');
 $Days = array('Wed'=>'Wednesday','Thu'=>'Thursday','Fri'=>'Friday','Sat'=>'Saturday','Sun'=>'Sunday','Mon'=>'Monday','Tue'=>'Tuesday');
 $Relations = array('Husband','Wife','Partner','Son','Daughter','Mother','Father','Brother','Sister','Grandchild','Grandparent','Guardian','Uncle','Aunty',
-		'Son/Daughter in law', 'Friend','Other');
+                'Son/Daughter in law', 'Friend','Other');
 
 $SignUpActivities = array_merge($lnlclasses,['Buskers Bash','Laugh Out Loud']);
 

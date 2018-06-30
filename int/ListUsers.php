@@ -1,19 +1,8 @@
 <?php
   include_once("fest.php");
   A_Check('Committee','Users');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | List Users</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php include_once("files/navigation.php"); ?>
-<div class="content"><h2>List Users</h2>
-
-<?php
+  dostaffhead("List Users");
   include_once("DocLib.php");
   include_once("UserLib.php");
   $AllU = Get_AllUsers();
@@ -62,9 +51,7 @@
   echo "</tbody></table>\n";
   
   echo "<h2><a href=AddUser.php>Add User</a></a>";
+
+  dotail();
 ?>
-  
-</div>
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>
+

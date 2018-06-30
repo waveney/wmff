@@ -4,10 +4,10 @@
   date_default_timezone_set('GMT');
 
 //      Put a Month eg Jan or January (will be end of) or a date as in 20/1  or 20th Jan or 20/1/18 or Jan 20th or Jan 20.";
-//	If 1 / format is 20/1, if 2 / format is 20/1/18
-//	If numbers dom = numbers else eom
-//	Find LC Month String - Look for short form only?
-//	returns 0 or best guess date
+//        If 1 / format is 20/1, if 2 / format is 20/1/18
+//        If numbers dom = numbers else eom
+//        Find LC Month String - Look for short form only?
+//        returns 0 or best guess date
 function Date_BestGuess($txt) {
   global $THISYEAR;
   $Months = array('jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec');
@@ -39,10 +39,10 @@ function Date_BestGuess($txt) {
   return mktime(0,0,0,$mnth,$day,$THISYEAR-1);
 }
 
-//	12:27, 1227, 12, 2, 2PM, Midday, 5 to 3, 2pm, 11am, 10 mins (just 10), 2 hours, 2 hrs, 1 hour 20 mins
-//	if MINS==0 Returns time as 2400 format hhmm
-//	if MINS !=0 trying to get N minutes - affects how 2,12 are passed returns ddd mins
-//	morethan an earlier time that this should be more than helps sort out 11 is it 11 am or 11pm
+//        12:27, 1227, 12, 2, 2PM, Midday, 5 to 3, 2pm, 11am, 10 mins (just 10), 2 hours, 2 hrs, 1 hour 20 mins
+//        if MINS==0 Returns time as 2400 format hhmm
+//        if MINS !=0 trying to get N minutes - affects how 2,12 are passed returns ddd mins
+//        morethan an earlier time that this should be more than helps sort out 11 is it 11 am or 11pm
 function Time_BestGuess($txt,$MINS=0,$morethan=0) {
 //  echo "Best guess of $txt ";
   $lt = strtolower($txt);
@@ -70,47 +70,47 @@ function Time_BestGuess($txt,$MINS=0,$morethan=0) {
     $w2 = $mtch[4];
     switch ($w1) {
       case 'to':
-	if ($n2) { //?????
+        if ($n2) { //?????
           $hr = $n2;
           if ($morethan) {
             if ($hr*100 < $morethan) $hr+=12;
           } else {
              if ($hr < 10) $hr+=12;
           }
-          $min = -$n1;	  
+          $min = -$n1;          
         }
         break;
 
       case 'pm':
         $hr = $n1+12;
-	break;
+        break;
 
       case 'am':
-	$hr = $n1;
-	break;
+        $hr = $n1;
+        break;
 
       case 'mins':
       case 'min':
-	$min = $n1; 
-	break;
+        $min = $n1; 
+        break;
 
       case 'hr':
       case 'hrs':
       case 'hours':
       case 'hour':
-	$hr = $n1;
-	if ($w2) {
-	  switch ($w2) {
-	  case 'mins':
-	  case 'min':
-	    $min = $n2;
+        $hr = $n1;
+        if ($w2) {
+          switch ($w2) {
+          case 'mins':
+          case 'min':
+            $min = $n2;
             break;
 
-	  default:
-	    break;
+          default:
+            break;
           }
-	} else if ($n2) $min = $n2;
-	break;
+        } else if ($n2) $min = $n2;
+        break;
     }
   } else if (preg_match('/(\d+)/',$lt,$mtch)) {
     if ($MINS) { 

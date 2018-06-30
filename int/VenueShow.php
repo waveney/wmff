@@ -15,32 +15,32 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
 //var_dump($imps);
   if ($ImpC) {
     $ks = array_keys($imps);
-    sort($ks);	
+    sort($ks);        
     if ($ImpC > $maxwith) echo "With $ImpC participants including: ";
     foreach ( array_reverse($ks) as $imp) {
       if ($imp) echo "<span style='font-size:" . (15+$imp*1) . "'>";
         foreach ($imps[$imp] as $thing) {
           if ($things >= $maxwith) continue;
           $things++;
-	  if ((($things % $ll) == 1) && ($things != 1)) echo "<tr>"; // <td><td>";
+          if ((($things % $ll) == 1) && ($things != 1)) echo "<tr>"; // <td><td>";
           echo ($ll > 1 && $things == $ImpC && ($ImpC %2) == 1)?"<td colspan=$ll>":"<td>";
-	  $scale = $thing['Importance'];
+          $scale = $thing['Importance'];
 //var_dump($thing);
-	  if (( $thing['IsASide'] && $thing['Coming'] != 2) || (($thing['IsAnAct'] || $thing['IsOther']) && $thing['YearState'] < 2)) {
-	    echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SName'],3) . "</a>";
-	    echo " are no longer coming";
-	  } else {
-	    echo " <a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">";
+          if (( $thing['IsASide'] && $thing['Coming'] != 2) || (($thing['IsAnAct'] || $thing['IsOther']) && $thing['YearState'] < 2)) {
+            echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SName'],3) . "</a>";
+            echo " are no longer coming";
+          } else {
+            echo " <a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">";
 //echo "HELLO $Pictures<p>";
-	    if ($Pictures) {
-	      if ($SpecialImage) { echo "<img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
-		    (100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $SpecialImage . ">";
-	      } elseif ($thing['Photo']) echo "<img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
-		    (100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $thing['Photo'] . ">";
-	    }
-	    echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SName'],3) . "</a>";
+            if ($Pictures) {
+              if ($SpecialImage) { echo "<img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
+                    (100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $SpecialImage . ">";
+              } elseif ($thing['Photo']) echo "<img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
+                    (100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $thing['Photo'] . ">";
+            }
+            echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SName'],3) . "</a>";
             if (isset($thing['Type']) && (strlen($thing['Type'])>1)) echo " " . NoBreak("(" . $thing['Type'] . ")");
-	  }
+          }
           if ($NotAllFree && ($things == $ll)) echo "<td rowspan=$rows valign=top>$Price";
         }
       if ($imp) echo "</span>";
@@ -103,7 +103,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   }
 
   /* Desc        Picture
-     Address	 Map
+     Address         Map
 
      Programme
   */
@@ -122,13 +122,13 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
       $Img = 0;
       if ($Ven['Image']) {
         echo "<img width=100% src=" . $Ven['Image'] . "><br>";
-	if ($Ven['Caption']) echo $Ven['Caption'] . "<br>";
-	$Img = 1;
+        if ($Ven['Caption']) echo $Ven['Caption'] . "<br>";
+        $Img = 1;
       }
       if ($Ven['Image2']) {
         echo "<img width=100% src=" . $Ven['Image2'] . "><br>";
-	if ($Ven['Caption2']) echo $Ven['Caption2'] . "<br>";
-	$Img = 1;
+        if ($Ven['Caption2']) echo $Ven['Caption2'] . "<br>";
+        $Img = 1;
       } 
       if (!$Img) echo "No Image Yet<p>";
       
@@ -183,25 +183,25 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
 //      if (!$O && !$found) continue;
       if ( !$found && $Ven['IsVirtual'] && in_array($e['Venue'],$VenList)) $found = 1; 
       foreach ($O as $i=>$thing) {
-	switch ($thing['Type']) {
-	  case 'Venue':
-	    if (in_array($thing['Identifier'],$VenList)) $found = 1; 
-	    break;
-	  case 'Side':
+        switch ($thing['Type']) {
+          case 'Venue':
+            if (in_array($thing['Identifier'],$VenList)) $found = 1; 
+            break;
+          case 'Side':
             if ($thing['Identifier']) $e['With'][($Poster?$sides[$thing['Identifier']]['Importance']:0)][] = $sides[$thing['Identifier']];
-	    $WithC++;
-	    break;
-	  case 'Act':
+            $WithC++;
+            break;
+          case 'Act':
             if ($thing['Identifier']) $e['With'][($Poster?$Acts[$thing['Identifier']]['Importance']:0)][] = $Acts[$thing['Identifier']];
-	    $WithC++;
-	    break;
-	  case 'Other':
+            $WithC++;
+            break;
+          case 'Other':
             if ($thing['Identifier']) $e['With'][($Poster?$Others[$thing['Identifier']]['Importance']:0)][] = $Others[$thing['Identifier']];
-	    $WithC++;
-	    break;
-	  default:
-	    break;
-	}
+            $WithC++;
+            break;
+          default:
+            break;
+        }
       }
       if ($found == 0) continue;
     } else {
@@ -282,22 +282,22 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
       PrintImps($imps,$NotAllFree,Price_Show($e),$rows,$ImpC,($Poster?2:100));
     } else { // Is a sube
       if ($e['LongEvent'] && $lastevent != $e['SubEvent']) {
-	$lastevent = $e['SubEvent'];
+        $lastevent = $e['SubEvent'];
         $pare = Get_Event($e['SubEvent']); //&$EVs[$lastevent]; 
         $parname = $pare['SName']; 
         echo "<tr><td rowspan=$rows $colwid valign=top ><a href=EventShow.php?e=$lastevent>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . "</a>";
         if ($VirtVen) echo "<br>" . $VenNames[$e['Venue']];
-	echo "<td rowspan=$rows valign=top ><a href=EventShow.php?e=$lastevent>" . $parname . "</a>";
+        echo "<td rowspan=$rows valign=top ><a href=EventShow.php?e=$lastevent>" . $parname . "</a>";
         if ($e['Status'] == 1) echo "<br><div class=Cancel>CANCELLED</div>";
         if ($pare['Description']) echo "<br>" . $pare['Description'];
         if ($imps) PrintImps($imps,$NotAllFree,Price_show($pare),$rows,$ImpC);
       } else if ($imps) {
         echo "<tr><td rowspan=$rows $colwid >&nbsp;<td rowspan=$rows  valign=top>";
-	if ($parname != $e['SName']) {
-	  echo "<a href=EventShow.php?e=" . $e['SubEvent'] . ">" . $e['SName'] . "</a><br>";
+        if ($parname != $e['SName']) {
+          echo "<a href=EventShow.php?e=" . $e['SubEvent'] . ">" . $e['SName'] . "</a><br>";
           $parname = (isset($pare['SName'])? $pare['SName'] : "Unknown"); 
-	}
-	echo timecolon($e['Start']) . " - " . timecolon($e['End']);
+        }
+        echo timecolon($e['Start']) . " - " . timecolon($e['End']);
         PrintImps($imps,$NotAllFree,'&nbsp;',$rows,$ImpC);
       }
     }
@@ -309,9 +309,9 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
     echo "<h3> To find out more scan this:<br>to visit wimbornefolk.co.uk</h3>"; // pixels should be multiple of 41
     echo '<script type="text/javascript">
       var qrcode = new QRCode(document.getElementById("qrcode"), {
-	text: "https://wimbornefolk.co.uk/int/VenueShow.php?V=' . $V . '",
-	width: 123,
-	height: 123,
+        text: "https://wimbornefolk.co.uk/int/VenueShow.php?V=' . $V . '",
+        width: 123,
+        height: 123,
       });
       </script>';
     echo "</body></html>\n";

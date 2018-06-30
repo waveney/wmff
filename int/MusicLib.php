@@ -6,28 +6,28 @@ $ContractMethods = array('','By Clicking Online','By Email Confirmation');
 // Additive over side helps
 function Add_Act_Help() {
   static $t = array(
-	'ShortName'=>'IF the acts name is more than 20 characters, give a short form to appear on the Grid.',
-	'Type'=>'No examples yet',
-	'Blurb'=>'Longer description of the act, for the webpage on the festival website about the act - OPTIONAL',
-	'Description'=>'Short description for programme and lists on website',
-	'Video'=>'You can use a YouTube embed or share link',
-	'Likes'=>'',
-	'SideStatus'=>'If the act is disbanded mark as dead',
-	'StagePA'=>'Give PA Requirments as simple text, or upload a file',
-	'Bank'=>'Bank details so any fees can be paid.'
+        'ShortName'=>'IF the acts name is more than 20 characters, give a short form to appear on the Grid.',
+        'Type'=>'No examples yet',
+        'Blurb'=>'Longer description of the act, for the webpage on the festival website about the act - OPTIONAL',
+        'Description'=>'Short description for programme and lists on website',
+        'Video'=>'You can use a YouTube embed or share link',
+        'Likes'=>'',
+        'SideStatus'=>'If the act is disbanded mark as dead',
+        'StagePA'=>'Give PA Requirments as simple text, or upload a file',
+        'Bank'=>'Bank details so any fees can be paid.'
   );
   Add_Help_Table($t);
 }
 
 function Add_Act_Year_Help() {
   static $t = array( // No detail yet
-	'YearState'=>'This is generally set by your and the Acts actions.  
+        'YearState'=>'This is generally set by your and the Acts actions.  
 Declined - Will leave this state after any change that would affect the contract.
 Booking - negotiations in place. 
 Contract Ready - For the Act to confirm it.
 Booked - Enables listing to public.',
-	'Rider'=>'Additional text to be added to the Contract',
-	'RadioWimborne'=>'Permission given for performances to be recorded by Radio Wimborne, and broadcast live or after the festival'
+        'Rider'=>'Additional text to be added to the Contract',
+        'RadioWimborne'=>'Permission given for performances to be recorded by Radio Wimborne, and broadcast live or after the festival'
   );
   Add_Help_Table($t);
 }
@@ -102,10 +102,10 @@ function UpdateBand($id) {
       if ($b['SName']) {
         Put_BandMember($b);
       } else {
-	db_delete('BandMembers',$b['BandMemId']);
+        db_delete('BandMembers',$b['BandMemId']);
       }
     } else if (!strlen($CurBand['SName'])) {
-	db_delete('BandMembers',$b['BandMemId']);
+        db_delete('BandMembers',$b['BandMemId']);
     }
     $bi++;
   }
@@ -186,21 +186,21 @@ function Get_Events4Act($snum,$yr=0) {
   if ($yr==0) $yr=$YEAR;
 /*
   $res = $db->query("SELECT * FROM Events WHERE Year=$yr AND ( Act1=$snum OR Act2=$snum OR Act3=$snum OR Act4=$snum OR " .
-		"Other1=$snum OR Other2=$snum OR Other3=$snum OR Other4=$snum OR " .
-		"Side1=$snum OR Side2=$snum OR Side3=$snum OR Side4=$snum) ORDER BY Day, Start");
+                "Other1=$snum OR Other2=$snum OR Other3=$snum OR Other4=$snum OR " .
+                "Side1=$snum OR Side2=$snum OR Side3=$snum OR Side4=$snum) ORDER BY Day, Start");
 */
   $res = $db->query("SELECT DISTINCT e.* FROM Events e, BigEvent b WHERE e.Year=$yr AND ( e.Act1=$snum OR e.Act2=$snum OR e.Act3=$snum OR e.Act4=$snum OR " .
-		"e.Other1=$snum OR e.Other2=$snum OR e.Other3=$snum OR e.Other4=$snum OR " .
-		"e.Side1=$snum OR e.Side2=$snum OR e.Side3=$snum OR e.Side4=$snum " .
-		" OR ( e.BigEvent=1 AND e.EventId=b.Event AND ( b.type='Side' OR b.Type='Act' OR b.Type='Other') AND b.Identifier=$snum ) ) " .
-		" ORDER BY Day, Start");
+                "e.Other1=$snum OR e.Other2=$snum OR e.Other3=$snum OR e.Other4=$snum OR " .
+                "e.Side1=$snum OR e.Side2=$snum OR e.Side3=$snum OR e.Side4=$snum " .
+                " OR ( e.BigEvent=1 AND e.EventId=b.Event AND ( b.type='Side' OR b.Type='Act' OR b.Type='Other') AND b.Identifier=$snum ) ) " .
+                " ORDER BY Day, Start");
   $evs = array();
   if (!$res) return 0;
   while ($ev = $res->fetch_assoc()) $evs[] = $ev;
  
 /*
   $res = $db->query("SELECT DISTINCT e.* FROM Events e, BigEvent b WHERE e.Year=$yr AND e.BigEvent=1 AND e.EventId=b.Event AND " .
-		"( b.type='Side' OR b.Type='Act' OR b.Type='Other') AND b.Identifier=$snum");
+                "( b.type='Side' OR b.Type='Act' OR b.Type='Other') AND b.Identifier=$snum");
   if ($res) while ($ev = $res->fetch_assoc()) $evs[] = $ev;
 */
   return $evs; 
@@ -222,7 +222,7 @@ function Select_Act_Come($type=0,$extra='') {
   static $Coming = array('');
   if ($Come_Loaded) return $Coming;
   $qry = "SELECT s.SideId, s.SName, s.Type FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
-	" AND s.IsAnAct=1 " . $extra . " ORDER BY s.SName";
+        " AND s.IsAnAct=1 " . $extra . " ORDER BY s.SName";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
@@ -240,7 +240,7 @@ function Select_Other_Come($type=0,$extra='') {
   static $Coming = array('');
   if ($Come_Loaded) return $Coming;
   $qry = "SELECT s.SideId, s.SName, s.Type FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
-	" AND s.IsOther=1 " . $extra . " ORDER BY s.SName";
+        " AND s.IsOther=1 " . $extra . " ORDER BY s.SName";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
@@ -255,7 +255,7 @@ function Select_Other_Come($type=0,$extra='') {
 function Select_Act_Full() {
   global $db,$YEAR;
   $qry = "SELECT s.*, y.* FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
-	" AND s.IsAnAct=1 ORDER BY s.SName";
+        " AND s.IsAnAct=1 ORDER BY s.SName";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
   return $Coming;
@@ -264,7 +264,7 @@ function Select_Act_Full() {
 function Select_Other_Full() {
   global $db,$YEAR;
   $qry = "SELECT s.*, y.* FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
-	" AND s.IsOther=1 ORDER BY s.SName";
+        " AND s.IsOther=1 ORDER BY s.SName";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
   return $Coming;
@@ -273,7 +273,7 @@ function Select_Other_Full() {
 function Select_Act_Come_Day($Day,$xtr='') { // This wont work - currently unused (I hope)
   global $db,$YEAR,$Coming_Type;
   $qry = "SELECT s.*, y.* FROM Sides s, ActYear y " .
-	 "WHERE s.SideId=y.SideId AND y.Year=$YEAR " . " AND y.$Day=1 $xtr ORDER BY s.SName";
+         "WHERE s.SideId=y.SideId AND y.Year=$YEAR " . " AND y.$Day=1 $xtr ORDER BY s.SName";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
@@ -376,10 +376,10 @@ function Contract_Check($snum,$chkba=1,$ret=0) { // if ret=1 returns result numb
     if ($LastEv) {
       if (($e['Day'] == $LastEv['Day']) && ($e['Start'] > 0) && ($e['Venue'] >0)) {
         if ($LastEv['SubEvent'] < 0) { $End = $LastEv['SlotEnd']; } else { $End = $LastEv['End']; };
-	if (($End > 0) && !$LastEv['IgnoreClash'] && !$e['IgnoreClash']) {
-	  if ($End > $e['Start']) $InValid = 6;
-	  if ($InValid < 5 && $End == $e['Start'] && $LastEv['Venue'] != $e['Venue']) $InValid = 6;
-	}
+        if (($End > 0) && !$LastEv['IgnoreClash'] && !$e['IgnoreClash']) {
+          if ($End > $e['Start']) $InValid = 6;
+          if ($InValid < 5 && $End == $e['Start'] && $LastEv['Venue'] != $e['Venue']) $InValid = 6;
+        }
       }
     }
         
@@ -535,30 +535,30 @@ function MusicMail($data,$name,$id,$direct) {
     } else {
       $ConAns = Contract_Check($id,1,1);
       switch ($ConAns) {
-	case 0: // Ready
-	  // Please Sign msg
-	  $Msg = 'Please confirm your contract by following the link and clicking on the "Confirm" button on the page.<p>';
-	  $p = 0;
-	  $AddC = 1;
-	  break;
-	case 2: // Ok apart from bank account
-	  $Msg = 'Please follow the link, fill in your bank account details (so we can pay you), then click "Save Changes".<p> ' .
-		'Then you will be able to view and confirm your contract, ' .
-		'by clicking on the "Confirm" button. (The button is only there once Bank account is).<p>';
-	  $p = 0;
-	  $AddC = 1;
-	  break;
-	case 3: // No Cont
-	  break;
-	default: // Add draft for info
-	  $AddC = 1;
+        case 0: // Ready
+          // Please Sign msg
+          $Msg = 'Please confirm your contract by following the link and clicking on the "Confirm" button on the page.<p>';
+          $p = 0;
+          $AddC = 1;
+          break;
+        case 2: // Ok apart from bank account
+          $Msg = 'Please follow the link, fill in your bank account details (so we can pay you), then click "Save Changes".<p> ' .
+                'Then you will be able to view and confirm your contract, ' .
+                'by clicking on the "Confirm" button. (The button is only there once Bank account is).<p>';
+          $p = 0;
+          $AddC = 1;
+          break;
+        case 3: // No Cont
+          break;
+        default: // Add draft for info
+          $AddC = 1;
       }
     }
   }
   $Content = "$name,<p>";
   $Content .= "<span id=SideLink$id>Please use $direct</span> " .
-		"to add/correct details about " . $data['SName'] . "'s contact information, update social media links, " . 
-		"and information about you that appears on the festival website.<p>  $Msg";
+                "to add/correct details about " . $data['SName'] . "'s contact information, update social media links, " . 
+                "and information about you that appears on the festival website.<p>  $Msg";
   $Content .= "Regards " . $USER['SName'] . "<p>\n" ;
   if ($AddC) $Content .= "<div id=SideProg$id>" . Show_Contract($id,$p) . "</div><p>\n";
 

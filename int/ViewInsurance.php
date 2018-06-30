@@ -1,23 +1,13 @@
 <?php
   include_once("fest.php");
   A_Check('Committee','Dance');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | View Insurance</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-<?php include_once("DanceLib.php"); ?>
-<?php include_once("OtherLib.php"); ?>
-<?php include_once("MusicLib.php"); ?>
-</head>
-<body>
+  dostaffhead("View Insurance");
 
-<?php
+  include_once("DanceLib.php");
   global $YEAR,$USERID;
-  include_once("files/navigation.php");
-  echo '<div class="content"><h2>Insurance</h2>';
+
+  echo '<h2>Insurance</h2>';
 
   if (isset($_GET{'sidenum'})) {
     $snum = $_GET{'sidenum'};
@@ -42,11 +32,6 @@
   } else {
     echo "<h2>No Insurance Stored for " . $data['SName'] . "</h2>\n";
   }
-
+  dotaikl();
 ?>
 
-</div>
-
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>
