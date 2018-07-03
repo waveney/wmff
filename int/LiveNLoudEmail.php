@@ -3,11 +3,11 @@
   A_Check('SysAdmin');
 
   dostaffhead("Email to Live N Load Applications");
-  global $db,$THISYEAR;
+  global $db,$PLANYEAR;
   include_once("SignupLib.php");
   include_once("TradeLib.php");
 
-  $res=$db->query("SELECT * FROM SignUp WHERE Year=$THISYEAR AND State<2 ORDER BY SName");
+  $res=$db->query("SELECT * FROM SignUp WHERE Year=$PLANYEAR AND State<2 ORDER BY SName");
   
   if ($res) {
     while ($lnl = $res->fetch_assoc()) {

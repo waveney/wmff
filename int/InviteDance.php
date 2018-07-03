@@ -6,7 +6,7 @@
 
   include_once("files/navigation.php"); 
   include_once("DanceLib.php"); 
-  global $YEAR,$THISYEAR;
+  global $YEAR,$PLANYEAR;
   echo "<h2>Invite Dance Sides $YEAR</h2>\n";
 
   echo "Click on column header to sort by column.  Click on Side's name for more detail and programme when available,<p>";

@@ -3,7 +3,7 @@
   A_Check('Committee','News');
 
   dostaffhead("Manage Front Page Articles");
-  global $Importance,$THISYEAR;
+  global $Importance,$SHOWYEAR;
 
   include_once("TradeLib.php");
   include_once("NewsLib.php");

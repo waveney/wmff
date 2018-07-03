@@ -8,7 +8,7 @@
 //  echo var_dump($_COOKIE) . "<P>";
 // if ($_POST) var_dump($_POST);
 
-
+  include_once("DocLib.php");
   if (isset($_GET{'d'})) {
     $d = $_GET{'d'};
   } elseif (isset($_POST{'d'})) {

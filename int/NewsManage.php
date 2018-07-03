@@ -3,7 +3,7 @@
   A_Check('Staff','Other');
 
   dostaffhead("Manage News");
-  global $THISYEAR;
+  global $SHOWYEAR;
 
   include_once("TradeLib.php");
   include_once("NewsLib.php");

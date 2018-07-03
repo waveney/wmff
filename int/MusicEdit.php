@@ -7,7 +7,7 @@
   include_once("DateTime.php");
   include_once("PLib.php");
 
-  global $Mess,$Action,$MASTER,$YEAR,$THISYEAR,$Book_State;
+  global $Mess,$Action,$MASTER,$YEAR,$PLANYEAR,$Book_State;
 
 //var_dump($_POST);
   $Action = 0; 
@@ -53,13 +53,13 @@
         Contract_Decline($Side,$Sidey,1); 
       }
       Update_db_post('Sides',$Side,1);
-      if ($_POST{'Year'} >= $THISYEAR) {
+      if ($_POST{'Year'} >= $PLANYEAR) {
         if (isset($Sidey) && $Sidey){
           $Sve_Sidey = $Sidey;
           Update_db_post('ActYear',$Sidey);
           if (ActYear_Check4_Change($Sve_Sidey,$Sidey)) $Sidey = Get_Actyear($snum);
         } else {
-          $Sidey['Year'] = $THISYEAR;
+          $Sidey['Year'] = $PLANYEAR;
           $ActId = Insert_db_post('ActYear',$Sidey);
           $Sidey['ActId'] = $ActId;
         };

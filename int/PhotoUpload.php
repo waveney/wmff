@@ -4,12 +4,11 @@
 
   A_Check('Staff','Photos');
   dostaffhead("Upload Photos");
-  global $THISYEAR;
+  global $SHOWYEAR,$PLANYEAR;
 
-  $Last = $THISYEAR-1;
   $Places = array('General Images'=>'images',
-        "Gallery for $Last"=>"images/gallery/$Last",
-        "Gallery for $THISYEAR"=>"images/gallery/$THISYEAR",
+        "Gallery for $SHOWYEAR"=>"images/gallery/$SHOWYEAR",
+        "Gallery for $PLANYEAR"=>"images/gallery/$PLANYEAR",
         "Icons"=>"images/icons",
         "Sponsors"=>"images/Sponsors");
   $Pflip = array_flip($Places);

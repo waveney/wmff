@@ -4,7 +4,7 @@
   dostaffhead("Buskers Bash Application", "/js/Participants.js");
 
   include_once("SignupLib.php");
-  global $USER,$USERID,$db,$THISYEAR;
+  global $USER,$USERID,$db,$PLANYEAR;
 
   /* In the longer term this will be based on participants, but I want to do this quickly for 2018 so it is stand alone for now */
 
@@ -20,7 +20,7 @@
     if (!$err) {
 //      echo "<P>VALID...<P>";
       $_POST['AccessKey'] = rand_string(40);
-      $_POST['Year'] = $THISYEAR;
+      $_POST['Year'] = $PLANYEAR;
       $_POST['Activity'] = 4;
       $id = Insert_db_post('SignUp',$bb);
     

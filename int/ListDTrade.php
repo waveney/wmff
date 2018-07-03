@@ -4,7 +4,7 @@
 
   dostaffhead("List Traders in Detail", "/js/clipboard.min.js", "/js/emailclick.js");
 
-  global $YEAR,$THISYEAR,$Trade_States,$Trade_StateClasses,$Trade_State,$TS_Actions,$ButExtra;
+  global $YEAR,$PLANYEAR,$Trade_States,$Trade_StateClasses,$Trade_State,$TS_Actions,$ButExtra;
   include_once("TradeLib.php");
 
   $Trade_Types = Get_Trade_Types(1);

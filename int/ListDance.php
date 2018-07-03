@@ -3,7 +3,7 @@
   A_Check('Steward');
 
   dostaffhead("List Dance", "/js/clipboard.min.js","/js/emailclick.js" );
-  global $YEAR,$THISYEAR;
+  global $YEAR,$PLANYEAR;
   include_once("DanceLib.php"); 
   echo "<h2>List Dance Sides $YEAR</h2>\n";
 
@@ -21,15 +21,15 @@
     $col6 = "Coming";
     $col7 = "Wshp";
   } else if ($_GET{'SEL'} == 'INV') {
-    $LastYear = $THISYEAR-1;
+    $LastYear = $PLANYEAR-1;
     $flds = "s.*, ly.Invite, ly.Coming, y.Invite, y.Invited, y.Coming";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$THISYEAR " .
+    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$PLANYEAR " .
                         "LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE s.IsASide=1 AND s.SideStatus=0 ORDER BY SName");
     $col5 = "Invited $LastYear";
     $col6 = "Coming $LastYear";
-    $col7 = "Invite $THISYEAR";
-    $col8 = "Invited $THISYEAR";
-    $col9 = "Coming $THISYEAR";
+    $col7 = "Invite $PLANYEAR";
+    $col8 = "Invited $PLANYEAR";
+    $col9 = "Coming $PLANYEAR";
   } else if ($_GET{'SEL'} == 'Coming') {
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, SideYear as y WHERE s.IsASide=1 AND s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . 
                 $Coming_Type['Y'] . " ORDER BY SName");

@@ -4,6 +4,7 @@
 
   dostaffhead("Add/Change User");
   include_once("UserLib.php");
+  global $MASTER_DATA;
 
   Set_User_Help();
 
@@ -54,7 +55,7 @@
       }
     echo "<tr>" . fm_text('Name', $User,'SName',1,'','autocomplete=off');
     echo "<tr>" . fm_text('Email',$User,'Email',1,'','autocomplete=off');
-    echo "<tr>" . fm_text('WMFF Email',$User,'WMFFemail',1,'','autocomplete=off');
+    echo "<tr>" . fm_text($MASTER_DATA['ShortName'] . " Email",$User,'WMFFemail',1,'','autocomplete=off');
     echo "<tr>" . fm_text('Login',$User,'Login');
     echo "<tr>" . fm_text('Roll',$User,'Roll');
     echo "<tr><td>Access Level<td>" . fm_select($Access_Levels,$User,'AccessLevel');

@@ -6,7 +6,7 @@
 
   echo "<h2 class=subtitle>Other Festivals</h2>\n";
 
-  $fests = Get_OtherLinks("WHERE Year=$THISYEAR");
+  $fests = Get_OtherLinks("WHERE Year=$SHOWYEAR");
   $fcount = count($fests);
   if ($fcount) {
     echo "Wimborne Minster Folk Festival is also recomending the following festival" . ($fcount>1?'s':'') . "<p>";

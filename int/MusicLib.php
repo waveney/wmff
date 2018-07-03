@@ -335,7 +335,7 @@ function &Other_All() {
 }
 
 function Contract_Save($Side,$Sidey,$Reason) {
-  global $THISYEAR,$Book_State;
+  global $PLANYEAR,$Book_State;
   include_once("Contract.php");
   $snum = $Side['SideId'];
   $Cont = Show_Contract($snum,$Reason);
@@ -344,13 +344,13 @@ function Contract_Save($Side,$Sidey,$Reason) {
     $_POST['Contracts'] = $IssNum;
     $_POST['ContractDate'] = time();
     $_POST['YearState'] = $Book_State['Booked'];
-    file_put_contents("Contracts/$THISYEAR/$snum.$IssNum.html",$Cont);
+    file_put_contents("Contracts/$PLANYEAR/$snum.$IssNum.html",$Cont);
     return 1;
   }
 }
 
 function Contract_Decline($Side,$Sidey,$Reason) {
-  global $THISYEAR,$Book_State;
+  global $PLANYEAR,$Book_State;
   $Sidey['YearState'] = $_POST['YearState'] = $Book_State['Declined'];
   $Note = ", Contract Declined " . date('d/m/Y');
   $Sidey['PrivNotes'] .= $Note;

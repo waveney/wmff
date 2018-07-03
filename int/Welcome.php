@@ -4,6 +4,7 @@
 
   dostaffhead("Welcome");
   include_once("UserLib.php");
+  global $MASTER_DATA;
 
   if (isset($_GET['U'])) {
     $uid = $_GET['U'];
@@ -17,7 +18,7 @@
     $User['password'] = $hash;
     Put_User($User);
 
-    $letter = firstword($User['SName']) . "<p>Welcome to the Wimborne Minster Folk Festival staff pages.<p>" .
+    $letter = firstword($User['SName']) . "<p>Welcome to the " . $MASTER_DATA['FestName'] . " staff pages.<p>" .
         "It is initially accessed by using the <a href=https://wimbornefolk.co.uk/int/Login.php>Login</a> at the bottom of any page below " .
         "the copyright statement on any page of the <a href=https://wimbornefolk.co.uk>website</a>.<p>" .
         "Your username is : " . $User['Login'] ."<br>" .
@@ -32,7 +33,7 @@
         "If something is not obvious please tell me and I will try and improve it.<p>" .
         "Richard";
  
-    SendEmail($User['Email'],"Welcome " . firstword($User['SName']) . " to WMFF Staff pages",$letter);
+    SendEmail($User['Email'],"Welcome " . firstword($User['SName']) . " to " . $MASTER_DATA['ShortName'] . " Staff pages",$letter);
 
     echo "Email sent:<p>$letter";
   } else {

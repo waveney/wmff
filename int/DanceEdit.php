@@ -6,7 +6,7 @@
   include_once("MusicLib.php");
   include_once("DateTime.php");
   include_once("PLib.php");
-  global $Mess,$Action,$MASTER,$Cat_Type,$YEAR,$THISYEAR,$Dance_TimeFeilds;      
+  global $Mess,$Action,$MASTER,$Cat_Type,$YEAR,$PLANYEAR,$Dance_TimeFeilds;      
 
 //var_dump($_POST);
   $Action = 0; 
@@ -59,11 +59,11 @@
       }
 
       Update_db_post('Sides',$Side);
-      if ($_POST{'Year'} >= $THISYEAR) {
+      if ($_POST{'Year'} >= $PLANYEAR) {
         if (isset($Sidey) && $Sidey){
           Update_db_post('SideYear',$Sidey);
         } else {
-          $Sidey['Year'] = $THISYEAR;
+          $Sidey['Year'] = $PLANYEAR;
           $syId = Insert_db_post('SideYear',$Sidey);
           $Sidey['syID'] = $syId;
         };

@@ -5,7 +5,7 @@
   include_once("PLib.php"); 
 
 function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-1 Draft,0 proposed, 1 freeze reason - see contractConfirm, ctype 0=Side,1=act,2=other
-  global $Mess,$Action,$MASTER,$Cat_Type,$YEAR,$THISYEAR,$DayList,$Event_Types,$ContractMethods;
+  global $Mess,$Action,$MASTER,$Cat_Type,$YEAR,$PLANYEAR,$DayList,$Event_Types,$ContractMethods;
 
   $FullDay = [-3=>'Tuesday',-2=>'Wednesday',-1=>'Thursday',0=>'Friday',1=> 'Saturday',2=> 'Sunday',3=>'Monday'];
 

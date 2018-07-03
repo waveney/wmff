@@ -117,13 +117,13 @@ function ShowArticle($a,$mxat=0) {
 }
 
 function ShowArticles() {
-  global $db,$THISYEAR,$Coming_Type;
+  global $db,$SHOWYEAR,$Coming_Type;
   // Specials data gathering - DANCE
-    $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND y.Coming=" . $Coming_Type['Y']);
+    $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$SHOWYEAR AND y.Coming=" . $Coming_Type['Y']);
     $Dsc = 0;
 //    if ($ans) $Dsc= ($ans->fetch_assoc())['Total'];
 
-    $ans = $db->query("SELECT s.Photo,s.SideId FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.Coming=" . 
+    $ans = $db->query("SELECT s.Photo,s.SideId FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$SHOWYEAR AND s.Photo!='' AND y.Coming=" . 
                     $Coming_Type['Y'] . " ORDER BY RAND() LIMIT 1");
     if ($ans) {
       $DMany = $ans->fetch_assoc();
@@ -131,10 +131,10 @@ function ShowArticles() {
     } else {
       $DPhoto = "/images/Hobos-Morris-2016.jpg";
     }
-    $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.Coming=" . 
+    $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$SHOWYEAR AND s.Photo!='' AND y.Coming=" . 
                             $Coming_Type['Y'] . " AND s.Importance!=0 ORDER BY RAND() LIMIT 2");
     if (!$ans) {
-      $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.Coming=" . 
+      $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$SHOWYEAR AND s.Photo!='' AND y.Coming=" . 
                         $Coming_Type['Y'] . " ORDER BY RAND() LIMIT 2");
     }
     if ($ans) {
@@ -143,11 +143,11 @@ function ShowArticles() {
     }
 
     // Music stuff
-    $ans = $db->query("SELECT count(*) AS Total FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND y.YearState>0 ");
+    $ans = $db->query("SELECT count(*) AS Total FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$SHOWYEAR AND y.YearState>0 ");
     $Msc = 0;
 //    if ($ans) $Msc= ($ans->fetch_assoc())['Total'];
 
-    $ans = $db->query("SELECT s.Photo,s.SideId FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.YearState>0 " . 
+    $ans = $db->query("SELECT s.Photo,s.SideId FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$SHOWYEAR AND s.Photo!='' AND y.YearState>0 " . 
                         " ORDER BY RAND() LIMIT 1");
     if ($ans) {
       $MMany = $ans->fetch_assoc();
@@ -156,10 +156,10 @@ function ShowArticles() {
       $MPhoto = "/images/Hobos-Morris-2016.jpg";
     }
 
-    $ans = $db->query("SELECT s.* FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.YearState>0 " . 
+    $ans = $db->query("SELECT s.* FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$SHOWYEAR AND s.Photo!='' AND y.YearState>0 " . 
                         " AND s.Importance!=0 ORDER BY RAND() LIMIT 2");
     if (!$ans) {
-      $ans = $db->query("SELECT s.* FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.YearState>0 " . 
+      $ans = $db->query("SELECT s.* FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$SHOWYEAR AND s.Photo!='' AND y.YearState>0 " . 
                         " ORDER BY RAND() LIMIT 2");
     }
     if ($ans) {
@@ -194,9 +194,9 @@ function ShowArticles() {
           break;
         case '@Dance_Many':
           ShowArticle(array(
-                'SName'=>"Dancing in $THISYEAR",
+                'SName'=>"Dancing in $SHOWYEAR",
                 'Link'=>"$host/LineUpDance.php",
-                'Text'=>"$Dsc Dance teams have already confirmed for $THISYEAR.  Many of your favourite teams and some new faces.\n",
+                'Text'=>"$Dsc Dance teams have already confirmed for $SHOWYEAR.  Many of your favourite teams and some new faces.\n",
                 'Image'=>$DPhoto,
                 'ImageWidth'=>$DMany['ImageWidth'],
                 'ImageHeight'=>$DMany['ImageHeight'],
@@ -216,9 +216,9 @@ function ShowArticles() {
           break;
         case '@Music_Many':
           ShowArticle(array(
-                'SName'=>"Music in $THISYEAR",
+                'SName'=>"Music in $SHOWYEAR",
                 'Link'=>"$host/LineUpMusic.php",
-                'Text'=>"$Msc Music acts have already confirmed for $THISYEAR.\n",
+                'Text'=>"$Msc Music acts have already confirmed for $SHOWYEAR.\n",
                 'Image'=>$MPhoto,
                 'ImageWidth'=>$MMany['ImageWidth'],
                 'ImageHeight'=>$MMany['ImageHeight'],

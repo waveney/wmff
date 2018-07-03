@@ -10,7 +10,7 @@
   include_once("DateTime.php");
   include_once("PLib.php");
 
-  global $YEAR,$THISYEAR,$Mess,$BUTTON;
+  global $YEAR,$PLANYEAR,$Mess,$BUTTON;
 
   echo '<h2>Add/Edit Dance Side</h2>';
   global $Mess,$Action,$Dance_TimeFeilds;      
@@ -66,11 +66,11 @@
       Parse_TimeInputs($Dance_TimeFeilds);      
 
       Update_db_post('Sides',$Side);
-      if ($_POST{'Year'} >= $THISYEAR) {
+      if ($_POST{'Year'} >= $PLANYEAR) {
         if (isset($Sidey) && $Sidey){
           Update_db_post('SideYear',$Sidey);
         } else {
-          $Sidey['Year'] = $THISYEAR;
+          $Sidey['Year'] = $PLANYEAR;
           $syId = Insert_db_post('SideYear',$Sidey);
           $Sidey['syID'] = $syId;
         };

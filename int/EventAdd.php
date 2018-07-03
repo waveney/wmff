@@ -270,7 +270,7 @@ A similar feature will appear eventually for music.<p>
   if (isset($Err)) echo "<h2 class=ERR>$Err</h2>\n";
   echo "<span class=NotSide>Fields marked should be only set by Richard</span>";
   if (!$Skip) {
-    $adv = ($Event['SubEvent']>0?"class=Adv":""); 
+    $adv = (isset($Event['SubEvent']) ?(($Event['SubEvent']>0?"class=Adv":"")) : ""); 
     echo "<table width=90% border>\n";
       if (isset($eid) && $eid > 0) {
         echo "<tr><td>Event Id:" . $eid . fm_hidden('EventId',$eid);
@@ -285,7 +285,7 @@ A similar feature will appear eventually for music.<p>
       echo "<td class=NotSide>Originator:" . fm_select($AllActive,$Event,'Owner',1);
 
       echo "<tr><td class=NotSide>" . fm_checkbox('Multiday Event',$Event,'LongEvent','onchange=$(".mday").show()');
-      $hidemday =  ($Event['LongEvent'])?'':'hidden ';
+      $hidemday =  (isset($Event['LongEvent']) && $Event['LongEvent'])?'':'hidden ';
       echo "<td class=NotSide>" . fm_checkbox('Big Event',$Event,'BigEvent');
       echo "<td class=NotSide>" . fm_checkbox('Ignore Clashes',$Event,'IgnoreClash');
       echo "<td class=NotSide>" . fm_checkbox('Also Dance',$Event,'ListDance');
@@ -299,7 +299,7 @@ A similar feature will appear eventually for music.<p>
 
       echo "<tr>" . fm_text('Name', $Event,'SName');
         echo "<td>Event Type:" . fm_select($Event_Types,$Event,'Type');
-        $se = $Event['SubEvent'];
+        $se = isset($Event['SubEvent'])? $Event['SubEvent'] : 0;
         if ($se == 0) { echo "<td>No Sub Events"; }
         elseif ($se < 0) { echo "<td><a href=EventList.php?se=$eid>Has Sub Events</a>"; }
         else { echo "<td><a href=EventList.php?se=$se>Is a Sub Event</a>"; };
@@ -316,11 +316,11 @@ A similar feature will appear eventually for music.<p>
 
       echo "<tr>" . fm_radio('<span class=mday $hidemday>Start </span>Day',$DayList,$Event,'Day');
 //      echo fm_text('Year',$Event,'Year');
-      echo "<td colspan=3>Times: " . fm_smalltext('Start','Start',$Event['Start']);
-        echo fm_smalltext('End','End',$Event['End']);
-        echo fm_smalltext('Setup Time','Setup (mins)',$Event['Setup']) ;
-        echo fm_smalltext('Duration','Duration',$Event['Duration']) . "&nbsp;minutes ";
-        if ($se < 0) echo fm_smalltext(', Slot End','SlotEnd',$Event['SlotEnd']);
+      echo "<td colspan=3>Times: " . fm_smalltext2('Start',$Event,'Start');
+        echo fm_smalltext2('End',$Event,'End');
+        echo fm_smalltext2('Setup Time (mins)',$Event,'Setup') ;
+        echo fm_smalltext2('Duration',$Event,'Duration') . "&nbsp;minutes ";
+        if ($se < 0) echo fm_smalltext2(', Slot End',$Event,'SlotEnd');
       if ($se <= 0) echo "<tr class=mday $hidemday>" . fm_radio('End Day',$DayList,$Event,'EndDay') . 
                 "<td colspan=3>Set up a sub event for each day after first, times are for first day";
       echo "<tr><td>Venue:<td>" . fm_select($Venues,$Event,'Venue',1);
@@ -397,7 +397,7 @@ A similar feature will appear eventually for music.<p>
     } else { 
       echo "<Center><input type=Submit name=Create value='Create'></center>\n";
     }
-    if ($Event['SubEvent'] > 0) echo "<button onclick=ShowAdv(event) id=ShowMore type=button class=floatright>More features</button>";
+    if (isset($Event['SubEvent']) && $Event['SubEvent'] > 0) echo "<button onclick=ShowAdv(event) id=ShowMore type=button class=floatright>More features</button>";
     echo "</form>\n";
   }
   echo "<h2><a href=EventList.php>List Events</a>";

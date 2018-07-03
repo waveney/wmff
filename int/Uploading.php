@@ -66,11 +66,11 @@ function Upload_Init($Dir='') {
  */
 
 function Upload_Insurance($Dir='Sides') {
-  global $THISYEAR,$Side,$Sidey,$Put,$Puty,$snum,$db;
+  global $PLANYEAR,$Side,$Sidey,$Put,$Puty,$snum,$db;
 
   Upload_Init($Dir);
 
-  $target_dir = "Insurance/$THISYEAR/$Dir/";
+  $target_dir = "Insurance/$PLANYEAR/$Dir/";
   umask(0);
   if (!file_exists($target_dir)) mkdir($target_dir,0775,true);
   $suffix = pathinfo($_FILES["InsuranceForm"]["name"],PATHINFO_EXTENSION);

@@ -61,8 +61,8 @@
         echo fm_hidden('Year',-1);
       }
 // NOTE General contains LOTS of no longer used feilds - just ignore them
-    echo "<tr>" . fm_text('Version Number',$Gen,'Version') . "<td>Software Version Number - change will force css/js reload";
-    echo "<tr>" . fm_text('Prefix',$Gen,'Prefix') . "<td>Title prefix - used for testing only";
+//    echo "<tr>" . fm_text('Version Number',$Gen,'Version') . "<td>Software Version Number - change will force css/js reload";
+//    echo "<tr>" . fm_text('Prefix',$Gen,'Prefix') . "<td>Title prefix - used for testing only";
     echo "<tr><td>State of Family:<td>" . fm_select($EType_States,$Gen,'FamilyState') . "<td>Controls level of Participant interfaces";
     echo "<tr><td>State of Specials:<td>" . fm_select($EType_States,$Gen,'SpecialState') . "<td>";
     echo "<tr><td>State of Trade:<td>" . fm_select($EType_States,$Gen,'TradeState') . "<td>No effect yet";

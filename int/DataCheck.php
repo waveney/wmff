@@ -79,6 +79,7 @@ function SubmitLinks($Addr) {
 }
 
 function Links_Email($Addr,&$list) {
+  global $MASTER_DATA;
   $Mess = '';
 
   foreach($list as $e) {
@@ -111,9 +112,9 @@ function Links_Email($Addr,&$list) {
   }
 
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","WMFF records of $Addr",$Mess);
+    SendEmail("Richard@wavwebs.com",$MASTER_DATA['ShortName'] . " records of $Addr",$Mess);
   } else {
-    SendEmail($Addr,"WMFF data records of $Addr",$Mess);
+    SendEmail($Addr,$MASTER_DATA['ShortName'] . " data records of $Addr",$Mess);
   }
 
   $logf = fopen("LogFiles/DataCheck.txt","a");

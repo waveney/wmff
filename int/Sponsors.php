@@ -3,7 +3,7 @@
   A_Check('Committee','Trade');
 
   dostaffhead("Manage Sponsors");
-  global $THISYEAR;
+  global $PLANYEAR;
 
   include_once("TradeLib.php");
   echo "<div class='content'><h2>Manage Sponsors</h2>\n";
@@ -39,7 +39,7 @@
     echo "\n";
   }
   echo "<tr><td><td><input type=text name=SName0 >";
-  echo "<td><input type=number name=Year0 value=$THISYEAR>";
+  echo "<td><input type=number name=Year0 value=$PLANYEAR>";
   echo "<td><input type=text name=Website0>";
   echo "<td><input type=text name=Image0>";
   echo "<td><input type=checkbox name=IandT0>";

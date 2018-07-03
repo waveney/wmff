@@ -2,7 +2,8 @@
 
 /* Various common code across fest con tools */
 
-$YEAR = $THISYEAR = 2018;
+  include_once("festdb.php");
+
 $BUTTON = 0;
 
 if (isset($_POST{'Y'})) $YEAR = $_POST{'Y'};
@@ -42,39 +43,17 @@ $OlapDays = array('All','Sat Only','Sun Only','None');
 $OlapCats = array('Side','Act','Other');
 
 
-// If table's index is 'id' it does not need to be listed here
-$TableIndexes = array(        'Sides'=>'SideId', 'SideYear'=>'syId', 'FestUsers'=>'UserId', 'Venues'=>'VenueId', 'Events'=>'EventId', 
-                        'General'=>'Year', 'Bugs'=>'BugId', 'BigEvent'=>'BigEid', 'DanceTypes'=>'TypeId', 
-                        'Directory'=>'DirId', 'Documents'=>'DocId', 'EventTypes'=>'ETypeNo',
-                        'MusicTypes'=>'TypeId','TimeLine'=>'TLid', 'BandMembers'=>'BandMemId', 'ActYear'=>'ActId',
-                        'TradeLocs'=>'TLocId','Trade'=>'Tid','TradeYear'=>'TYid'
-                        );
-
 date_default_timezone_set('GMT');
 
-function db_open () {
-  global $db;
-  @ $db = new mysqli('localhost','wmff','','wmff');
-  if (!$db) die ('Could not connect: ' .  mysqli_error());
-}
-
-db_open();
-
-function Logg($what) {
-  global $db,$USERID;
-  $qry = "INSERT INTO LogFile SET Who='$USERID', changed='" . date('d/m/y H:i:s') . "', What='" . addslashes($what) . "'";
-  $db->query($qry);
-}
-
 function Set_User() {
-  global $db,$USER,$USERID,$AccessType,$YEAR,$THISYEAR;
+  global $db,$USER,$USERID,$AccessType,$YEAR,$CALYEAR;
   if (isset($USER)) return;
   $USER = array();
   $USERID = 0;
   if (isset($_COOKIE{'WMFFD'})) {
     $biscuit = $_COOKIE{'WMFFD'};
     $Cake = openssl_decrypt($biscuit,'aes-128-ctr','Quarterjack',0,'BrianMBispHarris');
-    $crumbs = split(':',$Cake);
+    $crumbs = explode(':',$Cake);
     $USER{'Subtype'} = $crumbs[0];
     $USER{'AccessLevel'} = $crumbs[1];
     $USERID = $USER{'UserId'} = $crumbs[2];
@@ -96,7 +75,7 @@ function Set_User() {
       $USER = $res->fetch_assoc();
       $USERID = $USER['UserId'];
       $db->query("UPDATE FestUsers SET LastAccess='" . time() . "' WHERE UserId=$USERID" );
-      setcookie('WMFF2',$USER['Yale'], mktime(0,0,0,1,1,$THISYEAR+1) ,'/' );
+      setcookie('WMFF2',$USER['Yale'], mktime(0,0,0,1,1,$CALYEAR+1) ,'/' );
       setcookie('WMFF','',-1);
       $_COOKIE{'WMFF2'} = $ans['Yale'];
     }
@@ -216,6 +195,13 @@ function fm_smalltext($Name,$field,$value,$chars=4,$extra='') {
   global $ADDALL;
   $str = "$Name " . help($field) . "<input type=text name=$field $extra size=$chars $ADDALL";
   $str .= " value=\"" . htmlspec($value) . '"';
+  return $str  .">";
+}
+
+function fm_smalltext2($Name,&$data,$field,$chars=4,$extra='') {
+  global $ADDALL;
+  $str = "$Name " . help($field) . "<input type=text name=$field $extra size=$chars $ADDALL";
+  if (isset($data[$field])) $str .= " value=\"" . htmlspec($value) . '"';
   return $str  .">";
 }
 
@@ -378,199 +364,12 @@ function SendEmail($to,$sub,$letter,$headopt='') {
   if ($result === FALSE) { /* Handle error */ }
 }
 
-function table_fields($table) {
-  global $db;
-  static $tables = array();
-  if (isset($tables[$table])) return $tables[$table];
-
-  $qry = "SELECT Column_Name, Data_type FROM information_schema.columns WHERE table_name='" . $table . "'";
-  $Flds = $db->query($qry);
-  while ($Field = $Flds->fetch_array()) {
-    $tables[$table][$Field['Column_Name']] = $Field['Data_type'];
-  }
-  return $tables[$table];
-}
-
 function Disp_CB($what) {
   echo "<td>" . ($what?'Y':'');
 }
-
-function Get_Emails($roll) {
-  global $db;
-  global $Area_Type;
-  $qry = "SELECT Email FROM FestUsers WHERE $roll=" . $Area_Type['Edit and Report'];
-  $res = $db->query($qry);
-  $ans = "";
-  if ($res) while ($row = $res->fetch_assoc()) {
-    if (strlen($ans)) $ans .= ",";
-    $ans .= $row['Email'];
-  }
-  return $ans;
-}
-
-$UpdateLog = '';
-
-function Report_Log($roll) {
-  global $Access_Type,$USER,$USERID,$UpdateLog;
-  if ($UpdateLog) {
-    if ($USER{'AccessLevel'} == $Access_Type['Participant']) {
-      switch ($USER{'Subtype'}) {
-      case 'Side':
-        $Side = Get_Side($USERID);
-        $who = $Side['SName'];
-        break;
-      default :
-        return;
-      }
-    } else {
-      $who = $USER['Login'];
-    }
-
-    $emails = Get_Emails($roll);
-    if ($emails) {
-      SendEmail($emails,"WMFF update by $who",$UpdateLog);
-    }
-    Logg("WMFF update by $who\n" . $UpdateLog);
-    $UpdateLog = '';
-  }
-}
-
-function Update_db($table,&$old,&$new,$proced=1) {
-  global $db;
-  global $TableIndexes;
-  global $UpdateLog;
-
-  $Flds = table_fields($table);
-  $indxname = (isset($TableIndexes[$table])?$TableIndexes[$table]:'id');
-  $newrec = "UPDATE $table SET ";
-  $fcnt = 0;
-
-  foreach ($Flds as $fname=>$ftype) {
-    if ($indxname == $fname) { // Skip
-    } elseif (isset($new[$fname])) {
-      if ($ftype == 'text') {
-        $dbform = addslashes($new[$fname]);
-      } elseif ($ftype == 'tinyint' || $ftype == 'smallint') {
-        $dbform = 0;
-        if ($new[$fname]) {
-          if ((string)(int)$new[$fname] = $new[$fname]) { $dbform = $new[$fname]; } else { $dbform = 1; };
-        }
-      } else {
-        $dbform = $new[$fname];
-      }
-
-      if ($dbform != $old[$fname]) {
-        $old[$fname] = $dbform;
-        if ($fcnt++ > 0) { $newrec .= " , "; }
-        $newrec .= " $fname=" . '"' . $dbform . '"';
-      }
-    } else {
-      if ($ftype == 'tinyint' || $ftype == 'smallint' ) {
-        if ($old[$fname]) {
-          $old[$fname] = 0;
-            if ($fcnt++ > 0) { $newrec .= " , "; }
-          $newrec .= " $fname=0";
-        }
-      } 
-    }
-  }
-
-  if ($proced && $fcnt) {
-    $newrec .= " WHERE $indxname=" . $old[$indxname];
-//var_dump($newrec);
-    $update = $db->query($newrec);
-    $UpdateLog .= $newrec . "\n";
-    if ($update) {
-//      echo "<h2>$table Updated - $newrec</h2>\n";
-//      echo "<h2>$table Updated</h2>\n";
-    } else {
-      echo "<h2 class=ERR>An error occoured: ((($newrec))) " . $db->error . "</h2>";
-    }
-    return $update;
-  }
-}
-
-function Update_db_post($table, &$data, $proced=1) { 
-  return Update_db($table,$data,$_POST,$proced);
-}
-
-function Insert_db($table, &$from, &$data=0, $proced=1) {
-  global $db;
-  global $TableIndexes;
-  global $UpdateLog;
-  $newrec = "INSERT INTO $table SET ";
-  $fcnt = 0;
-  $Flds = table_fields($table);
-  $indxname = (isset($TableIndexes[$table])?$TableIndexes[$table]:'id');
-
-  foreach ($Flds as $fname=>$ftype) {
-    if (isset($from{$fname}) && $from{$fname} != '' && $indxname!=$fname ) { 
-      if ($fcnt++ > 0) { $newrec .= " , "; }
-      if ($ftype == 'text') {
-        $dbform = addslashes($from{$fname});
-        if ($data) $data[$fname] = $dbform;
-        $newrec .= " $fname=" . '"' . $dbform . '"';
-      } elseif ($ftype == "tinyint" || $ftype == 'smallint') {
-        $dbform = 0;
-        if ($from{$fname}) {
-          if ((string)(int)$from{$fname} = $from{$fname}) { $dbform = $from{$fname}; } else { $dbform = 1; };
-        }
-        if ($data) $data[$fname] = $dbform;
-        $newrec .= " $fname=$dbform ";
-      } else {
-        if ($data) $data[$fname] = $from[$fname];
-        $newrec .= " $fname=$from[$fname] ";
-      }
-    }
-  }
-  if ($proced) {
-    $insert = $db->query($newrec);
-    if ($insert) {
-      $UpdateLog .= $newrec . "\n";
-      $snum = $db->insert_id;
-//      echo "<h2>$table New entry - $newrec - $snum</h2>";
-//      echo "<h2>$table New entry added</h2>";
-      if ($data) $data[$indxname]=$snum;
-      $from[$indxname]=$snum;
-      return $snum;
-    } else {
-      echo "<h2 class=ERR>An error occoured: ((($newrec))) " . $db->error . "</h2>";
-    }
-  }
-  return 0;
-}
-
-function Insert_db_post($table,&$data,$proced=1) {
-  $data['Dummy'] = 1;
-  return Insert_db($table,$_POST,$data,$proced);  
-}
-
-function db_delete($table,$entry) {
-  global $db,$TableIndexes;
-  $indxname = (isset($TableIndexes[$table])?$TableIndexes[$table]:'id');
-  return $db->query("DELETE FROM $table WHERE $indxname='$entry'");
-}
-
-function db_delete_cond($table,$cond) {
-  global $db;
-  return $db->query("DELETE FROM $table WHERE $cond");
-}
-
-function db_update($table,$what,$where) {
-  global $db;
-  return $db->query("UPDATE $table SET $what WHERE $where");
-}
-
-function db_get($table,$cond) {
-  global $db;
-  $res = $db->query("SELECT * FROM $table WHERE $cond");
-  if ($res) return $res->fetch_assoc();
-  return 0;
-}
-
 function weblink($dest,$text='Website',$alink='',$all=0) {
   $dest = stripslashes($dest);
-  $sites = split(' ',$dest);
+  $sites = explode(' ',$dest);
   if (count($sites) > 1) {
     $ans = '';
     foreach($sites as $site) {
@@ -838,7 +637,6 @@ function Get_Years() {
 }
 
 $MASTER = Get_General();
-$MASTER['V'] = gmdate('Y') . "." . $MASTER['Version'];
 
 function First_Sent($stuff) {
   $onefifty=substr($stuff,0,150);
@@ -872,7 +670,7 @@ function Social_Link(&$data,$site,$mode=0) { // mode:0 Return Site as text, mode
 }
 
 function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
-    global $DayList,$MASTER;
+    global $DayList;
     $str = '';
     include_once("ProgLib.php");
     include_once("DanceLib.php");
@@ -986,8 +784,8 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
 $head_done = 0;
 
 function doextras($extra1,$extra2,$extra3,$extra4,$extra5) {
-  global $MASTER;
-  $V=$MASTER['V'];
+  global $MASTER_DATA;
+  $V=$MASTER_DATA['V'];
   for ($i=1;$i<6;$i++) {
     if (${"extra$i"}) {
       $e = ${"extra$i"};
@@ -1002,12 +800,13 @@ function doextras($extra1,$extra2,$extra3,$extra4,$extra5) {
 }
 
 function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
-  global $head_done,$MASTER;
+  global $head_done,$MASTER_DATA;
   if ($head_done) return;
-  $V=$MASTER['V'];
-  $pfx=$MASTER['Prefix'];
+  $V=$MASTER_DATA['V'];
+  $pfx="";
+  if (file_exists("/files/TitlePrefix")) $pfx = file_get_contents("/files/TitlePrefix");
   echo "<html><head>";
-  echo "<title>$pfx Wimborne Minster Folk Festival | $title</title>\n";
+  echo "<title>$pfx " . $MASTER_DATA['FestName'] . " | $title</title>\n";
   include_once("files/header.php");
   echo "<script src=/js/tablesort.js?V=$V></script>\n";
   echo "<script src=/js/Tools.js?V=$V></script>\n";
@@ -1027,12 +826,13 @@ function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
 }
 
 function doheadpart($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
-  global $head_done,$MASTER;
+  global $head_done,$MASTER_DATA;
   if ($head_done) return;
-  $V=$MASTER['V'];
-  $pfx=$MASTER['Prefix'];
+  $V=$MASTER_DATA['V'];
+  $pfx="";
+  if (file_exists("/files/TitlePrefix")) $pfx = file_get_contents("/files/TitlePrefix");
   echo "<html><head>";
-  echo "<title>$pfx Wimborne Minster Folk Festival | $title</title>\n";
+  echo "<title>$pfx " . $MASTER_DATA['FestName'] . " | $title</title>\n";
   include_once("files/header.php");
   echo "<script src=/js/tablesort.js?V=$V></script>\n";
   echo "<script src=/js/Tools.js?V=$V></script>\n";
@@ -1041,12 +841,13 @@ function doheadpart($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='
 }
 
 function dostaffhead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
-  global $head_done,$MASTER;
+  global $head_done,$MASTER_DATA;
   if ($head_done) return;
-  $V=$MASTER['V'];
-  $pfx=$MASTER['Prefix'];
+  $V=$MASTER_DATA['V'];
+  $pfx="";
+  if (file_exists("files/TitlePrefix")) $pfx = file_get_contents("files/TitlePrefix");
   echo "<html><head>";
-  echo "<title>$pfx WMFF Staff | $title</title>\n";
+  echo "<title>$pfx " . $MASTER_DATA['ShortName'] . " | $title</title>\n";
   include_once("files/header.php");
   include_once("festcon.php");
   echo "<script src=/js/tablesort.js?V=$V></script>\n";

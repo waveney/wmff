@@ -48,15 +48,15 @@ lots of lovely things...
 </div>
 
 <?php 
-global $db,$THISYEAR,$Coming_Type;
-$ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND y.Coming=" . $Coming_Type['Y']);
+global $db,$SHOWYEAR,$Coming_Type;
+$ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$SHOWYEAR AND y.Coming=" . $Coming_Type['Y']);
 $sc = 0;
 if ($ans) {
   $r = $ans->fetch_assoc();
   $sc=$r['Total'];
 }
 
-$ans = $db->query("SELECT s.Photo,s.SideId FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.Coming=" . 
+$ans = $db->query("SELECT s.Photo,s.SideId FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$SHOWYEAR AND s.Photo!='' AND y.Coming=" . 
 		$Coming_Type['Y'] . " ORDER BY RAND() LIMIT 1");
 if ($ans) {
   $p = $ans->fetch_assoc();
@@ -64,10 +64,10 @@ if ($ans) {
 } else {
   $Photo = "/images/Hobos-Morris-2016.jpg";
 }
-  $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.Coming=" . 
+  $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$SHOWYEAR AND s.Photo!='' AND y.Coming=" . 
 			$Coming_Type['Y'] . " AND s.Importance!=0 ORDER BY RAND() LIMIT 2");
   if (!$ans) {
-    $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.Coming=" . 
+    $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$SHOWYEAR AND s.Photo!='' AND y.Coming=" . 
 			$Coming_Type['Y'] . " ORDER BY RAND() LIMIT 2");
   }
   if ($ans) {
@@ -178,14 +178,14 @@ The final was on 24th February (Status, Bowen & Pounds and The Darwins).<p>
 
 <?php
 
-  $ans = $db->query("SELECT count(*) AS Total FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$THISYEAR AND y.YearState>0 ");
+  $ans = $db->query("SELECT count(*) AS Total FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$SHOWYEAR AND y.YearState>0 ");
   $sc = 0;
   if ($ans) {
     $r = $ans->fetch_assoc();
     $sc=$r['Total'];
   }
 
-  $ans = $db->query("SELECT s.Photo,s.SideId FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.YearState>0 " . 
+  $ans = $db->query("SELECT s.Photo,s.SideId FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$SHOWYEAR AND s.Photo!='' AND y.YearState>0 " . 
 			" ORDER BY RAND() LIMIT 1");
   if ($ans) {
     $p = $ans->fetch_assoc();
@@ -194,10 +194,10 @@ The final was on 24th February (Status, Bowen & Pounds and The Darwins).<p>
     $Photo = "/images/Hobos-Morris-2016.jpg";
   }
 
-  $ans = $db->query("SELECT s.* FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.YearState>0 " . 
+  $ans = $db->query("SELECT s.* FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$SHOWYEAR AND s.Photo!='' AND y.YearState>0 " . 
 			" AND s.Importance!=0 ORDER BY RAND() LIMIT 2");
   if (!$ans) {
-    $ans = $db->query("SELECT s.* FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$THISYEAR AND s.Photo!='' AND y.YearState>0 " . 
+    $ans = $db->query("SELECT s.* FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$SHOWYEAR AND s.Photo!='' AND y.YearState>0 " . 
 			" ORDER BY RAND() LIMIT 2");
   }
   if ($ans) {

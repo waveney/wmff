@@ -301,7 +301,8 @@ function SearchForm() {
   echo "Search " . fm_checkbox("Titles",$_POST,'Titles');
   echo fm_checkbox("Content",$_POST,'Cont');
   echo fm_simpletext("for",$_POST,'Target');
-  echo " by " . fm_select(Get_AllUsers(),$_POST,'Who',1);
+  $AllU = Get_AllUsers();
+  echo " by " . fm_select($AllU,$_POST,'Who',1);
   echo fm_simpletext("From",$_POST,'From','size=10');
   echo fm_simpletext("Until",$_POST,'Until','size=10');
   echo "<input type=submit name=Search value=Search>";

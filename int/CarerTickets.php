@@ -25,7 +25,7 @@
   }
 
   include_once("TradeLib.php");
-  global $USER,$THISYEAR;
+  global $USER,$PLANYEAR;
   echo "<div class='content'><h2>Manage Carer Tickets</h2>\n";
   
   echo "To request a carer ticket, fill in the blank row at the bottom.<p>";
@@ -53,7 +53,7 @@
   echo "<tr><td><td><input type=text name=SName0 >";
   echo "<td><input type=text name=Carer0>";
   echo "<td><input type=text name=Notes0 size=60>";
-  echo fm_hidden('Year0',$THISYEAR);
+  echo fm_hidden('Year0',$PLANYEAR);
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";

@@ -7,7 +7,7 @@
   include_once("TradeLib.php");
   include_once("DateTime.php"); 
 
-  global $db,$YEAR,$THISYEAR,$Trade_State,$USER;
+  global $db,$YEAR,$PLANYEAR,$Trade_State,$USER;
 
   $Messages = Get_Email_Proformas();
 
@@ -38,7 +38,7 @@
     echo "</h2>\n";
 
     $Sender = $USER['SName'];
-    $Mess = preg_replace('/\$THISYEAR/',$THISYEAR,$Mess);
+    $Mess = preg_replace('/\$PLANYEAR/',$PLANYEAR,$Mess);
 
     $_POST['Mess'] = preg_replace('/\*SENDER\*/',$Sender,$Mess);
 
@@ -132,7 +132,7 @@
               echo "Would send to " . $Trad['SName'] . "<p> $ThisMess <p>";
           } else {
 // exit; // Testing backstopdd
-            SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $THISYEAR and " . $Trad['SName'],$ThisMess);
+            SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SName'],$ThisMess);
             echo "Sent to " . $Trad['SName'] . "<br>";
           }
         }

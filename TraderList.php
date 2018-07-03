@@ -1,9 +1,9 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Traders in $THISYEAR");
+  dohead("Traders in $SHOWYEAR");
   include_once("int/TradeLib.php");
-  global $db,$THISYEAR,$Trade_States,$Trade_State,$YEAR,$Trade_Days;
+  global $db,$SHOWYEAR,$Trade_States,$Trade_State,$YEAR,$Trade_Days;
 
   echo "These traders will be at the Folk Festival (many more to confirm).<p>";
 

@@ -4,7 +4,7 @@
 
   dostaffhead("Add/Change Music Act","/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js");
 
-  global $YEAR,$THISYEAR,$Mess,$Book_State,$Action;
+  global $YEAR,$PLANYEAR,$Mess,$Book_State,$Action;
   echo '<h2>Add/Edit Music Act</h2>';
 
 //var_dump($_POST);
@@ -57,13 +57,13 @@
       Clean_Email($_POST{'AltEmail'});
 
       Update_db_post('Sides',$Side);
-      if ($_POST{'Year'} >= $THISYEAR) {
+      if ($_POST{'Year'} >= $PLANYEAR) {
         if (isset($Sidey) && $Sidey){
           $Sve_Sidey = $Sidey;
           Update_db_post('ActYear',$Sidey);
           if (ActYear_Check4_Change($Sve_Sidey,$Sidey)) $Sidey = Get_Actyear($snum);
         } else {
-          $Sidey['Year'] = $THISYEAR;
+          $Sidey['Year'] = $PLANYEAR;
           $ActId = Insert_db_post('ActYear',$Sidey);
           $Sidey['ActId'] = $ActId;
         };

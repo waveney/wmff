@@ -3,7 +3,7 @@
   A_Check('Steward');
 
   dostaffhead("List Traders", "/js/clipboard.min.js", "/js/emailclick.js");
-  global $YEAR,$THISYEAR,$Trade_States,$Trader_Status;
+  global $YEAR,$PLANYEAR,$Trade_States,$Trader_Status;
   include_once("files/navigation.php");
   include_once("TradeLib.php");
   echo "<h2>List Traders $YEAR</h2>\n";

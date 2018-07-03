@@ -89,7 +89,7 @@ function Put_Trade_Loc(&$now) {
 }
 
 function Get_Trade_Types($tup=0) { // 0 just base names, 1 all data
-  global $db,$THISYEAR;
+  global $db,$PLANYEAR;
   $full = array();
   if ($tup) {
     $res = $db->query("SELECT * FROM TradePrices ORDER BY ListOrder");
@@ -118,13 +118,13 @@ function Put_Trade_Type(&$now) {
 }
 
 function Get_Sponsors($tup=0) { // 0 Current, 1 all data
-  global $db,$THISYEAR;
+  global $db,$PLANYEAR;
   $full = array();
-  $yr = ($tup ?"" :" WHERE Year=$THISYEAR ");
+  $yr = ($tup ?"" :" WHERE Year=$PLANYEAR ");
   $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY SName ");
   if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   if ($tup==0 && empty($full)) {
-    $yr = " WHERE Year=" . ($THISYEAR-1);
+    $yr = " WHERE Year=" . ($PLANYEAR-1);
     $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY SName ");
     if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   }
@@ -151,13 +151,13 @@ function Put_Sponsor(&$now) {
 }
 
 function Get_WaterRefills($tup=0) { // 0 Current, 1 all data
-  global $db,$THISYEAR;
+  global $db,$PLANYEAR;
   $full = array();
-  $yr = ($tup ?"" :" WHERE Year=$THISYEAR ");
+  $yr = ($tup ?"" :" WHERE Year=$PLANYEAR ");
   $res = $db->query("SELECT * FROM Water $yr ORDER BY SName ");
   if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   if ($tup==0 && empty($full)) {
-    $yr = " WHERE Year=" . ($THISYEAR-1);
+    $yr = " WHERE Year=" . ($PLANYEAR-1);
     $res = $db->query("SELECT * FROM Water $yr ORDER BY SName ");
     if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   }
@@ -175,58 +175,6 @@ function Put_WaterRefill(&$now) {
   $e=$now['id'];
   $Cur = Get_WaterRefill($e);
   return Update_db('Water',$Cur,$now);
-}
-
-// Works for simple tables
-// Deletes = 0 none, 1=one, 2=many
-function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$Mstr='SName') {
-  global $TableIndexes;
-  include_once("DateTime.php");
-  $Flds = table_fields($table);
-  $DateFlds = explode(',',$Dateflds);
-  $TimeFlds = explode(',',$Timeflds);
-  $indxname = (isset($TableIndexes[$table])?$TableIndexes[$table]:'id');
-  if (isset($_POST{'Update'})) {
-    if ($data) foreach($data as $t) {
-      $i = $t[$indxname];
-      if (isset($_POST["$Mstr$i"]) && $_POST["$Mstr$i"] == '') {
-        if ($Deletes) {
-            db_delete($table,$t[$indxname]);
-          if ($Deletes == 1) return 1;
-        }
-        continue;
-      } else {
-        foreach ($Flds as $fld=>$ftyp) {
-          if ($fld == $indxname) continue;
-          if (in_array($fld,$DateFlds)) {
-            $t[$fld] = Date_BestGuess($_POST["$fld$i"]);
-          } else if (in_array($fld,$TimeFlds)) {
-            $t[$fld] = Time_BestGuess($_POST["$fld$i"]);
-          } else if (isset($_POST["$fld$i"])) {
-            $t[$fld] = $_POST["$fld$i"];
-          }
-        }
-        $Putfn($t);
-      }
-    }
-    if ($_POST[$Mstr . "0"] != '') {
-      $t = array();
-      foreach ($Flds as $fld=>$ftyp) {
-        if ($fld == $indxname) continue;
-        if (isset($_POST[$fld . "0"])) {
-          if (in_array($fld,$DateFlds)) {
-            $t[$fld] = Date_BestGuess($_POST[$fld . "0"]);
-          } else if (in_array($fld,$TimeFlds)) {
-            $t[$fld] = Time_BestGuess($_POST[$fld . "0"]);
-          } else {
-            $t[$fld] = $_POST[$fld . "0"];
-          }
-        }
-      }
-      Insert_db($table,$t);
-    }
-    return 1;
-  } 
 }
 
 function Get_Trader($who) {
@@ -419,10 +367,10 @@ function Trade_TandC() {
 }
 
 function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
-  global $YEAR,$THISYEAR,$MASTER,$Trade_States,$Mess,$Action,$ADDALL,$Trade_StateClasses,$InsuranceStates,$Trade_State,$Trade_Days;
+  global $YEAR,$PLANYEAR,$MASTER,$Trade_States,$Mess,$Action,$ADDALL,$Trade_StateClasses,$InsuranceStates,$Trade_State,$Trade_Days;
   if ($year==0) $year=$YEAR;
   $CurYear = date("Y");
-  if ($year < $THISYEAR) { // Then it is historical - no changes allowed
+  if ($year < $PLANYEAR) { // Then it is historical - no changes allowed
     fm_addall('disabled readonly');
   }
 
@@ -431,12 +379,12 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
     if ($Mode && Get_Trade_Year($Tid,$CurYear)) 
       echo "<div class=floatright><h2><a href=$Self?id=$Tid&Y=$CurYear>$CurYear</a></h2></div>";  
     echo "<h2>Trading in $year</h2>";
-  } else if ($year == $THISYEAR) {
+  } else if ($year == $PLANYEAR) {
     if ($Mode && Get_Trade_Year($Tid,$CurYear-1)) 
       echo "<div class=floatright><h2><a href=$Self?id=$Tid&Y=" . ($CurYear-1) . ">" . ($CurYear-1) . "</a></h2></div>";  
     echo "<h2>Trading in $year</h2>";
   } else {
-    if ($Mode) echo "<div class=floatright><h2><a href=$Self?id=$Tid>$THISYEAR</a></h2></div>"; 
+    if ($Mode) echo "<div class=floatright><h2><a href=$Self?id=$Tid>$PLANYEAR</a></h2></div>"; 
     echo "<h2>Details for $year</h2>";
   }
   echo fm_hidden('Year',$year);
@@ -584,7 +532,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
 }
 
 function Email_Body(&$Trad,&$Trady,$messcat='Link',$simple=0) {
-  global $THISYEAR,$USER,$MASTER;
+  global $PLANYEAR,$USER,$MASTER;
 
   $Prof = Get_Email_Proforma($messcat);
   $Mess = ($Prof? $Prof['Body'] : "Unknown message $messcat");
@@ -608,7 +556,7 @@ function Email_Body(&$Trad,&$Trady,$messcat='Link',$simple=0) {
     if ($Trady['PitchLoc2']) { $Location .= " and " . $Locs[$Trady['PitchLoc2']]['SName']; }
 
     $Details = Get_Trade_Details($Trad,$Trady);
-    $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $THISYEAR";
+    $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
   
     $Price = $Trady['Fee'];
     if ($Price < 0) { $Price = "Free"; }
@@ -630,7 +578,7 @@ function Email_Body(&$Trad,&$Trady,$messcat='Link',$simple=0) {
     $Mess = preg_replace('/\*DEPOSIT\*/',$Dep,$Mess);
     $Mess = preg_replace('/\*BALANCE\*/',($Trady['Fee'] - $Dep),$Mess);
     $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
-    $Mess = preg_replace('/\*THISYEAR\*/',$THISYEAR,$Mess);
+    $Mess = preg_replace('/\*PLANYEAR\*/',$PLANYEAR,$Mess);
     $Mess = preg_replace('/\*DATES\*/',$Dates,$Mess);
   }
 
@@ -648,9 +596,9 @@ function Send_Trader_Email(&$Trad,&$Trady,$messcat='Link',$cont='') {
 
   $Mess = Email_Body($Trad,$Trady,$messcat);
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Wimborne Minster Folk Festival $THISYEAR and " . $Trad['SName'],$Mess);
+    SendEmail("Richard@wavwebs.com","Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SName'],$Mess);
   } else {
-    SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $THISYEAR and " . $Trad['SName'],$Mess);
+    SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SName'],$Mess);
   }
 
   $logf = fopen("LogFiles/TradeLog.txt","a");
@@ -663,9 +611,9 @@ function Send_Trader_Simple_Email(&$Trad,$messcat='Trade_Link') {
   $Mess = Email_Body($Trad,$Trad,$messcat,1);
   
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Wimborne Minster Folk Festival $THISYEAR and " . $Trad['SName'],$Mess);
+    SendEmail("Richard@wavwebs.com","Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SName'],$Mess);
   } else {
-    SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $THISYEAR and " . $Trad['SName'],$Mess);
+    SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SName'],$Mess);
   }
 }
 
@@ -770,13 +718,13 @@ function Get_Trade_Details(&$Trad,&$Trady) {
 
 //  Mark as submitted, email fest and trader, record data of submission
 function Submit_Application(&$Trad,&$Trady,$Mode=0) {  
-  global $Trade_State,$THISYEAR,$USER,$Trade_Days;
+  global $Trade_State,$PLANYEAR,$USER,$Trade_Days;
   $Trady['Date'] = time();
   $Trady['History'] .= "Action: Submit on " . date('j M Y H:i') . " by " . ($Mode?$USER['Login']:'Trader') . ".\n";
   if ($Trady['TYid']) {
     Put_Trade_Year($Trady);
   } else { // Its new...
-    $Trady['Year'] = $THISYEAR;
+    $Trady['Year'] = $PLANYEAR;
     $TYid = Insert_db_post('TradeYear',$Trady);
   }
 
@@ -848,7 +796,7 @@ function T_Deposit(&$Trad) {
 }
 
 function Validate_Pitches(&$CurDat) {
-  global $db,$THISYEAR,$TradeLocsData;
+  global $db,$PLANYEAR,$TradeLocsData;
   for ($pn=0; $pn<3; $pn++) {
     if ($_POST["PitchLoc$pn"] != $CurDat["PitchLoc$pn"] || $_POST["PitchNum$pn"] != $CurDat["PitchNum$pn"]) {
       if ($_POST["PitchLoc$pn"]) {
@@ -862,7 +810,7 @@ function Validate_Pitches(&$CurDat) {
           } else {
             $DayTest = " AND ( Days!=1 ) ";
           }
-          $qry = "SELECT * FROM TradeYear WHERE Year=$THISYEAR AND (( PitchLoc0=$pl AND PitchNum0=$ln ) || (PitchLoc1=$pl AND PitchNum1=$ln) " .
+          $qry = "SELECT * FROM TradeYear WHERE Year=$PLANYEAR AND (( PitchLoc0=$pl AND PitchNum0=$ln ) || (PitchLoc1=$pl AND PitchNum1=$ln) " .
                  " || (PitchLoc2=$pl AND PitchNum2=$ln)) $Daytest";
           $res = $db->query($qry);
           if ($res->num_rows != 0) {
@@ -881,7 +829,7 @@ function Validate_Pitches(&$CurDat) {
 function Trade_Main($Mode,$Program,$iddd=0) {
 // Mode 0 = Traders, 1 = ctte, Program = Trade/Trader$iddd if set starts it up, with that Tid
 
-  global $YEAR,$THISYEAR,$Mess,$Action,$Trade_State,$Trade_States,$USER,$TS_Actions,$ButExtra,$ButTrader;
+  global $YEAR,$PLANYEAR,$Mess,$Action,$Trade_State,$Trade_States,$USER,$TS_Actions,$ButExtra,$ButTrader;
   global $TradeTypeData,$TradeLocData;
   include_once("DateTime.php"); 
   echo '<div class="content"><h2>Add/Edit Trade Stall Booking</h2>';
@@ -937,7 +885,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
       $Trad = Get_Trader($Tid);
       if ($Trad) {
         $Tradyrs = Get_Trade_Years($Tid);
-        if (isset($Tradyrs[$THISYEAR])) $Trady = $Tradyrs[$THISYEAR];
+        if (isset($Tradyrs[$PLANYEAR])) $Trady = $Tradyrs[$PLANYEAR];
       } else {
         echo "<h2 class=ERR>Could not find Trader $Tid</h2>\n";
       }
@@ -945,7 +893,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
       if (isset($_POST{'NewAccessKey'})) $_POST{'AccessKey'} = rand_string(40);
 
       Update_db_post('Trade',$Trad);
-      if ($_POST{'Year'} == $THISYEAR) {
+      if ($_POST{'Year'} == $PLANYEAR) {
         if ($Trady) {
           $OldFee = $Trady['Fee'];
           if ($Mode) {
@@ -976,7 +924,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
                 $_POST['Power0'] || $_POST['Power1'] || $_POST['Power2'] || $_POST['YNotes'] || $_POST{'BookingState'} || isset($_POST['Submit']) ||
                 $_POST['Days'] || $_POST['Fee'] || $_POST['PitchLoc0'] || $_POST['PitchLoc1'] || $_POST['PitchLoc2']) {
             if (isset($_POST['Fee']) && ($_POST['Fee'] < 0) && ($_POST['BookingState'] >= $Trade_State['Accepted'])) $_POST['BookingState'] = $Trade_State['Fully Paid'];
-             $_POST['Year'] = $THISYEAR;
+             $_POST['Year'] = $PLANYEAR;
             $TYid = Insert_db_post('TradeYear',$Trady);
             $Trady['TYid'] = $TYid;
           };
@@ -1076,9 +1024,9 @@ function Trade_Main($Mode,$Program,$iddd=0) {
 // Send confirmation email and deposit invoice
 function Trade_Confirm(&$Trad,&$Trady) {
   return;
-  global $THISYEAR;
+  global $PLANYEAR;
   $Dep = T_Deposit($Trad);
-  $letter = "This is to confirm your booking for Trading at the $THISYEAR Wimborne Minster Folk Festival.<p>";
+  $letter = "This is to confirm your booking for Trading at the $PLANYEAR Wimborne Minster Folk Festival.<p>";
   if ($Dep) {
     $letter .= "Please now pay the deposit of &pound;$Dep quoting reference " . (1000000 +$Trady['TYid']) . "<br>" .
         "Account Name: Wimborne Minster Folk Festival Ltd<br>" .

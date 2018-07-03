@@ -70,7 +70,7 @@
     if ($a = preg_replace('/,$/',"",$adr)) $adr = $a;
     if ($a = preg_replace('/, $/',"",$adr)) $adr = $a;
 
-    $tl = array_merge(array(SName($side),$side['Contact']),split(',',$adr),array($side['PostCode']));
+    $tl = array_merge(array(SName($side),$side['Contact']),explode(',',$adr),array($side['PostCode']));
     $ind = "";
     $l = 0;
     foreach ($tl as $tls) {

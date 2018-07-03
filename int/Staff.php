@@ -10,7 +10,7 @@
 
   dostaffhead("Staff Pages", "/js/jquery.typeahead.min.js", "/css/jquery.typeahead.min.css", "/js/Staff.js");
 
-  global $YEAR,$THISYEAR;
+  global $YEAR,$PLANYEAR;
 
   include_once("ProgLib.php");
 
@@ -18,6 +18,8 @@
   $Days = array('All','Sat','Sun','&lt;Sat','Sat&amp;Sun');
 
   if (isset($ErrorMessage)) echo "<h2 class=ERR>$ErrorMessage</h2>";
+
+//echo php_ini_loaded_file() . "<P>";
 
   echo "<div class=floatright><h2>";
   if (isset($Years[$YEAR-1])) echo "<a href=Staff.php?Y=" . ($YEAR-1) .">" . ($YEAR-1) . "</a> &nbsp; ";
@@ -64,7 +66,7 @@
       echo "<li><a href=AddMusic.php?Y=$YEAR>Add Music Act to Database</a>\n"; 
       echo "<li>Find Act"; // <a href=AddDance.php>Add Dance Side</a>"; 
 /*
-//      if ($YEAR == $THISYEAR) echo "<li><a href=MusicProg.php?>Edit Music Programming</a>";
+//      if ($YEAR == $PLANYEAR) echo "<li><a href=MusicProg.php?>Edit Music Programming</a>";
 */
       echo "<li>Edit Music Programming";
       if (Access('SysAdmin')) {
@@ -118,7 +120,7 @@
 
     echo "<li><a href=DanceFAQ.php>Dance FAQ</a>\n";
     if (Access('Staff','Dance')) {
-      if ($YEAR == $THISYEAR) {
+      if ($YEAR == $PLANYEAR) {
         /* echo "<li><a href=DanceProg.php?Y=$YEAR>Edit Dance Programme</a>"; */
         echo "<li><a href=NewDanceProg.php?Y=$YEAR>Edit Dance Programme</a>";
       } else {
@@ -139,7 +141,7 @@
       echo "<td>";
       echo "<li class=smalltext><a href=PrintLabels.php?Y=$YEAR>Print Address Labels</a>";
       echo "<li class=smalltext><a href=CarPark.php?Y=$YEAR>Car Park Tickets</a>";
-      if ($YEAR == $THISYEAR) echo "<li class=smalltext><a href=WristbandsSent.php>Mark Wristbands Sent</a>";
+      if ($YEAR == $PLANYEAR) echo "<li class=smalltext><a href=WristbandsSent.php>Mark Wristbands Sent</a>";
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR>Public Dance Programme</a>";
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=0&Pub=1&Head=0&Day=Sat&Y=$YEAR>Dance Programme - Sat - no headers</a>";
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=0&Pub=1&Head=0&Day=Sun&Y=$YEAR>Dance Programme - Sun - no headers</a>";
@@ -195,7 +197,7 @@
                 fm_select($Vens,0,'v',0," onchange=this.form.submit()") . 
                 fm_radio('',$Days,$_POST,'DAYS','',0) . fm_checkbox('Pics',$_POST,'Pics') .
                 "</form>\n";
-    if (Access('Staff') && $YEAR==$THISYEAR) echo "<li><a href=EventAdd.php>Create Event(s)</a>";
+    if (Access('Staff') && $YEAR==$PLANYEAR) echo "<li><a href=EventAdd.php>Create Event(s)</a>";
     if (Access('SysAdmin')) echo "<li><a href=TicketEvents.php?Y=$YEAR>List Ticketed Events</a>\n";
     if (Access('Committee','Venues')) echo "<li><a href=MapPoints.php>Additional Map Points</a>\n";
     if (Access('SysAdmin')) echo "<li><a href=MapPTypes.php>Map Point Types</a>\n";
@@ -250,8 +252,10 @@
       echo "<li><a href=AddBug.php>New Bug/Feature request</a>\n";
       echo "<li><a href=ListBugs.php>List Bugs/Feature requests</a>\n";
     }
-    if (Access('SysAdmin')) echo "<li><a href=General.php>General Settings</a> \n";
-//    if (Access('Committee','OldAdmin')) echo "<li><a href=/admin/index.php>Original Admin (James's)</a> \n";
+    if (Access('SysAdmin')) {
+      echo "<li><a href=General.php>General Year Settings</a> \n";
+      echo "<li><a href=MasterData.php>Master Data Settings</a> \n";
+    }
     echo "</ul>\n";
 
   echo "</table>\n";

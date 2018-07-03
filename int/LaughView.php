@@ -3,7 +3,7 @@
   A_Check('Staff');
 
   dostaffhead("List Laugh Out Loud Applications");
-  global $db,$THISYEAR;
+  global $db,$PLANYEAR;
   include_once("SignupLib.php");
 
   $coln = 0;  
@@ -26,7 +26,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>May 1</a>\n";
   echo "</thead><tbody>";
 
-  $res=$db->query("SELECT * FROM SignUp WHERE Year=$THISYEAR AND State<2 AND Activity=5 ORDER BY SName");
+  $res=$db->query("SELECT * FROM SignUp WHERE Year=$PLANYEAR AND State<2 AND Activity=5 ORDER BY SName");
   
   if ($res) {
     while ($lol = $res->fetch_assoc()) {

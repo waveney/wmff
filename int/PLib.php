@@ -1,10 +1,8 @@
 <?php
 // Participant Display Lib - Generalises Show_Side etc
 
-$CurYear = date('Y');
-
 function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
-  global $MASTER,$Side_Statuses,$Importance,$Surfaces,$Noise_Levels,$Share_Spots,$Mess,$Action,$ADDALL,$CurYear,$THISYEAR,$YEAR,$OlapTypes,$OlapCats,$OlapDays;
+  global $MASTER,$Side_Statuses,$Importance,$Surfaces,$Noise_Levels,$Share_Spots,$Mess,$Action,$ADDALL,$CALYEAR,$PLANYEAR,$YEAR,$OlapTypes,$OlapCats,$OlapDays;
   if ($CatT == '') {
     $CatT = ($Side['IsASide'] ? 'Side' : $Side['IsAnAct'] ? 'Act' : 'Other');
   } else {
@@ -16,7 +14,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
     }
   }
 
-  $Mstate = ($THISYEAR == $CurYear && $THISYEAR == $YEAR);
+  $Mstate = ($PLANYEAR >= $CALYEAR && $PLANYEAR == $YEAR);
 
   Set_Side_Help();
   $snum=$Side['SideId'];
@@ -270,8 +268,8 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
 //******************************************************* SIDE YEAR ***********************************************
 // This needs modification for non dance
 function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
-  global $YEAR,$THISYEAR,$MASTER,$Invite_States,$Coming_States,$Mess,$Action,$ADDALL,$Invite_Type;
-  global $InsuranceStates,$CurYear,$Book_State,$Book_States,$ContractMethods;
+  global $YEAR,$CALYEAR,$PLANYEAR,$MASTER,$Invite_States,$Coming_States,$Mess,$Action,$ADDALL,$Invite_Type;
+  global $InsuranceStates,$Book_State,$Book_States,$ContractMethods;
   if ($year==0) $year=$YEAR;
   if ($CatT == '') {
     $CatT = ($Side['IsASide'] ? 'Side' : $Side['IsAnAct'] ? 'Act' : 'Other');
@@ -285,12 +283,12 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
   Set_Side_Year_Help();
   if ($CatT != 'Side') Add_Act_Year_Help();
 
-  $Mstate = ( $THISYEAR == $CurYear && $THISYEAR == $YEAR) ;
+  $Mstate = ($PLANYEAR >= $CALYEAR && $PLANYEAR == $YEAR);
 
   $Adv = '';
   $Imp = '';
   if ($Mode) {
-    if ($year < $THISYEAR) { // Then it is historical - no changes allowed
+    if ($year < $PLANYEAR) { // Then it is historical - no changes allowed
       fm_addall('disabled readonly');
     }
   } else {
@@ -300,7 +298,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
 
   $Request = 0;
   if ($Mode == 0 && (!isset($Sidey['Coming']) || $Sidey['Coming'] == 0) && (!isset($Sidey['Invite']) || $Sidey['Invite'] >= $Invite_Type['No'])) {
-    if ($YEAR >= $THISYEAR) echo "<h2><a href=DanceRequest.php?sidenum=$snum&Y=$YEAR>Request Invite for $YEAR</a></h2>";
+    if ($YEAR >= $PLANYEAR) echo "<h2><a href=DanceRequest.php?sidenum=$snum&Y=$YEAR>Request Invite for $YEAR</a></h2>";
     $Request = 1;
   } 
     
@@ -309,8 +307,8 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
   echo "<div class=floatright><h2>";
   $OList = [];
   if (isknown($snum,$year-1)) $OList[] = $year-1;
-  if (Get_General($year+1) && (isknown($snum,$year+1) || (($year+1) >= $THISYEAR))) $OList[] = $year+1;
-  if ($year != $THISYEAR) $OList[] = $THISYEAR;
+  if (Get_General($year+1) && (isknown($snum,$year+1) || (($year+1) >= $PLANYEAR))) $OList[] = $year+1;
+  if ($year != $PLANYEAR) $OList[] = $PLANYEAR;
     
   sort($OList);
   if (count($OList)) {
@@ -539,7 +537,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
 
 //******************************************************* Music YEAR ***********************************************
 function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
-  global $YEAR,$THISYEAR,$MASTER,$Invite_States,$Coming_States,$Mess,$Action,$ADDALL,$Invite_Type;
+  global $YEAR,$CALYEAR,$PLANYEAR,$MASTER,$Invite_States,$Coming_States,$Mess,$Action,$ADDALL,$Invite_Type;
   global $DayList,$Book_States,$Book_State,$ContractMethods,$CurYear;
   include_once('ProgLib.php');
 
@@ -557,18 +555,18 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
   Set_Side_Year_Help();
   if ($CatT != 'Side') Add_Act_Year_Help();
 
-  $Mstate = ($THISYEAR == $CurYear && $THISYEAR == $YEAR);
+  $Mstate = ($PLANYEAR >= $CALYEAR && $PLANYEAR == $YEAR);
 
   $Adv = '';
   $Imp = '';
-  if ($year < $THISYEAR) { // Then it is historical - no changes allowed
+  if ($year < $PLANYEAR) { // Then it is historical - no changes allowed
       fm_addall('disabled readonly');
   } else if ($Mode == 0) {
     $Adv = 'class=Adv';
   }
 
   if ($Mode == 0 && (!isset($Sidey['YearState']) || $Sidey['YearState'] == 0)) {
-    if ($YEAR >= $THISYEAR) echo "<h2><a href=MusicRequest.php?sidenum=$snum&Y=$YEAR>Request Invite for $THISYEAR</a></h2>";
+    if ($YEAR >= $PLANYEAR) echo "<h2><a href=MusicRequest.php?sidenum=$snum&Y=$YEAR>Request Invite for $PLANYEAR</a></h2>";
   } else {
     
 //var_dump($Sidey);var_dump($Invite_Type);
@@ -577,12 +575,12 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
       if ($Mode && isknown($snum,$CurYear)) 
         echo "<div class=floatright><h2><a href=$Self?sidenum=$snum&Y=$CurYear>$CurYear</a></h2></div>";  
       echo "<h2>Details in $year</h2>";
-    } else if ($year == $THISYEAR) {
+    } else if ($year == $PLANYEAR) {
       if ($Mode && isknown($snum,$CurYear-1)) 
         echo "<div class=floatright><h2><a href=$Self?sidenum=$snum&Y=" . ($CurYear-1) . ">" . ($CurYear-1) . "</a></h2></div>";  
       echo "<h2>Details in $year</h2>";
     } else {
-      if ($Mode) echo "<div class=floatright><h2><a href=$Self?sidenum=$snum>$THISYEAR</a></h2></div>"; 
+      if ($Mode) echo "<div class=floatright><h2><a href=$Self?sidenum=$snum>$PLANYEAR</a></h2></div>"; 
       echo "<h2>Details in $year</h2>";
     }
   
@@ -806,7 +804,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
 
           if ($Mess && $Action == 'Insurance') echo "<td colspan=2>$Mess\n"; 
         } else {
-            echo "<td>Insurance:<td colspan=3>You will be able to upload your Insurance here in $THISYEAR\n";
+            echo "<td>Insurance:<td colspan=3>You will be able to upload your Insurance here in $PLANYEAR\n";
         }
 
     // Overlaps...  With, Type, Days

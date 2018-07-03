@@ -9,7 +9,7 @@
 //        Find LC Month String - Look for short form only?
 //        returns 0 or best guess date
 function Date_BestGuess($txt) {
-  global $THISYEAR;
+  global $PLANYEAR;
   $Months = array('jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec');
   $daysOfM = array(31,28,31,30,31,30,31,31,30,31,30,31);
   $yr = $day = $mnth = 0;
@@ -35,8 +35,8 @@ function Date_BestGuess($txt) {
     if (strlen($yr)<4) $yr+=2000;
     return mktime(0,0,0,$mnth,$day,$yr);
   }
-  if ($mnth <= 6) return mktime(0,0,0,$mnth,$day,$THISYEAR);
-  return mktime(0,0,0,$mnth,$day,$THISYEAR-1);
+  if ($mnth <= 6) return mktime(0,0,0,$mnth,$day,$PLANYEAR);
+  return mktime(0,0,0,$mnth,$day,$PLANYEAR-1);
 }
 
 //        12:27, 1227, 12, 2, 2PM, Midday, 5 to 3, 2pm, 11am, 10 mins (just 10), 2 hours, 2 hrs, 1 hour 20 mins

@@ -14,7 +14,7 @@
   echo "Standard replaces:<p>";
   echo "<table border>\n";
   echo "<tr><td>*WHO*<td>First name of contact\n";
-  echo "<tr><td>*THISYEAR<td>Year for the booking\n";
+  echo "<tr><td>*PLANYEAR<td>Year for the booking\n";
   echo "<tr><td>*DATES*<td>Dates of Saturday and Sunday\n";
   echo "<tr><td>*LOCATION*<td>Location(s) of Pitches\n";
   echo "<tr><Td>*PRICE*<td>Total Price quoted\n";

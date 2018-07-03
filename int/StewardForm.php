@@ -1,10 +1,10 @@
 <?php
   include_once("fest.php");
 
-  dostaffhead("iSteward / Volunteer Application", "/js/Participants.js");
+  dostaffhead("Steward / Volunteer Application", "/js/Participants.js");
 
   include_once("SignupLib.php");
-  global $USER,$USERID,$db,$THISYEAR,$StewClasses,$Relations,$Days;
+  global $USER,$USERID,$db,$PLANYEAR,$StewClasses,$Relations,$Days;
 
   if (isset($_POST['submit'])) {
     if (strlen($_POST['SName']) < 2) { echo "<p class=Err>Please give your name\n"; $err=1; };
@@ -28,7 +28,7 @@
     if (!$err) {
 //      echo "<P>VALID...<P>";
       $_POST['AccessKey'] = rand_string(40);
-      $_POST['Year'] = $THISYEAR;
+      $_POST['Year'] = $PLANYEAR;
       $id = Insert_db_post('Stewards',$stew);
     
       Email_Steward($stew,'Stew_Application',$stew['Email']);
@@ -63,7 +63,7 @@
   $D = -2;
   foreach ($Days as $d=>$ld) {
     if ($D >=0 && $D<3) {
-      echo "<tr>" . fm_text($ld . " " . ($MASTER['DateFri']+$D++) . "th June $THISYEAR",$_POST,"Avail$d",4);
+      echo "<tr>" . fm_text($ld . " " . ($MASTER['DateFri']+$D++) . "th June $PLANYEAR",$_POST,"Avail$d",4);
     } else { $D++; };
   }
 
@@ -78,7 +78,7 @@
   echo "</form>\n";
 
   echo "<h3>Terms and Conditions</h3>\n";
-  echo "<ul><li>I am, or will be over 18 years of age on Thursday " . ($MASTER['DateFri'] -1) . "th June $THISYEAR.\n";
+  echo "<ul><li>I am, or will be over 18 years of age on Thursday " . ($MASTER['DateFri'] -1) . "th June $PLANYEAR.\n";
   echo "<li>You will be responsible for the health and safety of the general public, yourself and others around you " .
         "and must co-operate with festival organisers and supervisors at all times.\n";
   echo "<li>All volunteers must ensure that they are never, under any circumstances, alone with any person under the age of 18.\n";
