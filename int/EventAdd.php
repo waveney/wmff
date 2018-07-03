@@ -337,7 +337,7 @@ A similar feature will appear eventually for music.<p>
       echo          fm_text1('Special Price Text',$Event,'SpecPrice',1,'class=NotSide','class=NotSide') .
                     fm_text1('Special Price Link',$Event,'SpecPriceLink',1,'class=NotSide','class=NotSide') ;
       echo "<td class=NotSide>" . fm_checkbox('Cancelled',$Event,'Status');
-      if (!$Event['BigEvent']) {
+      if (!((isset($Event['BigEvent']) && $Event['BigEvent']))) {
 //        if ($et == 'Dance' || $et == 'Workshop' || $et == 'Mixed' || $et == 'Other') {
           echo "<tr><td rowspan=2>Sides:" . Help('Sides');
           for ($i=1; $i<5; $i++) {
@@ -376,7 +376,7 @@ A similar feature will appear eventually for music.<p>
       }
         
     echo "</table>\n";
-    if ($Event['BigEvent']) {
+    if (isset($Event['BigEvent']) && $Event['BigEvent']) {
       echo "Use the <a href=BigEventProg.php?e=$eid>Big Event Programming Tool</a> to add sides, musicians and others to this event. ";
       echo "Use the <a href=DisplayBE.php?e=$eid>Big Event Display</a> to get a simple display of the event.";
     }
