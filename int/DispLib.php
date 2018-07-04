@@ -69,8 +69,8 @@ function Gallery($id,$embed=0) {
   echo "Click on any slide to start a Slide Show with that slide.<p>\n";
 
   if ($Gal['Credits']) {
-    echo '</div><h2 class="subtitle">Credits</h2>';
-    echo "<p>Photos by: " . $Gal['Credits'] . "<p>";
+    echo '<h2 class="subtitle">Credits</h2>';
+    echo "Photos by: " . $Gal['Credits'] . "<p>";
   }
 
   echo '<div id=galleryflex>';
