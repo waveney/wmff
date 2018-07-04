@@ -79,6 +79,7 @@ function SubmitLinks($Addr) {
 }
 
 function Links_Email($Addr,&$list) {
+  global $MASTER_DATA;
   $Mess = '';
 
   foreach($list as $e) {
@@ -88,32 +89,32 @@ function Links_Email($Addr,&$list) {
     case 'o':
     case 't':
       $Mess .= "You are recorded as the contact person for the " . $e[0] . " <b>" . $e[3] . "</b> you can update, amend and cancel your record " .
-	"<a href=https://wimbornefolk.co.uk/int/Access.php?i=" . $e[2] . "&t=" . $e[1] . "&k=" . $e[4] . ">Here</a><p>";
+        "<a href=https://wimbornefolk.co.uk/int/Access.php?i=" . $e[2] . "&t=" . $e[1] . "&k=" . $e[4] . ">Here</a><p>";
       break;
 
     case 'w':
       $Mess .= "You are recorded as a " . $e[0] . " you can update, amend and cancel your record " .
-	"<a href=https://wimbornefolk.co.uk/int/Access.php?i=" . $e[2] . "&t=" . $e[1] . "&k=" . $e[4] . ">Here</a><p>";
+        "<a href=https://wimbornefolk.co.uk/int/Access.php?i=" . $e[2] . "&t=" . $e[1] . "&k=" . $e[4] . ">Here</a><p>";
       break;
 
     case 'sa':
     case 'aa':
     case 'oa':
       $Mess .= "You are recorded as an alternative contact for the " . $e[0] . " <b>" . $e[3] . "</b> To change this please contact " . $e[5] . 
-		" <a href=mailto: " . $e[6] . ">" . $e[6] . "</a><p>";
+                " <a href=mailto: " . $e[6] . ">" . $e[6] . "</a><p>";
       break;
 
     case 'u':
       $Mess .= "You are recorded as the contact person for the " . $e[0] . " <b>" . $e[3] . "</b> in " . $e[5] . 
-		".  This is historic record with no user edits possible at the moment.<p>";
+                ".  This is historic record with no user edits possible at the moment.<p>";
       break;
     }
   }
 
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","WMFF records of $Addr",$Mess);
+    SendEmail("Richard@wavwebs.com",$MASTER_DATA['ShortName'] . " records of $Addr",$Mess);
   } else {
-    SendEmail($Addr,"WMFF data records of $Addr",$Mess);
+    SendEmail($Addr,$MASTER_DATA['ShortName'] . " data records of $Addr",$Mess);
   }
 
   $logf = fopen("LogFiles/DataCheck.txt","a");

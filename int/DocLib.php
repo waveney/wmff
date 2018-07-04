@@ -217,16 +217,16 @@ function Doc_Access($num) {
 function Doc_create($fname,$d,$size) {
   global $db,$USERID;
   $qry = "INSERT INTO Documents SET Dir=$d, SName='" . addslashes($fname) . "', Who='$USERID', Created=" . time() .
-	 ", filesize=" . $size . ", Access=666";
+         ", filesize=" . $size . ", Access=666";
   $ans = $db->query($qry);
   return $ans;
 }
 
 function Set_Doc_Help() {
   static $t = array(
- 	'Access'=>'Currently has no effect, would allow restricted access for reading in the future if needed',
-	'Actions'=>'Note Delete removes from view and archives the document/directory.  It is possible (but not easy) to retrieve these.',
-	'Search'=>'Looks for files that contain the asked for string in the title and/or the content.  Thus searching for "i" would find all files with an i in them.  You can restrict a search to those by a particular person or date range.'
+         'Access'=>'Currently has no effect, would allow restricted access for reading in the future if needed',
+        'Actions'=>'Note Delete removes from view and archives the document/directory.  It is possible (but not easy) to retrieve these.',
+        'Search'=>'Looks for files that contain the asked for string in the title and/or the content.  Thus searching for "i" would find all files with an i in them.  You can restrict a search to those by a particular person or date range.'
   );
   Set_Help_Table($t);
 }
@@ -264,7 +264,7 @@ function Doc_List($file,$opts=0) {
     echo "<a href=Dir.php?f=$fid&d=$d&FileAction=Rename1>Rename</a> "; 
     echo "<a href=Dir.php?f=$fid&d=$d&FileAction=Move1>Move</a> "; 
     echo "<a href='Dir.php?f=$fid&d=$d&FileAction=Delete' " .
-		  "onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a> "; 
+                  "onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a> "; 
     if (Access('Committee','Docs')) {
       echo "<a href=Dir.php?f=$fid&d=$d&FileAction=Chown1>Chown</a> "; 
     }
@@ -301,7 +301,8 @@ function SearchForm() {
   echo "Search " . fm_checkbox("Titles",$_POST,'Titles');
   echo fm_checkbox("Content",$_POST,'Cont');
   echo fm_simpletext("for",$_POST,'Target');
-  echo " by " . fm_select(Get_AllUsers(),$_POST,'Who',1);
+  $AllU = Get_AllUsers();
+  echo " by " . fm_select($AllU,$_POST,'Who',1);
   echo fm_simpletext("From",$_POST,'From','size=10');
   echo fm_simpletext("Until",$_POST,'Until','size=10');
   echo "<input type=submit name=Search value=Search>";

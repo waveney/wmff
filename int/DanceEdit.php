@@ -1,21 +1,12 @@
-<html>
-<head>
-<title>Wimborne Minister Folk Festival | Side Editing</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-<?php include_once("DanceLib.php"); ?>
-<?php include_once("MusicLib.php"); ?>
-<?php include_once("DateTime.php"); ?>
-<?php include_once("PLib.php"); ?>
-<script src="/js/Participants.js"></script>
-<meta http-equiv="cache-control" content="no-cache">
-</head>
-<body>
-<?php include_once("files/navigation.php"); ?>
-<div class="content">
-
 <?php
-  global $Mess,$Action,$MASTER,$Cat_Type,$YEAR,$THISYEAR,$Dance_TimeFeilds;      
+  include_once("fest.php");
+
+  dostaffhead("Side Editing","/js/Participants.js" );
+  include_once("DanceLib.php");
+  include_once("MusicLib.php");
+  include_once("DateTime.php");
+  include_once("PLib.php");
+  global $Mess,$Action,$MASTER,$Cat_Type,$YEAR,$PLANYEAR,$Dance_TimeFeilds;      
 
 //var_dump($_POST);
   $Action = 0; 
@@ -42,7 +33,7 @@
   if (isset($_POST{'SideId'})) { /* Response to update button */
     $snum = $_POST{'SideId'};
     A_Check('Participant','Side',$snum);
-    if ($snum > 0) { 				// existing Side 
+    if ($snum > 0) {                                 // existing Side 
       $Side = Get_Side($snum);
       if ($Side) {
         $Sideyrs = Get_Sideyears($snum);
@@ -56,26 +47,26 @@
       Parse_TimeInputs($Dance_TimeFeilds);      
 
       if ($_POST{'Photo'} != $Side{'Photo'}) {
-	include_once("ImageLib.php");
-	$Mess = Image_Validate($_POST{'Photo'});
-	if ($Mess) $_POST{'Photo'} = $Side['Photo'];
+        include_once("ImageLib.php");
+        $Mess = Image_Validate($_POST{'Photo'});
+        if ($Mess) $_POST{'Photo'} = $Side['Photo'];
       }
 
       if (isset($_POST{'Contract'})) { 
-	Contract_Save($Side,$Sidey,1); 
+        Contract_Save($Side,$Sidey,1); 
       } elseif (isset($_POST{'Decline'})) { 
-	Contract_Decline($Side,$Sidey,1); 
+        Contract_Decline($Side,$Sidey,1); 
       }
 
       Update_db_post('Sides',$Side);
-      if ($_POST{'Year'} >= $THISYEAR) {
+      if ($_POST{'Year'} >= $PLANYEAR) {
         if (isset($Sidey) && $Sidey){
           Update_db_post('SideYear',$Sidey);
         } else {
-	  $Sidey['Year'] = $THISYEAR;
-	  $syId = Insert_db_post('SideYear',$Sidey);
-	  $Sidey['syID'] = $syId;
-	};
+          $Sidey['Year'] = $PLANYEAR;
+          $syId = Insert_db_post('SideYear',$Sidey);
+          $Sidey['syID'] = $syId;
+        };
       }
       UpdateBand($snum);
       Report_Log('Dance');

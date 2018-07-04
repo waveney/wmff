@@ -3,7 +3,7 @@
   A_Check('Committee','News');
 
   dostaffhead("Manage Front Page Articles");
-  global $Importance,$THISYEAR;
+  global $Importance,$SHOWYEAR;
 
   include_once("TradeLib.php");
   include_once("NewsLib.php");
@@ -23,9 +23,9 @@
         $stuff = getimagesize($a['Image']);
       }
       if ($stuff) {
-	$i = $a['id'];
-	$_POST['ImageWidth' . $i] = $stuff[0];
-	$_POST['ImageHeight' . $i] = $stuff[1];
+        $i = $a['id'];
+        $_POST['ImageWidth' . $i] = $stuff[0];
+        $_POST['ImageHeight' . $i] = $stuff[1];
       }
     }
   }

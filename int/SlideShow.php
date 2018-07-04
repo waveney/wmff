@@ -39,12 +39,12 @@
   echo '<script>
   $(document).ready(function(){
     $(".bxslider").bxSlider({
-	adaptiveHeight: true,
-	keyboardEnabled: true,
-	autoControls: true,
-	auto: true,
-	pagerType: "short",
-	stopAutoOnClick: true,
+        adaptiveHeight: true,
+        keyboardEnabled: true,
+        autoControls: true,
+        auto: true,
+        pagerType: "short",
+        stopAutoOnClick: true,
 ';
   echo "startSlide: $start,\n";
   echo '

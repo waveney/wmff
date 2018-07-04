@@ -1,16 +1,10 @@
-<html>
-<head>
-<title>Wimborne Minster Folk Festival | Request</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-<?php include_once("DanceLib.php"); ?>
-</head>
-<body>
 <?php
+  include_once("fest.php");
   $snum=$_GET{'sidenum'};
   A_Check('Participant','Side',$snum);
-  include_once("files/navigation.php");
-  echo "<div class='content'><h2>Requested</h2>\n";
+
+  dohead("Request");
+  echo "<h2>Requested</h2>\n";
 
   $Side=Get_Side($snum);
 

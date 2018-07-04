@@ -3,7 +3,7 @@
   A_Check('Committee','Trade');
 
   dostaffhead("Manage Trade Types and Prices");
-  global $THISYEAR;
+  global $PLANYEAR;
 
   include_once("TradeLib.php");
   echo "<div class=content><h2>Manage Trade Types and Prices</h2>\n";

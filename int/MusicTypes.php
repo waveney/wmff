@@ -1,31 +1,22 @@
 <?php
   include_once("fest.php");
   A_Check('SysAdmin');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | Music Types</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-<?php include_once("MusicLib.php"); ?>
-</head>
-<body>
-<?php include_once("files/navigation.php"); ?>
-<?php
+  dostaffhead("Music Types");
+  include_once("MusicLib.php");
 
   $Types=Get_Music_Types(1);
 
   if (isset($_POST{'Update'})) {
     foreach($Types as $i=>$t) {
       if ($_POST["SName$i"] != $t['SName'] || $_POST["Imp$i"] != $t['Importance'] ) {
-	if ($_POST["SName$i"] == '') {
-	  db_delete('MusicTypes',$t['TypeId']);
-	} else {
+        if ($_POST["SName$i"] == '') {
+          db_delete('MusicTypes',$t['TypeId']);
+        } else {
           $t['SName'] = $_POST["SName$i"];
-  	  $t['Importance'] = $_POST["Imp$i"];
-	  Put_Music_Type($t);
-	}
+            $t['Importance'] = $_POST["Imp$i"];
+          Put_Music_Type($t);
+        }
       }
     }
     if ($_POST["SName0"]) {
@@ -48,11 +39,6 @@
   echo "</table>";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form>";
-
+  dotail();
 ?>
 
-</div>
-
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>

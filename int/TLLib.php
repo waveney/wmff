@@ -37,7 +37,7 @@ function TL_Select($V) {
 
   switch ($V) {
   case 'MINE':
-    $xtr = "AND Assigned=$USERID";    
+    $xtr = "AND ( Assigned=$USERID OR Assigned=0";    
     break;
   case 'OPEN':
     $xtr = "AND Status=0";    
@@ -55,7 +55,7 @@ function TL_Select($V) {
     $xtr = "AND Due<$now AND Status=0";    
     break;
   default :
-    $xtr = "AND Status=0 AND Assigned=$USERID";    
+    $xtr = "AND Status=0 AND ( Assigned=$USERID OR Assigned=0) ";    
     break;
   }
   $q = "SELECT * FROM TimeLine WHERE Year=$YEAR $xtr ORDER BY Due";

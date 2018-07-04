@@ -3,7 +3,7 @@
 
   dostaffhead("View Stewarding form");
   include_once("SignupLib.php");
-  global $db, $StewClasses, $Days, $Relations;
+  global $db, $StewClasses, $Days, $Relations,$PLANYEAR;
   
   if (isset($_POST{'id'})) { /* Response to update button */
     $id = $_POST['id'];
@@ -41,7 +41,7 @@
   $D = -2;
   foreach ($Days as $d=>$ld) {
     if ($D >=0 && $D<3) {
-      echo "<tr>" . fm_text($ld . " " . ($MASTER['DateFri']+$D++) . "th June $THISYEAR",$stew,"Avail$d",4);
+      echo "<tr>" . fm_text($ld . " " . ($MASTER['DateFri']+$D++) . "th June $PLANYEAR",$stew,"Avail$d",4);
     } else { $D++; };
   }
 

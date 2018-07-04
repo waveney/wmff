@@ -50,15 +50,15 @@ function ImgData() {
   $curfil = preg_replace('/\?.*/','',$curfil);
   $suffix = strtolower(pathinfo($curfil,PATHINFO_EXTENSION));
   return array(
-	'Pcat'=>$Pcat,
-	'Who'=>$Who,
-	'Data'=>$Data,
-	'Field'=>$Field,
-	'FinalLoc'=>$FinalLoc,
-	'ArcLoc'=>$ArcLoc,
-	'Put'=>$Put_Data,
-	'Suf'=>$suffix
-	);
+        'Pcat'=>$Pcat,
+        'Who'=>$Who,
+        'Data'=>$Data,
+        'Field'=>$Field,
+        'FinalLoc'=>$FinalLoc,
+        'ArcLoc'=>$ArcLoc,
+        'Put'=>$Put_Data,
+        'Suf'=>$suffix
+        );
 }
 
 function Change_Rand(&$dat) {
@@ -165,14 +165,14 @@ if (isset($_FILES['croppedImage'])) {
   $PhotoCats = array('Sides','Acts','Others','Traders','Sponsors','Venues','Venue2');
 
   $Lists = array(
-	'Sides'=> Select_Come(),
-	'Acts'=>Select_Act_Come(),
-	'Others'=>Select_Other_Come(),
-	'Traders'=>Get_Traders_Coming(0),
-	'Sponsors'=>Get_Sponsor_Names(),
-	'Venues'=>Get_Venues(0),
-	'Venues2'=>Get_Venues(0),
-	);
+        'Sides'=> Select_Come(),
+        'Acts'=>Select_Act_Come(),
+        'Others'=>Select_Other_Come(),
+        'Traders'=>Get_Traders_Coming(0),
+        'Sponsors'=>Get_Sponsor_Names(),
+        'Venues'=>Get_Venues(0),
+        'Venues2'=>Get_Venues(0),
+        );
 
 ?>
 <script language=Javascript defer>
@@ -189,7 +189,7 @@ if (isset($_FILES['croppedImage'])) {
       var DD = $('#image').cropper('getCroppedCanvas');
 
       DD.toBlob(function (blob) {
-	var form = document.getElementById('cropform');
+        var form = document.getElementById('cropform');
         var formData = new FormData(form);
 
         var fred = formData.append('croppedImage', blob,'croppedImage');
@@ -201,15 +201,15 @@ if (isset($_FILES['croppedImage'])) {
           contentType: false, 
           success: function (resp) { 
 debugger;
-	    //console.log(resp); 
-	    //document.getElementById('Feedback').innerHTML = resp; 
-	    var src = $('#image').attr('src');
-	    src += '?' + Date.now();
-	    $('#croptool').hide();
-	    $('#cropresult').html('<img src=' + src + '><br><h2>Image cropped and saved</h2>');
-	    var finalloc = $('#FinalLoc').html();
-	    $('#NewImage').html(finalloc);
-	    },
+            //console.log(resp); 
+            //document.getElementById('Feedback').innerHTML = resp; 
+            var src = $('#image').attr('src');
+            src += '?' + Date.now();
+            $('#croptool').hide();
+            $('#cropresult').html('<img src=' + src + '><br><h2>Image cropped and saved</h2>');
+            var finalloc = $('#FinalLoc').html();
+            $('#NewImage').html(finalloc);
+            },
           error: function (resp) { console.log(resp); document.getElementById('Feedback').innerHTML = resp; },
           });
         });
@@ -281,25 +281,25 @@ debugger;
         $ArcD = dirname($ArcLoc);
         if (!file_exists($ArcD)) mkdir($ArcD,0777,true);
   
-	if (preg_match('/^\/(.*)/',$PhotoURL,$mtch)) {
-	  $url = preg_replace('/\?.*/','',$mtch[1]);
-//var_dump($url);
-	  $img = file_get_contents($url);
-	} else {
-	  $url = preg_replace('/\?.*/','',$PhotoURL);
+        if (preg_match('/^\/(.*)/',$PhotoURL,$mtch)) {
+          $url = preg_replace('/\?.*/','',$mtch[1]);
 //var_dump($url);
           $img = file_get_contents($url);
-	};
+        } else {
+          $url = preg_replace('/\?.*/','',$PhotoURL);
+//var_dump($url);
+          $img = file_get_contents($url);
+        };
   
         if ($img) {
-  	  if (preg_match('/https?:\/\//',$PhotoURL)) { // if external always Archive
-	    Archive_Stack("$ArcLoc.$suffix");
-	    file_put_contents("$ArcLoc.$suffix",$img);
-	  } else if (!file_exists("$ArcLoc.$suffix")) { file_put_contents("$ArcLoc.$suffix",$img); };
+            if (preg_match('/https?:\/\//',$PhotoURL)) { // if external always Archive
+            Archive_Stack("$ArcLoc.$suffix");
+            file_put_contents("$ArcLoc.$suffix",$img);
+          } else if (!file_exists("$ArcLoc.$suffix")) { file_put_contents("$ArcLoc.$suffix",$img); };
           if ($PhotoURL != $ExtLoc) {
-	    $done = file_put_contents("../$FinalLoc",$img);
+            $done = file_put_contents("../$FinalLoc",$img);
             $PhotoURL = $ExtLoc;
-	  }
+          }
         } else {
           $PhotoURL = "1";  
         }
@@ -315,22 +315,22 @@ debugger;
     echo fm_hidden('FinalLoc',$FinalLoc);
     if ($PhotoURL) {
       if ($PhotoURL != "1") {
-	echo "<div id=croptool>";
-	switch ($type) {
-	case 'Current':
-	  echo fm_hidden("PhotoURL",$PhotoURL);
+        echo "<div id=croptool>";
+        switch ($type) {
+        case 'Current':
+          echo fm_hidden("PhotoURL",$PhotoURL);
           echo "<div><img src=$PhotoURL id=image style='max-height:500; max-width:600;'><p></div>";
-	  echo "<div align=center><div id=crop_button value=Crop class=FakeButton>Crop and Save</div><div id=Feedback></div></div><p>\n";
-	  if (file_exists("$ArcLoc.$suffix")) echo "<div class=floatright id=ShowO><input type=submit class=smallsubmit name=Original value='Show Original'></div>\n";
-	  break;
-	case 'Original':
-	  echo fm_hidden("PhotoURL",$PhotoURL);
+          echo "<div align=center><div id=crop_button value=Crop class=FakeButton>Crop and Save</div><div id=Feedback></div></div><p>\n";
+          if (file_exists("$ArcLoc.$suffix")) echo "<div class=floatright id=ShowO><input type=submit class=smallsubmit name=Original value='Show Original'></div>\n";
+          break;
+        case 'Original':
+          echo fm_hidden("PhotoURL",$PhotoURL);
           echo "<div><img src='/int/$ArcLoc.$suffix' id=image style='max-height:500; max-width:600;'><p></div>";
-	  echo "<div align=center><div id=crop_button value=Crop class=FakeButton>Crop and Save overwriting current</div><div id=Feedback></div></div><p>\n";
-	  echo "<div class=floatright id=ShowC><input type=submit class=smallsubmit name=Current value='Show Current'></div>\n";
-	  break;
-	}
-	echo "</div><div id=cropresult></div>";
+          echo "<div align=center><div id=crop_button value=Crop class=FakeButton>Crop and Save overwriting current</div><div id=Feedback></div></div><p>\n";
+          echo "<div class=floatright id=ShowC><input type=submit class=smallsubmit name=Current value='Show Current'></div>\n";
+          break;
+        }
+        echo "</div><div id=cropresult></div>";
       } else {
         echo "The Photo URL can't be read<P>";
       }

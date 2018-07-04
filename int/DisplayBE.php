@@ -30,25 +30,25 @@
       if ($tt == 'Venue') Continue;
       switch ($tt) {
         case 'Side':
-	  echo "<tr><td>" . ($Posn++) . "<td>" . SName($Sides[$id]) . " (" . trim($Sides[$id]['Type']) . ")";
-	  if ($t['Notes']) echo "<td>" . $t['Notes'];
-	  break;
+          echo "<tr><td>" . ($Posn++) . "<td>" . SName($Sides[$id]) . " (" . trim($Sides[$id]['Type']) . ")";
+          if ($t['Notes']) echo "<td>" . $t['Notes'];
+          break;
         case 'Act':
-	  echo "<tr><td>" . ($Posn++) . "<td>" . SName($Acts[$id]);
-	  if ($Acts[$id]['Type']) echo " (" . trim($Acts[$id]['Type']) . ")";
-	  if ($t['Notes']) echo "<td>" . $t['Notes'];
-	  break;
+          echo "<tr><td>" . ($Posn++) . "<td>" . SName($Acts[$id]);
+          if ($Acts[$id]['Type']) echo " (" . trim($Acts[$id]['Type']) . ")";
+          if ($t['Notes']) echo "<td>" . $t['Notes'];
+          break;
         case 'Other':
-	  echo "<tr><td>" . ($Posn++) . "<td>" . SName($Others[$id]);
-	  if ($Others[$id]['Type']) echo " (" . trim($Others[$id]['Type']) . ")";
-	  if ($t['Notes']) echo "<td>" . $t['Notes'];
-	  break;
+          echo "<tr><td>" . ($Posn++) . "<td>" . SName($Others[$id]);
+          if ($Others[$id]['Type']) echo " (" . trim($Others[$id]['Type']) . ")";
+          if ($t['Notes']) echo "<td>" . $t['Notes'];
+          break;
         case 'Note':
-	  echo "<tr><td><td>";
-	  if ($t['Notes']) echo "<td>" . $t['Notes'];
-	  break;
+          echo "<tr><td><td>";
+          if ($t['Notes']) echo "<td>" . $t['Notes'];
+          break;
         default: // inc Venues
-	  break;
+          break;
       }
     }
     echo "</table>\n";

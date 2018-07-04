@@ -34,15 +34,15 @@
   $ProgInfo = Show_Prog($t,$id);
 
   $link = "mailto:$email?from='" . $USER['Email'] .
-	 "'&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SName']);
+         "'&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SName']);
 
   $paste = 
          "$name,<p>PUT MESSAGE HERE<p>$ProgInfo<p>" .
-	 	"If you wish you can record and update your status, " .
-		"provide descriptions for our website and programme, photos and videos and " .
-	 	"give more precise information and see the most up to date programming by following " .
-	 	"<a href=http://wimbornefolk.co.uk/int/Direct.php?t=$type&id=$id&key=$key>this link</a>.<p>  " .
-	 	"Regards " . $USER['SName'] . "<p>" ;
+                 "If you wish you can record and update your status, " .
+                "provide descriptions for our website and programme, photos and videos and " .
+                 "give more precise information and see the most up to date programming by following " .
+                 "<a href=http://wimbornefolk.co.uk/int/Direct.php?t=$type&id=$id&key=$key>this link</a>.<p>  " .
+                 "Regards " . $USER['SName'] . "<p>" ;
 
   echo json_encode(array('link' => $link,'paste' => $paste));
 

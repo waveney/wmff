@@ -25,16 +25,16 @@
       if (isset($_POST{'ACTION'})) {
         switch ($_POST{'ACTION'}) {
           case 'Completed':
-	    $_POST{'State'} = $TL_State['Completed'];
-	    $_POST{'History'} .= " Completed by " . $USER['Login'] . " on " . date('d/m/Y');
+            $_POST{'State'} = $TL_State['Completed'];
+            $_POST{'History'} .= " Completed by " . $USER['Login'] . " on " . date('d/m/Y');
             break;
           case 'Re Open':
-	    $_POST{'State'} = $TL_State['Open'];
-	    $_POST{'History'} .= " Re Opened by " . $USER['Login'] . " on " . date('d/m/Y');
+            $_POST{'State'} = $TL_State['Open'];
+            $_POST{'History'} .= " Re Opened by " . $USER['Login'] . " on " . date('d/m/Y');
             break;
           case 'Cancel':
-	    $_POST{'State'} = $TL_State['Cancelled'];
-	    $_POST{'History'} .= " Cancelled by " . $USER['Login'] . " on " . date('d/m/Y');
+            $_POST{'State'} = $TL_State['Cancelled'];
+            $_POST{'History'} .= " Cancelled by " . $USER['Login'] . " on " . date('d/m/Y');
             break;
         }
       }
@@ -85,16 +85,16 @@
 
       echo "<tr><td>Assigned to:<td>" . fm_select($AllActive,$tle,'Assigned',1);
       if (isset($tle['Due']) && $tle['Due'] > 0 && $now > $tle['Due']) {
-	echo "<td class=red>OVERDUE\n";
+              echo "<td class=red>OVERDUE\n";
       }
       echo "<tr><td>Importance:<td>" . fm_select($TL_Importance,$tle,'Importance');
       echo "<tr>" . fm_textarea("Notes",$tle,'Notes',8,2);
       
       echo "<tr><td>Created by:<td>" . $AllU[$tle['CreatedBy']] . " On " . date('d/m/Y',$tle['Created']);
       if ($tle['Completed'] < 0) {
-	echo "<tr><td>State:<td>Cancelled\n";
+              echo "<tr><td>State:<td>Cancelled\n";
       } else if ($tle['Completed'] == 0) {
-	echo "<tr><td>State:<td>Open\n";
+              echo "<tr><td>State:<td>Open\n";
       } else {
         echo "<tr><td>Completed On<td>" . date('d/m/Y',$tle['Completed']);
       }

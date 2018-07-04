@@ -1,17 +1,8 @@
 <?php
   include_once("fest.php");
   A_Check('Steward');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | Add/Change Bug</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php include_once("files/navigation.php"); ?>
-<?php
+  dostaffhead("Add/Change Bug");
   include_once("DocLib.php");
   include_once("BugLib.php");
   global $USERID,$USER;
@@ -36,14 +27,14 @@
       case 'Delete':
         break;
       }
-    } elseif ($b > 0) { 	// existing Event
+    } elseif ($b > 0) {         // existing Event
       Update_db_post('Bugs',$Bug);
     } else { // New
       $proc = 1;
       $_POST['Created'] = time();
       if (!isset($_POST['SName'])  || strlen($_POST['SName']) < 2) { // 
         echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
-	$proc = 0;
+        $proc = 0;
       }
       $b = Insert_db_post('Bugs',$Bug,$proc); 
     }
@@ -92,10 +83,6 @@
     echo "</form>\n";
   }
   echo "<h2><a href=ListBugs.php>List Bugs/Feature Requests</a></h2>\n";
+
+  dotail();
 ?>
-
-</div>
-
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>

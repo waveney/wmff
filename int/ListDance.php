@@ -1,22 +1,11 @@
 <?php
   include_once("fest.php");
   A_Check('Steward');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | List Dance</title>
-<script src="/js/clipboard.min.js"></script>
-<script src="/js/emailclick.js"></script>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php 
-  global $YEAR,$THISYEAR;
-  include_once("files/navigation.php"); 
+  dostaffhead("List Dance", "/js/clipboard.min.js","/js/emailclick.js" );
+  global $YEAR,$PLANYEAR;
   include_once("DanceLib.php"); 
-  echo "<div class=content><h2>List Dance Sides $YEAR</h2>\n";
+  echo "<h2>List Dance Sides $YEAR</h2>\n";
 
   echo "Click on column header to sort by column.  Click on Side's name for more detail and programme when available,<p>\n";
 
@@ -32,18 +21,18 @@
     $col6 = "Coming";
     $col7 = "Wshp";
   } else if ($_GET{'SEL'} == 'INV') {
-    $LastYear = $THISYEAR-1;
+    $LastYear = $PLANYEAR-1;
     $flds = "s.*, ly.Invite, ly.Coming, y.Invite, y.Invited, y.Coming";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$THISYEAR " .
-			"LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE s.IsASide=1 AND s.SideStatus=0 ORDER BY SName");
+    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$PLANYEAR " .
+                        "LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE s.IsASide=1 AND s.SideStatus=0 ORDER BY SName");
     $col5 = "Invited $LastYear";
     $col6 = "Coming $LastYear";
-    $col7 = "Invite $THISYEAR";
-    $col8 = "Invited $THISYEAR";
-    $col9 = "Coming $THISYEAR";
+    $col7 = "Invite $PLANYEAR";
+    $col8 = "Invited $PLANYEAR";
+    $col9 = "Coming $PLANYEAR";
   } else if ($_GET{'SEL'} == 'Coming') {
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, SideYear as y WHERE s.IsASide=1 AND s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . 
-		$Coming_Type['Y'] . " ORDER BY SName");
+                $Coming_Type['Y'] . " ORDER BY SName");
     $col5 = "Fri";
     $col6 = "Sat";
     $col7 = "Sun";
@@ -52,7 +41,7 @@
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
     $SideQ = $db->query("SELECT $flds FROM Sides AS s, SideYear as y WHERE s.IsASide=1 AND s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . 
-		$Coming_Type['Y'] . " ORDER BY SName");
+                $Coming_Type['Y'] . " ORDER BY SName");
     $col5 = "Fri";
     $col6 = "Sat";
     $col7 = "Sun";
@@ -86,32 +75,32 @@
 //      echo "<tr><td><a href=AddDance.php?sidenum=" . $fetch['SideId'] . ">" . $fetch['SideId'] . "</a>";
       echo "<tr><td><a href=AddDance.php?sidenum=" . $fetch['SideId'] . "&Y=$YEAR>" . $fetch['SName'] . "</a>";
       if ($fetch['SideStatus']) {
-	echo "<td>DEAD";
+        echo "<td>DEAD";
       } else {
-	$ty = strtolower($fetch['Type']);
-	$colour = '';
-	foreach($Types as $T) {
-	  if ($T['Colour'] == '') continue;
-	  $lct = "/" . strtolower($T['SName']) . "/";
-	  if (preg_match($lct,$ty)) {
-	    $colour = $T['Colour'];
-	    break;
-	  }
-	}
+        $ty = strtolower($fetch['Type']);
+        $colour = '';
+        foreach($Types as $T) {
+          if ($T['Colour'] == '') continue;
+          $lct = "/" . strtolower($T['SName']) . "/";
+          if (preg_match($lct,$ty)) {
+            $colour = $T['Colour'];
+            break;
+          }
+        }
         if ($colour) {
-	  echo "<td style='background:$colour;'>" . $fetch['Type'];
+          echo "<td style='background:$colour;'>" . $fetch['Type'];
         } else {
-	  echo "<td>" . $fetch['Type'];
-	}
+          echo "<td>" . $fetch['Type'];
+        }
       }
       if ($_GET{'SEL'}) {
-	echo "<td>" . $fetch['Contact'];
-//	echo "<td><a href=mailto:" . Clean_Email($fetch['Email']) . ">" . $fetch['Email'] . "</a>";
+        echo "<td>" . $fetch['Contact'];
+//        echo "<td><a href=mailto:" . Clean_Email($fetch['Email']) . ">" . $fetch['Email'] . "</a>";
         echo "<td>" . linkemailhtml($fetch);
       } 
       if ($col5 == "Invite") {
         echo "<td>";
-	if (isset($fetch['Invite'])) echo $Invite_States[$fetch['Invite']];
+        if (isset($fetch['Invite'])) echo $Invite_States[$fetch['Invite']];
         echo "<td>";
         if (isset($fetch['Coming'])) echo $Coming_States[$fetch['Coming']] . "\n";
       } else {
@@ -124,24 +113,24 @@
         echo "<td>$fri<td>$sat<td>$sun\n";
       }
       if ($col7 == 'Wshp') {
-	echo "<td>";
-	if ($fetch['Workshops']) echo "Y";
+        echo "<td>";
+        if ($fetch['Workshops']) echo "Y";
       }
       if ($col8 == "Complete?") {
-	$stot++;
+        $stot++;
         echo "<td>";
-	if ($fetch['Insurance'] && $fetch['Mobile'] &&
-		((($fetch['Performers'] > 0) && $fetch['Address']) || ($fetch['Performers'] < 0)) && 
-		($fetch['Sat'] || $fetch['Sun'])) { 
-	  echo "Yes"; 
-	  $Comp++;
+        if ($fetch['Insurance'] && $fetch['Mobile'] &&
+                ((($fetch['Performers'] > 0) && $fetch['Address']) || ($fetch['Performers'] < 0)) && 
+                ($fetch['Sat'] || $fetch['Sun'])) { 
+          echo "Yes"; 
+          $Comp++;
         } else {
-	  if ($fetch['Insurance']) echo "I"; 
-	  if ($fetch['Performers'] != 0) echo "P"; 
-	  if ($fetch['Address']) echo "A"; 
-	  if ($fetch['Mobile']) echo "M"; 
-	  if (!$fetch['Sat'] && !$fetch['Sun'] ) echo "?"; 
-	}
+          if ($fetch['Insurance']) echo "I"; 
+          if ($fetch['Performers'] != 0) echo "P"; 
+          if ($fetch['Address']) echo "A"; 
+          if ($fetch['Mobile']) echo "M"; 
+          if (!$fetch['Sat'] && !$fetch['Sun'] ) echo "?"; 
+        }
         if ($fetch['Insurance'] == 1) echo " (Check)";
       }
 

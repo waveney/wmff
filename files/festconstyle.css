@@ -231,7 +231,7 @@ input[type=password] {
 }
 
 .GridWrapper {
-  width: calc(100% - 360px); /*70vw;*/
+  width: calc(100% - 370px); /*70vw;*/
   height: 70vh;
   position: fixed;
   top 0;
@@ -289,7 +289,7 @@ input[type=password] {
 */
 
 .SideListWrapper {
-  width: 350px
+  width: 370px
   height: 460px; 
   overflow: hidden;
   position: fixed;
@@ -301,7 +301,7 @@ input[type=password] {
 .SideListContainer {
   overflow-y: auto;
   height: 70vh; /* 440px; */
-  width: 350px; 
+  width: 370px; 
 }
 
 .SideListContainer td, .SideListContainer th, .SideListContainer table {
@@ -402,7 +402,7 @@ div.whileDragging {
 }
 
 .InfoWrapper {
-  width: 350px
+  width: 500px
   height: 29vh; 
   max-height: 29vh; 
   overflow: hidden;
@@ -415,7 +415,7 @@ div.whileDragging {
 
 .InfoContainer {
   overflow-y: auto;
-  width: 350px; 
+  width: 500px; 
   height: 29vh; 
 }
 
@@ -423,7 +423,7 @@ div.whileDragging {
   width: 400px
   height:200px;
   position: fixed;
-  left:50vw;
+  left:50.1vw;
   bottom:0;
   border: 1px solid #000;
 }

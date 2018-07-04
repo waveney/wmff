@@ -1,19 +1,9 @@
 <?php
   include_once("fest.php");
   A_Check('Steward');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | List Bugs</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php include_once("files/navigation.php"); ?>
-<div class="content">
+  dostaffhead("List Bugs");
 
-<?php
   global $db;
   $yn = array('','Y');
   include_once("BugLib.php");
@@ -55,9 +45,6 @@
   echo "</tbody></table>\n";
   
   echo "<h2><a href=AddBug.php>Add Bug/Feature Request</a>, <a href=ListBugs.php?OLD>Old Bugs</a></h2>";
+
+  dotail();
 ?>
-  
-</div>
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>

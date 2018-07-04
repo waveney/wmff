@@ -2,7 +2,9 @@
 
 /* Various common code across fest con tools */
 
-$YEAR = $THISYEAR = 2018;
+  include_once("festdb.php");
+  include_once("festfm.php");
+
 $BUTTON = 0;
 
 if (isset($_POST{'Y'})) $YEAR = $_POST{'Y'};
@@ -32,7 +34,7 @@ $Book_States = array('None','Declined','Booking','Contract Ready','Booked');
 $Book_State = array_flip($Book_States);
 $InsuranceStates = array('None','Uploaded','Checked');
 $Book_Actions = array('None'=>'Book','Declined'=>'Book,Contract','Booking'=>'Contract,Decline,Cancel','Contract Ready'=>'Confirm,Decline,Cancel',
-		'Booked'=>'Cancel,Decline');
+                'Booked'=>'Cancel,Decline');
 $Book_ActionExtras = array('Book'=>'', 'Contract'=>'', 'Decline'=>'', 'Cancel'=>'', 'Confirm'=>'');
 $Book_Colour = array('None'=>'White','Declined'=>'pink','Booking'=>'yellow','Contract Ready'=>'orange','Booked'=>'lime');
 $EType_States = array('Very Early','Draft','Partial','Provisional','Complete');
@@ -42,39 +44,17 @@ $OlapDays = array('All','Sat Only','Sun Only','None');
 $OlapCats = array('Side','Act','Other');
 
 
-// If table's index is 'id' it does not need to be listed here
-$TableIndexes = array(	'Sides'=>'SideId', 'SideYear'=>'syId', 'FestUsers'=>'UserId', 'Venues'=>'VenueId', 'Events'=>'EventId', 
-			'General'=>'Year', 'Bugs'=>'BugId', 'BigEvent'=>'BigEid', 'DanceTypes'=>'TypeId', 
-			'Directory'=>'DirId', 'Documents'=>'DocId', 'EventTypes'=>'ETypeNo',
-			'MusicTypes'=>'TypeId','TimeLine'=>'TLid', 'BandMembers'=>'BandMemId', 'ActYear'=>'ActId',
-			'TradeLocs'=>'TLocId','Trade'=>'Tid','TradeYear'=>'TYid'
-			);
-
 date_default_timezone_set('GMT');
 
-function db_open () {
-  global $db;
-  @ $db = new mysqli('localhost','wmff','','wmff');
-  if (!$db) die ('Could not connect: ' .  mysqli_error());
-}
-
-db_open();
-
-function Logg($what) {
-  global $db,$USERID;
-  $qry = "INSERT INTO LogFile SET Who='$USERID', changed='" . date('d/m/y H:i:s') . "', What='" . addslashes($what) . "'";
-  $db->query($qry);
-}
-
 function Set_User() {
-  global $db,$USER,$USERID,$AccessType,$YEAR,$THISYEAR;
+  global $db,$USER,$USERID,$AccessType,$YEAR,$CALYEAR;
   if (isset($USER)) return;
   $USER = array();
   $USERID = 0;
   if (isset($_COOKIE{'WMFFD'})) {
     $biscuit = $_COOKIE{'WMFFD'};
     $Cake = openssl_decrypt($biscuit,'aes-128-ctr','Quarterjack',0,'BrianMBispHarris');
-    $crumbs = split(':',$Cake);
+    $crumbs = explode(':',$Cake);
     $USER{'Subtype'} = $crumbs[0];
     $USER{'AccessLevel'} = $crumbs[1];
     $USERID = $USER{'UserId'} = $crumbs[2];
@@ -96,7 +76,7 @@ function Set_User() {
       $USER = $res->fetch_assoc();
       $USERID = $USER['UserId'];
       $db->query("UPDATE FestUsers SET LastAccess='" . time() . "' WHERE UserId=$USERID" );
-      setcookie('WMFF2',$USER['Yale'], mktime(0,0,0,1,1,$THISYEAR+1) ,'/' );
+      setcookie('WMFF2',$USER['Yale'], mktime(0,0,0,1,1,$CALYEAR+1) ,'/' );
       setcookie('WMFF','',-1);
       $_COOKIE{'WMFF2'} = $ans['Yale'];
     }
@@ -176,189 +156,6 @@ function rand_string($len) {
   return $ans;
 }
 
-$HelpTable = 0;
-
-function Set_Help_Table(&$table) {
-  global $HelpTable;
-  $HelpTable = $table;
-}
-
-function Add_Help_Table(&$table) {
-  global $HelpTable;
-  $HelpTable = array_merge($HelpTable,$table);
-}
-
-function help($fld) {
-  global $HelpTable;
-  if (!isset($HelpTable[$fld])) return;
-  return " <img src=/images/icons/help.png id=Help4$fld title='" . $HelpTable[$fld] . "' style='margin-bottom:-4;'> ";
-}
-
-function htmlspec($data) {
-  return utf8_decode(htmlspecialchars(utf8_encode(stripslashes($data)), ENT_COMPAT|ENT_SUBSTITUTE));
-}
-
-$ADDALL = '';
-
-function fm_addall($txt) {
-  global $ADDALL;
-  $ADDALL = $txt;
-}
-
-function fm_textinput($field,$value='',$extra='') {
-  global $ADDALL;
-  $str = "<input type=text name=$field size=16 $extra $ADDALL";
-  if ($value) $str .= " value=\"" . htmlspec($value) . '"';
-  return $str  .">";
-}
-
-function fm_smalltext($Name,$field,$value,$chars=4,$extra='') {
-  global $ADDALL;
-  $str = "$Name " . help($field) . "<input type=text name=$field $extra size=$chars $ADDALL";
-  $str .= " value=\"" . htmlspec($value) . '"';
-  return $str  .">";
-}
-
-function fm_text($Name,&$data,$field,$cols=1,$extra1='',$extra2='',$field2='') {
-  global $ADDALL;
-  if ($field2 == '') $field2=$field;
-  $str = "<td $extra1>$Name" . ($Name?':':'') . help($field) . "<td colspan=$cols $extra1><input type=text name=$field2 $extra2 size=" . $cols*16; 
-  if (isset($data[$field])) $str .= " value=\"" . htmlspec($data[$field]) ."\"";
-  return $str . " $ADDALL>";
-}
-
-function fm_text1($Name,&$data,$field,$cols=1,$extra1='',$extra2='',$field2='') {
-  global $ADDALL;
-  if ($field2 == '') $field2=$field;
-  $str = "<td colspan=$cols $extra1>$Name" . ($Name?':':'') . help($field) . "<input type=text name=$field2 $extra2 size=" . $cols*16; 
-  if (isset($data[$field])) $str .= " value=\"" . htmlspec($data[$field]) ."\"";
-  return $str . " $ADDALL>";
-}
-
-function fm_simpletext($Name,&$data=0,$field,$extra='') {
-  global $ADDALL;
-  $str = "$Name: " . help($field) . "<input type=text name=$field $extra";
-  if ($data) if (isset($data[$field])) $str .= " value=\"" . htmlspec($data[$field]) . "\"";
-  return $str . " $ADDALL>\n";
-}
-
-function fm_number1($Name,&$data=0,$field,$extra1='',$extra2='',$field2='') {
-  global $ADDALL;
-  if ($field2 == '') $field2=$field;
-  $str = "<td $extra1>";
-  if ($Name) $str .= "$Name: ";
-  $str .= help($field) . "<input type=number name=$field2 $extra2";
-  if ($data) if (isset($data[$field])) $str .= " value=\"" . htmlspec($data[$field]) . "\"";
-  return $str . " $ADDALL>\n";
-}
-
-function fm_number($Name,&$data=0,$field,$extra1='',$extra2='') {
-  global $ADDALL;
-  $str = "<td $extra1>$Name: " . help($field) . "<td $extra1><input type=number name=$field $extra2";
-  if ($data) if (isset($data[$field])) $str .= " value=\"" . htmlspec($data[$field]) . "\"";
-  return $str . " $ADDALL>\n";
-}
-
-function fm_nontext($Name,&$data,$field,$cols=1,$extra='') {
-  global $ADDALL;
-  $str = "<td $extra>$Name:" . help($field) . "<td colspan=$cols $extra>";
-  return $str . (isset($data[$field]) ? htmlspec($data[$field]) : '');
-}
-
-function fm_time($Name,&$data,$field,$cols=1,$extra='') {
-  global $ADDALL;
-  return "<td>$Name:" . help($field) . "<td colspan=$cols><input type=time name=$field $extra size=" . $cols*16 .
-	" value=\"" . $data[$field] ."\" $ADDALL>";
-}
-
-function fm_hidden($field,$value,$extra='') {
-  global $ADDALL;
-  return "<input type=hidden name=$field id=$field $extra value=\"" . htmlspec($value) ."\">";
-}
-
-function fm_textarea($Name,&$data,$field,$cols=1,$rows=1,$extra1='',$extra2='') {
-  global $ADDALL;
-  $str = "<td $extra1>$Name:" . help($field) . "<td colspan=$cols $extra1><textarea name=$field $ADDALL $extra2 rows=$rows cols=" .$cols*20 . ">" ;
-  return $str . (isset($data[$field])?	htmlspec($data[$field]) : '' ) . "</textarea>\n";
-}
-
-function fm_basictextarea(&$data,$field,$cols=1,$rows=1,$extra1='',$field2='') {
-  global $ADDALL;
-  if ($field2 == '') $field2=$field;
-  $str = "<textarea name=$field2 $ADDALL $extra1 rows=$rows cols=" .$cols*20 . ">" ;
-  return $str . (isset($data[$field])?	htmlspec($data[$field]) : '' ) . "</textarea>\n";
-}
-
-function fm_checkbox($Desc,&$data,$field,$extra='',$field2='') {
-  global $ADDALL;
-  if ($field2 == '') $field2=$field;
-  if (isset($data[$field])) if ($data[$field]) return ($Desc?"$Desc:":'') . help($field) . "<input type=checkbox $ADDALL Name=$field2 $extra checked>";
-  return ($Desc?"$Desc:":'') . help($field) . "<input type=checkbox $ADDALL Name=$field2 $extra>";
-}
-
-function fm_select2(&$Options,$Curr,$field,$blank=0,$selopt='',$field2='') {
-  global $ADDALL;
-  if ($field2 == '') $field2=$field;
-  $str = "<select name=$field2 $ADDALL $selopt>";
-  if ($blank) {
-    $str .= "<option value=''";
-    if ($Curr == 0) $str .= " selected";
-    $str .= "></option>";
-  }
-  foreach ($Options as $key => $val) {
-    $str .= "<option value=$key";
-    if ($Curr == $key) $str .= " selected";
-    $str .= ">" . htmlspec($val) . "</option>";
-  }
-  $str .= "</select>" . help($field) . "\n";
-  return $str;
-}
-
-function fm_select(&$Options,$data,$field,$blank=0,$selopt='',$field2='') {
-  if (isset($data[$field])) return fm_select2($Options,$data[$field],$field,$blank,$selopt,$field2);
-  return fm_select2($Options,'@@@@@@',$field,$blank,$selopt,$field2);
-}
-
-function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field2='') {
-  global $ADDALL;
-  if ($field2 == '') $field2=$field;
-  $str = "";
-  if ($tabs) $str .= "<td $extra>"; 
-  if ($Desc) $str .= "$Desc:";
-  $str .= help($field) . " ";
-  if ($tabs) $str .= "<td $extra2>"; 
-  $done = 0;
-  foreach($defn as $i=>$d) {
-    if (!$d) continue;
-    if ($done && $tabs == 2) $str.= "<br>";
-    $done = 1;
-    $str .= "$d:";
-    $ex = $extra;
-    $ex = preg_replace('/###F/',("'" . $field2 . "'"),$ex);
-    $ex = preg_replace('/###V/',("'" . $i . "'"),$ex);
-    $str .= "<input type=radio name=$field2 $ADDALL $ex value='$i'";
-    if (isset($data[$field]) && ($data[$field] == $i)) $str .= " checked";
-    $str .= ">\n";
-  }
-  return $str;
-}
-
-function fm_date($Name,&$data,$field,$extra1='',$extra2='',$field2='') {
-  global $ADDALL;
-  if ($field2 == '') $field2=$field;
-  $str = "<td $extra1>$Name" . ($Name?':':'') . help($field) . "<td $extra1><input type=text name=$field2 $extra2 size=16"; 
-  if (isset($data[$field]) && $data[$field]) $str .= " value=\"" . date('j M Y H:i',$data[$field]) . "\"";
-  return $str . " $ADDALL>";
-}
-
-function fm_date1($Name,&$data,$field,$extra1='',$extra2='',$field2='') {
-  global $ADDALL;
-  if ($field2 == '') $field2=$field;
-  $str = "<td $extra1>$Name" . ($Name?':':'') . help($field) . "<input type=text name=$field2 $extra2 size=16"; 
-  if (isset($data[$field]) && $data[$field]) $str .= " value=\"" . date('j M Y H:i',$data[$field]) ."\"";
-  return $str . " $ADDALL>";
-}
-
 function SendEmail($to,$sub,$letter,$headopt='') {
 //  $url = 'http://www.wimbornefolk.org/RemoteEmail.php';
   if (file_exists('testing')) return;
@@ -378,253 +175,6 @@ function SendEmail($to,$sub,$letter,$headopt='') {
   if ($result === FALSE) { /* Handle error */ }
 }
 
-function table_fields($table) {
-  global $db;
-  static $tables = array();
-  if (isset($tables[$table])) return $tables[$table];
-
-  $qry = "SELECT Column_Name, Data_type FROM information_schema.columns WHERE table_name='" . $table . "'";
-  $Flds = $db->query($qry);
-  while ($Field = $Flds->fetch_array()) {
-    $tables[$table][$Field['Column_Name']] = $Field['Data_type'];
-  }
-  return $tables[$table];
-}
-
-function Disp_CB($what) {
-  echo "<td>" . ($what?'Y':'');
-}
-
-function Get_Emails($roll) {
-  global $db;
-  global $Area_Type;
-  $qry = "SELECT Email FROM FestUsers WHERE $roll=" . $Area_Type['Edit and Report'];
-  $res = $db->query($qry);
-  $ans = "";
-  if ($res) while ($row = $res->fetch_assoc()) {
-    if (strlen($ans)) $ans .= ",";
-    $ans .= $row['Email'];
-  }
-  return $ans;
-}
-
-$UpdateLog = '';
-
-function Report_Log($roll) {
-  global $Access_Type,$USER,$USERID,$UpdateLog;
-  if ($UpdateLog) {
-    if ($USER{'AccessLevel'} == $Access_Type['Participant']) {
-      switch ($USER{'Subtype'}) {
-      case 'Side':
-        $Side = Get_Side($USERID);
-        $who = $Side['SName'];
-        break;
-      default :
-        return;
-      }
-    } else {
-      $who = $USER['Login'];
-    }
-
-    $emails = Get_Emails($roll);
-    if ($emails) {
-      SendEmail($emails,"WMFF update by $who",$UpdateLog);
-    }
-    Logg("WMFF update by $who\n" . $UpdateLog);
-    $UpdateLog = '';
-  }
-}
-
-function Update_db($table,&$old,&$new,$proced=1) {
-  global $db;
-  global $TableIndexes;
-  global $UpdateLog;
-
-  $Flds = table_fields($table);
-  $indxname = (isset($TableIndexes[$table])?$TableIndexes[$table]:'id');
-  $newrec = "UPDATE $table SET ";
-  $fcnt = 0;
-
-  foreach ($Flds as $fname=>$ftype) {
-    if ($indxname == $fname) { // Skip
-    } elseif (isset($new[$fname])) {
-      if ($ftype == 'text') {
-        $dbform = addslashes($new[$fname]);
-      } elseif ($ftype == 'tinyint' || $ftype == 'smallint') {
-        $dbform = 0;
-	if ($new[$fname]) {
-	  if ((string)(int)$new[$fname] = $new[$fname]) { $dbform = $new[$fname]; } else { $dbform = 1; };
-        }
-      } else {
-        $dbform = $new[$fname];
-      }
-
-      if ($dbform != $old[$fname]) {
-        $old[$fname] = $dbform;
-	if ($fcnt++ > 0) { $newrec .= " , "; }
-	$newrec .= " $fname=" . '"' . $dbform . '"';
-      }
-    } else {
-      if ($ftype == 'tinyint' || $ftype == 'smallint' ) {
-        if ($old[$fname]) {
-          $old[$fname] = 0;
-  	  if ($fcnt++ > 0) { $newrec .= " , "; }
-	  $newrec .= " $fname=0";
-        }
-      } 
-    }
-  }
-
-  if ($proced && $fcnt) {
-    $newrec .= " WHERE $indxname=" . $old[$indxname];
-//var_dump($newrec);
-    $update = $db->query($newrec);
-    $UpdateLog .= $newrec . "\n";
-    if ($update) {
-//      echo "<h2>$table Updated - $newrec</h2>\n";
-//      echo "<h2>$table Updated</h2>\n";
-    } else {
-      echo "<h2 class=ERR>An error occoured: ((($newrec))) " . $db->error . "</h2>";
-    }
-    return $update;
-  }
-}
-
-function Update_db_post($table, &$data, $proced=1) { 
-  return Update_db($table,$data,$_POST,$proced);
-}
-
-function Insert_db($table, &$from, &$data=0, $proced=1) {
-  global $db;
-  global $TableIndexes;
-  global $UpdateLog;
-  $newrec = "INSERT INTO $table SET ";
-  $fcnt = 0;
-  $Flds = table_fields($table);
-  $indxname = (isset($TableIndexes[$table])?$TableIndexes[$table]:'id');
-
-  foreach ($Flds as $fname=>$ftype) {
-    if (isset($from{$fname}) && $from{$fname} != '' && $indxname!=$fname ) { 
-      if ($fcnt++ > 0) { $newrec .= " , "; }
-      if ($ftype == 'text') {
-        $dbform = addslashes($from{$fname});
-        if ($data) $data[$fname] = $dbform;
-        $newrec .= " $fname=" . '"' . $dbform . '"';
-      } elseif ($ftype == "tinyint" || $ftype == 'smallint') {
-        $dbform = 0;
-	if ($from{$fname}) {
-	  if ((string)(int)$from{$fname} = $from{$fname}) { $dbform = $from{$fname}; } else { $dbform = 1; };
-        }
-        if ($data) $data[$fname] = $dbform;
-        $newrec .= " $fname=$dbform ";
-      } else {
-        if ($data) $data[$fname] = $from[$fname];
-        $newrec .= " $fname=$from[$fname] ";
-      }
-    }
-  }
-  if ($proced) {
-    $insert = $db->query($newrec);
-    if ($insert) {
-      $UpdateLog .= $newrec . "\n";
-      $snum = $db->insert_id;
-//      echo "<h2>$table New entry - $newrec - $snum</h2>";
-//      echo "<h2>$table New entry added</h2>";
-      if ($data) $data[$indxname]=$snum;
-      $from[$indxname]=$snum;
-      return $snum;
-    } else {
-      echo "<h2 class=ERR>An error occoured: ((($newrec))) " . $db->error . "</h2>";
-    }
-  }
-  return 0;
-}
-
-function Insert_db_post($table,&$data,$proced=1) {
-  $data['Dummy'] = 1;
-  return Insert_db($table,$_POST,$data,$proced);  
-}
-
-function db_delete($table,$entry) {
-  global $db,$TableIndexes;
-  $indxname = (isset($TableIndexes[$table])?$TableIndexes[$table]:'id');
-  return $db->query("DELETE FROM $table WHERE $indxname='$entry'");
-}
-
-function db_delete_cond($table,$cond) {
-  global $db;
-  return $db->query("DELETE FROM $table WHERE $cond");
-}
-
-function db_update($table,$what,$where) {
-  global $db;
-  return $db->query("UPDATE $table SET $what WHERE $where");
-}
-
-function db_get($table,$cond) {
-  global $db;
-  $res = $db->query("SELECT * FROM $table WHERE $cond");
-  if ($res) return $res->fetch_assoc();
-  return 0;
-}
-
-function weblink($dest,$text='Website',$alink='',$all=0) {
-  $dest = stripslashes($dest);
-  $sites = split(' ',$dest);
-  if (count($sites) > 1) {
-    $ans = '';
-    foreach($sites as $site) {
-      $ans .= "<a $alink target=_blank href='";
-      if (!preg_match("/^https?/",$site)) $ans .= 'http://';
-      $ans .= "$site'>";
-      preg_match("/^(https?:\/\/)?(.*?)(\/|$)/",$site,$m);
-      $ans .= $m[2];
-      $ans .= "</a> ";
-      if ($all==0) break;
-    }
-    return $ans;      
-  } else {
-    if (preg_match("/^http/",$dest)) return "<a href='$dest' $alink target=_blank>$text</a>";
-    return "<a href='http://$dest' $alink target=_blank>$text</a>";
-  }
-}
-
-function weblinksimple($dest) {
-  $dest = stripslashes($dest);
-  $ans = "<a target=_blank href='";
-  if (!preg_match("/^https?/",$dest)) $ans .= 'http://';
-  $ans .= "$dest'>";
-  return $ans;      
-}
-
-function videolink($dest) {
-  $dest = stripslashes($dest);
-  if (preg_match("/^http/",$dest)) return "'" . $dest ."'";
-  if (preg_match('/watch\?v=/',$dest)) {
-    return preg_replace("/.*watch\?v=/", 'youtu.be/', $dest);
-  } else if (preg_match('/src="(.*?)" /i',$dest,$match)) {
-    return preg_replace("/www.youtube.com\/embed/", 'youtu.be', $match[1]);
-  }
-  return "'http://" . $dest ."'";
-}
-
-function embedvideo($dest) {
-  $dest = stripslashes($dest);
-  if (preg_match("/<iframe.*src/i",$dest)) return $dest;
-  if (preg_match('/.*watch\?v=(.*)/',$dest,$mtch)) {
-    $dest = $mtch[1];
-  } else {
-    $dest = preg_replace("/.*tu.be/i",'',$dest);
-  }
-  return "<iframe width=560 height=315 src='https://www.youtube.com/embed/" . $dest . "' frameborder=0 allowfullscreen></iframe>";
-}
-
-function Clean_Email(&$addr) {
-  if (preg_match('/<([^>]*)>?/',$addr,$a)) return $addr=trim($a[1]);
-  if (preg_match('/([^>]*)>?/',$addr,$a)) return $addr=trim($a[1]);
-  $addr = preg_replace('/ */','',$addr);
-  return $addr = trim($addr);
-}
 
 /*
 function linkemail(&$data,$type="Side",$xtr='') {
@@ -643,13 +193,13 @@ function linkemail(&$data,$type="Side",$xtr='') {
   $ProgInfo = Show_Prog($type,$id,1);
 
   $lnk = "<a href=mailto:$email?from=" . $USER['Email'] .
-	 "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SName']) . 
+         "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SName']) . 
          "&body=" . urlencode("$name,\n\n" .
-	 	"You can check your programme times and update your side details at any time by visiting " .
-	 	"<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=$type&id=$id&key=$key>this link</a>.  " .
-		$ProgInfo . "\n\n" .
-	 	"\n\nRegards " . $USER['SName'] . "\n\n") .
-	 ">Email</a>";
+                 "You can check your programme times and update your side details at any time by visiting " .
+                 "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=$type&id=$id&key=$key>this link</a>.  " .
+                $ProgInfo . "\n\n" .
+                 "\n\nRegards " . $USER['SName'] . "\n\n") .
+         ">Email</a>";
   return $lnk;
 }
 
@@ -702,7 +252,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
   }
 
   $link = "'mailto:$email?from=" . $USER['Email'] .
-	 "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SName']) . "'";
+         "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SName']) . "'";
   $direct = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=$type&id=$id&key=$key&Y=$YEAR>this link</a>  " ;
 
 // ONLY DANCE AT THE MOMENT...
@@ -711,13 +261,13 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
     case 'Dance':
       $ProgInfo = Show_Prog($type,$id,1);
       $Content = urlencode("$name,<p>" .
-	 	"<div id=SideLink$id>" .
-		"Please add/correct details about your side's contact information and your preferences in " .
-		"terms of days coming, number of dance spots, etc. by visiting $direct.</div><p>" .
-		"You can update information at any time, until the programme goes to print. " .
-		"(You'll also be able to view your programme times, once we've done the programme)<p>" .
-		"<div id=SideProg$id>$ProgInfo</div><p>" .
-	 	"Regards " . $USER['SName'] . "<p>"); 
+                 "<div id=SideLink$id>" .
+                "Please add/correct details about your side's contact information and your preferences in " .
+                "terms of days coming, number of dance spots, etc. by visiting $direct.</div><p>" .
+                "You can update information at any time, until the programme goes to print. " .
+                "(You'll also be able to view your programme times, once we've done the programme)<p>" .
+                "<div id=SideProg$id>$ProgInfo</div><p>" .
+                 "Regards " . $USER['SName'] . "<p>"); 
       break;
 
     case 'Act':
@@ -730,18 +280,18 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
     case 'Trade':
     case 'trade': // Not used I think (hope)
       $Content = urlencode("$name,<p>" .
-	 	"<div id=SideLink$id>" .
-		"Please add/correct details about your business, contact information, your product descriptions, pitch and power requirements, " . 
-		"update your Insurance and Risc Assessment etc. by visiting $direct.</div><p>" .
-		"Details of your pitch location, general trader information and particulars of setup and cleardown information will also appear there.<p>" .
-	 	"Regards " . $USER['SName'] . "<p>" 
-		); 
+                 "<div id=SideLink$id>" .
+                "Please add/correct details about your business, contact information, your product descriptions, pitch and power requirements, " . 
+                "update your Insurance and Risc Assessment etc. by visiting $direct.</div><p>" .
+                "Details of your pitch location, general trader information and particulars of setup and cleardown information will also appear there.<p>" .
+                 "Regards " . $USER['SName'] . "<p>" 
+                ); 
       break;
 
 // For OTHER at present
     default:
       $Content = urlencode("$name,<p>" .
-	 	"Regards " . $USER['SName'] . "<p>"); 
+                 "Regards " . $USER['SName'] . "<p>"); 
       break;
   }
 
@@ -800,24 +350,17 @@ function Error_Page ($message) {
   case $Access_Type['Upload'] :
     $ErrorMessage = $message;
     include_once('int/Staff.php');  // Should be good
-    exit;			// Just in case
+    exit;                        // Just in case
   case $Access_Type['SysAdmin'] :
   case $Access_Type['Internal'] :
     $ErrorMessage = "Something went very wrong... - $message";
     include_once('int/Staff.php');  // Should be good
-    exit;			// Just in case
+    exit;                        // Just in case
     
   default:
     include_once("index.php"); 
   }
 
-}
-
-function formatBytes($size, $precision = 2) {
-  if ($size==0) return 0;
-  $base = log($size, 1024);
-  $suffixes = array('', 'K', 'M', 'G', 'T', 'P');   
-  return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
 }
 
 function Get_General($y=0) {
@@ -838,41 +381,14 @@ function Get_Years() {
 }
 
 $MASTER = Get_General();
-$MASTER['V'] = gmdate('Y') . "." . $MASTER['Version'];
 
 function First_Sent($stuff) {
   $onefifty=substr($stuff,0,150);
   return (preg_match('/^(.*?[.!?])\s/s',$onefifty,$m) ? $m[1] : $onefifty);
 }
 
-function firstword($stuff) {
-  if (preg_match('/(\S*?)\s/',trim($stuff),$s)) return $s[1];
-  return $stuff;
-}
-
-function SAO_Report($i) {
-  $OSide = Get_Side( $i ); 
-  $str = "<a href=/int/ShowDance.php?sidenum=$i>" . $OSide['SName'];
-  if ($OSide['Type']) $str .= " (" . trim($OSide['Type']) . ")";
-  return $str . "</a>";
-}
-
-function SName(&$What) {
-  if (isset($What['ShortName'])) if ($What['ShortName']) return $What['ShortName'];
-  return $What['SName'];
-}
-
-function Social_Link(&$data,$site,$mode=0) { // mode:0 Return Site as text, mode 1: return blank/icon
-  if (! isset($data[$site]) || strlen($data[$site]) < 5) return ($mode? '' :$site);
-  $link = $data[$site];
-  if (preg_match("/$site/i",$link)) {
-    return weblink($link,($mode? ( "<img src=/images/icons/$site.jpg>") : $site));
-  }
-  return "<a href=http://$site.com/$link>" . ($mode? ( "<img src=/images/icons/$site.jpg>") : $site) . "</a>";
-}
-
 function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
-    global $DayList,$MASTER;
+    global $DayList;
     $str = '';
     include_once("ProgLib.php");
     include_once("DanceLib.php");
@@ -889,89 +405,89 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
     if ($Evs) { // Show IF all or EType state > 1 or (==1 && participant)
       $With = 0;
       foreach ($Evs as $e) {
-	if ($e["BigEvent"]) { $With = 1; break; }
-	for ($i = 1; $i<5;$i++) if ($e["Side$i"] && $e["Side$i"] != $id) { $With = 1; break 2; }
-	for ($i = 1; $i<5;$i++) if ($e["Act$i"] && $e["Act$i"] != $id) { $With = 1; break 2; }
-	for ($i = 1; $i<5;$i++) if ($e["Other$i"] && $e["Other$i"] != $id) { $With = 1; break 2; }
+        if ($e["BigEvent"]) { $With = 1; break; }
+        for ($i = 1; $i<5;$i++) if ($e["Side$i"] && $e["Side$i"] != $id) { $With = 1; break 2; }
+        for ($i = 1; $i<5;$i++) if ($e["Act$i"] && $e["Act$i"] != $id) { $With = 1; break 2; }
+        for ($i = 1; $i<5;$i++) if ($e["Other$i"] && $e["Other$i"] != $id) { $With = 1; break 2; }
       }
-	
+        
       $UsedNotPub = 0;
       foreach ($Evs as $e) {
-	$cls = ($e['Public']<2?'':' class=NotCSide ');
+        $cls = ($e['Public']<2?'':' class=NotCSide ');
         if ($all || $ETs[$e['Type']]['State'] > 1 || ($ETs[$e['Type']]['State'] == 1 && Access('Participant',$type,$id))) {
-	  $evc++;
- 	  $Worst = min($ETs[$e['Type']]['State'],$Worst);
-	  if ($e['BigEvent']) { // Big Event
-	    $Others = Get_Other_Things_For($e['EventId']);
-	    $VenC=0;
-	    $PrevI=0;
-	    $NextI=0;
-	    $PrevT=0;
-	    $NextT=0;
-	    $Found=0;
-	    $Position=1;
-	    foreach ($Others as $O) {
-	      switch ($O['Type']) {
-	      case 'Side':
-	      case 'Act':
-	      case 'Other':
-		if ($O['Identifier'] == $id && $O['Type'] == $type) { 
-		  $Found = 1; 
-		} else {
-		  if ($Found && $NextI==0) { $NextI=$O['Identifier']; $NextT=$O['Type']; }
-		  if (!$Found) { $PrevI=$O['Identifier']; $PrevT=$O['Type']; $Position++; }
-		}
-		break;
-	      case 'Venue':
-		$VenC++;
-	      default:
-		break;
-	      }
-	    }
-	    $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
-			"<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SName'] . "</a><td $cls>";
-	    if ($VenC) $str .= " starting from ";
-	    $str .= "<a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) ;
-	    $str .= "</a><td $cls>";
-	    if ($PrevI || $NextI) $str .= "In position $Position";
-	    if ($PrevI) { $str .= ", After " . SAO_Report($PrevI); };
-	    if ($NextI) { $str .= ", Before " . SAO_Report($NextI); };
-	    $str .= "\n";
-	  } else { // Normal Event
-	    $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
-			"<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SName'] . 
-			"</a><td $cls><a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a>";
-	    if ($With) {
-	      $str .= "<td $cls>";
-	      $withc=0;
-	      for ($i=1;$i<5;$i++) {
-	        if ($e["Side$i"] > 0 && $e["Side$i"] != $id && $type == 'Side') { 
-	          if ($withc++) $str .= ", "; 
-		  $str .= SAO_Report($e["Side$i"]);
+          $evc++;
+           $Worst = min($ETs[$e['Type']]['State'],$Worst);
+          if ($e['BigEvent']) { // Big Event
+            $Others = Get_Other_Things_For($e['EventId']);
+            $VenC=0;
+            $PrevI=0;
+            $NextI=0;
+            $PrevT=0;
+            $NextT=0;
+            $Found=0;
+            $Position=1;
+            foreach ($Others as $O) {
+              switch ($O['Type']) {
+              case 'Side':
+              case 'Act':
+              case 'Other':
+                if ($O['Identifier'] == $id && $O['Type'] == $type) { 
+                  $Found = 1; 
+                } else {
+                  if ($Found && $NextI==0) { $NextI=$O['Identifier']; $NextT=$O['Type']; }
+                  if (!$Found) { $PrevI=$O['Identifier']; $PrevT=$O['Type']; $Position++; }
                 }
-	        if ($e["Act$i"] > 0 && $e["Act$i"] != $id && $type == 'Act') { 
-	          if ($withc++) $str .= ", ";
-		  $str .= SAO_Report($e["Act$i"]);
+                break;
+              case 'Venue':
+                $VenC++;
+              default:
+                break;
+              }
+            }
+            $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
+                        "<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SName'] . "</a><td $cls>";
+            if ($VenC) $str .= " starting from ";
+            $str .= "<a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) ;
+            $str .= "</a><td $cls>";
+            if ($PrevI || $NextI) $str .= "In position $Position";
+            if ($PrevI) { $str .= ", After " . SAO_Report($PrevI); };
+            if ($NextI) { $str .= ", Before " . SAO_Report($NextI); };
+            $str .= "\n";
+          } else { // Normal Event
+            $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
+                        "<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SName'] . 
+                        "</a><td $cls><a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a>";
+            if ($With) {
+              $str .= "<td $cls>";
+              $withc=0;
+              for ($i=1;$i<5;$i++) {
+                if ($e["Side$i"] > 0 && $e["Side$i"] != $id && $type == 'Side') { 
+                  if ($withc++) $str .= ", "; 
+                  $str .= SAO_Report($e["Side$i"]);
                 }
-	        if ($e["Other$i"] > 0 && $e["Other$i"] != $id && $type == 'Other') { 
-	          if ($withc++) $str .= ", ";
-		  $str .= SAO_Report($e["Other$i"]);
+                if ($e["Act$i"] > 0 && $e["Act$i"] != $id && $type == 'Act') { 
+                  if ($withc++) $str .= ", ";
+                  $str .= SAO_Report($e["Act$i"]);
                 }
-	      }
-	    }
-	    $str .= "\n";
-	  }
+                if ($e["Other$i"] > 0 && $e["Other$i"] != $id && $type == 'Other') { 
+                  if ($withc++) $str .= ", ";
+                  $str .= SAO_Report($e["Other$i"]);
+                }
+              }
+            }
+            $str .= "\n";
+          }
         } else { // Debug Code
-//	  echo "State: " . $ETs[$e['Type']]['State'] ."<p>";
-	}
-	if ($cls) $UsedNotPub = 1;
+//          echo "State: " . $ETs[$e['Type']]['State'] ."<p>";
+        }
+        if ($cls) $UsedNotPub = 1;
       }
       if ($evc) {
         $Thing = Get_Side($id);
-	$Desc = ($Worst > 2)?"":'Current ';
-	if ($With) $str = "<td>With\n" . $str;
+        $Desc = ($Worst > 2)?"":'Current ';
+        if ($With) $str = "<td>With\n" . $str;
         $str = "<h2>$Desc Programme for " . $Thing['SName'] . ":</h2>\n" . ($UsedNotPub?"<span class=NotCSide>These are not currently public<p>\n</span>":"") .
-		"<table border><tr><td>Day<td>time<td>Event<td>Venue" . $str;
+                "<table border><tr><td>Day<td>time<td>Event<td>Venue" . $str;
       }
     }
     if ($evc) {
@@ -986,8 +502,8 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
 $head_done = 0;
 
 function doextras($extra1,$extra2,$extra3,$extra4,$extra5) {
-  global $MASTER;
-  $V=$MASTER['V'];
+  global $MASTER_DATA;
+  $V=$MASTER_DATA['V'];
   for ($i=1;$i<6;$i++) {
     if (${"extra$i"}) {
       $e = ${"extra$i"};
@@ -995,18 +511,20 @@ function doextras($extra1,$extra2,$extra3,$extra4,$extra5) {
       if ($suffix == "js") {
         echo "<script src=$e?V=$V></script>\n";
       } else if ($suffix == "css") {
-	echo "<link href=$e?V=$V type=text/css rel=stylesheet>\n";
+              echo "<link href=$e?V=$V type=text/css rel=stylesheet>\n";
       }
     }
   }
 }
 
 function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
-  global $head_done,$MASTER;
+  global $head_done,$MASTER_DATA;
   if ($head_done) return;
-  $V=$MASTER['V'];
+  $V=$MASTER_DATA['V'];
+  $pfx="";
+  if (file_exists("files/TitlePrefix")) $pfx = file_get_contents("files/TitlePrefix");
   echo "<html><head>";
-  echo "<title>Wimborne Minster Folk Festival | $title</title>\n";
+  echo "<title>$pfx " . $MASTER_DATA['FestName'] . " | $title</title>\n";
   include_once("files/header.php");
   echo "<script src=/js/tablesort.js?V=$V></script>\n";
   echo "<script src=/js/Tools.js?V=$V></script>\n";
@@ -1026,11 +544,13 @@ function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
 }
 
 function doheadpart($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
-  global $head_done,$MASTER;
+  global $head_done,$MASTER_DATA;
   if ($head_done) return;
-  $V=$MASTER['V'];
+  $V=$MASTER_DATA['V'];
+  $pfx="";
+  if (file_exists("files/TitlePrefix")) $pfx = file_get_contents("files/TitlePrefix");
   echo "<html><head>";
-  echo "<title>Wimborne Minster Folk Festival | $title</title>\n";
+  echo "<title>$pfx " . $MASTER_DATA['FestName'] . " | $title</title>\n";
   include_once("files/header.php");
   echo "<script src=/js/tablesort.js?V=$V></script>\n";
   echo "<script src=/js/Tools.js?V=$V></script>\n";
@@ -1039,16 +559,19 @@ function doheadpart($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='
 }
 
 function dostaffhead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
-  global $head_done,$MASTER;
+  global $head_done,$MASTER_DATA;
   if ($head_done) return;
-  $V=$MASTER['V'];
+  $V=$MASTER_DATA['V'];
+  $pfx="";
+  if (file_exists("files/TitlePrefix")) $pfx = file_get_contents("files/TitlePrefix");
   echo "<html><head>";
-  echo "<title>WMFF Staff | $title</title>\n";
+  echo "<title>$pfx " . $MASTER_DATA['ShortName'] . " | $title</title>\n";
   include_once("files/header.php");
   include_once("festcon.php");
   echo "<script src=/js/tablesort.js?V=$V></script>\n";
   echo "<script src=/js/Tools.js?V=$V></script>\n";
   if ($extra1) doextras($extra1,$extra2,$extra3,$extra4,$extra5);
+  echo "<meta http-equiv='cache-control' content=no-cache>";
   echo "</head><body>\n";
   include_once("files/navigation.php"); 
   echo "<div class=content>";
@@ -1062,33 +585,5 @@ function dotail() {
   exit;
 }
  
-function NoBreak($t,$Max=0) {
-  if ($Max == 0) return preg_replace('/ /','&nbsp;',$t);
-  $Words = preg_split('/ /',$t);
-  $Count = -1;
-  foreach($Words as $word) {
-    if (++$Count == 0) { 
-      $NewTxt = $word;
-    } else { 
-      $NewTxt .= ( ($Count % $Max)==0?' ':'&nbsp;') . $word;
-    }
-  }
-  return $NewTxt;
-}
-
-function FormatList(&$l) {
-  $res = implode(', ',$l);
-  $res = preg_replace('/, ([^,]*$)/'," and $1",$res);
-  return $res;
-}
-
-function AlphaNumeric($txt) {
-  return preg_replace('/[^a-zA-Z0-9]/','',$txt);
-}
-
-function DurationFormat($mins) { // Show N mins as N <=90, x hr ymins 
-  if ($mins <=90 ) return "$mins minutes";
-  return (int)($mins/60) . " hours " . (($mins%60) ? (($mins%60) . " minutes") : "");
-}
 
 ?>

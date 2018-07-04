@@ -3,7 +3,7 @@
   A_Check('Staff');
 
   dostaffhead("List Live N Load Applications");
-  global $db,$THISYEAR;
+  global $db,$PLANYEAR;
   include_once("SignupLib.php");
 
   $coln = 0;  
@@ -21,7 +21,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>State/Actions</a>\n";
   echo "</thead><tbody>";
 
-  $res=$db->query("SELECT * FROM SignUp WHERE Year=$THISYEAR AND State<2 AND Activity<4 ORDER BY SName");
+  $res=$db->query("SELECT * FROM SignUp WHERE Year=$PLANYEAR AND State<2 AND Activity<4 ORDER BY SName");
   
   if ($res) {
     while ($lnl = $res->fetch_assoc()) {
@@ -32,10 +32,10 @@
       echo "<td>" . $lnl['Style'];
       echo "<td style='background:" . $Colours[$lnl['Activity']] . ";'>" . $lnlclasses[$lnl['Activity']];
       if ($lnl['TotalSize']) {
-	$siz = $lnl['TotalSize'];
+        $siz = $lnl['TotalSize'];
       } else {
-	$siz = 0;
-	for ($i=1;$i<7;$i++) if ($lnl["SName$i"]) $siz++;
+        $siz = 0;
+        for ($i=1;$i<7;$i++) if ($lnl["SName$i"]) $siz++;
       }
       echo "<td>$siz";
       echo "<td>" . $lnl['Contact'];

@@ -66,11 +66,11 @@ function Upload_Init($Dir='') {
  */
 
 function Upload_Insurance($Dir='Sides') {
-  global $THISYEAR,$Side,$Sidey,$Put,$Puty,$snum,$db;
+  global $PLANYEAR,$Side,$Sidey,$Put,$Puty,$snum,$db;
 
   Upload_Init($Dir);
 
-  $target_dir = "Insurance/$THISYEAR/$Dir/";
+  $target_dir = "Insurance/$PLANYEAR/$Dir/";
   umask(0);
   if (!file_exists($target_dir)) mkdir($target_dir,0775,true);
   $suffix = pathinfo($_FILES["InsuranceForm"]["name"],PATHINFO_EXTENSION);
@@ -151,7 +151,7 @@ function Upload_Image($Dir='Sides',$fld) {
           } else {
             return "<div class=Err>File uploaded but database did not update... " . $db->error . "</div>";
           }
-	}
+        }
       }
     } else {
       return "<div class=Err>Sorry, there was an error uploading your file.</div>";

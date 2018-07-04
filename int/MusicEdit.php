@@ -1,20 +1,13 @@
-<html>
-<head>
-<title>Wimborne Minister Folk Festival | Side Editing</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-<?php include_once("MusicLib.php"); ?>
-<?php include_once("DanceLib.php"); ?>
-<?php include_once("PLib.php"); ?>
-<script src="/js/Participants.js"></script>
-<meta http-equiv="cache-control" content="no-cache">
-</head>
-<body>
-<?php include_once("files/navigation.php"); ?>
-<div class="content">
-
 <?php
-  global $Mess,$Action,$MASTER,$YEAR,$THISYEAR,$Book_State;
+  include_once("fest.php");
+
+  dostaffhead("Act Editing","/js/Participants.js" );
+  include_once("DanceLib.php");
+  include_once("MusicLib.php");
+  include_once("DateTime.php");
+  include_once("PLib.php");
+
+  global $Mess,$Action,$MASTER,$YEAR,$PLANYEAR,$Book_State;
 
 //var_dump($_POST);
   $Action = 0; 
@@ -38,38 +31,38 @@
   if (isset($_POST{'SideId'})) { /* Response to update button */
     $snum = $_POST{'SideId'};
     A_Check('Participant','Act',$snum);
-    if ($snum > 0) { 				// existing Side 
+    if ($snum > 0) {                                 // existing Side 
       $Side = Get_Side($snum);
       if ($Side) {
         $Sideyrs = Get_Actyears($snum);
         if (isset($Sideyrs[$YEAR])) $Sidey = $Sideyrs[$YEAR];
       } else {
-        echo "<h2 class=ERR>Could not find Side $snum</h2>\n";
+        echo "<h2 class=ERR>Could not find Act $snum</h2>\n";
       }
 
       Clean_Email($_POST{'Email'});
       Clean_Email($_POST{'AltEmail'});
       if ($_POST{'Photo'} != $Side{'Photo'}) {
-	include_once("ImageLib.php");
-	$Mess = Image_Validate($_POST{'Photo'});
-	if ($Mess) $_POST{'Photo'} = $Side['Photo'];
+        include_once("ImageLib.php");
+        $Mess = Image_Validate($_POST{'Photo'});
+        if ($Mess) $_POST{'Photo'} = $Side['Photo'];
       }
       if (isset($_POST{'Contract'})) { 
-	Contract_Save($Side,$Sidey,1); 
+        Contract_Save($Side,$Sidey,1); 
       } elseif (isset($_POST{'Decline'})) { 
-	Contract_Decline($Side,$Sidey,1); 
+        Contract_Decline($Side,$Sidey,1); 
       }
       Update_db_post('Sides',$Side,1);
-      if ($_POST{'Year'} >= $THISYEAR) {
+      if ($_POST{'Year'} >= $PLANYEAR) {
         if (isset($Sidey) && $Sidey){
-	  $Sve_Sidey = $Sidey;
+          $Sve_Sidey = $Sidey;
           Update_db_post('ActYear',$Sidey);
-	  if (ActYear_Check4_Change($Sve_Sidey,$Sidey)) $Sidey = Get_Actyear($snum);
+          if (ActYear_Check4_Change($Sve_Sidey,$Sidey)) $Sidey = Get_Actyear($snum);
         } else {
-	  $Sidey['Year'] = $THISYEAR;
-	  $ActId = Insert_db_post('ActYear',$Sidey);
-	  $Sidey['ActId'] = $ActId;
-	};
+          $Sidey['Year'] = $PLANYEAR;
+          $ActId = Insert_db_post('ActYear',$Sidey);
+          $Sidey['ActId'] = $ActId;
+        };
       }
       UpdateBand($snum);
       Report_Log('Music');

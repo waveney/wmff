@@ -1,17 +1,10 @@
 <?php
   include_once("fest.php");
   A_Check('Upload');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | Help</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php include_once("files/navigation.php"); ?>
-<div class="content">
+  dostaffhead("Help");
+
+?>
 <p>
 In general anyone at committee level can read anything, but only edit/change those parts of the system they have been given control over.<p>
 
@@ -90,9 +83,7 @@ If something goes wrong, or its not obvious or you wish it could do something ex
 Then either contact Richard (07718 511 432, Email: <a href=mailto:richard@wavwebs.com>Richard@wavwebs.com</a>)
 or <a href=AddBug.php>Raise a bug or Feature request</a>.<p>
 
-
-</div>
-
-<?php include_once("files/footer.php");  ?>
-</body></html>
+<?php 
+  dotail()  
+?>
 

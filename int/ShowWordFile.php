@@ -1,12 +1,9 @@
-<html>
-<head>
-<title>Wimborne Minster Folk Festival | View Word File</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php 
-  include_once("files/navigation.php"); 
+<?php
+  include_once("fest.php");
+  A_Check('Steward');
+
+  dostaffhead("View Word File");
+
   global $USERID;
 
   $file = $_GET{'l'};
@@ -18,9 +15,6 @@
   echo "<iframe src='https://view.officeapps.live.com/op/view.aspx?src=http%3A%2F%2Fwimbornefolk.co.uk%2Fint%2FTemp%2F$tf'";
   echo " width=100% height=800";
   echo "></iframe>";
-
+  dotail();
 ?>
 
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>

@@ -6,7 +6,7 @@
 
   include_once("TradeLib.php");
 
-  global $USER,$THISYEAR,$TaxiAuthorities;
+  global $USER,$PLANYEAR,$TaxiAuthorities;
   echo "<div class='content'><h2>Manage Taxi Company List</h2>\n";
   
   $Taxes=Get_Taxis(1);

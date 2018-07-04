@@ -1,31 +1,14 @@
 <?php
   include_once("fest.php");
   A_Check('Staff','Docs');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | Document Storage</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-<script>
-  function uploaddocs(dir) {
-    location.href="Dir.php?";
-  }
-</script>
-</head>
-<body>
-<?php
-  include_once("files/navigation.php"); 
-  include_once("DocLib.php");
-  global $USERID;
-
-  echo '<div class="content">';
+  dostaffhead("Document Storage");
+  echo '<script> function uploaddocs(dir) { location.href="Dir.php?"; } </script>';
 
 //  echo var_dump($_COOKIE) . "<P>";
 // if ($_POST) var_dump($_POST);
 
-
+  include_once("DocLib.php");
   if (isset($_GET{'d'})) {
     $d = $_GET{'d'};
   } elseif (isset($_POST{'d'})) {
@@ -55,14 +38,14 @@
       } else {
         $ndir = "Store" . Dir_FullName($d) . "/" . $NewDir;
         if (file_exists($ndir)) {
-	  $ErrMess = $NewDir . " already exists";
+          $ErrMess = $NewDir . " already exists";
         } else {
-	  umask(0);
-	  $ans = mkdir ($ndir,0777,1);
-	  $newrec = array('SName'=>addslashes($NewDir), 'Who'=>$USERID, 'Created'=>time(), 'Parent'=> $d);
+          umask(0);
+          $ans = mkdir ($ndir,0777,1);
+          $newrec = array('SName'=>addslashes($NewDir), 'Who'=>$USERID, 'Created'=>time(), 'Parent'=> $d);
           Insert_db('Directories',$newrec);
-  	  $subs = Get_SubDirList($d); // Refresh list
-	}
+            $subs = Get_SubDirList($d); // Refresh list
+        }
       }  
       break;
     case 'Delete':
@@ -80,13 +63,13 @@
       break;
     case 'Rename1':
       if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {
-  	echo '<form action="Dir.php" method="post">';
-  	echo fm_hidden('d', $d);
+          echo '<form action="Dir.php" method="post">';
+          echo fm_hidden('d', $d);
         echo "<h2>Rename " . htmlspec($dir['SName']) . "</h2>";
-  	echo fm_simpletext('as new name ',$_POST,'DirName');
-  	echo '<input type="submit" value="Rename" name="Action">';
-  	echo "</form>\n";
-	$skip = 1;
+          echo fm_simpletext('as new name ',$_POST,'DirName');
+          echo '<input type="submit" value="Rename" name="Action">';
+          echo "</form>\n";
+        $skip = 1;
       } else {
         $ErrMess = "Insufficient Priviledge";
       }
@@ -94,15 +77,15 @@
     case 'Rename':
       if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {
         $NewDir = $_POST{'DirName'};
-	if ($dir['SName'] == $NewDir) break;
-	$fullname = Dir_FullName($d);
-  	$fullpath = dirname($fullname);
+        if ($dir['SName'] == $NewDir) break;
+        $fullname = Dir_FullName($d);
+          $fullpath = dirname($fullname);
         if (file_exists("Store" . $fullpath . "/" . $NewDir)) {
           $ErrMess = "Directory already exists";
- 	  break;
-	}
-	rename("Store" . $fullname, "Store" . $fullpath . "/" . $NewDir);
- 	$dir['SName'] = addslashes($NewDir);
+           break;
+        }
+        rename("Store" . $fullname, "Store" . $fullpath . "/" . $NewDir);
+         $dir['SName'] = addslashes($NewDir);
         Put_DirInfo($dir);
       } else {
         $ErrMess = "Insufficient Priviledge";
@@ -110,13 +93,13 @@
       break;
     case 'Move1':
       if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {
-  	echo '<form action="Dir.php" method="post">';
-  	echo fm_hidden('d', $d);
+          echo '<form action="Dir.php" method="post">';
+          echo fm_hidden('d', $d);
         echo "<h2>Move " . htmlspec($dir['SName']) . " to </h2>";
-  	echo Dir_All_Tree('NewDir',$dir['Parent'],$d);
-  	echo '<input type="submit" value="Move" name="Action">';
-  	echo "</form>\n";
-	$skip = 1;
+          echo Dir_All_Tree('NewDir',$dir['Parent'],$d);
+          echo '<input type="submit" value="Move" name="Action">';
+          echo "</form>\n";
+        $skip = 1;
       } else {
         $ErrMess = "Insufficient Priviledge";
       }
@@ -124,17 +107,17 @@
     case 'Move':
       if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {
         $NewDir = $_POST{'NewDir'};
-	$name = $dir['SName'];
-	if ($dir['Parent'] == $NewDir) break;
-	$fullname = Dir_FullName($d);
-  	$fullpath = dirname($fullname);
-	$Newpath = Dir_FullName($NewDir);
+        $name = $dir['SName'];
+        if ($dir['Parent'] == $NewDir) break;
+        $fullname = Dir_FullName($d);
+          $fullpath = dirname($fullname);
+        $Newpath = Dir_FullName($NewDir);
         if (file_exists("Store" . $Newpath . "/" . $name)) {
           $ErrMess = "Directory already exists";
- 	  break;
-	}
-	rename("Store" . $fullname, "Store" . $Newpath . "/" . $name);
- 	$dir['Parent'] = $NewDir;
+           break;
+        }
+        rename("Store" . $fullname, "Store" . $Newpath . "/" . $name);
+         $dir['Parent'] = $NewDir;
         Put_DirInfo($dir);
       } else {
         $ErrMess = "Insufficient Priviledge";
@@ -142,20 +125,20 @@
       break;
     case 'Chown1':
       if ($d > 0 && Access('Committee','Docs')) {
-  	echo '<form action="Dir.php" method="post">';
-  	echo fm_hidden('d', $d);
+          echo '<form action="Dir.php" method="post">';
+          echo fm_hidden('d', $d);
         echo "<h2>Change Ownership of " . htmlspec($dir['SName']) . " to </h2>";
-  	echo fm_select($AllActive,$dir,'Who');
-  	echo '<input type="submit" value="Chown" name="Action">';
-  	echo "</form>\n";
-	$skip = 1;
+          echo fm_select($AllActive,$dir,'Who');
+          echo '<input type="submit" value="Chown" name="Action">';
+          echo "</form>\n";
+        $skip = 1;
       } else {
         $ErrMess = "Insufficient Priviledge";
       }
       break;
     case 'Chown':
       if ($d > 0 && Access('Committee','Docs')) {
- 	$dir['Who'] = $_POST{'Who'};
+         $dir['Who'] = $_POST{'Who'};
         Put_DirInfo($dir);
       } else {
         $ErrMess = "Insufficient Priviledge";
@@ -183,118 +166,118 @@
     switch ($Act) {
       case 'Rename1':
         if (Access('Committee','Docs') || $finf['Who'] == $USERID || $dir['Who'] == $USERID ) {
-  	  echo '<form action="Dir.php" method="post">';
-  	  echo fm_hidden('d', $d) . fm_hidden('f', $f);
+            echo '<form action="Dir.php" method="post">';
+            echo fm_hidden('d', $d) . fm_hidden('f', $f);
           echo "<h2>Rename " . htmlspec($finf['SName']) . "</h2>";
-  	  echo fm_simpletext('as new name ',$_POST,'DocName');
-  	  echo '<input type="submit" value="Rename" name="FileAction">';
-  	  echo "</form>\n";
-	  $skip = 1;
+            echo fm_simpletext('as new name ',$_POST,'DocName');
+            echo '<input type="submit" value="Rename" name="FileAction">';
+            echo "</form>\n";
+          $skip = 1;
         } else {
           $ErrMess = "Insufficient Priviledge";
         }
-	break;
+        break;
       case 'Rename':
         if (Access('Committee','Docs') || $finf['Who'] == $USERID || $dir['Who'] == $USERID ) {
           $NewDoc = $_POST{'DocName'};
-	  if ($finf['SName'] == $NewDoc) break;
-	  $fullname = File_FullName($f);
-  	  $fullpath = dirname($fullname);
+          if ($finf['SName'] == $NewDoc) break;
+          $fullname = File_FullName($f);
+            $fullpath = dirname($fullname);
           if (file_exists("Store" . $fullpath . "/" . $NewDoc)) {
             $ErrMess = "Document already exists";
-   	    break;
-	  }
-	  rename("Store" . $fullname, "Store" . $fullpath . "/" . $NewDoc);
- 	  $finf['SName'] = addslashes($NewDoc);
+               break;
+          }
+          rename("Store" . $fullname, "Store" . $fullpath . "/" . $NewDoc);
+           $finf['SName'] = addslashes($NewDoc);
           Put_DocInfo($finf);
         } else {
           $ErrMess = "Insufficient Priviledge";
         }
-	break;
+        break;
       case 'Move1':
         if (Access('Committee','Docs') || $finf['Who'] == $USERID || $dir['Who'] == $USERID ) {
-  	  echo '<form action="Dir.php" method="post">';
-  	  echo fm_hidden('d', $d) . fm_hidden('f', $f);
+            echo '<form action="Dir.php" method="post">';
+            echo fm_hidden('d', $d) . fm_hidden('f', $f);
           echo "<h2>Move " . htmlspec($finf['SName']) . " to </h2>";
-  	  echo Dir_All_Tree('NewDir',$finf['Dir']);
-  	  echo '<input type="submit" value="Move" name="FileAction">';
-  	  echo "</form>\n";
-	  $skip = 1;
+            echo Dir_All_Tree('NewDir',$finf['Dir']);
+            echo '<input type="submit" value="Move" name="FileAction">';
+            echo "</form>\n";
+          $skip = 1;
         } else {
           $ErrMess = "Insufficient Priviledge";
         }
-	break;
+        break;
       case 'Move':
         if (Access('Committee','Docs') || $finf['Who'] == $USERID || $dir['Who'] == $USERID ) {
           $NewDir = $_POST{'NewDir'};
-	  $name = $finf['SName'];
-	  if ($finf['Dir'] == $NewDir) break;
-	  $fullname = File_FullName($f);
-	  $Newpath = Dir_FullName($NewDir);
+          $name = $finf['SName'];
+          if ($finf['Dir'] == $NewDir) break;
+          $fullname = File_FullName($f);
+          $Newpath = Dir_FullName($NewDir);
           if (file_exists("Store" . $Newpath . "/" . $name)) {
             $ErrMess = "Document already exists";
- 	    break;
-	  }
-	  rename("Store" . $fullname, "Store" . $Newpath . "/" . $name);
- 	  $finf['Dir'] = $NewDir;
-	  Put_DocInfo($finf);
-        } else {
-          $ErrMess = "Insufficient Priviledge";
-        }
-	break;
-      case 'Chown1':
-        if (Access('Committee','Docs')) {
-  	  echo '<form action="Dir.php" method="post">';
-  	  echo fm_hidden('d', $d) . fm_hidden('f', $f);
-          echo "<h2>Change Ownership of " . htmlspec($finf['SName']) . " to </h2>";
-  	  echo fm_select($AllActive,$finf,'Who');
-  	  echo '<input type="submit" value="Chown" name="FileAction">';
-  	  echo "</form>\n";
-	  $skip = 1;
-        } else {
-          $ErrMess = "Insufficient Priviledge";
-        }
-	break;
-      case 'Chown':
-        if (Access('Committee','Docs')) {
- 	  $finf['Who'] = $_POST{'Who'};
+             break;
+          }
+          rename("Store" . $fullname, "Store" . $Newpath . "/" . $name);
+           $finf['Dir'] = $NewDir;
           Put_DocInfo($finf);
         } else {
           $ErrMess = "Insufficient Priviledge";
         }
-	break;
+        break;
+      case 'Chown1':
+        if (Access('Committee','Docs')) {
+            echo '<form action="Dir.php" method="post">';
+            echo fm_hidden('d', $d) . fm_hidden('f', $f);
+          echo "<h2>Change Ownership of " . htmlspec($finf['SName']) . " to </h2>";
+            echo fm_select($AllActive,$finf,'Who');
+            echo '<input type="submit" value="Chown" name="FileAction">';
+            echo "</form>\n";
+          $skip = 1;
+        } else {
+          $ErrMess = "Insufficient Priviledge";
+        }
+        break;
+      case 'Chown':
+        if (Access('Committee','Docs')) {
+           $finf['Who'] = $_POST{'Who'};
+          Put_DocInfo($finf);
+        } else {
+          $ErrMess = "Insufficient Priviledge";
+        }
+        break;
       case 'Delete':
         if (Access('Committee','Docs') || $finf['Who'] == $USERID || $dir['Who'] == $USERID ) {
           DeleteFile($f);
         } else {
           $ErrMess = "Insufficient Priviledge";
         }
-	break;
+        break;
       case 'Upload Document(s)':
       case 'Upload':
 
         $target_dir = "Store" . Dir_FullPname($d);
-	// Count # of uploaded files in array
-	$total = count($_FILES['uploads']['name']);
+        // Count # of uploaded files in array
+        $total = count($_FILES['uploads']['name']);
 
-	// Loop through each file
-	for($i=0; $i<$total; $i++) {
-	  //Get the temp file path
-	  $tmpFilePath = $_FILES['uploads']['tmp_name'][$i];
+        // Loop through each file
+        for($i=0; $i<$total; $i++) {
+          //Get the temp file path
+          $tmpFilePath = $_FILES['uploads']['tmp_name'][$i];
 
-	  //Make sure we have a filepath
-	  if ($tmpFilePath != ""){
-	    //Setup our new file path
-	    $file = basename($_FILES['uploads']['name'][$i]);
+          //Make sure we have a filepath
+          if ($tmpFilePath != ""){
+            //Setup our new file path
+            $file = basename($_FILES['uploads']['name'][$i]);
             $target_file = $target_dir . "/" . $file;
 //var_dump($tmpFilePath,$target_file);
-	    //Upload the file into the temp dir
-	    if(move_uploaded_file($tmpFilePath, $target_file)) {
- 	      //Handle other code here
-	      Doc_Create($file,$d,filesize($target_file));
-	    } else $ErrMess = "File failed to move to the Store";
-	  }
-	}
+            //Upload the file into the temp dir
+            if(move_uploaded_file($tmpFilePath, $target_file)) {
+               //Handle other code here
+              Doc_Create($file,$d,filesize($target_file));
+            } else $ErrMess = "File failed to move to the Store";
+          }
+        }
 
 /*
         $file = basename($_FILES["fileToUpload"]["name"]);
@@ -351,7 +334,7 @@
         echo "<td>" . (isset($AllU[$sub['Who']])?$AllU[$sub['Who']]: "Unknown");
         echo "<td>Directory";
         echo "<td>" . date('d/m/y H:i:s',$sub['Created']) . "<td>";
-//	echo Doc_Access($sub['Access']) . "<td>";
+//        echo Doc_Access($sub['Access']) . "<td>";
         if (Access('Committee','Docs') || $dir['Who'] == $USERID  || $sub['Who'] == $USERID ) {
           echo " <a href=Dir.php?d=$pid&Action=Rename1>Rename</a>"; 
           echo " <a href=Dir.php?d=$pid&Action=Move1>Move</a>"; 

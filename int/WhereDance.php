@@ -2,7 +2,7 @@
   include_once("fest.php");
   A_Check('SysAdmin');
 
-  dostaffhead('Where Dances Came From');
+  dostaffhead('Where Dancers Came From');
   include_once('DanceLib.php');
   
   $AllSides = Select_Come_All();
@@ -19,7 +19,7 @@
       $PCa = $mtch[1];
       $PCs[$PCa] = 1;
       if ($Sid['Sat']) {
-	$PCodes[$PCa][$Sid['Sun']?'Both':'Sat'] += $Perf;
+        $PCodes[$PCa][$Sid['Sun']?'Both':'Sat'] += $Perf;
       } else if ($Sid['Sun']) $PCodes[$PCa]['Sun'] += $Perf;
       if ($PCa == '' && $Perf>0) echo "No Postcode for: " . $Sid['SName'] . " " . $Perf . "<br>";
       $Total += $Perf;

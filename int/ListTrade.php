@@ -1,22 +1,12 @@
 <?php
   include_once("fest.php");
   A_Check('Steward');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | List Traders</title>
-<script src="/js/clipboard.min.js"></script>
-<script src="/js/emailclick.js"></script>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php 
-  global $YEAR,$THISYEAR,$Trade_States,$Trader_Status;
+  dostaffhead("List Traders", "/js/clipboard.min.js", "/js/emailclick.js");
+  global $YEAR,$PLANYEAR,$Trade_States,$Trader_Status;
   include_once("files/navigation.php");
   include_once("TradeLib.php");
-  echo "<div class=content><h2>List Traders $YEAR</h2>\n";
+  echo "<h2>List Traders $YEAR</h2>\n";
 
   echo "Click on column header to sort by column.  Click on Traders's name for more detail<p>\n";
 
@@ -63,7 +53,7 @@
           if ($fetch['Insurance'] ==0) echo ", no Insurance";
           if ($fetch['RiskAssessment'] ==0) echo ", no Risk Assess";
         } else {
-	  echo " class=" . $Trade_StateClasses[$stat] . ">" . $Trade_States[$stat];
+          echo " class=" . $Trade_StateClasses[$stat] . ">" . $Trade_States[$stat];
         }
       echo Disp_CB($fetch['BID']);
       echo Disp_CB($fetch['ChamberTrade']);
@@ -72,11 +62,5 @@
     }
     echo "</tbody></table>\n";
   }
-  
+  dotail();
 ?>
-  
-</div>
-
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>

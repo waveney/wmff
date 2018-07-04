@@ -27,21 +27,21 @@
       $handle = opendir("../$Prefix");
       while (false !== ($entry = readdir($handle))) {
         if (preg_match('/^\./',$entry)) continue;
-	$suf = pathinfo($entry,PATHINFO_EXTENSION);
+        $suf = pathinfo($entry,PATHINFO_EXTENSION);
         $lcsuf = strtolower($suf);
 
         if ($lcsuf == 'jpg' || $lcsuf == 'jpeg' || $lcsuf == 'png') {
-	  $file = $Prefix . '/' . $entry;
-	  $strfile = $Prefix . '/' . pathinfo($entry,PATHINFO_FILENAME) . '.' . $lcsuf;
+          $file = $Prefix . '/' . $entry;
+          $strfile = $Prefix . '/' . pathinfo($entry,PATHINFO_FILENAME) . '.' . $lcsuf;
           Image_Convert($file,800,536,$strfile);
-	  if ($file != $strfile) unlink($file);
-	  if (!db_get('GallPhotos',"Galid=$Galid AND File='$strfile'")) { // not already in gallery
-	    $dat = array('File'=>$strfile,'Galid'=>$Galid);
-  	    Insert_db('GallPhotos',$dat);
-	    $ImpCount++;
-	  } else {
-	    $ImpLog .= "Ignoring $strfile - already in Gallery<br>";
-	  }
+          if ($file != $strfile) unlink($file);
+          if (!db_get('GallPhotos',"Galid=$Galid AND File='$strfile'")) { // not already in gallery
+            $dat = array('File'=>$strfile,'Galid'=>$Galid);
+              Insert_db('GallPhotos',$dat);
+            $ImpCount++;
+          } else {
+            $ImpLog .= "Ignoring $strfile - already in Gallery<br>";
+          }
         }
       }
       closedir($handle);
@@ -49,38 +49,38 @@
       $globs = glob("../$Prefix*");
       foreach($globs as $fil) {
         $file = preg_replace('/^\.\.\//','',$fil);
-	if (is_file($fil)) {
-	  $suf = pathinfo($file,PATHINFO_EXTENSION);
+        if (is_file($fil)) {
+          $suf = pathinfo($file,PATHINFO_EXTENSION);
           if ($suf == 'jpg' || $suf == 'jpeg' || $suf == 'png') {
-	    if (!db_get('GallPhotos',"Galid=$Galid AND File='$file'")) { // not already in gallery
-	      $dat = array('File'=>$file,'Galid'=>$Galid);
-  	      Insert_db('GallPhotos',$dat);
-	      $ImpCount++;
-	    } else {
-	      $ImpLog .= "Ignoring $file - already in Gallery<br>";
-	    }
+            if (!db_get('GallPhotos',"Galid=$Galid AND File='$file'")) { // not already in gallery
+              $dat = array('File'=>$file,'Galid'=>$Galid);
+                Insert_db('GallPhotos',$dat);
+              $ImpCount++;
+            } else {
+              $ImpLog .= "Ignoring $file - already in Gallery<br>";
+            }
           }
         } else if (is_dir($fil)) { // Globbed dir
-	  $dir = $file;
+          $dir = $file;
           $handle = opendir("../$dir");
           while (false !== ($entry = readdir($handle))) {
             if (preg_match('/^\./',$entry)) continue;
             $suf = pathinfo($entry,PATHINFO_EXTENSION);
             if ($suf == 'jpg' || $suf == 'jpeg' || $suf == 'png') {
-	      $file = $dir . '/' . $entry;
-	      if (!db_get('GallPhotos',"Galid=$Galid AND File='$file'")) { // not already in gallery
-	        $dat = array('File'=>$file,'Galid'=>$Galid);
-  	        Insert_db('GallPhotos',$dat);
-	        $ImpCount++;
-	      } else {
-	        $ImpLog .= "Ignoring $file - already in Gallery<br>";
-	      }
-	    }
+              $file = $dir . '/' . $entry;
+              if (!db_get('GallPhotos',"Galid=$Galid AND File='$file'")) { // not already in gallery
+                $dat = array('File'=>$file,'Galid'=>$Galid);
+                  Insert_db('GallPhotos',$dat);
+                $ImpCount++;
+              } else {
+                $ImpLog .= "Ignoring $file - already in Gallery<br>";
+              }
+            }
           }
           closedir($handle);
-	} else {
-	  $ImpLog .= "Don't know what to do with $file<br>";
-	}
+        } else {
+          $ImpLog .= "Don't know what to do with $file<br>";
+        }
       }
     }
 

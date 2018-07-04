@@ -5,7 +5,7 @@
   dostaffhead("Manage Links");
 
   include_once("TradeLib.php");
-  global $THISYEAR;
+  global $PLANYEAR;
 
   $coln = 0;
   $lnks = Get_OtherLinks();
@@ -38,7 +38,7 @@
   echo "<td><input type=text name=URL0 >";
   echo "<td><input type=text name=Image0 >";
   echo "<td><input type=text name=LinkType0 >";
-  echo "<td><input type=text name=Year0 value=$THISYEAR >";
+  echo "<td><input type=text name=Year0 value=$PLANYEAR >";
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";

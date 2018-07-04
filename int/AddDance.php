@@ -1,28 +1,18 @@
 <?php
   include_once("fest.php");
   A_Check('Committee','Dance');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | Add/Change Dance Side</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-<?php include_once("DanceLib.php"); ?>
-<?php include_once("MusicLib.php"); ?>
-<?php include_once("DateTime.php"); ?>
-<?php include_once("PLib.php"); ?>
-<script src="/js/clipboard.min.js"></script>
-<script src="/js/emailclick.js"></script>
-<script src="/js/Participants.js"></script>
-<meta http-equiv="cache-control" content="no-cache">
-</head>
-<body>
+  dostaffhead("Add/Change Dance Side", "/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js");
+  include_once("files/header.php");
+  include_once("festcon.php");
+  include_once("DanceLib.php");
+  include_once("MusicLib.php");
+  include_once("DateTime.php");
+  include_once("PLib.php");
 
-<?php
-  global $YEAR,$THISYEAR,$Mess,$BUTTON;
-  include_once("files/navigation.php");
-  echo '<div class="content"><h2>Add/Edit Dance Side</h2>';
+  global $YEAR,$PLANYEAR,$Mess,$BUTTON;
+
+  echo '<h2>Add/Edit Dance Side</h2>';
   global $Mess,$Action,$Dance_TimeFeilds;      
 
 //var_dump($_POST);
@@ -50,7 +40,7 @@
 //  echo "<!-- " . var_dump($_POST) . " -->\n";
   if (isset($_POST{'SideId'})) { /* Response to update button */
     $snum = $_POST{'SideId'};
-    if ($snum > 0) { 				// existing Side 
+    if ($snum > 0) {         // existing Side 
       $Side = Get_Side($snum);
       if ($Side) {
         $Sideyrs = Get_Sideyears($snum);
@@ -60,15 +50,15 @@
       }
 
       if (isset($_POST{'InviteAct'}) || isset($_POST{'ReminderAct'})) {
-	date_default_timezone_set('GMT');
-	if (strlen($_POST['Invited'])) $_POST['Invited'] .= ", ";
-	$_POST['Invited'] .= date('j/n');
-      } elseif (isset($_POST{'NewAccessKey'})) {
-	$_POST{'AccessKey'} = rand_string(40);
+        date_default_timezone_set('GMT');
+        if (strlen($_POST['Invited'])) $_POST['Invited'] .= ", ";
+        $_POST['Invited'] .= date('j/n');
+        } elseif (isset($_POST{'NewAccessKey'})) {
+        $_POST{'AccessKey'} = rand_string(40);
       } elseif (isset($_POST{'Contract'})) { 
-	Contract_Save($Side,$Sidey,2); 
+        Contract_Save($Side,$Sidey,2); 
       } elseif (isset($_POST{'Decline'})) { 
-	Contract_Decline($Side,$Sidey,2); 
+        Contract_Decline($Side,$Sidey,2); 
       }
 
       Clean_Email($_POST{'Email'});
@@ -76,14 +66,14 @@
       Parse_TimeInputs($Dance_TimeFeilds);      
 
       Update_db_post('Sides',$Side);
-      if ($_POST{'Year'} >= $THISYEAR) {
+      if ($_POST{'Year'} >= $PLANYEAR) {
         if (isset($Sidey) && $Sidey){
           Update_db_post('SideYear',$Sidey);
         } else {
-	  $Sidey['Year'] = $THISYEAR;
-	  $syId = Insert_db_post('SideYear',$Sidey);
-	  $Sidey['syID'] = $syId;
-	};
+          $Sidey['Year'] = $PLANYEAR;
+          $syId = Insert_db_post('SideYear',$Sidey);
+          $Sidey['syID'] = $syId;
+        };
       }
       UpdateBand($snum);
       UpdateOverlaps($snum);
@@ -91,8 +81,8 @@
       $proc = 1;
       $Side = array();
       if (!isset($_POST['SName'])) {
-	echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
-	$proc = 0;
+      echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
+      $proc = 0;
       }
       $_POST['AccessKey'] = rand_string(40);
       Clean_Email($_POST{'Email'});
@@ -134,9 +124,9 @@
     echo "<Center><input type=Submit name='Update' value='Save Changes' class=Button$BUTTON >\n";
     if (!isset($Sidey['Coming']) || $Sidey['Coming'] == 0) {
       if (!isset($Sidey['Invited']) || $Sidey['Invited'] == '') {
-	 echo " <input type=submit name=InviteAct value=Invite  class=Button$BUTTON > ";
+        echo " <input type=submit name=InviteAct value=Invite  class=Button$BUTTON > ";
       } else {
-	echo " <input type=submit name=ReminderAct value=Reminder class=Button$BUTTON > ";
+        echo " <input type=submit name=ReminderAct value=Reminder class=Button$BUTTON > ";
       }
     } 
     echo "</center>\n";

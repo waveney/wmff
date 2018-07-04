@@ -61,27 +61,27 @@ function Prog_Grid() {
       echo "ondragstart=drag(event) ondrop=dropgrid(event) ondragover=allow(event)>";
       switch ($tt) {
         case 'Side':
-	  echo SName($Sides[$id]);
-	  if ($Sides[$id]['Type']) echo " (" . trim($Sides[$id]['Type']) . ")";
-	  if (isset($Sides[$id]['EventOrder'])) { $Sides[$id]['EventOrder'] = '!!'; }
-	  else $Sides[$id]['EventOrder'] = $CurOrder;
-	  break;
+          echo SName($Sides[$id]);
+          if ($Sides[$id]['Type']) echo " (" . trim($Sides[$id]['Type']) . ")";
+          if (isset($Sides[$id]['EventOrder'])) { $Sides[$id]['EventOrder'] = '!!'; }
+          else $Sides[$id]['EventOrder'] = $CurOrder;
+          break;
         case 'Act':
-	  echo $Acts[$id];
-//	  if ($Acts[$id]['Type']) echo " (" . trim($Acts[$id]['Type']) . ")";
-	  if (isset($ActsD[$id]['EventOrder'])) { $ActsD[$id]['EventOrder'] = '!!'; }
-	  else $ActsD[$id]['EventOrder'] = $CurOrder;
-	  break;
+          echo $Acts[$id];
+//          if ($Acts[$id]['Type']) echo " (" . trim($Acts[$id]['Type']) . ")";
+          if (isset($ActsD[$id]['EventOrder'])) { $ActsD[$id]['EventOrder'] = '!!'; }
+          else $ActsD[$id]['EventOrder'] = $CurOrder;
+          break;
         case 'Other':
-	  echo $Others[$id];
-//	  if ($Others[$id]['Type']) echo " (" . trim($Others[$id]['Type']) . ")";
-	  if (isset($OthersD[$id]['EventOrder'])) { $OthersD[$id]['EventOrder'] = '!!'; }
-	  else $OthersD[$id]['EventOrder'] = $CurOrder;
-	  break;
+          echo $Others[$id];
+//          if ($Others[$id]['Type']) echo " (" . trim($Others[$id]['Type']) . ")";
+          if (isset($OthersD[$id]['EventOrder'])) { $OthersD[$id]['EventOrder'] = '!!'; }
+          else $OthersD[$id]['EventOrder'] = $CurOrder;
+          break;
         case 'Note':
-	  break;
+          break;
         default: // inc Venues
-	  break;
+          break;
       }
       echo "<td id=M$CurOrder:$tt:$id ondragover=allow(event)><input type=text size=30 id=J$CurOrder:$tt:$id oninput=newnote(event) value='" . 
         htmlspec($t['Notes']) ."' ondragover=allow(event)>\n";
@@ -90,7 +90,7 @@ function Prog_Grid() {
   }
   for ($i=0;$i<100;$i++) {
     echo "<tr><td>$CurOrder<td id=E$CurOrder:: draggable=true class=DPGridDisp ondragstart=drag(event) ondrop=dropgrid(event) " .
-	"ondragover=allow(event)>";
+        "ondragover=allow(event)>";
     echo "<td id=N$CurOrder:: class=BE_Notes ondragover=allow(event)>";
     echo "<input type=text size=30 id=I$CurOrder:: oninput=newnote(event) ondragover=allow(event)>\n";
     $CurOrder++;

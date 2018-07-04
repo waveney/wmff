@@ -4,7 +4,7 @@
   dostaffhead("Live and Loud Application", "/js/Participants.js");
   A_Check('SysAdmin'); // lock out for this year
   include_once("SignupLib.php");
-  global $USER,$USERID,$db,$THISYEAR;
+  global $USER,$USERID,$db,$PLANYEAR;
 
   /* In the longer term this will be based on participants, but I want to do this quickly for 2018 so it is stand alone for now */
 
@@ -22,7 +22,7 @@
     if (!$err) {
 //      echo "<P>VALID...<P>";
       $_POST['AccessKey'] = rand_string(40);
-      $_POST['Year'] = $THISYEAR;
+      $_POST['Year'] = $PLANYEAR;
       $_POST['Activity'] = $_POST['LnlCat'];
       $id = Insert_db_post('SignUp',$lnl);
     
@@ -58,7 +58,7 @@
   echo "<tr>" . fm_text('Song Titles',$_POST,'Songs',3);
   echo " (It does not matter if you choose to perform different songs on the night)";
   echo "<tr>" . fm_text('Equipment Needed',$_POST,'Equipment',3) . 
-		" Drum Kit, Mics &amp; Mic Stands, Sound Desk, Amps, Lighting and Tech support will be provided.";
+                " Drum Kit, Mics &amp; Mic Stands, Sound Desk, Amps, Lighting and Tech support will be provided.";
   echo "<tr><td colspan=2>Are you able to perform a 30 minute set at the Folk Festival?<td>" . fm_radio('',$yesno,$_POST,'FolkFest','',0);
   echo "<tr><td colspan=2>Are you available on Friday 8th June, during the Folk Festival?<td>" . fm_radio('',$yesno,$_POST,'FFFri','',0);
   echo "<tr><td colspan=2>Are you available on Saturday 9th June, during the Folk Festival?<td>" . fm_radio('',$yesno,$_POST,'FFSat','',0);

@@ -1,19 +1,9 @@
 <?php
   include_once("fest.php");
   A_Check('Steward');
-?>
 
-<html>
-<head>
-<title>Wimborne Minster Folk Festival | Venue Use</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php include_once("files/navigation.php"); ?>
-<div class="content">
+  dostaffhead("Venue Use");
 
-<?php
   global $db, $YEAR;
   include_once("ProgLib.php");
   include_once("DanceLib.php");
@@ -37,34 +27,34 @@
       $imps=array();
       $things = 0;
       for($i=1;$i<5;$i++) {
-	if (isset($e["Side$i"])) { if ($ee = $e["Side$i"])  { $s = $sides[$ee];  if ($s) $imps[$s['Importance']][] = $s; }; };
-	if (isset($e["Act$i"]))  { if ($ee = $e["Act$i"])   { $s = $Acts[$ee];   if ($s) $imps[$s['Importance']][] = $s; }; };
-	if (isset($e["Other$i"])){ if ($ee = $e["Other$i"]) { $s = $Other[$ee];  if ($s) $imps[$s['Importance']][] = $s; }; };
+        if (isset($e["Side$i"])) { if ($ee = $e["Side$i"])  { $s = $sides[$ee];  if ($s) $imps[$s['Importance']][] = $s; }; };
+        if (isset($e["Act$i"]))  { if ($ee = $e["Act$i"])   { $s = $Acts[$ee];   if ($s) $imps[$s['Importance']][] = $s; }; };
+        if (isset($e["Other$i"])){ if ($ee = $e["Other$i"]) { $s = $Other[$ee];  if ($s) $imps[$s['Importance']][] = $s; }; };
       }
 
       if ($e['SubEvent'] <1) {
         $parname = $e['SName'];
-	echo "<p class=Vuse2>" . $DayList[$e['Day']] . " " . $e['Start'] . " - " . $e['End'] . " " . $parname;
+        echo "<p class=Vuse2>" . $DayList[$e['Day']] . " " . $e['Start'] . " - " . $e['End'] . " " . $parname;
       }
       if ($imps) {
         if ($e['SubEvent'] < 0) echo "<p class=Vuse3>" . $e['Start'] . " - " . $e['SlotEnd'] . " ";
         if ($e['SubEvent'] > 0) { 
-	  echo "<p class=Vuse3>" . $e['Start'] . " - " . $e['End'] . " ";
-	  if ($e['SName'] && $e['SName'] != $parname) echo " &nbsp; &nbsp; " . $e['SName'] . " &nbsp; ";
+          echo "<p class=Vuse3>" . $e['Start'] . " - " . $e['End'] . " ";
+          if ($e['SName'] && $e['SName'] != $parname) echo " &nbsp; &nbsp; " . $e['SName'] . " &nbsp; ";
         }
 
         echo "&nbsp; &nbsp; &nbsp; ";
-	$ks = array_keys($imps);
-	sort($ks);	
-	foreach ( array_reverse($ks) as $imp) {
-	  if ($imp) echo "<span style='font-size:" . (15+$imp*2) . "'>";
-  	  foreach ($imps[$imp] as $thing) {
-	    if ($things++) echo " , ";
-	    echo $thing['SName'];
-	    if (isset($thing['Type'])) echo " (" . $thing['Type'] . ") ";
-	  }
-	  if ($imp) echo "</span>";
-	}
+        $ks = array_keys($imps);
+        sort($ks);        
+        foreach ( array_reverse($ks) as $imp) {
+          if ($imp) echo "<span style='font-size:" . (15+$imp*2) . "'>";
+            foreach ($imps[$imp] as $thing) {
+            if ($things++) echo " , ";
+            echo $thing['SName'];
+            if (isset($thing['Type'])) echo " (" . $thing['Type'] . ") ";
+          }
+          if ($imp) echo "</span>";
+        }
       } else {
         echo "&nbsp; &nbsp; &nbsp; ";
       };
@@ -73,10 +63,5 @@
   } else {
     echo "<h2>No Events here</h2>\n";
   }
-
+  dotail();
 ?>
-  
-</div>
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>

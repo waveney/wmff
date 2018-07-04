@@ -4,7 +4,7 @@
 
   dostaffhead("Stewarding Applications");
   include_once("SignupLib.php");
-  global $db,$THISYEAR,$StewClasses;
+  global $db,$PLANYEAR,$StewClasses;
 
   echo "Click on name for full info<p>";
   $coln = 0;  
@@ -25,7 +25,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Sun</a>\n";
   echo "</thead><tbody>";
 
-  $res=$db->query("SELECT * FROM Stewards WHERE Year=$THISYEAR ORDER BY SName");
+  $res=$db->query("SELECT * FROM Stewards WHERE Year=$PLANYEAR ORDER BY SName");
   
   if ($res) while ($stew = $res->fetch_assoc()) {
     $id = $stew['id'];

@@ -8,22 +8,22 @@ return <<<XXXXXX
 
 <dt>Trading Times<dd>
 <ul><li>Friday:<br>
-	<ul>
-	<li>Food in the square: 6:30pm to 1am
-	<li>No other trading
-	</ul>
+        <ul>
+        <li>Food in the square: 6:30pm to 1am
+        <li>No other trading
+        </ul>
 <li>Saturday:<br>
-	<ul>
-	<li>Food in the square: 9:00am to 1am
-	<li>Willow Walk: 9:00am to 6pm
-	<li>All other trading: 9:00am to 7pm
-	</ul>
+        <ul>
+        <li>Food in the square: 9:00am to 1am
+        <li>Willow Walk: 9:00am to 6pm
+        <li>All other trading: 9:00am to 7pm
+        </ul>
 <li>Sunday:<br>
-	<ul>
-	<li>All traders: 9:00am to 5pm
-	</ul>
+        <ul>
+        <li>All traders: 9:00am to 5pm
+        </ul>
 </ul>
-	
+        
 
 <dt>Generators<dd>Are not permitted unless previously arranged and agreed with the festival organisers.<p>
 

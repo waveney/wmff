@@ -9,7 +9,7 @@
   include_once("int/DanceLib.php");
   include_once("int/MusicLib.php");
 
-  global $db,$YEAR,$THISYEAR,$MASTER,$DayList,$DayLongList,$Event_Types_Full ;
+  global $db,$YEAR,$SHOWYEAR,$MASTER,$DayList,$DayLongList,$Event_Types_Full ;
 
   $Vens = Get_Venues(1);
 
@@ -28,7 +28,7 @@
 //  $Now['mon'] = 6;
 //  $Now['mday']= 9;
  
-  if (($Now['year'] != $THISYEAR) || ($Now['mon'] != 6) || ($Now['mday'] < ($MASTER['DateFri']-3)) || ($Now['mday'] > ($MASTER['DateFri']+3))) { // Not during festival
+  if (($Now['year'] != $SHOWYEAR) || ($Now['mon'] != 6) || ($Now['mday'] < ($MASTER['DateFri']-3)) || ($Now['mday'] > ($MASTER['DateFri']+3))) { // Not during festival
     echo "<h3>There are no festival events today</h3>\n";
     dotail();
   }

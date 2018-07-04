@@ -5,12 +5,12 @@ $Colours = array('white','lime','orange','grey');
 $yesno = array('','Yes','No');
 $States = array('Submitted','Paid','Cancelled');
 $StewClasses = array('Stewarding'=> '(Info Points, Concerts, Road Closures, Street Collecting etc)',
-		'Technical' => '(Stage Crew, Runners, Setup/Packdown etc)',
-		'Artistic' => '(Setting up art displays, town decorations etc)', 
-		'Media' => '(Photography, Videography etc)');
+                'Technical' => '(Stage Crew, Runners, Setup/Packdown etc)',
+                'Artistic' => '(Setting up art displays, town decorations etc)', 
+                'Media' => '(Photography, Videography etc)');
 $Days = array('Wed'=>'Wednesday','Thu'=>'Thursday','Fri'=>'Friday','Sat'=>'Saturday','Sun'=>'Sunday','Mon'=>'Monday','Tue'=>'Tuesday');
 $Relations = array('Husband','Wife','Partner','Son','Daughter','Mother','Father','Brother','Sister','Grandchild','Grandparent','Guardian','Uncle','Aunty',
-		'Son/Daughter in law', 'Friend','Other');
+                'Son/Daughter in law', 'Friend','Other');
 
 $SignUpActivities = array_merge($lnlclasses,['Buskers Bash','Laugh Out Loud']);
 
@@ -40,7 +40,7 @@ function Get_lnl_Details(&$lnl) {
 }
 
 function Email_Signup(&$lnl,$messcat,$whoto) {
-  global $THISYEAR,$USER,$MASTER;
+  global $PLANYEAR,$USER,$MASTER;
   include_once("int/TradeLib.php");
 
   $Prof = Get_Email_Proforma($messcat);
@@ -49,20 +49,20 @@ function Email_Signup(&$lnl,$messcat,$whoto) {
   $Contact = $lnl['Contact']? firstword($lnl['Contact']) : $lnl['SName'];
 
   $Details = Get_lnl_Details($lnl);
-  $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $THISYEAR";
+  $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
   
   $Mess = preg_replace('/\*WHO\*/',$Contact,$Mess);
 //  $Mess = preg_replace('/\*LINK\*/',$Link,$Mess);
 //  $Mess = preg_replace('/\*WMFFLINK\*/',$WmffLink,$Mess);
 
-  $Mess = preg_replace('/\*THISYEAR\*/',$THISYEAR,$Mess);
+  $Mess = preg_replace('/\*PLANYEAR\*/',$PLANYEAR,$Mess);
   $Mess = preg_replace('/\*DATES\*/',$Dates,$Mess);
   $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
 
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Live and Loud $THISYEAR and " . $lnl['SName'],$Mess);
+    SendEmail("Richard@wavwebs.com","Live and Loud $PLANYEAR and " . $lnl['SName'],$Mess);
   } else {
-    SendEmail($whoto,"Live and Loud $THISYEAR and " . $lnl['SName'],$Mess);
+    SendEmail($whoto,"Live and Loud $PLANYEAR and " . $lnl['SName'],$Mess);
   }
 
   $logf = fopen("LogFiles/LiveNLoudLog.txt","a");
@@ -94,7 +94,7 @@ function Get_lol_Details(&$lol) {
 }
 
 function Email_lol_Signup(&$lol,$messcat,$whoto) {
-  global $THISYEAR,$USER,$MASTER;
+  global $PLANYEAR,$USER,$MASTER;
   include_once("int/TradeLib.php");
 
   $Prof = Get_Email_Proforma($messcat);
@@ -103,18 +103,18 @@ function Email_lol_Signup(&$lol,$messcat,$whoto) {
   $Contact = $lol['Contact']? firstword($lol['Contact']) : $lol['SName'];
 
   $Details = Get_lol_Details($lol);
-  $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $THISYEAR";
+  $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
   
   $Mess = preg_replace('/\*WHO\*/',$Contact,$Mess);
 
-  $Mess = preg_replace('/\*THISYEAR\*/',$THISYEAR,$Mess);
+  $Mess = preg_replace('/\*PLANYEAR\*/',$PLANYEAR,$Mess);
   $Mess = preg_replace('/\*DATES\*/',$Dates,$Mess);
   $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
 
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Lol Comp $THISYEAR and " . $lol['SName'],$Mess);
+    SendEmail("Richard@wavwebs.com","Lol Comp $PLANYEAR and " . $lol['SName'],$Mess);
   } else {
-    SendEmail($whoto,"Lol Comp $THISYEAR and " . $lol['SName'],$Mess);
+    SendEmail($whoto,"Lol Comp $PLANYEAR and " . $lol['SName'],$Mess);
   }
 
   $logf = fopen("LogFiles/LaughOutLog.txt","a");
@@ -139,7 +139,7 @@ function Get_BB_Details(&$bb) {
 }
 
 function Email_BB_Signup(&$bb,$messcat,$whoto) {
-  global $THISYEAR,$USER,$MASTER;
+  global $PLANYEAR,$USER,$MASTER;
   include_once("int/TradeLib.php");
 
   $Prof = Get_Email_Proforma($messcat);
@@ -148,18 +148,18 @@ function Email_BB_Signup(&$bb,$messcat,$whoto) {
   $Contact = $bb['Contact']? firstword($bb['Contact']) : $bb['SName'];
 
   $Details = Get_BB_Details($bb);
-  $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $THISYEAR";
+  $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
   
   $Mess = preg_replace('/\*WHO\*/',$Contact,$Mess);
 
-  $Mess = preg_replace('/\*THISYEAR\*/',$THISYEAR,$Mess);
+  $Mess = preg_replace('/\*PLANYEAR\*/',$PLANYEAR,$Mess);
   $Mess = preg_replace('/\*DATES\*/',$Dates,$Mess);
   $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
 
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Buskers Bash $THISYEAR and " . $bb['SName'],$Mess);
+    SendEmail("Richard@wavwebs.com","Buskers Bash $PLANYEAR and " . $bb['SName'],$Mess);
   } else {
-    SendEmail($whoto,"Buskers Bash $THISYEAR and " . $bb['SName'],$Mess);
+    SendEmail($whoto,"Buskers Bash $PLANYEAR and " . $bb['SName'],$Mess);
   }
 
   $logf = fopen("LogFiles/BuskersBashLog.txt","a");
@@ -196,7 +196,7 @@ function Get_Stew_Details(&$stew) {
 }
 
 function Email_Steward(&$stew,$messcat,$whoto) {
-  global $THISYEAR,$USER,$MASTER;
+  global $PLANYEAR,$USER,$MASTER;
   include_once("int/TradeLib.php");
 
   $Prof = Get_Email_Proforma($messcat);
@@ -205,20 +205,20 @@ function Email_Steward(&$stew,$messcat,$whoto) {
   $Contact = firstword($stew['SName']);
 
   $Details = Get_Stew_Details($stew);
-  $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $THISYEAR";
+  $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
   
   $Mess = preg_replace('/\*WHO\*/',$Contact,$Mess);
   $Mess = preg_replace('/\*LINK\*/',$Link,$Mess);
   $Mess = preg_replace('/\*WMFFLINK\*/',$WmffLink,$Mess);
 
-  $Mess = preg_replace('/\*THISYEAR\*/',$THISYEAR,$Mess);
+  $Mess = preg_replace('/\*PLANYEAR\*/',$PLANYEAR,$Mess);
   $Mess = preg_replace('/\*DATES\*/',$Dates,$Mess);
   $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
 
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Volunteer WMFF $THISYEAR and " . $stew['SName'],$Mess);
+    SendEmail("Richard@wavwebs.com","Volunteer WMFF $PLANYEAR and " . $stew['SName'],$Mess);
   } else {
-    SendEmail($whoto,"Volunteer WMFF $THISYEAR and " . $stew['SName'],$Mess);
+    SendEmail($whoto,"Volunteer WMFF $PLANYEAR and " . $stew['SName'],$Mess);
   }
 
   $logf = fopen("LogFiles/Steward.txt","a");

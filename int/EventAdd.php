@@ -76,154 +76,154 @@ A similar feature will appear eventually for music.<p>
       switch ($_POST{'ACTION'}) {
       case 'Divide':
         //echo fm_smalltext('Divide into ','SlotSize',30,2) . fm_smalltext(' minute slots with ','SlotSetup',0,2) . " minute setup";
-	$slotsize  = $_POST['SlotSize'];
-	$slotsetup = $_POST['SlotSetup'];
+        $slotsize  = $_POST['SlotSize'];
+        $slotsetup = $_POST['SlotSetup'];
         $se = $Event['SubEvent'];
-	$SubEvent = $Event;
-	for ($i=1;$i<5;$i++) { $SubEvent["Side$i"] = $SubEvent["Act$i"] = $SubEvent["Other$i"] = 0; };
-//	$SubEvent['SName'] = "";
-	if ($se == 0) {
-	  $Timeleft = timereal($Event['End'])-timereal($Event['Start'])-$slotsize;
-	  if ($Timeleft > 0) {
-	    $Event['SubEvent'] = -1;
-	    $Event['SlotEnd']=timeadd($Event['Start'],$slotsize-$slotsetup);
-	    Put_Event($Event);
-	    $SubEvent['SubEvent']=$eid;
-	    while ($Timeleft > 0) {
-	      $SubEvent['Start'] = timeadd($SubEvent['Start'],$slotsize);
-	      $SubEvent['End'] = min($Event['End'],timeadd($SubEvent['Start'],$slotsize-$slotsetup));
-	      $SubEvent['Duration'] = $SubEvent['End'] - $SubEvent['Start'];
-	      $Timeleft -= $slotsize;
-	      Insert_db('Events',$SubEvent);
+        $SubEvent = $Event;
+        for ($i=1;$i<5;$i++) { $SubEvent["Side$i"] = $SubEvent["Act$i"] = $SubEvent["Other$i"] = 0; };
+//        $SubEvent['SName'] = "";
+        if ($se == 0) {
+          $Timeleft = timereal($Event['End'])-timereal($Event['Start'])-$slotsize;
+          if ($Timeleft > 0) {
+            $Event['SubEvent'] = -1;
+            $Event['SlotEnd']=timeadd($Event['Start'],$slotsize-$slotsetup);
+            Put_Event($Event);
+            $SubEvent['SubEvent']=$eid;
+            while ($Timeleft > 0) {
+              $SubEvent['Start'] = timeadd($SubEvent['Start'],$slotsize);
+              $SubEvent['End'] = min($Event['End'],timeadd($SubEvent['Start'],$slotsize-$slotsetup));
+              $SubEvent['Duration'] = $SubEvent['End'] - $SubEvent['Start'];
+              $Timeleft -= $slotsize;
+              Insert_db('Events',$SubEvent);
             }
-	  } else { 
-	    $Err = "Can't divide";
-	  }
-	} elseif ($se < 0) { // Aready parent event
-	  $Timeleft = timereal($Event['SlotEnd'])-timereal($Event['Start'])-$slotsize;
-	  if ($Timeleft > 0) {
-	    $oldEnd = $Event['SlotEnd'];
-	    $Event['SlotEnd']=timeadd($Event['Start'],$slotsize-$slotsetup);
-	    Put_Event($Event);
-	    $SubEvent['SubEvent']=$eid;
-	    while ($Timeleft > 0) {
-	      $SubEvent['Start'] = timeadd($SubEvent['Start'],$slotsize);
-	      $SubEvent['End'] = min($oldEnd,timeadd($SubEvent['Start'],$slotsize-$slotsetup));
-	      $SubEvent['Duration'] = $SubEvent['End'] - $SubEvent['Start'];
-	      $Timeleft -= $slotsize;
-	      Insert_db('Events',$SubEvent);
+          } else { 
+            $Err = "Can't divide";
+          }
+        } elseif ($se < 0) { // Aready parent event
+          $Timeleft = timereal($Event['SlotEnd'])-timereal($Event['Start'])-$slotsize;
+          if ($Timeleft > 0) {
+            $oldEnd = $Event['SlotEnd'];
+            $Event['SlotEnd']=timeadd($Event['Start'],$slotsize-$slotsetup);
+            Put_Event($Event);
+            $SubEvent['SubEvent']=$eid;
+            while ($Timeleft > 0) {
+              $SubEvent['Start'] = timeadd($SubEvent['Start'],$slotsize);
+              $SubEvent['End'] = min($oldEnd,timeadd($SubEvent['Start'],$slotsize-$slotsetup));
+              $SubEvent['Duration'] = $SubEvent['End'] - $SubEvent['Start'];
+              $Timeleft -= $slotsize;
+              Insert_db('Events',$SubEvent);
             }
-	  } else { 
-	    $Err = "Can't divide";
-	  }
-	} else { // Child event
-	  $Timeleft = timereal($Event['End'])-timereal($Event['Start'])-$slotsize;
-	  if ($Timeleft > 0) {
-	    $oldEnd = $Event['End'];
-	    $Event['End']=timeadd($Event['Start'],$slotsize-$slotsetup);
-	    Put_Event($Event);
-	    while ($Timeleft > 0) {
-	      $SubEvent['Start'] = timeadd($SubEvent['Start'],$slotsize);
-	      $SubEvent['End'] = min($oldEnd,timeadd($SubEvent['Start'],$slotsize-$slotsetup));
-	      $SubEvent['Duration'] = $SubEvent['End'] - $SubEvent['Start'];
-	      $Timeleft -= $slotsize;
-	      Insert_db('Events',$SubEvent);
+          } else { 
+            $Err = "Can't divide";
+          }
+        } else { // Child event
+          $Timeleft = timereal($Event['End'])-timereal($Event['Start'])-$slotsize;
+          if ($Timeleft > 0) {
+            $oldEnd = $Event['End'];
+            $Event['End']=timeadd($Event['Start'],$slotsize-$slotsetup);
+            Put_Event($Event);
+            while ($Timeleft > 0) {
+              $SubEvent['Start'] = timeadd($SubEvent['Start'],$slotsize);
+              $SubEvent['End'] = min($oldEnd,timeadd($SubEvent['Start'],$slotsize-$slotsetup));
+              $SubEvent['Duration'] = $SubEvent['End'] - $SubEvent['Start'];
+              $Timeleft -= $slotsize;
+              Insert_db('Events',$SubEvent);
             }
-	  } else { 
-	    $Err = "Can't divide";
-	  }
-	}
+          } else { 
+            $Err = "Can't divide";
+          }
+        }
         break;
 
       case 'Add': // Add N Subevents starting and ending at current ends - if a subevent, parent is ses parent
         $AddIn = $_POST{'Slots'};
-	$Se = $Event['SubEvent'];
-	$SubEvent = $Event;
-	$SubEvent['End'] = $SubEvent['Start'];
-	$SubEvent['Duration'] = 0;
-	for ($i=1;$i<5;$i++) { $SubEvent["Side$i"] = $SubEvent["Act$i"] = $SubEvent["Other$i"] = 0; };
-	if ($Se > 0) { // Is already a Sub event so copy parent
-	} else if ($Se ==0 ) { // SEs of this
-	  $Event['SubEvent'] = -1;
-	  $Event['SlotEnd'] = $Event['End'];
-	  Put_Event($Event);
-	  $SubEvent['SubEvent'] = $eid;
-	} else { // Already Has SEs
-	  $SubEvent['SubEvent'] = $eid;
-	}  
-	for($i=1;$i<=$AddIn;$i++) Insert_db('Events',$SubEvent);
-	break;
+        $Se = $Event['SubEvent'];
+        $SubEvent = $Event;
+        $SubEvent['End'] = $SubEvent['Start'];
+        $SubEvent['Duration'] = 0;
+        for ($i=1;$i<5;$i++) { $SubEvent["Side$i"] = $SubEvent["Act$i"] = $SubEvent["Other$i"] = 0; };
+        if ($Se > 0) { // Is already a Sub event so copy parent
+        } else if ($Se ==0 ) { // SEs of this
+          $Event['SubEvent'] = -1;
+          $Event['SlotEnd'] = $Event['End'];
+          Put_Event($Event);
+          $SubEvent['SubEvent'] = $eid;
+        } else { // Already Has SEs
+          $SubEvent['SubEvent'] = $eid;
+        }  
+        for($i=1;$i<=$AddIn;$i++) Insert_db('Events',$SubEvent);
+        break;
 
       case 'Delete':
-	$Event['Year'] -= 1000;
-	Put_Event($Event);
-	$Skip = 1;
+        $Event['Year'] -= 1000;
+        Put_Event($Event);
+        $Skip = 1;
         break;
 
       case 'Promote': // Sub Event to full event
-	$Se = $Event['SubEvent'];
-	if ($Se > 0) { // Is a SE
-	  $Event['SubEvent'] = 0;
-	  Put_Event($Event);
-	} else { // Is the parent - duplicate and make new one simple, make old one start after new one and clear contents
-	  $NewEvent = $Event;
-	  $NewEvent['SubEvent'] = 0;
-	  $NewEvent['End'] = $NewEvent['SlotEnd'];
-	  $NewEvent['EventId']=0;
-	  $NewEvent['SlotEnd'] = 0;
-	  Insert_db('Events',$NewEvent);
+        $Se = $Event['SubEvent'];
+        if ($Se > 0) { // Is a SE
+          $Event['SubEvent'] = 0;
+          Put_Event($Event);
+        } else { // Is the parent - duplicate and make new one simple, make old one start after new one and clear contents
+          $NewEvent = $Event;
+          $NewEvent['SubEvent'] = 0;
+          $NewEvent['End'] = $NewEvent['SlotEnd'];
+          $NewEvent['EventId']=0;
+          $NewEvent['SlotEnd'] = 0;
+          Insert_db('Events',$NewEvent);
 
-	  $Event['Start'] = $NewEvent['End'];
-	  for ($i=1;$i<5;$i++) $Event["Side$i"] = $Event["Act$i"] = $Event["Other$i"] = 0;
-	  Put_Event($Event);
-	}
-	break;
+          $Event['Start'] = $NewEvent['End'];
+          for ($i=1;$i<5;$i++) $Event["Side$i"] = $Event["Act$i"] = $Event["Other$i"] = 0;
+          Put_Event($Event);
+        }
+        break;
       }
-    } elseif ($eid > 0) { 	// existing Event
+    } elseif ($eid > 0) {         // existing Event
       $CurEvent=$Event;
       Parse_TimeInputs($EventTimeFields,$EventTimeMinFields);
       Update_db_post('Events',$Event);
       Check_4Changes($CurEvent,$Event);
       $OtherValid = 1;
       if ($Event['BigEvent']) {
-	$err = 0;
+        $err = 0;
         if (!isset($Other)) $Other = Get_Other_Things_For($eid);
-	if (!$err && $Other) foreach ($Other as $i=>$ov) {  // Start with venues only
-	  if ($ov['Type'] == 'Venue') {
-	    $id = $ov['BigEid'];
-	    if ($_POST{"VEN$id"} != $ov['Identifier']) {
-	      $ven = $_POST{"VEN$id"};
-	      if ($ven != 0 ) {
-	      	if ($Event['Venue'] == $ven) $err = 1;
-	        foreach ($Other as $ii=>$oov) if ($ov['Type'] == 'Venue' && $oov['Identifier'] == $ven) $err=1;
-		$BigE = Get_BigEvent($id);
-	        $BigE['Identifier'] = $ven;
-	     	Put_BigEvent($BigE);
-	      } else {
-		db_delete('BigEvent',$id);
-	      }
-	      $OtherValid = 0;
-	    }
-	  }
-	}
-	if ($err==0 && $_POST{'NEWVEN'} > 0) { // Add venue
-	  if ($Other) foreach ($Other as $i=>$ov) if ($ov['Type'] == 'Venue' && $ov['Identifier'] == $_POST{'NEWVEN'}) $err++;
-	  if ($err == 0 && $Event['Venue'] == $_POST{'NEWVEN'}) $err++; 
-	  if ($err == 0) {
-	    $BigE = array('Event'=>$eid, 'Type'=>'Venue', 'Identifier'=>$_POST{'NEWVEN'});
-	    New_BigEvent($BigE);
-	    $OtherValid = 0;
-	  }
-	}
-	if ($err) echo "<h2 class=ERR>The Event already has Venue " . $Venues[$_POST{'NEWVEN'}] . "</h2>\n";
-	if (!$OtherValid) unset($Other);
+        if (!$err && $Other) foreach ($Other as $i=>$ov) {  // Start with venues only
+          if ($ov['Type'] == 'Venue') {
+            $id = $ov['BigEid'];
+            if ($_POST{"VEN$id"} != $ov['Identifier']) {
+              $ven = $_POST{"VEN$id"};
+              if ($ven != 0 ) {
+                      if ($Event['Venue'] == $ven) $err = 1;
+                foreach ($Other as $ii=>$oov) if ($ov['Type'] == 'Venue' && $oov['Identifier'] == $ven) $err=1;
+                $BigE = Get_BigEvent($id);
+                $BigE['Identifier'] = $ven;
+                     Put_BigEvent($BigE);
+              } else {
+                db_delete('BigEvent',$id);
+              }
+              $OtherValid = 0;
+            }
+          }
+        }
+        if ($err==0 && $_POST{'NEWVEN'} > 0) { // Add venue
+          if ($Other) foreach ($Other as $i=>$ov) if ($ov['Type'] == 'Venue' && $ov['Identifier'] == $_POST{'NEWVEN'}) $err++;
+          if ($err == 0 && $Event['Venue'] == $_POST{'NEWVEN'}) $err++; 
+          if ($err == 0) {
+            $BigE = array('Event'=>$eid, 'Type'=>'Venue', 'Identifier'=>$_POST{'NEWVEN'});
+            New_BigEvent($BigE);
+            $OtherValid = 0;
+          }
+        }
+        if ($err) echo "<h2 class=ERR>The Event already has Venue " . $Venues[$_POST{'NEWVEN'}] . "</h2>\n";
+        if (!$OtherValid) unset($Other);
       }  
     } else { // New
       $proc = 1;
       if (!isset($_POST['SName']) || strlen($_POST{'SName'}) < 2) { 
         echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
         $Event = $_POST;
-	$proc = 0;
+        $proc = 0;
       }
       if ($_POST['Owner'] == 0) $_POST['Owner'] = $USERID;
       Parse_TimeInputs($EventTimeFields,$EventTimeMinFields);
@@ -255,9 +255,9 @@ A similar feature will appear eventually for music.<p>
   }
 
 // $Event_Types = array('Dance','Music','Workshop','Craft','Mixed','Other');
-// Dance		Y		Y			Y	Y
-// Music			Y	Y			Y	Y
-// Other				Y		Y	Y	Y
+// Dance                Y                Y                        Y        Y
+// Music                        Y        Y                        Y        Y
+// Other                                Y                Y        Y        Y
 
   if ($eid > 0) EventCheck($eid);
 
@@ -270,7 +270,7 @@ A similar feature will appear eventually for music.<p>
   if (isset($Err)) echo "<h2 class=ERR>$Err</h2>\n";
   echo "<span class=NotSide>Fields marked should be only set by Richard</span>";
   if (!$Skip) {
-    $adv = ($Event['SubEvent']>0?"class=Adv":""); 
+    $adv = (isset($Event['SubEvent']) ?(($Event['SubEvent']>0?"class=Adv":"")) : ""); 
     echo "<table width=90% border>\n";
       if (isset($eid) && $eid > 0) {
         echo "<tr><td>Event Id:" . $eid . fm_hidden('EventId',$eid);
@@ -285,7 +285,7 @@ A similar feature will appear eventually for music.<p>
       echo "<td class=NotSide>Originator:" . fm_select($AllActive,$Event,'Owner',1);
 
       echo "<tr><td class=NotSide>" . fm_checkbox('Multiday Event',$Event,'LongEvent','onchange=$(".mday").show()');
-      $hidemday =  ($Event['LongEvent'])?'':'hidden ';
+      $hidemday =  (isset($Event['LongEvent']) && $Event['LongEvent'])?'':'hidden ';
       echo "<td class=NotSide>" . fm_checkbox('Big Event',$Event,'BigEvent');
       echo "<td class=NotSide>" . fm_checkbox('Ignore Clashes',$Event,'IgnoreClash');
       echo "<td class=NotSide>" . fm_checkbox('Also Dance',$Event,'ListDance');
@@ -299,84 +299,84 @@ A similar feature will appear eventually for music.<p>
 
       echo "<tr>" . fm_text('Name', $Event,'SName');
         echo "<td>Event Type:" . fm_select($Event_Types,$Event,'Type');
-        $se = $Event['SubEvent'];
+        $se = isset($Event['SubEvent'])? $Event['SubEvent'] : 0;
         if ($se == 0) { echo "<td>No Sub Events"; }
         elseif ($se < 0) { echo "<td><a href=EventList.php?se=$eid>Has Sub Events</a>"; }
         else { echo "<td><a href=EventList.php?se=$se>Is a Sub Event</a>"; };
         echo "<td class=NotSide>" . fm_checkbox('No Part',$Event,'NoPart');
 
       if ($se <= 0) {
-	echo "<tr>";
-	echo "<td>" . fm_simpletext('Price &pound;',$Event,'Price1');
-	if ($MASTER['PriceChange1']) echo "<td>" . fm_simpletext('Price after ' . date('j M Y',$MASTER['PriceChange1']) . '(if diff) &pound;',$Event,'Price2');
-	if ($MASTER['PriceChange2']) echo "<td>" . fm_simpletext('Price after ' . date('j M Y',$MASTER['PriceChange2']) . '(if diff) &pound;',$Event,'Price3');
-	echo "<td>" . fm_simpletext('Door Price (if different) &pound;',$Event,'DoorPrice');
-	echo "<td class=NotSide>" . fm_simpletext('Ticket Code',$Event,'TicketCode');
+        echo "<tr>";
+        echo "<td>" . fm_simpletext('Price &pound;',$Event,'Price1');
+        if ($MASTER['PriceChange1']) echo "<td>" . fm_simpletext('Price after ' . date('j M Y',$MASTER['PriceChange1']) . '(if diff) &pound;',$Event,'Price2');
+        if ($MASTER['PriceChange2']) echo "<td>" . fm_simpletext('Price after ' . date('j M Y',$MASTER['PriceChange2']) . '(if diff) &pound;',$Event,'Price3');
+        echo "<td>" . fm_simpletext('Door Price (if different) &pound;',$Event,'DoorPrice');
+        echo "<td class=NotSide>" . fm_simpletext('Ticket Code',$Event,'TicketCode');
       }
 
       echo "<tr>" . fm_radio('<span class=mday $hidemday>Start </span>Day',$DayList,$Event,'Day');
 //      echo fm_text('Year',$Event,'Year');
-      echo "<td colspan=3>Times: " . fm_smalltext('Start','Start',$Event['Start']);
-        echo fm_smalltext('End','End',$Event['End']);
-        echo fm_smalltext('Setup Time','Setup (mins)',$Event['Setup']) ;
-        echo fm_smalltext('Duration','Duration',$Event['Duration']) . "&nbsp;minutes ";
-        if ($se < 0) echo fm_smalltext(', Slot End','SlotEnd',$Event['SlotEnd']);
+      echo "<td colspan=3>Times: " . fm_smalltext2('Start',$Event,'Start');
+        echo fm_smalltext2('End',$Event,'End');
+        echo fm_smalltext2('Setup Time (mins)',$Event,'Setup') ;
+        echo fm_smalltext2('Duration',$Event,'Duration') . "&nbsp;minutes ";
+        if ($se < 0) echo fm_smalltext2(', Slot End',$Event,'SlotEnd');
       if ($se <= 0) echo "<tr class=mday $hidemday>" . fm_radio('End Day',$DayList,$Event,'EndDay') . 
-		"<td colspan=3>Set up a sub event for each day after first, times are for first day";
+                "<td colspan=3>Set up a sub event for each day after first, times are for first day";
       echo "<tr><td>Venue:<td>" . fm_select($Venues,$Event,'Venue',1);
         echo fm_textarea('Notes', $Event,'Notes',4,2);
       $et = 'Mixed';
       if (isset($Event['Type'])) $et = $Event_Types[$Event['Type']];
       echo "<tr $adv>" . fm_textarea('Description <span id=DescSize></span>',$Event,'Description',5,2,'',
-			'maxlength=150 oninput=SetDSize("DescSize",150,"ShortBlurb") id=ShortBlurb'); 
+                        'maxlength=150 oninput=SetDSize("DescSize",150,"ShortBlurb") id=ShortBlurb'); 
       echo "<tr $adv>" . fm_textarea('Blurb',$Event,'Blurb',5,2,'','maxlength=2000');
       echo "<tr><td>If the Venue doesn't normally have a Bar or Food<td>" . fm_checkbox('Bar',$Event,'Bar') . 
-		"<td>" . fm_checkbox('Food',$Event,'Food') . fm_text('Food/Bar text',$Event,'BarFoodText') . "\n";
+                "<td>" . fm_checkbox('Food',$Event,'Food') . fm_text('Food/Bar text',$Event,'BarFoodText') . "\n";
       echo "<tr>" . fm_text1('Image',$Event,'Image',1,'class=NotSide','class=NotSide') .
                     fm_text1('Website',$Event,'Website',1,'class=NotSide','class=NotSide') ;
       echo          fm_text1('Special Price Text',$Event,'SpecPrice',1,'class=NotSide','class=NotSide') .
                     fm_text1('Special Price Link',$Event,'SpecPriceLink',1,'class=NotSide','class=NotSide') ;
       echo "<td class=NotSide>" . fm_checkbox('Cancelled',$Event,'Status');
-      if (!$Event['BigEvent']) {
+      if (!((isset($Event['BigEvent']) && $Event['BigEvent']))) {
 //        if ($et == 'Dance' || $et == 'Workshop' || $et == 'Mixed' || $et == 'Other') {
           echo "<tr><td rowspan=2>Sides:" . Help('Sides');
           for ($i=1; $i<5; $i++) {
-	    if ($i==3) echo "<tr>"; 
-	    echo "<td colspan=2>" . fm_select($SideList,$Event,'Side' . $i);
-	  }
+            if ($i==3) echo "<tr>"; 
+            echo "<td colspan=2>" . fm_select($SideList,$Event,'Side' . $i);
+          }
 //        }
 //        if ($et == 'Music' || $et == 'Workshop' || $et == 'Mixed' || $et == 'Other') {
           echo "<tr><td rowspan=2>Music:" . Help('Acts');
           for ($i=1; $i<5; $i++) {
-	    if ($i==3) echo "<tr>"; 
+            if ($i==3) echo "<tr>"; 
             echo "<td colspan=2>" .fm_select($ActList,$Event,'Act' . $i,1);
           }
 //        }
 //        if ($et == 'Craft' || $et == 'Workshop' || $et == 'Mixed' || $et == 'Other') {
           echo "<tr><td rowspan=2>Other:" . Help('Others');
           for ($i=1; $i<5; $i++) {
-	    if ($i==3) echo "<tr>"; 
-	    echo "<td colspan=2>" .fm_select($OtherList,$Event,'Other' . $i,1);
-	  }
+            if ($i==3) echo "<tr>"; 
+            echo "<td colspan=2>" .fm_select($OtherList,$Event,'Other' . $i,1);
+          }
 //        }
       } else {
-	$ovc=0;
+        $ovc=0;
         echo "<tr><td>Other Venues:";
         if (!isset($Other)) $Other = Get_Other_Things_For($eid);
- 	if ($Other) {
-	  foreach ($Other as $i=>$ov) {
-	    if ($ov['Type'] == 'Venue') {
-	      $id = $ov['Identifier'];
-  	      echo "<td>" . fm_select2($Venues,$id,"VEN" . $ov['BigEid'] ,1);
-	      if ((($ovc++)&3) == 3) echo "\n<tr><td>";
-	    }
-	  }
-	}
-  	echo "<td>" . fm_select2($Venues,0,"NEWVEN",1);
+         if ($Other) {
+          foreach ($Other as $i=>$ov) {
+            if ($ov['Type'] == 'Venue') {
+              $id = $ov['Identifier'];
+                echo "<td>" . fm_select2($Venues,$id,"VEN" . $ov['BigEid'] ,1);
+              if ((($ovc++)&3) == 3) echo "\n<tr><td>";
+            }
+          }
+        }
+          echo "<td>" . fm_select2($Venues,0,"NEWVEN",1);
       }
         
     echo "</table>\n";
-    if ($Event['BigEvent']) {
+    if (isset($Event['BigEvent']) && $Event['BigEvent']) {
       echo "Use the <a href=BigEventProg.php?e=$eid>Big Event Programming Tool</a> to add sides, musicians and others to this event. ";
       echo "Use the <a href=DisplayBE.php?e=$eid>Big Event Display</a> to get a simple display of the event.";
     }
@@ -389,15 +389,15 @@ A similar feature will appear eventually for music.<p>
         echo fm_smalltext('Divide into ','SlotSize',30,2) . fm_smalltext(' minute slots with ','SlotSetup',0,2) . " minute setup";
         echo "<input type=Submit name=ACTION value=Divide>, \n";
         echo "<input type=Submit name=ACTION value=Delete onClick=\"javascript:return confirm('are you sure you want to delete this?');\">, \n";
-	echo "<input type=Submit name=ACTION value=Add>" . fm_smalltext('','Slots',1,2) . " sub events";
-	if (Access('SysAdmin') && $se != 0 ) echo ", <input type=Submit name=ACTION value=Promote>";
+        echo "<input type=Submit name=ACTION value=Add>" . fm_smalltext('','Slots',1,2) . " sub events";
+        if (Access('SysAdmin') && $se != 0 ) echo ", <input type=Submit name=ACTION value=Promote>";
         echo "</form>\n";
       }
       echo "</center>\n";
     } else { 
       echo "<Center><input type=Submit name=Create value='Create'></center>\n";
     }
-    if ($Event['SubEvent'] > 0) echo "<button onclick=ShowAdv(event) id=ShowMore type=button class=floatright>More features</button>";
+    if (isset($Event['SubEvent']) && $Event['SubEvent'] > 0) echo "<button onclick=ShowAdv(event) id=ShowMore type=button class=floatright>More features</button>";
     echo "</form>\n";
   }
   echo "<h2><a href=EventList.php>List Events</a>";

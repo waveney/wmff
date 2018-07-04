@@ -1,18 +1,10 @@
 <?php
   include_once("fest.php");
   A_Check('Upload');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | Music Help</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php include_once("files/navigation.php"); ?>
-<div class="content">
-<p>
+  dostaffhead("Music Help");
+
+echo '
 <h2>Introduction</h2>
 Expanding the database to handle Music was a larger task than I originally thought, when I realised that Music is booked in a different way to
 how Dance Sides are booked, so rather than try to change the Dance booking for Music I wrote Music Booking as a largely seperate system.  
@@ -38,11 +30,8 @@ Most of the material (if not all) for the printed programme, publicity posters, 
 If something goes wrong, or its not obvious or you wish it could do something extra. <p>
 
 Then either contact Richard (07718 511 432, Email: <a href=mailto:richard@wavwebs.com>Richard@wavwebs.com</a>)
-or <a href=AddBug.php>Raise a bug or Feature request</a>.<p>
+or <a href=AddBug.php>Raise a bug or Feature request</a>.<p>';
+  dotail();
 
-
-</div>
-
-<?php include_once("files/footer.php");  ?>
-</body></html>
+?>
 

@@ -20,13 +20,13 @@
   if (isset($_POST{'Year'})) { /* Response to update button */
     $ynum = $_POST{'Year'};
     Parse_DateInputs($Dates);
-    if ($ynum > 0) { 				// existing Year
+    if ($ynum > 0) {                                 // existing Year
       $Gen = Get_General($ynum);
       if (isset($_POST{'ACTION'})) {
         switch ($_POST{'ACTION'}) {
-	case 'New Year' :
-	  break;
-	}
+        case 'New Year' :
+          break;
+        }
       } else {
         Update_db_post('General',$Gen);
       }
@@ -55,13 +55,14 @@
   echo "<table width=90% border>\n";
     echo "<tr><td>Year:<td>";
       if (isset($ynum) && $ynum > 0) {
-	echo $ynum . fm_hidden('Year',$ynum);
+        echo $ynum . fm_hidden('Year',$ynum);
       } else {
-	echo $YEAR;
-	echo fm_hidden('Year',-1);
+        echo $YEAR;
+        echo fm_hidden('Year',-1);
       }
 // NOTE General contains LOTS of no longer used feilds - just ignore them
-    echo "<tr>" . fm_text('Version Number',$Gen,'Version') . "<td>Software Version Number - change will force css/js reload";
+//    echo "<tr>" . fm_text('Version Number',$Gen,'Version') . "<td>Software Version Number - change will force css/js reload";
+//    echo "<tr>" . fm_text('Prefix',$Gen,'Prefix') . "<td>Title prefix - used for testing only";
     echo "<tr><td>State of Family:<td>" . fm_select($EType_States,$Gen,'FamilyState') . "<td>Controls level of Participant interfaces";
     echo "<tr><td>State of Specials:<td>" . fm_select($EType_States,$Gen,'SpecialState') . "<td>";
     echo "<tr><td>State of Trade:<td>" . fm_select($EType_States,$Gen,'TradeState') . "<td>No effect yet";

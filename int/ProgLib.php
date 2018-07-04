@@ -18,25 +18,25 @@ include_once("DateTime.php");
 
 function Set_Venue_Help() {
   static $t = array(
- 	'ShortName'=>'Short name eg Cornmarket - OPTIONAL',
-	'SName'=>'Full name eg Daccombe International Stage',
-	'DanceImportance'=>'Higher numbers get listed first',
-	'Description'=>'Sent to particpants so they know what to expect and where it is',
-	'GoogleMap'=>'Link for partipants to know exactly where to go',
-	'DanceRider'=>'Additional text sent to dance sides about this venue',
-	'MusicRider'=>'Additional text sent to music acts about this venue',
-	'OtherRider'=>'Additional text sent to other participants about this venue',
-	'Parking'=>'Is parking provided by/for the Venue',
-	'Bar'=>'Does the venue have a bar?',
-	'Food'=>'Does the venue serve food?',
-	'BarFoodText'=>'Any text that expands on the food and drink available',
-	'Website'=>'If the venue has a website put it here',
-	'MapImp'=>'Range 0-20, 0 means 16 which is default, 15 is VERY important, 18 very minor, -1 do not display',
-	'DirectionsExtra'=>'Extra info to be put at end of directions to venue',
-	'IsVirtual'=>'Combined site for display purposes, do not use for real events',
-	'PartVirt'=>'What virtual site this is part of (if any)',
-	'SupressFree'=>'If the venue has an entry change set this',
-	'Minor'=>'Treatment of venue in final dance grid'
+        'ShortName'=>'Short name eg Cornmarket - OPTIONAL',
+        'SName'=>'Full name eg Daccombe International Stage',
+        'DanceImportance'=>'Higher numbers get listed first',
+        'Description'=>'Sent to particpants so they know what to expect and where it is',
+        'GoogleMap'=>'Link for partipants to know exactly where to go',
+        'DanceRider'=>'Additional text sent to dance sides about this venue',
+        'MusicRider'=>'Additional text sent to music acts about this venue',
+        'OtherRider'=>'Additional text sent to other participants about this venue',
+        'Parking'=>'Is parking provided by/for the Venue',
+        'Bar'=>'Does the venue have a bar?',
+        'Food'=>'Does the venue serve food?',
+        'BarFoodText'=>'Any text that expands on the food and drink available',
+        'Website'=>'If the venue has a website put it here',
+        'MapImp'=>'Range 0-20, 0 means 16 which is default, 15 is VERY important, 18 very minor, -1 do not display',
+        'DirectionsExtra'=>'Extra info to be put at end of directions to venue',
+        'IsVirtual'=>'Combined site for display purposes, do not use for real events',
+        'PartVirt'=>'What virtual site this is part of (if any)',
+        'SupressFree'=>'If the venue has an entry change set this',
+        'Minor'=>'Treatment of venue in final dance grid'
   );
   Set_Help_Table($t);
 }
@@ -119,34 +119,34 @@ function Put_Venue(&$now) {
 
 function Set_Event_Help() {
   static $t = array(
- 	'Start'=>'Use 24hr clock for all times eg 1030, 1330',
-	'Sides'=>'Do not use this tool for dance programming use the tool under Dance, once the events have been created',
-	'Acts'=>'Normally only select one Act/Other, if the event has many timed participants use sub-events',
-	'Others'=>'Normally only select one Act/Other, if the event has many timed participants use sub-events',
-	'SName'=>'Needed for now, need not be unique',
-	'Type'=>'Broad event category, if in doubt ask Richard',
-	'Description'=>'Brief description of event for website and programme book, max 150 chars',
-	'Blurb'=>'Longer blurb if wanted, that will follow the description when this particular events is being looked at online',
-	'Setup'=>'IF the event has setup prior to the start time, set it here in minutes to block out the venue',
-	'Duration'=>'Duration in minutes of the event, this will normally be calculated from the End time',
-	'BigEvent'=>'For large events needing more than 4 participants of each type eg the procession',
-	'IgnoreClash'=>'Ignore two events at same time and surpress gap checking',
-	'Public'=>'Controls public visibility of Event, "Not Yet" and "Never" are handled the same',
-	'ExcludeCount'=>'For Big Events - if set exclude this event from Dance Spot counts - eg Procession',
-	'Price'=>'In pounds for entire event - there are no prices for sub events - negative prices have special meanings -1 = museum',
-	'Venue'=>'For Big Events - put the starting Venue here',
-	'SlotEnd'=>'If a large event is divided into a number of slots, this is the end of the first slot, not needed otherwise',
-	'NonFest'=>'Event not run by the Festival, but included in programme - only for friendly non fesival events',
-	'Family'=>'List as a family event',
-	'Special'=>'List as a Special event',
-	'LongEvent'=>'Enable event to ran over many days',
-	'Owner'=>'Who created the event, editable by this person, the Alt Edit and any with global edit rights',
-	'Owner2'=>'This person is also allowed to edit this event',
-	'Importance'=>'Affects appearance of event on home page',
-	'NoPart'=>'Set if the event has no particpants (Sides, Acts or Other)',
-	'Image'=>'These are all for handling weird cases only',
-	'Status'=>'Only mark as cancelled to have it appear in online lists and say cancelled, otherwise just delete',
-	'Budget'=>'What part of the festival budget this Event comes under'
+         'Start'=>'Use 24hr clock for all times eg 1030, 1330',
+        'Sides'=>'Do not use this tool for dance programming use the tool under Dance, once the events have been created',
+        'Acts'=>'Normally only select one Act/Other, if the event has many timed participants use sub-events',
+        'Others'=>'Normally only select one Act/Other, if the event has many timed participants use sub-events',
+        'SName'=>'Needed for now, need not be unique',
+        'Type'=>'Broad event category, if in doubt ask Richard',
+        'Description'=>'Brief description of event for website and programme book, max 150 chars',
+        'Blurb'=>'Longer blurb if wanted, that will follow the description when this particular events is being looked at online',
+        'Setup'=>'IF the event has setup prior to the start time, set it here in minutes to block out the venue',
+        'Duration'=>'Duration in minutes of the event, this will normally be calculated from the End time',
+        'BigEvent'=>'For large events needing more than 4 participants of each type eg the procession',
+        'IgnoreClash'=>'Ignore two events at same time and surpress gap checking',
+        'Public'=>'Controls public visibility of Event, "Not Yet" and "Never" are handled the same',
+        'ExcludeCount'=>'For Big Events - if set exclude this event from Dance Spot counts - eg Procession',
+        'Price'=>'In pounds for entire event - there are no prices for sub events - negative prices have special meanings -1 = museum',
+        'Venue'=>'For Big Events - put the starting Venue here',
+        'SlotEnd'=>'If a large event is divided into a number of slots, this is the end of the first slot, not needed otherwise',
+        'NonFest'=>'Event not run by the Festival, but included in programme - only for friendly non fesival events',
+        'Family'=>'List as a family event',
+        'Special'=>'List as a Special event',
+        'LongEvent'=>'Enable event to ran over many days',
+        'Owner'=>'Who created the event, editable by this person, the Alt Edit and any with global edit rights',
+        'Owner2'=>'This person is also allowed to edit this event',
+        'Importance'=>'Affects appearance of event on home page',
+        'NoPart'=>'Set if the event has no particpants (Sides, Acts or Other)',
+        'Image'=>'These are all for handling weird cases only',
+        'Status'=>'Only mark as cancelled to have it appear in online lists and say cancelled, otherwise just delete',
+        'Budget'=>'What part of the festival budget this Event comes under'
   );
   Set_Help_Table($t);
 }
@@ -198,7 +198,7 @@ function Get_Events_For($what,$Day) {
   global $db,$YEAR,$Day_Type;
   $xtra = ($what=='Dance'?' OR e.ListDance=1 ':($what=='Music'?' OR e.ListMusic=1':''));
   $res=$db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND Status=0 AND (( e.Type=t.ETypeNo AND t.Has$what=1) $xtra ) AND e.Day=" . 
-		$Day_Type[$Day] );
+                $Day_Type[$Day] );
   if ($res) {
     while($ev = $res->fetch_assoc()) $evs[$ev['EventId']] = $ev;
     return $evs;
@@ -208,11 +208,11 @@ function Get_Events_For($what,$Day) {
 function Get_All_Events_For($what,$wnum,$All=0) {
   global $db,$YEAR;
   $qry="SELECT DISTINCT e.* FROM Events e, BigEvent b WHERE Year=$YEAR " . ($All?'':"AND Public<2") . " AND ( " .
-		"Side1=$wnum OR Side2=$wnum OR Side3=$wnum OR Side4=$wnum OR " .
-		"Act1=$wnum OR Act2=$wnum OR Act3=$wnum OR Act4=$wnum OR " .
-		"Other1=$wnum OR Other2=$wnum OR Other3=$wnum OR Other4=$wnum " .
-		" OR ( BigEvent=1 AND e.EventId=b.Event AND b.Type='$what' AND b.Identifier=$wnum ) ) " .
-		" ORDER BY Day,Start";
+                "Side1=$wnum OR Side2=$wnum OR Side3=$wnum OR Side4=$wnum OR " .
+                "Act1=$wnum OR Act2=$wnum OR Act3=$wnum OR Act4=$wnum OR " .
+                "Other1=$wnum OR Other2=$wnum OR Other3=$wnum OR Other4=$wnum " .
+                " OR ( BigEvent=1 AND e.EventId=b.Event AND b.Type='$what' AND b.Identifier=$wnum ) ) " .
+                " ORDER BY Day,Start";
   $res = $db->query($qry);
   if ($res) {
     while($ev = $res->fetch_assoc()) $evs[$ev['EventId']] = $ev;
@@ -298,6 +298,12 @@ function Put_Event_Type(&$now) {
 
 $Event_Types = Get_Event_Types(0);
 
+function Get_Event_Type_For($nam) {
+  global $Event_Types_Full;
+  foreach ($Event_Types_Full as $ET) if ($ET['SName'] == $nam) return $ET;
+  return null;
+}
+
 function Event_Has_Parts($e) {
   for ($i=1;$i<5;$i++) {
     if ($e["Side$i"] || $e["Act$i"] || $e["Other$i"]) return 1;
@@ -321,7 +327,7 @@ function ListLinks(&$ev,$type,$single,$plural,$size,$mult) {
   if ($things == 0) return '';
   $ks = array_keys($imps);
   $think = array();
-  sort($ks);	
+  sort($ks);        
   $things = 0;
   $ans = '';
   foreach ( array_reverse($ks) as $imp) {
@@ -331,7 +337,7 @@ function ListLinks(&$ev,$type,$single,$plural,$size,$mult) {
       if ($thing['IsASide']) {
         $ttxt = "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
       } else if ($thing['IsAnAct']) {
-	$ttxt = "<a href='/int/ShowMusic.php?sidenum=" . $thing['SideId'] . "'>";
+        $ttxt = "<a href='/int/ShowMusic.php?sidenum=" . $thing['SideId'] . "'>";
       } else {
         $ttxt = "<a href='/int/ShowMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
       }
@@ -367,32 +373,32 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
       } else {
         foreach ($flds as $f) {
           for($i=1;$i<5;$i++) {
-   	    if (isset($e["$f$i"])) { 
-	      $ee = $e["$f$i"];
-	      if ($ee) {
-	        if (!isset($found[$ee]) || !$found[$ee]) {
-		  $s = Get_Side($ee);
-		  if ($f == 'Side') {
-		    $sy = Get_SideYear($ee,$YEAR);
+               if (isset($e["$f$i"])) { 
+              $ee = $e["$f$i"];
+              if ($ee) {
+                if (!isset($found[$ee]) || !$found[$ee]) {
+                  $s = Get_Side($ee);
+                  if ($f == 'Side') {
+                    $sy = Get_SideYear($ee,$YEAR);
 //var_dump($sy); echo "<P>";
-		    if ($sy) {
-	              $s = array_merge($s, $sy);  
-		      $s['NotComing'] = ($s['Coming'] != 2);
-		    } else $s['NotComing'] = 1;
-		  } else {
-		    $sy = Get_ActYear($ee,$YEAR);
-		    if ($sy) {
-	              $s = array_merge($s, $sy);  
-		      $s['NotComing'] = ($s['YearState'] < 2);
-		    } else $s['NotComing'] = 1;
-		  }  
-	          if ($s) $imps[$s['Importance']][] = $s; 
-	          $found[$ee]=1;
-		}
-	      }
-	    } 
-	  }
-	}
+                    if ($sy) {
+                      $s = array_merge($s, $sy);  
+                      $s['NotComing'] = ($s['Coming'] != 2);
+                    } else $s['NotComing'] = 1;
+                  } else {
+                    $sy = Get_ActYear($ee,$YEAR);
+                    if ($sy) {
+                      $s = array_merge($s, $sy);  
+                      $s['NotComing'] = ($s['YearState'] < 2);
+                    } else $s['NotComing'] = 1;
+                  }  
+                  if ($s) $imps[$s['Importance']][] = $s; 
+                  $found[$ee]=1;
+                }
+              }
+            } 
+          }
+        }
       }
     }
 
@@ -406,35 +412,35 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
 
     default: // Do default treatment below
       $ks = array_keys($imps);
-      sort($ks);	
+      sort($ks);        
       $things = 0;
       foreach ( array_reverse($ks) as $imp) {
         if ($imp) $ans .= "<span style='font-size:" . ($size+$imp*$mult) . "px'>";
         foreach ($imps[$imp] as $thing) {
-	  if ($things++) $ans .= ", ";
-	  $link=0;
-	  if ($thing['NotComing']) {
+          if ($things++) $ans .= ", ";
+          $link=0;
+          if ($thing['NotComing']) {
 // var_dump($thing);exit;
-	    $ans .= "<del>" . NoBreak($thing['SName']) . "</del>";
-	  } else {
-	    if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
-	    if ($link) {
-	      if ($link ==1) {
-	        $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
-	      } else {
-	        if ($thing['IsASide']) {
-	          $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
-	        } else if ($thing['IsAnAct']) {
-	          $ans .= "<a href='/int/ShowMusic.php?sidenum=" . $thing['SideId'] . "'>";
-	        } else {
-	          $ans .= "<a href='/int/ShowMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
-	        }
-	      }
-	    }
-	    $ans .= NoBreak($thing['SName']);
-	    if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
+            $ans .= "<del>" . NoBreak($thing['SName']) . "</del>";
+          } else {
+            if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
+            if ($link) {
+              if ($link ==1) {
+                $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
+              } else {
+                if ($thing['IsASide']) {
+                  $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
+                } else if ($thing['IsAnAct']) {
+                  $ans .= "<a href='/int/ShowMusic.php?sidenum=" . $thing['SideId'] . "'>";
+                } else {
+                  $ans .= "<a href='/int/ShowMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
+                }
+              }
+            }
+            $ans .= NoBreak($thing['SName']);
+            if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
             if ($link) $ans .= "</a>";
-	  }
+          }
         }
         if ($imp) $ans .= "</span>";
       }
@@ -460,7 +466,7 @@ function Get_Other_Participants(&$Others,$l=0,$size=12,$mult=1,$prefix='') {
         $s = Get_Side($si);  
         if ($s) $imps[$s['Importance']][] = $s; 
         $something = 1;
-	$found[$si] = 1;
+        $found[$si] = 1;
       }
     }
   }
@@ -468,29 +474,29 @@ function Get_Other_Participants(&$Others,$l=0,$size=12,$mult=1,$prefix='') {
 //var_dump($imps);
   if ($something) {
     $ks = array_keys($imps);
-    sort($ks);	
+    sort($ks);        
     $things = 0;
     foreach ( array_reverse($ks) as $imp) {
       if ($imp) $ans .= "<span style='font-size:" . ($size+$imp*$mult) . "px'>";
       foreach ($imps[$imp] as $thing) {
-	if ($things++) $ans .= ", ";
-	$link=0;
-	if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
-	if ($link) {
-	  if ($link ==1) {
-	    $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
-	  } else {
-	    if ($thing['IsASide']) {
-	      $ans .= "<a href='/int/AddDance.php?sidenum=" . $thing['SideId'] . "'>";
-	    } else if ($thing['IsAnAct']) {
-	      $ans .= "<a href='/int/AddMusic.php?sidenum=" . $thing['SideId'] . "'>";
-	    } else {
-	      $ans .= "<a href='/int/AddMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
-	    }
-	  }
-	}
-	$ans .= NoBreak($thing['SName']);
-	if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
+        if ($things++) $ans .= ", ";
+        $link=0;
+        if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
+        if ($link) {
+          if ($link ==1) {
+            $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
+          } else {
+            if ($thing['IsASide']) {
+              $ans .= "<a href='/int/AddDance.php?sidenum=" . $thing['SideId'] . "'>";
+            } else if ($thing['IsAnAct']) {
+              $ans .= "<a href='/int/AddMusic.php?sidenum=" . $thing['SideId'] . "'>";
+            } else {
+              $ans .= "<a href='/int/AddMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
+            }
+          }
+        }
+        $ans .= NoBreak($thing['SName']);
+        if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
         if ($link) $ans .= "</a>";
        }
       if ($imp) $ans .= "</span>";
@@ -515,7 +521,7 @@ function Price_Show(&$Ev) {
     $Npri = $Ev['Price2'];
     if ($Npri != $Cpri && $Npri != 0) {
       if ($pc > time()) {
-	$str .= "&pound;" . $Cpri . " until " . date('j M Y',$pc);
+        $str .= "&pound;" . $Cpri . " until " . date('j M Y',$pc);
       }
     $Cpri = $Npri;
     }
@@ -526,8 +532,8 @@ function Price_Show(&$Ev) {
     $Npri = $Ev['Price3'];
     if ($Npri != $Cpri && $Npri != 0) {
       if ($pc > time()) {
-	if ($str) $str .= ", then ";
-	$str .= "&pound;" . $Cpri . " until " . date('j M Y',$pc);
+        if ($str) $str .= ", then ";
+        $str .= "&pound;" . $Cpri . " until " . date('j M Y',$pc);
       }
       $Cpri = $Npri;
     }

@@ -1,26 +1,16 @@
 <?php
   include_once("fest.php");
   A_Check('Steward');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | List Music Acts</title>
-<script src="/js/clipboard.min.js"></script>
-<script src="/js/emailclick.js"></script>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php 
-  global $YEAR,$THISYEAR,$Book_Colour,$Book_States,$Book_Actions,$Book_ActionExtras;
-  include_once("files/navigation.php"); 
+  dostaffhead("List Music", "/js/clipboard.min.js", "/js/emailclick.js");
+
+  global $YEAR,$PLANYEAR,$Book_Colour,$Book_States,$Book_Actions,$Book_ActionExtras;
   include_once("DanceLib.php"); 
   include_once("MusicLib.php"); 
 
   if (isset($_GET['t']) && $_GET['t'] == 'O') {
     $TypeSel = ' s.IsOther=1';
-    echo "<div class=content><h2>List Other Participants $YEAR</h2>\n";
+    echo "<h2>List Other Participants $YEAR</h2>\n";
   } else {
     $TypeSel = ' s.IsAnAct=1';
     echo "<div class=content><h2>List Music Acts $YEAR</h2>\n";
@@ -44,28 +34,28 @@
     $col5 = "Book State";
     $col6 = "Actions";
   } else if ($_GET{'SEL'} == 'INV') {
-    $LastYear = $THISYEAR-1;
+    $LastYear = $PLANYEAR-1;
     $flds = "s.*, ly.YearState, y.YearState, y.ContractConfirm";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN ActYear as y ON s.SideId=y.SideId AND y.year=$THISYEAR " .
-			"LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE $TypeSel AND s.SideStatus=0 ORDER BY SName");
+    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN ActYear as y ON s.SideId=y.SideId AND y.year=$PLANYEAR " .
+                        "LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE $TypeSel AND s.SideStatus=0 ORDER BY SName");
     $col5 = "Invited $LastYear";
     $col6 = "Coming $LastYear";
-    $col7 = "Invite $THISYEAR";
-    $col8 = "Invited $THISYEAR";
-    $col9 = "Coming $THISYEAR";
+    $col7 = "Invite $PLANYEAR";
+    $col8 = "Invited $PLANYEAR";
+    $col9 = "Coming $PLANYEAR";
   } else if ($_GET{'SEL'} == 'Coming') {
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
-		$Book_State['Booked'] . " ORDER BY Importance DESC, SName");
+                $Book_State['Booked'] . " ORDER BY Importance DESC, SName");
     $col5 = "Complete?";
   } else if ($_GET{'SEL'} == 'Booking') {
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>0" . 
-		" ORDER BY SName");
+                " ORDER BY SName");
     $col5 = "Book State";
     $col6 = "Actions";
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
     $SideQ = $db->query("SELECT $flds FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
-		$Book_State['Booked'] . " ORDER BY Importance DESC SName");
+                $Book_State['Booked'] . " ORDER BY Importance DESC SName");
   }
 
   if (!$SideQ || $SideQ->num_rows==0) {
@@ -94,56 +84,56 @@
     while ($fetch = $SideQ->fetch_assoc()) {
       echo "<tr><td><a href=AddMusic.php?sidenum=" . $fetch['SideId'] . ">" . $fetch['SName'] . "</a>";
       if ($fetch['SideStatus']) {
-	echo "<td>DEAD";
+        echo "<td>DEAD";
       } else {
         echo "<td>" . $fetch['Type'];
       }
       if ($_GET{'SEL'}) {
-	echo "<td>" . ($fetch['HasAgent']?$fetch['AgentName']:$fetch['Contact']);
+        echo "<td>" . ($fetch['HasAgent']?$fetch['AgentName']:$fetch['Contact']);
         echo "<td>" . linkemailhtml($fetch,'Act');
       } 
 
       $State = $fetch['YearState'];
       if (isset($State)) {
         Contract_State_Check($fetch,0); 
-	$State = $fetch['YearState'];
+        $State = $fetch['YearState'];
       } else {
-	$state = 0;
+        $state = 0;
       }
       for ($fld=5; $fld<10; $fld++) {
-	$ff = "col$fld";
+        $ff = "col$fld";
         switch ($$ff) {
 
         case 'Book State': 
-	  if (!isset($State)) $State = 0;
-	  echo "<td style='background-color:" . $Book_Colour[$Book_States[$State]] . "'>" . $Book_States[$State];
+          if (!isset($State)) $State = 0;
+          echo "<td style='background-color:" . $Book_Colour[$Book_States[$State]] . "'>" . $Book_States[$State];
           break;
 
         case 'Confirmed':
-	  echo "<td>" . ($fetch['ContractConfirm']?'Yes':'');
-	  break;
+          echo "<td>" . ($fetch['ContractConfirm']?'Yes':'');
+          break;
 
-	case 'Actions':
-	  echo "<td>";
-	  $acts = $Book_Actions[$Book_States[$State]];
-	  if ($acts) {
-	    $acts = preg_split('/,/',$acts); 
-	    echo "<form>" . fm_Hidden('SEL',$_GET['SEL']) . fm_hidden('SideId',$fetch['SideId']) . (isset($_GET['t'])? fm_hidden('t',$_GET['t']) : '') ;
-	    foreach($acts as $ac) {
+        case 'Actions':
+          echo "<td>";
+          $acts = $Book_Actions[$Book_States[$State]];
+          if ($acts) {
+            $acts = preg_split('/,/',$acts); 
+            echo "<form>" . fm_Hidden('SEL',$_GET['SEL']) . fm_hidden('SideId',$fetch['SideId']) . (isset($_GET['t'])? fm_hidden('t',$_GET['t']) : '') ;
+            foreach($acts as $ac) {
               if ($ac == 'Contract') {
-		$NValid = Contract_Check($fetch['SideId'],0);
-	        if ($NValid) {
-		  echo $NValid;
-		  continue;
-		}
-	      }
-	      echo "<button class=floatright name=ACTION value='$ac' type=submit " . $Book_ActionExtras[$ac] . " >$ac</button>";
-	    }
-	    echo "</form>";
-	  } 
-	  break;
+                $NValid = Contract_Check($fetch['SideId'],0);
+                if ($NValid) {
+                  echo $NValid;
+                  continue;
+                }
+              }
+              echo "<button class=floatright name=ACTION value='$ac' type=submit " . $Book_ActionExtras[$ac] . " >$ac</button>";
+            }
+            echo "</form>";
+          } 
+          break;
         default:
-	  break;
+          break;
 
         }
       }

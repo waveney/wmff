@@ -52,15 +52,15 @@ function Update_MapPoints() {
 //  $res = $db->query("SELECT * FROM Venues WHERE Lat!='' "); // ALL VENUES
   if ($res) while($ven = $res->fetch_assoc()) {
     $data[] = array('id'=>$ven['VenueId'], 'name'=>$ven['SName'], 'lat'=>$ven['Lat'], 'long'=>$ven['Lng'],
-	'imp'=>$ven['MapImp'],'icon'=>$ven['IconType'],'atxt'=>0,'desc'=>$ven['Description'],
-	'usage'=>(($ven['Dance']?'D':'_').($ven['Music']?'M':'_').($ven['Child']?'F':'_').($ven['Craft']?'C':'_').($ven['Other']?'O':'_')),
-	'image'=>$ven['Image'],'extra'=>$ven['DirectionsExtra']);
+        'imp'=>$ven['MapImp'],'icon'=>$ven['IconType'],'atxt'=>0,'desc'=>$ven['Description'],
+        'usage'=>(($ven['Dance']?'D':'_').($ven['Music']?'M':'_').($ven['Child']?'F':'_').($ven['Craft']?'C':'_').($ven['Other']?'O':'_')),
+        'image'=>$ven['Image'],'extra'=>$ven['DirectionsExtra']);
   }
 
   $res = $db->query("SELECT * FROM MapPoints WHERE InUse=0");
   if ($res) while($mp = $res->fetch_assoc()) {
     $data[] = array('id'=>(1000000+$mp['id']), 'name'=>$mp['SName'], 'lat'=>$mp['Lat'], 'long'=>$mp['Lng'],
-	'imp'=>$mp['MapImp'],'icon'=>$mp['Type'],'atxt'=>$mp['AddText'],'direct'=>$mp['Directions'],'link'=>$mp['Link']);
+        'imp'=>$mp['MapImp'],'icon'=>$mp['Type'],'atxt'=>$mp['AddText'],'direct'=>$mp['Directions'],'link'=>$mp['Link']);
   }
 
   return file_put_contents("../cache/mappoints.json",json_encode($data));
@@ -69,7 +69,7 @@ function Update_MapPoints() {
 
 
 function Init_Map($CentType,$Centerid,$Zoom,$Features=1) { // CentType 0=Venue, 1=Mappoint, -1=WImborne
-  global $MASTER;  
+  global $MASTER_DATA;  
   if ($CentType > 0) {
     $mp = Get_Map_Point($Centerid);
     $Lat = $mp['Lat'];
@@ -82,7 +82,7 @@ function Init_Map($CentType,$Centerid,$Zoom,$Features=1) { // CentType 0=Venue, 
     $Lat = $Long = 0;
   }
 
-  $V = $MASTER['V'];
+  $V = $MASTER_DATA['V'];
   echo fm_hidden('MapLat',$Lat) . fm_hidden('MapLong',$Long) . fm_hidden('MapZoom',$Zoom) . fm_hidden('MapFeat',$Features);
   echo "<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBPxpYmezfuaG9M1aVLBDjI0srpmJlfPPY' ></script>";
   echo "<script src=/js/maplabel.js?V=$V ></script>";

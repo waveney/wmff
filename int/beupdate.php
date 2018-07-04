@@ -1,20 +1,20 @@
 <?php
 // Updates to data following on screen drag drops, returns info pane html
 //    $("#Infomation").load("dpupdate.php", "D=" + dstId + "&S=" + srcId + "&Y=" + $("#DayId").text() + "&E=" + 
-//			$("input[type='radio'][name='EInfo']:checked").val()	);
+//                        $("input[type='radio'][name='EInfo']:checked").val()        );
 //  include_once("minimalfiles/header.php");
 /* ids are
-	E$CurOrder::	Empty box
-	N$CurOrder::	Note id
-	I$CurOrder::	Note input
-	S$CurOrder:$tt:$id	Grid with entry
-	M$CurOrder:$tt:$id	Note with entry
-	J$CurOrder:$tt:$id	Note input entry
-	Z0:Side:$id	Side Side
-	Z0:Act:$id	Act Side
-	Z0:Other:$id	Other Side
+        E$CurOrder::        Empty box
+        N$CurOrder::        Note id
+        I$CurOrder::        Note input
+        S$CurOrder:$tt:$id        Grid with entry
+        M$CurOrder:$tt:$id        Note with entry
+        J$CurOrder:$tt:$id        Note input entry
+        Z0:Side:$id        Side Side
+        Z0:Act:$id        Act Side
+        Z0:Other:$id        Other Side
     $("#InformationPane").load("beupdate.php", "D=" + dstId + "&S=" + srcId + "&EV=" + $("#EVENT").text() + "&E=" + 
-			$("input[type='radio'][name='EInfo']:checked").val()	);
+                        $("input[type='radio'][name='EInfo']:checked").val()        );
 
 D=Z0:Side:32&S=S10:Side:32&EV=167&E=
 */
