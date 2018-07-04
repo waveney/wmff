@@ -2,7 +2,6 @@
   include_once("int/fest.php");
   global $Access_Type,$USER,$YEAR;
   Set_User();
-  set_ShowYear();
   if (isset($_COOKIE{'WMFF'}) || isset($_COOKIE{'WMFF2'})) {
     echo "<div class=Staff><div class=navigation>";
     echo "<a href=/int/Staff.php onmouseover=NoHoverSticky()>Staff Tools</a>";

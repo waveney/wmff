@@ -67,6 +67,12 @@ function Gallery($id,$embed=0) {
   if (!$embed) dohead($name, '/files/gallery.css');
   echo "<h2 class=maintitle>$name</h2><p>";
   echo "Click on any slide to start a Slide Show with that slide.<p>\n";
+
+  if ($Gal['Credits']) {
+    echo '</div><h2 class="subtitle">Credits</h2>';
+    echo "<p>Photos by: " . $Gal['Credits'] . "<p>";
+  }
+
   echo '<div id=galleryflex>';
 
   $Imgs = Get_Gallery_Photos($Gal['id']);
