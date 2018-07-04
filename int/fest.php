@@ -522,7 +522,7 @@ function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
   if ($head_done) return;
   $V=$MASTER_DATA['V'];
   $pfx="";
-  if (file_exists("/files/TitlePrefix")) $pfx = file_get_contents("/files/TitlePrefix");
+  if (file_exists("files/TitlePrefix")) $pfx = file_get_contents("files/TitlePrefix");
   echo "<html><head>";
   echo "<title>$pfx " . $MASTER_DATA['FestName'] . " | $title</title>\n";
   include_once("files/header.php");
@@ -548,7 +548,7 @@ function doheadpart($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='
   if ($head_done) return;
   $V=$MASTER_DATA['V'];
   $pfx="";
-  if (file_exists("/files/TitlePrefix")) $pfx = file_get_contents("/files/TitlePrefix");
+  if (file_exists("files/TitlePrefix")) $pfx = file_get_contents("files/TitlePrefix");
   echo "<html><head>";
   echo "<title>$pfx " . $MASTER_DATA['FestName'] . " | $title</title>\n";
   include_once("files/header.php");

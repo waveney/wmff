@@ -1,6 +1,7 @@
 <?php
   include_once("int/fest.php");
 
+  set_ShowYear();
   $Types = $Type = $_GET['t'];
   if (strlen($Type) > 20) $Types = $Type = 'Dance';
   dohead("Whats on $Type");
@@ -14,7 +15,7 @@
 
   $Extras = array('Music'=>' OR e.ListMusic=1'); // Need Dance Equiv
 
-
+  //  Need check if year < first
   $Ett = -1;
   foreach($Ets as $eti=>$et) if ($et['SName'] == $Type) $Ett = $eti;
   $xtr = (isset($Extras[$Type]))? $Extras[$Type] : '';
@@ -23,7 +24,7 @@
 
   if ($Ett >= 0) { 
     $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND ( e.Type=$Ett $xtr ) AND e.SubEvent<1 AND e.Venue!=0 AND " .
-		"( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) ORDER BY e.Day, e.Start"); // Need to work with release settings as well
+                "( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) ORDER BY e.Day, e.Start"); // Need to work with release settings as well
     if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
     if (count($Evs) > 1) $Types = $Ets[$Ett]['Plural'];
     $Complete = $Ets[$Ett]['State'];
@@ -31,31 +32,31 @@
     switch ($Type) {
       case 'Family':
         $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND e.Family=1 AND e.SubEvent<1 AND e.Venue!=0 AND " .
-		"( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) ORDER BY e.Day, e.Start"); 
+                "( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
-	$Types = "Family Event";
+        $Types = "Family Event";
         if (count($Evs) > 1) $Types .= "s";
         $Complete = $MASTER[$Type . 'State'];
         break;
       case 'Special':
         $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND e.Special=1 AND (e.SubEvent<1 OR e.LongEvent=1) AND e.Venue!=0 AND " .
-		"( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) ORDER BY e.Day, e.Start"); 
+                "( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
-	$Types = "Special Event";
+        $Types = "Special Event";
         if (count($Evs) > 1) $Types .= "s";
         $Complete = $MASTER[$Type . 'State'];
         break;
       default:
-	break;
+        break;
     }
   }
 
   $Titles = array("", // Not used
-		"Currently known $Types for $YEAR, there will be more", // Draft
-		"Currently known $Types for $YEAR, there will be more", // Partial
-		"Currently known $Types for $YEAR, there may be more", // Provisional
-		"$Types for $YEAR", // Complete
-		);
+                "Currently known $Types for $YEAR, there will be more", // Draft
+                "Currently known $Types for $YEAR, there will be more", // Partial
+                "Currently known $Types for $YEAR, there may be more", // Provisional
+                "$Types for $YEAR", // Complete
+                );
 
   $NotAllFree = 0;
   foreach($Evs as $e) if ($e['Price1']) $NotAllFree = 1;
@@ -77,18 +78,18 @@
       echo "<td><strong><a href=/int/EventShow.php?e=$eid>" . $E['SName'] . "</a></strong>"; 
       echo "<td><a href=/int/VenueShow.php?v=" . $E['Venue'] . ">" . $Vens[$E['Venue']]['SName'] . "</a>";
       if ($E['BigEvent']) {
-	$Others = Get_Other_Things_For($eid);
-	foreach ($Others as $i=>$o) {
-	  if ($o['Type'] == 'Venue') echo ", <a href=/int/VenueShow.php?v=" . $o['Identifier'] . ">" . $Vens[$o['Identifier']]['SName'] . "</a>";
-	}
+        $Others = Get_Other_Things_For($eid);
+        foreach ($Others as $i=>$o) {
+          if ($o['Type'] == 'Venue') echo ", <a href=/int/VenueShow.php?v=" . $o['Identifier'] . ">" . $Vens[$o['Identifier']]['SName'] . "</a>";
+        }
       }
       echo "<td>";
         if ($E['Description']) echo $E['Description'] . "<p>";
-	if ($E['BigEvent']) {
-	  echo Get_Other_Participants($Others,1,15,1, 'With: ');
-	} else {
-	  echo Get_Event_Participants($eid,1,15,1, 'With: ');
-	}
+        if ($E['BigEvent']) {
+          echo Get_Other_Participants($Others,1,15,1, 'With: ');
+        } else {
+          echo Get_Event_Participants($eid,1,15,1, 'With: ');
+        }
       if ($NotAllFree) echo "<td>" . Price_Show($E);
       echo "\n";
     }
@@ -97,7 +98,7 @@
   } else {
     echo "<h3>Sorry there are currently no announced $Types for $YEAR, please check back later</h3>";
   }
-
+  // Backwards looking link
   dotail();
 
 ?>

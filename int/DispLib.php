@@ -3,6 +3,7 @@
 // Displaying utilities for public site
 
 function formatminimax(&$side,$link,$mnat=2) {
+  global $YEAR;
   echo "<div class=mnfloatleft>";
   if ($side['Photo']) {
     $wi = $side['ImageWidth'];
@@ -18,7 +19,7 @@ function formatminimax(&$side,$link,$mnat=2) {
   $mnmx = ($side['Importance'] >= $mnat?'maxi':'mini');
   $id = AlphaNumeric($side['SName']);
   echo "<div class=$mnmx" . "_$fmt id=$id>";
-  echo "<a href=/int/$link?sidenum=" . $side['SideId'] . ">";
+  echo "<a href=/int/$link?sidenum=" . $side['SideId'] . "&Y=$YEAR>";
   if ($mnmx != 'maxi' && $side['Photo']) echo "<div class=mnmximgwrap><img class=mnmximg src='" . $side['Photo'] ."'></div>";
   echo "<div class=mnmxttl style='font-size:" . (27+$side['Importance']*3) . "px'>" . $side['SName'] . "</div>";
   if ($mnmx == 'maxi' && $side['Photo']) echo "<div class=mnmximgwrap><img class=mnmximg src='" . $side['Photo'] ."'></div>";

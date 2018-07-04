@@ -227,6 +227,11 @@ $SHOWYEAR = $MASTER_DATA['ShowYear'];
 $YEAR = $PLANYEAR = $MASTER_DATA['PlanYear'];  //$YEAR can be overridden
 $MASTER_DATA['V'] = $CALYEAR . "." . $MASTER_DATA['Version'];
 
+function set_ShowYear() { // Overrides default above if not set by a Y argument
+  global $YEAR,$SHOWYEAR;
+  if (!isset($_POST['Y']) && !isset($_GET['Y'])) $YEAR = $SHOWYEAR;
+}
+
 // Works for simple tables
 // Deletes = 0 none, 1=one, 2=many
 function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$Mstr='SName') {

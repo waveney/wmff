@@ -3,8 +3,8 @@
   
   doheadpart('8, 9, 10 June 2018');
 
-  global $MASTER;
-  $V = $MASTER['V'];
+  global $MASTER_DATA;
+  $V = $MASTER_DATA['V'];
   include("files/facebook.php");
   include("int/TradeLib.php");
   echo '<script src="/js/HomePage.js"></script>';

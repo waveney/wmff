@@ -298,6 +298,12 @@ function Put_Event_Type(&$now) {
 
 $Event_Types = Get_Event_Types(0);
 
+function Get_Event_Type_For($nam) {
+  global $Event_Types_Full;
+  foreach ($Event_Types_Full as $ET) if ($ET['SName'] == $nam) return $ET;
+  return null;
+}
+
 function Event_Has_Parts($e) {
   for ($i=1;$i<5;$i++) {
     if ($e["Side$i"] || $e["Act$i"] || $e["Other$i"]) return 1;
