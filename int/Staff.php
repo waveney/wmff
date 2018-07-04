@@ -13,7 +13,6 @@
   global $YEAR,$PLANYEAR;
 
   include_once("ProgLib.php");
-
   $Years = Get_Years();
   $Days = array('All','Sat','Sun','&lt;Sat','Sat&amp;Sun');
 
