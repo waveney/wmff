@@ -28,7 +28,7 @@
     if ($trad['Photo']) echo "<img class=articleimg src=" . $trad['Photo'] . ">";
     if ($trad['Website']) echo "</a>";
     echo "<p class=articletxt>" . $trad['GoodsDesc'];
-    echo "<p>Will be trading " . $Prefixes[$Locs[$trad['PitchLoc0']]['prefix']] . ' ' . $Locs[$trad['PitchLoc0']]['SName'];
+    echo ($YEAR > $PLANYEAR?"<p>Will be trading ":"<p>Was trading ") . $Prefixes[$Locs[$trad['PitchLoc0']]['prefix']] . ' ' . $Locs[$trad['PitchLoc0']]['SName'];
     if ($trad['PitchLoc2']) {
       echo ", " . $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc1']]['SName'] . " and " 
 		. $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc2']]['SName'];

@@ -108,7 +108,7 @@ Calling all those of you who would like to take part in this year's Busker's Bas
 Events start in the square at 10:30 with Polly Morris and Buskers around town from 11:30.<p>
 </div>
 -->
-
+<!--
 <div class=article>
 <?php
   echo "<a href=$host/Tickets.php>";
@@ -220,6 +220,7 @@ The final was on 24th February (Status, Bowen & Pounds and The Darwins).<p>
   echo "<p class=articletxt>$sc Music acts have already confirmed for 2018.\n";
   echo "</div>";
 
+/*
   echo "<div class=article>
 <a href=$host/InfoCamping.php >
 <h2 class=articlettl>Official Festival Campsite</h2>
@@ -227,8 +228,9 @@ The final was on 24th February (Status, Bowen & Pounds and The Darwins).<p>
 <p class=articletxt>Plan your stay at the festival and book a pitch at Meadows Campsite, which is within a short few minute walk from the town centre.
 Online booking will close at midnight on Thursday June 7th (after which you can still pay at the gate)</p>
 </div>
-</div>
 ";
+*/
+  echo "</div>\n";
 
   include_once("int/NewsLib.php");
   $items = Get_All_News(0,5);
