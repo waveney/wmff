@@ -1,12 +1,17 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Traders in $SHOWYEAR");
+  set_ShowYear();
   include_once("int/TradeLib.php");
-  global $db,$SHOWYEAR,$Trade_States,$Trade_State,$YEAR,$Trade_Days;
+  global $db,$YEAR,$SHOWYEAR,$PLANYEAR,$Trade_States,$Trade_State,$YEAR,$Trade_Days;
 
-  echo "These traders will be at the Folk Festival (many more to confirm).<p>";
+  dohead("Traders in $YEAR");
 
+  if ($YEAR < $PLANYEAR) {
+    echo "These traders where at the Folk Festival.<p>";
+  } else {
+    echo "These traders will be at the Folk Festival (many more to confirm).<p>";
+  }
   echo "To become a trader see the <a href=/info/trade>trade info page</a>.  ";
   echo "Only those traders who have paid their deposits and have asked to be listed are shown here.<p>";
 

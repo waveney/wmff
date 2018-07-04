@@ -3,18 +3,22 @@
 
   dohead("Whats on By Venue");
 
+  set_ShowYear();
   include_once("int/ProgLib.php");
   include_once("int/DateTime.php");
-  global $db,$YEAR,$MASTER,$DayList,$DayLongList;
+  global $db,$YEAR,$PLANYEAR,$MASTER,$DayList,$DayLongList;
 
   $Vens = Get_Active_Venues();
 
   echo "<h2 class=subtitle>Select a Venue</h2>";
-  echo "All these venues have events schedualled.<p>  Many have events that are not public yet.<p>" .
-	"There will be many more venues listed when the programme is complete.<p>";
+  if ($YEAR < $PLANYEAR) {
+    echo "All these venues have events schedualled, not all may be public yet.<p>";
+  } else {
+    echo "All these venues had events schedualled.<p>";
+  }
   echo "<ul>";
   foreach ($Vens as $ven) {
-    echo "<li><a href=/int/VenueShow.php?v=" . $ven['VenueId'] . ">" . $ven['SName'] . "</a><br>";
+    echo "<li><a href=/int/VenueShow.php?v=" . $ven['VenueId'] . "&Y=$YEAR>" . $ven['SName'] . "</a><br>";
   }
   echo "</ul>";
 

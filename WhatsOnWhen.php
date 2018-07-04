@@ -3,13 +3,14 @@
 
   dohead("Whats on When");
 
+  set_ShowYear();
   include_once("int/ProgLib.php");
   include_once("int/DateTime.php");
   include_once("int/DispLib.php");
   include_once("int/DanceLib.php");
   include_once("int/MusicLib.php");
 
-  global $db,$YEAR,$MASTER,$DayList,$DayLongList,$Event_Types_Full ;
+  global $db,$YEAR,$PLANYEAR,$MASTER,$DayList,$DayLongList,$Event_Types_Full ;
 
   $Vens = Get_Venues(1);
 
@@ -22,8 +23,9 @@
   foreach ($Event_Types_Full as $et) if ($et['State'] != 4) $More++;
   if ($MASTER['FamilyComplete'] != 4) $More++;
   if ($MASTER['SpecialComplete'] != 4) $More++;
+  if ($YEAR < $PLANYEAR) $More = 0;
 
-  echo "<h2 class=subtitle>What is on When?</h2>";
+  echo "<h2 class=subtitle>What is on When in $YEAR?</h2>";
   echo "<script src=/js/WhatsWhen.js></script>";
   if ($More) echo "<h3>Only publicised events are listed, there are " . ($More > 3?"LOTS ":'') . "more to come</h3>\n";
   echo "<h2 class=subtitle>Click on a Day to expand <button id=ShowAll class=DayExpand onclick=ShowAll()>Expand All</button></h2>";

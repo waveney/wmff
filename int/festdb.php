@@ -228,8 +228,11 @@ $YEAR = $PLANYEAR = $MASTER_DATA['PlanYear'];  //$YEAR can be overridden
 $MASTER_DATA['V'] = $CALYEAR . "." . $MASTER_DATA['Version'];
 
 function set_ShowYear() { // Overrides default above if not set by a Y argument
-  global $YEAR,$SHOWYEAR;
-  if (!isset($_POST['Y']) && !isset($_GET['Y'])) $YEAR = $SHOWYEAR;
+  global $YEAR,$SHOWYEAR,$MASTER;
+  if (!isset($_POST['Y']) && !isset($_GET['Y'])) {
+    $YEAR = $SHOWYEAR;
+    $MASTER = Get_General($YEAR);
+  }
 }
 
 // Works for simple tables

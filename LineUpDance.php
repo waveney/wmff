@@ -1,10 +1,10 @@
 <?php
-  include_once ("int/fest.php");
+  include_once("int/fest.php");
 
   dohead("Dance Line-up");
   set_ShowYear();
-  include_once ("int/ProgLib.php");
-  include_once ("int/DispLib.php");
+  include_once("int/ProgLib.php");
+  include_once("int/DispLib.php");
 
   global $db,$Coming_Type,$YEAR,$PLANYEAR,$EType_States;
 
@@ -30,7 +30,7 @@
   $Prev = $YEAR-1;
   if ($Prev >= $ET['FirstYear']) {
     echo "<b><a href=/int/ShowDanceProg.php?Cond=1&Pub=1&Y=$Prev>Complete Dance Programme for $Prev</a>, ";
-    echo "<a href=/LineUpDance.php?Y=2017>Dance Line Up $Prev</a></b><p>";
+    echo "<a href=/LineUpDance.php?Y=$Prev>Dance Line Up $Prev</a></b><p>";
   }
   dotail();
 ?>

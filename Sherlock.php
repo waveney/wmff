@@ -8,7 +8,7 @@
 
   include_once("int/ProgLib.php");
   include_once("int/DateTime.php");
-  global $db,$YEAR,$MASTER,$DayList,$DayLongList;
+  global $db,$YEAR,$PLANYEAR,$MASTER,$DayList,$DayLongList;
 
   $Ets = Get_Event_Types(1);
   $Vens = Get_Venues(1);
@@ -50,6 +50,7 @@
         break;
     }
   }
+  if ($YEAR < $PLANYEAR) $Complete = 4;
 
   $Titles = array("", // Not used
                 "Currently known $Types for $YEAR, there will be more", // Draft

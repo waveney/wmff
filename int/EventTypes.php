@@ -14,6 +14,7 @@
   echo "Set Inc Type to indicate event type in description if it is not part of the events name.<p>";
   echo "State drives lots: - set to draft to enable the performers to see their own events. Set to complete when all events of given type are in<p>\n";
   echo "Set <b>No Part</b> if event type is valid without any participants.<p>";
+  echo "First Year - first year this event type is listed - prevents backtracking.<p>\n";
   
   $Types = Get_Event_Types(1);
   if (UpdateMany('EventTypes','Put_Event_Type',$Types,1)) $Types = Event_Types_ReRead();
