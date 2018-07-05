@@ -391,6 +391,11 @@ function First_Sent($stuff) {
   return (preg_match('/^(.*?[.!?])\s/s',$onefifty,$m) ? $m[1] : $onefifty);
 }
 
+function munge_array(&$thing) {
+  if (is_array($thing)) return $thing;
+  return [];
+}
+
 function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
     global $DayList;
     $str = '';
