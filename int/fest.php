@@ -542,7 +542,7 @@ function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
 
   echo "<div id=HeadRow>";
   echo "<a href=/InfoBuses.php><img src=/images/icons/leftspon.jpg id=leftspon hidden></a>";
-  echo "<a href=/><img id=HeadBan src=/images/icons/WimborneFolkV3Banner-V6.png ></a>";
+  echo "<a href=/><img id=HeadBan src=/images/icons/WimborneFolkV3Banner-2019.png ></a>";
   echo "<a href=http://www.hall-woodhouse.co.uk/find-your-perfect-pub/oddfellows-arms target=_blank><img src=/images/icons/rightspon.jpg id=rightspon hidden></a>";
   echo "</div>\n";
   echo "<script src=/js/WmffAds.js?V=$V></script>";
