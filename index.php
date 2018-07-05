@@ -2,6 +2,7 @@
   include_once("int/fest.php");
   
   dohead('14,15,16 June 2019', '/js/WmffAds.js', "/js/HomePage.js");
+  set_ShowYear();
 
   global $MASTER_DATA;
   $V = $MASTER_DATA['V'];
