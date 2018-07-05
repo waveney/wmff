@@ -9,6 +9,6 @@
     echo "No Side Indicated";
   }
 
-  dptail();
+  dotail();
 ?>
 
