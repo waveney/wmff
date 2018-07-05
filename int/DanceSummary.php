@@ -48,6 +48,6 @@
     echo "<td align=right>" . max(0,$catcount - $runtotal) . "</tr>\n";
   }
   echo "</table>\n";
-  dptail();
+  dotail();
 ?>
 
