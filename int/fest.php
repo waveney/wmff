@@ -156,7 +156,11 @@ function rand_string($len) {
   return $ans;
 }
 
-function SendEmail($to,$sub,$letter,$headopt='') {
+function SendEmail($to,$sub,&$letter,$headopt='') {
+  mail($to,$sub,$letter,$headopt);
+  return;
+
+// Old via Clint's server code - retain incase...
 //  $url = 'http://www.wimbornefolk.org/RemoteEmail.php';
   if (file_exists('testing')) return;
   $url = 'http://moonblink.info/RemoteEmail.php';

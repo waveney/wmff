@@ -90,7 +90,7 @@ function Gallery($id,$embed=0) {
   }
 
   if ($Gal['Credits']) {
-    echo '</div><h2 class="subtitle">Credits</h2>';
+//    echo '</div><h2 class="subtitle">Credits</h2>';
     echo "<p>Photos by: " . $Gal['Credits'] . "<p>";
   }
 
