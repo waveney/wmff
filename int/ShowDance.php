@@ -2,6 +2,7 @@
   include_once("fest.php");
 
   dohead("Dance Side");
+  set_ShowYear();
   include_once("DanceLib.php");
   if (isset($_GET{'sidenum'})) {
     Show_Side($_GET{'sidenum'});
@@ -9,6 +10,6 @@
     echo "No Side Indicated";
   }
 
-  dptail();
+  dotail();
 ?>
 
