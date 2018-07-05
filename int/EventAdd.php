@@ -2,19 +2,9 @@
   include_once("fest.php");
   A_Check('Staff');
 
+  dostaffhead("Add/Change Event", "/js/Participants.js");
 //Access is for anyone with Venue to edit all, otherwise can Create and edit own only 
-?>
 
-<html>
-<head>
-<title>WMFF Staff | Add/Change Event</title>
-<?php include_once("files/header.php"); ?>
-<?php include_once("festcon.php"); ?>
-<script src="/js/Participants.js"></script>
-</head>
-<body>
-<?php include_once("files/navigation.php"); ?>
-<?php
   include_once("ProgLib.php");
   include_once("DocLib.php");
   include_once("DanceLib.php");
@@ -24,7 +14,7 @@
 
   Set_Event_Help();
 
-  $EventTimeFields = array('Start','End','SlotEnd');
+  $EventTimeFields = array('Start','End','SlotEnd','DoorsOpen');
   $EventTimeMinFields = array('Setup','Duration');
 
   $SideList=Select_Come();
