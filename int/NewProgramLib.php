@@ -60,12 +60,12 @@ function Grab_Data($day='',$Media='Dance') {
     $Round = 15;
     $DefLineLim = 1;
   }
-  foreach ($Sides as $i=>$s) { $SideCounts[$i]=0; }
+  if ($Sides) foreach ($Sides as $i=>$s) { $SideCounts[$i]=0; }
   foreach ($Times as $t) $lineLimit[$t]=$DefLineLim;
 
   $evs = Get_Events_For($Media,$DAY);
 //var_dump($evs);
-  foreach ($evs as $ei=>$ev) {
+  if ($evs) foreach ($evs as $ei=>$ev) {
     $eid = $ev['EventId'];
     $v = $ev['Venue'];
     if ($ev['SubEvent'] < 0) { $et = $ev['SlotEnd']; } else { $et = $ev['End']; };
