@@ -196,6 +196,7 @@ function Put_Event(&$now,$new=0) {
 
 function Get_Events_For($what,$Day) {
   global $db,$YEAR,$Day_Type;
+  $evs = [];
   $xtra = ($what=='Dance'?' OR e.ListDance=1 ':($what=='Music'?' OR e.ListMusic=1':''));
   $res=$db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND Status=0 AND (( e.Type=t.ETypeNo AND t.Has$what=1) $xtra ) AND e.Day=" . 
                 $Day_Type[$Day] );

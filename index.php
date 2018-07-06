@@ -124,7 +124,7 @@ purchases close at 6am Friday June 8th.</p>
 <h2 class=articlettl>Comedy Night</h2>
 <img class=articleimg src=http://media.ents24network.com/image/000/247/590/096d19bc204cb59115ff8765d67bd68aa54007f7.jpg alt='Wimborne Minster Folk Festival'></a>
 <p class=articletxt>'A laugh a Minute' Comedy Night Friday 8th QE School 8pm - 10:30pm Phil Jerrod, The Polly Morris Band plus the six finalists of 
-The National Comedy Competition.
+The Comedy Competition.
 </div>
 
 <div class=article>
@@ -133,7 +133,7 @@ The National Comedy Competition.
 </div>
 
 <div class=article>
-<h2 class=articlettl>Next years dates</h2>
+<h2 class=articlettl>Next year's dates</h2>
 <p class=articletxt>The 2019 Wimborne Minster Folk Festival will be from 14th to 16th of June 2019.
 </div>
 
