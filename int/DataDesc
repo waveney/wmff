@@ -5,8 +5,11 @@ Venues and Map Points
 
 Google Maps API key AIzaSyBPxpYmezfuaG9M1aVLBDjI0srpmJlfPPY
 
-YEAR and THISYEAR
-  YEAR is the year the action is about (defaults to THISYEAR, but can switch by adding Y=2999 to any link.  THISYEAR is the Festival coming.  
-It will be set from early July to the next year.  CurrentYear where used is the actual calenda year.
+YEAR, CALYEAR, SHOWYEAR, PLANYEAR
+  YEAR is the year the action is about (defaults to PLANYEAR, but can switch by adding Y=2999 to any link). 
+  CALYEAR is the actual calender year
+  PLANYEAR is the year being planned - will be set to the next year as soon as the festival had ended
+  SHOWYEAR is the year most of the public front end works with.  Will remain as the festival just held until new stuff is ready to display - most front end progs call set_ShowYear to override YEAR default - call is needed before a call to dohead.
+
 
 
