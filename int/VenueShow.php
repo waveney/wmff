@@ -60,6 +60,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
     echo "</head><body>\n";
     $Pictures = (isset($_POST['Pics']) && ($_POST['Pics'] == 'on'));
   } else {
+    set_showyear();
     dohead("Venue Details");
     $Pictures = 1;
   }

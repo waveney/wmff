@@ -155,6 +155,7 @@ function rand_string($len) {
   return $ans;
 }
 
+// Needs making work with SMTP so DKIM works
 function SendEmail($to,$sub,&$letter,$headopt='') {
   if (file_exists("testing")) {
     echo "<p>Would send email to $to with subject: $sub<p>Content:<p>$letter<p>\n";
