@@ -157,7 +157,11 @@ function rand_string($len) {
 }
 
 function SendEmail($to,$sub,&$letter,$headopt='') {
-  mail($to,$sub,$letter,$headopt);
+  if (file_exists("testing")) {
+    echo "<p>Would send email to $to with subject: $sub<p>Content:<p>$letter<p>\n";
+  } else {
+    mail($to,$sub,$letter,$headopt);
+  }
   return;
 
 // Old via Clint's server code - retain incase...
