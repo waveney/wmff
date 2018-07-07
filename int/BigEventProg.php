@@ -1,18 +1,8 @@
 <?php
   include_once("fest.php");
   A_Check('Committee','Dance');
-?>
 
-<html>
-<head>
-<title>WMFF Staff | Big Event Programming</title>
-<?php include_once("minimalheader.php"); ?>
-<script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
-<script src="js/tableHeadFixer.js"></script>
-<script src="js/BigE.js"></script>
-<?php
-  include_once("festcon.php");
-  echo "</head> <body>\n";
+  dominimalhead("Big Event Programming", "js/tableHeadFixer.js", "js/BigE.js");
 
   include_once("DanceLib.php");
   include_once("MusicLib.php");

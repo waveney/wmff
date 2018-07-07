@@ -12,7 +12,14 @@ function Sendmail($to,$sub,$cont) {
   $email_from = "wwmf@wimbornefolk.co.uk";
 
 $headers = array ('From' => $email_from, 'To' => $to, 'Subject' => $email_subject);
-$smtp = Mail::factory('smtp', array ('auth' => true, 'username' => $username ,'password' => $password));
+$smtp = Mail::factory('smtp', 
+    array ('auth' => true, 
+           'username' => $username ,
+           'password' => $password, 
+           'auth' => "PLAIN",
+           'socket_options' => array('ssl' => array('verify_peer_name' => false))
+          ),
+  );
 $mail = $smtp->send($to, $headers, $cont);
 
   if (PEAR::isError($mail)) {

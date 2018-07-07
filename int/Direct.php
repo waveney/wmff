@@ -20,15 +20,13 @@
     $Cake = sprintf("%s:%d:%06d",'Trader',$Access_Type['Participant'],$Tid ); 
     $biscuit = openssl_encrypt($Cake,'aes-128-ctr','Quarterjack',0,'BrianMBispHarris');
     setcookie('WMFFD',$biscuit,0,'/');
+    $_COOKIE['WMFFD'] = $biscuit;
 
-    echo " <html> <head> <title>Wimborne Minster Folk Festival | Trader</title>";
-    include_once("files/header.php");
-    include_once("festcon.php"); 
-    echo "</head> <body>";
+    dostaffhead("Trader");
+
     $USER{'AccessLevel'} = $Access_Type['Participant'];
     $USER{'Subtype'} = 'Trader';
     $USER{'UserId'} = $USERID = $Tid;
-    include_once("files/navigation.php");
     include_once("TraderPage.php");
     exit;
   } else { 
@@ -46,15 +44,13 @@
     $Cake = sprintf("%s:%d:%06d",$Type,$Access_Type['Participant'],$SideId ); 
     $biscuit = openssl_encrypt($Cake,'aes-128-ctr','Quarterjack',0,'BrianMBispHarris');
     setcookie('WMFFD',$biscuit,0,'/');
+    $_COOKIE['WMFFD'] = $biscuit;
 
-    echo " <html> <head> <title>Wimborne Minster Folk Festival | $Type</title>";
-    include_once("files/header.php");
-    include_once("festcon.php"); 
-    echo "</head> <body>";
+    dostaffhead($Type);
+
     $USER{'AccessLevel'} = $Access_Type['Participant'];
     $USER{'Subtype'} = $Type;
     $USER{'UserId'} = $USERID = $SideId;
-    include_once("files/navigation.php");
     switch ($Type) {
     case 'Side':
       include_once("DanceEdit.php");
