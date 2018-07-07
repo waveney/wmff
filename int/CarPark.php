@@ -2,16 +2,8 @@
 <?php
   include_once("fest.php");
   A_Check('Committee','Dance');
-?>
-
-<html>
-<head>
-<title>WMFF Staff | Print Dance Address Labels</title>
-<?php include_once("minimalheader.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php
+  
+  dominimalhead("Car Park Address Labels");
 
 /* 
   Select Sides to print

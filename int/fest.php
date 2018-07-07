@@ -77,7 +77,6 @@ function Set_User() {
       $USERID = $USER['UserId'];
       $db->query("UPDATE FestUsers SET LastAccess='" . time() . "' WHERE UserId=$USERID" );
       setcookie('WMFF2',$USER['Yale'], mktime(0,0,0,1,1,$CALYEAR+1) ,'/' );
-      setcookie('WMFF','',-1);
       $_COOKIE{'WMFF2'} = $ans['Yale'];
     }
   } 
@@ -523,8 +522,11 @@ function doextras($extra1,$extra2,$extra3,$extra4,$extra5) {
       $suffix=pathinfo($e,PATHINFO_EXTENSION);
       if ($suffix == "js") {
         echo "<script src=$e?V=$V></script>\n";
+      } else if ($suffix == 'jsdefer') {
+        $e = preg_replace('/jsdefer$/','js',$e);
+        echo "<script defer src=$e?V=$V></script>\n";
       } else if ($suffix == "css") {
-              echo "<link href=$e?V=$V type=text/css rel=stylesheet>\n";
+        echo "<link href=$e?V=$V type=text/css rel=stylesheet>\n";
       }
     }
   }
@@ -591,9 +593,25 @@ function dostaffhead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5=
   $head_done = 1;
 }
 
+function dominimalhead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') { 
+  global $head_done,$MASTER_DATA;
+  $V=$MASTER_DATA['V'];
+  $pfx="";
+  if (file_exists("files/TitlePrefix")) $pfx = file_get_contents("files/TitlePrefix");
+  echo "<html><head>";
+  echo "<title>$pfx " . $MASTER_DATA['ShortName'] . " | $title</title>\n";
+  echo "<link href=files/style.css?V=$V type=text/css rel=stylesheet>";
+  echo "<script src=/js/jquery-3.2.1.min.js></script>";
+  if ($extra1) doextras($extra1,$extra2,$extra3,$extra4,$extra5);
+  echo "</head><body>\n";
+  include_once("int/analyticstracking.php");
+  $head_done = 2;
+}
+
 function dotail() {
+  global $head_done;
   echo "</div>";
-  include_once("files/footer.php");
+  if ($head_done == 1) include_once("files/footer.php");
   echo "</body></html>\n";
   exit;
 }

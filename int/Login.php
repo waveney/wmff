@@ -21,7 +21,6 @@ function Logon(&$use=0) {
       $cry = crypt($pwd,'WM');
       if ($cry != $ans['password']) {
         setcookie('WMFF2','',-1,'/');
-        setcookie('WMFF','',-1);
         return "Username/Password Error";
       }
     } else {
@@ -200,7 +199,6 @@ function NewPasswd() {
     case 'LOGOUT' :
       $USER = 0;
       setcookie('WMFF2',0,1,'/');
-      setcookie('WMFF',0,1,'/');
       if (file_exists("testing")) Login();
       include_once("../index.php"); 
       exit;

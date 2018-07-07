@@ -9,17 +9,7 @@
     exit;
   }
 
-?>
-
-<html>
-<head>
-<title>WMFF Staff | Print Dance Address Labels</title>
-<?php include_once("minimalheader.php"); ?>
-<?php include_once("festcon.php"); ?>
-</head>
-<body>
-<?php
-
+  dominimalhead("Print Dance Address Labels");
   include_once("DanceLib.php");
 
   $Lines = 0;
@@ -90,7 +80,7 @@
   }
   while ($PerLine++ < 3) echo "<td class=adrlabbox><br>"; 
   echo "</table>\n";
-  echo "</body></html>\n";
+  echo "</body></html>\n"; // No it does not dotail
 ?>
       
  

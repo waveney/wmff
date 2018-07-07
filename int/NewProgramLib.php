@@ -1,20 +1,12 @@
 <?php
 
 function Prog_Headers($Public='',$headers =1,$What='Dance') {
-  echo "<html><head>";
-  if ($Public && $headers) { 
-    echo "<title>Wimborne Minster Folk Festival | $What Programme</title>\n"; 
-    include_once("files/header.php"); 
-  } else { 
-    echo "<title>WMFF Staff | $What Programme</title>\n"; 
-    include_once("minimalheader.php"); 
-  }
-  echo '<script src="/js/jquery-3.2.1.min.js"></script>
-<script src="js/tableHeadFixer.js"></script>
-<script src="js/NewDanceProg.js" defer></script>';
 
-  include_once("festcon.php");
-  echo "</head><body>\n";
+  if ($Public && $headers) { 
+    dohead("$What Programme", "js/tableHeadFixer.js","js/NewDanceProg.jsdefer" );
+  } else { 
+    dominimalhead("$What Programme", "js/tableHeadFixer.js","js/NewDanceProg.jsdefer", "files/festconstyle.css" );
+  }
 
   include_once("DanceLib.php");
   include_once("MusicLib.php");
