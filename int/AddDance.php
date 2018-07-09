@@ -3,8 +3,6 @@
   A_Check('Committee','Dance');
 
   dostaffhead("Add/Change Dance Side", "/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js");
-  include_once("files/header.php");
-  include_once("festcon.php");
   include_once("DanceLib.php");
   include_once("MusicLib.php");
   include_once("DateTime.php");
