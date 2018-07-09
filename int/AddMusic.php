@@ -5,6 +5,10 @@
   dostaffhead("Add/Change Music Act","/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js");
 
   global $YEAR,$PLANYEAR,$Mess,$Book_State,$Action;
+  include_once("DanceLib.php");
+  include_once("MusicLib.php");
+  include_once("DateTime.php");
+  include_once("PLib.php");
   echo '<h2>Add/Edit Music Act</h2>';
 
 //var_dump($_POST);

@@ -17,7 +17,7 @@ $smtp = Mail::factory('smtp',
            'username' => $username ,
            'password' => $password, 
            'auth' => "PLAIN",
-           'socket_options' => array('ssl' => array('verify_peer_name' => false))
+           'socket_options' => array('ssl' => array('verify_peer_name' => false, 'verify_peer' => false ))
           ),
   );
 $mail = $smtp->send($to, $headers, $cont);

@@ -198,7 +198,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
     if ($Side['IsAnAct']) { // May need for Other
       $Band = Get_Band($snum);      
       $BandPerRow=7;
-      $Curband = count($Band);
+      $Curband = $Band? count($Band) : 0;
       $Rows = max(1,ceil($Curband/$BandPerRow));
       $colcnt = 0;
       $row = 0;
