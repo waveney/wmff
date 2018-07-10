@@ -165,10 +165,10 @@ if (isset($_FILES['croppedImage'])) {
   $PhotoCats = array('Sides','Acts','Others','Traders','Sponsors','Venues','Venue2');
 
   $Lists = array(
-        'Sides'=> Select_Come(),
-        'Acts'=>Select_Act_Come(),
-        'Others'=>Select_Other_Come(),
-        'Traders'=>Get_Traders_Coming(0),
+        'Sides'=> Sides_Name_List(),
+        'Acts'=>Act_Name_List(),
+        'Others'=>Other_Name_List(),
+        'Traders'=>Get_All_Traders(0),
         'Sponsors'=>Get_Sponsor_Names(),
         'Venues'=>Get_Venues(0),
         'Venues2'=>Get_Venues(0),

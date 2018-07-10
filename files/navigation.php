@@ -7,10 +7,7 @@
     echo "<a href=/int/Staff.php onmouseover=NoHoverSticky()>Staff Tools</a>";
     if (!isset($USER{'Subtype'})) {
       echo "<a href=/int/Dir.php onmouseover=NoHoverSticky()>Docs</a>";
-      echo "<a href=/int/TimeLine.php onmouseover=NoHoverSticky()>Time Line</a>";
-      if (Access('SysAdmin')) {
-        echo "<a href=/admin onmouseover=NoHoverSticky()>Old Admin</a>";
-      }
+      echo "<a href=/int/TimeLine.php?Y=$YEAR onmouseover=NoHoverSticky()>Time Line</a>";
       echo "<a href='/int/Login.php?ACTION=LOGOUT' onmouseover=NoHoverSticky()>Logout " . $USER['Login'] . "</a>\n";
     }
     echo "</div></div>";

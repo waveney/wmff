@@ -45,7 +45,7 @@
 // *********************** TIMELINE ****************************************************
   echo "<td class=Stafftd><h2>Timeline</h2>\n";
     echo "<ul>\n";
-    echo "<li><a href=TimeLine.php>Time Line Management</a>\n<p>";
+    echo "<li><a href=TimeLine.php?Y=$YEAR>Time Line Management</a>\n<p>";
     echo "<li>Timeline Help\n";
     echo "</ul><p>\n";
 

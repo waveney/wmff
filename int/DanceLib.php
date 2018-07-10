@@ -6,7 +6,7 @@ $Dance_TimeFeilds = array('SatArrive','SatDepart','SunArrive','SunDepart');
 function Sides_Name_List() {
   global $db;
   $Sides = array();
-  $res = $db->query("SELECT SideId, SName FROM Sides ORDER BY SName");
+  $res = $db->query("SELECT SideId, SName FROM Sides WHERE SideStatus=0 AND IsASide=1 ORDER BY SName");
   if ($res) while ($row = $res->fetch_assoc()) $Sides[$row['SideId']] = $row['SName'];
   return $Sides;
 }
