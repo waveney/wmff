@@ -216,6 +216,22 @@ function Get_Event4Act($Eid) {
   return $evs; 
 }
 
+function Act_Name_List() {
+  global $db;
+  $Sides = array();
+  $res = $db->query("SELECT SideId, SName FROM Sides WHERE SideStatus=0 AND IsAnAct=1 ORDER BY SName");
+  if ($res) while ($row = $res->fetch_assoc()) $Sides[$row['SideId']] = $row['SName'];
+  return $Sides;
+}
+
+function Other_Name_List() {
+  global $db;
+  $Sides = array();
+  $res = $db->query("SELECT SideId, SName FROM Sides WHERE SideStatus=0 AND IsOther=1 ORDER BY SName");
+  if ($res) while ($row = $res->fetch_assoc()) $Sides[$row['SideId']] = $row['SName'];
+  return $Sides;
+}
+
 function Select_Act_Come($type=0,$extra='') {
   global $db,$YEAR;
   static $Come_Loaded = 0;

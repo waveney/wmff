@@ -59,7 +59,7 @@
       echo "<tr class=TL_" . $TL_Importance[$tl['Importance']] . ">";
       if (Access('SysAdmin')) echo "<td>" . $tli;
       echo "<td><a href=AddTimeLine.php?TLid=$tli>" . $tl['Title'] . "</a>";
-      echo "<td>" . $AllU[$tl['Assigned']];
+      echo "<td>" . ($tl['Assigned'] ? $AllU[$tl['Assigned']] : "<B>NOBODY</b>");
       echo "<td>" . $TL_Importance[$tl['Importance']];
       echo "<td>" . $TL_States[$tl['Status']];
       echo "<td" . ($tl['Due']<$now?" style='color:red;'":"") . ">" . date('d/m/Y',$tl['Due']);

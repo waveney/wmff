@@ -25,20 +25,22 @@
       if (isset($_POST{'ACTION'})) {
         switch ($_POST{'ACTION'}) {
           case 'Completed':
-            $_POST{'State'} = $TL_State['Completed'];
+            $_POST{'Status'} = $TL_State['Completed'];
+            $_POST['Completed'] = time();
             $_POST{'History'} .= " Completed by " . $USER['Login'] . " on " . date('d/m/Y');
             break;
           case 'Re Open':
-            $_POST{'State'} = $TL_State['Open'];
+            $_POST{'Status'} = $TL_State['Open'];
             $_POST{'History'} .= " Re Opened by " . $USER['Login'] . " on " . date('d/m/Y');
             break;
           case 'Cancel':
-            $_POST{'State'} = $TL_State['Cancelled'];
+            $_POST{'Status'} = $TL_State['Cancelled'];
             $_POST{'History'} .= " Cancelled by " . $USER['Login'] . " on " . date('d/m/Y');
             break;
         }
       }
       $_POST['Due'] = Date_BestGuess($_POST['NewDue']);
+//var_dump($_POST);
       Update_db_post('TimeLine',$tle);
     } else { // New
       $proc = 1;
@@ -65,9 +67,9 @@
 
   if (isset($Err)) echo "<h2 class=ERR>$Err</h2>\n";
 
-  if (!$Skip) {
+  if (1) {
     echo "<table width=90% border>\n";
-      echo "<tr>" . fm_text('Title',$tle,'Title',3,'','placeholder="Please give entry a short Title"');
+      echo "<tr>" . fm_text('Title',$tle,'Title',2,'','placeholder="Please give entry a short Title"');
       if (isset($tl) && $tl > 0) {
         echo "<td>Id:<td>";
         echo $tl . fm_hidden('TLid',$tl);
@@ -79,24 +81,27 @@
       }
 
       // Hide stored, display munged from stored if on update convert to stored
-      $CurDue['NewDue'] = ($tle['Due']?date('d/m/Y',$tle['Due']):"");
-      echo "<tr>" . fm_hidden('Due',$tle['Due']) . fm_text("Due by",$CurDue,'NewDue');
+      $CurDue['NewDue'] = (isset($tle['Due'])?date('d/m/Y',$tle['Due']):"");
+      echo "<tr>" . (isset($tle['Due'])?fm_hidden('Due',$tle['Due']):"") . fm_text("Due by",$CurDue,'NewDue');
       echo "<td>Put a Month eg Jan or January (will be end of) or a date as in 20/1 or 20th Jan or 20/1/18 or Jan 20(th).";
 
       echo "<tr><td>Assigned to:<td>" . fm_select($AllActive,$tle,'Assigned',1);
+        echo "<td>" . fm_checkbox("Recuring",$tle,'Recuring');
       if (isset($tle['Due']) && $tle['Due'] > 0 && $now > $tle['Due']) {
-              echo "<td class=red>OVERDUE\n";
+        echo "<td class=red>OVERDUE\n";
       }
       echo "<tr><td>Importance:<td>" . fm_select($TL_Importance,$tle,'Importance');
       echo "<tr>" . fm_textarea("Notes",$tle,'Notes',8,2);
       
-      echo "<tr><td>Created by:<td>" . $AllU[$tle['CreatedBy']] . " On " . date('d/m/Y',$tle['Created']);
-      if ($tle['Completed'] < 0) {
-              echo "<tr><td>State:<td>Cancelled\n";
-      } else if ($tle['Completed'] == 0) {
-              echo "<tr><td>State:<td>Open\n";
-      } else {
-        echo "<tr><td>Completed On<td>" . date('d/m/Y',$tle['Completed']);
+      echo "<tr><td>Created by:<td>" . ((isset($tle['CreatedBy']) && ($tle['CreatedBy'] != 0)) ? $AllU[$tle['CreatedBy']]: "UNKNOWN" ) . " On " . date('d/m/Y',$tle['Created']);
+      echo "<tr><td>State:<td>";
+
+      if (isset($tle['Status'])) {
+        if (!isset($tle['Completed']) || $tle['Status'] != $TL_State['Completed']) {
+          echo $TL_States[$tle['Status']] . "\n";
+        } else {
+          echo "Completed On<td>" . date('d/m/Y',$tle['Completed']);
+        }
       }
 
       echo "<tr>" . fm_textarea('Progress',$tle,'Progress',8,2);

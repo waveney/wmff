@@ -8,6 +8,13 @@ include_once("DateTime.php");
 
 function Set_TimeLine_Help() {
   static $t = array(
+    'Title' => 'Name of item to appear in lists - not too long, expand in notes if needed',
+    'Assigned' => 'Who is this task for?  Only leave blank if you realy do not know',
+    'NewDue' => 'Express the end date in a way that makes sense',
+    'Recuring' => 'Tick this if the item should appear every year - it will then be copied forward when appropriate',
+    'Notes' => 'Expand on what the item is',
+    'Progress' => 'Use to mark progress, but not completion',
+    'History' => 'Used to record when things happen and changes',
   );
   Set_Help_Table($t);
 }
@@ -37,10 +44,10 @@ function TL_Select($V) {
 
   switch ($V) {
   case 'MINE':
-    $xtr = "AND ( Assigned=$USERID OR Assigned=0";    
+    $xtr = "( Assigned=$USERID OR Assigned=0";    
     break;
   case 'OPEN':
-    $xtr = "AND Status=0";    
+    $xtr = "Status=0";    
     break;
   case 'ALL':
     $xtr = "";    
@@ -48,17 +55,17 @@ function TL_Select($V) {
   case 'MONTH':
     $now = getdate();
     $month = mktime(0,0,0,$now['mon']+1,$now['mday'],$now['year']);
-    $xtr = "AND Due<$month AND Status=0";    
+    $xtr = "Due<$month AND Status=0";    
     break;
   case 'OVERDUE':
     $now = time();
-    $xtr = "AND Due<$now AND Status=0";    
+    $xtr = "Due<$now AND Status=0";    
     break;
   default :
-    $xtr = "AND Status=0 AND ( Assigned=$USERID OR Assigned=0) ";    
+    $xtr = "Status=0 AND ( Assigned=$USERID OR Assigned=0) ";    
     break;
   }
-  $q = "SELECT * FROM TimeLine WHERE Year=$YEAR $xtr ORDER BY Due";
+  $q = "SELECT * FROM TimeLine WHERE $xtr ORDER BY Due";
   $res = $db->query($q);
   if ($res) {
     while ($tle = $res->fetch_assoc()) {

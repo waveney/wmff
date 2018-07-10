@@ -198,6 +198,17 @@ function Get_Traders_Coming($type=0) { // 0=names, 1=all
   return $data;
 }
 
+function Get_All_Traders($type=0) { // 0=names, 1=all
+  global $db,$YEAR,$Trade_State;
+  $data = array();
+  $qry = "SELECT * FROM Trade WHERE Status=0 ORDER BY SName";
+  $res = $db->query($qry);
+  if (!$res || $res->num_rows == 0) return 0;
+  while ($tr=$res->fetch_assoc()) {
+    $data[$tr['Tid']] = ($type?$tr:$tr['SName']);
+  }
+  return $data;
+}
 
 function Put_Trader(&$now) {
   $e=$now['Tid'];
