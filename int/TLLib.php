@@ -8,6 +8,13 @@ include_once("DateTime.php");
 
 function Set_TimeLine_Help() {
   static $t = array(
+    'Title' => 'Name of item to appear in lists - not too long, expand in notes if needed',
+    'Assigned' => 'Who is this task for?  Only leave blank if you realy do not know',
+    'NewDue' => 'Express the end date in a way that makes sense',
+    'Recuring' => 'Tick this if the item should appear every year - it will then be copied forward when appropriate',
+    'Notes' => 'Expand on what the item is',
+    'Progress' => 'Use to mark progress, but not completion',
+    'History' => 'Used to record when things happen and changes',
   );
   Set_Help_Table($t);
 }

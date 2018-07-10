@@ -86,19 +86,22 @@
       echo "<td>Put a Month eg Jan or January (will be end of) or a date as in 20/1 or 20th Jan or 20/1/18 or Jan 20(th).";
 
       echo "<tr><td>Assigned to:<td>" . fm_select($AllActive,$tle,'Assigned',1);
+        echo "<td>" . fm_checkbox("Recuring",$tle,'Recuring');
       if (isset($tle['Due']) && $tle['Due'] > 0 && $now > $tle['Due']) {
         echo "<td class=red>OVERDUE\n";
       }
       echo "<tr><td>Importance:<td>" . fm_select($TL_Importance,$tle,'Importance');
       echo "<tr>" . fm_textarea("Notes",$tle,'Notes',8,2);
       
-      echo "<tr><td>Created by:<td>" . $AllU[$tle['CreatedBy']] . " On " . date('d/m/Y',$tle['Created']);
+      echo "<tr><td>Created by:<td>" . ((isset($tle['CreatedBy']) && ($tle['CreatedBy'] != 0)) ? $AllU[$tle['CreatedBy']]: "UNKNOWN" ) . " On " . date('d/m/Y',$tle['Created']);
       echo "<tr><td>State:<td>";
 
-      if (!isset($tle['Completed']) || $tle['Status'] != $TL_State['Completed']) {
-        echo $TL_Status[$tle['Status']] . "\n";
-      } else {
-        echo "Completed On<td>" . date('d/m/Y',$tle['Completed']);
+      if (isset($tle['Status'])) {
+        if (!isset($tle['Completed']) || $tle['Status'] != $TL_State['Completed']) {
+          echo $TL_States[$tle['Status']] . "\n";
+        } else {
+          echo "Completed On<td>" . date('d/m/Y',$tle['Completed']);
+        }
       }
 
       echo "<tr>" . fm_textarea('Progress',$tle,'Progress',8,2);
