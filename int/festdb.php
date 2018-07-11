@@ -168,6 +168,7 @@ function Insert_db($table, &$from, &$data=0, $proced=1) {
       }
     }
   }
+//var_dump($newrec);
   if ($proced) {
     $insert = $db->query($newrec);
     if ($insert) {

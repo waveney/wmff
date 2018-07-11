@@ -44,13 +44,13 @@ function TL_Select($V) {
 
   switch ($V) {
   case 'MINE':
-    $xtr = "( Assigned=$USERID OR Assigned=0";    
+    $xtr = "( Assigned=$USERID OR Assigned=0 )";    
     break;
   case 'OPEN':
     $xtr = "Status=0";    
     break;
   case 'ALL':
-    $xtr = "";    
+    $xtr = "1=1";    
     break;
   case 'MONTH':
     $now = getdate();
