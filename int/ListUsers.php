@@ -21,6 +21,7 @@
 
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>User Id</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Abrev</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Login</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Email</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>WMFF Email</a>\n";
@@ -36,6 +37,7 @@
 
   while($usr = $res->fetch_assoc()) {
     echo "<tr><td>" . $usr['UserId'] . "<td><a href=AddUser.php?usernum=" . $usr['UserId'] . ">" . $usr['SName'] . "</a>";
+    echo "<td>" . $usr['Abrev'];
     echo "<td>" . $usr['Login'] . "<td>" . $usr['Email'] . "<td>" . $usr['WMFFemail'] . "<td>" . $Access_Levels[$usr['AccessLevel']];
     echo "<td>" . $usr['Roll'] . "<td>";
     if ($usr['Image']) echo "<img src='" . $usr['Image'] . "' width=50>";
