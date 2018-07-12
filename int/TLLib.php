@@ -15,6 +15,7 @@ function Set_TimeLine_Help() {
     'Notes' => 'Expand on what the item is',
     'Progress' => 'Use to mark progress, but not completion',
     'History' => 'Used to record when things happen and changes',
+    'Year' => 'Festival Year the item is for',
   );
   Set_Help_Table($t);
 }

@@ -10,13 +10,15 @@
 
   Set_TimeLine_Help();
 
-  $AllU = Get_AllUsers(0);
-  $AllA = Get_AllUsers(1);
-  $AllActive = array();
-  foreach ($AllU as $id=>$name) if ($AllA[$id] >= 2 && $AllA[$id] <= 6) $AllActive[$id]=$name;
+  $All = Get_AllUsers(2);
+  $AllActive = [];
+  foreach ($All as $usr) {
+    $id = $usr['UserId'];
+    if ($usr['AccessLevel'] >=2 && $usr['AccessLevel']<= 6 ) $AllActive[$id] = (strlen($usr['Abrev'])?$usr['Abrev']:$usr['Login']);  
+  }
+
   $now = time();
 
-var_dump($_POST);
   echo "<div class='content'><h2>Add/Edit Time Line Items</h2>\n";
   echo "<form method=post action=AddTimeLine.php>\n";
   if (isset($_POST['TLid'])) { // Response to update button
@@ -29,7 +31,7 @@ var_dump($_POST);
         switch ($_POST['ACTION']) {
           case 'Completed':
             $_POST['Status'] = $TL_State['Completed'];
-            $_POST['Completed'] = time();
+            $_POST['Completed'] = $now;
             $_POST['History'] .= " Completed by " . $USER['Login'] . " on " . date('d/m/Y');
             break;
           case 'Re Open':
@@ -44,9 +46,9 @@ var_dump($_POST);
             $_POST['TLid'] = -1;
             $_POST['Year'] = $PLANYEAR;
             $_POST['Status'] = $TL_State['Open'];
-            $_POST['Created'] = time();
+            $_POST['Created'] = $now;
             $_POST['CreatedBy'] = $USERID;
-            $_POST['Due'] =  strtotime(date("Y-m-d", ((isset($_POST['Due']) && $_POST['Due'] > 0) ? $_POST['Due']: time())) . " + 365 day");
+            $_POST['Due'] =  strtotime(date("Y-m-d", ((isset($_POST['Due']) && $_POST['Due'] > 0) ? $_POST['Due']: $now)) . " + 365 day");
             $_POST['Progress'] = $_POST['History'] = '';
             $tl = Insert_db_post('TimeLine',$tle,$proc);
             $proc = 0;
@@ -61,7 +63,7 @@ var_dump($_POST);
       }
     } else { // New
       $proc = 1;
-      $_POST['Created'] = time();
+      $_POST['Created'] = $now;
       $_POST['CreatedBy'] = $USERID;
       $_POST['Due'] = Date_BestGuess($_POST['NewDue']);
       if (!isset($_POST['Title'])  || strlen($_POST['Title']) < 2) { // 
@@ -78,7 +80,7 @@ var_dump($_POST);
     $tle = array();
     $tle['Assigned'] = $USERID;
     $tle['CreatedBy'] = $USERID;
-    $tle['Created'] = time();
+    $tle['Created'] = $now;
     $tle['Year'] = $PLANYEAR;
   }
 
@@ -90,17 +92,16 @@ var_dump($_POST);
       if (isset($tl) && $tl > 0) {
         echo "<td>Id:<td>";
         echo $tl . fm_hidden('TLid',$tl);
-        echo "<td>For " . $tle['Year'];
-        echo fm_hidden('Year',$tle['Year']);
       } else {
         echo fm_hidden('TLid',-1);
-        echo fm_hidden('Year',$tle['Year']);
       }
 
+
       // Hide stored, display munged from stored if on update convert to stored
-      $CurDue['NewDue'] = ((isset($tle['Due']) && $tle['Due'] != 0)?date('d/m/Y',$tle['Due']):time());
+      $CurDue['NewDue'] = date('d/m/Y',(isset($tle['Due']) && $tle['Due'] != 0)?$tle['Due']:$now);
       echo "<tr>" . (isset($tle['Due'])?fm_hidden('Due',$tle['Due']):"") . fm_text("Due by",$CurDue,'NewDue');
       echo "<td>Put a Month eg Jan or January (will be end of) or a date as in 20/1 or 20th Jan or 20/1/18 or Jan 20(th).";
+      echo fm_number('For',$tle,'Year','',' min=2016 max=2099 ');
 
       echo "<tr><td>Assigned to:<td>" . fm_select($AllActive,$tle,'Assigned',1);
         echo "<td>" . fm_checkbox("Recuring",$tle,'Recuring');
@@ -110,7 +111,9 @@ var_dump($_POST);
       echo "<tr><td>Importance:<td>" . fm_select($TL_Importance,$tle,'Importance');
       echo "<tr>" . fm_textarea("Notes",$tle,'Notes',8,2);
       
-      echo "<tr><td>Created by:<td>" . ((isset($tle['CreatedBy']) && ($tle['CreatedBy'] != 0)) ? $AllU[$tle['CreatedBy']]: "UNKNOWN" ) . " On " . date('d/m/Y',$tle['Created']);
+      echo "<tr><td>Created by:<td>";
+      echo ((isset($tle['CreatedBy']) && ($tle['CreatedBy'] != 0)) ? (strlen($All[$tle['CreatedBy']]['Abrev']) > 0?$All[$tle['CreatedBy']]['Abrev']:$All[$tle['CreatedBy']]['Login'] ): "UNKNOWN" );
+      echo " On " . date('d/m/Y',$tle['Created']);
       echo "<tr><td>State:<td>";
 
       if (isset($tle['Status'])) {
