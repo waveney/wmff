@@ -149,7 +149,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
       echo "<tr $Adv>" . fm_textarea('Requests',$Side,'Likes',3,1);
         echo fm_text('Animal',$Side,'MorrisAnimal');
       echo "<tr><td>Surfaces:" . help('Surfaces') . "<td colspan=3>";
-        for($st=1;$st<5;$st++) {
+        for($st=1;$st<=5;$st++) {
           $surf = $Surfaces[$st];
           echo fm_checkbox($surf,$Side,"Surface_$surf");
         };
