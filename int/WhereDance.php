@@ -14,9 +14,10 @@
   foreach($AllSides as $Sid) {
     $Perf = $Sid['Performers'];
     if ($Perf > 0) {
-      $PCode = trim($Sid['PostCode']);
+      $PCode = strtoupper(trim($Sid['PostCode']));
       preg_match('/(\w+)/',$PCode,$mtch);
       $PCa = $mtch[1];
+      if (preg_match('/(.*)\d\w\w$/',$PCa,$PCb)) $PCa = $PCb[1];
       $PCs[$PCa] = 1;
       if ($Sid['Sat']) {
         $PCodes[$PCa][$Sid['Sun']?'Both':'Sat'] += $Perf;
