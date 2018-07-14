@@ -54,6 +54,7 @@
         $User['AccessLevel'] = $Access_Type['Committee'];
       }
     echo "<tr>" . fm_text('Name', $User,'SName',1,'','autocomplete=off');
+    echo "<tr>" . fm_text('Abrev', $User,'Abrev',1,'','autocomplete=off');
     echo "<tr>" . fm_text('Email',$User,'Email',1,'','autocomplete=off');
     echo "<tr>" . fm_text($MASTER_DATA['ShortName'] . " Email",$User,'WMFFemail',1,'','autocomplete=off');
     echo "<tr>" . fm_text('Login',$User,'Login');

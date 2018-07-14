@@ -85,22 +85,23 @@ function File_FullPName($f) {
   return Dir_FullPName($inf['Dir']) . "/" . stripslashes($inf['SName']);
 }
 
-function Get_AllUsers($mode=0) { // 0 return login names, 1 return levels
+function Get_AllUsers($mode=0) { // 0 return login names, 1 return levels, 2 All
   global $db;
-  static $cache, $AccessC;
-  if (isset($cache)) return ($mode)?$AccessC:$cache;
-  $res = $db->query("SELECT UserId, Login, AccessLevel FROM FestUsers ORDER BY UserId");
+  static $cache, $AccessC, $Full;
+  if (isset($cache)) return [$cache,$AccessC,$Full][$mode];
+  $res = $db->query("SELECT * FROM FestUsers ORDER BY UserId");
   $ans = array();
   $ac = array();
   while ($us = $res->fetch_assoc()) {
     $uid = $us['UserId'];
     $ulog = $us['Login'];
+    $Full[] = $us;
     $ans[$uid] = $ulog;
     $ac[$uid] = $us['AccessLevel'];
   }
   $cache = $ans;
   $AccessC = $ac;
-  return ($mode?$AccessC:$cache);
+  return [$cache,$AccessC,$Full][$mode];
 }
 
 function Get_AllUsers4Sect($Sect,$also=-1,$Sect2='@@',$Sect3='@@') { // Sect = Music, Dance etc, include also even if not for sect

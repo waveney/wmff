@@ -323,7 +323,7 @@ function Set_Side_Help() {
         'Photo'=>'Give URL of photo to use or upload one',
         'Mobile'=>'As an emergency contact number, this is important',
         'NoiseLevel'=>'Loud PAs are noisy, a single violin or flute is quiet',
-        'Surfaces'=>'What surfaces can be danced on, if none are set all is assumed. Note the Square and Crownmead have flagstones',
+        'Surfaces'=>'What surfaces can be danced on, if none are set all is assumed. Note the Square has flagstones and Crownmead has Bricks',
         'SideStatus'=>'If the side is disbanded mark as dead',
         'StagePA'=>'Mainly Appalachian Sides, give PA Reqs as text or upload a file',
         'DataCheck'=>'Not yet working',

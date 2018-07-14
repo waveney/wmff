@@ -5,11 +5,8 @@
   dostaffhead("List Users");
   include_once("DocLib.php");
   include_once("UserLib.php");
-  $AllU = Get_AllUsers();
-  date_default_timezone_set('GMT');
 
-  $qry = "SELECT * FROM FestUsers ORDER BY UserId";
-  $res = $db->query($qry);
+  $Users = Get_AllUsers(2);
 
   $coln = 0;
   echo "Click on the Name or User Id to edit.  Click on column to sort by column.<p>\n";
@@ -21,6 +18,7 @@
 
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>User Id</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Abrev</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Login</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Email</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>WMFF Email</a>\n";
@@ -34,8 +32,9 @@
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$sec</a>\n";
   echo "</thead><tbody>";
 
-  while($usr = $res->fetch_assoc()) {
+  foreach ($Users as $usr) {
     echo "<tr><td>" . $usr['UserId'] . "<td><a href=AddUser.php?usernum=" . $usr['UserId'] . ">" . $usr['SName'] . "</a>";
+    echo "<td>" . $usr['Abrev'];
     echo "<td>" . $usr['Login'] . "<td>" . $usr['Email'] . "<td>" . $usr['WMFFemail'] . "<td>" . $Access_Levels[$usr['AccessLevel']];
     echo "<td>" . $usr['Roll'] . "<td>";
     if ($usr['Image']) echo "<img src='" . $usr['Image'] . "' width=50>";

@@ -3,7 +3,7 @@
 
 $TL_States = array('Open','Completed','Cancelled');
 $TL_State = array_flip($TL_States);
-$TL_Importance = array('Minor','Major','Critical');
+$TL_Importance = array('','Major','Critical');
 include_once("DateTime.php");
 
 function Set_TimeLine_Help() {
@@ -15,6 +15,7 @@ function Set_TimeLine_Help() {
     'Notes' => 'Expand on what the item is',
     'Progress' => 'Use to mark progress, but not completion',
     'History' => 'Used to record when things happen and changes',
+    'Year' => 'Festival Year the item is for',
   );
   Set_Help_Table($t);
 }
@@ -42,15 +43,16 @@ function TL_Select($V) {
   global $db,$USERID,$YEAR;
   $data = array();
 
+/*
   switch ($V) {
   case 'MINE':
-    $xtr = "( Assigned=$USERID OR Assigned=0";    
+    $xtr = "( Assigned=$USERID OR Assigned=0 )";    
     break;
   case 'OPEN':
     $xtr = "Status=0";    
     break;
   case 'ALL':
-    $xtr = "";    
+    $xtr = "1=1";    
     break;
   case 'MONTH':
     $now = getdate();
@@ -64,8 +66,9 @@ function TL_Select($V) {
   default :
     $xtr = "Status=0 AND ( Assigned=$USERID OR Assigned=0) ";    
     break;
-  }
-  $q = "SELECT * FROM TimeLine WHERE $xtr ORDER BY Due";
+  }*/
+  
+  $q = "SELECT * FROM TimeLine WHERE Year=$YEAR ORDER BY Due";
   $res = $db->query($q);
   if ($res) {
     while ($tle = $res->fetch_assoc()) {

@@ -28,11 +28,23 @@ You can upload files, clicking on the "Choose Files" below any directory listing
 In general to upload many files select the first one, then select others while holding your control or shift keys down.  (I hope to support
 drag and drop for files soon - Richard).<p>
 
+Do not try to upload more than about 15M of files at once (or anything more than 15M).  If you want to upload very large numbers or very large files contact Richard.<p>
+
 Files and directories you have uploaded can be deleted, renamed and moved by you.<p>
 
 Note files "Deleted" are removed from view and archieved.  It is possible (but not easy) to recover a deleted file.<p>
 
-At present all documents / directories can be read by everyone, some design is in place to restrict this in the future if wanted.<p>
+At present all documents / directories can be read by everyone, some design is in place to restrict this in the near future.<p>
+
+<h2>Years - looking backwards and forwards</h2><p>
+The staff pages (by default) show information on the festival being planned.<p>
+
+To look at another year click on the relevant year at the top right of the staff pages, then all the individual pages will reflect the year in question.<p>
+
+Note, only data that can be displayed from earlier years is displayed.  It should be possible to work many years ahead if wanted.
+Curently I only plan to enable it to work about 18 months ahead, unless someone wants really it - Richard.<P>
+
+Anytime you click back on <b>Staff Tools</b> it will revert to the year being planned.<p>
 
 <h2>Dance, Music and other Participants</h2><p>
 
@@ -48,12 +60,9 @@ If you want them to be able to do updates then <b>ALWAYS</b> use the email links
 These links launch your email client with an appropriate subject and most importantly a link in the body of the 
 message which enables them to maintain their data.<p>
 
-When they do updates, you should be able to get (if you want) an email from the system highlighting the changes made.  This can currently be enabled by Richard
-or James.  (Currently broken - Richard)<p>
-
 <h2>Event Programming</h2><p>
 
-First Venues need be defined.<p>
+First Venues need be defined - this is normally done by Richard.<p>
 
 Then add the Event.  An event could be "Dancing" in the Cornmarket from 1000 to 1700.  An event such as this can be subdivided into
 subevents for every half hour.  Although the partipants can be set up from the event creation page, for most purposes there is a much
@@ -63,11 +72,7 @@ There is special provision for large events that have large numbers of participa
 Select "Big Event" and create/update the event.  This enables you to select many more venues and gives access to an extra drag/drop tool
 to add any participant to the event.<p>
 
-You can control public access to events in two ways:
-<ul><li>Each event has a flag enabling it to be made public, private, or to follow a general setting.
-<li>There are general settings for Music and Dance (controlled by Richard or James) for most events
-</ul>
-
+See the help on the Create Event page for more about this.<p>
 <h2>Users</h2><p>
 Initially, this is for the committee, but some parts of this system may be made available later to staff / stewards / others as appropriate.<p>
 

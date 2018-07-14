@@ -886,6 +886,15 @@ textarea:Focus
   background:purple;
   border-radius:15px;
 }
+
+.PurpSelect {
+  padding:5;
+  text-size:45px;
+  font-weight:bold;
+  color:purple !important;
+  background:lightgray;
+  border-radius:15px;
+}
 #leftspon, #rightspon {
   max-height:100;
 }
