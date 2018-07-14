@@ -114,7 +114,7 @@
       }
       echo "<tr><td>Importance:<td>" . fm_select($TL_Importance,$tle,'Importance');
         echo "<td>" . fm_checkbox("Recuring",$tle,'Recuring');
-        if ($tle['NextYearId']) echo "<td><a href=AddTimeLine.php?Y=$YEAR&TLid=" . $tle['NextYearId'] . ">Copied</a>";
+        if (isset($tle['NextYearId']) && ($tle['NextYearId']>0)) echo "<td><a href=AddTimeLine.php?Y=$YEAR&TLid=" . $tle['NextYearId'] . ">Copied</a>";
 
       echo "<tr>" . fm_textarea("Notes",$tle,'Notes',8,2);
       

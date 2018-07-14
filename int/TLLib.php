@@ -3,7 +3,7 @@
 
 $TL_States = array('Open','Completed','Cancelled');
 $TL_State = array_flip($TL_States);
-$TL_Importance = array('Minor','Major','Critical');
+$TL_Importance = array('','Major','Critical');
 include_once("DateTime.php");
 
 function Set_TimeLine_Help() {
@@ -43,6 +43,7 @@ function TL_Select($V) {
   global $db,$USERID,$YEAR;
   $data = array();
 
+/*
   switch ($V) {
   case 'MINE':
     $xtr = "( Assigned=$USERID OR Assigned=0 )";    
@@ -65,8 +66,9 @@ function TL_Select($V) {
   default :
     $xtr = "Status=0 AND ( Assigned=$USERID OR Assigned=0) ";    
     break;
-  }
-  $q = "SELECT * FROM TimeLine WHERE $xtr ORDER BY Due";
+  }*/
+  
+  $q = "SELECT * FROM TimeLine WHERE Year=$YEAR ORDER BY Due";
   $res = $db->query($q);
   if ($res) {
     while ($tle = $res->fetch_assoc()) {

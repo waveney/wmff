@@ -16,9 +16,10 @@
     if ($YEAR+1 < $PLANYEAR) echo " &nbsp; <a href=TimeLine.php?Y=$PLANYEAR>$PLANYEAR</a>\n";
   echo "</div>";
 
-  echo "<h2>Timeline Management for $YEAR "; 
+  echo "<h2>Timeline Management for $YEAR </h2>"; 
   $now = time();
-  $month = mktime(0,0,0,$now['mon']+1,$now['mday'],$now['year']);
+  $date = getdate();
+  $month = mktime(0,0,0,$date['mon']+1,$date['mday'],$date['year']);
   
 /* Thinking space
  Time line for YEAR                                      PREV, NEXT, PLAN (aka sideyears)
@@ -107,9 +108,7 @@
     case 'MINE': echo "- All Your Tasks"; break;
     default: echo "- Your Open Tasks"; break;
   }
-*/
   echo "</h2>\n";
-
   echo "<ul id=TLacts>";
   echo "<li><a href=AddTimeLine.php>Add a Task</a>";
   echo "<li" . ($V==''?' id=TLactsel':'') . "><a href=TimeLine.php?Y=$YEAR>Your Open Tasks</a> ";
@@ -119,19 +118,20 @@
   echo "<li" . ($V=='MONTH'?' id=TLactsel':'') . "><a href=TimeLine.php?Y=$YEAR&V=MONTH>Tasks Due Next Month</a> ";
   echo "<li" . ($V=='OVERDUE'?' id=TLactsel':'') . "><a href=TimeLine.php?Y=$YEAR&V=OVERDUE>Overdue Tasks</a>";
   echo "</ul>\n";
+*/
 
   echo "<table style=' width: auto;' border><tr><td><a class=PurpButton href=AddTimeLine.php>Add a Task</a>";
-  echo "<td><div class=PurpSelect id=TasksYou onclick=TLSelect(this.id)>Your Tasks</div><br><div class=PurpButton id=TasksAll onclick=TLSelect(this.id)>Everyone's</div>";
-  echo "<td><div class=PurpSelect id=OpenTasks onclick=TLSelect(this.id)>Open Tasks</div>";
-  echo     "<div class=PurpButton id=NextMonth onclick=TLSelect(this.id)>Tasks Due Next Month</div>";
-  echo     "<div class=PurpButton id=OverdueTasks onclick=TLSelect(this.id)>Overdue Tasks</div>";
-  echo     "<div class=PurpButton id=AllTasks onclick=TLSelect(this.id)>All Tasks</div>";
-  echo "<td><div class=PurpSelect id=DataLow onclick=TLSelect(this.id)>Basic Info</div><br><div class=PurpButton id=DataHigh onclick=TLSelect(this.id)>More Info</div>";
+  echo "<td><div class=PurpButton id=TasksYou onclick=TLSelect(this.id)>Your Tasks</div><br><div class=PurpSelect id=TasksAll onclick=TLSelect(this.id)>Everyone's</div>";
+  echo "<td><div class=PurpButton id=OpenTasks onclick=TLSelect(this.id)>Open Tasks</div>";
+  echo     "<div class=PurpSelect id=NextMonth onclick=TLSelect(this.id)>Tasks Due Next Month</div>";
+  echo     "<div class=PurpSelect id=OverdueTasks onclick=TLSelect(this.id)>Overdue Tasks</div>";
+  echo     "<div class=PurpSelect id=CompleteTasks onclick=TLSelect(this.id)>Completed Tasks</div>";
+  echo     "<div class=PurpSelect id=AllTasks onclick=TLSelect(this.id)>All Tasks</div>";
+  echo "<td><div class=PurpButton id=DataLow onclick=TLSelect(this.id)>Basic Info</div><br><div class=PurpSelect id=DataHigh onclick=TLSelect(this.id)>More Info</div>";
   echo "</table><p>\n";
 
-  echo "Note the Year is the festival year, it is for not the calenda year.<p>\n";
+  echo "<div class=FullD hidden>Note the Year is the festival year, not the calenda year.</div>\n";
   $TLents = TL_Select($V);
-
 
   if ($TLents) {
     echo "<form method=post >";
@@ -156,12 +156,14 @@
 
     foreach($TLents as $tl) {
       $tli = $tl['TLid'];
-      $classes = "TL_" . $TL_Importance[$tl['Importance']] . " ";
+      $classes = "TL TL_" . $TL_Importance[$tl['Importance']] . " ";
       $hide = 0;
+      $Open = 0;
       if ($tl['Assigned']>0 && $tl['Assigned'] != $USERID) { $classes .=  "TL_EVERYONE "; $hide=1; }
-      if ($TL_States[$tl['Status']] == 'Open') { $classes .= "TL_OPEN "; } else $hide=1;
-      if ($tl['Due'] < $month ) $classes .= "TL_MONTH ";
-      if ($tl['Due'] < $now ) $classes .= "TL_OVERDUE ";
+      if ($TL_States[$tl['Status']] == 'Open') { $classes .= "TL_OPEN "; $Open = 1; } else $hide=1;
+      if ($TL_States[$tl['Status']] == 'Completed') $classes .= "TL_COMPLETE "; 
+      if ($Open && $tl['Due'] < $month ) $classes .= "TL_MONTH ";
+      if ($Open && $tl['Due'] < $now ) $classes .= "TL_OVERDUE ";
       echo "<tr class='$classes' " . ($hide?'hidden':'') . ">";
       if (Access('Committee','TLine')) echo "<td><input type=checkbox name=E$tli class=SelectAllAble>";
       if (Access('SysAdmin')) echo "<td class=FullD hidden>" . $tli;
@@ -169,7 +171,7 @@
       echo "<td>" . ($tl['Assigned'] ? $AllActive[$tl['Assigned']] : "<B>NOBODY</b>");
       echo "<td>" . $TL_Importance[$tl['Importance']];
       echo "<td>" . $TL_States[$tl['Status']];
-      echo "<td" . ($tl['Due']<$now?" style='color:red;'":"") . ">" . date('d/m/Y',$tl['Due']);
+      echo "<td" . ($tl['Due']<$now  && $Open?" style='color:red;'":"") . ">" . date('d/m/Y',$tl['Due']);
       echo "<td class=FullD hidden>" .$tl['Year'];
       echo "<td class=FullD hidden>" . ["","Y"][$tl['Recuring']];
       echo "<td class=FullD hidden>" . ($tl['NextYearId']? ("<a href=AddTimeLine.php?TLid=" . $tl['NextYearId'] . ">Y</a>" ) : "");
