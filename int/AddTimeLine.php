@@ -43,6 +43,8 @@
             $_POST['History'] .= " Cancelled by " . $USER['Login'] . " on " . date('d/m/Y');
             break;
           case "Copy to $PLANYEAR":
+            $otl = Get_TLent($_POST['TLid']);
+
             $_POST['TLid'] = -1;
             $_POST['Year'] = $PLANYEAR;
             $_POST['Status'] = $TL_State['Open'];
@@ -51,6 +53,8 @@
             $_POST['Due'] =  strtotime(date("Y-m-d", ((isset($_POST['Due']) && $_POST['Due'] > 0) ? $_POST['Due']: $now)) . " + 365 day");
             $_POST['Progress'] = $_POST['History'] = '';
             $tl = Insert_db_post('TimeLine',$tle,$proc);
+            $otl['NextYearId'] = $tl;
+            Put_TLent($otl);
             $proc = 0;
             break;
 
@@ -104,11 +108,14 @@
       echo fm_number('For',$tle,'Year','',' min=2016 max=2099 ');
 
       echo "<tr><td>Assigned to:<td>" . fm_select($AllActive,$tle,'Assigned',1);
-        echo "<td>" . fm_checkbox("Recuring",$tle,'Recuring');
-      if (isset($tle['Due']) && $tle['Due'] > 0 && $now > $tle['Due']) {
+
+      if (isset($tle['Due']) && $tle['Due'] > 0 && $now > $tle['Due'] && $tle['Status']==0) {
         echo "<td class=red>OVERDUE\n";
       }
       echo "<tr><td>Importance:<td>" . fm_select($TL_Importance,$tle,'Importance');
+        echo "<td>" . fm_checkbox("Recuring",$tle,'Recuring');
+        if ($tle['NextYearId']) echo "<td><a href=AddTimeLine.php?Y=$YEAR&TLid=" . $tle['NextYearId'] . ">Copied</a>";
+
       echo "<tr>" . fm_textarea("Notes",$tle,'Notes',8,2);
       
       echo "<tr><td>Created by:<td>";
@@ -136,7 +143,7 @@
       echo "<input type=Submit name='ACTION' value='Re Open'>\n";
       echo "<input type=Submit name='ACTION' value='Cancel'>\n";
       echo "<input type=Submit name='ACTION' value='Add Another'>\n";
-      if (!isset($tle['Year']) || $tle['Year'] != $PLANYEAR) echo "<input type=Submit name=ACTION value='Copy to $PLANYEAR'>\n";
+      if ((!isset($tle['Year']) || $tle['Year'] != $PLANYEAR ) && ($tle['NextYearId'] == 0)) echo "<input type=Submit name=ACTION value='Copy to $PLANYEAR'>\n";
       echo "</center>\n";
     } else { 
       echo "<Center><input type=Submit name=Create value='Create'></center>\n";
