@@ -1,8 +1,6 @@
 <?php
 // Common TimeLine Library
 
-$TL_States = array('Open','Completed','Cancelled');
-$TL_State = array_flip($TL_States);
 $TL_Importance = array('','Major','Critical');
 include_once("DateTime.php");
 
@@ -13,11 +11,20 @@ function Set_TimeLine_Help() {
     'NewDue' => 'Express the end date in a way that makes sense',
     'Recuring' => 'Tick this if the item should appear every year - it will then be copied forward when appropriate',
     'Notes' => 'Expand on what the item is',
-    'Progress' => 'Use to mark progress, but not completion',
+    'Progress' => 'Use to mark progress, -1 for cancelling',
     'History' => 'Used to record when things happen and changes',
     'Year' => 'Festival Year the item is for',
   );
   Set_Help_Table($t);
+}
+
+function TL_State(&$tl,$mode=0) { // mode 0 = display mode 1 fm_number 
+  if (!isset($tl['Progress'])) return 'Not Started';
+  if ($tl['Progress'] < 0) return 'Cancelled';
+  if ($tl['Progress'] >= 100) return 'Complete';
+  if (($tl['Progress'] == 0) && ($mode == 0)) return 'Not Started';
+  if ($mode) return fm_number1('',$tl,'Progress','',' max=100 min=-1') . "%";
+  return $tl['Progress']. "%";
 }
 
 function Get_TLent($id) {

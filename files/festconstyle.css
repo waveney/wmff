@@ -97,7 +97,9 @@ input[type=submit] .Button3 {
 #largeredsubmit {
   font-size:24px;
   background-color:red;
-  margin:10;
+  color:white;
+  margin:10px;
+  padding:5;
   border:10;
 }
 
@@ -815,3 +817,13 @@ input[type='file'] {
   font-family:SHONAR, verdana, arial, helvetica, sans-serif;
   font-size:35px;
 }
+
+.ui-slider {
+  width: 200px;
+  padding-left: 5px; 
+}
+
+.slider .ui-slider-range { 
+    background: #ff0000; 
+}
+

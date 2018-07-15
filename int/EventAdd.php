@@ -23,7 +23,7 @@
   $Venues = Get_Real_Venues(0);
   $Skip = 0;
 
-  echo "<span class=floatright id=largeredsubmit onclick=($('.HelpDiv').show()) >HELP</span>";
+  echo "<span class=floatright id=largeredsubmit onclick=($('.HelpDiv').toggle()) >HELP</span>";
   echo "<div class=content>";
   echo "<div class=HelpDiv hidden>";
 ?>
@@ -31,7 +31,7 @@
 For most events you only need:<p>
 <ul><li>A Name (Can be pretty generic eg Dancing, Saturday Night Concert)
 <li>A Type (A Broad categorization as to what lists it appears in)<li>A Venue<li>A Day<li>A Start and End Time</ul>
-If you need to block off the venue before the event, give a setup time in minutes, eg 30.<p>
+If you need to block off the venue before the event, give a setup time in minutes, eg 30, if the doors open significantly before the start given the opening time.<p>
 If you would like to give a small description, this will appear in the programme book and in lists of events.<p>
 You may if you wish have a longer blurb, this will only appear on the webpage for this event.<p>
 If it should be listed as a Family event, click the relevant box.  A children's Workshop would be type workshop and have Family selected.<p>
@@ -278,9 +278,9 @@ A similar feature will appear eventually for music.<p>
       $hidemday =  (isset($Event['LongEvent']) && $Event['LongEvent'])?'':'hidden ';
       echo "<td class=NotSide>" . fm_checkbox('Big Event',$Event,'BigEvent');
       echo "<td class=NotSide>" . fm_checkbox('Ignore Clashes',$Event,'IgnoreClash');
-      echo "<td class=NotSide>" . fm_checkbox('Also Dance',$Event,'ListDance');
-      echo "<td class=NotSide>" . fm_checkbox('Also Music',$Event,'ListMusic');
-
+      echo "<td class=NotSide>" . fm_checkbox('Also Dance',$Event,'ListDance') . " ". fm_checkbox('Also Music',$Event,'ListMusic');
+      echo "<td class=NotSide>" . fm_checkbox('No Part',$Event,'NoPart');
+        
       echo "<tr><td>" . fm_checkbox('Special Event',$Event,'Special');
       echo "<td>" . fm_checkbox('Family Event',$Event,'Family');
       echo "<td>" . fm_checkbox('Non Fest',$Event,'NonFest');
@@ -293,7 +293,7 @@ A similar feature will appear eventually for music.<p>
         if ($se == 0) { echo "<td>No Sub Events"; }
         elseif ($se < 0) { echo "<td><a href=EventList.php?se=$eid>Has Sub Events</a>"; }
         else { echo "<td><a href=EventList.php?se=$se>Is a Sub Event</a>"; };
-        echo "<td class=NotSide>" . fm_checkbox('No Part',$Event,'NoPart');
+        echo "<td>" .fm_checkbox('Needs Stewards',$Event,'NeedSteward');
 
       if ($se <= 0) {
         echo "<tr>";
@@ -306,11 +306,12 @@ A similar feature will appear eventually for music.<p>
 
       echo "<tr>" . fm_radio('<span class=mday $hidemday>Start </span>Day',$DayList,$Event,'Day');
 //      echo fm_text('Year',$Event,'Year');
-      echo "<td colspan=3>Times: " . fm_smalltext2('Start',$Event,'Start');
-        echo fm_smalltext2('End',$Event,'End');
-        echo fm_smalltext2('Setup Time (mins)',$Event,'Setup') ;
-        echo fm_smalltext2('Duration',$Event,'Duration') . "&nbsp;minutes ";
-        if ($se < 0) echo fm_smalltext2(', Slot End',$Event,'SlotEnd');
+      echo "<td colspan=3>Times: " . fm_smalltext2('Start:',$Event,'Start');
+        echo fm_smalltext2(', End:',$Event,'End');
+        echo fm_smalltext2(', Setup Time (mins):',$Event,'Setup') ;
+        echo fm_smalltext2(', Duration:',$Event,'Duration') . "&nbsp;minutes ";
+        if ($se < 0) echo fm_smalltext2(', Slot End:',$Event,'SlotEnd');
+        echo fm_smalltext2(', Doors:',$Event,'DoorsOpen');
       if ($se <= 0) echo "<tr class=mday $hidemday>" . fm_radio('End Day',$DayList,$Event,'EndDay') . 
                 "<td colspan=3>Set up a sub event for each day after first, times are for first day";
       echo "<tr><td>Venue:<td>" . fm_select($Venues,$Event,'Venue',1);

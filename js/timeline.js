@@ -102,3 +102,17 @@ function TLSelect(id) {
     break;
   }
 }
+
+$(document).ready(function() {
+  $(".slider").slider({
+    step: 5,
+    value: 
+    });
+    
+  $(".slider").on("slide", function(ev,ui) {
+      
+    });
+} );
+
+
+

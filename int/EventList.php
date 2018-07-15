@@ -82,7 +82,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Type</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Public</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Price</a>\n";
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Size</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Stewards</a>\n";
   if ($se == 0) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Sub Es</a>\n";
   if ($se != 0) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>With</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Fam</a>\n";
@@ -117,7 +117,7 @@
           if ($evnt['DoorPrice']) echo " /&pound;" . $evnt['DoorPrice']; 
         }
       }
-      echo "<td>" .($evnt['BigEvent'] ? "Big" : "Normal" );
+      echo "<td>" .($evnt['NeedSteward'] ? "Y" : "" );
       if ($se == 0) {
         if ($evnt['SubEvent'] == 0) { echo "<td>No\n"; }
         else { echo "<td><a href=EventList.php?se=$i>Yes</a>\n"; }
