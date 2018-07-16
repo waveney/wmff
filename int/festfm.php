@@ -166,7 +166,7 @@ function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field
     if (!$d) continue;
     if ($done && $tabs == 2) $str.= "<br>";
     $done = 1;
-    if ($colours) $str .= "<span style='background:" . $colours[$i] . "'>";
+    if ($colours) $str .= "<span style='background:" . $colours[$i] . ";padding:4'>";
     $str .= "<label for=$field2$i>$d:</label>";
     $ex = $extra;
     $ex = preg_replace('/###F/',("'" . $field2 . "'"),$ex);

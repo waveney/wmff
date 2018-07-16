@@ -2,7 +2,7 @@
 // Participant Display Lib - Generalises Show_Side etc
 
 function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
-  global $MASTER,$Side_Statuses,$Importance,$Surfaces,$Noise_Levels,$Share_Spots,$Mess,$Action,$ADDALL,$CALYEAR,$PLANYEAR,$YEAR,$OlapTypes,$OlapCats,$OlapDays;
+  global $MASTER,$Side_Statuses,$Importance,$Surfaces,$Surface_Colours,$Noise_Levels,$Noise_Colours,$Share_Spots,$Mess,$Action,$ADDALL,$CALYEAR,$PLANYEAR,$YEAR,$OlapTypes,$OlapCats,$OlapDays;
   if ($CatT == '') {
     $CatT = ($Side['IsASide'] ? 'Side' : $Side['IsAnAct'] ? 'Act' : 'Other');
   } else {
@@ -151,10 +151,11 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
       echo "<tr><td>Surfaces:" . help('Surfaces') . "<td colspan=3>";
         for($st=1;$st<=5;$st++) {
           $surf = $Surfaces[$st];
-          echo fm_checkbox($surf,$Side,"Surface_$surf");
+          echo "<span style='Background:" . $Surface_Colours[$st] . ";padding:4'>" .fm_checkbox($surf,$Side,"Surface_$surf") . "</span>";
         };
         echo "<td>Shared Spots:<td>" . fm_select($Share_Spots,$Side,'Share');
-        echo "<td colspan=2 $Adv>Music Volume: " . fm_select($Noise_Levels,$Side,'NoiseLevel');
+        if (!isset($Side['NoiseLevel'])) $Side['NoiseLevel']=0;
+        echo "<td colspan=2 $Adv>" . fm_radio("Music Volume",$Noise_Levels,$Side,'NoiseLevel','',0,'','',$Noise_Colours);
       echo "<tr $Adv>";
         echo fm_textarea('Workshops',$Side,'Workshops',3,1);
       if ($Mode) echo "<td class=NotSide>" . fm_checkbox("Need Bank",$Side,'NeedBank');
@@ -172,7 +173,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
     echo "<tr " . (($Side['IsASide'] && !$Side['IsAnAct'] && !$Side['IsOther'])?$Adv:"") . ">";
       if (!isset($Side['StagePA']) || ($Side['StagePA'] == '')) $Side['StagePA'] = 'None';
       echo "<td>PA Requirements:";
-      $f = ($Side['StagePA'] == '@@FILE@@');
+      $f = ($Side['StagePA'] == '@@FILE@@');  // This does not use fm_radio as it has many speccial cases
       echo "<td><label for=StagePAtext>Text</label> <input type=radio $ADDALL name=StagePAtext value=1 onchange=setStagePA(1) id=StagePAtext " . ($f?"":"checked") . "> " .
            "<label for=StagePAfile>File</label> <input type=radio $ADDALL name=StagePAtext value=2 onchange=setStagePA(0) id=StagePAfile " . ($f?"checked":"") . ">" .
            Help("StagePA");
