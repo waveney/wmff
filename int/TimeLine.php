@@ -2,13 +2,24 @@
   include_once("fest.php");
   A_Check('Steward');
 
-  dostaffhead("TimeLine", "js/timeline.js");
+  dostaffhead("TimeLine", "js/timeline.js", "js/jquery-ui.min.js", "css/jquery-ui.min.css");
 
   include_once("TLLib.php");
   include_once("DocLib.php");
-  global $YEAR,$PLANYEAR,$TL_State,$TL_States,$TL_Importance;
+  global $YEAR,$PLANYEAR,$TL_Importance;
 
   $Years = Get_Years();
+
+/*
+  echo "<span class=floatright id=largeredsubmit onclick=($('.HelpDiv').toggle()) >HELP</span>";
+  echo "<div class=content>";
+  echo "<div class=HelpDiv hidden>";
+?>
+<h3>Help for timeline management</h3>
+Coming ...
+<?php
+  echo "</div>";
+*/
 
   echo "<div class=floatright><h2>";
     if (isset($Years[$YEAR-1])) echo "<a href=TimeLine.php?Y=" . ($YEAR-1) .">" . ($YEAR-1) . "</a> &nbsp; ";
@@ -40,16 +51,17 @@
 
   if (isset($_POST['ACTION'])) {
     if ($_POST['ACTION'] == "Copy Recuring to $PLANYEAR") {
-      $res = $db->query("SELECT * FROM TimeLine WHERE Recuring=1 AND NextYearId=0 AND Year=$YEAR");
+      $res = $db->query("SELECT * FROM TimeLine WHERE Recuring=1 AND NextYearId=0 AND Year=$YEAR AND Progress>=0 ");
       if ($res) while ($tl = $res->fetch_assoc()) {
         $Ntl = $tl;
         $Ntl['TLid'] = -1;
         $Ntl['Year'] = $PLANYEAR;
-        $Ntl['Status'] = $TL_State['Open'];
+        $Ntl['Progress'] = 0;
         $Ntl['Created'] = $now;
         $Ntl['CreatedBy'] = $USERID;
+        $Ntl['Start'] =  ((isset($tl['Start']) && $tl['Start']>0) ? strtotime(date("Y-m-d",$tl['Start']) . " + 365 day") : $now);
         $Ntl['Due'] =  strtotime(date("Y-m-d", ((isset($Ntl['Due']) && $Ntl['Due'] > 0) ? $Ntl['Due']: $now)) . " + 365 day");
-        $Ntl['Progress'] = $Ntl['History'] = '';
+        $Ntl['ProgText'] = $Ntl['History'] = '';
 
         $tl['NextYearId'] = Insert_db('TimeLine',$Ntl);
          
@@ -63,11 +75,11 @@
 
           switch ($_POST['ACTION']) {
             case 'Cancel':
-              $tle['Status'] = $TL_State['Cancelled'];
+              $tle['Progress'] = -1;
               $tle['History'] .= " Cancelled by " . $USER['Login'] . " on " . date('d/m/Y');
               break;
             case 'Completed' :
-              $tle['Status'] = $TL_State['Completed'];
+              $tle['Progress'] = 100;
               $tle['Completed'] = $now;
               $tle['History'] .= " Completed by " . $USER['Login'] . " on " . date('d/m/Y');
               break;
@@ -83,9 +95,10 @@
                 $Ntl = $tle;
                 $Ntl['TLid'] = -1;
                 $Ntl['Year'] = $PLANYEAR;
-                $Ntl['Status'] = $TL_State['Open'];
+                $Ntl['Status'] = 0;
                 $Ntl['Created'] = $now;
                 $Ntl['CreatedBy'] = $USERID;
+                $Ntl['Start'] =  ((isset($tle['Start']) && $tle['Start']>0) ? strtotime(date("Y-m-d",$tle['Start']) . " + 365 day") : $now);
                 $Ntl['Due'] =  strtotime(date("Y-m-d", ((isset($Ntl['Due']) && $Ntl['Due'] > 0) ? $Ntl['Due']: $now)) . " + 365 day");
                 $Ntl['Progress'] = $Ntl['History'] = '';
 
@@ -145,34 +158,50 @@
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Title</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Assigned</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Importance</a>\n";
-    echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Status</a>\n";
+    echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Progress</a>\n";
+    echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Update</a>\n";
+    echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D','dmy')>Start</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D','dmy')>Due</a>\n";
     echo "<th class=FullD hidden><a href=javascript:SortTable(" . $coln++ . ",'N')>Year</a>\n";
     echo "<th class=FullD hidden><a href=javascript:SortTable(" . $coln++ . ",'T')>Recur</a>\n";
     echo "<th class=FullD hidden><a href=javascript:SortTable(" . $coln++ . ",'T')>Copied</a>\n";    
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Notes</a>\n";
     echo "</thead><tbody>";
-  
 
     foreach($TLents as $tl) {
       $tli = $tl['TLid'];
+      $TLDue='';
       $classes = "TL TL_" . $TL_Importance[$tl['Importance']] . " ";
       $hide = 0;
       $Open = 0;
+      if (!isset($tl['Start']) || $tl['Start'] == 0) $tl['Start'] = $now;
       if ($tl['Assigned']>0 && $tl['Assigned'] != $USERID) { $classes .=  "TL_EVERYONE "; $hide=1; }
-      if ($TL_States[$tl['Status']] == 'Open') { $classes .= "TL_OPEN "; $Open = 1; } else $hide=1;
-      if ($TL_States[$tl['Status']] == 'Completed') $classes .= "TL_COMPLETE "; 
-      if ($Open && $tl['Due'] < $month ) $classes .= "TL_MONTH ";
-      if ($Open && $tl['Due'] < $now ) $classes .= "TL_OVERDUE ";
+      
+      if ($tl['Progress'] >= 0) {
+        if ($tl['Progress'] >= 100) {
+          $hide=1;
+          $classes .= "TL_COMPLETE "; 
+        } else {
+          $classes .= "TL_OPEN ";
+          if ($tl['Due'] < $month || $tl['Start'] < $month) $classes .= "TL_MONTH ";
+          if ($tl['Due'] < $now ) $classes .= "TL_OVERDUE ";
+        }
+        if ($tl['Start'] > $now) $TLDue = "class=TL_NotYet";
+      } else {
+        // Cancelled
+      }
+      
       echo "<tr class='$classes' " . ($hide?'hidden':'') . ">";
       if (Access('Committee','TLine')) echo "<td><input type=checkbox name=E$tli class=SelectAllAble>";
       if (Access('SysAdmin')) echo "<td class=FullD hidden>" . $tli;
       echo "<td><a href=AddTimeLine.php?TLid=$tli>" . $tl['Title'] . "</a>";
       echo "<td>" . ($tl['Assigned'] ? $AllActive[$tl['Assigned']] : "<B>NOBODY</b>");
       echo "<td>" . $TL_Importance[$tl['Importance']];
-      echo "<td>" . $TL_States[$tl['Status']];
+      echo "<td>" . TL_State($tl);
+      echo "<td><div style='max-width=300; overflow: contain' $TLDue><div id=slider$tli class=slider></div></div>";
+      echo "<td" . ($tl['Start']<$now  && $Open?" style='color:red;'":"") . ">" . date('d/m/Y',$tl['Start']);
       echo "<td" . ($tl['Due']<$now  && $Open?" style='color:red;'":"") . ">" . date('d/m/Y',$tl['Due']);
-      echo "<td class=FullD hidden>" .$tl['Year'];
+      echo "<td class=FullD hidden>" . $tl['Year'];
       echo "<td class=FullD hidden>" . ["","Y"][$tl['Recuring']];
       echo "<td class=FullD hidden>" . ($tl['NextYearId']? ("<a href=AddTimeLine.php?TLid=" . $tl['NextYearId'] . ">Y</a>" ) : "");
       echo "<td>" . $tl['Notes'] . "\n";  

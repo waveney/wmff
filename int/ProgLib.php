@@ -119,7 +119,7 @@ function Put_Venue(&$now) {
 
 function Set_Event_Help() {
   static $t = array(
-         'Start'=>'Use 24hr clock for all times eg 1030, 1330',
+        'Start'=>'Use 24hr clock for all times eg 1030, 1330',
         'Sides'=>'Do not use this tool for dance programming use the tool under Dance, once the events have been created',
         'Acts'=>'Normally only select one Act/Other, if the event has many timed participants use sub-events',
         'Others'=>'Normally only select one Act/Other, if the event has many timed participants use sub-events',
@@ -146,7 +146,9 @@ function Set_Event_Help() {
         'NoPart'=>'Set if the event has no particpants (Sides, Acts or Other)',
         'Image'=>'These are all for handling weird cases only',
         'Status'=>'Only mark as cancelled to have it appear in online lists and say cancelled, otherwise just delete',
-        'Budget'=>'What part of the festival budget this Event comes under'
+        'Budget'=>'What part of the festival budget this Event comes under',
+        'DoorsOpen'=>'If significantly before Start',
+        'NeedSteward'=>'Most ticketed events (unless managed by third parties) and a few others will need stewards',
   );
   Set_Help_Table($t);
 }
