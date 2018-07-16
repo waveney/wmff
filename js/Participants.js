@@ -84,7 +84,7 @@ function CopyAndSubmit(name) {
 }
 
 function setStagePA(ev) {
-  if($("#StagePAtext").is(":checked")) {
+  if(ev) { //($("#StagePAtext").is(":checked")) {
     $("#StagePAtextF").show();
     $("#StagePAFileF").hide();
     $("#StagePA").text("");

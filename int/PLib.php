@@ -173,8 +173,8 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
       if (!isset($Side['StagePA']) || ($Side['StagePA'] == '')) $Side['StagePA'] = 'None';
       echo "<td>PA Requirements:";
       $f = ($Side['StagePA'] == '@@FILE@@');
-      echo "<td>Text <input type=radio $ADDALL name=StagePAtext value=1 onchange=setStagePA(event) id=StagePAtext " . ($f?"":"checked") . "> " .
-           "File <input type=radio $ADDALL name=StagePAtext value=2 onchange=setStagePA(event) id=StagePAfile " . ($f?"checked":"") . ">" .
+      echo "<td><label for=StagePAtext>Text</label> <input type=radio $ADDALL name=StagePAtext value=1 onchange=setStagePA(1) id=StagePAtext " . ($f?"":"checked") . "> " .
+           "<label for=StagePAfile>File</label> <input type=radio $ADDALL name=StagePAtext value=2 onchange=setStagePA(0) id=StagePAfile " . ($f?"checked":"") . ">" .
            Help("StagePA");
       echo "<td id=StagePAtextF colspan=5" . ($f?' hidden':'') . " >" . fm_basictextarea($Side,'StagePA',5,1,'id=StagePA');
       echo "<td id=StagePAFileF" . ($f?'':' hidden') . " colspan=4>";
@@ -268,7 +268,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
 //******************************************************* SIDE YEAR ***********************************************
 // This needs modification for non dance
 function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
-  global $YEAR,$CALYEAR,$PLANYEAR,$MASTER,$Invite_States,$Coming_States,$Mess,$Action,$ADDALL,$Invite_Type;
+  global $YEAR,$CALYEAR,$PLANYEAR,$MASTER,$Invite_States,$Coming_States,$Coming_Colours, $Mess,$Action,$ADDALL,$Invite_Type;
   global $InsuranceStates,$Book_State,$Book_States,$ContractMethods;
   if ($year==0) $year=$YEAR;
   if ($CatT == '') {
@@ -344,7 +344,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
         }
 
 //        echo "<td>" . fm_select($Coming_States ,$Sidey,'Coming',0,'id=Coming_states');
-        echo "<td colspan=3>" . fm_radio('',$Coming_States ,$Sidey,'Coming','',0,'id=Coming_states');
+        echo "<td colspan=3>" . fm_radio('',$Coming_States ,$Sidey,'Coming','',0,'id=Coming_states','',$Coming_Colours);
 //function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field2='') {
           if ($Mstate) { 
             echo fm_text("<span $Imp>How Many Performers Wristbands</span>",$Sidey,'Performers',0.5,'','onchange=updateimps()');
