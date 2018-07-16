@@ -126,8 +126,8 @@ function fm_basictextarea(&$data,$field,$cols=1,$rows=1,$extra1='',$field2='') {
 function fm_checkbox($Desc,&$data,$field,$extra='',$field2='') {
   global $ADDALL;
   if ($field2 == '') $field2=$field;
-  if (isset($data[$field])) if ($data[$field]) return ($Desc?"$Desc:":'') . help($field) . "<input type=checkbox $ADDALL Name=$field2 $extra checked>";
-  return ($Desc?"$Desc:":'') . help($field) . "<input type=checkbox $ADDALL Name=$field2 $extra>";
+  if (isset($data[$field])) if ($data[$field]) return ($Desc?"<label for=$field2>$Desc:</label>":'') . help($field) . "<input type=checkbox $ADDALL Name=$field2 id=$field2 $extra checked>";
+  return ($Desc?"<label for=$field2>$Desc:</label>":'') . help($field) . "<input type=checkbox $ADDALL Name=$field2 id=$field2 $extra>";
 }
 
 function fm_select2(&$Options,$Curr,$field,$blank=0,$selopt='',$field2='') {
@@ -153,7 +153,7 @@ function fm_select(&$Options,$data,$field,$blank=0,$selopt='',$field2='') {
   return fm_select2($Options,'@@@@@@',$field,$blank,$selopt,$field2);
 }
 
-function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field2='') {
+function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field2='',$colours=0) {
   global $ADDALL;
   if ($field2 == '') $field2=$field;
   $str = "";
@@ -166,13 +166,15 @@ function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field
     if (!$d) continue;
     if ($done && $tabs == 2) $str.= "<br>";
     $done = 1;
-    $str .= "$d:";
+    if ($colours) $str .= "<span style='background:" . $colours[$i] . "'>";
+    $str .= "<label for=$field2$i>$d:</label>";
     $ex = $extra;
     $ex = preg_replace('/###F/',("'" . $field2 . "'"),$ex);
     $ex = preg_replace('/###V/',("'" . $i . "'"),$ex);
-    $str .= "<input type=radio name=$field2 $ADDALL $ex value='$i'";
+    $str .= "<input type=radio name=$field2 id=$field2$i $ADDALL $ex value='$i'";
     if (isset($data[$field]) && ($data[$field] == $i)) $str .= " checked";
     $str .= ">\n";
+    if ($colours) $str .= "</span>";
   }
   return $str;
 }

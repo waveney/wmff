@@ -16,6 +16,7 @@ if (!is_numeric($YEAR)) { var_dump($YEAR); exit("Invalid Year"); };
 
 $Noise_Levels = array("Middling","Quiet","Noisy");
 $Coming_States = array('','Recieved','Coming','Not coming','Possibly','Not coming, please ask next year');
+$Coming_Colours = ['white','Yellow','Lime','salmon','Orange','lightblue'];
 $Coming_idx = array('','R','Y','N','P','NY');
 $Coming_Type = array_flip($Coming_idx);
 $Invite_States = array('','Yes','YES!','No','Maybe');

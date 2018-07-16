@@ -36,7 +36,9 @@
 //    echo "<li><a href=ProgrammeDraft1.pdf>Programme Draft</a>\n";
     echo "<li><a href=StaffHelp.php>General Help</a>\n";
 
-    if (0 && Access('SysAdmin')) {
+    if (1 && Access('SysAdmin')) {
+      echo "<p>";
+      echo "<li><a href=DirRebuild.php?SC>Scan Directorys - Report File/Database discrepancies</a>";    
       echo "<li><a href=DirRebuild.php?FI>Rebuild Directorys - Files are master</a>";
       echo "<li><a href=DirRebuild.php?DB>Rebuild Directorys - Database is master</a>";
     }

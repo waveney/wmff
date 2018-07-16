@@ -55,16 +55,17 @@ function Put_DirInfo($stuff) {
   return $db->query($rec);
 }
 
-function Get_Parent($d) {
+function Get_Parent($d,$depth=0) {
   if (!$d) return "<a href=Dir.php>Documents:</a>";
+  if ($depth>30) return "";
   $inf = Get_DirInfo($d);
-  return Get_Parent($inf['Parent']) . " / <a href=Dir.php?d=$d>" . htmlspec($inf['SName']) . "</a>";
+  return Get_Parent($inf['Parent'], $depth+1) . " / <a href=Dir.php?d=$d>" . htmlspec($inf['SName']) . "</a>";
 }
 
-function Dir_FullName($d) {
-  if (!$d) return "";
+function Dir_FullName($d,$depth=0) {
+  if (!$d || $depth>30) return "";
   $inf = Get_DirInfo($d);
-  return Dir_FullName($inf['Parent']) . "/" . htmlspec($inf['SName']);
+  return Dir_FullName($inf['Parent'], $depth+1) . "/" . htmlspec($inf['SName']);
 }
 
 function File_FullName($f) {
@@ -73,10 +74,10 @@ function File_FullName($f) {
   return Dir_FullName($inf['Dir']) . "/" . htmlspec($inf['SName']);
 }
 
-function Dir_FullPName($d) {
-  if (!$d) return "";
+function Dir_FullPName($d,$depth=0) {
+  if (!$d || $depth>30) return "";
   $inf = Get_DirInfo($d);
-  return Dir_FullPName($inf['Parent']) . "/" . stripslashes($inf['SName']);
+  return Dir_FullPName($inf['Parent'], $depth+1) . "/" . stripslashes($inf['SName']);
 }
 
 function File_FullPName($f) {
