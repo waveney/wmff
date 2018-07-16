@@ -15,13 +15,15 @@ if (isset($_GET{'B'})) $BUTTON = ($_GET{'B'}+1) % 4;
 if (!is_numeric($YEAR)) { var_dump($YEAR); exit("Invalid Year"); };
 
 $Noise_Levels = array("Middling","Quiet","Noisy");
+$Noise_Colours = ['lightgreen','yellow','Orange'];
 $Coming_States = array('','Recieved','Coming','Not coming','Possibly','Not coming, please ask next year');
-$Coming_Colours = ['white','Yellow','Lime','salmon','Orange','lightblue'];
+$Coming_Colours = ['white','Yellow','Lime','salmon','lightblue','Orange'];
 $Coming_idx = array('','R','Y','N','P','NY');
 $Coming_Type = array_flip($Coming_idx);
 $Invite_States = array('','Yes','YES!','No','Maybe');
 $Invite_Type = array_flip($Invite_States);
 $Surfaces = array ('','Tarmac','Flagstones','Grass','Stage','Brick','Wood','Carpet','Astroturf');// Last 3 not used yet
+$Surface_Colours = ['','grey','Khaki','lightgreen','Peru','salmon','Peru','Teal','lime'];
 $Side_Statuses = array("Alive","Dead");
 $Share_Spots = array('Prefered','Always','Never','Sometimes');
 $Share_Type = array_flip($Share_Spots);
