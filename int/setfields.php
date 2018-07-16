@@ -26,7 +26,17 @@ case 'Y':
   $Sidey[$_GET['F']]=$_GET['V'];
   Put_SideYear($Sidey);
   break;
-
+  
+case 'TP':
+  include_once("TLLib.php");
+  $tl = Get_TLent($id);
+  $tl['Progress'] = $_GET['V'];
+  if ($tl['Progress'] == 100) {
+    $tl['Completed'] = time();
+  };
+  Put_TLent($tl);
+  break;
+  
 default:
   $Side = Get_Side($id);
   $Side[$_GET['F']]=$_GET['V'];

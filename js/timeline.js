@@ -4,7 +4,7 @@ var TaskIds = ['OpenTasks', 'NextMonth', 'OverdueTasks', 'CompleteTasks', 'AllTa
 
 // All entries have class TL
 function TL_ShowHide() {
-  debugger;
+//  debugger;
   var You = $("#TasksYou").hasClass("PurpButton");
 
   var Tsks = '';
@@ -17,7 +17,7 @@ function TL_ShowHide() {
   // More
   
   $(".TL").each(function(index) {
-    debugger;
+//    debugger;
     var Thide=true;
     switch (Tsks) {
     case 'Open' : 
@@ -60,7 +60,7 @@ function SetPurple(id) {
 }
 
 function TLSelect(id) {
-  debugger;
+//  debugger;
   switch (id) {
   case 'DataLow':
     $('.FullD').hide();
@@ -104,15 +104,29 @@ function TLSelect(id) {
 }
 
 $(document).ready(function() {
-  $(".slider").slider({
-    step: 5,
-    value: 
+  $(".slider").each(function(){
+//     debugger;
+     var tlid = (this.id.match(/(\D*)(\d*)$/))[2];
+     var val = $('#Progress' + tlid).val();
+     var ival = val;
+     if (val == "") val = $('#Progress' + tlid).html();
+     $(this).slider({
+      step: 5,
+      range: "min",
+      value: val,
+      slide: function( event, ui ) {
+ //     debugger;
+        var tlid = (this.id.match(/(\D*)(\d*)$/))[2];
+        if (ival == "") {
+          $('#Progress' + tlid).html(ui.value);
+        } else {
+          $('#Progress' + tlid).val(ui.value);
+        }
+        if (!tlid) tlid = $('#TLid').val();
+        $.ajax("setfields.php?O=TP&I=" + tlid + "&V=" + ui.value );
+      }, 
     });
-    
-  $(".slider").on("slide", function(ev,ui) {
-      
-    });
-} );
-
+  });
+});
 
 

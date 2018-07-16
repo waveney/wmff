@@ -78,14 +78,17 @@ function fm_number1($Name,&$data=0,$field,$extra1='',$extra2='',$field2='') {
   if ($field2 == '') $field2=$field;
   $str = "<td $extra1>";
   if ($Name) $str .= "$Name: ";
-  $str .= help($field) . "<input type=number name=$field2 $extra2";
+  $str .= help($field) . "<input type=number name=$field2 id=$field2 $extra2";
   if ($data) if (isset($data[$field])) $str .= " value=\"" . htmlspec($data[$field]) . "\"";
   return $str . " $ADDALL>\n";
 }
 
-function fm_number($Name,&$data=0,$field,$extra1='',$extra2='') {
+function fm_number($Name,&$data=0,$field,$extra1='',$extra2='',$field2='') {
   global $ADDALL;
-  $str = "<td $extra1>$Name: " . help($field) . "<td $extra1><input type=number name=$field $extra2";
+  if ($field2 == '') $field2=$field;
+  $str = "<td $extra1>";
+  if ($Name) $str .= "$Name: ";
+  $str .= help($field) . "<td $extra1><input type=number name=$field id=$field $extra2";
   if ($data) if (isset($data[$field])) $str .= " value=\"" . htmlspec($data[$field]) . "\"";
   return $str . " $ADDALL>\n";
 }

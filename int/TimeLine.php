@@ -158,7 +158,8 @@ Coming ...
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Title</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Assigned</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Importance</a>\n";
-    echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Status</a>\n";
+    echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Progress</a>\n";
+    echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Update</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D','dmy')>Start</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D','dmy')>Due</a>\n";
     echo "<th class=FullD hidden><a href=javascript:SortTable(" . $coln++ . ",'N')>Year</a>\n";
@@ -169,6 +170,7 @@ Coming ...
 
     foreach($TLents as $tl) {
       $tli = $tl['TLid'];
+      $TLDue='';
       $classes = "TL TL_" . $TL_Importance[$tl['Importance']] . " ";
       $hide = 0;
       $Open = 0;
@@ -184,6 +186,7 @@ Coming ...
           if ($tl['Due'] < $month || $tl['Start'] < $month) $classes .= "TL_MONTH ";
           if ($tl['Due'] < $now ) $classes .= "TL_OVERDUE ";
         }
+        if ($tl['Start'] > $now) $TLDue = "class=TL_NotYet";
       } else {
         // Cancelled
       }
@@ -195,9 +198,10 @@ Coming ...
       echo "<td>" . ($tl['Assigned'] ? $AllActive[$tl['Assigned']] : "<B>NOBODY</b>");
       echo "<td>" . $TL_Importance[$tl['Importance']];
       echo "<td>" . TL_State($tl);
+      echo "<td><div style='max-width=300; overflow: contain' $TLDue><div id=slider$tli class=slider></div></div>";
       echo "<td" . ($tl['Start']<$now  && $Open?" style='color:red;'":"") . ">" . date('d/m/Y',$tl['Start']);
       echo "<td" . ($tl['Due']<$now  && $Open?" style='color:red;'":"") . ">" . date('d/m/Y',$tl['Due']);
-      echo "<td class=FullD hidden>" .$tl['Year'];
+      echo "<td class=FullD hidden>" . $tl['Year'];
       echo "<td class=FullD hidden>" . ["","Y"][$tl['Recuring']];
       echo "<td class=FullD hidden>" . ($tl['NextYearId']? ("<a href=AddTimeLine.php?TLid=" . $tl['NextYearId'] . ">Y</a>" ) : "");
       echo "<td>" . $tl['Notes'] . "\n";  

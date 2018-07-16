@@ -18,16 +18,20 @@
   }
 
   $now = time();
+  $Editable = Access('Committee','Tline');
+//var_dump($All);echo"<p>";var_dump($AllActive);
+
 
   echo "<div class='content'><h2>Add/Edit Time Line Items</h2>\n";
-  echo "<form method=post action=AddTimeLine.php>\n";
+
   if (isset($_POST['TLid'])) { // Response to update button
     $tl = $_POST['TLid'];
     if ($tl > 0) {
       $tle = Get_TLent($tl);
       $proc = 1;
       if (isset($_POST['ACTION'])) {
-
+        $otl = Get_TLent($_POST['TLid']);
+        
         switch ($_POST['ACTION']) {
           case 'Completed':
             $_POST['Progress'] = 100;
@@ -35,7 +39,7 @@
             $_POST['History'] .= " Completed by " . $USER['Login'] . " on " . date('d/m/Y');
             break;
           case 'Re Open':
-            $_POST['Progress'] = (($_POST['Progress']>50)?50:0);
+            $_POST['Progress'] = (($otl['Progress']>50)?50:0);
             $_POST['History'] .= " Re Opened by " . $USER['Login'] . " on " . date('d/m/Y');
             break;
           case 'Cancel':
@@ -43,8 +47,6 @@
             $_POST['History'] .= " Cancelled by " . $USER['Login'] . " on " . date('d/m/Y');
             break;
           case "Copy to $PLANYEAR":
-            $otl = Get_TLent($_POST['TLid']);
-
             $_POST['TLid'] = -1;
             $_POST['Year'] = $PLANYEAR;
             $_POST['Progress'] = 0;
@@ -64,7 +66,6 @@
       if ($proc) {
         $_POST['Start'] = Date_BestGuess($_POST['NewStart']);
         $_POST['Due'] = Date_BestGuess($_POST['NewDue']);
-//var_dump($_POST);
         Update_db_post('TimeLine',$tle);
       }
     } else { // New
@@ -89,11 +90,18 @@
     $tle['CreatedBy'] = $USERID;
     $tle['Created'] = $now;
     $tle['Year'] = $PLANYEAR;
+    $tle['Progress'] = 0;
   }
 
   if (isset($Err)) echo "<h2 class=ERR>$Err</h2>\n";
 
+  if ($Editable || $tl < 0 || $tle['Assigned'] == $USERID || $tle['CreatedBy'] == $USERID) $Editable = true;
   if (1) {
+    if ($Editable) {
+      echo "<form method=post action=AddTimeLine.php>\n";
+    } else {
+      echo "This can only be editted by the creator, the assignee or those responsible for time lines.<p>";
+    }
     echo "<table width=90% border>\n";
       echo "<tr>" . fm_text('Title',$tle,'Title',2,'','placeholder="Please give entry a short Title"');
       if (isset($tl) && $tl > 0) {
@@ -114,7 +122,7 @@
 
       echo "<tr><td>Assigned to:<td>" . fm_select($AllActive,$tle,'Assigned',1);
         echo "<td>Created by: ";
-        echo ((isset($tle['CreatedBy']) && ($tle['CreatedBy'] != 0)) ? (strlen($All[$tle['CreatedBy']]['Abrev']) > 0?$All[$tle['CreatedBy']]['Abrev']:$All[$tle['CreatedBy']]['Login'] ): "UNKNOWN" );
+        echo ((isset($tle['CreatedBy']) && ($tle['CreatedBy'] != 0)) ? ($AllActive[$tle['CreatedBy']]) : "UNKNOWN" );
         echo " On " . date('d/m/Y',$tle['Created']);
       
       if ((isset($tle['Due']) && $tle['Due'] > 0 && $now > $tle['Due'] && $tle['Progress']< 100) || ((isset($tle['Start']) && $tle['Start'] > 0 && $now > $tle['Start'] && $tle['Progress'] == 0))) {
@@ -127,11 +135,11 @@
 
       echo "<tr>" . fm_textarea("Notes",$tle,'Notes',8,2);
       
-      echo "<tr><td>Progress" . TL_State($tle,1);
+      echo "<tr>" . TL_State($tle,1);
         if ($tle['Progress'] >= 100) {
           echo " On<td>" . date('d/m/Y',$tle['Completed']);
         } else {
-          echo "<td><div style='max-width=500; overflow: contain'><div  id=slider$tl class=slider></div></div>";
+          echo "<td><div style='max-width=500; overflow: contain'><div  id=slider class=slider></div></div>";
         }
         
       echo "<tr>" . fm_textarea('Progress Text',$tle,'ProgText',8,2);
@@ -140,18 +148,20 @@
 
       echo "</table>\n";
   
-    if ($tl > 0) {
-      echo "<Center><input type=Submit name='Update' value='Update'>\n";
-      echo "<input type=Submit name='ACTION' value='Completed'>\n";
-      echo "<input type=Submit name='ACTION' value='Re Open'>\n";
-      echo "<input type=Submit name='ACTION' value='Cancel'>\n";
-      echo "<input type=Submit name='ACTION' value='Add Another'>\n";
-      if ((!isset($tle['Year']) || $tle['Year'] != $PLANYEAR ) && ($tle['NextYearId'] == 0)) echo "<input type=Submit name=ACTION value='Copy to $PLANYEAR'>\n";
-      echo "</center>\n";
-    } else { 
-      echo "<Center><input type=Submit name=Create value='Create'></center>\n";
+    if ($Editable) {
+      if ($tl > 0) {
+        echo "<Center><input type=Submit name='Update' value='Update'>\n";
+        echo "<input type=Submit name='ACTION' value='Completed'>\n";
+        echo "<input type=Submit name='ACTION' value='Re Open'>\n";
+        echo "<input type=Submit name='ACTION' value='Cancel'>\n";
+        echo "<input type=Submit name='ACTION' value='Add Another'>\n";
+        if ((!isset($tle['Year']) || $tle['Year'] != $PLANYEAR ) && ($tle['NextYearId'] == 0)) echo "<input type=Submit name=ACTION value='Copy to $PLANYEAR'>\n";
+        echo "</center>\n";
+      } else { 
+        echo "<Center><input type=Submit name=Create value='Create'></center>\n";
+      }
+      echo "</form>\n";
     }
-    echo "</form>\n";
   }
   echo "<h2><a href=TimeLine.php>Back to Time Line Management</a></h2>\n</div>";
   

@@ -19,12 +19,14 @@ function Set_TimeLine_Help() {
 }
 
 function TL_State(&$tl,$mode=0) { // mode 0 = display mode 1 fm_number 
-  if (!isset($tl['Progress'])) return 'Not Started';
-  if ($tl['Progress'] < 0) return 'Cancelled';
-  if ($tl['Progress'] >= 100) return 'Complete';
-  if (($tl['Progress'] == 0) && ($mode == 0)) return 'Not Started';
-  if ($mode) return fm_number1('',$tl,'Progress','',' max=100 min=-1') . "%";
-  return $tl['Progress']. "%";
+/*
+  if (!isset($tl['Progress'])) return $xtra . 'Not Started' . $xtra2;
+  if ($tl['Progress'] < 0) return $xtra . 'Cancelled' . $xtra2;
+  if ($tl['Progress'] >= 100) return $xtra . 'Complete' . $xtra2;
+  if (($tl['Progress'] == 0) && ($mode == 0)) return $xtra . 'Not Started' . $xtra2;
+*/
+  if ($mode) return fm_number('Progress',$tl,'Progress','',' max=100 min=-1') . "%";
+  return '<span id=Progress' . $tl['TLid'] . ">" . $tl['Progress'] . '</span>' . "%";
 }
 
 function Get_TLent($id) {

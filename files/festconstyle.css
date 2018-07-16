@@ -821,9 +821,20 @@ input[type='file'] {
 .ui-slider {
   width: 200px;
   padding-left: 5px; 
+  background:red;
+}
+
+.slider.ui-slider {
+  background:red;
+}
+
+.TL_NotYet.slider.ui-slider {
+  background:grey;
 }
 
 .slider .ui-slider-range { 
-    background: #ff0000; 
+  background: #00ff00; 
 }
+.slider.ui-widget-content .ui-state-default { background: Blue; }
+
 
