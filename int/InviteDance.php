@@ -6,7 +6,7 @@
 
   include_once("files/navigation.php"); 
   include_once("DanceLib.php"); 
-  global $YEAR,$PLANYEAR;
+  global $YEAR,$PLANYEAR,$Coming_Colours;
   echo "<h2>Invite Dance Sides $YEAR</h2>\n";
 
   echo "Click on column header to sort by column.  Click on Side's name for more detail and programme when available,<p>";
@@ -89,17 +89,27 @@
       echo "<td>" . linkemailhtml($fetch,'Side','','ReportTed(event)');
       echo "<td>";
       if (isset($fetch['LyInvite'])) echo $Invite_States[$fetch['LyInvite']];
-      echo "<td>";
-      if (isset($fetch['LyComing'])) echo $Coming_States[$fetch['LyComing']] . "\n";
 
+      if (isset($fetch['LyComing'])) {
+        echo "<td style='background:" . $Coming_Colours[$fetch['LyComing']] . "'>";
+        echo $Coming_States[$fetch['LyComing']] . "\n";
+      } else {
+        echo "<td>";
+      }
       echo "<td>" . fm_select2($Invite_States,$fetch['Invite'],"Invite$snum",0,"id=Invite$snum onchange=ChangeInvite(event)");
 
       echo "<td>";
       echo "<button type=button id=Ted$snum onclick=ReportTed(event)>Y</button><span id=Vited$snum>";
       if (isset($fetch['Invited'])) echo $fetch['Invited'];
       echo "</span>";
-      echo "<td>";
-      if (isset($fetch['Coming'])) echo $Coming_States[$fetch['Coming']] . "\n";
+      
+      if (isset($fetch['Coming'])) {
+        echo "<td style='background:" . $Coming_Colours[$fetch['Coming']] . "'>";
+        echo $Coming_States[$fetch['Coming']] . "\n";
+      } else {
+        echo "<td>";
+      }
+
 
 //      for($i=1;$i<5;$i++) {
 //        echo "<td>" . ($fetch["SentEmail$i"]?"Y":"");
