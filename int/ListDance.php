@@ -101,8 +101,12 @@
       if ($col5 == "Invite") {
         echo "<td>";
         if (isset($fetch['Invite'])) echo $Invite_States[$fetch['Invite']];
-        echo "<td>";
-        if (isset($fetch['Coming'])) echo $Coming_States[$fetch['Coming']] . "\n";
+        if (isset($fetch['Coming'])) {
+          echo "<td style='background:" . $Coming_Colours[$fetch['Coming']] . "'>";
+          echo $Coming_States[$fetch['Coming']] . "\n";
+        } else {
+          echo "<td>";
+        }
       } else {
         $fri = "";
         if ($fetch['Fri']) $fri= "y";

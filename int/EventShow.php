@@ -7,7 +7,7 @@
   include_once("DispLib.php");
   include_once("MusicLib.php");
   include_once("DanceLib.php");
-  global $MASTER,$Importance,$DayLongList;
+  global $MASTER,$Importance,$DayLongList,$YEAR;
 /*
   Have different formats for different types of events, concerts, ceidihs, workshop
 */
@@ -83,6 +83,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
   $Eid = $_GET{'e'};
   if (!is_numeric($Eid)) exit("Invalid Event Number");
   $Ev = Get_Event($Eid);  
+  $YEAR = $Ev['Year'];
   $Ven = Get_Venue($Ev['Venue']);
   $ETs = Get_Event_Types(1);
   $OtherPart = $OtherVenues = array();
