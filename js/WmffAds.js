@@ -1,6 +1,6 @@
 
 function setHeadRow() {
-  debugger;
+//  debugger;
   var ww = window.innerWidth;
   var scale = Math.floor(ww*250/(550*2+864+20+25));
   if (scale>250) scale=250;

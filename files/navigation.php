@@ -101,6 +101,18 @@
 <img class=headericon src=/images/icons/Twitter.png alt=Twitter title='Wimborne Minster Folk Festival on Twitter'></a>
 <a href=http://instagram.com/WimborneFolk onmouseover=NoHoverSticky() target=_blank>
 <img class=headericon src=/images/icons/Instagram.png alt=Instagram title='Wimborne Minster Folk Festival on Instagram'></a>
+<!--<script>
+  (function() {
+    var cx = '005005712120097118494:ybmidoaab-m';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>-->
 </div>
 ";
 
