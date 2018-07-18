@@ -99,8 +99,11 @@ function Scan_Documents($Act) {
 //
 //  var_dump($RevD);echo "<P>"; var_dump($Dirs);
 //
+
+/***********************************************************************************************************************/
   if ($Act==0) echo "<tr><td colspan=100>";
   echo "<h2>Scanning Directories Stage 2</h2>";  // Look through directories in Store do they all exist in the database?
+
   $DirStack = ['Store'];
   $dirindex = 0;
   $DeleteStack = [];
@@ -192,7 +195,8 @@ function Scan_Documents($Act) {
     }
   }
 
-  
+
+/***********************************************************************************************************************/ 
   if ($Act==0) echo "<tr><td colspan=100>";
   echo "<h2>Scanning Files Stage 3</h2>";  // Look through Files in database do they all exist in Store?
   
@@ -287,15 +291,67 @@ function Scan_Documents($Act) {
         if (isset($_POST["DIR3IB$d"]) && $_POST["DIR3IB$d"]) {
         }       
         break;
-      }
-    
+      }  
     }
-    
   }
   
+/***********************************************************************************************************************/
 
   if ($Act==0) echo "<tr><td colspan=100>";
   echo "<h2>Scanning Files Stage 4</h2>";  // Look through Files in Store do they exist in the database?
+  $DirStack = ['Store'];
+  $dirindex = 0;
+  $fildex = 0;
+   while ($DirStack) {
+    $dir = array_pop($DirStack);
+    $handle = opendir($dir);
+    while (false !== ($entry = readdir($handle))) {
+      if ($entry == '.' || $entry == '..' || substr($entry,0,1) == '.') continue;
+      $path = "$dir/$entry";
+      if (is_dir($path)) {
+        $dirindex++;
+        $DirStack[] = $path;
+      } else if (is_file($path)) {
+        if (!isset($RevDoc[$path])) { // Not in docs
+          $fildex++;
+          switch ($Act) {
+          case 0:
+        echo "<tr>";
+        echo "<td><input type=checkbox name=DIR4I$fildex class=SelectAllAble>";
+        echo "<td>Document $path is not in the database<br>";
+            break;
+            
+          case 1:
+            break;
+        
+          case 2: 
+            break;
+        
+          case 3: // Fix selected - Files master - add to db
+            if (isset($_POST["DIR4I$fildex"]) && $_POST["DIR4I$fildex"]) {
+              $Docid = Doc_create($entry,$RevD[$dir],filesize($path)); 
+              $RevDoc[$path]= $Docid;
+              echo "$path has been added to the Database<br>";
+            }
+          break;
+        
+         case 4: // Fix selected - Database master - delete file
+           if (isset($_POST["DIR4I$fildex"]) && $_POST["DIR4I$fildex"]) {
+             unlink($path);
+             echo "Document $path has been deleted<br>";
+           }       
+           break;
+         }  
+          
+        }
+      } else { // not file or directory...
+      
+      }
+    }
+    
+  } 
+
+  
  
   if ($Act==0) echo "<tr><td colspan=100>";
   echo "<h2>Scanning Finished</h2>";
