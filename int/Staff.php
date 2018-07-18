@@ -39,8 +39,8 @@
     if (1 && Access('SysAdmin')) {
       echo "<p>";
       echo "<li><a href=DirRebuild.php?SC>Scan Directorys - Report File/Database discrepancies</a>";    
-      echo "<li><a href=DirRebuild.php?FI>Rebuild Directorys - Files are master</a>";
-      echo "<li><a href=DirRebuild.php?DB>Rebuild Directorys - Database is master</a>";
+//      echo "<li><a href=DirRebuild.php?FI>Rebuild Directorys - Files are master</a>";
+//      echo "<li><a href=DirRebuild.php?DB>Rebuild Directorys - Database is master</a>";
     }
     echo "</ul>\n";
 
