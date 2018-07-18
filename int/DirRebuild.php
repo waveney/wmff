@@ -31,6 +31,16 @@ function Get_All_Dirs() {
   return $ans;
 }
 
+function Get_All_Docs() {
+  global $db;
+  $qry = "SELECT * FROM Documents";
+  $res = $db->query($qry);
+  if (!$res) return 0;
+  $ans = [];
+  while ($rec = $res->fetch_assoc()) $ans[$rec['DocId']] = $rec;
+  return $ans;
+}
+
 // Primary Methods
 
 function Scan_Documents($Act) {
@@ -85,6 +95,7 @@ function Scan_Documents($Act) {
   }
   
   $RevD['Store']=0;
+  $FullPs[0] = 'Store';
 //
 //  var_dump($RevD);echo "<P>"; var_dump($Dirs);
 //
@@ -184,12 +195,110 @@ function Scan_Documents($Act) {
   
   if ($Act==0) echo "<tr><td colspan=100>";
   echo "<h2>Scanning Files Stage 3</h2>";  // Look through Files in database do they all exist in Store?
+  
+  $Docs = Get_All_Docs();
+  
+  foreach ($Docs as $Doc) {
+    $d = $Doc['DocId'];
+    $fullpath = $FullPs[$Doc['Dir']] . '/' . stripslashes($Doc['SName']);
+    $RevDoc[$fullpath] = $d; // Used later in stage?
+    
+    if ($Doc['State'] == 1) continue;
+
+    if (!file_exists($fullpath)) {
+      switch ($Act) {
+      case 0:
+        echo "<tr>";
+        echo "<td><input type=checkbox name=DIR3I$d class=SelectAllAble>";
+        echo "<td>Document $fullpath is not there<br>";
+        break;
+            
+      case 1:
+        break;
+        
+      case 2: 
+        break;
+        
+      case 3: // Fix selected - Files master
+        if (isset($_POST["DIR3I$d"]) && $_POST["DIR3I$d"]) {
+          $Doc['State'] = 1;
+          Put_DocInfo($Doc,1);
+          echo "$fullpath has been removed from the database<br>";         
+        }
+        break;
+        
+      case 4: // Fix selected - Database master - Not written yet dir to be created
+        if (isset($_POST["DIR3I$d"]) && $_POST["DIR3I$d"]) {
+          echo "It is not meaningful to make $fullpath<br>";
+        }       
+        break;
+      }
+    } else if (!is_file($fullpath)) {
+      switch ($Act) {
+      case 0:
+        echo "<tr>";
+        echo "<td><input type=checkbox name=DIR3IA$d class=SelectAllAble>";
+        echo "<td>Document $fullpath is a directory!<br>";
+        break;
+            
+      case 1:
+        break;
+        
+      case 2: 
+        break;
+        
+      case 3: // Fix selected - Files master
+        if (isset($_POST["DIR3IA$d"]) && $_POST["DIR3IA$d"]) {
+          $Doc['State'] = 1;
+          Put_DocInfo($Doc,1);
+          echo "The database entry for $fullpath has been removed as it is a directory.<br>";
+        }
+        break;
+        
+      case 4: // Fix selected - Database master - Not written yet dir to be created
+        if (isset($_POST["DIR3IA$d"]) && $_POST["DIR3IA$d"]) {
+          echo "It is not meaningful to make $fullpath - there is a directory of that name anyway<br>";
+        }       
+        break;
+      }
+    } else if (filesize($fullpath) != $Doc['filesize']) {
+      switch ($Act) {
+      case 0:
+        echo "<tr>";
+        echo "<td><input type=checkbox name=DIR3IB$d class=SelectAllAble>";
+        echo "<td>Document $fullpath is the wrong size in the database<br>";
+        break;
+            
+      case 1:
+        break;
+        
+      case 2: 
+        break;
+        
+      case 3: // Fix selected - Files master
+        if (isset($_POST["DIR3IB$d"]) && $_POST["DIR3IB$d"]) {
+          $Doc['filesize'] = filesize($fullpath);
+          Put_DocInfo($Doc,1);
+          echo "Database updated with correct file size for $fullpath <br>";
+        }
+        break;
+        
+      case 4: // Fix selected - Database master - Not meaning full
+        if (isset($_POST["DIR3IB$d"]) && $_POST["DIR3IB$d"]) {
+        }       
+        break;
+      }
+    
+    }
+    
+  }
+  
 
   if ($Act==0) echo "<tr><td colspan=100>";
   echo "<h2>Scanning Files Stage 4</h2>";  // Look through Files in Store do they exist in the database?
  
   if ($Act==0) echo "<tr><td colspan=100>";
-  echo "<h2>Scanning Files Stage Finished</h2>";
+  echo "<h2>Scanning Finished</h2>";
   
   if ($Act == 0) {
     echo "</table>\n";

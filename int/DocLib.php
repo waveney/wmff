@@ -192,10 +192,12 @@ function Get_DocInfo($f) {
   return $Doc_cache[$f];
 }
 
-function Put_DocInfo(&$finf) {
+function Put_DocInfo(&$finf,$force=0) {
   global $db,$Doc_cache;
   $f = $finf['DocId'];
-  if (!isset($Doc_cache[$f])) return 0;
+  if ($force) {
+    $odata = Get_DocInfo($f);
+  } else if (!isset($Doc_cache[$f])) return 0;
   $odata = $Doc_cache[$f];
   $fcnt = 0;
   $rec = "UPDATE Documents SET ";
