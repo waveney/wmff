@@ -7,3 +7,14 @@
   ga('create', 'UA-104831384-1', 'auto');
   ga('send', 'pageview');
 </script>
+<script>
+  (function() {
+    var cx = '005005712120097118494:ybmidoaab-m';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
