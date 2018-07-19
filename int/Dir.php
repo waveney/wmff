@@ -138,12 +138,44 @@
       break;
     case 'Chown':
       if ($d > 0 && Access('Committee','Docs')) {
-         $dir['Who'] = $_POST{'Who'};
+        $dir['Who'] = $_POST{'Who'};
         Put_DirInfo($dir);
       } else {
         $ErrMess = "Insufficient Priviledge";
       }
       break;
+    case 'Restrict1': // Change access restrictions
+      if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {    
+          echo '<form action="Dir.php" method="post">';
+          echo fm_hidden('d', $d);
+        echo "<h2>Restrict " . htmlspec($dir['SName']) . " to </h2>";
+          $LocalAcc = array_slice($Access_Levels,0,$USER['AccessLevel']+1);
+          $LocalAcc[0] = "All";
+          echo fm_radio("Main User Level",$LocalAcc,$dir,'AccessLevel','',0);
+          echo "<p>OPTIONALLY further restrict to one or more sections:<p>\n";
+          $csects = explode(",",$dir['AccessSections']);
+          foreach ($csects as $sec) $dir["Section_$sec"] = 1;
+          foreach ($Sections as $Sect) echo " " . fm_checkbox($Sect,$dir,"Section_$Sect");
+          echo '<br><input type="submit" value="Restrict" name="Action">';
+          echo "</form>\n";
+        $skip = 1;
+      } else {
+        $ErrMess = "Insufficient Priviledge";
+      }
+      break;
+    case 'Restrict': // Change access restrictions
+      if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {
+        $dir['AccessLevel'] = $_POST['AccessLevel'];
+        $sects = [];
+        foreach ($Sections as $Sect) if (isset($_POST["Section_$Sect"]) && $_POST["Section_$Sect"]) $sects[] = $Sect;
+        $dir['AccessSections'] = ($sects ? implode(",",$sects) : ''); 
+        Put_DirInfo($dir);                 
+      } else {
+        $ErrMess = "Insufficient Priviledge";
+      }
+      break;
+    
+    
     default:
   }
 
@@ -300,9 +332,13 @@
 // echo var_dump($dir) . "<p>";
 
   if (!$skip) {
+    echo "<button class='floatright FullD' onclick=\"($('.FullD').toggle())\">More Info</button><button class='floatright FullD' hidden onclick=\"($('.FullD').toggle())\">Less Info</button> ";
     echo "<h2>Directory: " . Get_Parent($d) . "</h2>";
+    echo '<form action="Dir.php" method="post" enctype="multipart/form-data" id=Uploads>';
     Doc_Table_Head();
-  
+ 
+ // Parent
+ 
     if ($d > 0) {
       $pid = $dir['Parent'];
       $pdir = Get_DirInfo($pid);
@@ -311,11 +347,11 @@
       else {$name = 'Documents'; };
   
       echo "<tr><td><a href=Dir.php?d=$pid>$name</a>";
-      echo "<td>". $AllU[$pdir['Who'] || 1];
+      echo "<td class=FullD hidden>". $AllU[$pdir['Who'] || 1];
       echo "<td>Parent";
-      echo "<td>";
+      echo "<td class=FullD hidden>";
       if (isset($pdir['Created'])) echo date('d/m/y H:i:s',$pdir['Created']);
-//      echo "<td>" . Doc_Access($pdir['Access']);
+      echo "<td class=FullD hidden>" . ((isset($pdir['AccessLevel']) && $pdir['AccessLevel']>0) ? ($Access_Levels[$pdir['AccessLevel']]  . ": " . $pdir['AccessSections']) : "");
       echo "<td>";
       if ($pid > 0 && (Access('Committee','Docs') || $pdir['Who'] == $USERID || $pdir['Who'] == $USERID )) {
         echo " <a href=Dir.php?d=$pid&Action=Rename1>Rename</a>"; 
@@ -324,17 +360,40 @@
         if (Access('Committee','Docs')) {
           echo " <a href=Dir.php?d=$pid&Action=Chown1>Chown</a>"; 
         }
+        echo " <a href=Dir.php?d=$pid&Action=Restrict1>Restrict</a>"; 
       }
     }
+
+// Self
+    if ($d) {
+      echo "<tr><td><a href=Dir.php?d=$pid>" . htmlspec($dir['SName']) . "</a>";
+      echo "<td class=FullD hidden>". $AllU[$dir['Who'] || 1];
+      echo "<td>Self";
+      echo "<td class=FullD hidden>";
+      if (isset($dir['Created'])) echo date('d/m/y H:i:s',$dir['Created']);
+      echo "<td class=FullD hidden>" . ((isset($dir['AccessLevel']) && $dir['AccessLevel']>0) ? ($Access_Levels[$dir['AccessLevel']]  . ": " . $dir['AccessSections']) : "");
+      echo "<td>";
+      if (Access('Committee','Docs') || $dir['Who'] == $USERID || $dir['Who'] == $USERID ) {
+        echo " <a href=Dir.php?d=$d&Action=Rename1>Rename</a>"; 
+        echo " <a href=Dir.php?d=$d&Action=Move1>Move</a>"; 
+        echo " <a href='Dir.php?d=$d&Action=Delete' onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a>"; 
+        if (Access('Committee','Docs')) {
+          echo " <a href=Dir.php?d=$d&Action=Chown1>Chown</a>"; 
+        }
+        echo " <a href=Dir.php?d=$d&Action=Restrict1>Restrict</a>"; 
+      }
+    }
+
 
     if ($subs) {
       foreach($subs as $sub) {
         $pid = $sub['DirId'];
         echo "<tr><td><a href=Dir.php?d=$pid>" . htmlspec($sub['SName']) . "</a>";
-        echo "<td>" . (isset($AllU[$sub['Who']])?$AllU[$sub['Who']]: "Unknown");
+        echo "<td class=FullD hidden>" . (isset($AllU[$sub['Who']])?$AllU[$sub['Who']]: "Unknown");
         echo "<td>Directory";
-        echo "<td>" . date('d/m/y H:i:s',$sub['Created']) . "<td>";
-//        echo Doc_Access($sub['Access']) . "<td>";
+        echo "<td class=FullD hidden>" . date('d/m/y H:i:s',$sub['Created']);
+        echo "<td class=FullD hidden>" . ((isset($sub['AccessLevel']) && $sub['AccessLevel']>0) ? ($Access_Levels[$sub['AccessLevel']]  . ": " . $sub['AccessSections']) : "");
+        echo "<td>";
         if (Access('Committee','Docs') || $dir['Who'] == $USERID  || $sub['Who'] == $USERID ) {
           echo " <a href=Dir.php?d=$pid&Action=Rename1>Rename</a>"; 
           echo " <a href=Dir.php?d=$pid&Action=Move1>Move</a>"; 
@@ -342,6 +401,7 @@
           if (Access('Committee','Docs')) {
             echo " <a href=Dir.php?d=$pid&Action=Chown1>Chown</a>"; 
           }
+        echo " <a href=Dir.php?d=$pid&Action=Restrict1>Restrict</a>"; 
         }
       }
     }
@@ -350,7 +410,6 @@
     
     echo "</tbody></table>\n";
 
-    echo '<form action="Dir.php" method="post" enctype="multipart/form-data" id=Uploads>';
     echo "Select file(s) to upload:";
     echo fm_hidden('d', $d);
     echo fm_hidden('FileAction', 'Upload');

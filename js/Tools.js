@@ -33,3 +33,10 @@ function NavStick(e) { // Toggle sticking of menus
     e.currentTarget.nextElementSibling.className += " stick";
   }
 }
+
+var isAdvancedUpload = function() {
+  var div = document.createElement('div');
+  return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
+}();
+
+

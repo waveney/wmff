@@ -7,7 +7,7 @@ $sfx = pathinfo($file,PATHINFO_EXTENSION );
 $base = basename($file);
 
 if (!file_exists($file)) Error_Page("Could not find file $file");
-
+  Set_User();
   system("rm Temp/$USERID.*");
   $tf = $USERID . "." . time() . ".$sfx";
 
@@ -35,7 +35,6 @@ if ($read) { // Attempt to read rather than download
   case 'xlsx':
   case 'xlsb':
   case 'xlsm':
-  case 'csv':
   case 'pptx':
   case 'ppsx':
   case 'ppt':

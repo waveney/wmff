@@ -18,7 +18,7 @@
 <div class="mini" style="border-bottom:0; margin-bottom:0;">
 Copyright &copy; <a href="/" rel="bookmark" style="color:#FFFFFF;">Wimborne Minster Folk Festival Ltd</a> <?php echo $CALYEAR ?>; All Rights Reserved. Registered Company: 08290423</p>
 
-<p>Photos remain Copyright @ of their respective owners and cannot be reproduced or used without permission.</p>
+<p>Photos remain Copyright of their respective owners and cannot be reproduced or used without permission.</p>
 
 <p>Website supported by <a href=http://wavwebs.com style=color:white;>Waveney Web Services</a> - Version 
 <?php 

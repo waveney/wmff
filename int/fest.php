@@ -12,7 +12,7 @@ if (isset($_GET{'Y'})) $YEAR = $_GET{'Y'};
 if (isset($_POST{'B'})) $BUTTON = ($_POST{'B'}+1) % 4;
 if (isset($_GET{'B'})) $BUTTON = ($_GET{'B'}+1) % 4;
 
-if (!is_numeric($YEAR)) { var_dump($YEAR); exit("Invalid Year"); };
+if (!is_numeric($YEAR)) exit("Invalid Year");
 
 $Noise_Levels = array("Middling","Quiet","Noisy");
 $Noise_Colours = ['lightgreen','yellow','Orange'];
@@ -31,7 +31,7 @@ $Access_Levels = array('','Participant','Upload','Steward','Staff','Committee','
 $Access_Type = array_flip($Access_Levels);
 $Area_Levels = array( 'No','Edit','Edit and Report');
 $Area_Type = array_flip($Area_Levels);
-$Sections = array( 'Docs','Dance','Stalls','Users','Venues','Music','Sponsors','Finance','Craft','Other','TLine','Bugs','Photos');
+$Sections = array( 'Docs','Dance','Stalls','Users','Venues','Music','Sponsors','Finance','Craft','Other','TLine','Bugs','Photos'); // Note fest_users fields must match
 $Importance = array('None','Some','High','Very High','Even Higher','Highest','The Queen');
 $Book_States = array('None','Declined','Booking','Contract Ready','Booked');
 $Book_State = array_flip($Book_States);
