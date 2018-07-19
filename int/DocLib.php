@@ -174,7 +174,7 @@ function Dir_recurse($d,$name,$level,$cur,$exclude) {
 }
 
 function Dir_All_Tree($NewDir,$cur=-1,$exclude=-1) {
-  $ans = "<select name=$NewDir size=15>\n";
+  $ans = "<select name=$NewDir size=40>\n";
   $ans .= Dir_recurse(0,'Documents:',0,$cur,$exclude); 
   $ans .= "</select>\n";
   return $ans;

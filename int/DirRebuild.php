@@ -118,7 +118,7 @@ function Scan_Documents($Act) {
         $path = $DirStack[] = "$dir/$entry";
         if (!isset($RevD[$path])) { // Missing in DB, test if empty
           $findres = [];
-          exec("find $path -maxdepth 32 -type f -print",$findres);
+          exec("find '$path' -maxdepth 32 -type f -print",$findres);
           $empty = !isset($findres[0]);
           switch ($Act) {
           case 0:

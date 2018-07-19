@@ -12,7 +12,7 @@ if (isset($_GET{'Y'})) $YEAR = $_GET{'Y'};
 if (isset($_POST{'B'})) $BUTTON = ($_POST{'B'}+1) % 4;
 if (isset($_GET{'B'})) $BUTTON = ($_GET{'B'}+1) % 4;
 
-if (!is_numeric($YEAR)) { var_dump($YEAR); exit("Invalid Year"); };
+if (!is_numeric($YEAR)) exit("Invalid Year");
 
 $Noise_Levels = array("Middling","Quiet","Noisy");
 $Noise_Colours = ['lightgreen','yellow','Orange'];
