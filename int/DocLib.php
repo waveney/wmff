@@ -12,12 +12,20 @@ function Get_DirList($d) {
 }
 
 function Get_SubDirList($d) {
-  global $db;
-  $qry = "SELECT * FROM Directories WHERE Parent='" . $d . "' AND State=0 ORDER BY SName";
+  global $db,$USER;
+  $qry = "SELECT * FROM Directories WHERE Parent='" . $d . "' AND State=0 AND AccessLevel<=" . $USER['AccessLevel'] . " ORDER BY SName";
   $res = $db->query($qry);
   if (!$res) return 0;
   $ans = array();
-  while ($rec = $res->fetch_assoc()) $ans[] = $rec;
+  while ($rec = $res->fetch_assoc()) {
+    if ($rec['AccessLevel'] == $USER['AccessLevel'] && $rec['AccessSections'] !='') {
+      $sects = explode(',',$rec['AccessSections']);
+      $valid = 0;
+      foreach($sects as $sect) if (isset($USER[$sect]) && $USER[$sect]>0) $valid=1;
+      if (!$valid) continue;
+    }  
+    $ans[] = $rec;
+  }
   return $ans;
 }
 
@@ -228,9 +236,9 @@ function Doc_create($fname,$d,$size) {
 
 function Set_Doc_Help() {
   static $t = array(
-         'Access'=>'Currently has no effect, would allow restricted access for reading in the future if needed',
+        'Access'=>'If set, restricts access to the directory and all files within - Note the Documents are normally accessable to all Staff unless restricted.',
         'Actions'=>'Note Delete removes from view and archives the document/directory.  It is possible (but not easy) to retrieve these.',
-        'Search'=>'Looks for files that contain the asked for string in the title and/or the content.  Thus searching for "i" would find all files with an i in them.  You can restrict a search to those by a particular person or date range.'
+        'Search'=>'Looks for files that contain the asked for string in the title and/or the content.  Thus searching for "i" would find all files with an i in them.  You can restrict a search to those by a particular person or date range.  Some types of files (in particular docx) are not searchable'
   );
   Set_Help_Table($t);
 }
@@ -242,29 +250,30 @@ function Doc_Table_Head() {
   $coln = 0;
   echo "Click on column to sort by column, on the Filename to view.<p>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>File Name</a>\n";
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Originator</a>\n";
+  echo "<th class=FullD hidden><a href=javascript:SortTable(" . $coln++ . ",'T')>Originator</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Size</a>\n";
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D','dmy')>Date</a>\n";
-//  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T',)>Access</a>" . help('Access') . "\n";
+  echo "<th class=FullD hidden><a href=javascript:SortTable(" . $coln++ . ",'D','dmy')>Date</a>\n";
+  echo "<th class=FullD hidden><a href=javascript:SortTable(" . $coln++ . ",'T')>Access</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T',)>Actions</a>" . help('Actions') . "\n";
   echo "</thead><tbody>";
 }
 
 function Doc_List($file,$opts=0) {
-  global $USERID;
+  global $USERID,$Access_Levels;
   $name = htmlspec($file['SName']);
   $fid = $file['DocId'];
   $d = $file['Dir'];
   $dir = Get_DirInfo($d);
   $AllU = Get_AllUsers();
   echo "<tr><td><a href=ShowFile.php?f=$fid>" . $name . "</a>";
-  echo "<td>" . $AllU[$file['Who']];
+  echo "<td class=FullD hidden>" . $AllU[$file['Who']];
   echo "<td align=right>" . formatBytes($file['filesize'],0);
-  echo "<td>" . date('d/m/y H:i:s',$file['Created']) . "<td>";
-//  echo Doc_Access($file['Access']) . "<td>";
+  echo "<td class=FullD hidden>" . date('d/m/y H:i:s',$file['Created']);
+  echo "<td class=FullD hidden>"; // . ($Access_Levels[$file['AccessLevel']
+  echo "<td>";
   if ($opts & 1) echo "<a href=Dir.php?d=$d>Directory</a> ";
   echo "<a href=ShowFile.php?d=$fid>Download</a> ";
-  if (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID ) {
+  if (Access('Committee','Docs') || $dir['Who'] == $USERID ) {
     echo "<a href=Dir.php?f=$fid&d=$d&FileAction=Rename1>Rename</a> "; 
     echo "<a href=Dir.php?f=$fid&d=$d&FileAction=Move1>Move</a> "; 
     echo "<a href='Dir.php?f=$fid&d=$d&FileAction=Delete' " .
