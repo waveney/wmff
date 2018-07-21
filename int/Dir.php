@@ -342,77 +342,19 @@
     if ($d > 0) {
       $pid = $dir['Parent'];
       $pdir = Get_DirInfo($pid);
-
-      if ($pid > 0) { $name = htmlspec($pdir['SName']); }
-      else {$name = 'Documents'; };
-      echo "<tr><td><a href=Dir.php?d=$pid>$name</a>";
-      echo "<td class=FullD hidden>" . (isset($AllU[$pdir['Who']]) ? $AllU[$pdir['Who']] : "Nobody" );
-      echo "<td>Parent";
-      echo "<td class=FullD hidden>";
-      if (isset($pdir['Created'])) echo date('d/m/y H:i:s',$pdir['Created']);
-      echo "<td class=FullD hidden>" . ((isset($pdir['AccessLevel']) && $pdir['AccessLevel']>0) ? ($Access_Levels[$pdir['AccessLevel']]  . ": " . $pdir['AccessSections']) : "");
-      echo "<td>";
-      if ($pid > 0 && (Access('Committee','Docs') || $pdir['Who'] == $USERID || $pdir['Who'] == $USERID )) {
-        echo " <a href=Dir.php?d=$pid&Action=Rename1>Rename</a>"; 
-
-        echo " <a href='Dir.php?d=$pid&Action=Delete' onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a>"; 
-        echo "<span class=FullD hidden>";
-        echo " <a href=Dir.php?d=$pid&Action=Move1>Move</a>"; 
-        if (Access('Committee','Docs')) {
-          echo " <a href=Dir.php?d=$pid&Action=Chown1>Chown</a>"; 
-        }
-        echo " <a href=Dir.php?d=$pid&Action=Restrict1>Restrict</a>"; 
-        echo "</span>";
-      }
+      
+      List_dir_ent($pdir,'Parent');
     }
 
 // Self
     if ($d) {
-      echo "<tr><td><a href=Dir.php?d=$d>" . htmlspec($dir['SName']) . "</a>";
-      echo "<td class=FullD hidden>" . (isset($AllU[$dir['Who']]) ? $AllU[$dir['Who']] : "Nobody" );
-      echo "<td>Self";
-      echo "<td class=FullD hidden>";
-      if (isset($dir['Created'])) echo date('d/m/y H:i:s',$dir['Created']);
-      echo "<td class=FullD hidden>" . ((isset($dir['AccessLevel']) && $dir['AccessLevel']>0) ? ($Access_Levels[$dir['AccessLevel']]  . ": " . $dir['AccessSections']) : "");
-      echo "<td>";
-      if (Access('Committee','Docs') || $dir['Who'] == $USERID || $dir['Who'] == $USERID ) {
-        echo " <a href=Dir.php?d=$d&Action=Rename1>Rename</a>"; 
-
-        echo " <a href='Dir.php?d=$d&Action=Delete' onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a>"; 
-        echo "<span class=FullD hidden>";
-        echo " <a href=Dir.php?d=$d&Action=Move1>Move</a>"; 
-        if (Access('Committee','Docs')) {
-          echo " <a href=Dir.php?d=$d&Action=Chown1>Chown</a>"; 
-        }
-        echo " <a href=Dir.php?d=$d&Action=Restrict1>Restrict</a>"; 
-        echo "</span>";
-      }
+      List_dir_ent($dir,'Self');
     }
 
 
     if ($subs) {
       foreach($subs as $sub) {
-        $pid = $sub['DirId'];
-        echo "<tr><td><a href=Dir.php?d=$pid>" . htmlspec($sub['SName']) . "</a>";
-        echo "<td class=FullD hidden>" . (isset($AllU[$sub['Who']])?$AllU[$sub['Who']]: "Unknown");
-        echo "<td>Directory";
-        echo "<td class=FullD hidden>" . date('d/m/y H:i:s',$sub['Created']);
-        echo "<td class=FullD hidden>" . ((isset($sub['AccessLevel']) && $sub['AccessLevel']>0) ? ($Access_Levels[$sub['AccessLevel']]  . ": " . $sub['AccessSections']) : "");
-        echo "<td>";
-        if (Access('Committee','Docs') || $dir['Who'] == $USERID  || $sub['Who'] == $USERID ) {
-          echo " <a href=Dir.php?d=$pid&Action=Rename1>Rename</a>"; 
-
-          echo " <a href='Dir.php?d=$pid&Action=Delete' onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a>"; 
-
-          echo "<span class=FullD hidden>";
-          echo " <a href=Dir.php?d=$pid&Action=Move1>Move</a>"; 
-          if (Access('Committee','Docs')) {
-            echo " <a href=Dir.php?d=$pid&Action=Chown1>Chown</a>"; 
-          }
-
-          echo " <a href=Dir.php?d=$pid&Action=Restrict1>Restrict</a>"; 
-          echo "</span>";
-        }
+        List_dir_ent($sub,'Directory');
       }
     }
 

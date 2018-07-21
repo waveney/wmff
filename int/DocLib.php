@@ -275,6 +275,35 @@ function Doc_Table_Head($withdir=0) {
   echo "</thead><tbody>";
 }
 
+function List_dir_ent(&$dir,$type) {
+  global $AllU,$USERID,$Access_Levels;
+  $pid = $dir['DirId'];
+  $parid = $dir['Parent'];
+  $Parent = Get_DirInfo($parid);
+  
+  echo "<tr><td><a href=Dir.php?d=" . $dir['DirId'] . ">" . htmlspec($dir['SName']) . "</a>";
+  echo "<td class=FullD hidden>" . (isset($AllU[$dir['Who']])?$AllU[$dir['Who']]: "Unknown");
+  echo "<td>$type";
+  echo "<td class=FullD hidden>" . date('d/m/y H:i:s',$dir['Created']);
+  echo "<td class=FullD hidden>" . ((isset($sub['AccessLevel']) && $dir['AccessLevel']>0) ? ($Access_Levels[$dir['AccessLevel']]  . ": " . $dir['AccessSections']) : "");
+  echo "<td>";
+  if (Access('Committee','Docs') || $dir['Who'] == $USERID  || ($parid > 0 && $Parent['Who'] == $USERID )) {
+    echo " <a href=Dir.php?d=$pid&Action=Rename1>Rename</a>"; 
+
+    echo " <a href='Dir.php?d=$pid&Action=Delete' onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a>"; 
+
+    echo "<span class=FullD hidden>";
+    echo " <a href=Dir.php?d=$pid&Action=Move1>Move</a>"; 
+    if (Access('Committee','Docs')) {
+      echo " <a href=Dir.php?d=$pid&Action=Chown1>Chown</a>"; 
+    }
+
+    echo " <a href=Dir.php?d=$pid&Action=Restrict1>Restrict</a>"; 
+    echo "</span>";
+  }
+}
+
+
 function Doc_List($file,$opts=0) {
   global $USERID,$Access_Levels;
   $name = htmlspec($file['SName']);
