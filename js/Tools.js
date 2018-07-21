@@ -3,7 +3,6 @@
 
 // SelectAll/None for any page - 
 function ToolSelectAll(e) {
-  debugger;
   $(".SelectAllAble").prop("checked",$("#SelectAll").prop("checked"));
 }
 
@@ -19,7 +18,6 @@ function HoverSticky(e) {
 }
 
 function PCatSel(e) {
-  debugger;
   $('[id^=MPC_').hide();
   var selectedOption = $("input:radio[name=PCAT]:checked").val()
   $('#MPC_' + selectedOption).show();

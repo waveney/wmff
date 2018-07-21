@@ -12,13 +12,14 @@ function Get_DirList($d) {
 }
 
 function Get_SubDirList($d) {
-  global $db,$USER;
-  $qry = "SELECT * FROM Directories WHERE Parent='" . $d . "' AND State=0 AND AccessLevel<=" . $USER['AccessLevel'] . " ORDER BY SName";
+  global $db,$USER,$USERID;
+  $qry = "SELECT * FROM Directories WHERE Parent='" . $d . "' AND State=0 AND ( AccessLevel<=" . $USER['AccessLevel'] . " OR Who=$USERID ) ORDER BY SName";
   $res = $db->query($qry);
   if (!$res) return 0;
   $ans = array();
   while ($rec = $res->fetch_assoc()) {
-    if ($rec['AccessLevel'] == $USER['AccessLevel'] && $rec['AccessSections'] !='') {
+    if ($rec['Who'] == $USERID || $rec['AccessLevel'] > $USER['AccessLevel']) { // Not restricted
+    } else if ($rec['AccessLevel'] == $USER['AccessLevel'] && $rec['AccessSections'] !='') {
       $sects = explode(',',$rec['AccessSections']);
       $valid = 0;
       foreach($sects as $sect) if (isset($USER[$sect]) && $USER[$sect]>0) $valid=1;
@@ -32,13 +33,23 @@ function Get_SubDirList($d) {
 $Dir_cache = array();
 
 function Get_DirInfo($d,$new=0) {
-  global $db,$Dir_cache;
+  global $db,$Dir_cache,$USER,$USERID;
   if ($new==0 && isset($Dir_cache[$d])) return $Dir_cache[$d];
 
   $qry = "SELECT * FROM Directories WHERE DirId='" . $d . "'";
   $res = $db->query($qry);
-  if (!$res) return 0;
-  return $Dir_cache[$d] = $res->fetch_assoc();
+  if (!$res) return $Dir_cache[$d] = 0; 
+  $rec = $res->fetch_assoc();
+  if ($rec['Who'] == $USERID || $rec['AccessLevel'] > $USER['AccessLevel']) { // Not restricted
+    } else if ($rec['AccessLevel'] == $USER['AccessLevel'] && $rec['AccessSections'] !='') {
+
+    $sects = explode(',',$rec['AccessSections']);
+    $valid = 0;
+    foreach($sects as $sect) if (isset($USER[$sect]) && $USER[$sect]>0) $valid=1;
+    if (!$valid) return $Dir_cache[$d] = 0;
+  }  
+
+  return $Dir_cache[$d] = $rec;
 }
 
 function Put_DirInfo($stuff) {
@@ -67,30 +78,35 @@ function Get_Parent($d,$depth=0) {
   if (!$d) return "<a href=Dir.php>Documents:</a>";
   if ($depth>30) return "";
   $inf = Get_DirInfo($d);
+  if (!$inf) return "";
   return Get_Parent($inf['Parent'], $depth+1) . " / <a href=Dir.php?d=$d>" . htmlspec($inf['SName']) . "</a>";
 }
 
 function Dir_FullName($d,$depth=0) {
   if (!$d || $depth>30) return "";
   $inf = Get_DirInfo($d);
+  if (!$inf) return "";
   return Dir_FullName($inf['Parent'], $depth+1) . "/" . htmlspec($inf['SName']);
 }
 
 function File_FullName($f) {
   if (!$f) return "";
   $inf = Get_DocInfo($f);
+  if (!$inf) return "";
   return Dir_FullName($inf['Dir']) . "/" . htmlspec($inf['SName']);
 }
 
 function Dir_FullPName($d,$depth=0) {
   if (!$d || $depth>30) return "";
   $inf = Get_DirInfo($d);
+  if (!$inf) return "";
   return Dir_FullPName($inf['Parent'], $depth+1) . "/" . stripslashes($inf['SName']);
 }
 
 function File_FullPName($f) {
   if (!$f) return "";
   $inf = Get_DocInfo($f);
+  if (!$inf) return "";
   return Dir_FullPName($inf['Dir']) . "/" . stripslashes($inf['SName']);
 }
 
@@ -243,12 +259,13 @@ function Set_Doc_Help() {
   Set_Help_Table($t);
 }
 
-function Doc_Table_Head() {
+function Doc_Table_Head($withdir=0) {
   Set_Doc_Help();
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
   $coln = 0;
   echo "Click on column to sort by column, on the Filename to view.<p>\n";
+  if ($withdir) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Directory Name</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>File Name</a>\n";
   echo "<th class=FullD hidden><a href=javascript:SortTable(" . $coln++ . ",'T')>Originator</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Size</a>\n";
@@ -264,24 +281,31 @@ function Doc_List($file,$opts=0) {
   $fid = $file['DocId'];
   $d = $file['Dir'];
   $dir = Get_DirInfo($d);
+  if ($d && !$dir) return 0;
   $AllU = Get_AllUsers();
-  echo "<tr><td><a href=ShowFile.php?f=$fid>" . $name . "</a>";
+  echo "<tr>";
+  if ($opts & 1) echo "<td>" . Get_Parent($d);
+  echo "<td><a href=ShowFile.php?f=$fid>" . $name . "</a>";
   echo "<td class=FullD hidden>" . $AllU[$file['Who']];
   echo "<td align=right>" . formatBytes($file['filesize'],0);
   echo "<td class=FullD hidden>" . date('d/m/y H:i:s',$file['Created']);
   echo "<td class=FullD hidden>"; // . ($Access_Levels[$file['AccessLevel']
   echo "<td>";
-  if ($opts & 1) echo "<a href=Dir.php?d=$d>Directory</a> ";
+
   echo "<a href=ShowFile.php?d=$fid>Download</a> ";
   if (Access('Committee','Docs') || $dir['Who'] == $USERID ) {
     echo "<a href=Dir.php?f=$fid&d=$d&FileAction=Rename1>Rename</a> "; 
-    echo "<a href=Dir.php?f=$fid&d=$d&FileAction=Move1>Move</a> "; 
+
     echo "<a href='Dir.php?f=$fid&d=$d&FileAction=Delete' " .
                   "onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a> "; 
+    echo "<span class=FullD hidden>";
+    echo "<a href=Dir.php?f=$fid&d=$d&FileAction=Move1>Move</a> "; 
     if (Access('Committee','Docs')) {
-      echo "<a href=Dir.php?f=$fid&d=$d&FileAction=Chown1>Chown</a> "; 
+      echo "<a href=Dir.php?f=$fid&d=$d&FileAction=Chown1>Chown</a>"; 
     }
+    echo "</span> ";
   }
+  return 1;
 }
 
 function Find_Doc_For($fname) { 
@@ -307,10 +331,12 @@ function Find_Doc_For($fname) {
   return $ans;
 }
 
-function SearchForm() {
+function SearchForm($where=0) {
+  $SearchLocs = ['Everywhere','Here'];
   if (!isset($_POST{'Titles'}) && !isset($_POST{'Cont'})) { $_POST{'Titles'} = 1; }
   elseif (!$_POST{'Titles'} && !$_POST{'Cont'}) $_POST{'Titles'} = 1;
   echo "<form action=Search.php method=post>";
+  echo fm_hidden('Search_Dir',$where);
   echo "Search " . fm_checkbox("Titles",$_POST,'Titles');
   echo fm_checkbox("Content",$_POST,'Cont');
   echo fm_simpletext("for",$_POST,'Target');
@@ -318,6 +344,8 @@ function SearchForm() {
   echo " by " . fm_select($AllU,$_POST,'Who',1);
   echo fm_simpletext("From",$_POST,'From','size=10');
   echo fm_simpletext("Until",$_POST,'Until','size=10');
+  if (!isset($_POST['Search_Loc'])) $_POST['Search_Loc'] = 0;
+  echo fm_radio('',$SearchLocs,$_POST,'Search_Loc','',0);
   echo "<input type=submit name=Search value=Search>";
   echo "</form>";
 }

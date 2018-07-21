@@ -345,9 +345,8 @@
 
       if ($pid > 0) { $name = htmlspec($pdir['SName']); }
       else {$name = 'Documents'; };
-  
       echo "<tr><td><a href=Dir.php?d=$pid>$name</a>";
-      echo "<td class=FullD hidden>". $AllU[$pdir['Who'] || 1];
+      echo "<td class=FullD hidden>" . (isset($AllU[$pdir['Who']]) ? $AllU[$pdir['Who']] : "Nobody" );
       echo "<td>Parent";
       echo "<td class=FullD hidden>";
       if (isset($pdir['Created'])) echo date('d/m/y H:i:s',$pdir['Created']);
@@ -355,19 +354,22 @@
       echo "<td>";
       if ($pid > 0 && (Access('Committee','Docs') || $pdir['Who'] == $USERID || $pdir['Who'] == $USERID )) {
         echo " <a href=Dir.php?d=$pid&Action=Rename1>Rename</a>"; 
-        echo " <a href=Dir.php?d=$pid&Action=Move1>Move</a>"; 
+
         echo " <a href='Dir.php?d=$pid&Action=Delete' onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a>"; 
+        echo "<span class=FullD hidden>";
+        echo " <a href=Dir.php?d=$pid&Action=Move1>Move</a>"; 
         if (Access('Committee','Docs')) {
           echo " <a href=Dir.php?d=$pid&Action=Chown1>Chown</a>"; 
         }
         echo " <a href=Dir.php?d=$pid&Action=Restrict1>Restrict</a>"; 
+        echo "</span>";
       }
     }
 
 // Self
     if ($d) {
-      echo "<tr><td><a href=Dir.php?d=$pid>" . htmlspec($dir['SName']) . "</a>";
-      echo "<td class=FullD hidden>". $AllU[$dir['Who'] || 1];
+      echo "<tr><td><a href=Dir.php?d=$d>" . htmlspec($dir['SName']) . "</a>";
+      echo "<td class=FullD hidden>" . (isset($AllU[$dir['Who']]) ? $AllU[$dir['Who']] : "Nobody" );
       echo "<td>Self";
       echo "<td class=FullD hidden>";
       if (isset($dir['Created'])) echo date('d/m/y H:i:s',$dir['Created']);
@@ -375,12 +377,15 @@
       echo "<td>";
       if (Access('Committee','Docs') || $dir['Who'] == $USERID || $dir['Who'] == $USERID ) {
         echo " <a href=Dir.php?d=$d&Action=Rename1>Rename</a>"; 
-        echo " <a href=Dir.php?d=$d&Action=Move1>Move</a>"; 
+
         echo " <a href='Dir.php?d=$d&Action=Delete' onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a>"; 
+        echo "<span class=FullD hidden>";
+        echo " <a href=Dir.php?d=$d&Action=Move1>Move</a>"; 
         if (Access('Committee','Docs')) {
           echo " <a href=Dir.php?d=$d&Action=Chown1>Chown</a>"; 
         }
         echo " <a href=Dir.php?d=$d&Action=Restrict1>Restrict</a>"; 
+        echo "</span>";
       }
     }
 
@@ -396,12 +401,17 @@
         echo "<td>";
         if (Access('Committee','Docs') || $dir['Who'] == $USERID  || $sub['Who'] == $USERID ) {
           echo " <a href=Dir.php?d=$pid&Action=Rename1>Rename</a>"; 
-          echo " <a href=Dir.php?d=$pid&Action=Move1>Move</a>"; 
+
           echo " <a href='Dir.php?d=$pid&Action=Delete' onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a>"; 
+
+          echo "<span class=FullD hidden>";
+          echo " <a href=Dir.php?d=$pid&Action=Move1>Move</a>"; 
           if (Access('Committee','Docs')) {
             echo " <a href=Dir.php?d=$pid&Action=Chown1>Chown</a>"; 
           }
-        echo " <a href=Dir.php?d=$pid&Action=Restrict1>Restrict</a>"; 
+
+          echo " <a href=Dir.php?d=$pid&Action=Restrict1>Restrict</a>"; 
+          echo "</span>";
         }
       }
     }
@@ -422,7 +432,7 @@
     echo '<input type="submit" value="Create" name="Action">';
     echo "</form>\n";
 
-    SearchForm();
+    SearchForm($d);
   }
 
   dotail();

@@ -11,7 +11,7 @@ In general anyone at committee level can read anything, but only edit/change tho
 If you are not logged in, there is a small discrete Login link just below the copytight statement at the bottom of the page.<p>
 
 If you are logged in, it will show it on the main navigation bar (and a logout link) and a button "Staff Tools" will apear.  
-From this page all features of the databases and document stprage are available.<p>
+From this page all features of the databases, document storage and timeline mannagement are available.<p>
 
 <h2>How To Use the Document Storage</h2><p>
 
@@ -34,7 +34,8 @@ Files and directories you have uploaded can be deleted, renamed and moved by you
 
 Note files "Deleted" are removed from view and archieved.  It is possible (but not easy) to recover a deleted file.<p>
 
-At present all documents / directories can be read by everyone, some design is in place to restrict this in the near future.<p>
+Directories can have restricted access to limit access to users with a particular level of access (Committee, Staff) and doing particular roles (Dance, Trade etc).  Click on "More Info" and then select
+the action "Restrict" on the directory that you want to restrct.  Note you can only do this if you originated the directory or have document management privaleges.<p> 
 
 <h2>Years - looking backwards and forwards</h2><p>
 The staff pages (by default) show information on the festival being planned.<p>
@@ -78,7 +79,7 @@ Initially, this is for the committee, but some parts of this system may be made 
 
 Polly is an example of staff, who needs access to event, venue and participant information and the document storage.<p>
 
-<h2>Need a new table?</h2><p>
+<h2>Need a new table/feature?</h2><p>
 Ask Richard.  Most will be very quick to implement.<p>
 
 
