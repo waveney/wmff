@@ -4,7 +4,7 @@
 
   dostaffhead("List Music", "/js/clipboard.min.js", "/js/emailclick.js");
 
-  global $YEAR,$PLANYEAR,$Book_Colour,$Book_States,$Book_Actions,$Book_ActionExtras;
+  global $YEAR,$PLANYEAR,$Book_Colours,$Book_States,$Book_Actions,$Book_ActionExtras;
   include_once("DanceLib.php"); 
   include_once("MusicLib.php"); 
 
@@ -106,7 +106,7 @@
 
         case 'Book State': 
           if (!isset($State)) $State = 0;
-          echo "<td style='background-color:" . $Book_Colour[$Book_States[$State]] . "'>" . $Book_States[$State];
+          echo "<td style='background-color:" . $Book_Colours[$State] . "'>" . $Book_States[$State];
           break;
 
         case 'Confirmed':

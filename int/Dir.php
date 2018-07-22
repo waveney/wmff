@@ -31,21 +31,25 @@
   $skip = 0;
   
   switch ($Act) {
-    case 'Create':
-      $NewDir = $_POST{'DirName'};
-      if (strlen($NewDir) < 2) {
-        $ErrMess = "Directory name too short"; 
-      } else {
-        $ndir = "Store" . Dir_FullName($d) . "/" . $NewDir;
-        if (file_exists($ndir)) {
-          $ErrMess = $NewDir . " already exists";
+    case 'Create': 
+      if ($dir) {
+        $NewDir = $_POST{'DirName'};
+        if (strlen($NewDir) < 2) {
+          $ErrMess = "Directory name too short"; 
         } else {
-          umask(0);
-          $ans = mkdir ($ndir,0777,1);
-          $newrec = array('SName'=>addslashes($NewDir), 'Who'=>$USERID, 'Created'=>time(), 'Parent'=> $d);
-          Insert_db('Directories',$newrec);
+          $ndir = "Store" . Dir_FullName($d) . "/" . $NewDir;
+          if (file_exists($ndir)) {
+            $ErrMess = $NewDir . " already exists";
+          } else {
+            umask(0);
+            $ans = mkdir ($ndir,0777,1);
+            $newrec = array('SName'=>addslashes($NewDir), 'Who'=>$USERID, 'Created'=>time(), 'Parent'=> $d);
+            Insert_db('Directories',$newrec);
             $subs = Get_SubDirList($d); // Refresh list
+          }
         }
+      } else {
+        $ErrMess = "Insufficient Priviledge";      
       }  
       break;
     case 'Delete':

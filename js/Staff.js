@@ -13,7 +13,7 @@ $.typeahead({
         }
     },
     callback: {
-	onClick: function (node, a, item, event) {
+        onClick: function (node, a, item, event) {
         }
     },
     debug: true

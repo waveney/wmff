@@ -36,9 +36,9 @@
 //    echo "<li><a href=ProgrammeDraft1.pdf>Programme Draft</a>\n";
     echo "<li><a href=StaffHelp.php>General Help</a>\n";
 
-    if (1 && Access('SysAdmin')) {
+    if (Access('SysAdmin')) {
       echo "<p>";
-      echo "<li><a href=DirRebuild.php?SC>Scan Directorys - Report File/Database discrepancies</a>";    
+      echo "<li><a href=DirRebuild.php?SC>Scan Directories - Report File/Database discrepancies</a>";    
 //      echo "<li><a href=DirRebuild.php?FI>Rebuild Directorys - Files are master</a>";
 //      echo "<li><a href=DirRebuild.php?DB>Rebuild Directorys - Database is master</a>";
     }
@@ -49,6 +49,7 @@
     echo "<ul>\n";
     echo "<li><a href=TimeLine.php?Y=$YEAR>Time Line Management</a>\n<p>";
     echo "<li>Timeline Help\n";
+    echo "<li>Timeline Stats\n";
     echo "</ul><p>\n";
 
 // *********************** MUSIC ****************************************************
@@ -112,7 +113,7 @@
       echo "<span class=typeahead__container><span class=typeahead__field>\n";
       echo "<span class=typeahead__query><input class=findaside name=sidefind type=search placeholder='Find Side' autocomplete=off></span>";
       echo "<span class=typeahead__button><button type=submit><i class=typeahead__search-icon></i></button></span>\n";
-      echo "</span></span>";
+      echo "</span>"; //</span>";
 //        echo "</form>\n"; 
     } else {
       echo "<li>Find a Side\n";
