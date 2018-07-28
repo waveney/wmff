@@ -159,14 +159,14 @@ function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field
   $str = "";
   if ($tabs) $str .= "<td $extra>"; 
   if ($Desc) $str .= "$Desc:";
-  $str .= help($field) . " ";
+  $str .= help($field) . "&nbsp;";
   if ($tabs) $str .= "<td $extra2>"; 
   $done = 0;
   foreach($defn as $i=>$d) {
     if (!$d) continue;
-    if ($done && $tabs == 2) $str.= "<br>";
+    $str.= (($done && $tabs == 2) ? "<br>" : " ");
     $done = 1;
-    if ($colours) $str .= "<span style='background:" . $colours[$i] . ";padding:4'>";
+    if ($colours) $str .= "<span style='background:" . $colours[$i] . ";padding:4; white-space: nowrap;'>";
     $str .= "<label for=$field2$i>$d:</label>";
     $ex = $extra;
     $ex = preg_replace('/###F/',("'" . $field2 . "'"),$ex);
