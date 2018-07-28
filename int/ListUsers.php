@@ -8,6 +8,8 @@
 
   $Users = Get_AllUsers(2);
 
+  echo "<button class='floatright FullD' onclick=\"($('.FullD').toggle())\">All Users</button><button class='floatright FullD' hidden onclick=\"($('.FullD').toggle())\">Curent Users</button> ";
+
   $coln = 0;
   echo "Click on the Name or User Id to edit.  Click on column to sort by column.<p>\n";
   echo "Note the first 10 are reserved for internal workings (only the first two are currently used).  ";
@@ -33,7 +35,8 @@
   echo "</thead><tbody>";
 
   foreach ($Users as $usr) {
-    echo "<tr><td>" . $usr['UserId'] . "<td><a href=AddUser.php?usernum=" . $usr['UserId'] . ">" . $usr['SName'] . "</a>";
+    echo "<tr" . (($usr['UserId']<11 || $usr['AccessLevel'] == 0)?" class=FullD hidden" : "" ) . ">";
+    echo "<td>" . $usr['UserId'] . "<td><a href=AddUser.php?usernum=" . $usr['UserId'] . ">" . $usr['SName'] . "</a>";
     echo "<td>" . $usr['Abrev'];
     echo "<td>" . $usr['Login'] . "<td>" . $usr['Email'] . "<td>" . $usr['WMFFemail'] . "<td>" . $Access_Levels[$usr['AccessLevel']];
     echo "<td>" . $usr['Roll'] . "<td>";

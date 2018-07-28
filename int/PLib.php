@@ -270,7 +270,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
 // This needs modification for non dance
 function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
   global $YEAR,$CALYEAR,$PLANYEAR,$MASTER,$Invite_States,$Coming_States,$Coming_Colours, $Mess,$Action,$ADDALL,$Invite_Type;
-  global $InsuranceStates,$Book_State,$Book_States,$ContractMethods;
+  global $InsuranceStates,$Book_State,$Book_States,$Book_Colours,$ContractMethods;
   if ($year==0) $year=$YEAR;
   if ($CatT == '') {
     $CatT = ($Side['IsASide'] ? 'Side' : $Side['IsAnAct'] ? 'Act' : 'Other');
@@ -413,7 +413,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
             echo "<td class=NotSide>Booked By: " . fm_select($AllMU,$Sidey,'BookedBy',1);
 //            Contract_State_Check($Sidey,0);
             if (1 || Access('SysAdmin')) {
-              echo fm_radio("Booking State",$Book_States,$Sidey,'YearState','class=NotSide',1,'colspan=2 class=NotSide');
+              echo fm_radio("Booking State",$Book_States,$Sidey,'YearState','class=NotSide',1,'colspan=2 class=NotSide','',$Book_Colours);
             } else {
               echo "<td class=NotSide>Booking State:" . help('YearState') . "<td class=NotSide>" . $Book_States[$Sidey['YearState']];
               echo fm_hidden('YearState',$Sidey['YearState']);
@@ -539,7 +539,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
 //******************************************************* Music YEAR ***********************************************
 function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
   global $YEAR,$CALYEAR,$PLANYEAR,$MASTER,$Invite_States,$Coming_States,$Mess,$Action,$ADDALL,$Invite_Type;
-  global $DayList,$Book_States,$Book_State,$ContractMethods,$CurYear;
+  global $DayList,$Book_States,$Book_State,$Book_Colours,$ContractMethods,$CurYear;
   include_once('ProgLib.php');
 
   if ($year==0) $year=$YEAR;
@@ -599,16 +599,19 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
         echo "<td class=NotSide>Booked By: " . fm_select($AllMU,$Sidey,'BookedBy',1);
         Contract_State_Check($Sidey,0);
         if (1 || Access('SysAdmin')) {
-          echo fm_radio("Booking State",$Book_States,$Sidey,'YearState','class=NotSide',1,'colspan=2 class=NotSide');
+          echo fm_radio("Booking State",$Book_States,$Sidey,'YearState','class=NotSide',1,'colspan=2 class=NotSide','',$Book_Colours);
         } else {
           echo "<td class=NotSide>Booking State:" . help('YearState') . "<td class=NotSide>" . $Book_States[$Sidey['YearState']];
           echo fm_hidden('YearState',$Sidey['YearState']);
         }
-      echo "<tr>". fm_number1('Fee',$Sidey,'TotalFee','class=NotCSide');
-      echo fm_text('Other payments',$Sidey,'OtherPayment',3,(isset($Sidey['OtherPayment']) && strlen($Sidey['OtherPayment'])>1?'class=NotCSide':'class=NotCSide'));
-      echo "<td class=NotSide>" . fm_checkbox("Allow Camping",$Sidey,'EnableCamp');
-      echo "<td" . ((isset($Sidey['EnableCamp']) && $Sidey['EnableCamp'])?"":" class=NotSide") . ">Camping " . fm_checkbox('Fri',$Sidey,'CampFri') . 
+      if (Access('Committee','Music') || Access('Committee','Finance')) {
+        echo "<tr>". fm_number1('Fee',$Sidey,'TotalFee','class=NotCSide');
+        echo fm_text('Other payments',$Sidey,'OtherPayment',3,(isset($Sidey['OtherPayment']) && strlen($Sidey['OtherPayment'])>1?'class=NotCSide':'class=NotCSide'));
+        echo "<td class=NotSide>" . fm_checkbox("Allow Camping",$Sidey,'EnableCamp');
+        echo "<td" . ((isset($Sidey['EnableCamp']) && $Sidey['EnableCamp'])?"":" class=NotSide") . ">Camping " . fm_checkbox('Fri',$Sidey,'CampFri') . 
                 fm_checkbox('Sat',$Sidey,'CampSat') . fm_checkbox('Sun',$Sidey,'CampSun');
+        echo "<tr class=NotCSide>" . fm_textarea('Additional Riders',$Sidey,'Rider',2,1,'class=NotCSide') ."\n";
+      }
     } else {
       echo "<tr><td>Fee:<td>&pound;" . $Sidey['TotalFee'];
       echo fm_hidden('YearState',$Sidey['YearState']);
@@ -618,6 +621,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
         echo "<td>Camping " . fm_checkbox('Fri',$Sidey,'CampFri') . fm_checkbox('Sat',$Sidey,'CampSat') . fm_checkbox('Sun',$Sidey,'CampSun');
       }
       echo fm_hidden('YearState',$Sidey['YearState']);
+      if (isset($Sidey['Rider']) && strlen($Sidey['Rider']) > 5)  echo "<tr>" . fm_textarea('Additional Riders',$Sidey,'Rider',2,1,'','disabled') ."\n";
     }
 // Events - RO to Act, RW to ctte
   $Evs = Get_Events4Act($snum,$year);
@@ -720,11 +724,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
     }
     echo "<td>" . fm_checkbox('Radio Wimborne',$Sidey,'RadioWimborne');
   }
-  if ($Mode) {
-    echo "<tr class=NotCSide>" . fm_textarea('Additional Riders',$Sidey,'Rider',2,1,'class=NotCSide') ."\n";
-  } else if (isset($Sidey['Rider']) && strlen($Sidey['Rider']) > 5) {
-    echo "<tr>" . fm_textarea('Additional Riders',$Sidey,'Rider',2,1,'','disabled') ."\n";
-  }
+
 /*
   echo "<tr><td>Parking:";
   if ($HasPark) echo fm_text("For $HasPark",$Sidey,'Parking','','colspan=2');
@@ -735,89 +735,6 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
   echo "<tr>" . fm_textarea('Notes',$Sidey,'YNotes',8,2);
   if ($Mode) echo "<tr>" . fm_textarea('Private Notes',$Sidey,'PrivNotes',8,2,'class=NotSide','class=NotSide');
 
-/*
-      if ($Mode) {
-        echo "<tr><td class=NotSide>Invite:<td class=NotSide>" . fm_select($Invite_States,$Sidey,'Invite');
-          echo fm_text('Invited',$Sidey,'Invited',1,'class=NotSide');
-      }
-
-      echo "<tr><td>";
-        if ($Mode == 0 && !$Sidey['Coming']) {
-          echo ($Sidey['Invited']?"Status:":"Expect Invitation:");
-        } else {
-          echo "Status:";
-        }
-
-        echo "<td>" . fm_select($Coming_States ,$Sidey,'Coming',0,'id=Coming_states');
-          echo fm_text("<span $Imp>How Many Performers Wristbands</span>",$Sidey,'Performers',0.5,'','onchange=updateimps()');
-          if ($Mode) {
-            echo fm_checkbox("Sent",$Sidey,"WristbandsSent"); 
-          } else {
-            if ($Sidey['WristbandsSent']) {
-                $tmp['Ignored2'] = 1;
-              echo fm_checkbox('Sent',$tmp,'Ignored2','disabled');
-            }
-            echo fm_hidden('WristbandsSent',$Sidey['WristbandsSent']);
-          }
-        if ($Mstate) {
-//          echo fm_text('QE Car Park Tickets',$Sidey,'CarPark');
-        }
-  
-      echo "<tr><td rowspan=5>Coming on:";
-        echo "<td>" . fm_checkbox('Friday',$Sidey,'Fri','onchange=ComeSwitch(event)');
-//        echo fm_text1('Daytime Spots',$Sidey,'FriDance',1,'class=ComeFri');
-        echo "<td class=ComeFri>" . fm_checkbox('Dance Friday Eve?',$Sidey,'FriEve');
-      echo "<tr>";
-        echo "<td rowspan=2>" . fm_checkbox('Saturday',$Sidey,'Sat','onchange=ComeSwitch(event)');
-        echo fm_text1('Daytime Spots',$Sidey,'SatDance',1,'class=ComeSat');
-        echo "<td class=ComeSat>" . fm_checkbox('Plus the Procession',$Sidey,'Procession');
-        echo "<td class=ComeSat>" . fm_checkbox('Dance Saturday Eve?',$Sidey,'SatEve');
-        echo "<tr>" .fm_text1('Earliest Spot',$Sidey,'SatArrive',1,'class=ComeSat');
-        echo fm_text1('Latest Spot',$Sidey,'SatDepart',1,'class=ComeSat');  
-      echo "<tr>";
-        echo "<td rowspan=2>" . fm_checkbox('Sunday',$Sidey,'Sun','onchange=ComeSwitch(event)');
-        echo fm_text1('Daytime Spots',$Sidey,'SunDance',1,'class=ComeSun');
-        echo "<tr>" .fm_text1('Earliest Spot',$Sidey,'SunArrive',1,'class=ComeSun');
-        echo fm_text1('Latest Spot',$Sidey,'SunDepart',1,'class=ComeSun');  
-
-// If Act/Other show fee feild + if set the extrafee notes.  Visible not setable to participants
-      if ($CatT != 'Side') {
-      }
-
-      echo "<tr>";
-        if ($Mstate) {
-          echo "<td colspan=3 $Imp>Select insurance file to upload:";
-          echo "<input type=file $ADDALL name=InsuranceForm id=InsuranceForm onchange=document.getElementById('InsuranceButton').click()>";
-          echo "<input hidden type=submit name=Action value=Insurance id=InsuranceButton>";
-
-          if ($Mode){
-            echo "<td>" . fm_checkbox('Insurance',$Sidey,'Insurance');
-            if ($Sidey['Insurance']) {
-              $files = glob("Insurance/Sides/$YEAR/$snum.*");
-              $Current = $files[0];
-              $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
-              echo " <a href=ShowFile.php?l=Insurance/Sides/$YEAR/$snum.$Cursfx>View</a>";
-            }
-          } else {
-            $tmp['Ignored'] = $Sidey['Insurance'];
-            echo "<td>" . fm_checkbox('Insurance Uploaded',$tmp,'Ignored','disabled');
-            }
-
-          if ($Mess && $Action == 'Insurance') echo "<td colspan=2>$Mess\n"; 
-        } else {
-            echo "<td>Insurance:<td colspan=3>You will be able to upload your Insurance here in $PLANYEAR\n";
-        }
-
-    // Overlaps...  With, Type, Days
-      if ($Mstate && 0) {
-        echo "<tr><td>Overlaps:" . help('Overlaps');
-          for ($i=1;$i<=4;$i++) {
-            $type = $Sidey["OverlapType$i"];
-            echo "<td colspan=6 id=Olap$i>" . fm_hidden("OverlapType$i",$type);
-          }
-        echo "<td colspan=6>" . fm_select(Sides_All($snum),$Sidey,'Overlap1',1);
-      }
-*/
   }
     
   echo "</table>\n";

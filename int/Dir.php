@@ -31,21 +31,25 @@
   $skip = 0;
   
   switch ($Act) {
-    case 'Create':
-      $NewDir = $_POST{'DirName'};
-      if (strlen($NewDir) < 2) {
-        $ErrMess = "Directory name too short"; 
-      } else {
-        $ndir = "Store" . Dir_FullName($d) . "/" . $NewDir;
-        if (file_exists($ndir)) {
-          $ErrMess = $NewDir . " already exists";
+    case 'Create': 
+      if ($dir) {
+        $NewDir = $_POST{'DirName'};
+        if (strlen($NewDir) < 2) {
+          $ErrMess = "Directory name too short"; 
         } else {
-          umask(0);
-          $ans = mkdir ($ndir,0777,1);
-          $newrec = array('SName'=>addslashes($NewDir), 'Who'=>$USERID, 'Created'=>time(), 'Parent'=> $d);
-          Insert_db('Directories',$newrec);
+          $ndir = "Store" . Dir_FullName($d) . "/" . $NewDir;
+          if (file_exists($ndir)) {
+            $ErrMess = $NewDir . " already exists";
+          } else {
+            umask(0);
+            $ans = mkdir ($ndir,0777,1);
+            $newrec = array('SName'=>addslashes($NewDir), 'Who'=>$USERID, 'Created'=>time(), 'Parent'=> $d);
+            Insert_db('Directories',$newrec);
             $subs = Get_SubDirList($d); // Refresh list
+          }
         }
+      } else {
+        $ErrMess = "Insufficient Priviledge";      
       }  
       break;
     case 'Delete':
@@ -342,67 +346,19 @@
     if ($d > 0) {
       $pid = $dir['Parent'];
       $pdir = Get_DirInfo($pid);
-
-      if ($pid > 0) { $name = htmlspec($pdir['SName']); }
-      else {$name = 'Documents'; };
-  
-      echo "<tr><td><a href=Dir.php?d=$pid>$name</a>";
-      echo "<td class=FullD hidden>". $AllU[$pdir['Who'] || 1];
-      echo "<td>Parent";
-      echo "<td class=FullD hidden>";
-      if (isset($pdir['Created'])) echo date('d/m/y H:i:s',$pdir['Created']);
-      echo "<td class=FullD hidden>" . ((isset($pdir['AccessLevel']) && $pdir['AccessLevel']>0) ? ($Access_Levels[$pdir['AccessLevel']]  . ": " . $pdir['AccessSections']) : "");
-      echo "<td>";
-      if ($pid > 0 && (Access('Committee','Docs') || $pdir['Who'] == $USERID || $pdir['Who'] == $USERID )) {
-        echo " <a href=Dir.php?d=$pid&Action=Rename1>Rename</a>"; 
-        echo " <a href=Dir.php?d=$pid&Action=Move1>Move</a>"; 
-        echo " <a href='Dir.php?d=$pid&Action=Delete' onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a>"; 
-        if (Access('Committee','Docs')) {
-          echo " <a href=Dir.php?d=$pid&Action=Chown1>Chown</a>"; 
-        }
-        echo " <a href=Dir.php?d=$pid&Action=Restrict1>Restrict</a>"; 
-      }
+      
+      List_dir_ent($pdir,'Parent');
     }
 
 // Self
     if ($d) {
-      echo "<tr><td><a href=Dir.php?d=$pid>" . htmlspec($dir['SName']) . "</a>";
-      echo "<td class=FullD hidden>". $AllU[$dir['Who'] || 1];
-      echo "<td>Self";
-      echo "<td class=FullD hidden>";
-      if (isset($dir['Created'])) echo date('d/m/y H:i:s',$dir['Created']);
-      echo "<td class=FullD hidden>" . ((isset($dir['AccessLevel']) && $dir['AccessLevel']>0) ? ($Access_Levels[$dir['AccessLevel']]  . ": " . $dir['AccessSections']) : "");
-      echo "<td>";
-      if (Access('Committee','Docs') || $dir['Who'] == $USERID || $dir['Who'] == $USERID ) {
-        echo " <a href=Dir.php?d=$d&Action=Rename1>Rename</a>"; 
-        echo " <a href=Dir.php?d=$d&Action=Move1>Move</a>"; 
-        echo " <a href='Dir.php?d=$d&Action=Delete' onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a>"; 
-        if (Access('Committee','Docs')) {
-          echo " <a href=Dir.php?d=$d&Action=Chown1>Chown</a>"; 
-        }
-        echo " <a href=Dir.php?d=$d&Action=Restrict1>Restrict</a>"; 
-      }
+      List_dir_ent($dir,'Self');
     }
 
 
     if ($subs) {
       foreach($subs as $sub) {
-        $pid = $sub['DirId'];
-        echo "<tr><td><a href=Dir.php?d=$pid>" . htmlspec($sub['SName']) . "</a>";
-        echo "<td class=FullD hidden>" . (isset($AllU[$sub['Who']])?$AllU[$sub['Who']]: "Unknown");
-        echo "<td>Directory";
-        echo "<td class=FullD hidden>" . date('d/m/y H:i:s',$sub['Created']);
-        echo "<td class=FullD hidden>" . ((isset($sub['AccessLevel']) && $sub['AccessLevel']>0) ? ($Access_Levels[$sub['AccessLevel']]  . ": " . $sub['AccessSections']) : "");
-        echo "<td>";
-        if (Access('Committee','Docs') || $dir['Who'] == $USERID  || $sub['Who'] == $USERID ) {
-          echo " <a href=Dir.php?d=$pid&Action=Rename1>Rename</a>"; 
-          echo " <a href=Dir.php?d=$pid&Action=Move1>Move</a>"; 
-          echo " <a href='Dir.php?d=$pid&Action=Delete' onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a>"; 
-          if (Access('Committee','Docs')) {
-            echo " <a href=Dir.php?d=$pid&Action=Chown1>Chown</a>"; 
-          }
-        echo " <a href=Dir.php?d=$pid&Action=Restrict1>Restrict</a>"; 
-        }
+        List_dir_ent($sub,'Directory');
       }
     }
 
@@ -422,7 +378,7 @@
     echo '<input type="submit" value="Create" name="Action">';
     echo "</form>\n";
 
-    SearchForm();
+    SearchForm($d);
   }
 
   dotail();

@@ -27,6 +27,7 @@ Booking - negotiations in place.
 Contract Ready - For the Act to confirm it.
 Booked - Enables listing to public.',
         'Rider'=>'Additional text to be added to the Contract',
+        'EnableCamp' => 'Note this potentially costs &pound;7 per person per night as part of your budget',
         'RadioWimborne'=>'Permission given for performances to be recorded by Radio Wimborne, and broadcast live or after the festival'
   );
   Add_Help_Table($t);

@@ -34,12 +34,12 @@ $Area_Type = array_flip($Area_Levels);
 $Sections = array( 'Docs','Dance','Stalls','Users','Venues','Music','Sponsors','Finance','Craft','Other','TLine','Bugs','Photos'); // Note fest_users fields must match
 $Importance = array('None','Some','High','Very High','Even Higher','Highest','The Queen');
 $Book_States = array('None','Declined','Booking','Contract Ready','Booked');
+$Book_Colours = ['white','salmon','yellow','orange','lime'];
 $Book_State = array_flip($Book_States);
 $InsuranceStates = array('None','Uploaded','Checked');
 $Book_Actions = array('None'=>'Book','Declined'=>'Book,Contract','Booking'=>'Contract,Decline,Cancel','Contract Ready'=>'Confirm,Decline,Cancel',
                 'Booked'=>'Cancel,Decline');
 $Book_ActionExtras = array('Book'=>'', 'Contract'=>'', 'Decline'=>'', 'Cancel'=>'', 'Confirm'=>'');
-$Book_Colour = array('None'=>'White','Declined'=>'pink','Booking'=>'yellow','Contract Ready'=>'orange','Booked'=>'lime');
 $EType_States = array('Very Early','Draft','Partial','Provisional','Complete');
 $TicketStates = array('Not Yet','Open','Closed');
 $OlapTypes = array('Dancer','Musician');
