@@ -48,6 +48,7 @@ function Forgot() {
   if (strlen($user) > 2) {
     if ($ans = Get_User($user)) {
       if ($ans['UserId'] > 9 ) { 
+        if ($ans['AccessLevel'] == 0) return "You no longer have access";
         $ans['ChangeSent'] = time();
         $ans['AccessKey'] = $rand_hash;
         Put_User($ans);

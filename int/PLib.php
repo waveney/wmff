@@ -151,7 +151,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
       echo "<tr><td>Surfaces:" . help('Surfaces') . "<td colspan=3>";
         for($st=1;$st<=5;$st++) {
           $surf = $Surfaces[$st];
-          echo "<span style='Background:" . $Surface_Colours[$st] . ";padding:4'>" .fm_checkbox($surf,$Side,"Surface_$surf") . "</span>";
+          echo "<span style='Background:" . $Surface_Colours[$st] . ";padding:4; white-space: nowrap;'>" .fm_checkbox($surf,$Side,"Surface_$surf") . "</span>";
         };
         echo "<td>Shared Spots:<td>" . fm_select($Share_Spots,$Side,'Share');
         if (!isset($Side['NoiseLevel'])) $Side['NoiseLevel']=0;
