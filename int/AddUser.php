@@ -21,6 +21,12 @@
           $User['password'] = $hash;
           $a = Put_User($User);
           break;
+        case 'Remove Access' :
+          $User['AccessLevel'] = 0;
+          $User['password'] = 'impossible2guess'; // that is not a valid password
+          $User['Roll'] = 'No Access' . date(' j/m/Y');
+          $User['Contacts'] = 0;
+          $a = Put_User($User);                 
         }
       } else {
         Update_db_post('FestUsers',$User);
@@ -79,7 +85,10 @@
     echo "</center>\n";
     echo "</form><form method=post action=AddUser.php>" . fm_hidden('UserId',$unum);
     echo " <input type=text name=NewPass size=10>";
-    echo "<input type=submit name=ACTION value='Set Password'></form>\n";
+    echo "<input type=submit name=ACTION value='Set Password'>\n";
+
+    echo "<input type=submit name=ACTION value='Remove Access' " .
+                  "onClick=\"javascript:return confirm('are you sure you want to remove this user?');\"></form> "; 
     echo "<h2><a href=Welcome.php?U=$unum>Send Welcome Email with New Password Link</a> , \n";
   } else { 
     echo "<Center><input type=Submit name=Create value='Create'></center>\n";
