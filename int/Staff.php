@@ -238,7 +238,7 @@
     echo "</ul>\n";
 
 // *********************** GENERAL ADMIN *********************************************************
-  echo "<td class=Stafftd><h2>General Admin</h2>\n";
+  echo "<td class=Stafftd><h2>General Admin/ Finance</h2>\n";
     echo "<ul>\n";
     echo "<li><a href=Login.php?ACTION=NEWPASSWD>New Password</a>\n";
     if (Access('Committee','Users')) {
@@ -252,8 +252,12 @@
     }
     if (Access('Steward')) {
       echo "<li><a href=AddBug.php>New Bug/Feature request</a>\n";
-      echo "<li><a href=ListBugs.php>List Bugs/Feature requests</a>\n";
+      echo "<li><a href=ListBugs.php>List Bugs/Feature requests</a><p>\n";
     }
+    if (Access('Committee','Finance')) {
+      echo "<li><a href=BudgetManage.php>Budget Management</a>\n";
+    }
+    echo "<li><a href=BudgetView.php>Budget View</a>\n";    
     if (Access('SysAdmin')) {
       echo "<li><a href=General.php>General Year Settings</a> \n";
       echo "<li><a href=MasterData.php>Master Data Settings</a> \n";

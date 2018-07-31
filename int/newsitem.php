@@ -7,7 +7,7 @@
   if (!is_numeric($n)) exit("Invalid News Item ");
   News_Item($n,0,2,'newsimglrg');
   echo "<br clear=all>";
-  Social_Links();
+//  Social_Links();
 
   dotail();
 ?>

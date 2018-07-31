@@ -46,7 +46,7 @@ function fm_smalltext($Name,$field,$value,$chars=4,$extra='') {
 function fm_smalltext2($Name,&$data,$field,$chars=4,$extra='') {
   global $ADDALL;
   $str = "$Name " . help($field) . "<input type=text name=$field $extra size=$chars $ADDALL";
-  if (isset($data[$field])) $str .= " value=\"" . htmlspec($value) . '"';
+  if (isset($data[$field])) $str .= " value=\"" . htmlspec($data[$field]) . '"';
   return $str  .">";
 }
 
