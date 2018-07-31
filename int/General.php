@@ -73,7 +73,25 @@
     echo "<tr><td>Priced Complete Sat:" . fm_checkbox('',$Gen,'PriceComplete1') . "<td>This and all completes surpress more to come on tickets/events\n";
     echo "<tr><td>Priced Complete Sun:" . fm_checkbox('',$Gen,'PriceComplete2') . "<td>This and all completes surpress more to come on tickets/events\n";
     echo "<tr><td>Ticket Control:<td>" . fm_select($TicketStates,$Gen,'TicketControl') . "<td>Master Ticketing control\n";
-
+    echo "<tr>" . fm_number1("Weekend Pass Price",$Gen,'WeekendPass') . fm_text("Weekend Pass Code",$Gen,'WeekendPassCode');
+    echo "<tr>" . fm_number1("Friday Pass",$Gen,'FridayPass') . fm_text("Friday Pass Code",$Gen,'FridayPassCode');
+    echo "<tr>" . fm_number1("Saturday Pass",$Gen,'SaturdayPass') . fm_text("Saturday Pass Code",$Gen,'SaturdayPassCode');
+    echo "<tr>" . fm_number1("Sunday Pass",$Gen,'SundayPass') . fm_text("Sunday Pass Code",$Gen,'SundayPassCode');
+    echo "<tr>" . fm_number1("Programme Book",$Gen,'Programme Book');
+    echo "<tr>" . fm_number1("Booking Fee",$Gen,'Booking Fee');
+    echo "<tr>" . fm_number1("Camping Cost",$Gen,'CampingCost') . "<td>This is the cost to us per night - not the public price";
+    echo "<tr>" . fm_number1("Camping Gate Fee",$Gen,'Camping Gate Fee') . "<td>This is the cost at the gate per night";
+    echo "<tr>" . fm_number1("Camping Fee 1 Night",$Gen,'CampingPrice1Day') . "<td>If any of these are zero, then it is not available";
+    echo "<tr>" . fm_number1("Camping Fee 2 Nights",$Gen,'CampingPrice2Day');
+    echo "<tr>" . fm_number1("Camping Fee 3 Nights",$Gen,'CampingPrice3Day');
+    echo "<tr>" . fm_number1("Camping Fee 4 Nights",$Gen,'CampingPrice4Day');
+    
+    echo "<tr>" . fm_text("Friday Pass",$Gen,'FridayPass');
+    echo "<tr>" . fm_text("Friday Pass",$Gen,'FridayPass');
+    echo "<tr>" . fm_text("Friday Pass",$Gen,'FridayPass');
+    echo "<tr>" . fm_text("Friday Pass",$Gen,'FridayPass');    
+    
+    
 //    $comps = array('Ceildih','Session','Workshop','Concert','Family','Comedy','Special','Craft');
 
 //    foreach($comps as $c) echo "<tr><td>$c Complete:" . fm_checkbox('',$Gen,$c . "Complete");

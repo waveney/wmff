@@ -174,8 +174,11 @@ function Get_Event_VT($v,$t,$d) {
 
 function Check_4Changes(&$Cur,&$now) {
   $tdchange = 0;
+  if (!isset($Cur['Day'])) return;
+
   if ($Cur['Day'] != $now['Day'] || $Cur['Start'] != $now['Start'] || $Cur['End'] != $now['End'] || $Cur['SlotEnd'] != $now['SlotEnd']) $tdchange = 1;
   if ($Cur['Venue'] != $now['Venue']) $tdchange = 1;
+
   for ($i=1;$i<=4;$i++) {
     if ($tdchange) {
       if ($Cur["Act$i"] != 0) { Contract_Changed_id($Cur["Act$i"]); }

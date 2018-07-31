@@ -67,8 +67,9 @@
 <div class=dropdown onmouseover=NoHoverSticky(event)>
   <a href=$host/About.php class=NotYet>About</a>
   <div class=dropdown-content>
-     <a href=$host/About.php class=NotYet>About the Festival</a>
-     <a href=$host/Wimborne.php class=NotYet>About Wimborne</a>
+     <a href=$host/AboutWMFF.php class=NotYet>About the Festival</a>
+     <a href=$host/AboutWimborne.php class=NotYet>About Wimborne</a>
+     <a href=$host/EnjoyWimborne.php class=NotYet>Enjoy Wimborne</a>
      <a href=$host/FestivalHistory.php class=NotYet>Festival History</a>
   </div>
 </div>
