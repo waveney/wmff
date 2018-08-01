@@ -4,7 +4,7 @@
 
   dostaffhead("Add/Change User");
   include_once("UserLib.php");
-  global $MASTER_DATA;
+  global $MASTER_DATA,$Sections;
 
   Set_User_Help();
 
@@ -26,6 +26,7 @@
           $User['password'] = 'impossible2guess'; // that is not a valid password
           $User['Roll'] = 'No Access' . date(' j/m/Y');
           $User['Contacts'] = 0;
+          foreach ($Sections as $sec) $User[$sec] = 0;
           $a = Put_User($User);                 
         }
       } else {

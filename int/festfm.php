@@ -112,7 +112,7 @@ function fm_hidden($field,$value,$extra='') {
 
 function fm_textarea($Name,&$data,$field,$cols=1,$rows=1,$extra1='',$extra2='') {
   global $ADDALL;
-  $str = "<td $extra1>$Name:" . help($field) . "<td colspan=$cols $extra1><textarea name=$field $ADDALL $extra2 rows=$rows cols=" .$cols*20 . ">" ;
+  $str = "<td $extra1>$Name:" . help($field) . "<td colspan=$cols $extra1><textarea name=$field $ADDALL $extra2 rows=$rows>" ;
   return $str . (isset($data[$field])?        htmlspec($data[$field]) : '' ) . "</textarea>\n";
 }
 
