@@ -391,7 +391,22 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
         if ($Sidey['Mon']) echo fm_hidden('Mon',1);
       }
       if ($Mode) {
+        include_once("BudgetLib.php");
         echo "<tr>". fm_number1('Fee',$Sidey,'TotalFee','class=NotCSide') . fm_text('Other payments',$Sidey,'OtherPayment',3,'class=NotCSide');
+        if (!isset($Sidey['BudgetArea']) || $Sidey['BudgetArea']==0) {
+          if ($Side['IsAnAct']) {
+            $Sidey['BudgetArea'] = FindBudget('Music');
+          } else if ($Side['IsASide']) {
+            $Sidey['BudgetArea'] = FindBudget('Dance');
+          }
+        }
+        $Bud = Budget_List();
+        if ($Bud) {
+          echo "<tr><td class=NotSide>Budget Area:" . help('BudgetArea') . "<td class=NotSide>" . fm_select($Bud,$Sidey,'BudgetArea');
+          echo "<td class=NotSide>Except: " . fm_select($Bud,$Sidey,'BudgetArea2') . fm_number1("Value",$Sidey,'BudgetValue2','class=NotSide','class=NotSide');
+          echo "<td class=NotSide>" . fm_select($Bud,$Sidey,'BudgetArea3') . fm_number1("Value",$Sidey,'BudgetValue3','class=NotSide','class=NotSide');
+        }
+
       } else if ($Sidey['TotalFee']) {
         echo "<tr><td>Fee:<td>&pound;" . $Sidey['TotalFee'];
         if ($Sidey['OtherPayment']) echo fm_text('Other payments',$Sidey,'OtherPayment',1,'disabled readonly');
@@ -561,7 +576,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
   $Adv = '';
   $Imp = '';
   if ($year < $PLANYEAR) { // Then it is historical - no changes allowed
-      fm_addall('disabled readonly');
+    fm_addall('disabled readonly');
   } else if ($Mode == 0) {
     $Adv = 'class=Adv';
   }
@@ -594,6 +609,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
 
     if ($Mode) {
       include_once('DocLib.php');
+      include_once('BudgetLib.php');
       $AllMU = Get_AllUsers4Sect('Music',$Sidey['BookedBy'],'Other');
       echo "<tr>";  // all NotSide (for now) invite coming, Booked by - list default current user
         echo "<td class=NotSide>Booked By: " . fm_select($AllMU,$Sidey,'BookedBy',1);
@@ -611,6 +627,19 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
         echo "<td" . ((isset($Sidey['EnableCamp']) && $Sidey['EnableCamp'])?"":" class=NotSide") . ">Camping " . fm_checkbox('Fri',$Sidey,'CampFri') . 
                 fm_checkbox('Sat',$Sidey,'CampSat') . fm_checkbox('Sun',$Sidey,'CampSun');
         echo "<tr class=NotCSide>" . fm_textarea('Additional Riders',$Sidey,'Rider',2,1,'class=NotCSide') ."\n";
+        if (!isset($Sidey['BudgetArea']) || $Sidey['BudgetArea']==0) {
+          if ($Side['IsAnAct']) {
+            $Sidey['BudgetArea'] = FindBudget('Music');
+          } else if ($Side['IsASide']) {
+            $Sidey['BudgetArea'] = FindBudget('Dance');
+          }
+        }
+        $Bud = Budget_List();
+        if ($Bud) {
+          echo "<tr><td class=NotSide>Budget Area:" . help('BudgetArea') . "<td class=NotSide>" . fm_select($Bud,$Sidey,'BudgetArea');
+          echo "<td class=NotSide>Except: " . fm_select($Bud,$Sidey,'BudgetArea2') . fm_number1("Value",$Sidey,'BudgetValue2','class=NotSide','class=NotSide');
+          echo "<td class=NotSide>" . fm_select($Bud,$Sidey,'BudgetArea3') . fm_number1("Value",$Sidey,'BudgetValue3','class=NotSide','class=NotSide');
+        }
       }
     } else {
       echo "<tr><td>Fee:<td>&pound;" . $Sidey['TotalFee'];

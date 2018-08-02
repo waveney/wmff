@@ -4,13 +4,12 @@
 
 */
 
-function Get_Budget($yr=0) {
-  global $YEAR,$db;
-  if ($yr == 0) $yr=$YEAR;
-  
+function Get_Budget() {
+  global $YEAR,$db;  
   $full = [];
-  $res = $db->query("SELECT * FROM BudgetAreas WHERE Year=$yr ORDER BY SName ");
-  if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
+  $res = $db->query("SELECT * FROM BudgetAreas WHERE Year=$YEAR ORDER BY id ");
+  if ($res) while ($spon = $res->fetch_assoc()) $full[$spon['id']] = $spon;
+  $full[0] = ['id'=>0,'SName'=>'','Year'=>$YEAR,'CommittedSoFar'=>0];
   return $full;  
 }
 
@@ -32,8 +31,81 @@ function Budget_Update($area,$value,$oldvalue=0) {
 
 }
 
-function Budget_rescan() {
+function Budget_Scan($Detail=0) {
+  global $YEAR,$db,$BUDGET,$Coming_Idx;
+  include_once("DanceLib.php");
+  $qry = "SELECT * FROM SideYear WHERE Year=$YEAR AND TotalFee>0";
+  $res = $db->query($qry);
+  if ($res) while ($sy = $res->fetch_assoc()) {
+    if (preg_match('/N/',$Coming_Idx[$sy['Coming']])) continue;
+    $Fee = $sy['TotalFee'];
+    if ($sy['BudgetArea2']) {
+      $BUDGET[$sy['BudgetArea2']]['CommittedSoFar'] += $sy['BudgetValue2'];
+      if ($Detail) $BUDGET[$sy['BudgetArea2']]['Detail'][] = [ $sy['SideId'], $sy['BudgetValue2']];
+      $Fee -= $sy['BudgetValue2'];
+    }
+    if ($sy['BudgetArea3']) {
+      $BUDGET[$sy['BudgetArea3']]['CommittedSoFar'] += $sy['BudgetValue3'];
+      if ($Detail) $BUDGET[$sy['BudgetArea3']]['Detail'][] = [ $sy['SideId'], $sy['BudgetValue3']];
+      $Fee -= $sy['BudgetValue3'];
+    }
+    $BUDGET[$sy['BudgetArea']]['CommittedSoFar'] += $Fee;
+    if ($Detail) $BUDGET[$sy['BudgetArea']]['Detail'][] = [ $sy['SideId'], $Fee];
+  }
+
+  include_once("MusicLib.php");
+  $qry = "SELECT * FROM ActYear WHERE YEAR=$YEAR AND (TotalFee>0 OR (EnableCamp=1 AND (CampFri>0 OR CampSat>0 OR CampSun>0)))";
+  $res = $db->query($qry);
+  if ($res) while ($sy = $res->fetch_assoc()) {
+    if ($sy['YearState'] < 2) continue;
+    $Fee = $sy['TotalFee'];  // PLUS CAMPING COST
+    if ($sy['BudgetArea2']) {
+      $BUDGET[$sy['BudgetArea2']]['CommittedSoFar'] += $sy['BudgetValue2'];
+      if ($Detail) $BUDGET[$sy['BudgetArea2']]['Detail'][] = [ $sy['SideId'], $sy['BudgetValue2']];
+      $Fee -= $sy['BudgetValue2'];
+    }
+    if ($sy['BudgetArea3']) {
+      $BUDGET[$sy['BudgetArea3']]['CommittedSoFar'] += $sy['BudgetValue3'];
+      if ($Detail) $BUDGET[$sy['BudgetArea3']]['Detail'][] = [ $sy['SideId'], $sy['BudgetValue3']];
+      $Fee -= $sy['BudgetValue3'];
+    }
+    $BUDGET[$sy['BudgetArea']]['CommittedSoFar'] += $Fee;
+    if ($Detail) $BUDGET[$sy['BudgetArea']]['Detail'][] = [ $sy['SideId'], $Fee];
+  }
+}
+
+global $BUDGET;
+$BUDGET = Get_Budget();
+
+function FindBudget($area) {
+  global $BUDGET;
+  foreach ($BUDGET as $i=>$b) if ($b['SName'] == $area) return $i;
+  return 0;
+}
+
+function Budget_List() {
+  global $BUDGET;
+  static $blist;
+  if ($blist || empty($BUDGET)) return $blist;
+  $blist[0]='';
+  foreach ($BUDGET as $i=>$b) $blist[$b['id']] = $b['SName'];
+  return $blist;
+}
+
+/*
+// Side snum has change - check budget effects, if present olddata is the older data
+// Check Booking State and values
+function UpdateBudget(&$newdata,&$olddata=0,$Type=0) { // Type 1 for Dance, 0 for Music/Other
+  $UNeeded = 0
+  if ($olddata)
+    if ($olddata['TotalFee'] != $newdata['TotalFee']
+  
+  } else {
+  
+  }
 
 }
+*/
+
 
 ?>
