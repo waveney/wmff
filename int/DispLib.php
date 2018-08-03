@@ -112,7 +112,7 @@ function Gallery($id,$embed=0) {
     foreach ($Imgs as $img) {
       if ($count >= $first && $count < $last) {
       
-        echo "<div class=galleryarticle><a href=/int/SlideShow.php?g=$id&s=$count><img class=galleryarticleimg src='" . $img['File'] . "'></a>";
+        echo "<div class=galleryarticle><a href=/int/SlideShow.php?g=$id&s=$count><img class=galleryarticleimg src=\"" . $img['File'] . "\"></a>";
         if ($img['Caption']) echo "<div class=gallerycaption> " . $img['Caption'] . "</div>";
         echo "</div>\n";
       }
