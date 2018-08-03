@@ -120,7 +120,7 @@
     echo fm_text1("",$g,'File',1,'','',"File$i") . "</a>";
     echo fm_text1("",$g,'Caption',1,'','',"Caption$i") . "</a>";
     echo fm_number1("",$g,'RelOrder','','',"RelOrder$i") . "</a>";
-    echo "<td><img src='" . $g['File'] . "' height=75>";
+    echo "<td><img src=\"" . $g['File'] . "\" height=75>";
     echo "\n";
   }
   echo "<tr><td><td><input type=text name=File0 >";
