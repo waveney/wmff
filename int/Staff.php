@@ -256,8 +256,9 @@
     }
     if (Access('Committee','Finance')) {
       echo "<li><a href=BudgetManage.php>Budget Management</a>\n";
+    } else {
+      echo "<li><a href=BudgetManage.php>Budget View</a>\n";
     }
-    echo "<li><a href=BudgetView.php>Budget View</a>\n";    
     if (Access('SysAdmin')) {
       echo "<li><a href=General.php>General Year Settings</a> \n";
       echo "<li><a href=MasterData.php>Master Data Settings</a> \n";

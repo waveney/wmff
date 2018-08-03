@@ -365,7 +365,10 @@ function Set_Side_Year_Help() {
         'SatArrive'=>'The earliest time (eg 1000), if blank no restrictions are assumed',
         'SatDepart'=>'The start of the last spot (eg 1600).  If blank no restictions are assumed.',
         'SunArrive'=>'The earliest time (eg 1000), if blank no restrictions are assumed',
-        'SunDepart'=>'The start of the last spot (eg 1600).  If blank no restictions are assumed.' 
+        'SunDepart'=>'The start of the last spot (eg 1600).  If blank no restictions are assumed.',
+        'BudgetArea'=>'In MOST cases nothing needs setting here as Music acts will default to Music and Dance to Dance.  
+                * IF you need to assign to a different budget change the area
+                * IF you need part of the fee to come under a different budget, you set up to 2 areas to have parts of the budget and the amount to assign'
   );
   Set_Help_Table($t);
 }
