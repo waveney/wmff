@@ -194,6 +194,7 @@ function Insert_db_post($table,&$data,$proced=1) {
 function db_delete($table,$entry) {
   global $db,$TableIndexes;
   $indxname = (isset($TableIndexes[$table])?$TableIndexes[$table]:'id');
+echo "DELETE FROM $table WHERE $indxname='$entry'<p>";
   return $db->query("DELETE FROM $table WHERE $indxname='$entry'");
 }
 
