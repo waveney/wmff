@@ -8,17 +8,17 @@
 
 <p><table cellspacing="5" cellpadding="5" style="background-color:#005983; border-color:#005983;">
 <tr>
-<th colspan="3">Applications for 2018 Festival</th>
+<th colspan="3">Applications for 2019 Festival</th>
 </tr>
 <tr>
 <td>Music</td>
-<td style="font-weight:bold; color:#cc0000;">closed</td>
-<td>Music applications are <strong>Closed</strong> for the 2018 festival.</td>
+<td style="font-weight:bold; color:#00cc00;">Open</td>
+<td>Music applications are <strong>Open</strong> for the 2019 festival.</td>
 </tr>
 <tr>
 <td>Dance</td>
 <td style="font-weight:bold; color:#00CC00;">Open</td>
-<td>Dance applications are open for the 2018 festival, please email Judith.</td>
+<td>Dance applications are open for the 2019 festival, please email Judith.</td>
 </tr>
 <tr>
 <td>Trade Stands</td>

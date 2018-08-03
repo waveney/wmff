@@ -55,6 +55,7 @@ function ImpCount($imps) {
 
 function Gallery($id,$embed=0) {
   include_once("ImageLib.php");
+  $PS = (isset($_GET['S']) ? $_GET['S'] : 50);
 
   if (is_numeric($id)) {
     $Gal = db_get('Galleries',"id='$id'");
@@ -73,16 +74,48 @@ function Gallery($id,$embed=0) {
     echo "Photos by: " . $Gal['Credits'] . "<p>";
   }
 
-  echo '<div id=galleryflex>';
 
   $Imgs = Get_Gallery_Photos($Gal['id']);
+  $ImgCount = count($Imgs);
+
+  if ($ImgCount > $PS) {
+    $Page = (isset($_GET['p']) ? $_GET['p'] : 1);
+    $lastP = ceil($ImgCount/$PS);
+    if ($Page > $lastP) $Page = $lastP;
+    echo "<div class=gallerypage>Page : ";
+    $bl = "<a href=ShowGallery.php?g=$id";
+    if ($PS != 50) $bl .= "&S=$PS";
+    $bl .= "&p=";
+    echo $bl . "1>First</a> ";
+    if ($Page > 1) echo $bl . ($Page-1) . ">Prev</a> ";
+    for ($p = 1; $p <= $lastP; $p++) { 
+      if ($p == $Page) {
+        echo "$p ";
+      } else {
+        echo $bl . $p . ">$p</a> ";
+      }
+    }
+    if ($Page != $lastP) echo $bl . ($Page+1) . ">Next</a> ";
+    echo $bl . $lastP . ">Last</a></div><p>";
+    $first = ($Page-1)*$PS;
+    $last = $first+$PS;
+  } else {
+    $first = 0;
+    $last = $PS;
+  }
+
+  echo '<div id=galleryflex>';
+
+
   $count = 0;
   if ($Imgs) {
     foreach ($Imgs as $img) {
-//      echo "<div class=galleryarticle><a href='/" . $img['File'] . "'><img class=galleryarticleimg src='" . $img['File'] . "'></a>";
-      echo "<div class=galleryarticle><a href=/int/SlideShow.php?g=$id&s=$count><img class=galleryarticleimg src='" . $img['File'] . "'></a>";
-      if ($img['Caption']) echo "<div class=gallerycaption> " . $img['Caption'] . "</div>";
-      echo "</div>\n";
+      if ($count >= $first && $count < $last) {
+      
+        echo "<div class=galleryarticle><a href=/int/SlideShow.php?g=$id&s=$count><img class=galleryarticleimg src='" . $img['File'] . "'></a>";
+        if ($img['Caption']) echo "<div class=gallerycaption> " . $img['Caption'] . "</div>";
+        echo "</div>\n";
+      }
       $count++;
     }
   } else {
@@ -91,7 +124,7 @@ function Gallery($id,$embed=0) {
 
   if ($Gal['Credits']) {
 //    echo '</div><h2 class="subtitle">Credits</h2>';
-    echo "<p>Photos by: " . $Gal['Credits'] . "<p>";
+    echo "<p></div>Photos by: " . $Gal['Credits'] . "<p>";
   }
 
   if (!$embed) dotail();

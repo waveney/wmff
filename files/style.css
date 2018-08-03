@@ -880,7 +880,7 @@ textarea:Focus
 }
 .PurpButton {
   padding:5;
-  text-size:45px;
+  font-size:20px;
   font-weight:bold;
   color:white !important;
   background:purple;
@@ -889,7 +889,7 @@ textarea:Focus
 
 .PurpSelect {
   padding:5;
-  text-size:45px;
+  font-size:20px;
   font-weight:bold;
   color:purple !important;
   background:lightgray;
