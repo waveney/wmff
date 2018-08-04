@@ -355,20 +355,13 @@ function Set_Side_Year_Help() {
         'SunDance'=>'Number of Dance spots requested on Sunday, the default assumption is 4 for Morris Sides and 3 for Stage Sides',
         'Share'=>'Do you like shared or dedicated dance spots?', 
         'CarPark'=>'Number of free car park tickets for parking at QE school (10 minute walk to square)',
-        'Overlaps'=>'If you overlap with other dance sides, musical acts or other participants this allows control of programming to prevent clashes:
-                * If the overlap is with a dance side that is known to the system, select that side, then select type of overlap,
-                * Musicans can play at the same location in consecutive times, but never three in a row,
-                * Dancers wherever possible have a 30 minute gap between dances,
-                * Major overlaps will always be avoided, Minor overlaps will be avoided if possible,
-                * If the overlap is only for part of the festival please indicate when.
-                * If the overlap is not with a currently listed side please put your overlap as a note.',
         'SatArrive'=>'The earliest time (eg 1000), if blank no restrictions are assumed',
         'SatDepart'=>'The start of the last spot (eg 1600).  If blank no restictions are assumed.',
         'SunArrive'=>'The earliest time (eg 1000), if blank no restrictions are assumed',
         'SunDepart'=>'The start of the last spot (eg 1600).  If blank no restictions are assumed.',
         'BudgetArea'=>'In MOST cases nothing needs setting here as Music acts will default to Music and Dance to Dance.  
                 * IF you need to assign to a different budget change the area
-                * IF you need part of the fee to come under a different budget, you set up to 2 areas to have parts of the budget and the amount to assign'
+                * IF you need part of the fee to come under a different budget, you set up to 2 areas to have parts of the Fee and the amount to assign'
   );
   Set_Help_Table($t);
 }

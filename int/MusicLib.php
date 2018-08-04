@@ -27,8 +27,9 @@ Booking - negotiations in place.
 Contract Ready - For the Act to confirm it.
 Booked - Enables listing to public.',
         'Rider'=>'Additional text to be added to the Contract',
-        'EnableCamp' => 'Note this potentially costs &pound;7 per person per night as part of your budget',
-        'RadioWimborne'=>'Permission given for performances to be recorded by Radio Wimborne, and broadcast live or after the festival'
+        'EnableCamp' => 'Note this will be added to the fee as part of your budget',
+        'RadioWimborne'=>'Permission given for performances to be recorded by Radio Wimborne, and broadcast live or after the festival',
+        'OtherPayment' => 'Eg A bottle of Rum.  Any costs of these are not reflected in the automated budgeting'
   );
   Add_Help_Table($t);
 }
@@ -95,17 +96,18 @@ function Add_BandMember($bid,$name) {
 function UpdateBand($id) {
   $CurBand = Get_Band($id);
   $RevBand = array();
+//  var_dump($CurBand);
 // Updates
   $bi = 0;
   if ($CurBand) foreach ($CurBand as $b) {
-    if ($CurBand['SName'] != $_POST["BandMember$bi:" . $b['BandMemId']]) {
+    if ($b['SName'] != $_POST["BandMember$bi:" . $b['BandMemId']]) {
       $b['SName'] = $_POST["BandMember$bi:" . $b['BandMemId']];
       if ($b['SName']) {
         Put_BandMember($b);
       } else {
         db_delete('BandMembers',$b['BandMemId']);
       }
-    } else if (!strlen($CurBand['SName'])) {
+    } else if (!strlen($b['SName'])) {
         db_delete('BandMembers',$b['BandMemId']);
     }
     $bi++;

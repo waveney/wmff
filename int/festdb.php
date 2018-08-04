@@ -194,7 +194,7 @@ function Insert_db_post($table,&$data,$proced=1) {
 function db_delete($table,$entry) {
   global $db,$TableIndexes;
   $indxname = (isset($TableIndexes[$table])?$TableIndexes[$table]:'id');
-echo "DELETE FROM $table WHERE $indxname='$entry'<p>";
+//echo "DELETE FROM $table WHERE $indxname='$entry'<p>";
   return $db->query("DELETE FROM $table WHERE $indxname='$entry'");
 }
 
@@ -228,6 +228,20 @@ $CALYEAR = gmdate('Y');
 $SHOWYEAR = $MASTER_DATA['ShowYear'];
 $YEAR = $PLANYEAR = $MASTER_DATA['PlanYear'];  //$YEAR can be overridden
 $MASTER_DATA['V'] = $CALYEAR . "." . $MASTER_DATA['Version'];
+
+function Feature($Name) {  // Return value of feature if set from Master_Data
+  static $Features;
+  global $MASTER_DATA;
+  if (!$Features) {
+    $Features = [];
+    foreach (explode("\n",$MASTER_DATA['Features']) as $i=>$feat) {
+      $Dat = explode(":",$feat,3);
+      if ($Dat[0])$Features[$Dat[0]] = $Dat[1];
+    }
+  }
+  if (isset($Features[$Name])) return $Features[$Name];
+  return 0;
+}
 
 function set_ShowYear() { // Overrides default above if not set by a Y argument
   global $YEAR,$SHOWYEAR,$MASTER;

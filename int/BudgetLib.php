@@ -32,7 +32,7 @@ function Budget_Update($area,$value,$oldvalue=0) {
 }
 
 function Budget_Scan($Detail=0) {
-  global $YEAR,$db,$BUDGET,$Coming_Idx;
+  global $YEAR,$db,$BUDGET,$Coming_Idx,$MASTER;
   include_once("DanceLib.php");
   $qry = "SELECT * FROM SideYear WHERE Year=$YEAR AND TotalFee>0";
   $res = $db->query($qry);
@@ -58,7 +58,9 @@ function Budget_Scan($Detail=0) {
   $res = $db->query($qry);
   if ($res) while ($sy = $res->fetch_assoc()) {
     if ($sy['YearState'] < 2) continue;
-    $Fee = $sy['TotalFee'];  // PLUS CAMPING COST
+    $Fee = $sy['TotalFee'];  
+    $Camps = ($sy['EnableCamp'] ? ($sy['CampFri'] + $sy['CampSat'] + $sy['CampSun']) * $MASTER['CampingCost'] : 0);
+    $Fee += $Camps;
     if ($sy['BudgetArea2']) {
       $BUDGET[$sy['BudgetArea2']]['CommittedSoFar'] += $sy['BudgetValue2'];
       if ($Detail) $BUDGET[$sy['BudgetArea2']]['Detail'][] = [ $sy['SideId'], $sy['BudgetValue2']];
