@@ -263,24 +263,26 @@ function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$M
   if (isset($_POST{'Update'})) {
     if ($data) foreach($data as $t) {
       $i = $t[$indxname];
-      if (isset($_POST["$Mstr$i"]) && $_POST["$Mstr$i"] == '') {
-        if ($Deletes) {
-            db_delete($table,$t[$indxname]);
-          if ($Deletes == 1) return 1;
-        }
-        continue;
-      } else {
-        foreach ($Flds as $fld=>$ftyp) {
-          if ($fld == $indxname) continue;
-          if (in_array($fld,$DateFlds)) {
-            $t[$fld] = Date_BestGuess($_POST["$fld$i"]);
-          } else if (in_array($fld,$TimeFlds)) {
-            $t[$fld] = Time_BestGuess($_POST["$fld$i"]);
-          } else if (isset($_POST["$fld$i"])) {
-            $t[$fld] = $_POST["$fld$i"];
+      if ($i) {
+        if (isset($_POST["$Mstr$i"]) && $_POST["$Mstr$i"] == '') {
+          if ($Deletes) {
+              db_delete($table,$t[$indxname]);
+            if ($Deletes == 1) return 1;
           }
+          continue;
+        } else {
+          foreach ($Flds as $fld=>$ftyp) {
+            if ($fld == $indxname) continue;
+            if (in_array($fld,$DateFlds)) {
+              $t[$fld] = Date_BestGuess($_POST["$fld$i"]);
+            } else if (in_array($fld,$TimeFlds)) {
+              $t[$fld] = Time_BestGuess($_POST["$fld$i"]);
+            } else if (isset($_POST["$fld$i"])) {
+              $t[$fld] = $_POST["$fld$i"];
+            }
+          }
+          $Putfn($t);
         }
-        $Putfn($t);
       }
     }
     if ($_POST[$Mstr . "0"] != '') {
