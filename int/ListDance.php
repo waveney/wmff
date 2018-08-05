@@ -72,6 +72,7 @@
 
     echo "</thead><tbody>";
 
+    $Dance_Comp[0] = '';
     while ($fetch = $SideQ->fetch_assoc()) {
 //      echo "<tr><td><a href=AddDance.php?sidenum=" . $fetch['SideId'] . ">" . $fetch['SideId'] . "</a>";
       echo "<tr><td><a href=AddDance.php?sidenum=" . $fetch['SideId'] . "&Y=$YEAR>" . $fetch['SName'] . "</a>";
