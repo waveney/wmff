@@ -3,7 +3,7 @@
   A_Check('Steward');
 
   dostaffhead("List Dance", "/js/clipboard.min.js","/js/emailclick.js" );
-  global $YEAR,$PLANYEAR;
+  global $YEAR,$PLANYEAR,$Dance_Comp,$Dance_Comp_Colours;
   include_once("DanceLib.php"); 
   echo "<h2>List Dance Sides $YEAR</h2>\n";
 
@@ -15,11 +15,11 @@
   foreach ($Types as $i=>$ty) $Colour[strtolower($ty['SName'])] = $ty['Colour'];
 
   if ($_GET{'SEL'} == 'ALL') {
-    $flds = "s.*, y.Invite, y.Coming";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE s.IsASide=1 ORDER BY SName");
+    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE s.IsASide=1 ORDER BY SName");
     $col5 = "Invite";
     $col6 = "Coming";
     $col7 = "Wshp";
+    if (Feature('DanceComp')) $col9 = "Dance Comp";
   } else if ($_GET{'SEL'} == 'INV') {
     $LastYear = $PLANYEAR-1;
     $flds = "s.*, ly.Invite, ly.Coming, y.Invite, y.Invited, y.Coming";
@@ -37,6 +37,7 @@
     $col6 = "Sat";
     $col7 = "Sun";
     $col8 = "Complete?";
+    if (Feature('DanceComp')) $col9 = "Dance Comp";
     $Comp = $stot = 0;
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
@@ -136,6 +137,10 @@
           if (!$fetch['Sat'] && !$fetch['Sun'] ) echo "?"; 
         }
         if ($fetch['Insurance'] == 1) echo " (Check)";
+      }
+      if ($col9 == 'Dance Comp') {
+        if (!isset($fetch['DanceComp'])) $fetch['DanceComp'] = 0;
+        echo "<td style='background:" . $Dance_Comp_Colours[$fetch['DanceComp']] . "'>" . $Dance_Comp[$fetch['DanceComp']] ;
       }
 
 //      for($i=1;$i<5;$i++) {

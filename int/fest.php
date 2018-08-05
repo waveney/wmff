@@ -22,6 +22,8 @@ $Coming_idx = array('','R','Y','N','P','NY');
 $Coming_Type = array_flip($Coming_idx);
 $Invite_States = array('','Yes','YES!','No','Maybe');
 $Invite_Type = array_flip($Invite_States);
+$Dance_Comp = ['No Opionion','Yes','No'];
+$Dance_Comp_Colours = ['white','lime','salmon'];
 $Surfaces = array ('','Tarmac','Flagstones','Grass','Stage','Brick','Wood','Carpet','Astroturf');// Last 3 not used yet
 $Surface_Colours = ['','grey','Khaki','lightgreen','Peru','salmon','Peru','Teal','lime'];
 $Side_Statuses = array("Alive","Dead");
@@ -261,6 +263,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
   } else if (isset($data['Tid'])) {
     $id = $data['Tid'];
   }
+  if (!isset($id)) return "";
 
   $link = "'mailto:$email?from=" . $USER['Email'] .
          "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SName']) . "'";

@@ -270,7 +270,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
 // This needs modification for non dance
 function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
   global $YEAR,$CALYEAR,$PLANYEAR,$MASTER,$Invite_States,$Coming_States,$Coming_Colours, $Mess,$Action,$ADDALL,$Invite_Type;
-  global $InsuranceStates,$Book_State,$Book_States,$Book_Colours,$ContractMethods;
+  global $InsuranceStates,$Book_State,$Book_States,$Book_Colours,$ContractMethods,$Dance_Comp,$Dance_Comp_Colours;
   if ($year==0) $year=$YEAR;
   if ($CatT == '') {
     $CatT = ($Side['IsASide'] ? 'Side' : $Side['IsAnAct'] ? 'Act' : 'Other');
@@ -390,6 +390,9 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
         if ($Sidey['Thur']) echo fm_hidden('Thur',1);
         if ($Sidey['Mon']) echo fm_hidden('Mon',1);
       }
+      if (Feature('DanceComp')) echo "<tr>" . fm_radio("Would you be interested taking part in a North West Morris dance competition?", $Dance_Comp,$Sidey,'DanceComp',
+                                     'colspan=3',1,'colspan=3','',$Dance_Comp_Colours);
+                                     
       if ($Mode) {
         include_once("BudgetLib.php");
         echo "<tr>". fm_number1('Fee',$Sidey,'TotalFee','class=NotCSide') . fm_text('Other payments',$Sidey,'OtherPayment',3,'class=NotCSide');
