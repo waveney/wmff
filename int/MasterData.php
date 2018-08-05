@@ -17,10 +17,13 @@
   echo "<tr>" . fm_number("Version",$MASTER_DATA,'Version');
   echo "<tr>" . fm_number("Show Year",$MASTER_DATA,'ShowYear');
   echo "<tr>" . fm_number("Plan Year",$MASTER_DATA,'PlanYear');
+  echo "<tr>" . fm_textarea("Features",$MASTER_DATA,'Features',4,10);
   echo "</table>\n";
 
   echo "<Center><input type=Submit name='Update' value='Update'></center>\n";
   echo "</form>\n";
+  
+  echo "Features: Separate features by lines then Name:Value:Comment<p>";
  
   dotail();
 

@@ -30,7 +30,7 @@
 
   if ($_GET{'SEL'} == 'ALL') {
     $flds = "y.*, s.*";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN ActYear as y ON s.SideId=y.SideId WHERE $TypeSel ORDER BY SName");
+    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN ActYear as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE $TypeSel ORDER BY SName");
     $col5 = "Book State";
     $col6 = "Actions";
   } else if ($_GET{'SEL'} == 'INV') {

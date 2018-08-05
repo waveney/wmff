@@ -8,7 +8,7 @@
   include_once("DateTime.php");
   $Dates = array('PriceChange1','PriceChange2');
 
-  echo "<div class='content'><h2>General Settings and Global Actions</h2>\n";
+  echo "<div class='content'><h2>General Year Settings</h2>\n";
   
   function Put_General($now) {
     $y=$data['Year'];
@@ -77,20 +77,20 @@
     echo "<tr>" . fm_number1("Friday Pass",$Gen,'FridayPass') . fm_text("Friday Pass Code",$Gen,'FridayPassCode');
     echo "<tr>" . fm_number1("Saturday Pass",$Gen,'SaturdayPass') . fm_text("Saturday Pass Code",$Gen,'SaturdayPassCode');
     echo "<tr>" . fm_number1("Sunday Pass",$Gen,'SundayPass') . fm_text("Sunday Pass Code",$Gen,'SundayPassCode');
-    echo "<tr>" . fm_number1("Programme Book",$Gen,'Programme Book');
-    echo "<tr>" . fm_number1("Booking Fee",$Gen,'Booking Fee');
+    echo "<tr>" . fm_number1("Programme Book",$Gen,'ProgrammeBook');
+    echo "<tr>" . fm_number1("Booking Fee",$Gen,'BookingFee');
     echo "<tr>" . fm_number1("Camping Cost",$Gen,'CampingCost') . "<td>This is the cost to us per night - not the public price";
-    echo "<tr>" . fm_number1("Camping Gate Fee",$Gen,'Camping Gate Fee') . "<td>This is the cost at the gate per night";
+    echo "<tr>" . fm_number1("Camping Gate Fee",$Gen,'CampingGateFee') . "<td>This is the cost at the gate per night";
     echo "<tr>" . fm_number1("Camping Fee 1 Night",$Gen,'CampingPrice1Day') . "<td>If any of these are zero, then it is not available";
     echo "<tr>" . fm_number1("Camping Fee 2 Nights",$Gen,'CampingPrice2Day');
     echo "<tr>" . fm_number1("Camping Fee 3 Nights",$Gen,'CampingPrice3Day');
-    echo "<tr>" . fm_number1("Camping Fee 4 Nights",$Gen,'CampingPrice4Day');
-    
+    echo "<tr>" . fm_number1("Camping Fee 4 Nights",$Gen,'CampingPrice4Day'); // Missing all the Codes for camping
+/*    
     echo "<tr>" . fm_text("Friday Pass",$Gen,'FridayPass');
     echo "<tr>" . fm_text("Friday Pass",$Gen,'FridayPass');
     echo "<tr>" . fm_text("Friday Pass",$Gen,'FridayPass');
     echo "<tr>" . fm_text("Friday Pass",$Gen,'FridayPass');    
-    
+   */ 
     
 //    $comps = array('Ceildih','Session','Workshop','Concert','Family','Comedy','Special','Craft');
 

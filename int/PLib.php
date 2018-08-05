@@ -270,7 +270,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
 // This needs modification for non dance
 function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
   global $YEAR,$CALYEAR,$PLANYEAR,$MASTER,$Invite_States,$Coming_States,$Coming_Colours, $Mess,$Action,$ADDALL,$Invite_Type;
-  global $InsuranceStates,$Book_State,$Book_States,$Book_Colours,$ContractMethods;
+  global $InsuranceStates,$Book_State,$Book_States,$Book_Colours,$ContractMethods,$Dance_Comp,$Dance_Comp_Colours;
   if ($year==0) $year=$YEAR;
   if ($CatT == '') {
     $CatT = ($Side['IsASide'] ? 'Side' : $Side['IsAnAct'] ? 'Act' : 'Other');
@@ -390,6 +390,9 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
         if ($Sidey['Thur']) echo fm_hidden('Thur',1);
         if ($Sidey['Mon']) echo fm_hidden('Mon',1);
       }
+      if (Feature('DanceComp')) echo "<tr>" . fm_radio("Would you be interested taking part in a North West Morris dance competition?", $Dance_Comp,$Sidey,'DanceComp',
+                                     'colspan=3',1,'colspan=3','',$Dance_Comp_Colours);
+                                     
       if ($Mode) {
         include_once("BudgetLib.php");
         echo "<tr>". fm_number1('Fee',$Sidey,'TotalFee','class=NotCSide') . fm_text('Other payments',$Sidey,'OtherPayment',3,'class=NotCSide');
@@ -623,9 +626,21 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
       if (Access('Committee','Music') || Access('Committee','Finance')) {
         echo "<tr>". fm_number1('Fee',$Sidey,'TotalFee','class=NotCSide');
         echo fm_text('Other payments',$Sidey,'OtherPayment',3,(isset($Sidey['OtherPayment']) && strlen($Sidey['OtherPayment'])>1?'class=NotCSide':'class=NotCSide'));
-        echo "<td class=NotSide>" . fm_checkbox("Allow Camping",$Sidey,'EnableCamp');
-        echo "<td" . ((isset($Sidey['EnableCamp']) && $Sidey['EnableCamp'])?"":" class=NotSide") . ">Camping " . fm_checkbox('Fri',$Sidey,'CampFri') . 
-                fm_checkbox('Sat',$Sidey,'CampSat') . fm_checkbox('Sun',$Sidey,'CampSun');
+        if (Feature('CampControl')) {
+          $campxtr =  ((Feature('CampControl') ==2 )? " class=NotCSide":'');
+          echo "<tr>";
+          if ($campxtr) {
+            echo "<td $campxtr>Camping numbers:" . fm_number1('Fri',$Sidey,'CampFri',$campxtr) . 
+                  fm_number1('Sat',$Sidey,'CampSat',$campxtr) . fm_number1('Sun',$Sidey,'CampSun',$campxtr);
+
+          } else {
+            echo "<td class=NotSide>" . fm_checkbox("Allow Camping",$Sidey,'EnableCamp','onchange="($(\'.CampDay\').toggle())"'); 
+            $pcamp = " Class=CampDay " . ($Sidey['EnableCamp']? '' : ' hidden');         
+            echo "<td $pcamp>Camping numbers:" . fm_number1('Fri',$Sidey,'CampFri',$pcamp) . 
+                  fm_number1('Sat',$Sidey,'CampSat',$pcamp) . fm_number1('Sun',$Sidey,'CampSun',$pcamp);
+
+          }
+        };
         echo "<tr class=NotCSide>" . fm_textarea('Additional Riders',$Sidey,'Rider',2,1,'class=NotCSide') ."\n";
         if (!isset($Sidey['BudgetArea']) || $Sidey['BudgetArea']==0) {
           if ($Side['IsAnAct']) {
@@ -645,9 +660,16 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
       echo "<tr><td>Fee:<td>&pound;" . $Sidey['TotalFee'];
       echo fm_hidden('YearState',$Sidey['YearState']);
       if ($Sidey['OtherPayment']) echo fm_text('Other payments',$Sidey,'OtherPayment',1,'','readonly disabled');
-      if ($Sidey['EnableCamp']) { 
+      if ($Sidey['EnableCamp'] && Feature('CampControl')) { 
         echo fm_hidden('EnableCamp',$Sidey['EnableCamp']);
-        echo "<td>Camping " . fm_checkbox('Fri',$Sidey,'CampFri') . fm_checkbox('Sat',$Sidey,'CampSat') . fm_checkbox('Sun',$Sidey,'CampSun');
+        if (Feature('CampControl') == 2 ) {
+          echo "<tr><td>Camping numbers:" . fm_number1('Fri',$Sidey,'CampFri') . fm_number1('Sat',$Sidey,'CampSat') . fm_number1('Sun',$Sidey,'CampSun');
+        } else {
+          echo "<tr><td>Camping numbers:";
+          if ($Sidey['CampFri']) echo "<td>Friday: " . $Sidey['CampFri'];
+          if ($Sidey['CampSat']) echo "<td>Saturday: " . $Sidey['CampSat'];
+          if ($Sidey['CampSun']) echo "<td>Sunday: " . $Sidey['CampSun'];
+        }
       }
       echo fm_hidden('YearState',$Sidey['YearState']);
       if (isset($Sidey['Rider']) && strlen($Sidey['Rider']) > 5)  echo "<tr>" . fm_textarea('Additional Riders',$Sidey,'Rider',2,1,'','disabled') ."\n";
