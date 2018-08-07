@@ -105,6 +105,7 @@
     if (Access('Staff','Dance')) {
       echo "<li><a href=AddDance.php?Y=$YEAR>Add Dance Side to Database</a>"; 
     }
+    if (Access('SysAdmin')) echo "<li><a href=CreatePerf.php?T=Dance>Create Dance Side</a>";
 
 //      echo "<li><input class=typeahead type=text placeholder='Find a Side'>\n";
     if (0 && Access('SysAdmin')) {

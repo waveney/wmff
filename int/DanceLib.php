@@ -500,6 +500,18 @@ function Side_ShortName($si) {
   return $side[($side['ShortName']?'ShortName':'SName')];
 }
 
+// Ignore case and -> &, ommit | add 'The'
+function Find_Perf_Similar($name) {
+  global $db;
+  $name = strtolower($name);
+  $name = preg_replace('/^the /','',$name);
+  $res = $db->query("SELECT * FROM Sides WHERE SName LIKE '%$name%'");
+  if (!$res) return [];
+  $sims = [];
+  while ($rec = $res->fetch()) $sims[] = $rec;
+  return $sims;
+}
+
 
 function EventCmp($a,$b) {
   if ($a['Day'] != $b['Day'] ) return (($a['Day'] < $b['Day']) ? -1 : 1);
