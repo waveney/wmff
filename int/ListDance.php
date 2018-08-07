@@ -15,7 +15,7 @@
   foreach ($Types as $i=>$ty) $Colour[strtolower($ty['SName'])] = $ty['Colour'];
 
   if ($_GET{'SEL'} == 'ALL') {
-    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE s.IsASide=1 ORDER BY SName");
+    $SideQ = $db->query("SELECT s.*, y.*, s.SideId FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE s.IsASide=1 ORDER BY SName");
     $col5 = "Invite";
     $col6 = "Coming";
     $col7 = "Wshp";
@@ -72,7 +72,9 @@
 
     echo "</thead><tbody>";
 
+    $Dance_Comp[0] = '';
     while ($fetch = $SideQ->fetch_assoc()) {
+//if ($fetch['SName'] == 'apples') var_dump($fetch);
 //      echo "<tr><td><a href=AddDance.php?sidenum=" . $fetch['SideId'] . ">" . $fetch['SideId'] . "</a>";
       echo "<tr><td><a href=AddDance.php?sidenum=" . $fetch['SideId'] . "&Y=$YEAR>" . $fetch['SName'] . "</a>";
       if ($fetch['SideStatus']) {
