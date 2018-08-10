@@ -24,7 +24,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
 
   if ( isset($Side['Photo']) && ($Side['Photo'])) echo "<img class=floatright src=" . $Side['Photo'] . " height=80>\n";
   echo "<input  class=floatright type=Submit name='Update' value='Save Changes' form=mainform>";
-  if ($Mode && isset($Side['Email']) && strlen($Side['Email']) > 5) {
+  if ($Mode && ((isset($Side['Email']) && strlen($Side['Email']) > 5) || (isset($Side['AltEmail']) && strlen($Side['AltEmail']) > 5)) )  {
     echo "If you click on the ";
     if (isset($Side['HasAgent']) && $Side['HasAgent']) {
       echo linkemailhtml($Side,'Side','Agent','Agents');
@@ -32,7 +32,10 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
     } else {
       if (isset($Side['Email'])) echo linkemailhtml($Side,'Side','!!');
     }
-    if (isset($Side['AltEmail']) && $Side['AltEmail']) echo " or " . linkemailhtml($Side,'Side','Alt');
+    if (isset($Side['AltEmail']) && $Side['AltEmail']) {
+      if ($Side['Email']) echo " or ";
+      echo linkemailhtml($Side,'Side','Alt');
+    }
     echo ", press control-V afterwards to paste the <button type=button onclick=Copy2Div('Email$snum','SideLink$snum')>standard link</button>";
 
 // ADD CODE TO ONLY PROVIDE PROGRAMME WHEN AVAIL - Dance only?

@@ -90,7 +90,7 @@
       }
       if ($_GET{'SEL'}) {
         echo "<td>" . ($fetch['HasAgent']?$fetch['AgentName']:$fetch['Contact']);
-        echo "<td>" . linkemailhtml($fetch,'Act');
+        echo "<td>" . linkemailhtml($fetch,'Act',(!$fetch['Email'] && $fetch['AltEmail']? 'Alt' : '' ));
       } 
 
       $State = $fetch['YearState'];

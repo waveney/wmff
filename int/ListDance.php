@@ -99,7 +99,7 @@
       if ($_GET{'SEL'}) {
         echo "<td>" . $fetch['Contact'];
 //        echo "<td><a href=mailto:" . Clean_Email($fetch['Email']) . ">" . $fetch['Email'] . "</a>";
-        echo "<td>" . linkemailhtml($fetch);
+        echo "<td>" . linkemailhtml($fetch,'Side',(!$fetch['Email'] && $fetch['AltEmail']? 'Alt' : '' ));
       } 
       if ($col5 == "Invite") {
         echo "<td>";
