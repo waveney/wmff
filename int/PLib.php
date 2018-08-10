@@ -635,7 +635,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
 
           } else {
             echo "<td class=NotSide>" . fm_checkbox("Allow Camping",$Sidey,'EnableCamp','onchange="($(\'.CampDay\').toggle())"'); 
-            $pcamp = " Class=CampDay " . ($Sidey['EnableCamp']? '' : ' hidden');         
+            $pcamp = " Class=CampDay " . ((isset($Sidey['EnableCamp']) && $Sidey['EnableCamp'])? '' : ' hidden');         
             echo "<td $pcamp>Camping numbers:" . fm_number1('Fri',$Sidey,'CampFri',$pcamp) . 
                   fm_number1('Sat',$Sidey,'CampSat',$pcamp) . fm_number1('Sun',$Sidey,'CampSun',$pcamp);
 
