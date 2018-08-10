@@ -86,7 +86,7 @@
 
       echo "<td>";
         if (strlen($fetch['Website'])>6) echo weblink($fetch['Website'],'Web','target=_blank');
-      echo "<td>" . linkemailhtml($fetch,'Side','','ReportTed(event)');
+      echo "<td>" . linkemailhtml($fetch,'Side',(!$fetch['Email'] && $fetch['AltEmail']? 'Alt' : '' ),'ReportTed(event)');
       echo "<td>";
       if (isset($fetch['LyInvite'])) echo $Invite_States[$fetch['LyInvite']];
 

@@ -305,7 +305,7 @@ function Set_Side_Help() {
         'SName'=>'To appear on website and in the programme',
         'ShortName'=>'IF the sides name is more than 20 characters, give a short form to appear on the Grid.',
         'Type'=>'For example North West, Border',
-        'Importance'=>'Only raise the importance for those that really need it.  They get front billing and bigger fonts in publicity',
+        'Importance'=>'Only raise the importance for those that really need it.  They get front billing and bigger fonts in publicity.  Under normal circumstances at most 3 should be Very High. Higher values are for the late addition of surprise headline acts.',
         'OverlapsD'=>'Sides that share Dancers - Where possible, there will be a 30 minute gap between any spot by any of these sides',
         'OverlapsM'=>'Sides that share Musicians - These can perform at the same spot at the same time, or consecutive times',
         'Blurb'=>'Longer description, for the webpage on the festival website about the side, only seen when a user clicks a link for more info on them - OPTIONAL',
@@ -503,15 +503,20 @@ function Side_ShortName($si) {
 // Ignore case and -> &, ommit | add 'The'
 function Find_Perf_Similar($name) {
   global $db;
-  $name = strtolower($name);
+  $name = strtolower(trim($name));
   $name = preg_replace('/^the /','',$name);
+  $name = preg_replace('/ morris/',' ',$name);
+  $name = preg_replace('/ band/',' ',$name);
+  $name = preg_replace('/ and /',' ',$name);
+  $name = preg_replace('/ & /',' ',$name);
+  $name = trim($name);
+
   $res = $db->query("SELECT * FROM Sides WHERE SName LIKE '%$name%'");
   if (!$res) return [];
   $sims = [];
-  while ($rec = $res->fetch()) $sims[] = $rec;
+  while ($rec = $res->fetch_assoc()) $sims[] = $rec;
   return $sims;
 }
-
 
 function EventCmp($a,$b) {
   if ($a['Day'] != $b['Day'] ) return (($a['Day'] < $b['Day']) ? -1 : 1);
