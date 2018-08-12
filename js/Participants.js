@@ -154,3 +154,48 @@ function SetDSize(D,siz,fld) {
   document.getElementById(D).innerHTML = "<b>(" + len + "/" + siz + ")</b>";
 }
 
+function AutoInput(f) {
+  debugger;
+  var newval = document.getElementById(f).value;
+  var yearval = (document.getElementById('Year') ? (document.getElementById('Year').value || 0) : 0);
+  var typeval = document.getElementById('AutoType').value;
+  var refval = document.getElementById('AutoRef').value;
+  var dbg = document.getElementById('Debug');
+  if (dbg) {
+    $.post("formfill.php", {'D':typeval, 'F':f, 'V':newval, 'Y':yearval, 'I':refval}, function( data ) { $('#Debug').html( data)});
+  } else {
+    $.post("formfill.php", {'D':typeval, 'F':f, 'V':newval, 'Y':yearval, 'I':refval});
+  }
+}
+
+function AutoCheckBoxInput(f) {
+  debugger;
+  var newval = document.getElementById(f).value;
+  newval = (newval == 'on')?1:0; 
+  var yearval = (document.getElementById('Year') ? (document.getElementById('Year').value || 0) : 0);
+  var typeval = document.getElementById('AutoType').value;
+  var refval = document.getElementById('AutoRef').value;
+  var dbg = document.getElementById('Debug');
+  if (dbg) {
+    $.post("formfill.php", {'D':typeval, 'F':f, 'V':newval, 'Y':yearval, 'I':refval}, function( data ) { $('#Debug').html( data)});
+  } else {
+    $.post("formfill.php", {'D':typeval, 'F':f, 'V':newval, 'Y':yearval, 'I':refval});
+  }
+}
+
+function AutoRadioInput(f,i) {
+  debugger;
+  var newval = document.getElementById(f+i).value;
+  var yearval = (document.getElementById('Year') ? (document.getElementById('Year').value || 0) : 0);
+  var typeval = document.getElementById('AutoType').value;
+  var refval = document.getElementById('AutoRef').value;
+  var dbg = document.getElementById('Debug');
+  if (dbg) {
+    $.post("formfill.php", {'D':typeval, 'F':f, 'V':newval, 'Y':yearval, 'I':refval}, function( data ) { $('#Debug').html( data)});
+  } else {
+    $.post("formfill.php", {'D':typeval, 'F':f, 'V':newval, 'Y':yearval, 'I':refval});
+  }
+}
+
+
+

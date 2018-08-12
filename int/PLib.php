@@ -60,8 +60,10 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
 
 //********* PUBLIC
 
+
   echo "<form method=post id=mainform enctype='multipart/form-data' action=$Form>";
   echo "<table width=90% border class=SideTable>\n";
+    Register_AutoUpdate('Performer',$snum);
     echo "<tr><th colspan=8><b>Public Information</b>" . Help('PublicInfo');
     echo "<tr>" . fm_text(($Side['IsASide']?'Team Name':'Act Name'), $Side,'SName',3,'','autocomplete=off onchange=nameedit(event) oninput=nameedit(event) id=SName');
       $snx = 'class=ShortName';
@@ -261,11 +263,10 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
           echo "<td class=NotSide><a href=Direct.php?id=$snum&key=" . $Side['AccessKey'] . "&Y=$YEAR>Use</a>" . help('Testing');
         }
       }
-    }
-
-    if ($Mode) {
       echo "<tr>" . fm_textarea('Notes',$Side,'Notes',7,2,'class=NotSide','class=NotSide');
     }
+  if (file_exists("testing") || Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=6 class=NotSide><textarea id=Debug></textarea>";
+
   echo "</table>\n";
 }
 

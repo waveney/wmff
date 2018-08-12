@@ -33,11 +33,11 @@ var InfoPaneDefault = '';
         var id = "G:" + vens[v] + ":" + t + ":0";
         var nloc = document.getElementById(id);
         if (!nloc.hasAttribute("hidden") && !nloc.hasAttribute("rowspan")) {
-	// check visibility of the 4 rows and work out the one to unhide
-	  for ( var unhide=1;unhide<4;unhide++) {
-	    if (document.getElementById("G:" + vens[v] + ":" + t + ":" + unhide).hasAttribute("hidden")) break;
-	  }
-	  break;
+        // check visibility of the 4 rows and work out the one to unhide
+          for ( var unhide=1;unhide<4;unhide++) {
+            if (document.getElementById("G:" + vens[v] + ":" + t + ":" + unhide).hasAttribute("hidden")) break;
+          }
+          break;
         }
       }
       for (var i=1;i<unhide;i++) document.getElementById(gp + i).removeAttribute("hidden");
@@ -82,7 +82,7 @@ var InfoPaneDefault = '';
     } 
     if (dstmtch) UpdateGrid(dst,SideNum,Txt);
     if (!sand) $("#InformationPane").load("dpupdate.php", "D=" + dst.id + "&S=" + src.id + "&I=" + SideNum + "&A=" + $("#DayId").text() + "&E=" + 
-			$("input[type='radio'][name='EInfo']:checked").val()	);
+                        $("input[type='radio'][name='EInfo']:checked").val()        );
   }
 
 // Prob working new
@@ -150,11 +150,11 @@ var InfoPaneDefault = '';
       var id = "G:" + vens[v] + ":" + t + ":0";
       var loc = document.getElementById(id);
       if (!loc.hasAttribute("hidden") && !loc.hasAttribute("rowspan")) {
-	// check visibility of the 4 rows and work out the one to unhide
-	for ( var unhide=1;unhide<4;unhide++) {
-	  if (document.getElementById("G:" + vens[v] + ":" + t + ":" + unhide).hasAttribute("hidden")) break;
-	}
-	break;
+        // check visibility of the 4 rows and work out the one to unhide
+        for ( var unhide=1;unhide<4;unhide++) {
+          if (document.getElementById("G:" + vens[v] + ":" + t + ":" + unhide).hasAttribute("hidden")) break;
+        }
+        break;
       }
     }
     for (var v in vens) {

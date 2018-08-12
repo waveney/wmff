@@ -56,7 +56,7 @@
   $USER{'UserId'} = $USERID = $id;
 
   $_GET['id'] = $id;
-  dostaffhead($CakeTypes[$t]);
+  dostaffhead($CakeTypes[$t],"/js/Participants.js");
   include_once($includes[$t]); // Should not return
   dotail();
 ?>
