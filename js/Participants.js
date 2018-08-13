@@ -160,12 +160,15 @@ function AutoInput(f) {
   var yearval = (document.getElementById('Year') ? (document.getElementById('Year').value || 0) : 0);
   var typeval = document.getElementById('AutoType').value;
   var refval = document.getElementById('AutoRef').value;
-  var dbg = document.getElementById('Debug');
-  if (dbg) {
-    $.post("formfill.php", {'D':typeval, 'F':f, 'V':newval, 'Y':yearval, 'I':refval}, function( data ) { $('#Debug').html( data)});
-  } else {
-    $.post("formfill.php", {'D':typeval, 'F':f, 'V':newval, 'Y':yearval, 'I':refval});
-  }
+  $.post("formfill.php", {'D':typeval, 'F':f, 'V':newval, 'Y':yearval, 'I':refval}, function( data ) {
+    var m = data.match(/^@(.*)@/);
+    if (m) {
+      var elem = document.getElementById(f);
+      elem.id = m[1];
+    }
+    var dbg = document.getElementById('Debug');
+    if (dbg) $('#Debug').html( data) ;  
+  });
 }
 
 function AutoCheckBoxInput(f) {
