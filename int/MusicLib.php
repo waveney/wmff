@@ -90,7 +90,7 @@ function Put_BandMember($memb) {
 
 function Add_BandMember($bid,$name) {
   $ar = array('BandId'=>$bid,'SName'=>$name);
-  Insert_db('BandMembers',$ar);
+  return Insert_db('BandMembers',$ar);
 }
 
 function UpdateBand($id) {
