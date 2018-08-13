@@ -77,7 +77,7 @@
 //if ($fetch['SName'] == 'apples') var_dump($fetch);
 //      echo "<tr><td><a href=AddDance.php?sidenum=" . $fetch['SideId'] . ">" . $fetch['SideId'] . "</a>";
       echo "<tr><td><a href=AddDance.php?sidenum=" . $fetch['SideId'] . "&Y=$YEAR>" . $fetch['SName'] . "</a>";
-echo " " . $fetch['syId'];
+//echo " " . $fetch['syId'];
       if ($fetch['SideStatus']) {
         echo "<td>DEAD";
       } else {
