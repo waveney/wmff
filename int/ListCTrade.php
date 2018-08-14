@@ -47,7 +47,7 @@
   $res = $db->query($qry);
   $totfee = $totrec = $totsub = 0;
 
-  $Acts = Access('Committee','Stalls');
+  $Acts = Access('Committee','Trade');
   if (!$res || $res->num_rows==0) {
     echo "<h2>No Traders Found</h2>\n";
   } else {
