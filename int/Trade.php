@@ -1,6 +1,6 @@
 <?php
   include_once("fest.php");
-  A_Check('Committee','Stalls');
+  A_Check('Committee','Trade');
 
   dostaffhead("Trade Stall Booking", "/js/Participants.js");
 

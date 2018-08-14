@@ -158,12 +158,12 @@
 
 // *********************** STALLS & SPONSORS  ****************************************************
   echo "<tr>";
-  echo "<td class=Stafftd><h2>Stalls and Sponsors</h2>\n";
+  echo "<td class=Stafftd><h2>Trade and Sponsors</h2>\n";
     echo "<ul>\n";
       echo "<li><a href=ListCTrade.php?Y=$YEAR>List Active Traders This Year</a>\n";
       echo "<li><a href=ListTrade.php?Y=$YEAR>List All Traders</a>\n";
       echo "<li><a href=TradeFAQ.php>Trade FAQ</a>\n";
-    if (Access('Staff','Stalls')) {
+    if (Access('Staff','Trade')) {
       echo "<li><a href=Trade.php?Y=$YEAR>Add Trader</a>\n";
       echo "<li><a href=ListCTrade.php?Y=$YEAR&SUM>Traders Summary</a>\n";
       echo "<li><a href=TradeLocs.php>Trade Locations</a>\n";
