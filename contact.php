@@ -12,8 +12,8 @@
 </tr>
 <tr>
 <td>Music</td>
-<td style="font-weight:bold; color:#00cc00;">Open</td>
-<td>Music applications are <strong>Open</strong> for the 2019 festival.</td>
+<td style="font-weight:bold; color:orange;">Opening soon</td>
+<td>Music applications are <strong>Opening soon</strong> for the 2019 festival.</td>
 </tr>
 <tr>
 <td>Dance</td>
