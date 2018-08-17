@@ -21,6 +21,7 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0) { //$to can be single a
     $email->isSMTP();
     $email->Host = $MASTER_DATA['HostURL'];
     $email->SMTPAuth = true;
+    $email->AuthType = 'LOGIN';
     $email->From = $email->Username = $MASTER_DATA['SMTPuser'] . "@" . $MASTER_DATA['HostURL'];
     $email->Password = $MASTER_DATA['SMTPpwd'];
     $email->SMTPSecure = 'tls';
