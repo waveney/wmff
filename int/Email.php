@@ -25,6 +25,7 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0) { //$to can be single a
     $email->Password = $MASTER_DATA['SMTPpwd'];
     $email->SMTPSecure = 'tls';
     $email->Port = 587;
+    $email->SMTPOptions = ['ssl' => [ 'verify_peer' => false, 'verify_peer_name' => false, 'allow_self_signed' => true]];
     
     if (is_array($to)) {
       if (is_array($to[0])) {
