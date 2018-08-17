@@ -17,6 +17,9 @@
   echo "<tr>" . fm_number("Version",$MASTER_DATA,'Version');
   echo "<tr>" . fm_number("Show Year",$MASTER_DATA,'ShowYear');
   echo "<tr>" . fm_number("Plan Year",$MASTER_DATA,'PlanYear');
+  echo "<tr>" . fm_text("Host URL",$MASTER_DATA,'HostURL');
+  echo "<tr>" . fm_text("SMTP user",$MASTER_DATA,'SMTPuser');
+  echo "<tr>" . fm_text("SMTP password",$MASTER_DATA,'SMTPpwd');
   echo "<tr>" . fm_textarea("Features",$MASTER_DATA,'Features',4,10);
   echo "</table>\n";
 
