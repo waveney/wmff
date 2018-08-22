@@ -253,7 +253,7 @@
   echo "<tr>";
   echo "<td class=Stafftd><h2>General Admin/ Finance</h2>\n";
     echo "<ul>\n";
-    echo "<li><a href=Login.php?ACTION=NEWPASSWD>New Password</a>\n";
+
     if (Access('Committee','Users')) {
       echo "<li><a href=ListUsers.php>List Users</a>";
       echo "<li><a href=AddUser.php>Add User</a>";
@@ -275,7 +275,15 @@
     }
     echo "</ul>\n";
 
-
+// *********************** Users  **************************************************************
+  echo "<td class=Stafftd><h2>General Admin/ Finance</h2>\n";
+    echo "<ul>\n";
+    echo "<li><a href=Login.php?ACTION=NEWPASSWD>New Password</a>\n";
+    if (Access('Committee','Users')) {
+      echo "<li><a href=ListUsers.php?FULL>List Committee/Group Users</a>";
+    } else {
+      echo "<li><a href=ListUsers.php>List Committee/Group Users</a>";    
+    }
   echo "</table>\n";
 
   dotail();
