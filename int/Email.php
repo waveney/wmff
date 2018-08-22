@@ -7,21 +7,25 @@ require 'vendor/phpmailer/phpmailer/src/Exception.php';
 require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require 'vendor/phpmailer/phpmailer/src/SMTP.php';
 
+//$to can be single address, a [address, name] or [[to,address,name],[cc,addr,name],bcc,addr,name],replyto,addr,name]...]
+//$atts can be simple fie or [[file, name],[file,name]...]
 
-function NewSendEmail($to,$sub,&$letter,&$attachments=0) { //$to can be single address, a [address, name] or [[to,address,name],[cc,addr,name],bcc,addr,name],replyto,addr,name]...]
+function NewSendEmail($to,$sub,&$letter,&$attachments=0) { 
   global $MASTER_DATA;
-  if (0 && file_exists("testing")) {
+  if (file_exists("testing")) {
     echo "<p>Would send email to $to with subject: $sub<p>Content:<p>$letter<p>\n";
     return;
   }
   
   $email = new PhpMailer(true);
   try {
-    $email->SMTPDebug = 4;
+//    $email->SMTPDebug = 4;
     $email->isSMTP();
     $email->Host = $MASTER_DATA['HostURL'];
     $email->SMTPAuth = true;
+    $email->AuthType = 'LOGIN';
     $email->From = $email->Username = $MASTER_DATA['SMTPuser'] . "@" . $MASTER_DATA['HostURL'];
+    $email->FromName = "Wimborne Minster Folk Festival";
     $email->Password = $MASTER_DATA['SMTPpwd'];
     $email->SMTPSecure = 'tls';
     $email->Port = 587;
@@ -57,8 +61,20 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0) { //$to can be single a
       $email->addAddress($to);
     }
     $email->Subject = $sub;
+    $email->isHTML(true);
     $email->Body = $letter;
 //    $email->AltBody = 
+
+    if ($attachments) {
+      if (is_array($attachments)) {
+        foreach ($attachments as $i=>$att) {
+          $email->addAttachment($att[0],$att[1]);
+        }                 
+      } else {
+        $email->addAttachment($attachments);       
+      }
+    }
+
     $email->Send();
   
   
@@ -71,7 +87,6 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0) { //$to can be single a
 // Setup SMTP to outgoing mail
 // Add message
 // Add any attachments
-// sign with DKIM
 // Send and log
 
 /*

@@ -175,12 +175,6 @@
 //      echo "<li><a href=/admin/trade/index.php>Old Trade Stand Section</a>\n";
       echo "<li><a href=Trade2CSV.php?Y=$YEAR>Traders as CSV</a>\n";
     }
-    if (Access('SysAdmin')) {
-      echo "<li><a href=Sponsors.php>Sponsors</a>\n";
-      echo "<li><a href=WaterManage.php>Water Refills</a>\n";
-      echo "<li><a href=LinkManage.php>Manage Other Fest Links</a>\n";
-      echo "<li class=smalltext><a href=TEmailProformas.php>EMail Proformas</a>";
-    }
     echo "</ul>\n";
 
 // *********************** VENUES & EVENTS *******************************************************
@@ -240,7 +234,23 @@
 
     echo "</ul>\n";
 
+// *********************** Finance **************************************************************
+  echo "<td class=Stafftd><h2>Finance</h2>\n";
+    echo "<ul>\n";
+    if (Access('Committee','Finance')) {
+      echo "<li><a href=BudgetManage.php>Budget Management</a>\n";
+      echo "<li><a href=InvoiceManage.php>Invoice Management</a>\n";
+      echo "<li><a href=Sponsors.php>Sponsors</a>\n";
+      echo "<li><a href=WaterManage.php>Water Refills</a>\n";
+      echo "<li><a href=InvoiceCodes.php>Invoice Codes</a>\n";      
+
+    } else {
+      echo "<li><a href=BudgetManage.php>Budget View</a>\n";
+    }
+    echo "</ul>\n";
+    
 // *********************** GENERAL ADMIN *********************************************************
+  echo "<tr>";
   echo "<td class=Stafftd><h2>General Admin/ Finance</h2>\n";
     echo "<ul>\n";
     echo "<li><a href=Login.php?ACTION=NEWPASSWD>New Password</a>\n";
@@ -252,21 +262,19 @@
     if (Access('Committee','News')) {
       echo "<li><a href=NewsManage.php>News Management</a>";
       echo "<li><a href=ListArticles.php>Front Page Article Management</a>";
+      echo "<li><a href=LinkManage.php>Manage Other Fest Links</a>\n";
     }
     if (Access('Steward')) {
       echo "<li><a href=AddBug.php>New Bug/Feature request</a>\n";
       echo "<li><a href=ListBugs.php>List Bugs/Feature requests</a><p>\n";
     }
-    if (Access('Committee','Finance')) {
-      echo "<li><a href=BudgetManage.php>Budget Management</a>\n";
-    } else {
-      echo "<li><a href=BudgetManage.php>Budget View</a>\n";
-    }
     if (Access('SysAdmin')) {
+      echo "<li class=smalltext><a href=TEmailProformas.php>EMail Proformas</a>";
       echo "<li><a href=General.php>General Year Settings</a> \n";
       echo "<li><a href=MasterData.php>Master Data Settings</a> \n";
     }
     echo "</ul>\n";
+
 
   echo "</table>\n";
 

@@ -188,7 +188,7 @@ A similar feature will appear eventually for music.<p>
                 foreach ($Other as $ii=>$oov) if ($ov['Type'] == 'Venue' && $oov['Identifier'] == $ven) $err=1;
                 $BigE = Get_BigEvent($id);
                 $BigE['Identifier'] = $ven;
-                     Put_BigEvent($BigE);
+                Put_BigEvent($BigE);
               } else {
                 db_delete('BigEvent',$id);
               }

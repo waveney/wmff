@@ -2,7 +2,7 @@
   include_once("int/fest.php");
 
   set_ShowYear();  
-  dohead('14,15,16 June 2019', '/js/WmffAds.js', "/js/HomePage.js");
+  dohead('7,8,9 June 2019', '/js/WmffAds.js', "/js/HomePage.js");
 
   global $MASTER_DATA;
   $V = $MASTER_DATA['V'];
@@ -25,7 +25,8 @@
 </ul>
 </div>
 -->
-<div class=centhead>The 2019 Festival will be from Friday 14th to Sunday 16th of June 2019.<br>
+<div class=centhead>The 2019 Festival will be from Friday 7th to Sunday 9th of June 2019.<br>
+<b style='color:Red'>NOTE DATES CHANGED</b><br>
 Everything you can see on this site is from the fabulous 2018 festival. </div> 
 <div id="flex">
 
@@ -133,8 +134,8 @@ The Comedy Competition.
 </div>
 
 <div class=article>
-<h2 class=articlettl>Next year's dates</h2>
-<p class=articletxt>The 2019 Wimborne Minster Folk Festival will be from 14th to 16th of June 2019.
+<h2 class=articlettl>Next year's dates</h2><b style='color:Red'>NOTE THESE HAVE CHANGED</b>.
+<p class=articletxt>The 2019 Wimborne Minster Folk Festival will be from 7th to 9th of June 2019.
 </div>
 
 <div class=article>

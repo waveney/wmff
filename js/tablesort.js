@@ -23,11 +23,13 @@
 // One placed to customize - The id value of the table tag.
 
 var TableIDvalue = "indextable";
+var DoingTableSort = 0;
 
 //
 //////////////////////////////////////
 var TableLastSortedColumn = -1;
 function SortTable() {
+DoingTableSort = 1;
 var sortColumn = parseInt(arguments[0]);
 var type = arguments.length > 1 ? arguments[1] : 'T';
 var dateformat = arguments.length > 2 ? arguments[2] : '';
@@ -73,7 +75,8 @@ var newTableBody = document.createElement("tbody");
 for(var i=0, len=arrayOfRows.length; i<len; i++) {
 	newTableBody.appendChild(rows[arrayOfRows[i].oldIndex].cloneNode(true));
 	}
-table.replaceChild(newTableBody,tbody);
+table.replaceChild(newTableBody,tbody);// replace->append for testing
+setTimout(function(){DoingTableSort = 0},1000);
 } // function SortTable()
 
 function CompareRowOfText(a,b) {
