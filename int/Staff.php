@@ -251,14 +251,9 @@
     
 // *********************** GENERAL ADMIN *********************************************************
   echo "<tr>";
-  echo "<td class=Stafftd><h2>General Admin/ Finance</h2>\n";
+  echo "<td class=Stafftd><h2>General Admin</h2>\n";
     echo "<ul>\n";
 
-    if (Access('Committee','Users')) {
-      echo "<li><a href=ListUsers.php>List Users</a>";
-      echo "<li><a href=AddUser.php>Add User</a>";
-      echo "<li><a href=UserDocs.php>Storage Used</a>";
-    }
     if (Access('Committee','News')) {
       echo "<li><a href=NewsManage.php>News Management</a>";
       echo "<li><a href=ListArticles.php>Front Page Article Management</a>";
@@ -276,11 +271,13 @@
     echo "</ul>\n";
 
 // *********************** Users  **************************************************************
-  echo "<td class=Stafftd><h2>General Admin/ Finance</h2>\n";
+  echo "<td class=Stafftd><h2>Users</h2>\n";
     echo "<ul>\n";
     echo "<li><a href=Login.php?ACTION=NEWPASSWD>New Password</a>\n";
     if (Access('Committee','Users')) {
+      echo "<li><a href=AddUser.php>Add User</a>";
       echo "<li><a href=ListUsers.php?FULL>List Committee/Group Users</a>";
+      echo "<li><a href=UserDocs.php>Storage Used</a>";
     } else {
       echo "<li><a href=ListUsers.php>List Committee/Group Users</a>";    
     }
