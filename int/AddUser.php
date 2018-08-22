@@ -63,6 +63,7 @@
     echo "<tr>" . fm_text('Name', $User,'SName',1,'','autocomplete=off');
     echo "<tr>" . fm_text('Abrev', $User,'Abrev',1,'','autocomplete=off');
     echo "<tr>" . fm_text('Email',$User,'Email',1,'','autocomplete=off');
+    echo "<tr>" . fm_text('Phone',$User,'Phone',1,'','autocomplete=off');
     echo "<tr>" . fm_text($MASTER_DATA['ShortName'] . " Email",$User,'WMFFemail',1,'','autocomplete=off');
     echo "<tr>" . fm_text('Login',$User,'Login');
     echo "<tr>" . fm_text('Roll',$User,'Roll');
@@ -95,7 +96,7 @@
     echo "<Center><input type=Submit name=Create value='Create'></center>\n";
     echo "</form>\n<h2>";
   }
-  echo "<a href=ListUsers.php>List Users</a> , \n";
+  echo "<a href=ListUsers.php?FULL>List Users</a> , \n";
   if ($unum >0) echo "<a href=AddUser.php>Add Another User</a>\n";
   echo "</h2>";
 
