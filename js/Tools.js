@@ -37,4 +37,12 @@ var isAdvancedUpload = function() {
   return (('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)) && 'FormData' in window && 'FileReader' in window;
 }();
 
+function InvoiceCatChange(e,v) {
+  debugger;
+  $('.InvOrg1').hide();
+  $('.InvOrg2').hide();
+  if (v == 0) $('.InvOrg1').show();
+  if (v == 1) $('.InvOrg2').show();
+}
+
 

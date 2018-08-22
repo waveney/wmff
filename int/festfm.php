@@ -340,6 +340,10 @@ function AlphaNumeric($txt) {
   return preg_replace('/[^a-zA-Z0-9]/','',$txt);
 }
 
+function Print_Pence($amt) {
+  return sprintf("&pound;%0.2f",$amt/100);
+}
+
 function DurationFormat($mins) { // Show N mins as N <=90, x hr ymins 
   if ($mins <=90 ) return "$mins minutes";
   return (int)($mins/60) . " hours " . (($mins%60) ? (($mins%60) . " minutes") : "");

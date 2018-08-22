@@ -82,7 +82,7 @@
 
     echo "</thead><tbody>";
     while ($fetch = $SideQ->fetch_assoc()) {
-      echo "<tr><td><a href=AddMusic.php?sidenum=" . $fetch['SideId'] . ">" . $fetch['SName'] . "</a>";
+      echo "<tr><td><a href=AddMusic.php?sidenum=" . $fetch['SideId'] . "&Y=$YEAR>" . $fetch['SName'] . "</a>";
       if ($fetch['SideStatus']) {
         echo "<td>DEAD";
       } else {
