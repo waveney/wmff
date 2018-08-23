@@ -29,7 +29,7 @@
 
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>User Id</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Abrev</a>\n";
+//  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Abrev</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Login</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Email</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Phone</a>\n";  
@@ -51,7 +51,7 @@
     if ($Full == 0 && $usr['NoTasks']) continue;
     echo "<tr" . (($usr['UserId']<11 || $usr['AccessLevel'] == 0)?" class=FullD hidden" : "" ) . ">";
     echo "<td>" . $usr['UserId'] . "<td>" . ($Full? ("<a href=AddUser.php?usernum=" . $usr['UserId'] . ">" . $usr['SName'] . "</a>") : $usr['SName']);
-    echo "<td>" . $usr['Abrev'];
+//    echo "<td>" . $usr['Abrev'];
     echo "<td>" . $usr['Login'] . "<td>" . $usr['Email'] . "<td>" . $usr['Phone'] . "<td>" . $usr['WMFFemail'] . "<td>" . $Access_Levels[$usr['AccessLevel']];
     echo "<td>" . $usr['Roll'] . "<td>";
     if ($usr['Image']) echo "<img src='" . $usr['Image'] . "' width=50>";
