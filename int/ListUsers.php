@@ -40,6 +40,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Public</a>\n";
   if ($Full) {
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Last Access</a>\n";
+    echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>No Tasks</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Show</a>\n";
     foreach ($Sections as $sec) 
       echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$sec</a>\n";
@@ -47,6 +48,7 @@
   }
 
   foreach ($Users as $usr) {
+    if ($Full == 0 && $usr['NoTasks']) continue;
     echo "<tr" . (($usr['UserId']<11 || $usr['AccessLevel'] == 0)?" class=FullD hidden" : "" ) . ">";
     echo "<td>" . $usr['UserId'] . "<td>" . ($Full? ("<a href=AddUser.php?usernum=" . $usr['UserId'] . ">" . $usr['SName'] . "</a>") : $usr['SName']);
     echo "<td>" . $usr['Abrev'];
@@ -55,9 +57,11 @@
     if ($usr['Image']) echo "<img src='" . $usr['Image'] . "' width=50>";
     echo "<td>" . ($usr['Contacts']?'Y':'N');
   
-    if ($Full) {    
+    if ($Full) { 
       echo "<td>";
       if ($usr['LastAccess']) echo date('d/m/y H:i:s',$usr['LastAccess']);
+      echo "<td>";
+      if ($usr['NoTasks']) echo "Y";   
       echo "<td>";
       if ($usr['Contacts']) echo "Y";
       foreach ($Sections as $sec) {
