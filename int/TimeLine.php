@@ -195,7 +195,7 @@ Coming ...
       if (Access('Committee','TLine')) echo "<td><input type=checkbox name=E$tli class=SelectAllAble>";
       if (Access('SysAdmin')) echo "<td class=FullD hidden>" . $tli;
       echo "<td><a href=AddTimeLine.php?TLid=$tli>" . $tl['Title'] . "</a>";
-      echo "<td>" . ($tl['Assigned'] ? $All[$tl['Assigned']] : "<B>NOBODY</b>");
+      echo "<td>" . ($tl['Assigned'] ? $All[$tl['Assigned']]['SName'] : "<B>NOBODY</b>");
       echo "<td>" . $TL_Importance[$tl['Importance']];
       echo "<td>" . TL_State($tl);
       echo "<td><div style='max-width=300; overflow: contain' $TLDue><div id=slider$tli class=slider></div></div>";
