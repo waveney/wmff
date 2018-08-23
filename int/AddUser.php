@@ -24,6 +24,7 @@
         case 'Remove Access' :
           $User['AccessLevel'] = 0;
           $User['password'] = 'impossible2guess'; // that is not a valid password
+          $User['WMFFemail'] = '';
           $User['Roll'] = 'No Access' . date(' j/m/Y');
           $User['Contacts'] = 0;
           foreach ($Sections as $sec) $User[$sec] = 0;

@@ -5,7 +5,7 @@
 
 function ChangeInvite(ev) {
   debugger;
-  if (DoingTableSort) return;
+//  if (DoingTableSort) return;
   var id=ev.target.id;
   var snumm = id.match(/Invite(\d*)/);
   var snum = snumm[1];
@@ -16,7 +16,7 @@ function ChangeInvite(ev) {
 
 function ReportTed(ev) {
   debugger;
-  if (DoingTableSort) return;
+//  if (DoingTableSort) return;
   var id=ev.target.id;
   var snumm = id.match(/(\d+)/);
   var snum = snumm[1];
