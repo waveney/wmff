@@ -176,8 +176,7 @@ Coming ...
       $Open = 0;
       if (!isset($tl['Start']) || $tl['Start'] == 0) $tl['Start'] = $now;
       if ($tl['Assigned']>0) {
-        if ($tl['Assigned'] != $USERID) { $classes .=  "TL_EVERYONE "; $hide=1; }
-        if ($tl['Assigned'] == 3) { $hide=0; }
+        if ($tl['Assigned'] != $USERID && ($tl['Assigned'] != 3)) { $classes .=  "TL_EVERYONE "; $hide=1; }
       }
       
       if ($tl['Progress'] >= 0) {
