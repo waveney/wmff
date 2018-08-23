@@ -38,7 +38,7 @@
 
     if (Access('SysAdmin')) {
       echo "<p>";
-      echo "<li><a href=DirRebuild.php?SC>Scan Directories - Report File/Database discrepancies</a>";    
+      echo "<li class=smalltext><a href=DirRebuild.php?SC>Scan Directories - Report File/Database discrepancies</a>";    
 //      echo "<li><a href=DirRebuild.php?FI>Rebuild Directorys - Files are master</a>";
 //      echo "<li><a href=DirRebuild.php?DB>Rebuild Directorys - Database is master</a>";
     }
@@ -48,8 +48,12 @@
   echo "<td class=Stafftd><h2>Timeline</h2>\n";
     echo "<ul>\n";
     echo "<li><a href=TimeLine.php?Y=$YEAR>Time Line Management</a>\n<p>";
-    echo "<li>Timeline Help\n";
+    echo "<li><a href=TLHelp.php>Timeline Help</a>\n";
     echo "<li>Timeline Stats\n";
+    if (Access('SysAdmin')) {
+      echo "<p>";
+      echo "<li class=smalltext><a href=TLImport1.php>Timeline Import 1</a>\n";
+    }
     echo "</ul><p>\n";
 
 // *********************** MUSIC ****************************************************
@@ -160,9 +164,10 @@
   echo "<tr>";
   echo "<td class=Stafftd><h2>Trade and Sponsors</h2>\n";
     echo "<ul>\n";
-      echo "<li><a href=ListCTrade.php?Y=$YEAR>List Active Traders This Year</a>\n";
-      echo "<li><a href=ListTrade.php?Y=$YEAR>List All Traders</a>\n";
-      echo "<li><a href=TradeFAQ.php>Trade FAQ</a>\n";
+    echo "<li><a href=ListCTrade.php?Y=$YEAR>List Active Traders This Year</a>\n";
+    echo "<li><a href=ListTrade.php?Y=$YEAR>List All Traders</a>\n";
+    echo "<li><a href=TradeFAQ.php>Trade FAQ</a>\n";
+
     if (Access('Staff','Trade')) {
       echo "<li><a href=Trade.php?Y=$YEAR>Add Trader</a>\n";
       echo "<li><a href=ListCTrade.php?Y=$YEAR&SUM>Traders Summary</a>\n";
@@ -171,7 +176,7 @@
       echo "<li><a href=EmailTraders.php>Email Groups of Traders</a>\n";
 //      if (Access('SysAdmin')) echo "<li><a href=TradeImport1.php>Convert old Trade Data</a>\n";
 //      if (Access('SysAdmin')) echo "<li><a href=TradeImport2.php>Merge Mandy's Trade Data</a>\n";
-      if (Access('SysAdmin')) echo "<li><a href=TradeImport3.php>Fix Access Keys</a>\n";
+//      if (Access('SysAdmin')) echo "<li><a href=TradeImport3.php>Fix Access Keys</a>\n";
 //      echo "<li><a href=/admin/trade/index.php>Old Trade Stand Section</a>\n";
       echo "<li><a href=Trade2CSV.php?Y=$YEAR>Traders as CSV</a>\n";
     }
