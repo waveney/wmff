@@ -68,6 +68,7 @@
     echo "<tr>" . fm_text($MASTER_DATA['ShortName'] . " Email",$User,'WMFFemail',1,'','autocomplete=off');
     echo "<tr>" . fm_text('Login',$User,'Login');
     echo "<tr>" . fm_text('Roll',$User,'Roll');
+    echo "<tr><td>No Tasks (test usrs only) " . fm_checkbox('',$User,'NoTasks');
     echo "<tr><td>Access Level<td>" . fm_select($Access_Levels,$User,'AccessLevel');
     echo "<tr>" . fm_text('Image', $User,'Image');
     echo "<tr><td>Show on Contacts Page:<td>" . fm_checkbox('',$User,'Contacts');
