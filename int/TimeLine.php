@@ -175,7 +175,10 @@ Coming ...
       $hide = 0;
       $Open = 0;
       if (!isset($tl['Start']) || $tl['Start'] == 0) $tl['Start'] = $now;
-      if ($tl['Assigned']>0 && $tl['Assigned'] != $USERID) { $classes .=  "TL_EVERYONE "; $hide=1; }
+      if ($tl['Assigned']>0) {
+        if ($tl['Assigned'] != $USERID) { $classes .=  "TL_EVERYONE "; $hide=1; }
+        if ($tl['Assigned'] != 3) { $hide=0; }
+      }
       
       if ($tl['Progress'] >= 0) {
         if ($tl['Progress'] >= 100) {
@@ -188,6 +191,7 @@ Coming ...
         }
         if ($tl['Start'] > $now) $TLDue = "class=TL_NotYet";
       } else {
+        continue; //TODO enable SysAdmin/TLine
         // Cancelled
       }
       
@@ -225,8 +229,10 @@ Coming ...
     echo "<h2>No Current Tasks in the records</h2>\n";
   }
 
-  echo "<h2>Importing Data</h2>";
-  echo "If you have a spreadsheet or file with lots of entries you would like to import directly without retyping them please send it to Richard.\n<p>"; 
+
+  
+//  echo "<h2>Importing Data</h2>";
+//  echo "If you have a spreadsheet or file with lots of entries you would like to import directly without retyping them please send it to Richard.\n<p>"; 
 
   echo "</div>\n";
   dotail();
