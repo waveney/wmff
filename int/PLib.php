@@ -400,6 +400,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
       if ($Mode) {
         include_once("BudgetLib.php");
         echo "<tr>". fm_number1('Fee',$Sidey,'TotalFee','class=NotCSide') . fm_text('Other payments',$Sidey,'OtherPayment',3,'class=NotCSide');
+        echo fm_number1('Cost of this',$Sidey,'OtherPayCost','class=NotSide');
         if (!isset($Sidey['BudgetArea']) || $Sidey['BudgetArea']==0) {
           if ($Side['IsAnAct']) {
             $Sidey['BudgetArea'] = FindBudget('Music');
@@ -630,6 +631,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
       if (Access('Committee','Music') || Access('Committee','Finance')) {
         echo "<tr>". fm_number1('Fee',$Sidey,'TotalFee','class=NotCSide');
         echo fm_text('Other payments',$Sidey,'OtherPayment',3,(isset($Sidey['OtherPayment']) && strlen($Sidey['OtherPayment'])>1?'class=NotCSide':'class=NotCSide'));
+        echo fm_number1('Cost of this',$Sidey,'OtherPayCost','class=NotSide');
         if (Feature('CampControl')) {
           $campxtr =  ((Feature('CampControl') ==2 )? " class=NotCSide":'');
           echo "<tr>";
