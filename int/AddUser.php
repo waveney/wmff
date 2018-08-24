@@ -71,7 +71,7 @@
     echo "<tr><td>No Tasks (test usrs only) " . fm_checkbox('',$User,'NoTasks');
     echo "<tr><td>Access Level<td>" . fm_select($Access_Levels,$User,'AccessLevel');
     echo "<tr>" . fm_text('Image', $User,'Image');
-    echo "<tr><td>Show on Contacts Page:<td>" . fm_checkbox('',$User,'Contacts');
+    echo "<tr>" . fm_radio('Show on Contacts Page',$User_Public_Vis,$User,'Contacts');
     $r = 0;
     foreach($Sections as $sec) {
       if ((($r++)&1) == 0) echo "<tr>";

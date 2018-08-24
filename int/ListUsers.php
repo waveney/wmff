@@ -55,7 +55,7 @@
     echo "<td>" . $usr['Login'] . "<td>" . $usr['Email'] . "<td>" . $usr['Phone'] . "<td>" . $usr['WMFFemail'] . "<td>" . $Access_Levels[$usr['AccessLevel']];
     echo "<td>" . $usr['Roll'] . "<td>";
     if ($usr['Image']) echo "<img src='" . $usr['Image'] . "' width=50>";
-    echo "<td>" . ($usr['Contacts']?'Y':'N');
+    echo "<td>" . $User_Public_Vis[$usr['Contacts']];
   
     if ($Full) { 
       echo "<td>";
