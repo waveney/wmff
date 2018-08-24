@@ -20,7 +20,7 @@
   $coln = 0;
   if ($Full) {
     echo "Click on the Name or User Id to edit.  Click on column to sort by column.<p>\n";
-    echo "Note the first 10 are reserved for internal workings (only the first two are currently used).  ";
+    echo "Note the first 10 are reserved for internal workings (only the first three are currently used).  ";
     echo "System is for ownership of the document root directory, and nobody for the owner of files and directories ";
     echo "that were created by people no longer on the system.<p>";
   }

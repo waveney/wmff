@@ -48,6 +48,7 @@ Coming ...
     $id = $usr['UserId'];
     if ($usr['AccessLevel'] >=2 && $usr['AccessLevel']<= 6 ) $AllActive[$id] = (strlen($usr['Abrev'])?$usr['Abrev']:$usr['Login']);  
   }
+//var_dump($All[3]);
 
   if (isset($_POST['ACTION'])) {
     if ($_POST['ACTION'] == "Copy Recuring to $PLANYEAR") {
@@ -176,6 +177,7 @@ Coming ...
       $Open = 0;
       if (!isset($tl['Start']) || $tl['Start'] == 0) $tl['Start'] = $now;
       if ($tl['Assigned']>0) {
+      
         if ($tl['Assigned'] != $USERID && ($tl['Assigned'] != 3)) { $classes .=  "TL_EVERYONE "; $hide=1; }
       }
       
@@ -198,7 +200,7 @@ Coming ...
       if (Access('Committee','TLine')) echo "<td><input type=checkbox name=E$tli class=SelectAllAble>";
       if (Access('SysAdmin')) echo "<td class=FullD hidden>" . $tli;
       echo "<td><a href=AddTimeLine.php?TLid=$tli>" . $tl['Title'] . "</a>";
-      echo "<td>" . ($tl['Assigned'] ? $All[$tl['Assigned']]['SName'] : "<B>NOBODY</b>");
+      echo "<td>" . ($tl['Assigned'] ? $All[$tl['Assigned']]['SName'] : "<B>NOBODY</b>"); // . $tl['Assigned'];
       echo "<td>" . $TL_Importance[$tl['Importance']];
       echo "<td>" . TL_State($tl);
       echo "<td><div style='max-width=300; overflow: contain' $TLDue><div id=slider$tli class=slider></div></div>";
