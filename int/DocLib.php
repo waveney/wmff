@@ -120,7 +120,7 @@ function Get_AllUsers($mode=0) { // 0 return login names, 1 return levels, 2 All
   while ($us = $res->fetch_assoc()) {
     $uid = $us['UserId'];
     $ulog = $us['Login'];
-    $Full[] = $us;
+    $Full[$uid] = $us;
     $ans[$uid] = $ulog;
     $ac[$uid] = $us['AccessLevel'];
   }
