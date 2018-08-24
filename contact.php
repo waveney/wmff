@@ -34,13 +34,13 @@
 
 <?php
   global $db;
-  $ans = $db->query("SELECT * FROM FestUsers WHERE Contacts=1 ORDER BY SNAME");
+  $ans = $db->query("SELECT * FROM FestUsers WHERE Contacts!=0 ORDER BY SNAME");
   while ($user = $ans->fetch_assoc()) {
     echo "<div class=smallfloatleft><div class=mini>\n";
     if ($user['WMFFemail']) echo "<a href=mailto:" . $user['WMFFemail'] . "@wimbornefolk.co.uk>";
     echo "<img alt='Wimborne Minster Folk Festival' style='float:left; max-width:100px;max-height:100px;margin-right:5px' src='";
     echo ($user['Image']?$user['Image']:"/images/WimborneFolkLogo.png") . "'>";
-    echo "<h2 class=minittl>" . $user['SName'] . "</h2>";
+    if ($user['Contacts'] == 1) echo "<h2 class=minittl>" . $user['SName'] . "</h2>";
     echo "<br><p class=minitxt>" . $user['Roll'] ;
     if ($user['WMFFemail']) echo "<br>" . $user['WMFFemail'] . "@wimbornefolk.co.uk</a>";
     echo "</div></div>\n";
