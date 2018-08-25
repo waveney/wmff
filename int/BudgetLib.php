@@ -58,7 +58,7 @@ function Budget_Scan($Detail=0) {
   $res = $db->query($qry);
   if ($res) while ($sy = $res->fetch_assoc()) {
     if ($sy['YearState'] < 2) continue;
-    $Fee = $sy['TotalFee']+$sy['OtherPayCost';  
+    $Fee = $sy['TotalFee']+$sy['OtherPayCost'];  
     $Camps = ($sy['EnableCamp'] ? ($sy['CampFri'] + $sy['CampSat'] + $sy['CampSun']) * $MASTER['CampingCost'] : 0);
     $Fee += $Camps;
     if ($sy['BudgetArea2']) {

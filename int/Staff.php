@@ -52,7 +52,7 @@
     echo "<li>Timeline Stats\n";
     if (Access('SysAdmin')) {
       echo "<p>";
-      echo "<li class=smalltext><a href=TLImport1.php>Timeline Import 1</a>\n";
+//      echo "<li class=smalltext><a href=TLImport1.php>Timeline Import 1</a>\n";
     }
     echo "</ul><p>\n";
 

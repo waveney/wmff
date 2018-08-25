@@ -67,7 +67,7 @@
       $Details = [];
       for ($i = 1;$i<=3; $i++) if (isset($_REQUEST["Amount$i"]) && $_REQUEST["Amount$i"]) $Details[] = [$_REQUEST["Desc$i"], round($_REQUEST["Amount$i"]*100), $_REQUEST["Budget$i"]];
       $Who = ($_REQUEST['OrgType'] ? Get_Organisation($_POST['Oid']) : Get_Trader($_REQUEST['Tid'])); 
-      New_Invoice($Who,$Details,$_REQUEST['Reason'],$_REQUEST['Source']);
+      New_Invoice($Who,$Details,$_REQUEST['Reason'],$_REQUEST['InvCode'],$_REQUEST['Source']);
       break;
     }
 
@@ -112,7 +112,7 @@
     if ($All) echo "<td>" . Print_Pence($inv['PaidTotal']);
     echo "<td>" . $inv['Reason'];
     echo "<td>"; 
-      if ($Inv['PayDate'] == 0 && $inv['Total']>0) {// Pay, pay diff, cancel/credit, change
+      if ($inv['PayDate'] == 0 && $inv['Total']>0) {// Pay, pay diff, cancel/credit, change
         echo "<form method=post>" . fm_hidden('i',$id) . fm_hidden('amt',0);
         echo "<button name=ACTION value=PAID>Paid</button> ";
         echo "<button name=ACTION value=DIFF onclick='function(){ $(\'#amt\').val(prompt(\"How much?\",0))}'>Paid Different</button> ";
