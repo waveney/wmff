@@ -47,8 +47,8 @@ function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1) {
   $inv['Mobile'] = $Whose['Mobile'];
   $inv['Address'] = $Whose['Address'];
   $inv['PostCode'] = $Whose['PostCode'];
-  $inv['issueDate'] = time();
-  $inv['OurRef'] = $Whose['RefCode'] . "/?";
+  $inv['IssueDate'] = time();
+  $inv['OurRef'] = $Whose['RefCode'];
   $inv['Reason'] = $Reason;
   $inv['History'] = '';
   $inv['YourRef'] = '';
@@ -60,30 +60,30 @@ function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1) {
   
   if (isset($Details[0])) { // If set multi details
     $D = $Details[0];
-    $inv['Desc1']   = $D['T'];
-    $inv['Total'] = $inv['Amount1'] = $D['A'];
-    $inv['Budget1'] = (isset($D['B']) ? $D['B'] : 0);
+    $inv['Desc1']   = $D[0];
+    $inv['Total'] = $inv['Amount1'] = $D[1];
+    $inv['Budget1'] = (isset($D[2]) ? $D[2] : 0);
 
     if (isset($Details[1])) {   
       $D = $Details[1];
-      $inv['Desc2']   = $D['T'];
-      $inv['Total'] += $inv['Amount2'] = $D['A'];
-      $inv['Budget2'] = (isset($D['B']) ? $D['B'] : 0);
+      $inv['Desc2']   = $D[0];
+      $inv['Total'] += $inv['Amount2'] = $D[1];
+      $inv['Budget2'] = (isset($D[2]) ? $D[2] : 0);
     }
     
     if (isset($Details[2])) {   
       $D = $Details[2];
-      $inv['Desc3']   = $D['T'];
-      $inv['Total'] += $inv['Amount3'] = $D['A'];
-      $inv['Budget3'] = (isset($D['B']) ? $D['B'] : 0);
+      $inv['Desc3']   = $D[0];
+      $inv['Total'] += $inv['Amount3'] = $D[1];
+      $inv['Budget3'] = (isset($D[2]) ? $D[2] : 0);
     }
   } else {
-    $inv['Desc1'] = $Details['T'];
-    $inv['Total'] = $inv['Amount1'] = $Details['A'];
-    $inv['Budget1'] = (isset($Details['B']) ? $Details['B'] : 0);
+    $inv['Desc1'] = $Details[0];
+    $inv['Total'] = $inv['Amount1'] = $Details[1];
+    $inv['Budget1'] = (isset($Details[2]) ? $Details[2] : 0);
   }
   
-  db_insert("Invoices",$inv);
+  Insert_db("Invoices",$inv);
   
   // Then print, but not yet
 }
@@ -108,6 +108,7 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade/sponsers/ad
   $Traders = Get_All_Traders();
   $Orgs = ["These are not yet in the system"];  // TODO
   $Budgets = Budget_List();
+  $InvCodes = Get_InvoiceCodes();
 
   echo "This page is ONLY to be used to create invoices for things other than Trade, Sponsors and adverts.<p>";
   echo "<form method=post action=InvoiceManage.php>";
