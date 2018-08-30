@@ -252,6 +252,9 @@
     } else {
       echo "<li><a href=BudgetManage.php>Budget View</a>\n";
     }
+    if (Access('SysAdmin')) {
+      echo "<li class=smalltext><a href=ImportDebtorCodes.php>Import Debtor Codes</a>";
+    }
     echo "</ul>\n";
     
 // *********************** GENERAL ADMIN *********************************************************

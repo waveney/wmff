@@ -5,6 +5,7 @@ tickets
 OldStuff/*
 !images/icons
 !images/2018Pics
+!int/*/.htaccess
 images/*.*
 images/Sponsors
 images/Sides
@@ -26,6 +27,7 @@ int/LogFiles
 int/Archive
 int/Contracts
 int/testing
+int/Invoices/*/*.pdf
 devtools
 cache
 files/TitlePrefix

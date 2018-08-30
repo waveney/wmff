@@ -20,6 +20,8 @@
 
   global $YEAR,$PLANYEAR,$BUDGET,$USERID;
 
+var_dump($_REQUEST);
+
   echo "<h2>Manage Invoices - $YEAR</h2>\n";
   
   if (isset($_REQUEST['ACTION'])) {
@@ -34,7 +36,7 @@
     case 'PAID':
       $inv['PayDate'] = time();
       $inv['History'] .= "Fully Paid on " . date('j/n/Y') . " by $USERID\n";
-      if ($Source == 1) Trade_F_Action($inv['SourceId'],'Paid',$inv['Total']); // TBW
+      if ($inv['Source'] == 1) Trade_F_Action($inv['SourceId'],'Paid',$inv['Total']); // TBW
       $inv['PaidTotal'] = $inv['Total'];
       break;
     
@@ -47,7 +49,7 @@
         $inv['History'] .= "Partially Paid " . Print_Pence($amt) . " on " . date('j/n/Y') . " by $USERID\n";
       }
       $inv['PaidTotal'] += $amt;
-      if ($Source == 1) Trade_F_Action($inv['SourceId'],'Paid',$amt); 
+      if ($inv['Source'] == 1) Trade_F_Action($inv['SourceId'],'Paid',$amt); 
       break;
         
     case 'CREDIT' :
@@ -59,15 +61,20 @@
       break;
       
     case 'UPDATE' :
+      echo "HERE<p>";
       Update_db_post('Invoices',$inv);
       break;
       
     case 'CREATE' : 
-    var_dump($_REQUEST);
+//    var_dump($_REQUEST);
       $Details = [];
-      for ($i = 1;$i<=3; $i++) if (isset($_REQUEST["Amount$i"]) && $_REQUEST["Amount$i"]) $Details[] = [$_REQUEST["Desc$i"], round($_REQUEST["Amount$i"]*100), $_REQUEST["Budget$i"]];
+      for ($i = 1;$i<=3; $i++) if (isset($_REQUEST["Amount$i"]) && $_REQUEST["Amount$i"]) $Details[] = [$_REQUEST["Desc$i"], round($_REQUEST["Amount$i"]*100)];
       $Who = ($_REQUEST['OrgType'] ? Get_Organisation($_POST['Oid']) : Get_Trader($_REQUEST['Tid'])); 
-      New_Invoice($Who,$Details,$_REQUEST['Reason'],$_REQUEST['InvCode'],$_REQUEST['Source']);
+      New_Invoice($Who,$Details,$_REQUEST['Reason'],$_REQUEST['InvoiceCode'],$_REQUEST['Source']);
+      break;
+
+    case 'PRINTPDF':
+      Invoice_Print($inv);
       break;
     }
 
@@ -75,7 +82,8 @@
   }
   
   if (isset($_REQUEST['Show'])) {
-    // Show Invoice to be coded  
+    Show_Invoice($_REQUEST['Show']);
+    dotail();
   }
   
   if (isset($_REQUEST['ALL'])) {
@@ -87,14 +95,17 @@
     echo "<h2><a href=InvoiceManage.php?Y=$YEAR&ALL>Show All Invoices and Credit notes</a></h2>\n";
     $All = 0;
   }
-   
+  
+  
+  $Now = time();
   $coln = 0;
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Id</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Invoice Code</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Our Ref</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D')>Date Raised</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D')>Date Due</a>\n";
   if ($All) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D')>Date Paid</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Amount</a>\n";
   if ($All) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Paid Amount</a>\n";
@@ -105,8 +116,16 @@
     $id = $inv['id'];
     echo "<tr><td><a href=InvoiceManage.php?Show=$id>$id</a>";
     echo "<td>" . $inv['BName']; // Make link soon
-    echo "<td>" . $inv['InvoiceCode'];
+    echo "<td>" . $inv['OurRef'] . '/' . $inv['id'];
     echo "<td>" . date('j/n/Y',$inv['IssueDate']);
+    echo "<td>";
+    if ($inv['Total'] > 0) {
+      if  ($inv['DueDate'] < $Now && $inv['PaidTotal']<$inv['Total']) {
+        echo "<span class=red>" . date('j/n/Y',$inv['DueDate']) . "</span>";
+      } else {
+        echo date('j/n/Y',$inv['DueDate'] );
+      }
+    }
     if ($All) echo "<td>" . ($inv['PayDate']? date('j/n/Y',$inv['PayDate']) : "" );
     echo "<td>" . Print_Pence($inv['Total']);
     if ($All) echo "<td>" . Print_Pence($inv['PaidTotal']);
