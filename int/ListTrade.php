@@ -47,7 +47,7 @@
       echo "<td>" . ($fetch['Status']?$Trader_Status[$fetch['Status']]:'');
       echo "<td id=TR" . $fetch['Tid'];
         $stat = $fetch['BookingState'];
-        if (!$stat) $stat = 1;
+        if (!$stat) $stat = 0;
         if ($stat == $Trade_State['Fully Paid'] && ($fetch['Insurance'] == 0 || $fetch['RiskAssessment'] == 0)) {
           echo " class=TSNoInsRA>Paid";
           if ($fetch['Insurance'] ==0) echo ", no Insurance";

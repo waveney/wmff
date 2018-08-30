@@ -149,6 +149,9 @@ function Invoice_Print(&$inv) {
   // Temp print
   
   $pdf->Output('F',"Temp/Invoice.pdf");
+  
+  
+  
   echo "<h2>pdf outputed</h2>";
 }  
 
