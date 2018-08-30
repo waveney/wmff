@@ -204,7 +204,7 @@
     $str .= "</tbody></table>\n";
   }
 
-  if (!$Sum) echo $str;
+  if (!$Sum && isset($str)) echo $str;
 
   echo "<p><table border id=narrowtable><tr><td>Type<td>Received<td>Total Accept<td>Total inc Quoted<td>Details\n";
   foreach ($Trade_Types as $t) {

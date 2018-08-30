@@ -351,7 +351,12 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
         if (isset($Trad['AccessKey'])) {
           echo "<td class=NotSide><a href=Direct.php?id=$Tid&t=trade&key=" . $Trad['AccessKey'] . ">Use</a>" . help('Testing');
         }
-      echo "<td class=NotSide><button name=Action value=Delete>Delete</button>\n";
+      echo "  <button name=Action value=Delete onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</button>\n";
+    } 
+    if (Access('Committee',"Finance")) {
+      include_once("InvoiceLib.php");
+      $Scode = Sage_Code($Trad);
+      echo fm_text("Sage Code",$Trad,'SageCode',1,'class=NotSide','class=NotSide');
     }
     echo fm_hidden("Tid", $Tid);
     echo fm_hidden("Id", $Tid);
@@ -498,7 +503,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
 
       if ($Mode) {
         echo "<td class=NotCSide colspan=2>" . fm_radio('Insurance',$InsuranceStates,$Trady,'Insurance','',0);
-        if ($Trady['Insurance']) {
+        if (isset($Trady['Insurance']) && $Trady['Insurance']) {
           $files = glob("Insurance/$YEAR/Trade/$Tid.*");
           $Current = $files[0];
           $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
@@ -974,6 +979,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
 
   if ($Mode == 0) Trade_TandC();
   if ($Tid > 0) {
+    if (!isset($Trady['BookingState'])) { $Trady['BookingState'] = 0; $Trady['Fee'] = 0; }
     if (Access('SysAdmin')) {
       echo "<div class=floatright>";
       echo "<input type=Submit id=smallsubmit name='NewAccessKey' value='New Access Key'>";
@@ -983,7 +989,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
     echo "<Center>";
     echo "<input type=Submit name='Update' value='Save Changes'>\n";
 //    if (!isset($Trady['BookingState']) || $Trady['BookingState']== 0) echo "<input type=Submit name=Submit value='Save Changes and Submit Application'>";
-    if (!isset($Trady['BookingState'])) $Trady['BookingState'] = 0;
+
     $Act = $TS_Actions[$Trady['BookingState']];
     if ($Act ) {
       $Acts = preg_split('/,/',$Act); 
