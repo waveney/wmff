@@ -40,7 +40,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Public</a>\n";
   if ($Full) {
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Last Access</a>\n";
-    echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>No Tasks</a>\n";
+    echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Test User</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Show</a>\n";
     foreach ($Sections as $sec) 
       echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$sec</a>\n";
