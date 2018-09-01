@@ -468,7 +468,7 @@ function Get_Other_Participants(&$Others,$l=0,$size=12,$mult=1,$prefix='') {
   foreach ($Others as $oi=>$o) {
     if ($o['Type'] == 'Side' || $o['Type'] == 'Act' || $o['Type'] == 'Other') {
       $si = $o['Identifier'];  
-      if (!$found[$si]) {
+      if (!isset($found[$si])) {
         $s = Get_Side($si);  
         if ($s) $imps[$s['Importance']][] = $s; 
         $something = 1;

@@ -28,8 +28,9 @@
   while($side = $SideQ->fetch_assoc()) formatminimax($side,'ShowMusic.php',1);
 
   $Prev = $YEAR-1;
+  $ET = Get_Event_Type_For("Music");
   if ($Prev >= $ET['FirstYear']) {
-    echo "<a href=/LineUpOther.php?Y=$Prev>Other/Comedy/Family Line Up $Prev</a></b><p>";
+    echo "<a href=/LineUpMusic.php?Y=$Prev>Music Line Up $Prev</a></b><p>";
   }
 
   dotail();

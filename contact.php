@@ -34,7 +34,7 @@
 
 <?php
   global $db;
-  $ans = $db->query("SELECT * FROM FestUsers WHERE Contacts!=0 ORDER BY SNAME");
+  $ans = $db->query("SELECT * FROM FestUsers WHERE Contacts!=0 ORDER BY SN");
   while ($user = $ans->fetch_assoc()) {
     echo "<div class=smallfloatleft><div class=mini>\n";
     if ($user['WMFFemail']) echo "<a href=mailto:" . $user['WMFFemail'] . "@wimbornefolk.co.uk>";

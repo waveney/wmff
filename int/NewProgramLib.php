@@ -3,7 +3,7 @@
 function Prog_Headers($Public='',$headers =1,$What='Dance') {
 
   if ($Public && $headers) { 
-    dohead("$What Programme", "js/tableHeadFixer.js","js/NewDanceProg.jsdefer" );
+    dohead("$What Programme", "js/tableHeadFixer.js","js/NewDanceProg.jsdefer", "files/festconstyle.css" );
   } else { 
     dominimalhead("$What Programme", "js/tableHeadFixer.js","js/NewDanceProg.jsdefer", "files/festconstyle.css" );
   }
