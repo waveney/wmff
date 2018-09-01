@@ -58,7 +58,7 @@ function Report_Log($roll) {
       switch ($USER{'Subtype'}) {
       case 'Side':
         $Side = Get_Side($USERID);
-        $who = $Side['SName'];
+        $who = $Side['SN'];
         break;
       default :
         return;
@@ -253,7 +253,7 @@ function set_ShowYear() { // Overrides default above if not set by a Y argument
 
 // Works for simple tables
 // Deletes = 0 none, 1=one, 2=many
-function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$Mstr='SName') {
+function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$Mstr='SN') {
   global $TableIndexes;
   include_once("DateTime.php");
   $Flds = table_fields($table);

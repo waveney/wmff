@@ -69,8 +69,8 @@ function Grab_Data($day='',$Media='Dance') {
     $EV[$v][$t]['d'] = $duration;
 
     $plim=4;
-    if ($ev['SName'] && $ev['SName'] != 'Dancing') {
-      $EV[$v][$t]['n'] = $ev['SName'];
+    if ($ev['SN'] && $ev['SN'] != 'Dancing') {
+      $EV[$v][$t]['n'] = $ev['SN'];
       $plim =3;
     }
 
@@ -571,8 +571,8 @@ function Grab_Music_Data($day='') {
       $EV[$v][$t]['d'] = $duration;
 
       $ll = 0;
-      if ($ev['SName'] && $ev['SName'] != 'Music') {
-        $EV[$v][$t]['n'] = $ev['SName'];
+      if ($ev['SN'] && $ev['SN'] != 'Music') {
+        $EV[$v][$t]['n'] = $ev['SN'];
         $ll = 1;
       }
       if ($ev["Act1"]) { $EV[$v][$t]['S1'] = $ev["Act1"]; } 
@@ -616,8 +616,8 @@ function Prog_MG_Everything() {
       $duration = timeround(timeadd2real($ev['Start'],-$st),15);
       $gridt[$t]++;
       $Name = '';
-      if ($ev['SName'] && $ev['SName'] != 'Music') {
-        $Name = $ev['SName'];
+      if ($ev['SN'] && $ev['SN'] != 'Music') {
+        $Name = $ev['SN'];
         $grid[$v][$t]['n'] = $Name;
         $gridn[$t]++;
       }

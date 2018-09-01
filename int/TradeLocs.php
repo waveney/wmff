@@ -5,14 +5,18 @@
   dostaffhead("Manage Trade Locations");
 
   include_once("TradeLib.php");
+  include_once("InvoiceLib.php");
+  
   echo "<div class='content'><h2>Manage Trade Locations</h2>\n";
   
-  echo "Artisan Messages trigger local Artisan /Han related emails<p>";
+  echo "Artisan Messages trigger local Artisan related emails<p>Only set the Invoice Code for locations that override normal trade type invoice codes<p>";
   $Locs=Get_Trade_Locs(1);
 
   if (UpdateMany('TradeLocs','Put_Trade_Loc',$Locs,0)) $Locs=Get_Trade_Locs(1);
 
   $coln = 0;
+  $InvCodes =  Get_InvoiceCodes();
+  
   echo "<form method=post action=TradeLocs.php>";
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
@@ -24,27 +28,30 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>In Use</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Days</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Artisan Msgs</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Invoice Code</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Notes</a>\n";
   echo "</thead><tbody>";
   foreach($Locs as $t) {
     $i = $t['TLocId'];
-    echo "<tr><td>$i" . fm_text1("",$t,'SName',1,'','',"SName$i");
+    echo "<tr><td>$i" . fm_text1("",$t,'SN',1,'','',"SN$i");
     echo "<td>" . fm_select($Prefixes,$t,"prefix",0,'',"prefix$i");
     echo "<td>" . fm_checkbox('',$t,'HasPower','',"HasPower$i");
     echo fm_number1('',$t,'Pitches','','',"Pitches$i");
     echo "<td>" . fm_checkbox('',$t,'InUse','',"InUse$i");
     echo "<td>" . fm_select($Trade_Days,$t,"Days",0,'',"Days$i");
     echo "<td>" . fm_checkbox("",$t,'ArtisanMsgs','',"ArtisanMsgs$i");
+    echo "<td>" . fm_select($InvCodes,$t,'InvoiceCode',1,'',"InvoiceCode$i");
     echo fm_text1('',$t,'Notes',3,'','',"Notes$i");
     echo "\n";
   }
-  echo "<tr><td><td><input type=text name=SName0 >";
-  echo "<td><input type=checkbox name=HasPower0>";
+  echo "<tr><td><td><input type=text name=SN0 >";
   echo "<td>" . fm_select2($Prefixes,0,'prefix0');
+  echo "<td><input type=checkbox name=HasPower0>";
   echo "<td><input type=number name=Pitches0>";
   echo "<td><input type=checkbox name=InUse0>";
   echo "<td>" . fm_select2($Trade_Days,0,'Days0');
   echo "<td><input type=checkbox name=ArtisanMsgs0>";
+  echo "<td>" . fm_select($InvCodes,$t,'InvoiceCode',1,'',"InvoiceCode0");
   echo "<td><input type=text name=Notes0 size=48>";
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";

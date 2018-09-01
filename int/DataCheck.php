@@ -13,7 +13,7 @@ function DanceLinks($Addr) {
   $res = $db->query("SELECT * FROM Sides WHERE Email='$Addr' AND IsASide=1 AND SideStatus=0");
   if ($res) while ($row = $res->fetch_assoc()) {
     SetAccessKey($row,'Sides','SideId');
-    $ans[] = ['Dance Team','s',$row['SideId'],$row['SName'],$row['AccessKey']];
+    $ans[] = ['Dance Team','s',$row['SideId'],$row['SN'],$row['AccessKey']];
   }
   if (isset($ans)) return $ans;
 }
@@ -23,7 +23,7 @@ function DanceAltLinks($Addr) {
   $res = $db->query("SELECT * FROM Sides WHERE AltEmail='$Addr' AND IsASide=1 AND SideStatus=0");
   if ($res) while ($row = $res->fetch_assoc()) {
     SetAccessKey($row,'Sides','SideId');
-    $ans[] = ['Dance Team','sa',$row['SideId'],$row['SName'],$row['AccessKey'],$row['SName'],$row['Email']];
+    $ans[] = ['Dance Team','sa',$row['SideId'],$row['SN'],$row['AccessKey'],$row['SN'],$row['Email']];
   }
   if (isset($ans)) return $ans;
 }
@@ -33,7 +33,7 @@ function MusicLinks($Addr) {
   $res = $db->query("SELECT * FROM Sides WHERE Email='$Addr' AND IsASide=0 AND SideStatus=0");
   if ($res) while ($row = $res->fetch_assoc()) {
     SetAccessKey($row,'Sides','SideId');
-    $ans[] = ['Act','a',$row['SideId'],$row['SName'],$row['AccessKey']];
+    $ans[] = ['Act','a',$row['SideId'],$row['SN'],$row['AccessKey']];
   }
   if (isset($ans)) return $ans;
 }
@@ -43,7 +43,7 @@ function MusicAltLinks($Addr) {
   $res = $db->query("SELECT * FROM Sides WHERE AltEmail='$Addr' AND IsASide=0 AND SideStatus=0");
   if ($res) while ($row = $res->fetch_assoc()) {
     SetAccessKey($row,'Sides','SideId');
-    $ans[] = ['Act','aa',$row['SideId'],$row['SName'],$row['AccessKey'],$row['SName'],$row['Email']];
+    $ans[] = ['Act','aa',$row['SideId'],$row['SN'],$row['AccessKey'],$row['SN'],$row['Email']];
   }
   if (isset($ans)) return $ans;
 }
@@ -53,7 +53,7 @@ function TradeLinks($Addr) {
   $res = $db->query("SELECT * FROM Trade WHERE Email='$Addr' AND Status=0 ");
   if ($res) while ($row = $res->fetch_assoc()) {
     SetAccessKey($row,'Trade','Tid');
-    $ans[] = ['Trader','t',$row['Tid'],$row['SName'],$row['AccessKey']];
+    $ans[] = ['Trader','t',$row['Tid'],$row['SN'],$row['AccessKey']];
   }
   if (isset($ans)) return $ans;
 }
@@ -63,7 +63,7 @@ function StewardLinks($Addr) {
   $res = $db->query("SELECT * FROM Stewards WHERE Email='$Addr' ");
   if ($res) while ($row = $res->fetch_assoc()) {
     SetAccessKey($row,'Stewards','id');
-    $ans[] = ['Steward','w',$row['id'],$row['SName'],$row['AccessKey']];
+    $ans[] = ['Steward','w',$row['id'],$row['SN'],$row['AccessKey']];
   }
   if (isset($ans)) return $ans;
 }
@@ -73,7 +73,7 @@ function SubmitLinks($Addr) {
   $res = $db->query("SELECT * FROM SignUp WHERE Email='$Addr' ");
   if ($res) while ($row = $res->fetch_assoc()) {
     SetAccessKey($row,'SignUp','id');
-    $ans[] = [$SignUpActivities[$row['Activity']],'u',$row['id'],$row['SName'],$row['AccessKey'],$row['Year']];
+    $ans[] = [$SignUpActivities[$row['Activity']],'u',$row['id'],$row['SN'],$row['AccessKey'],$row['Year']];
   }
   if (isset($ans)) return $ans;
 }

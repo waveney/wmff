@@ -7,7 +7,7 @@
   global $USER,$USERID,$db,$PLANYEAR,$StewClasses,$Relations,$Days;
 
   if (isset($_POST['submit'])) {
-    if (strlen($_POST['SName']) < 2) { echo "<p class=Err>Please give your name\n"; $err=1; };
+    if (strlen($_POST['SN']) < 2) { echo "<p class=Err>Please give your name\n"; $err=1; };
     if (strlen($_POST['Email']) < 6) { echo "<p class=Err>Please give your Email\n"; $err=1; };
     if (strlen($_POST['Phone']) < 6) { echo "<p class=Err>Please give your Phone number(s)\n"; $err=1; };
     if (strlen($_POST['Address']) < 20) { echo "<p class=Err>Please give the contacts Address\n"; $err=1; };
@@ -43,7 +43,7 @@
   echo "<h2 class=subtitle>Steward / Volunteer Application Form</h2>\n";
   echo "<form method=post action=StewardForm.php>";
   echo "<table border>\n";
-  echo "<tr>" . fm_text('Name',$_POST,'SName',2);
+  echo "<tr>" . fm_text('Name',$_POST,'SN',2);
   echo "<tr>" . fm_text('Email',$_POST,'Email',2);
   echo "<tr>" . fm_text('Phone(s)',$_POST,'Phone',2);
   echo "<tr>" . fm_text('Address',$_POST,'Address',4);

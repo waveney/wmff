@@ -66,7 +66,7 @@ The Articles in use will be displayed on the top page.  Sorting by Importance th
   if ($Arts) foreach($Arts as $t) {
     $i = $t['id'];
     echo "<tr><td>" . $t['id'];
-    echo "<td>" . fm_textinput("SName$i",$t['SName']);
+    echo "<td>" . fm_textinput("SN$i",$t['SN']);
     echo "<td>" . fm_textinput("Link$i",$t['Link']);
     echo "<td>" . fm_basictextarea($t,'Text',3,3,'',"Text$i");
     echo "<td>" . fm_textinput("Image$i",$t['Image']);
@@ -76,7 +76,7 @@ The Articles in use will be displayed on the top page.  Sorting by Importance th
     echo "\n";
   }
   echo "<tr><td>";
-    echo "<td>" . fm_textinput("SName0",'');
+    echo "<td>" . fm_textinput("SN0",'');
     echo "<td>" . fm_textinput("Link0",'');
     echo "<td>" . fm_basictextarea($t,'Text',3,3,'',"Text0");
     echo "<td>" . fm_textinput("Image0",'');

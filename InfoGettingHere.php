@@ -84,7 +84,7 @@ This is a list of Taxi firms.  Note only those from East Dorset can wait at Taxi
   include_once("int/TradeLib.php");
   global $TaxiAuthorities;
   $Taxis = Get_Taxis();
-  foreach($Taxis as $t) echo "<tr><td>" . $TaxiAuthorities[$t['Authority']] . "<td>" . $t['SName'] . "<td>" . $t['Phone'];
+  foreach($Taxis as $t) echo "<tr><td>" . $TaxiAuthorities[$t['Authority']] . "<td>" . $t['SN'] . "<td>" . $t['Phone'];
 ?>
 </table><p>
 

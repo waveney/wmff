@@ -16,7 +16,7 @@
         $CurBand = Get_Band($id);
         $memb = $CurBand[$match[1]];
         if ($Value) {
-          $memb['SName'] = $Value;
+          $memb['SN'] = $Value;
           Put_BandMember($memb);
         } else {
           db_delete('BandMembers',$memb['BandMemId']);

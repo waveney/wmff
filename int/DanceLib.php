@@ -6,8 +6,8 @@ $Dance_TimeFeilds = array('SatArrive','SatDepart','SunArrive','SunDepart');
 function Sides_Name_List() {
   global $db;
   $Sides = array();
-  $res = $db->query("SELECT SideId, SName FROM Sides WHERE SideStatus=0 AND IsASide=1 ORDER BY SName");
-  if ($res) while ($row = $res->fetch_assoc()) $Sides[$row['SideId']] = $row['SName'];
+  $res = $db->query("SELECT SideId, SN FROM Sides WHERE SideStatus=0 AND IsASide=1 ORDER BY SN");
+  if ($res) while ($row = $res->fetch_assoc()) $Sides[$row['SideId']] = $row['SN'];
   return $Sides;
 }
 
@@ -18,7 +18,7 @@ function Sides_All($Except=-1,$All=1,$Include1=0,$Include2=0,$Include3=0,$Includ
   if ($All) {
     if ($Sides_Loaded == $Except) return $Sides_All;
     $Sides_All = array();
-    $slist = $db->query("SELECT SideId, SName FROM Sides WHERE SideStatus=0 AND IsASide=1 ORDER BY SName");
+    $slist = $db->query("SELECT SideId, SN FROM Sides WHERE SideStatus=0 AND IsASide=1 ORDER BY SN");
   } else {
     $Blist = Select_Come(1);
     if ($Except) unset($Blist[$Except]);
@@ -32,7 +32,7 @@ function Sides_All($Except=-1,$All=1,$Include1=0,$Include2=0,$Include3=0,$Includ
     return $Blist;
   }
   if ($slist) while ($row = $slist->fetch_assoc()) {
-    if ($row['SideId'] != $Except) $Sides_All[$row['SideId']] = $row['SName'];
+    if ($row['SideId'] != $Except) $Sides_All[$row['SideId']] = $row['SN'];
   }
   $sides_Loaded = $Except;
   return $Sides_All;
@@ -43,15 +43,15 @@ function Select_Come($type=0,$extra='') {
   static $Come_Loaded = 0;
   static $Coming = array('');
   if ($Come_Loaded) return $Coming;
-  $qry = "SELECT s.SideId, s.SName, s.Type FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . 
-        $Coming_Type['Y'] . " AND s.IsASide=1 " . $extra . " ORDER BY s.SName";
+  $qry = "SELECT s.SideId, s.SN, s.Type FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . 
+        $Coming_Type['Y'] . " AND s.IsASide=1 " . $extra . " ORDER BY s.SN";
 //  echo "<!-- " . var_dump($qry) . " -->\n";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
       $x = '';
       if ($type == 0 && $row['Type']) $x = " ( " . $row['Type'] . " ) "; 
-      $Coming[$row['SideId']] = $row['SName'] . $x;
+      $Coming[$row['SideId']] = $row['SN'] . $x;
     }
   }
   $Come_Loaded = 1;
@@ -61,7 +61,7 @@ function Select_Come($type=0,$extra='') {
 function Select_Come_Day($Day,$xtr='') {
   global $db,$YEAR,$Coming_Type;
   $qry = "SELECT s.*, y.* FROM Sides s, SideYear y " .
-         "WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " AND y.$Day=1 $xtr ORDER BY s.SName";
+         "WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " AND y.$Day=1 $xtr ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
@@ -77,7 +77,7 @@ function &Select_Come_All() {
   static $Coming;
   if ($Coming) return $Coming;
   $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] .
-        " ORDER BY s.SName";
+        " ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
 
@@ -114,9 +114,9 @@ function Show_Side($snum,$Message='') {
     if (!$side['IsASide']) $ed = 'MusicEdit';
     if (Access('Participant','Side',$snum)) {
       echo "<h2><a href=$ed.php?sidenum=$snum>Click here to edit Details, Contacts, Days, Times, Requests, Upload Photos and Insurance</a></h2>";
-      echo "<h2>Public Information about: " . $side['SName'] . "</h2>";
+      echo "<h2>Public Information about: " . $side['SN'] . "</h2>";
     } else {
-      echo "<h2>" . $side['SName'] . "</h2>";
+      echo "<h2>" . $side['SN'] . "</h2>";
     }
     if ($side['IsASide'] && $side['ShortName']) echo "( Appearing in the grids as:" . $side['ShortName'] . " )<br>";
 
@@ -172,7 +172,7 @@ function Show_Side($snum,$Message='') {
 
     echo "</div><br clear=all><p>";
 
-    if ( $side['Website'] ) echo weblink($side['Website'],"<b>" . $side['SName'] . " website</b>") . "<p>";
+    if ( $side['Website'] ) echo weblink($side['Website'],"<b>" . $side['SN'] . " website</b>") . "<p>";
 
     if ( $side['Video'] )  echo embedvideo($side['Video']) . "<p>";
 
@@ -184,7 +184,7 @@ function Show_Side($snum,$Message='') {
       echo $prog;
     } else {
       echo "<h2>The programme has not yet been published yet.</h2>\n";
-      echo "When it is, the programme for <b>" . $side['SName'] . "</b> will appear here.<p>";
+      echo "When it is, the programme for <b>" . $side['SN'] . "</b> will appear here.<p>";
     }
 
     if (Access('Participant','Side',$snum)) {
@@ -302,7 +302,7 @@ function isknown($snum,$yr) {
 
 function Set_Side_Help() {
   static $t = array(
-        'SName'=>'To appear on website and in the programme',
+        'SN'=>'To appear on website and in the programme',
         'ShortName'=>'IF the sides name is more than 20 characters, give a short form to appear on the Grid.',
         'Type'=>'For example North West, Border',
         'Importance'=>'Only raise the importance for those that really need it.  They get front billing and bigger fonts in publicity.  Under normal circumstances at most 3 should be Very High. Higher values are for the late addition of surprise headline acts.',
@@ -388,7 +388,7 @@ function Get_Dance_Types($tup) {
   $res = $db->query("SELECT * FROM DanceTypes ORDER BY Importance DESC");
   if ($res) {
     while ($typ = $res->fetch_assoc()) {
-      $short[] = $typ['SName'];
+      $short[] = $typ['SN'];
       $full[$typ['TypeId']] = $typ;
     }
   }
@@ -500,7 +500,7 @@ function UpdateOverlaps($snum) {
       
 function Side_ShortName($si) {
   $side = Get_Side($si);
-  return $side[($side['ShortName']?'ShortName':'SName')];
+  return $side[($side['ShortName']?'ShortName':'SN')];
 }
 
 // Ignore case and -> &, ommit | add 'The'
@@ -514,7 +514,7 @@ function Find_Perf_Similar($name) {
   $name = preg_replace('/ & /',' ',$name);
   $name = trim($name);
 
-  $res = $db->query("SELECT * FROM Sides WHERE SName LIKE '%$name%'");
+  $res = $db->query("SELECT * FROM Sides WHERE SN LIKE '%$name%'");
   if (!$res) return [];
   $sims = [];
   while ($rec = $res->fetch_assoc()) $sims[] = $rec;
@@ -610,7 +610,7 @@ function Extended_Prog($type,$id,$all=0) {
             }
             $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
                         "<td>" . SAO_Report($e['ActAs']) .
-                        "<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SName'] . "</a><td $cls>";
+                        "<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SN'] . "</a><td $cls>";
             if ($VenC) $str .= " starting from ";
             $str .= "<a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) ;
             $str .= "</a><td $cls>";
@@ -621,7 +621,7 @@ function Extended_Prog($type,$id,$all=0) {
           } else { // Normal Event
             $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
                         "<td>" . SAO_Report($e['ActAs']) .
-                        "<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SName'] . 
+                        "<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SN'] . 
                         "</a><td $cls><a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a>";
             if ($With) {
               $str .= "<td $cls>";
@@ -652,7 +652,7 @@ function Extended_Prog($type,$id,$all=0) {
         $Thing = Get_Side($id);
         $Desc = ($Worst > 2)?"":'Current ';
         if ($With) $str = "<td>With\n" . $str;
-        $str = "<h2>$Desc Programme for " . $Thing['SName'] . " including overlaps:</h2>\n" . 
+        $str = "<h2>$Desc Programme for " . $Thing['SN'] . " including overlaps:</h2>\n" . 
                 ($UsedNotPub?"<span class=NotCSide>These are not currently public<p>\n</span>":"") .
                 "<table border><tr><td>Day<td>time<td>As<td>Event<td>Venue" . $str;
       }

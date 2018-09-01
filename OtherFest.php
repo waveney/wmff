@@ -13,7 +13,7 @@
     foreach ($fests as $f) {
       echo "<h2><a class=subtitle href=" . $f['URL'] . " target=_blank>";
       if ($f['Image']) echo "<img src=" . $f['Image'] . "> ";
-      echo $f['SName'] . "</a></h2>\n";
+      echo $f['SN'] . "</a></h2>\n";
     }
   } else {
     echo "Nothing else yet this year.<p>";

@@ -21,21 +21,21 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>State/Actions</a>\n";
   echo "</thead><tbody>";
 
-  $res=$db->query("SELECT * FROM SignUp WHERE Year=$PLANYEAR AND State<2 AND Activity<4 ORDER BY SName");
+  $res=$db->query("SELECT * FROM SignUp WHERE Year=$PLANYEAR AND State<2 AND Activity<4 ORDER BY SN");
   
   if ($res) {
     while ($lnl = $res->fetch_assoc()) {
       $id = $lnl['id'];
       echo "<tr><td>$id";
-//      echo "<td><a href=lnledit.php?id=$id>" . $lnl['SName'] . "</a>";
-      echo "<td>" . $lnl['SName'];
+//      echo "<td><a href=lnledit.php?id=$id>" . $lnl['SN'] . "</a>";
+      echo "<td>" . $lnl['SN'];
       echo "<td>" . $lnl['Style'];
       echo "<td style='background:" . $Colours[$lnl['Activity']] . ";'>" . $lnlclasses[$lnl['Activity']];
       if ($lnl['TotalSize']) {
         $siz = $lnl['TotalSize'];
       } else {
         $siz = 0;
-        for ($i=1;$i<7;$i++) if ($lnl["SName$i"]) $siz++;
+        for ($i=1;$i<7;$i++) if ($lnl["SN$i"]) $siz++;
       }
       echo "<td>$siz";
       echo "<td>" . $lnl['Contact'];

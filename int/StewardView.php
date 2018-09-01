@@ -25,12 +25,12 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Sun</a>\n";
   echo "</thead><tbody>";
 
-  $res=$db->query("SELECT * FROM Stewards WHERE Year=$PLANYEAR ORDER BY SName");
+  $res=$db->query("SELECT * FROM Stewards WHERE Year=$PLANYEAR ORDER BY SN");
   
   if ($res) while ($stew = $res->fetch_assoc()) {
     $id = $stew['id'];
     echo "<tr><td>$id";
-    echo "<td><a href=ViewStew.php?id=$id>" . $stew['SName'] . "</a>";
+    echo "<td><a href=ViewStew.php?id=$id>" . $stew['SN'] . "</a>";
     echo "<td>" . $stew['Email'];
     echo "<td>" . $stew['Phone'];
     foreach ($StewClasses as $c=>$exp) echo "<td>" . $stew["SC_$c"];

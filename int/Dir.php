@@ -43,7 +43,7 @@
           } else {
             umask(0);
             $ans = mkdir ($ndir,0777,1);
-            $newrec = array('SName'=>addslashes($NewDir), 'Who'=>$USERID, 'Created'=>time(), 'Parent'=> $d);
+            $newrec = array('SN'=>addslashes($NewDir), 'Who'=>$USERID, 'Created'=>time(), 'Parent'=> $d);
             Insert_db('Directories',$newrec);
             $subs = Get_SubDirList($d); // Refresh list
           }
@@ -69,7 +69,7 @@
       if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {
           echo '<form action="Dir.php" method="post">';
           echo fm_hidden('d', $d);
-        echo "<h2>Rename " . htmlspec($dir['SName']) . "</h2>";
+        echo "<h2>Rename " . htmlspec($dir['SN']) . "</h2>";
           echo fm_simpletext('as new name ',$_POST,'DirName');
           echo '<input type="submit" value="Rename" name="Action">';
           echo "</form>\n";
@@ -81,7 +81,7 @@
     case 'Rename':
       if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {
         $NewDir = $_POST{'DirName'};
-        if ($dir['SName'] == $NewDir) break;
+        if ($dir['SN'] == $NewDir) break;
         $fullname = Dir_FullName($d);
           $fullpath = dirname($fullname);
         if (file_exists("Store" . $fullpath . "/" . $NewDir)) {
@@ -89,7 +89,7 @@
            break;
         }
         rename("Store" . $fullname, "Store" . $fullpath . "/" . $NewDir);
-         $dir['SName'] = addslashes($NewDir);
+         $dir['SN'] = addslashes($NewDir);
         Put_DirInfo($dir);
       } else {
         $ErrMess = "Insufficient Priviledge";
@@ -99,7 +99,7 @@
       if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {
           echo '<form action="Dir.php" method="post">';
           echo fm_hidden('d', $d);
-        echo "<h2>Move " . htmlspec($dir['SName']) . " to </h2>";
+        echo "<h2>Move " . htmlspec($dir['SN']) . " to </h2>";
           echo Dir_All_Tree('NewDir',$dir['Parent'],$d);
           echo '<input type="submit" value="Move" name="Action">';
           echo "</form>\n";
@@ -111,7 +111,7 @@
     case 'Move':
       if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {
         $NewDir = $_POST{'NewDir'};
-        $name = $dir['SName'];
+        $name = $dir['SN'];
         if ($dir['Parent'] == $NewDir) break;
         $fullname = Dir_FullName($d);
           $fullpath = dirname($fullname);
@@ -131,7 +131,7 @@
       if ($d > 0 && Access('Committee','Docs')) {
           echo '<form action="Dir.php" method="post">';
           echo fm_hidden('d', $d);
-        echo "<h2>Change Ownership of " . htmlspec($dir['SName']) . " to </h2>";
+        echo "<h2>Change Ownership of " . htmlspec($dir['SN']) . " to </h2>";
           echo fm_select($AllActive,$dir,'Who');
           echo '<input type="submit" value="Chown" name="Action">';
           echo "</form>\n";
@@ -152,7 +152,7 @@
       if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {    
           echo '<form action="Dir.php" method="post">';
           echo fm_hidden('d', $d);
-        echo "<h2>Restrict " . htmlspec($dir['SName']) . " to </h2>";
+        echo "<h2>Restrict " . htmlspec($dir['SN']) . " to </h2>";
           $LocalAcc = array_slice($Access_Levels,0,$USER['AccessLevel']+1);
           $LocalAcc[0] = "All";
           echo fm_radio("Main User Level",$LocalAcc,$dir,'AccessLevel','',0);
@@ -204,7 +204,7 @@
         if (Access('Committee','Docs') || $finf['Who'] == $USERID || $dir['Who'] == $USERID ) {
             echo '<form action="Dir.php" method="post">';
             echo fm_hidden('d', $d) . fm_hidden('f', $f);
-          echo "<h2>Rename " . htmlspec($finf['SName']) . "</h2>";
+          echo "<h2>Rename " . htmlspec($finf['SN']) . "</h2>";
             echo fm_simpletext('as new name ',$_POST,'DocName');
             echo '<input type="submit" value="Rename" name="FileAction">';
             echo "</form>\n";
@@ -216,7 +216,7 @@
       case 'Rename':
         if (Access('Committee','Docs') || $finf['Who'] == $USERID || $dir['Who'] == $USERID ) {
           $NewDoc = $_POST{'DocName'};
-          if ($finf['SName'] == $NewDoc) break;
+          if ($finf['SN'] == $NewDoc) break;
           $fullname = File_FullName($f);
             $fullpath = dirname($fullname);
           if (file_exists("Store" . $fullpath . "/" . $NewDoc)) {
@@ -224,7 +224,7 @@
                break;
           }
           rename("Store" . $fullname, "Store" . $fullpath . "/" . $NewDoc);
-           $finf['SName'] = addslashes($NewDoc);
+           $finf['SN'] = addslashes($NewDoc);
           Put_DocInfo($finf);
         } else {
           $ErrMess = "Insufficient Priviledge";
@@ -234,7 +234,7 @@
         if (Access('Committee','Docs') || $finf['Who'] == $USERID || $dir['Who'] == $USERID ) {
             echo '<form action="Dir.php" method="post">';
             echo fm_hidden('d', $d) . fm_hidden('f', $f);
-          echo "<h2>Move " . htmlspec($finf['SName']) . " to </h2>";
+          echo "<h2>Move " . htmlspec($finf['SN']) . " to </h2>";
             echo Dir_All_Tree('NewDir',$finf['Dir']);
             echo '<input type="submit" value="Move" name="FileAction">';
             echo "</form>\n";
@@ -246,7 +246,7 @@
       case 'Move':
         if (Access('Committee','Docs') || $finf['Who'] == $USERID || $dir['Who'] == $USERID ) {
           $NewDir = $_POST{'NewDir'};
-          $name = $finf['SName'];
+          $name = $finf['SN'];
           if ($finf['Dir'] == $NewDir) break;
           $fullname = File_FullName($f);
           $Newpath = Dir_FullName($NewDir);
@@ -265,7 +265,7 @@
         if (Access('Committee','Docs')) {
             echo '<form action="Dir.php" method="post">';
             echo fm_hidden('d', $d) . fm_hidden('f', $f);
-          echo "<h2>Change Ownership of " . htmlspec($finf['SName']) . " to </h2>";
+          echo "<h2>Change Ownership of " . htmlspec($finf['SN']) . " to </h2>";
             echo fm_select($AllActive,$finf,'Who');
             echo '<input type="submit" value="Chown" name="FileAction">';
             echo "</form>\n";

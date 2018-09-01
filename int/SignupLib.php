@@ -17,7 +17,7 @@ $SignUpActivities = array_merge($lnlclasses,['Buskers Bash','Laugh Out Loud']);
 function Get_lnl_Details(&$lnl) {
   global $lnlclasses,$yesno;
   $Body = "\nCompetition: " . $lnlclasses[$lnl['Activity']] . "\n";
-  $Body .= "\nBand: " . $lnl['SName'] . "\n";
+  $Body .= "\nBand: " . $lnl['SN'] . "\n";
   $Body .= "Style: " . $lnl['Style'] . "\n\n";
   $Body .= "Contact: " . $lnl['Contact'] . "\n";
   if ($lnl['Phone']) $Body .= "Phone: " . $lnl['Phone'] . "\n";
@@ -27,7 +27,7 @@ function Get_lnl_Details(&$lnl) {
   $Body .= "\n\n";
 
   $Body .= "Members:\n";
-  for ($i=1;$i<7;$i++) if ($lnl["SName$i"]) $Body .= "$i: " . $lnl["SName$i"] . " - " . $lnl["Instr$i"] . "\n";
+  for ($i=1;$i<7;$i++) if ($lnl["SN$i"]) $Body .= "$i: " . $lnl["SN$i"] . " - " . $lnl["Instr$i"] . "\n";
   if ($lnl['TotalSize']) $Body .= "Total Size: " . $lnl['TotalSize'] . "\n";
 
   $Body .= "\nSongs: " . $lnl['Songs'] . "\n";
@@ -46,7 +46,7 @@ function Email_Signup(&$lnl,$messcat,$whoto) {
   $Prof = Get_Email_Proforma($messcat);
   $Mess = ($Prof? $Prof['Body'] : "Unknown message $messcat");
 
-  $Contact = $lnl['Contact']? firstword($lnl['Contact']) : $lnl['SName'];
+  $Contact = $lnl['Contact']? firstword($lnl['Contact']) : $lnl['SN'];
 
   $Details = Get_lnl_Details($lnl);
   $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
@@ -60,9 +60,9 @@ function Email_Signup(&$lnl,$messcat,$whoto) {
   $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
 
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Live and Loud $PLANYEAR and " . $lnl['SName'],$Mess);
+    SendEmail("Richard@wavwebs.com","Live and Loud $PLANYEAR and " . $lnl['SN'],$Mess);
   } else {
-    SendEmail($whoto,"Live and Loud $PLANYEAR and " . $lnl['SName'],$Mess);
+    SendEmail($whoto,"Live and Loud $PLANYEAR and " . $lnl['SN'],$Mess);
   }
 
   $logf = fopen("LogFiles/LiveNLoudLog.txt","a");
@@ -74,7 +74,7 @@ function Email_Signup(&$lnl,$messcat,$whoto) {
 
 function Get_lol_Details(&$lol) {
   global $yesno;
-  $Body = "Act: " . $lol['SName'] . "\n";
+  $Body = "Act: " . $lol['SN'] . "\n";
   $Body .= "Contact: " . $lol['Contact'] . "\n";
   if ($bb['Phone']) $Body .= "Phone: " . $lol['Phone'] . "\n";
   $Body .= "Email: <a href=mailto:" . $lol['Email'] . ">" . $lol['Email'] . "</a>\n";
@@ -100,7 +100,7 @@ function Email_lol_Signup(&$lol,$messcat,$whoto) {
   $Prof = Get_Email_Proforma($messcat);
   $Mess = ($Prof? $Prof['Body'] : "Unknown message $messcat");
 
-  $Contact = $lol['Contact']? firstword($lol['Contact']) : $lol['SName'];
+  $Contact = $lol['Contact']? firstword($lol['Contact']) : $lol['SN'];
 
   $Details = Get_lol_Details($lol);
   $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
@@ -112,9 +112,9 @@ function Email_lol_Signup(&$lol,$messcat,$whoto) {
   $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
 
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Lol Comp $PLANYEAR and " . $lol['SName'],$Mess);
+    SendEmail("Richard@wavwebs.com","Lol Comp $PLANYEAR and " . $lol['SN'],$Mess);
   } else {
-    SendEmail($whoto,"Lol Comp $PLANYEAR and " . $lol['SName'],$Mess);
+    SendEmail($whoto,"Lol Comp $PLANYEAR and " . $lol['SN'],$Mess);
   }
 
   $logf = fopen("LogFiles/LaughOutLog.txt","a");
@@ -125,7 +125,7 @@ function Email_lol_Signup(&$lol,$messcat,$whoto) {
 }
 
 function Get_BB_Details(&$bb) {
-  $Body .= "\nBand: " . $bb['SName'] . "\n";
+  $Body .= "\nBand: " . $bb['SN'] . "\n";
   $Body .= "Contact: " . $bb['Contact'] . "\n";
   if ($bb['Phone']) $Body .= "Phone: " . $bb['Phone'] . "\n";
   $Body .= "Email: <a href=mailto:" . $bb['Email'] . ">" . $bb['Email'] . "</a>\n";
@@ -145,7 +145,7 @@ function Email_BB_Signup(&$bb,$messcat,$whoto) {
   $Prof = Get_Email_Proforma($messcat);
   $Mess = ($Prof? $Prof['Body'] : "Unknown message $messcat");
 
-  $Contact = $bb['Contact']? firstword($bb['Contact']) : $bb['SName'];
+  $Contact = $bb['Contact']? firstword($bb['Contact']) : $bb['SN'];
 
   $Details = Get_BB_Details($bb);
   $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
@@ -157,9 +157,9 @@ function Email_BB_Signup(&$bb,$messcat,$whoto) {
   $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
 
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Buskers Bash $PLANYEAR and " . $bb['SName'],$Mess);
+    SendEmail("Richard@wavwebs.com","Buskers Bash $PLANYEAR and " . $bb['SN'],$Mess);
   } else {
-    SendEmail($whoto,"Buskers Bash $PLANYEAR and " . $bb['SName'],$Mess);
+    SendEmail($whoto,"Buskers Bash $PLANYEAR and " . $bb['SN'],$Mess);
   }
 
   $logf = fopen("LogFiles/BuskersBashLog.txt","a");
@@ -171,7 +171,7 @@ function Email_BB_Signup(&$bb,$messcat,$whoto) {
 
 function Get_Stew_Details(&$stew) {
   global $StewClasses,$Days,$Relations;
-  $Body = "\nName: " . $stew['SName'] . "\n";
+  $Body = "\nName: " . $stew['SN'] . "\n";
   $Body .= "Email: <a href=mailto:" . $stew['Email'] . ">" . $stew['Email'] . "</a>\n";
   if ($stew['Phone']) $Body .= "Phone: " . $stew['Phone'] . "\n";
   $Body .= "Address: " . $stew['Address'] . "\n";
@@ -202,7 +202,7 @@ function Email_Steward(&$stew,$messcat,$whoto) {
   $Prof = Get_Email_Proforma($messcat);
   $Mess = ($Prof? $Prof['Body'] : "Unknown message $messcat");
 
-  $Contact = firstword($stew['SName']);
+  $Contact = firstword($stew['SN']);
 
   $Details = Get_Stew_Details($stew);
   $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
@@ -216,9 +216,9 @@ function Email_Steward(&$stew,$messcat,$whoto) {
   $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
 
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Volunteer WMFF $PLANYEAR and " . $stew['SName'],$Mess);
+    SendEmail("Richard@wavwebs.com","Volunteer WMFF $PLANYEAR and " . $stew['SN'],$Mess);
   } else {
-    SendEmail($whoto,"Volunteer WMFF $PLANYEAR and " . $stew['SName'],$Mess);
+    SendEmail($whoto,"Volunteer WMFF $PLANYEAR and " . $stew['SN'],$Mess);
   }
 
   $logf = fopen("LogFiles/Steward.txt","a");

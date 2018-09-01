@@ -36,11 +36,11 @@
   echo "</thead><tbody>";
   foreach($Pros as $t) {
     $i = $t['id'];
-    echo "<tr><td>$i" . fm_text1("",$t,'SName',1,'','',"SName$i");
+    echo "<tr><td>$i" . fm_text1("",$t,'SN',1,'','',"SN$i");
     echo "<td>" . fm_basictextarea($t,'Body',6,8,'',"Body$i");
     echo "\n";
   }
-  echo "<tr><td><td><input type=text name=SName0 >";
+  echo "<tr><td><td><input type=text name=SN0 >";
   echo "<td><textarea name=Body0 rows=6 cols=120></textarea>";
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";

@@ -24,7 +24,7 @@
       echo "<div class=galleryarticle>";
       if ($s['Web']) echo weblinksimple($s['Web']);
       echo "<img class=galleryarticleimg src='" . $s['Image'] . "'>";
-      echo "<div class=gallerycaption> " . $s['SName'] . "</div>";
+      echo "<div class=gallerycaption> " . $s['SN'] . "</div>";
       if ($s['Web']) echo "</a>";
       echo "</div>\n";
     }

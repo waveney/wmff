@@ -26,14 +26,14 @@
     $i = $t['id'];
     echo "<tr><td>$i";
     echo "<td>" . fm_select($TaxiAuthorities,$t,'Authority',0,'',"Authority$i");
-    echo fm_text1("",$t,'SName',1,'','',"SName$i");
+    echo fm_text1("",$t,'SN',1,'','',"SN$i");
     echo fm_text1('',$t,'Phone',1,'','',"Phone$i");
     echo fm_text1('',$t,'Website',1,'','',"Website$i");
     echo "\n";
   }
   echo "<tr><td>";
   echo "<td>" . fm_select($TaxiAuthorities,$t,'Authority0');
-  echo "<td><input type=text name=SName0>";
+  echo "<td><input type=text name=SN0>";
   echo "<td><input type=text name=Phone0>";
   echo "<td><input type=text name=Website0>";
   echo "</table>\n";

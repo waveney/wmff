@@ -25,7 +25,7 @@
   foreach($Gals as $g) {
     $i =  $g['id'];
     echo "<tr><td>" . $i;
-    echo fm_text1("",$g,'SName',1,'','',"SName$i") . "</a>";
+    echo fm_text1("",$g,'SN',1,'','',"SN$i") . "</a>";
     echo fm_text1("",$g,'Credits',7,'','',"Credits$i") . "</a>";
 
     echo "<td>" . fm_select($Medias,$g,'Media',0,'',"Media$i");
@@ -34,7 +34,7 @@
     echo "<td><a href=ShowGallery.php?g=" . $g['id'] . ">Show</a>";
     echo "\n";
   }
-  echo "<tr><td><td><input type=text size=20 name=SName0 >";
+  echo "<tr><td><td><input type=text size=20 name=SN0 >";
   echo "<td><input type=text size=100 name=Credits0 >";
   echo "<td>" . fm_select($Medias,$g,"Media0");
   echo "</table>\n";

@@ -18,7 +18,7 @@
   }
   echo "<ul>";
   foreach ($Vens as $ven) {
-    echo "<li><a href=/int/VenueShow.php?v=" . $ven['VenueId'] . "&Y=$YEAR>" . $ven['SName'] . "</a><br>";
+    echo "<li><a href=/int/VenueShow.php?v=" . $ven['VenueId'] . "&Y=$YEAR>" . $ven['SN'] . "</a><br>";
   }
   echo "</ul>";
 

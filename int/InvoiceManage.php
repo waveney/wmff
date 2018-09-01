@@ -18,10 +18,16 @@
   include_once("InvoiceLib.php");
   include_once("TradeLib.php");
 
-  global $YEAR,$PLANYEAR,$BUDGET,$USERID;
+  global $YEAR,$PLANYEAR,$BUDGET,$USER;
 
 var_dump($_REQUEST);
 
+  echo "<script>
+    function diffprompt(id){
+      $('#amt' + id).val(prompt('How much £?'))
+    }
+    </script>";
+    
   echo "<h2>Manage Invoices - $YEAR</h2>\n";
   
   if (isset($_REQUEST['ACTION'])) {
@@ -35,20 +41,22 @@ var_dump($_REQUEST);
     switch ($_REQUEST['ACTION']) {
     case 'PAID':
       $inv['PayDate'] = time();
-      $inv['History'] .= "Fully Paid on " . date('j/n/Y') . " by $USERID\n";
-      if ($inv['Source'] == 1) Trade_F_Action($inv['SourceId'],'Paid',$inv['Total']); // TBW
+      $inv['History'] .= "Fully Paid on " . date('j/n/Y') . " by " . $USER['Login'] . "\n";
       $inv['PaidTotal'] = $inv['Total'];
+      Put_Invoice($inv);
+      if ($inv['Source'] == 1) Trade_F_Action($inv['SourceId'],'Paid',$inv['Total']); // TBW
       break;
     
     case 'DIFF': // Need to find out ammount 
-      $amt = $_REQUEST['amt']*100;
+      $amt = $_REQUEST["amt$id"]*100;
       if ($amt >= $inv['Total']) {
         $inv['PayDate'] = time();
-        $inv['History'] .= "Fully Paid on " . date('j/n/Y') . " by $USERID\n";
+        $inv['History'] .= "Fully Paid on " . date('j/n/Y') . " by " . $USER['Login'] . "\n";
       } else {
-        $inv['History'] .= "Partially Paid " . Print_Pence($amt) . " on " . date('j/n/Y') . " by $USERID\n";
+        $inv['History'] .= "Partially Paid " . Print_Pence($amt) . " on " . date('j/n/Y') . " by " . $USER['Login'] . "\n";
       }
       $inv['PaidTotal'] += $amt;
+      Put_Invoice($inv);
       if ($inv['Source'] == 1) Trade_F_Action($inv['SourceId'],'Paid',$amt); 
       break;
         
@@ -107,7 +115,7 @@ var_dump($_REQUEST);
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D')>Date Raised</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D')>Date Due</a>\n";
   if ($All) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D')>Date Paid</a>\n";
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Amount</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Amount (left)</a>\n";
   if ($All) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Paid Amount</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Reason</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Actions</a>\n";
@@ -115,7 +123,7 @@ var_dump($_REQUEST);
   foreach($Invs as $i=>$inv) {
     $id = $inv['id'];
     echo "<tr><td><a href=InvoiceManage.php?Show=$id>$id</a>";
-    echo "<td>" . $inv['BName']; // Make link soon
+    echo "<td>" . $inv['BZ']; // Make link soon
     echo "<td>" . $inv['OurRef'] . '/' . $inv['id'];
     echo "<td>" . date('j/n/Y',$inv['IssueDate']);
     echo "<td>";
@@ -128,14 +136,16 @@ var_dump($_REQUEST);
     }
     if ($All) echo "<td>" . ($inv['PayDate']? date('j/n/Y',$inv['PayDate']) : "" );
     echo "<td>" . Print_Pence($inv['Total']);
+    if ($inv['PaidTotal'] > 0 && $inv['PaidTotal'] < $inv['Total']) echo " (" . Print_Pence($inv['Total'] - $inv['PaidTotal']) . ")";
     if ($All) echo "<td>" . Print_Pence($inv['PaidTotal']);
     echo "<td>" . $inv['Reason'];
     echo "<td>"; 
       if ($inv['PayDate'] == 0 && $inv['Total']>0) {// Pay, pay diff, cancel/credit, change
-        echo "<form method=post>" . fm_hidden('i',$id) . fm_hidden('amt',0);
+        echo "<form method=post>" . fm_hidden('i',$id) . fm_hidden("amt$id",0);
         echo "<button name=ACTION value=PAID>Paid</button> ";
-        echo "<button name=ACTION value=DIFF onclick='function(){ $(\'#amt\').val(prompt(\"How much?\",0))}'>Paid Different</button> ";
+        echo "<button name=ACTION value=DIFF onclick=diffprompt($id) >Paid Different</button> ";
         echo "<button name=ACTION value=CREDIT>Cancel/credit</button> ";
+        echo "</form>";
       }
     echo "\n";
   }

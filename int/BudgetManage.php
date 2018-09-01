@@ -52,12 +52,12 @@
     if ($i == $b['id']) {
       if ($Manage) {
         echo "<tr><td>$i";
-        echo fm_text1("",$b,'SName',1,'','',"SName$i") . "</a>";
+        echo fm_text1("",$b,'SN',1,'','',"SN$i") . "</a>";
         echo "<td><a href=BudgetDetail.php?b=$i>Detail</a>";
         echo fm_text1("",$b,'Budget',1,'','',"Budget$i") . "</a>";
         echo "<td>" . $b['CommittedSoFar'];
       } else {
-        echo "<tr><td>" . $b['SName'] . "<td>" . $b['Budget'] . "<td>" . $b['CommittedSoFar']; 
+        echo "<tr><td>" . $b['SN'] . "<td>" . $b['Budget'] . "<td>" . $b['CommittedSoFar']; 
       }
     } else {
       if ($Manage) {
@@ -69,7 +69,7 @@
     echo "\n";
   }
   if (($YEAR == $PLANYEAR) && $Manage) {
-    echo "<tr><td><td><input type=text name=SName0 >";
+    echo "<tr><td><td><input type=text name=SN0 >";
     echo "<td><td><input type=number name=Budget0 >";
   }
   echo "</table>\n";

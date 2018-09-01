@@ -24,7 +24,7 @@
           break;
 
         case 'Rename as':
-          $Event['SName'] = $_POST{'NewName'};
+          $Event['SN'] = $_POST{'NewName'};
           break;
 
         case 'Move by':
@@ -101,7 +101,7 @@
       echo "<input type=checkbox name=E$i class=SelectAllAble>";
       echo "<td>$i<td>";
       if (Access('Staff','Venues') || $evnt['Owner']==$USERID || $evnt['Owner2']==$USERID) echo "<a href=EventAdd.php?e=$i>";
-      if (strlen($evnt['SName']) >2) { echo $evnt['SName'] . "</a>"; } else { echo "Nameless</a>"; };
+      if (strlen($evnt['SN']) >2) { echo $evnt['SN'] . "</a>"; } else { echo "Nameless</a>"; };
       echo "<td>" . $DayList[$evnt['Day']] . "<td>" . timecolon($evnt['Start']) . "<td>";
       if ($se > 0 && $evnt['SubEvent'] < 0) { echo timecolon($evnt['SlotEnd']); } else { echo timecolon($evnt['End']); }; 
       echo "<td>" . (isset($Venues[$evnt['Venue']]) ? $Venues[$evnt['Venue']] : "Unknown");

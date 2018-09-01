@@ -37,7 +37,7 @@
   echo "<tr><td>ID:" . $n['id'] . fm_hidden('id',$n['id']);
     echo "<td>" . fm_checkbox('Display',$n,'display');
     echo "<td>Visible from:<td>" . fm_textinput("created",date('j M Y G:i',$n['created']));
-  echo "<tr>" . fm_text('Title',$n,'SName');
+  echo "<tr>" . fm_text('Title',$n,'SN');
   echo "<tr><td colspan=5>" . fm_basictextarea($n,'content',10,10);
   echo "<tr><td colspan=2 rowspan=3>";
     if ($n['image']) {

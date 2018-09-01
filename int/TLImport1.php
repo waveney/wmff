@@ -48,7 +48,7 @@
       if (!$TestOnly) Insert_db('TimeLine',$rec);
 
 /*
-echo $rec['SName'] . " ";
+echo $rec['SN'] . " ";
 var_dump($rec);
 var_dump($yr);
 echo "<p>";

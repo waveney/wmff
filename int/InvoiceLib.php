@@ -45,7 +45,7 @@ function Invoice_Print(&$inv) {
   $pdf->SetLineWidth(1);
 
   $pdf->Rect($padx,$pady+6*$ch,32*$cw,7*$ch); // Who box
-  $pdf->Text($padx+$cw,$pady+7*$ch,$inv['BName']);
+  $pdf->Text($padx+$cw,$pady+7*$ch,$inv['BZ']);
   $ln = 1;
   foreach (explode(',', $inv['Address'] . "," . $inv['PostCode']) as $bit) $pdf->Text($padx+2*$cw,$pady+(7+$ln++)*$ch,trim($bit));
   
@@ -60,7 +60,7 @@ function Invoice_Print(&$inv) {
   $pdf->Text($padx+48*$cw,$pady+9*$ch,date('J F Y',$inv['IssueDate']));
   
   $pdf->Text($padx+37*$cw,$pady+10*$ch,"Your Ref:");
-  $pdf->Text($padx+48*$cw,$pady+10*$ch,$inv['CName']);
+  $pdf->Text($padx+48*$cw,$pady+10*$ch,$inv['Contact']);
   
   $pdf->Text($padx+37*$cw,$pady+11*$ch,"Our Ref:");
   $pdf->Text($padx+48*$cw,$pady+11*$ch,$inv['OurRef'] . '/' . $inv['id']);
@@ -72,13 +72,16 @@ function Invoice_Print(&$inv) {
   $pdf->Rect($padx,$pady+16*$ch,$padx+60*$cw,$pady+17*$ch); // Main invoice BOx
   $pdf->SetLineWidth(0.5);  
   $pdf->Line($padx,$pady+18*$ch,$padx+63*$cw,$pady+18*$ch);
+  $pdf->Line($padx+54*$cw,$pady+16*$ch,$padx+54*$cw,$pady+35*$ch);
+  $pdf->Line($padx+44*$cw,$pady+16*$ch,$padx+44*$cw,$pady+35*$ch);
+  
   $pdf->SetFont('Arial','B',$fs);
-  $pdf->Text($padx+16*$cw,$pady+17.5*$ch,"Description");
+  $pdf->Text($padx+16*$cw,$pady+17.5*$ch,"DESCRIPTION");
   $pdf->Text($padx+46*$cw,$pady+17.5*$ch,"VAT");
   $pdf->Text($padx+55*$cw,$pady+17.5*$ch,"AMOUNT");
 
   $pdf->SetFont('Arial','BU',14);  
-  $pdf->Text($padx+2*$cw,$pady+19*$ch,"RE: " . $MASTER_DATA['FestName'] . " " . $PLANYEAR);
+  $pdf->Text($padx+$cw,$pady+19*$ch,"RE: " . $MASTER_DATA['FestName'] . " " . $PLANYEAR);
   $pdf->SetFont('Arial','',$fs);
 
   if ($inv['Desc1']) $pdf->Text($padx+$cw,$pady+ 21*$ch,$inv['Desc1']);
@@ -127,9 +130,9 @@ function Invoice_Print(&$inv) {
   
   $pdf->SetFont('Arial','B',$fs+1);
   if ($inv['PayDate']) {
-    $pdf->Text($padx+15*$cw,$pady+45*$ch,"PAYMENT TERMS: PAID WITH THANKS " . date('j/n/Y',$inv['PayDate']) );
+    $pdf->Text($padx+10*$cw,$pady+45*$ch,"PAYMENT TERMS: PAID WITH THANKS " . date('j/n/Y',$inv['PayDate']) );
   } else {
-    $pdf->Text($padx+15*$cw,$pady+45*$ch,"PAYMENT TERMS: PAYABLE BY " . date('j/n/Y',$inv['DueDate']) . " PLEASE");
+    $pdf->Text($padx+10*$cw,$pady+45*$ch,"PAYMENT TERMS: PAYABLE BY " . date('j/n/Y',$inv['DueDate']) . " PLEASE");
   }
   $pdf->SetFont('Arial','',$fs); 
 
@@ -146,18 +149,19 @@ function Invoice_Print(&$inv) {
   $pdf->Text($padx+36*$cw,$pady+53*$ch,"Registered in England 08290423");
   $pdf->Text($padx+36*$cw,$pady+54*$ch,"Non-VAT Registered");
 
-  // Temp print
-  
-  $pdf->Output('F',"Temp/Invoice.pdf");
-  
-  
-  
-  echo "<h2>pdf outputed</h2>";
+  $id = $inv['id'];
+  $dir = "Invoices/" . substr($id,0,-3 ) . "000";
+  mkdir($dir,0777,1);
+  $pdf->Output('F',"$dir/$id.pdf");
+
+//  $pdf->Output('F',"Temp/Invoice.pdf");
+//  echo "<h2>pdf outputed</h2>";
+  return "$dir/$id.pdf";
 }  
 
-// Returns the Pdf of a previously printed invoice
+// Returns the file name of Pdf of a previously printed invoice
 function Get_Invoice_Pdf($id) {
-
+  return "Invoices/" . substr($id,0,-3) . "000/$id.pdf"; 
 }
 
 function Sage_Code(&$Whose) { // May only work for trade at the moment
@@ -165,7 +169,7 @@ function Sage_Code(&$Whose) { // May only work for trade at the moment
   global $db;
   if (isset($Whose['SageCode']) && $Whose['SageCode']) return $Whose['SageCode'];
   // New code needed  
-  $Nam = $Whose['SName'];
+  $Nam = $Whose['SN'];
   $Nam = preg_replace('/The /i','',$Nam);
   $Nam = preg_replace('/ and /i','',$Nam);
   $Nam = preg_replace('/ /','',$Nam);
@@ -202,8 +206,9 @@ function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=30
   global $db,$YEAR;
   $inv['Source'] = $Source;
   $inv['Year'] = $YEAR;
-  $inv['BName'] = $Whose['SName'];
-  $inv['CName'] = $Whose['Contact'];
+  $inv['BZ'] = $Whose['SN'];
+  $inv['Contact'] = $Whose['Contact'];
+  $inv['Email'] = $Whose['Email'];
   $inv['Phone'] = $Whose['Phone'];
   $inv['Mobile'] = $Whose['Mobile'];
   $inv['Address'] = $Whose['Address'];
@@ -244,7 +249,7 @@ function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=30
   
   Insert_db("Invoices",$inv);
   
-  // Then print, but not yet
+  return Invoice_Print($inv);
 }
 
 /*
@@ -265,7 +270,7 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade/sponsers/ad
   }
   
   $Traders = Get_All_Traders();
-  $Orgs = ["These are not yet in the system"];  // TODO
+  $Orgs = ["These are not yet in the system"];  // TODO may be part of same table
   $Budgets = Budget_List();
   $InvCodes = Get_InvoiceCodes(0);
 
@@ -306,19 +311,18 @@ function Show_Invoice($id) { // Show details, limited edit
   echo "<table border>";
   echo fm_hidden('i',$id);
 // Who
-  echo "<tr>" . fm_text("Oranisation",$inv,'BName',1,$RO);
+  echo "<tr>" . fm_text("Oranisation",$inv,'BZ',1,$RO);
   echo "<tr>" . fm_text("Address",$inv,'Address',4,$RO) . fm_text('Post Code',$inv,'PostCode',1,$RO);
-  echo "<tr>" . fm_text("Contact",$inv,'CName',2,$RO) . fm_text('Phone',$inv,'Phone',1,$RO) . fm_text('Mobile',$inv,'Mobile',1,$RO); 
+  echo "<tr>" . fm_text("Contact",$inv,'Contact',2,$RO) . fm_text('Phone',$inv,'Phone',1,$RO) . fm_text('Mobile',$inv,'Mobile',1,$RO); 
   
 // What
-  echo "<tr>" . fm_text("Reason",$inv,'Reason',2,$RO);
-  echo "<td>" . fm_text('',$inv,'Email',1,$RO);
+  echo "<tr>" . fm_text("Reason",$inv,'Reason',2,$RO) . fm_text('Email',$inv,'Email',1,$RO);
   echo "<tr><td>Invoice Code:<td>" . fm_select($InvCodes,$inv,'InvoiceCode',1,$RO);
   echo "<tr><td colspan=3>What<td>Amount";
   for ($i=1;$i<4;$i++) {
     echo "<tr>" . fm_text1("",$inv,"Desc$i",3,$RO) . "<td>" . Print_Pence($inv["Amount$i"]);
   }
-  echo "<tr><td>Total<td colspan=4>" . fm_text1('',$inv,'Total',1,$RO);
+  echo "<tr><td colspan=3>Total<td>" . Print_Pence($inv['Total']);
   
 // Status
   if ($inv['PaidTotal']) {
@@ -327,7 +331,7 @@ function Show_Invoice($id) { // Show details, limited edit
   }
 
 // Other - History, Source, SourceId
-  echo "<tr><td>" . fm_select($Invoice_Sources,$inv,'Source',1,$RO) . "<td>" . fm_number("SourceId", $inv,'SourceId','',$RO); 
+  echo "<tr><td>Source:<td>" . fm_select($Invoice_Sources,$inv,'Source',1,$RO) . fm_number("SourceId", $inv,'SourceId','',$RO); 
   echo "<tr>" . fm_textarea('History',$inv,'History',5,2,'','maxlength=2000');
   echo "</table>";
   echo "<input type=submit name=ACTION value=UPDATE>";
@@ -342,7 +346,7 @@ function Get_InvoiceCodes($type=0) {  // 0 simple list, 1 full data
   global $YEAR,$db;  
   $full = [];
   $res = $db->query("SELECT * FROM InvoiceCodes ORDER BY Code ");
-  if ($res) while ($inv = $res->fetch_assoc()) $full[$inv['Code']] = ($type?$inv:($inv['Code'] . " " . $inv['SName']));
+  if ($res) while ($inv = $res->fetch_assoc()) $full[$inv['Code']] = ($type?$inv:($inv['Code'] . " " . $inv['SN']));
   return $full;  
 }
 

@@ -7,7 +7,7 @@
 /* List all photos with edit boxes and thumb nails
    comment a photo may be part of more than one gallery
    import from a directory all files
-   no upload, remove file to remove from gallery - SName = filename??
+   no upload, remove file to remove from gallery - SN = filename??
 */
 
 
@@ -17,7 +17,7 @@
   $Gals = Get_Gallery_Names(1);
   $Galid = (isset($_GET['g'])? $_GET['g'] : (isset($_POST['g'])? $_POST['g']:0 ));
   if (strlen($Galid) > 4) $Galid=0;
-  $GalName = $Gals[$Galid]['SName'];
+  $GalName = $Gals[$Galid]['SN'];
 
   if (isset($_POST['IMPORT'])) { 
     $Prefix = $_POST['FilePrefix'];

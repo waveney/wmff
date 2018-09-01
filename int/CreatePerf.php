@@ -10,30 +10,30 @@
   A_Check('Committee',$Type);
   $TypeSuf = ['Dance'=>'Dance Side', 'Music'=>'Musical Act', 'Other'=> 'Other Performer']; 
 
-  if (isset($_POST['SName'])) {
-    if (strlen($_POST['SName']) < 3) {
+  if (isset($_POST['SN'])) {
+    if (strlen($_POST['SN']) < 3) {
       $Mess = "Name too short";
     } else {
-      $similar = Find_Perf_Similar($_POST['SName']);
+      $similar = Find_Perf_Similar($_POST['SN']);
       if (!isset($_POST['CONTINUE']) && $similar) {
         dostaffhead("Add Performer - already exists");
         echo "<h2> The following already exist:</h2><ul>";
         foreach ($similar as $i=>$side) {
           if ($side['IsASide']) {
-            echo "<li><b><a href=AddDance.php?sidenum=" . $side['SideId'] . ">" . $side['SName'] . "</b> is a ";
+            echo "<li><b><a href=AddDance.php?sidenum=" . $side['SideId'] . ">" . $side['SN'] . "</b> is a ";
             if ($side['SideStatus']) echo " Dead ";
             echo $side['Type'] . " Dance side</a><p>\n";
           } else if ($side['IsAnAct']) {
-            echo "<li><b><a href=AddMusic.php?sidenum=" . $side['SideId'] . ">" . $side['SName'] . "</b> is a ";
+            echo "<li><b><a href=AddMusic.php?sidenum=" . $side['SideId'] . ">" . $side['SN'] . "</b> is a ";
             if ($side['SideStatus']) echo " Dead ";
             echo $side['Type'] . " Musical Act</a><p>\n";
           } else {
-            echo "<li><b><a href=AddDance.php?sidenum=" . $side['SideId'] . ">" . $side['SName'] . "</b> is an ";
+            echo "<li><b><a href=AddDance.php?sidenum=" . $side['SideId'] . ">" . $side['SN'] . "</b> is an ";
             if ($side['SideStatus']) echo " no longer active ";
             echo $side['Type'] . " Other performer</a><p>\n";
           }
         }
-        echo "</ul>or <form method=post>" . fm_hidden('SName',$_POST['SName']) . fm_hidden('T',$Type) . "<input type=submit name=CONTINUE value=Continue><p>or<p>";
+        echo "</ul>or <form method=post>" . fm_hidden('SN',$_POST['SN']) . fm_hidden('T',$Type) . "<input type=submit name=CONTINUE value=Continue><p>or<p>";
         
 //        dotail();
       } else { // It is new
@@ -74,7 +74,7 @@
 
   if ($Mess) echo "<div class=Err>$Mess</div><p>";
   echo "<form method=post>" . fm_hidden('T',$Type);
-  echo fm_text('Name',$_POST,'SName',2);
+  echo fm_text('Name',$_POST,'SN',2);
   echo "<input type=submit name=Create value=Create>";
   echo "</form>";
   

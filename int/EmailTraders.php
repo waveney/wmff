@@ -28,16 +28,16 @@
     echo "<h2>";
     foreach ($Messages as $mes) {
       if ($mes['id'] == $Messkey) {
-        echo $mes['SName'];
+        echo $mes['SN'];
         $Mess = $mes['Body'];
       } else {
-        echo "<a href=EmailTraders.php?MessNum=" . $mes['id'] . ">" . $mes['SName'] . "</a>";
+        echo "<a href=EmailTraders.php?MessNum=" . $mes['id'] . ">" . $mes['SN'] . "</a>";
       }
       echo "&nbsp; &nbsp; &nbsp; ";
     }
     echo "</h2>\n";
 
-    $Sender = $USER['SName'];
+    $Sender = $USER['SN'];
     $Mess = preg_replace('/\$PLANYEAR/',$PLANYEAR,$Mess);
 
     $_POST['Mess'] = preg_replace('/\*SENDER\*/',$Sender,$Mess);
@@ -104,24 +104,24 @@
       $Tid = $Trad['Tid'];
       $Key = $Trad['AccessKey'];
       if (!$Key) {
-        echo "Ommitting " . $Trad['SName'] . " as it does not have an Access Key.<br>";
+        echo "Ommitting " . $Trad['SN'] . " as it does not have an Access Key.<br>";
         continue;
       };
 
       if ($Trad['Contact']) {
         $Contact = firstword(trim($Trad['Contact']));
       } else {
-        $Contact = $Trad['SName'];
+        $Contact = $Trad['SN'];
       }
 
-      if ($Trad['SName'] == '') continue;
+      if ($Trad['SN'] == '') continue;
 
       $Link = "<a href=http://wimbornefolk.co.uk/int/Direct.php?t=Trade&id=$Tid&key=$Key><b>link</b></a>";
       $Remove = "<a href=http://wimbornefolk.co.uk/int/Remove.php?t=Trade&id=$Tid&key=$Key><b>here</b></a>";
     
       if ($Sent_Count >= $StartAt && $Sent_Count < $EndAt) {
         if ( isset($_POST['JustList']) && $_POST['JustList']) {
-          echo "Would send to " . $Trad['SName'] . "<br>";
+          echo "Would send to " . $Trad['SN'] . "<br>";
         } else {
           $ThisMess = preg_replace('/\*WHO\*/',$Contact,$ThisMess);
           $ThisMess = preg_replace('/\*LINK\*/',$Link,$ThisMess);
@@ -129,11 +129,11 @@
           $ThisMess = preg_replace('/\*LIMITED\*/',$Limited,$ThisMess);
 // Need to update history in future as appropriate
           if (file_exists("testing")) {
-              echo "Would send to " . $Trad['SName'] . "<p> $ThisMess <p>";
+              echo "Would send to " . $Trad['SN'] . "<p> $ThisMess <p>";
           } else {
 // exit; // Testing backstopdd
-            SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SName'],$ThisMess);
-            echo "Sent to " . $Trad['SName'] . "<br>";
+            SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SN'],$ThisMess);
+            echo "Sent to " . $Trad['SN'] . "<br>";
           }
         }
       }

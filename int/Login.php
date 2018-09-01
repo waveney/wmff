@@ -56,7 +56,7 @@ function Forgot() {
         if (file_exists("Testing")) {
           $message .= "</h2>Email link is <a href=Login.php?ACTION=LIMITED&U=$user&A=$rand_hash>$user $rand_hash</a><h2>";
         } else {
-          SendEmail($ans['Email'],"Wimborne Minster Folk Festival",$ans['SName'] . "<p>\n\nYour limited duration " .
+          SendEmail($ans['Email'],"Wimborne Minster Folk Festival",$ans['SN'] . "<p>\n\nYour limited duration " .
                                 "<a href=https://wimbornefolk.co.uk/int/Login.php?ACTION=LIMITED&U=$user&A=$rand_hash>New Password link</a>.");
         }
         return $message;

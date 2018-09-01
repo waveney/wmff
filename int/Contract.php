@@ -29,7 +29,7 @@ hire the below-identified Artist to perform an engagement and the Artist agrees 
 services, under the following terms and conditions:<p>\n";
 
   $str .= "This agreement for performance services is entered into by the performers(s) known as:<br>";
-  $str .= "<b>" . $Side['SName'] . " </b>(now referred to as Artist) and <b>" . $Booked['SName'] . "</b> for and on behalf of
+  $str .= "<b>" . $Side['SN'] . " </b>(now referred to as Artist) and <b>" . $Booked['SN'] . "</b> for and on behalf of
 Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
 
   $str .= "Performances:<p>";
@@ -55,7 +55,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
       $evc++;
       if ($e['SubEvent'] < 0) { $End = $e['SlotEnd']; } else { $End = $e['End']; };
       if (($e['Start'] != 0) && ($End != 0) && ($e['Duration'] == 0)) $e['Duration'] = timeadd2real($End, - $e['Start']);
-      $str .= "<tr><td>$evc<td>" . $e['SName'] . "<td>" . $DayList[$e['Day']] . " " . ($MASTER['DateFri']+$e['Day']) ."th June $YEAR";
+      $str .= "<tr><td>$evc<td>" . $e['SN'] . "<td>" . $DayList[$e['Day']] . " " . ($MASTER['DateFri']+$e['Day']) ."th June $YEAR";
       if ($ctype == 1 ) $str .= "<td>" . ($e['Start']? ( timecolon(timeadd2($e['Start'],- $e['Setup']) )) : "TBD" ) ;
       $str .= "<td>" . ($e['Start']?timecolon($e['Start']):"TBD");
       $str .= "<td>" . ($e['Duration']? DurationFormat($e['Duration']) :"TBD"); 
@@ -66,7 +66,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
       if ($e['Venue']) {
         if (isset($Venues[$e['Venue']])) {
           $v = $Venues[$e['Venue']];
-          $str .= "<a href=http://" . $_SERVER['HTTP_HOST'] . "/int/VenueShow.php?v=" . $v['VenueId'] . ">" . $v['SName'] . "</a><br>";
+          $str .= "<a href=http://" . $_SERVER['HTTP_HOST'] . "/int/VenueShow.php?v=" . $v['VenueId'] . ">" . $v['SN'] . "</a><br>";
           if ($v['Address']) $str .= $v['Address'] . "<br>" . $v['PostCode'] ."<br>";
  //         if ($v['Description']) $str .= $v['Description'];
           if ($v['MusicRider']) $riders[$v] = 1;
@@ -75,7 +75,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
             if (!isset($pkvens[$v['VenueId']])) {
               $pkvens[$v['VenueId']] = 1;
               if ($pking) $pking .= ", ";
-              $pking .= $v['SName'];
+              $pking .= $v['SN'];
             }
           }
         } else {

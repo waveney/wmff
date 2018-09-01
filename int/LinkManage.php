@@ -27,14 +27,14 @@
   echo "</thead><tbody>";
   foreach($lnks as $g) {
     echo "<tr><td>" . $g['id'];
-    echo fm_text1("",$g,'SName',1,'','',"SName$i");
+    echo fm_text1("",$g,'SN',1,'','',"SN$i");
     echo fm_text1("",$g,'URL',1,'','',"URL$i");
     echo fm_text1("",$g,'Image',1,'','',"Image$i");
     echo fm_text1("",$g,'LinkType',1,'','',"LinkType$i");
     echo fm_text1("",$g,'Year',1,'','',"Year$i");
     echo "\n";
   }
-  echo "<tr><td><td><input type=text size=20 name=SName0 >";
+  echo "<tr><td><td><input type=text size=20 name=SN0 >";
   echo "<td><input type=text name=URL0 >";
   echo "<td><input type=text name=Image0 >";
   echo "<td><input type=text name=LinkType0 >";

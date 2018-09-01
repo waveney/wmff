@@ -30,14 +30,14 @@
 
   if ($_GET{'SEL'} == 'ALL') {
     $flds = "y.*, s.*";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN ActYear as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE $TypeSel ORDER BY SName");
+    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN ActYear as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE $TypeSel ORDER BY SN");
     $col5 = "Book State";
     $col6 = "Actions";
   } else if ($_GET{'SEL'} == 'INV') {
     $LastYear = $PLANYEAR-1;
     $flds = "s.*, ly.YearState, y.YearState, y.ContractConfirm";
     $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN ActYear as y ON s.SideId=y.SideId AND y.year=$PLANYEAR " .
-                        "LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE $TypeSel AND s.SideStatus=0 ORDER BY SName");
+                        "LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE $TypeSel AND s.SideStatus=0 ORDER BY SN");
     $col5 = "Invited $LastYear";
     $col6 = "Coming $LastYear";
     $col7 = "Invite $PLANYEAR";
@@ -45,17 +45,17 @@
     $col9 = "Coming $PLANYEAR";
   } else if ($_GET{'SEL'} == 'Coming') {
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
-                $Book_State['Booked'] . " ORDER BY Importance DESC, SName");
+                $Book_State['Booked'] . " ORDER BY Importance DESC, SN");
     $col5 = "Complete?";
   } else if ($_GET{'SEL'} == 'Booking') {
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>0" . 
-                " ORDER BY SName");
+                " ORDER BY SN");
     $col5 = "Book State";
     $col6 = "Actions";
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
     $SideQ = $db->query("SELECT $flds FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
-                $Book_State['Booked'] . " ORDER BY Importance DESC SName");
+                $Book_State['Booked'] . " ORDER BY Importance DESC SN");
   }
 
   if (!$SideQ || $SideQ->num_rows==0) {
@@ -82,7 +82,7 @@
 
     echo "</thead><tbody>";
     while ($fetch = $SideQ->fetch_assoc()) {
-      echo "<tr><td><a href=AddMusic.php?sidenum=" . $fetch['SideId'] . "&Y=$YEAR>" . $fetch['SName'] . "</a>";
+      echo "<tr><td><a href=AddMusic.php?sidenum=" . $fetch['SideId'] . "&Y=$YEAR>" . $fetch['SN'] . "</a>";
       if ($fetch['SideStatus']) {
         echo "<td>DEAD";
       } else {

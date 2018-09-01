@@ -9,7 +9,7 @@ function Get_Budget() {
   $full = [];
   $res = $db->query("SELECT * FROM BudgetAreas WHERE Year=$YEAR ORDER BY id ");
   if ($res) while ($spon = $res->fetch_assoc()) $full[$spon['id']] = $spon;
-  $full[0] = ['id'=>0,'SName'=>'','Year'=>$YEAR,'CommittedSoFar'=>0];
+  $full[0] = ['id'=>0,'SN'=>'','Year'=>$YEAR,'CommittedSoFar'=>0];
   return $full;  
 }
 
@@ -81,7 +81,7 @@ $BUDGET = Get_Budget();
 
 function FindBudget($area) {
   global $BUDGET;
-  foreach ($BUDGET as $i=>$b) if ($b['SName'] == $area) return $i;
+  foreach ($BUDGET as $i=>$b) if ($b['SN'] == $area) return $i;
   return 0;
 }
 
@@ -90,7 +90,7 @@ function Budget_List() {
   static $blist;
   if ($blist || empty($BUDGET)) return $blist;
   $blist[0]='';
-  foreach ($BUDGET as $i=>$b) $blist[$b['id']] = $b['SName'];
+  foreach ($BUDGET as $i=>$b) $blist[$b['id']] = $b['SN'];
   return $blist;
 }
 

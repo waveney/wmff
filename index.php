@@ -71,7 +71,7 @@ if ($ans) {
     if ($stuff['Photo'] || $stuff['Description']) {
       echo "<div class=article>";
       echo "<a href=$host/int/ShowDance.php?sidenum=" . $stuff['SideId'] . " >";
-      echo "<h2 class=articlettl>" . $stuff['SName'] . "</h2>";
+      echo "<h2 class=articlettl>" . $stuff['SN'] . "</h2>";
       if ($stuff['Photo']) echo "<img class=articleimg src=" . $stuff['Photo'] . " alt='Wimborne Minster Folk Festival' />";
       echo "</a>";
       if ($stuff['Description']) echo "<p class=articletxt>" . $stuff['Description'] . "\n";
@@ -198,7 +198,7 @@ The final was on 24th February (Status, Bowen & Pounds and The Darwins).<p>
     if ($stuff['Photo'] || $stuff['Description']) {
       echo "<div class=article>";
       echo "<a href=$host/int/ShowMusic.php?sidenum=" . $stuff['SideId'] . " >";
-      echo "<h2 class=articlettl>" . $stuff['SName'] . "</h2>";
+      echo "<h2 class=articlettl>" . $stuff['SN'] . "</h2>";
       if ($stuff['Photo']) echo "<img class=articleimg src=" . $stuff['Photo'] . " alt='Wimborne Minster Folk Festival' />";
       echo "</a>";
       if ($stuff['Description']) echo "<p class=articletxt>" . $stuff['Description'] . "\n";
@@ -245,7 +245,7 @@ Online booking will close at midnight on Thursday June 7th (after which you can 
     echo "<li class=SponsorsIds id=" .$s['id'] . "><div class=sponcontainer>";
     if ($s['Website']) echo weblinksimple($s['Website']);
     if ($s['Image']) echo "<img src='" . $s['Image'] . "' width=150>";
-    if (!$s['Image'] || $s['IandT']) echo "<h2 class=sponText>" . $s['SName'] . "</h2>";
+    if (!$s['Image'] || $s['IandT']) echo "<h2 class=sponText>" . $s['SN'] . "</h2>";
     if ($s['Website']) echo "</a>";
     echo "</div>";
   }

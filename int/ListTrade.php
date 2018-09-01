@@ -12,7 +12,7 @@
 
   echo "If you click on the email link, press control-V afterwards to paste the standard link into message.<p>";
 
-  $qry = "SELECT y.*, t.* FROM Trade AS t LEFT JOIN TradeYear AS y ON t.Tid = y.Tid AND y.Year=$YEAR ORDER BY SName";
+  $qry = "SELECT y.*, t.* FROM Trade AS t LEFT JOIN TradeYear AS y ON t.Tid = y.Tid AND y.Year=$YEAR ORDER BY SN";
   $res = $db->query($qry);
   $Trade_Types = Get_Trade_Types(1);
 
@@ -37,8 +37,8 @@
     while ($fetch = $res->fetch_assoc()) {
       $tt = $fetch['TradeType'];
       if ($tt == 0) $tt=1;
-      echo "<tr><td width=300><a href=Trade.php?id=" . $fetch['Tid'] . ">" . ($fetch['SName']?$fetch['SName']:'No Name Given') . "</a>";
-      echo "<td style='background:" . $Trade_Types[$tt]['Colour'] . ";'>" . $Trade_Types[$tt]['SName'];
+      echo "<tr><td width=300><a href=Trade.php?id=" . $fetch['Tid'] . ">" . ($fetch['SN']?$fetch['SN']:'No Name Given') . "</a>";
+      echo "<td style='background:" . $Trade_Types[$tt]['Colour'] . ";'>" . $Trade_Types[$tt]['SN'];
       echo "<td width=400>" . $fetch['GoodsDesc'];
       echo "<td>" . $fetch['Contact'];
       echo "<td>" . linkemailhtml($fetch,'Trade');
