@@ -32,7 +32,7 @@ $TaxiAuthorities = array('East Dorset','Poole','Bournemouth');
 
 function Get_Email_Proformas() { 
   global $db;
-  $res = $db->query("SELECT * FROM EmailProformas ORDER BY SName ");
+  $res = $db->query("SELECT * FROM EmailProformas ORDER BY SN ");
   if ($res) {
     while ($typ = $res->fetch_assoc()) $full[$typ['id']] = $typ;
   }
@@ -44,7 +44,7 @@ function Get_Email_Proforma($id) {
   if (is_numeric($id)) {
     $res=$db->query("SELECT * FROM EmailProformas WHERE id=$id");
   } else {
-    $res=$db->query("SELECT * FROM EmailProformas WHERE SName='$id'");
+    $res=$db->query("SELECT * FROM EmailProformas WHERE SN='$id'");
   }
   if ($res) {
     $ans = $res->fetch_assoc();
@@ -61,10 +61,10 @@ function Put_Email_Proforma(&$now) {
 
 function Get_Trade_Locs($tup=0) { // 0 just names, 1 all data
   global $db;
-  $res = $db->query("SELECT * FROM TradeLocs ORDER BY SName ");
+  $res = $db->query("SELECT * FROM TradeLocs ORDER BY SN ");
   if ($res) {
     while ($typ = $res->fetch_assoc()) {
-      $short[$typ['TLocId']] = $typ['SName'];
+      $short[$typ['TLocId']] = $typ['SN'];
       $full[$typ['TLocId']] = $typ;
     }
   }
@@ -96,7 +96,7 @@ function Get_Trade_Types($tup=0) { // 0 just base names, 1 all data
     if ($res) while ($tt = $res->fetch_assoc()) $full[$tt['id']] = $tt;
   } else {
     $res = $db->query("SELECT * FROM TradePrices WHERE Addition=0 ORDER BY ListOrder");
-    if ($res) while ($tt = $res->fetch_assoc()) $full[$tt['id']] = $tt['SName'];
+    if ($res) while ($tt = $res->fetch_assoc()) $full[$tt['id']] = $tt['SN'];
   }
   return $full;
 }
@@ -121,11 +121,11 @@ function Get_Sponsors($tup=0) { // 0 Current, 1 all data
   global $db,$PLANYEAR;
   $full = array();
   $yr = ($tup ?"" :" WHERE Year=$PLANYEAR ");
-  $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY SName ");
+  $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY SN ");
   if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   if ($tup==0 && empty($full)) {
     $yr = " WHERE Year=" . ($PLANYEAR-1);
-    $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY SName ");
+    $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY SN ");
     if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   }
   return $full;
@@ -133,7 +133,7 @@ function Get_Sponsors($tup=0) { // 0 Current, 1 all data
 
 function Get_Sponsor_Names() {
   $data = Get_Sponsors();
-  foreach ($data as $i=>$sp) $ans[$sp['id']]=$sp['SName'];
+  foreach ($data as $i=>$sp) $ans[$sp['id']]=$sp['SN'];
   return $ans;
 }
 
@@ -154,11 +154,11 @@ function Get_WaterRefills($tup=0) { // 0 Current, 1 all data
   global $db,$PLANYEAR;
   $full = array();
   $yr = ($tup ?"" :" WHERE Year=$PLANYEAR ");
-  $res = $db->query("SELECT * FROM Water $yr ORDER BY SName ");
+  $res = $db->query("SELECT * FROM Water $yr ORDER BY SN ");
   if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   if ($tup==0 && empty($full)) {
     $yr = " WHERE Year=" . ($PLANYEAR-1);
-    $res = $db->query("SELECT * FROM Water $yr ORDER BY SName ");
+    $res = $db->query("SELECT * FROM Water $yr ORDER BY SN ");
     if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   }
   return $full;
@@ -189,11 +189,11 @@ function Get_Traders_Coming($type=0) { // 0=names, 1=all
   global $db,$YEAR,$Trade_State;
   $data = array();
   $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Deposit Paid'] .
-                " ORDER BY SName";
+                " ORDER BY SN";
   $res = $db->query($qry);
   if (!$res || $res->num_rows == 0) return 0;
   while ($tr=$res->fetch_assoc()) {
-    $data[$tr['Tid']] = ($type?$tr:$tr['SName']);
+    $data[$tr['Tid']] = ($type?$tr:$tr['SN']);
   }
   return $data;
 }
@@ -201,11 +201,11 @@ function Get_Traders_Coming($type=0) { // 0=names, 1=all
 function Get_All_Traders($type=0) { // 0=names, 1=all
   global $db,$YEAR,$Trade_State;
   $data = array();
-  $qry = "SELECT * FROM Trade WHERE Status=0 ORDER BY SName";
+  $qry = "SELECT * FROM Trade WHERE Status=0 ORDER BY SN";
   $res = $db->query($qry);
   if (!$res || $res->num_rows == 0) return 0;
   while ($tr=$res->fetch_assoc()) {
-    $data[$tr['Tid']] = ($type?$tr:$tr['SName']);
+    $data[$tr['Tid']] = ($type?$tr:$tr['SN']);
   }
   return $data;
 }
@@ -296,7 +296,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
   echo "<form method=post id=mainform enctype='multipart/form-data' action=$Form>";
   echo "<table width=90% border class=SideTable>\n";
     echo "<tr><th colspan=8><b>Public Information</b>" . Help('PublicInfo');
-    echo "<tr>" . fm_text('Business Name', $Trad,'SName',2,'','autocomplete=off onchange=nameedit(event) oninput=nameedit(event) id=SName');
+    echo "<tr>" . fm_text('Business Name', $Trad,'SN',2,'','autocomplete=off onchange=nameedit(event) oninput=nameedit(event) id=SN');
     echo "<tr>";
       if (isset($Trad['Website']) && strlen($Trad['Website'])>1) {
         echo fm_text(weblink($Trad['Website']),$Trad,'Website');
@@ -322,7 +322,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
       echo "<td>Trade Type:" . help('TradeType') . "<td colspan=7>";
       foreach ($TradeTypeData as $i=>$d) {
         if ($d['Addition']) continue;
-        echo " <div class=KeepTogether style='background:" . $d['Colour'] . ";'>" . $d['SName'] . ": ";
+        echo " <div class=KeepTogether style='background:" . $d['Colour'] . ";'>" . $d['SN'] . ": ";
         echo " <input type=radio name=TradeType $ADDALL value=$i ";
         if ($Trad['TradeType'] == $i) echo " checked";
         echo " onclick='SetTradeType(" . $d['NeedPublicHealth'] . "," . $d['NeedCharityNum'] . "," .
@@ -355,7 +355,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
     } 
     if (Access('Committee',"Finance")) {
       include_once("InvoiceLib.php");
-      $Scode = Sage_Code($Trad);
+      if (isset($Trad['SN'])) $Scode = Sage_Code($Trad);
       echo fm_text("Sage Code",$Trad,'SageCode',1,'class=NotSide','class=NotSide');
     }
     echo fm_hidden("Tid", $Tid);
@@ -549,6 +549,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
 
 function Email_Body(&$Trad,&$Trady,$messcat='Link',$simple=0) {
   global $PLANYEAR,$USER,$MASTER;
+  include_once("InvoiceLib.php");
 
   $Prof = Get_Email_Proforma($messcat);
   $Mess = ($Prof? $Prof['Body'] : "Unknown message $messcat");
@@ -558,18 +559,18 @@ function Email_Body(&$Trad,&$Trady,$messcat='Link',$simple=0) {
   $Link = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=Trade&id=$Tid&key=$Key><b>link</b></a>";
   $WmffLink = "<a href=http://wimbornefolk.co.uk/int/Trade.php?id=$Tid><b>link</b></a>";
   $Remove = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Remove.php?t=Trade&id=$Tid&key=$Key><b>here</b></a>";
-  $Contact = $Trad['Contact']? firstword($Trad['Contact']) : $Trad['SName'];
-  $Sender = $USER['SName'];
+  $Contact = $Trad['Contact']? firstword($Trad['Contact']) : $Trad['SN'];
+  $Sender = $USER['SN'];
 
   if (!$simple) {
     $Locs = Get_Trade_Locs(1);
     $Location = '';
-    if ($Trady['PitchLoc0']) $Location = $Locs[$Trady['PitchLoc0']]['SName'];
+    if ($Trady['PitchLoc0']) $Location = $Locs[$Trady['PitchLoc0']]['SN'];
     if ($Trady['PitchLoc1']) {
-      if ($Trady['PitchLoc2']) { $Location .= ", " . $Locs[$Trady['PitchLoc1']]['SName']; }
-      else { $Location .= " and " . $Locs[$Trady['PitchLoc1']]['SName']; }
+      if ($Trady['PitchLoc2']) { $Location .= ", " . $Locs[$Trady['PitchLoc1']]['SN']; }
+      else { $Location .= " and " . $Locs[$Trady['PitchLoc1']]['SN']; }
     };
-    if ($Trady['PitchLoc2']) { $Location .= " and " . $Locs[$Trady['PitchLoc2']]['SName']; }
+    if ($Trady['PitchLoc2']) { $Location .= " and " . $Locs[$Trady['PitchLoc2']]['SN']; }
 
     $Details = Get_Trade_Details($Trad,$Trady);
     $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
@@ -579,23 +580,27 @@ function Email_Body(&$Trad,&$Trady,$messcat='Link',$simple=0) {
     elseif ($Price==0) { $Price = "Not Known"; }
     else { $Price = "&pound;" . $Price; }
     $Dep = T_Deposit($Trad);
-
+    preg_match('/(\d*)\.pdf/',$att,$mtch);
+    $Bacs = Sage_Code($Trad) . "/" . ($mtch[1] ? $mtch[1] : '0000' );
+    
 //echo "DETAILS: $Details<p><p>\n";
   }
 
-  $Mess = preg_replace('/\*WHO\*/',$Contact,$Mess);
-  $Mess = preg_replace('/\*LINK\*/',$Link,$Mess);
+  $Mess = preg_replace('/\*WHO\*/',     $Contact,$Mess);
+  $Mess = preg_replace('/\*LINK\*/',    $Link,$Mess);
   $Mess = preg_replace('/\*WMFFLINK\*/',$WmffLink,$Mess);
 
   if (!$simple) {
-    $Mess = preg_replace('/\*HERE\*/',$Remove,$Mess);
+    $Mess = preg_replace('/\*HERE\*/'    ,$Remove,$Mess);
     $Mess = preg_replace('/\*LOCATION\*/',$Location,$Mess);
-    $Mess = preg_replace('/\*PRICE\*/',$Price,$Mess);
-    $Mess = preg_replace('/\*DEPOSIT\*/',$Dep,$Mess);
-    $Mess = preg_replace('/\*BALANCE\*/',($Trady['Fee'] - $Dep),$Mess);
-    $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
+    $Mess = preg_replace('/\*PRICE\*/'   ,$Price,$Mess);
+    $Mess = preg_replace('/\*DEPOSIT\*/' ,$Dep,$Mess);
+    $Mess = preg_replace('/\*BALANCE\*/' ,($Trady['Fee'] - $Dep),$Mess);
+    $Mess = preg_replace('/\*DETAILS\*/' ,$Details,$Mess);
     $Mess = preg_replace('/\*PLANYEAR\*/',$PLANYEAR,$Mess);
-    $Mess = preg_replace('/\*DATES\*/',$Dates,$Mess);
+    $Mess = preg_replace('/\*DATES\*/'   ,$Dates,$Mess);
+    $Mess = preg_replace('/\*BACSREF\*/' ,$Bacs,$Mess);
+    $Mess = preg_replace('/\*TOTAL\*/'   ,$Trady['Fee'],$Mess);
   }
 
   $Mess .= "<p>Regards, Wimborne Minster Folk Festival\n";
@@ -603,18 +608,19 @@ function Email_Body(&$Trad,&$Trady,$messcat='Link',$simple=0) {
   return $Mess;
 }
 
-function Send_Trader_Email(&$Trad,&$Trady,$messcat='Link',$cont='') {
+function Send_Trader_Email(&$Trad,&$Trady,$messcat='Link',$att='') {
+  include_once("Email.php");
 //  Get EMail template
 //  Edit in all standard expansions
 //  Send
 //  Send Copy to Mandy
 //  Log for Weekly Email
 
-  $Mess = Email_Body($Trad,$Trady,$messcat);
+  $Mess = Email_Body($Trad,$Trady,$messcat,0,$att);
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SName'],$Mess);
+    NewSendEmail("Richard@wavwebs.com","Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SN'],$Mess,$att);
   } else {
-    SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SName'],$Mess);
+    NewSendEmail($Trad['Email'],"Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SN'],$Mess,$att);
   }
 
   $logf = fopen("LogFiles/TradeLog.txt","a");
@@ -627,9 +633,9 @@ function Send_Trader_Simple_Email(&$Trad,$messcat='Trade_Link') {
   $Mess = Email_Body($Trad,$Trad,$messcat,1);
   
   if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SName'],$Mess);
+    SendEmail("Richard@wavwebs.com","Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SN'],$Mess);
   } else {
-    SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SName'],$Mess);
+    SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SN'],$Mess);
   }
 }
 
@@ -638,7 +644,7 @@ function Old_Send_Trader_Email(&$Trad,$messcat='Link',$cont='') {
   $letter = '';
 
   if (isset($data[$xtr .'Contact'])) { $name = firstword($Trad[$xtr .'Contact']); }
-  else { $name = $Trad['SName']; }
+  else { $name = $Trad['SN']; }
   $id = $Trad['Tid'];
   $key = $Trad['AccessKey'];
   $to = $Trad[$xtr . 'Email'];
@@ -682,7 +688,7 @@ function Get_Trade_Details(&$Trad,&$Trady) {
   global $Trade_Days,$TradeLocData,$TradeTypeData;
 
 //  $Body  = "\nWimborne Minster Folk festival Trading application\n";
-  $Body = "\nFrom: " . $Trad['SName'] . "\n";
+  $Body = "\nFrom: " . $Trad['SN'] . "\n";
   $Body .= "Goods: " . $Trad['GoodsDesc'] . "\n\n";
   $Body .= "Type: " . $TradeTypeData[$Trad['TradeType']] . "\n\n";
   if ($Trad['Website']) $Body .= "Website: " . $Trad['Website'] . "\n\n";
@@ -702,16 +708,16 @@ function Get_Trade_Details(&$Trad,&$Trady) {
   $Body .= "For " . $Trady['Year'] .":\n";
   $Body .= "Days: " . $Trade_Days[$Trady['Days']] . "\n";
   $Body .= "Pitch:" . $Trady['PitchSize0'];
-  if ($Trady['PitchLoc0']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc0']]['SName'];
+  if ($Trady['PitchLoc0']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc0']]['SN'];
   if ($Trady['Power0']) $Body .= " with " . ($Trady["Power0"]> 0 ? $Trady['Power0'] . " Amps\n" : " own Euro 4 silent generator\n");
   if ($Trady['PitchSize1']) {
     $Body .= "\nPitch 2:" . $Trady['PitchSize1'];
-    if ($Trady['PitchLoc1']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc1']]['SName'];
+    if ($Trady['PitchLoc1']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc1']]['SN'];
     if ($Trady['Power1']) $Body .= " with " . $Trady['Power1'] . " Amps\n";
   }
   if ($Trady['PitchSize2']) {
     $Body .= "\nPitch 3:" . $Trady['PitchSize2'];
-    if ($Trady['PitchLoc2']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc2']]['SName'];
+    if ($Trady['PitchLoc2']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc2']]['SN'];
     if ($Trady['Power2']) $Body .= " with " . $Trady['Power2'] . " Amps\n";
   }
 
@@ -753,7 +759,7 @@ function Submit_Application(&$Trad,&$Trady,$Mode=0) {
 function Validate_Trade($Mode=0) { // Mode 1 for Staff Submit, less stringent
   global $TradeTypeData;
       $proc = 1;
-      if (!isset($_POST['SName']) || strlen($_POST['SName']) < 3 ) {
+      if (!isset($_POST['SN']) || strlen($_POST['SN']) < 3 ) {
         echo "<h2 class=ERR>No Business Name Given</h2>\n";
         $proc = 0;
       }
@@ -803,7 +809,7 @@ function Validate_Trade($Mode=0) { // Mode 1 for Staff Submit, less stringent
 
 function Trader_Name($Tid) {
   $Trad = Get_Trader($Tid);
-  return $Trad['SName'];
+  return $Trad['SN'];
 }
 
 function T_Deposit(&$Trad) {
@@ -812,7 +818,7 @@ function T_Deposit(&$Trad) {
 }
 
 function Validate_Pitches(&$CurDat) {
-  global $db,$PLANYEAR,$TradeLocsData;
+  global $db,$PLANYEAR,$TradeLocData;
   for ($pn=0; $pn<3; $pn++) {
     if ($_POST["PitchLoc$pn"] != $CurDat["PitchLoc$pn"] || $_POST["PitchNum$pn"] != $CurDat["PitchNum$pn"]) {
       if ($_POST["PitchLoc$pn"]) {
@@ -833,7 +839,7 @@ function Validate_Pitches(&$CurDat) {
             $dat = $res->fetch_assoc();
             return "Pitch " . ($pn+1) . " already in use by " . Trader_Name($dat['Tid']);
           }
-          if ($ln > $TradeLocsData[$pl]['Pitches']) return "Pitch Number " . ($pn+1) . " Out of range (1-" . $TradeLocsData[$pl]['Pitches'] . ")";
+          if ($ln > $TradeLocData[$pl]['Pitches']) return "Pitch Number " . ($pn+1) . " Out of range (1-" . $TradeLocData[$pl]['Pitches'] . ")";
         }
       }
     }
@@ -910,7 +916,8 @@ function Trade_Main($Mode,$Program,$iddd=0) {
 
       Update_db_post('Trade',$Trad);
       if ($_POST{'Year'} == $PLANYEAR) {
-        if ($Trady) {
+        $same = 0;
+        if (isset($Trady) && $Trady) {
           $OldFee = $Trady['Fee'];
           if ($Mode) {
             if ($Trady['BookingState'] != $_POST['BookingState']) {
@@ -938,15 +945,16 @@ function Trade_Main($Mode,$Program,$iddd=0) {
         } else {
           if ($_POST['Insurance'] || $_POST['RiskAssessment'] || $_POST['PitchSize0'] != '3Mx3M' || $_POST['PitchSize1'] || $_POST['PitchSize2'] ||
                 $_POST['Power0'] || $_POST['Power1'] || $_POST['Power2'] || $_POST['YNotes'] || $_POST{'BookingState'} || isset($_POST['Submit']) ||
-                $_POST['Days'] || $_POST['Fee'] || $_POST['PitchLoc0'] || $_POST['PitchLoc1'] || $_POST['PitchLoc2']) {
+                $_POST['Days'] || $_POST['Fee'] || $_POST['PitchLoc0'] || $_POST['PitchLoc1'] || $_POST['PitchLoc2'] || (isset($_POST['ACTION']) && $_POST['ACTION')) {
+
             if (isset($_POST['Fee']) && ($_POST['Fee'] < 0) && ($_POST['BookingState'] >= $Trade_State['Accepted'])) $_POST['BookingState'] = $Trade_State['Fully Paid'];
-             $_POST['Year'] = $PLANYEAR;
+            $_POST['Year'] = $PLANYEAR;
             $TYid = Insert_db_post('TradeYear',$Trady);
             $Trady['TYid'] = $TYid;
           };
         };
       }
-      if (isset($_POST['ACTION'])) Trade_Action($_POST['ACTION'],$Trad,$Trady,$Mode);
+      if ($proc && isset($_POST['ACTION'])) Trade_Action($_POST['ACTION'],$Trad,$Trady,$Mode);
     } else { // New trader 
       $_POST['AccessKey'] = rand_string(40);
       $Tid = Insert_db_post('Trade',$Trad,$proc);
@@ -1088,9 +1096,18 @@ function Send_Trade_Finance_Email(&$Trad,&$Trady,$messcat) {
   fclose($logf);
 }
 
+function Trade_Date_Cutoff() { // return 0 - normal, 30, full payment (normal duration), >0 = Days left to trade stop (full payment)
+  global $MASTER;
+  $Now = time();
+  if ($MASTER['TradeMainDate'] > $Now) return 0;
+  $DaysLeft = intdiv(($MASTER['TradeLastDate'] - $Now),24*60*60);
+  if ($DaysLeft > 30) $DaysLeft = 30;
+  return $DaysLeft;
+}
+
 // Highly recursive set of actions - some trigger others 
 function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='') {
-  global $Trade_State,$TradeTypeData,$Trade_Email,$USER;
+  global $Trade_State,$TradeTypeData,$Trade_Email,$USER,$TradeLocData;
   $Tchng = $Ychng = 0;
   $PaidSoFar = $Trady['TotalPaid'];
   $CurState = $NewState = $Trady['BookingState'];
@@ -1119,13 +1136,40 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='') {
       Send_Trader_Email($Trad,$Trady,'Trade_AcceptNoDeposit');
       return;
     } else {
-      if ($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) {
-        Send_Trader_Email($Trad,$Trady,'Trade_Artisan_Accept');
+      $ProformaName = (($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) ? "Trade_Artisan_Accept" : "Trade_Accepted");
+   
+      if (Feature("AutoInvoices")) {
+        $InvCode = $TradeLocData[$Trady['PitchLoc0']]['InvoiceCode'];
+        if ($InvCode == 0) $InvCode = $TradeTypeData[$Trad['TradeType']]['InvoiceCode'];
+        $DueDate = Trade_Date_Cutoff();
+        if ($DueDate == 0) {
+ //       if (Now < Main invoice date, Due = 30, else invoice full amount (if Now < 30 before cut date, Due = 30, else Due = CutDate - now
+          $ipdf = New_Invoice($Trad,
+                              ["Deposit payment to secure your trade stand at the $PLANYEAR festival",$Dep*100],
+                              'Trade Stand Deposit',
+                              $InvCode);
+          Send_Trader_Email($Trad,$Trady,$ProformaName . "_Invoice",$ipdf);
+          // Message and attach
+        } else {
+          $ipdf = New_Invoice($Trad,
+                              ["Full payment to secure your trade stand at the $PLANYEAR festival",$Trady['Fee']*100],
+                              'Trade Stand Charge',
+                              $InvCode, 1, $DueDate);
+          Send_Trader_Email($Trad,$Trady,$ProformaName . "_FullInvoice",$ipdf);
+        }
+        // Attach pdf to appropriate email and send it - email for normal, atisan, all in1 normal, artisan
       } else {
-        Send_Trader_Email($Trad,$Trady,'Trade_Accepted');
+        if ($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) {
+          Send_Trader_Email($Trad,$Trady,'Trade_Artisan_Accept');
+        } else {
+          Send_Trader_Email($Trad,$Trady,'Trade_Accepted');
+        }
+        Send_Trade_Finance_Email($Trad,$Trady,'Trade_RequestDeposit');
       }
-      Send_Trade_Finance_Email($Trad,$Trady,'Trade_RequestDeposit');
     }
+    break;
+    
+  case 'Invoice':
     break;
 
   case 'Resend Finance':
@@ -1240,7 +1284,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='') {
 function Get_Taxis() {
   global $db;
   $cs = array();
-  $res = $db->query("SELECT * FROM TaxiCompanies ORDER BY Authority,SName");
+  $res = $db->query("SELECT * FROM TaxiCompanies ORDER BY Authority,SN");
   if ($res) while($c = $res->fetch_assoc()) $cs[] = $c;
   return $cs;
 }
@@ -1277,4 +1321,7 @@ function Put_OtherLink($now) {
   return Update_db('OtherLinks',$Cur,$now);
 }
 
+function Trade_F_Action($Tid,$Action,$amt) {
+
+}
 ?>

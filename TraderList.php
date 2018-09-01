@@ -17,23 +17,23 @@
 
   $Locs = Get_Trade_Locs(1);
   $res = $db->query("SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE y.Year=$YEAR AND t.Tid=y.Tid AND ( y.BookingState=" . $Trade_State['Deposit Paid'] .
-		" OR y.BookingState=" . $Trade_State['Fully Paid'] . ") AND t.ListMe=1 ORDER BY t.SName" );
+		" OR y.BookingState=" . $Trade_State['Fully Paid'] . ") AND t.ListMe=1 ORDER BY t.SN" );
 
 
   echo "<div id=flex>\n";
   if ($res) while ($trad = $res->fetch_assoc()) {
     echo "<div class=article>";
     if ($trad['Website']) echo weblinksimple($trad['Website']);
-    echo "<h2 class=articlettl>" . $trad['SName'] . "</h2>";
+    echo "<h2 class=articlettl>" . $trad['SN'] . "</h2>";
     if ($trad['Photo']) echo "<img class=articleimg src=" . $trad['Photo'] . ">";
     if ($trad['Website']) echo "</a>";
     echo "<p class=articletxt>" . $trad['GoodsDesc'];
-    echo ($YEAR > $PLANYEAR?"<p>Will be trading ":"<p>Was trading ") . $Prefixes[$Locs[$trad['PitchLoc0']]['prefix']] . ' ' . $Locs[$trad['PitchLoc0']]['SName'];
+    echo ($YEAR > $PLANYEAR?"<p>Will be trading ":"<p>Was trading ") . $Prefixes[$Locs[$trad['PitchLoc0']]['prefix']] . ' ' . $Locs[$trad['PitchLoc0']]['SN'];
     if ($trad['PitchLoc2']) {
-      echo ", " . $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc1']]['SName'] . " and " 
-		. $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc2']]['SName'];
+      echo ", " . $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc1']]['SN'] . " and " 
+		. $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc2']]['SN'];
     } else if ($trad['PitchLoc1']) {
-      echo " and " . $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc1']]['SName'];
+      echo " and " . $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc1']]['SN'];
     }
     if ($trad['Days']) echo " on " . $Trade_Days[$trad['Days']];
     echo "<p>";

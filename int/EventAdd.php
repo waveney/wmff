@@ -71,7 +71,7 @@ A similar feature will appear eventually for music.<p>
         $se = $Event['SubEvent'];
         $SubEvent = $Event;
         for ($i=1;$i<5;$i++) { $SubEvent["Side$i"] = $SubEvent["Act$i"] = $SubEvent["Other$i"] = 0; };
-//        $SubEvent['SName'] = "";
+//        $SubEvent['SN'] = "";
         if ($se == 0) {
           $Timeleft = timereal($Event['End'])-timereal($Event['Start'])-$slotsize;
           if ($Timeleft > 0) {
@@ -210,7 +210,7 @@ A similar feature will appear eventually for music.<p>
       }  
     } else { // New
       $proc = 1;
-      if (!isset($_POST['SName']) || strlen($_POST{'SName'}) < 2) { 
+      if (!isset($_POST['SN']) || strlen($_POST{'SN'}) < 2) { 
         echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
         $Event = $_POST;
         $proc = 0;
@@ -287,7 +287,7 @@ A similar feature will appear eventually for music.<p>
       echo "<td>Alt Edit:" . fm_select($AllActive,$Event,'Owner2',1);
       echo "<td class=NotSide>Importance: " . fm_select($Importance,$Event,'Importance');
 
-      echo "<tr>" . fm_text('Name', $Event,'SName');
+      echo "<tr>" . fm_text('Name', $Event,'SN');
         echo "<td>Event Type:" . fm_select($Event_Types,$Event,'Type');
         $se = isset($Event['SubEvent'])? $Event['SubEvent'] : 0;
         if ($se == 0) { echo "<td>No Sub Events"; }

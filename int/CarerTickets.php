@@ -45,12 +45,12 @@
   echo "</thead><tbody>";
   foreach($Carers as $t) {
     $i = $t['id'];
-    echo "<tr><td>$i" . fm_text1("",$t,'SName',1,'','',"SName$i");
+    echo "<tr><td>$i" . fm_text1("",$t,'SN',1,'','',"SN$i");
     echo fm_text1('',$t,'Carer',1,'','',"Carer$i");
     echo fm_text1('',$t,'Notes',3,'','',"Notes$i");
     echo "\n";
   }
-  echo "<tr><td><td><input type=text name=SName0 >";
+  echo "<tr><td><td><input type=text name=SN0 >";
   echo "<td><input type=text name=Carer0>";
   echo "<td><input type=text name=Notes0 size=60>";
   echo fm_hidden('Year0',$PLANYEAR);

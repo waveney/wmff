@@ -23,7 +23,7 @@
                 ); 
 
   echo "<table border><tr><th>Category<th>Total";
-  foreach ($Types as $typ) echo "<th style='background:" . $typ['Colour'] . ";'>" . $typ['SName'];
+  foreach ($Types as $typ) echo "<th style='background:" . $typ['Colour'] . ";'>" . $typ['SN'];
   echo "<th>Other</tr>\n";
 
 
@@ -35,7 +35,7 @@
     echo "<tr><td>$cat<td align=right>$catcount";
     $runtotal=0;
     foreach($Types as $typ) {
-      $lctyp = strtolower($typ['SName']);
+      $lctyp = strtolower($typ['SN']);
       $qtxt = "SELECT y.SideId, s.Type FROM SideYear y, Sides s WHERE y.SideId=s.SideId AND y.SideId>0 AND y.Year=$YEAR AND $srch " .
                 "AND LOWER(s.Type) LIKE '%$lctyp%'";
 //var_dump($qtxt);

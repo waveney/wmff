@@ -74,7 +74,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
         }
       }
       if ($e['BigEvent']) {
-        if ($e['SName'] == 'Procession') $Procession = $eid;
+        if ($e['SN'] == 'Procession') $Procession = $eid;
         $Other = Get_Other_Things_For($eid);
         $sidcount = 1;
         $Events[$eid]['Other'] = $Other;
@@ -207,7 +207,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 //if ($side['SideId']==290) echo "X1 " . $e['EventId'] . " - ";
 //if ($side['SideId']==356) echo "X1 " . $e['EventId'] . " - ";
               $oside = $Sides[$o];
-              $oname = $oside['SName'];
+              $oname = $oside['SN'];
               $starttime = timereal($start = $Events[$e]['Start']);
               $endtime = timereal($Events[$e]['SubEvent'] < 0 ? $Events[$e]['SlotEnd']: $Events[$e]['End']); 
               foreach ($dancing[$o] as $od=>$oe) {
@@ -344,7 +344,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
     $link = ($side['IsASide'])?'AddDance.php':'AddMusic.php';
     if ($Err) {
       $sideercount++;
-      echo "<a href=$link?sidenum=$si>" . $side['SName'] . "</a>: ";
+      echo "<a href=$link?sidenum=$si>" . $side['SN'] . "</a>: ";
       echo "<span class=red>$Err</span>";
       $needbr=1;
     }
@@ -352,7 +352,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 //var_dump($side);
       if (!$Err) {
         $sideercount++;
-        echo "<a href=$link?sidenum=$si>" . $side['SName'] . "</a>: ";
+        echo "<a href=$link?sidenum=$si>" . $side['SN'] . "</a>: ";
       }
       echo "<span class=brown>$Merr</span>\n";
       $needbr=1;

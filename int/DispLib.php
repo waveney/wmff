@@ -17,11 +17,11 @@ function formatminimax(&$side,$link,$mnat=2) {
     $fmt = 't';
   } // fmt t=txt, l=ls, p=pt, s=sq, b=ban
   $mnmx = ($side['Importance'] >= $mnat?'maxi':'mini');
-  $id = AlphaNumeric($side['SName']);
+  $id = AlphaNumeric($side['SN']);
   echo "<div class=$mnmx" . "_$fmt id=$id>";
   echo "<a href=/int/$link?sidenum=" . $side['SideId'] . "&Y=$YEAR>";
   if ($mnmx != 'maxi' && $side['Photo']) echo "<div class=mnmximgwrap><img class=mnmximg src='" . $side['Photo'] ."'></div>";
-  echo "<div class=mnmxttl style='font-size:" . (27+$side['Importance']*3) . "px'>" . $side['SName'] . "</div>";
+  echo "<div class=mnmxttl style='font-size:" . (27+$side['Importance']*3) . "px'>" . $side['SN'] . "</div>";
   if ($mnmx == 'maxi' && $side['Photo']) echo "<div class=mnmximgwrap><img class=mnmximg src='" . $side['Photo'] ."'></div>";
   echo "</a><div class=mnmxtxt>" . $side['Description'] . "</div>";
   echo "</div></div>\n";
@@ -66,11 +66,11 @@ function Gallery($id,$embed=0) {
   if (is_numeric($id)) {
     $Gal = db_get('Galleries',"id='$id'");
   } else {
-    $Gal = db_get('Galleries',"SName='$id'");
+    $Gal = db_get('Galleries',"SN='$id'");
   }
   if (!$Gal) Error_Page("Gallery $id does not exist");
 
-  $name = $Gal['SName'];
+  $name = $Gal['SN'];
   if (!$embed) dohead($name, '/files/gallery.css');
   echo "<h2 class=maintitle>$name</h2><p>";
   echo "Click on any slide to start a Slide Show with that slide.<p>\n";
@@ -152,11 +152,11 @@ function ShowArticle($a,$mxat=0) {
     $fmt = 't';
   } // fmt t=txt, l=ls, p=pt, s=sq, b=ban
   $mnmx = ($side['Importance'] >= $mnat?'maxi':'mini');
-  $id = AlphaNumeric($a['SName']);
+  $id = AlphaNumeric($a['SN']);
   echo "<div class=$mnmx" . "_$fmt id=$id>";
   echo "<a href=/int/$link?sidenum=" . $side['SideId'] . ">";
   if ($mnmx != 'maxi' && $a['Image']) echo "<div class=mnmximgwrap><img class=mnmximg src='" . $a['Image'] ."'></div>";
-  echo "<div class=mnmxttl style='font-size:" . (27+$side['Importance']*3) . "px'>" . $a['SName'] . "</div>";
+  echo "<div class=mnmxttl style='font-size:" . (27+$side['Importance']*3) . "px'>" . $a['SN'] . "</div>";
   if ($mnmx == 'maxi' && $a['Image']) echo "<div class=mnmximgwrap><img class=mnmximg src='" . $a['Image'] ."'></div>";
   echo "</a><div class=mnmxtxt>" . $a['Text'] . "</div>";
   echo "</div></div>\n";
@@ -225,11 +225,11 @@ function ShowArticles() {
   foreach ( array_reverse($ks) as $imp) {
     shuffle($Imps[$imp]);
     foreach ($Imps[$imp] as $a) {
-      if (substr($a['SName'],0,1) == '@') { // Special
-        switch ($a['SName']) {
+      if (substr($a['SN'],0,1) == '@') { // Special
+        switch ($a['SN']) {
         case '@Dance_Imp':
           ShowArticle(array(
-                'SName'=>$Dstuff['SName'], 
+                'SN'=>$Dstuff['SN'], 
                 'Link'=>('int/ShowDance.php?sidenum=' . $Dstuff['SideId']),
                 'Text'=>$Dstuff['Description'],
                 'Image'=>$Dstuff['Photo'],
@@ -240,7 +240,7 @@ function ShowArticles() {
           break;
         case '@Dance_Many':
           ShowArticle(array(
-                'SName'=>"Dancing in $SHOWYEAR",
+                'SN'=>"Dancing in $SHOWYEAR",
                 'Link'=>"$host/LineUpDance.php",
                 'Text'=>"$Dsc Dance teams have already confirmed for $SHOWYEAR.  Many of your favourite teams and some new faces.\n",
                 'Image'=>$DPhoto,
@@ -251,7 +251,7 @@ function ShowArticles() {
           break;
         case '@Music_Imp':
           ShowArticle(array(
-                'SName'=>$Mstuff['SName'], 
+                'SN'=>$Mstuff['SN'], 
                 'Link'=>('int/ShowMusic.php?sidenum=' . $Mstuff['SideId']),
                 'Text'=>$Mstuff['Description'],
                 'Image'=>$Mstuff['Photo'],
@@ -262,7 +262,7 @@ function ShowArticles() {
           break;
         case '@Music_Many':
           ShowArticle(array(
-                'SName'=>"Music in $SHOWYEAR",
+                'SN'=>"Music in $SHOWYEAR",
                 'Link'=>"$host/LineUpMusic.php",
                 'Text'=>"$Msc Music acts have already confirmed for $SHOWYEAR.\n",
                 'Image'=>$MPhoto,

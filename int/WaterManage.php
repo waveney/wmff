@@ -30,7 +30,7 @@
   echo "</thead><tbody>";
   if ($Spons) foreach($Spons as $t) {
     $i = $t['id'];
-    echo "<tr><td>$i" . fm_text1("",$t,'SName',1,'','',"SName$i");
+    echo "<tr><td>$i" . fm_text1("",$t,'SN',1,'','',"SN$i");
     echo fm_number1('',$t,'Year','','',"Year$i");
     echo fm_text1("",$t,'Web',1,'','',"Web$i");
     echo fm_text1("",$t,'Image',1,'','',"Image$i");
@@ -39,7 +39,7 @@
 //    echo fm_number1('',$t,'Importance','','',"Importance$i");
     echo "\n";
   }
-  echo "<tr><td><td><input type=text name=SName0 >";
+  echo "<tr><td><td><input type=text name=SN0 >";
   echo "<td><input type=number name=Year0 value=$PLANYEAR>";
   echo "<td><input type=text name=Web0>";
   echo "<td><input type=text name=Image0>";

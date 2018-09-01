@@ -266,7 +266,7 @@ debugger;
     $dat = &ImgData();
 
 //var_dump($dat); echo "<p>";
-    $Name = $dat['Data']['SName'];
+    $Name = $dat['Data']['SN'];
     $PhotoURL = $dat['Data'][$dat['Field']];
     $FinalLoc = $dat['FinalLoc'];
     $ArcLoc = $dat['ArcLoc'];

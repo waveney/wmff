@@ -11,12 +11,12 @@
     if (is_numeric($id)) {
       $Gal = db_get('Galleries',"id='$id'");
     } else {
-      $Gal = db_get('Galleries',"SName='$id'");
+      $Gal = db_get('Galleries',"SN='$id'");
     }
   }
   if (!$Gal) Error_Page("Gallery $id does not exist");
 
-  $name = $Gal['SName'];
+  $name = $Gal['SN'];
   dohead($name, '/css/jquery.bxslider.css','/js/jquery.bxslider.min.js');
   echo "<h2 class=maintitle>$name</h2><p>";
   echo "<center style='height:95vh !important;'>\n";

@@ -147,7 +147,7 @@ function Controls() {
   global $InfoLevels,$Eid,$Event,$DAY,$DayList;
   echo "<div class=DPControls><center>";
   echo "Big Event Programming Controls<br>";
-  echo "For " . $Event['SName'] . " on " . $DayList[$DAY] . "<br>\n"; 
+  echo "For " . $Event['SN'] . " on " . $DayList[$DAY] . "<br>\n"; 
   echo "<div id=EVENT hidden>$Eid</div>";
   echo "<form method=get action=BigEventProg.php>";
   echo fm_hidden('EV',$Eid);

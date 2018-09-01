@@ -50,7 +50,7 @@
   foreach ($Users as $usr) {
     if ($Full == 0 && $usr['NoTasks']) continue;
     echo "<tr" . (($usr['UserId']<11 || $usr['AccessLevel'] == 0)?" class=FullD hidden" : "" ) . ">";
-    echo "<td>" . $usr['UserId'] . "<td>" . ($Full? ("<a href=AddUser.php?usernum=" . $usr['UserId'] . ">" . $usr['SName'] . "</a>") : $usr['SName']);
+    echo "<td>" . $usr['UserId'] . "<td>" . ($Full? ("<a href=AddUser.php?usernum=" . $usr['UserId'] . ">" . $usr['SN'] . "</a>") : $usr['SN']);
 //    echo "<td>" . $usr['Abrev'];
     echo "<td>" . $usr['Login'] . "<td>" . $usr['Email'] . "<td>" . $usr['Phone'] . "<td>" . $usr['WMFFemail'] . "<td>" . $Access_Levels[$usr['AccessLevel']];
     echo "<td>" . $usr['Roll'] . "<td>";

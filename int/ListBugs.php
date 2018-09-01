@@ -35,8 +35,8 @@
   if ($res) {
     while ($bug = $res->fetch_assoc()) {
       $b = $bug['BugId'];
-      echo "<tr><td>$b<td><a href=AddBug.php?b=$b>" . $bug['SName'] ;
-      if (strlen($bug['SName']) < 2) echo " Nameless Bug ";
+      echo "<tr><td>$b<td><a href=AddBug.php?b=$b>" . $bug['SN'] ;
+      if (strlen($bug['SN']) < 2) echo " Nameless Bug ";
       echo "</a><td>" . $AllU[$bug['Who']];
       echo "<td>" . date('d/m/y H:i:s',$bug['Created']) . "<td>" . $Severities[$bug['Severity']];
       echo "<td>" . $Bug_Status[$bug['State']];

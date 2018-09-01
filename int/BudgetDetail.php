@@ -47,7 +47,7 @@
     if ($act['IsAnAct']) echo "Act ";
     if ($act['IsOther']) echo "Other ";
     echo "<td>";
-    echo "<a href=" . (($act['IsASide'])?"AddDance.php":"AddMusic.php") . "?sidenum=" . $b[0] . ">" . $act['SName'] . "</a>";
+    echo "<a href=" . (($act['IsASide'])?"AddDance.php":"AddMusic.php") . "?sidenum=" . $b[0] . ">" . $act['SN'] . "</a>";
     echo "<td>";
     echo $b[1];
     }

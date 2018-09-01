@@ -11,22 +11,22 @@
   $output = fopen('php://output', 'w');
 
   // output the column headings
-  fputcsv($output, array('SName','Type','Goods','Contact','Email','Web','Status','Booking State','BID','CC','Before','Where'));
+  fputcsv($output, array('SN','Type','Goods','Contact','Email','Web','Status','Booking State','BID','CC','Before','Where'));
   
   
   $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Submitted'] .
-                " ORDER BY SName";
+                " ORDER BY SN";
 
   $res = $db->query($qry);
   while ($fetch = $res->fetch_assoc()) {
     $locs = "";
-    if ($fetch['PitchLoc0']) $locs = $TradeLocData[$fetch['PitchLoc0']]['SName'];
-    if ($fetch['PitchLoc1']) $locs .= ", " . $TradeLocData[$fetch['PitchLoc1']]['SName'];
-    if ($fetch['PitchLoc2']) $locs .= ", " . $TradeLocData[$fetch['PitchLoc2']]['SName'];
+    if ($fetch['PitchLoc0']) $locs = $TradeLocData[$fetch['PitchLoc0']]['SN'];
+    if ($fetch['PitchLoc1']) $locs .= ", " . $TradeLocData[$fetch['PitchLoc1']]['SN'];
+    if ($fetch['PitchLoc2']) $locs .= ", " . $TradeLocData[$fetch['PitchLoc2']]['SN'];
 
     fputcsv($output, array(
-        ($fetch['SName']?$fetch['SName']:'No Name Given'),
-        $TradeTypeData[$fetch['TradeType']]['SName'],
+        ($fetch['SN']?$fetch['SN']:'No Name Given'),
+        $TradeTypeData[$fetch['TradeType']]['SN'],
         $fetch['GoodsDesc'],
         $fetch['Contact'],
         $fetch['Email'],

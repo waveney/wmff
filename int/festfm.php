@@ -297,14 +297,14 @@ function firstword($stuff) {
 
 function SAO_Report($i) {
   $OSide = Get_Side( $i ); 
-  $str = "<a href=/int/ShowDance.php?sidenum=$i>" . $OSide['SName'];
+  $str = "<a href=/int/ShowDance.php?sidenum=$i>" . $OSide['SN'];
   if ($OSide['Type']) $str .= " (" . trim($OSide['Type']) . ")";
   return $str . "</a>";
 }
 
 function SName(&$What) {
   if (isset($What['ShortName'])) if ($What['ShortName']) return $What['ShortName'];
-  return $What['SName'];
+  return $What['SN'];
 }
 
 function Social_Link(&$data,$site,$mode=0) { // mode:0 Return Site as text, mode 1: return blank/icon

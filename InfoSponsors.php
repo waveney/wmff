@@ -42,7 +42,7 @@
     echo "<div class=mini>\n";
     if ($s['Website']) echo weblinksimple($s['Website']);
     if ($s['Image']) echo "<img src='" . $s['Image'] . "' class=miniing width=200>";
-    echo "<h2 class=minittl>" . $s['SName'] . "</h2>";
+    echo "<h2 class=minittl>" . $s['SN'] . "</h2>";
     if ($s['Website']) echo "</a>";
     if ($s['Description']) echo "<p><span class=minitxt>" . $s['Description'] . "</span>";
     echo "</div>\n";

@@ -19,7 +19,7 @@ include_once("DateTime.php");
 function Set_Venue_Help() {
   static $t = array(
         'ShortName'=>'Short name eg Cornmarket - OPTIONAL',
-        'SName'=>'Full name eg Daccombe International Stage',
+        'SN'=>'Full name eg Daccombe International Stage',
         'DanceImportance'=>'Higher numbers get listed first',
         'Description'=>'Sent to particpants so they know what to expect and where it is',
         'GoogleMap'=>'Link for partipants to know exactly where to go',
@@ -45,7 +45,7 @@ function Get_Venues($type=0,$extra='') { //0 = short, 1 = full
   global $db;
   static $short,$full;
   if (!$short) {
-    $res = $db->query("SELECT * FROM Venues $extra ORDER BY SName");
+    $res = $db->query("SELECT * FROM Venues $extra ORDER BY SN");
     if ($res) {
       while ($Ven = $res->fetch_assoc()) {
         $i = $Ven['VenueId']; 
@@ -62,7 +62,7 @@ function Get_AVenues($type=0,$extra='') { //0 = short, 1 = full
   global $db;
   static $short,$full;
   if (!$short) {
-    $res = $db->query("SELECT * FROM Venues WHERE status=0 $extra ORDER BY SName");
+    $res = $db->query("SELECT * FROM Venues WHERE status=0 $extra ORDER BY SN");
     if ($res) {
       while ($Ven = $res->fetch_assoc()) {
         $i = $Ven['VenueId']; 
@@ -123,7 +123,7 @@ function Set_Event_Help() {
         'Sides'=>'Do not use this tool for dance programming use the tool under Dance, once the events have been created',
         'Acts'=>'Normally only select one Act/Other, if the event has many timed participants use sub-events',
         'Others'=>'Normally only select one Act/Other, if the event has many timed participants use sub-events',
-        'SName'=>'Needed for now, need not be unique',
+        'SN'=>'Needed for now, need not be unique',
         'Type'=>'Broad event category, if in doubt ask Richard',
         'Description'=>'Brief description of event for website and programme book, max 150 chars',
         'Blurb'=>'Longer blurb if wanted, that will follow the description when this particular events is being looked at online',
@@ -276,7 +276,7 @@ $Event_Types_Full = array();
 function Event_Types_ReRead() {
   global $db, $Event_Types_Full;
   $Event_Types_Full = array();
-  $res = $db->query("SELECT * FROM EventTypes ORDER BY SName ");
+  $res = $db->query("SELECT * FROM EventTypes ORDER BY SN ");
   if ($res) while ($typ = $res->fetch_assoc()) $Event_Types_Full[$typ['ETypeNo']] = $typ;
   return $Event_Types_Full;
 }
@@ -287,7 +287,7 @@ function Get_Event_Types($tup=0) { // 0 just names, 1 all data
   global $Event_Types_Full;
   if ($tup) return $Event_Types_Full;
   $ans = array();
-  foreach($Event_Types_Full as $t=>$et) $ans[$t] = $et['SName'];
+  foreach($Event_Types_Full as $t=>$et) $ans[$t] = $et['SN'];
   return $ans;
 }
 
@@ -306,7 +306,7 @@ $Event_Types = Get_Event_Types(0);
 
 function Get_Event_Type_For($nam) {
   global $Event_Types_Full;
-  foreach ($Event_Types_Full as $ET) if ($ET['SName'] == $nam) return $ET;
+  foreach ($Event_Types_Full as $ET) if ($ET['SN'] == $nam) return $ET;
   return null;
 }
 
@@ -347,7 +347,7 @@ function ListLinks(&$ev,$type,$single,$plural,$size,$mult) {
       } else {
         $ttxt = "<a href='/int/ShowMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
       }
-      $ttxt .= NoBreak($thing['SName']);
+      $ttxt .= NoBreak($thing['SN']);
       if (isset($thing['Type']) && $thing['Type']) $ttxt .= NoBreak(" (" . $thing['Type'] . ")");
       $ttxt .= "</a>";
       $think[] = $ttxt;
@@ -408,7 +408,7 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
       }
     }
 
-    switch ($Event_Types_Full[$MainEv['Type']]['SName']) {
+    switch ($Event_Types_Full[$MainEv['Type']]['SN']) {
     case 'Ceildih':
       $ans .= ListLinks($MainEv,'Act','Music by','Music by',$size,$mult);
       if ($MainEv['Other1']) $ans .= "; " . ListLinks($MainEv,'Other','Caller','Callers',$size,$mult);
@@ -427,7 +427,7 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
           $link=0;
           if ($thing['NotComing']) {
 // var_dump($thing);exit;
-            $ans .= "<del>" . NoBreak($thing['SName']) . "</del>";
+            $ans .= "<del>" . NoBreak($thing['SN']) . "</del>";
           } else {
             if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
             if ($link) {
@@ -443,7 +443,7 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
                 }
               }
             }
-            $ans .= NoBreak($thing['SName']);
+            $ans .= NoBreak($thing['SN']);
             if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
             if ($link) $ans .= "</a>";
           }
@@ -501,7 +501,7 @@ function Get_Other_Participants(&$Others,$l=0,$size=12,$mult=1,$prefix='') {
             }
           }
         }
-        $ans .= NoBreak($thing['SName']);
+        $ans .= NoBreak($thing['SN']);
         if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
         if ($link) $ans .= "</a>";
        }
@@ -557,7 +557,7 @@ function Price_Show(&$Ev) {
 }
 
 function VenName(&$V) {
-  return ($V['ShortName']?$V['ShortName']:$V['SName']);
+  return ($V['ShortName']?$V['ShortName']:$V['SN']);
 }
 
 function DayTable($d,$Types,$xtr='',$xtra2='') {
@@ -575,7 +575,7 @@ function DayTable($d,$Types,$xtr='',$xtra2='') {
 
 function &Get_Active_Venues($All=0) {
   global $db,$YEAR;
-  $res = $db->query("SELECT DISTINCT v.* FROM Venues v, Events e WHERE ( v.VenueId=e.Venue AND e.Year=$YEAR AND v.PartVirt=0) OR v.IsVirtual ORDER BY v.SName");
+  $res = $db->query("SELECT DISTINCT v.* FROM Venues v, Events e WHERE ( v.VenueId=e.Venue AND e.Year=$YEAR AND v.PartVirt=0) OR v.IsVirtual ORDER BY v.SN");
   if ($res) while($ven = $res->fetch_assoc()) $ans[] = $ven;
   return $ans;
 }

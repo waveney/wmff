@@ -23,7 +23,7 @@
   }
 
   $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, ActYear AS y " .
-           "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>=" . $Book_State['Booking'] . " AND s.IsOther=1 ORDER BY s.Importance DESC, s.SName");
+           "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>=" . $Book_State['Booking'] . " AND s.IsOther=1 ORDER BY s.Importance DESC, s.SN");
   
   while($side = $SideQ->fetch_assoc()) formatminimax($side,'ShowMusic.php',1);
 

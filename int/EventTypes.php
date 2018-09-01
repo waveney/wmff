@@ -44,7 +44,7 @@
   echo "</thead><tbody>";
   foreach($Types as $t) {
     $i = $t['ETypeNo'];
-    echo "<tr><td>$i" . fm_text1("",$t,'SName',1,'','',"SName$i");
+    echo "<tr><td>$i" . fm_text1("",$t,'SN',1,'','',"SN$i");
     echo          fm_text1("",$t,'Plural',1,'','',"Plural$i");
     echo "<td>" . fm_checkbox('',$t,'Public','',"Public$i");
     echo "<td>" . fm_checkbox('',$t,'HasDance','',"HasDance$i");
@@ -59,7 +59,7 @@
     echo fm_number1('',$t,'FirstYear','','',"FirstYear$i");
     echo "\n";
   }
-  echo "<tr><td><td><input type=text name=SName0 >";
+  echo "<tr><td><td><input type=text name=SN0 >";
   echo "<td><input type=text name=Plural0 >";
   echo "<td><input type=checkbox name=Public0>";
   echo "<td><input type=checkbox name=HasDance0>";

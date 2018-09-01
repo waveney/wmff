@@ -10,7 +10,7 @@
 
   $emails = Get_Emails('Dance');
 
-  SendEmail($emails,$Side['SName'] . " request invite",$Side['SName'] . " request an invite for $YEAR");
+  SendEmail($emails,$Side['SN'] . " request invite",$Side['SN'] . " request an invite for $YEAR");
 
   Show_Side($snum);
 

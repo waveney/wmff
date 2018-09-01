@@ -38,7 +38,7 @@
   echo "</thead><tbody>";
   if ($News) foreach($News as $t) {
     $i = $t['id'];
-    echo "<tr><td>$i<br><a href=NewsEdit.php?n=$i>Edit</a>" . fm_text1("",$t,'SName',1,'','',"SName$i");
+    echo "<tr><td>$i<br><a href=NewsEdit.php?n=$i>Edit</a>" . fm_text1("",$t,'SN',1,'','',"SN$i");
     echo "<td>" . fm_textinput("created$i",date('j M Y G:i',$t['created']));
     echo "<td>" . fm_checkbox("",$t,'display','',"display$i");
     echo "<td>" . fm_basictextarea($t,'content',3,3,'',"content$i");
@@ -53,13 +53,13 @@
     echo fm_text1('',$t,'author',1,'','',"author$i");
     echo "\n";
   }
-  echo "<tr><td><td><input type=text name=SName0 >";
+  echo "<tr><td><td><input type=text name=SN0 >";
   echo "<td><input type=text size=10 name=created0 value='" . date('j M Y G:i') . "'>";
   echo "<td><input type=checkbox checked name=display0>";
   echo "<td><textarea name=content0 rows=3 cols=60></textarea>";
   echo "<td><input type=text name=image0>";
   echo "<td><input type=text name=caption0>";
-  echo "<td><input type=text size=10 name=author0 value =" . firstword($USER['SName']) . ">";
+  echo "<td><input type=text size=10 name=author0 value =" . firstword($USER['SN']) . ">";
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";

@@ -17,7 +17,7 @@
   $Type = $_GET['t'];
 
   $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND (y.BookingState=" . $Trade_State['Deposit Paid'] .
-                " OR y.BookingState=" . $Trade_State['Fully Paid'] . " ) AND t.TradeType=$Type ORDER BY SName";
+                " OR y.BookingState=" . $Trade_State['Fully Paid'] . " ) AND t.TradeType=$Type ORDER BY SN";
 
 //echo "$qry<p>";
   $res = $db->query($qry);
@@ -46,9 +46,9 @@
       $Tid = $fetch['Tid'];
       $str .= "<tr><td>";
         $str .= "<a href=Trade.php?id=$Tid>";
-        $str .= ($fetch['SName']?$fetch['SName']:'No Name Given');
+        $str .= ($fetch['SN']?$fetch['SN']:'No Name Given');
         $str .= "</a>";
-      $str .= "<td style='background:" . $Trade_Types[$fetch['TradeType']]['Colour'] . ";'>" . $Trade_Types[$fetch['TradeType']]['SName'];
+      $str .= "<td style='background:" . $Trade_Types[$fetch['TradeType']]['Colour'] . ";'>" . $Trade_Types[$fetch['TradeType']]['SN'];
       $str .= "<td id=TR$Tid";
         $stat = $fetch['BookingState'];
         if ($stat == $Trade_State['Fully Paid'] && ($fetch['Insurance'] == 0 || $fetch['RiskAssessment'] == 0)) {

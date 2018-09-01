@@ -6,6 +6,8 @@
   global $PLANYEAR;
 
   include_once("TradeLib.php");
+  include_once("InvoiceLib.php");
+  
   echo "<div class=content><h2>Manage Trade Types and Prices</h2>\n";
   
   $Trads = Get_Trade_Types(1);
@@ -15,8 +17,10 @@
 
   echo "The Order is for display, Index 1 MUST be for the default however, list this first.<p>\n";
 
-  echo "Artisan Messages trigger local Artisan /Han related emails<p>";
+  echo "Artisan Messages trigger local Artisan related emails<p>Invoice Coode can be overridden by the location";
   $coln = 0;
+  $InvCodes =  Get_InvoiceCodes();
+  
   echo "<form method=post>";
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
@@ -34,12 +38,12 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Need Risk Assessment</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Artisan Msgs</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Open</a>\n";
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Sales Code</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Invoice Code</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Description</a>\n";
   echo "</thead><tbody>";
   if ($Trads) foreach($Trads as $t) {
     $i = $t['id'];
-    echo "<tr><td>$i" . fm_text1("",$t,'SName',1,'','',"SName$i");
+    echo "<tr><td>$i" . fm_text1("",$t,'SN',1,'','',"SN$i");
     echo fm_number1('',$t,'ListOrder','','min=0 max=1000',"ListOrder$i");
     echo fm_text1('',$t,'Colour',1,'','',"Colour$i");
     echo fm_text1('',$t,'BasePrice',0.5,'','',"BasePrice$i");
@@ -52,11 +56,11 @@
     echo "<td>" . fm_checkbox("",$t,'NeedRiskAssess','',"NeedRiskAssess$i");
     echo "<td>" . fm_checkbox("",$t,'ArtisanMsgs','',"ArtisanMsgs$i");
     echo "<td>" . fm_checkbox("",$t,'TOpen','',"TOpen$i");
-    echo fm_number1('',$t,'SalesCode','','min=4000 max=4999',"SalesCode$i");
+    echo "<td>" . fm_select($InvCodes,$t,'InvoiceCode',1,'',"InvoiceCode$i");
     echo "<td>" . fm_basictextarea($t,'Description',2,1,'',"Description$i");
     echo "\n";
   }
-  echo "<tr><td><td><input type=text size=16 name=SName0 >";
+  echo "<tr><td><td><input type=text size=16 name=SN0 >";
   echo "<td><input type=number min=0 max=1000 name=ListOrder0>";
   echo "<td><input type=text size=16 name=Colour0>";
   echo "<td><input type=text size=8 name=BasePrice0>";
@@ -69,7 +73,7 @@
   echo "<td><input type=checkbox name=NeedRiskAssess0>";
   echo "<td><input type=checkbox name=ArtisanMsgs0>";
   echo "<td><input type=checkbox name=TOpen0>";
-  echo "<td><input type=number min=4000 max=4999 name=SalesCode0>";
+  echo "<td>" . fm_select($InvCodes,$t,'InvoiceCode',1,'',"InvoiceCode0");
   echo "<td><textarea name=Description0 cols=40></textarea>";
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";

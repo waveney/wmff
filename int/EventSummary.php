@@ -22,7 +22,7 @@
       if ($e['Family']) $fam++;
       if ($e['Special']) $sp++;
     };
-    echo "<tr><td>" . $t['SName'] . "<td>" . $c;
+    echo "<tr><td>" . $t['SN'] . "<td>" . $c;
     $tot += $c;
   }
   echo "<tr><td>Family<td>$fam";

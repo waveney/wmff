@@ -35,18 +35,18 @@
   $res = $db->query($qry);
   while ($trad = $res->fetch_assoc()) {
     if ($trad['SageCode']) {
-      echo "<b>" . $trad['SName'] . "</b> already has code " . $trad['SageCode'] . "<br>";
-      $orgs_used[$trad['SName']] = $trad['Tid'];
+      echo "<b>" . $trad['SN'] . "</b> already has code " . $trad['SageCode'] . "<br>";
+      $orgs_used[$trad['SN']] = $trad['Tid'];
       continue;
     }
-    if (isset($orgs[$trad['SName']])) {
+    if (isset($orgs[$trad['SN']])) {
       if ($TestOnly) {
-        echo "Would assign " . $orgs[$trad['SName']] . " to <b>" . $trad['SName'] . "</b><br>";
+        echo "Would assign " . $orgs[$trad['SN']] . " to <b>" . $trad['SN'] . "</b><br>";
         continue;
       }
-      $trad['SageCode'] = $orgs[$trad['SName']];
-      $orgs_used[$trad['SName']] = $trad['Tid'];
-      echo "Assigned " . $orgs[$trad['SName']] . " to <b>" . $trad['SName'] . "</b><br>";
+      $trad['SageCode'] = $orgs[$trad['SN']];
+      $orgs_used[$trad['SN']] = $trad['Tid'];
+      echo "Assigned " . $orgs[$trad['SN']] . " to <b>" . $trad['SN'] . "</b><br>";
       Put_Trader($trad);
     }
   }

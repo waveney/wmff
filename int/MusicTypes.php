@@ -9,18 +9,18 @@
 
   if (isset($_POST{'Update'})) {
     foreach($Types as $i=>$t) {
-      if ($_POST["SName$i"] != $t['SName'] || $_POST["Imp$i"] != $t['Importance'] ) {
-        if ($_POST["SName$i"] == '') {
+      if ($_POST["SN$i"] != $t['SN'] || $_POST["Imp$i"] != $t['Importance'] ) {
+        if ($_POST["SN$i"] == '') {
           db_delete('MusicTypes',$t['TypeId']);
         } else {
-          $t['SName'] = $_POST["SName$i"];
+          $t['SN'] = $_POST["SN$i"];
             $t['Importance'] = $_POST["Imp$i"];
           Put_Music_Type($t);
         }
       }
     }
-    if ($_POST["SName0"]) {
-      $t = array('SName'=> $_POST['SName0'], 'Importance' => $_POST['Imp0']);
+    if ($_POST["SN0"]) {
+      $t = array('SN'=> $_POST['SN0'], 'Importance' => $_POST['Imp0']);
       Insert_db('MusicTypes',$t);
     }
     $Types=Get_Music_Types(1);
@@ -31,10 +31,10 @@
   echo "<form method=post action=MusicTypes.php>";
   echo "<table border><tr><td>id<td>Name<td>Importance\n";
   foreach($Types as $i=>$t) {
-    echo "<tr><td>$i<td><input type=text name=SName$i value='" . $t['SName'] . "'>";
+    echo "<tr><td>$i<td><input type=text name=SN$i value='" . $t['SN'] . "'>";
     echo "<td><input text name=Imp$i value='" . $t['Importance'] . "'>\n";
   }
-  echo "<tr><td><td><input type=text name=SName0 >";
+  echo "<tr><td><td><input type=text name=SN0 >";
   echo "<td><input text name=Imp0>\n";
   echo "</table>";
   echo "<input type=submit name=Update value=Update>\n";

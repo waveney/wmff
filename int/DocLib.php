@@ -3,7 +3,7 @@
 
 function Get_DirList($d) {
   global $db;
-  $qry = "SELECT * FROM Documents WHERE Dir='" . $d . "' AND State=0 ORDER BY SName";
+  $qry = "SELECT * FROM Documents WHERE Dir='" . $d . "' AND State=0 ORDER BY SN";
   $res = $db->query($qry);
   if (!$res) return 0;
   $ans = array();
@@ -13,7 +13,7 @@ function Get_DirList($d) {
 
 function Get_SubDirList($d) {
   global $db,$USER,$USERID;
-  $qry = "SELECT * FROM Directories WHERE Parent='" . $d . "' AND State=0 AND ( AccessLevel<=" . $USER['AccessLevel'] . " OR Who=$USERID ) ORDER BY SName";
+  $qry = "SELECT * FROM Directories WHERE Parent='" . $d . "' AND State=0 AND ( AccessLevel<=" . $USER['AccessLevel'] . " OR Who=$USERID ) ORDER BY SN";
   $res = $db->query($qry);
   if (!$res) return 0;
   $ans = array();
@@ -79,35 +79,35 @@ function Get_Parent($d,$depth=0) {
   if ($depth>30) return "";
   $inf = Get_DirInfo($d);
   if (!$inf) return "";
-  return Get_Parent($inf['Parent'], $depth+1) . " / <a href=Dir.php?d=$d>" . htmlspec($inf['SName']) . "</a>";
+  return Get_Parent($inf['Parent'], $depth+1) . " / <a href=Dir.php?d=$d>" . htmlspec($inf['SN']) . "</a>";
 }
 
 function Dir_FullName($d,$depth=0) {
   if (!$d || $depth>30) return "";
   $inf = Get_DirInfo($d);
   if (!$inf) return "";
-  return Dir_FullName($inf['Parent'], $depth+1) . "/" . htmlspec($inf['SName']);
+  return Dir_FullName($inf['Parent'], $depth+1) . "/" . htmlspec($inf['SN']);
 }
 
 function File_FullName($f) {
   if (!$f) return "";
   $inf = Get_DocInfo($f);
   if (!$inf) return "";
-  return Dir_FullName($inf['Dir']) . "/" . htmlspec($inf['SName']);
+  return Dir_FullName($inf['Dir']) . "/" . htmlspec($inf['SN']);
 }
 
 function Dir_FullPName($d,$depth=0) {
   if (!$d || $depth>30) return "";
   $inf = Get_DirInfo($d);
   if (!$inf) return "";
-  return Dir_FullPName($inf['Parent'], $depth+1) . "/" . stripslashes($inf['SName']);
+  return Dir_FullPName($inf['Parent'], $depth+1) . "/" . stripslashes($inf['SN']);
 }
 
 function File_FullPName($f) {
   if (!$f) return "";
   $inf = Get_DocInfo($f);
   if (!$inf) return "";
-  return Dir_FullPName($inf['Dir']) . "/" . stripslashes($inf['SName']);
+  return Dir_FullPName($inf['Dir']) . "/" . stripslashes($inf['SN']);
 }
 
 function Get_AllUsers($mode=0) { // 0 return login names, 1 return levels, 2 All
@@ -191,7 +191,7 @@ function Dir_recurse($d,$name,$level,$cur,$exclude) {
   $subs = Get_SubDirList($d);
   if ($subs) {
     foreach ($subs as $sub) {
-      $ans .= Dir_recurse($sub['DirId'],$sub['SName'],$level+1,$cur,$exclude);
+      $ans .= Dir_recurse($sub['DirId'],$sub['SN'],$level+1,$cur,$exclude);
     }
   }
   return $ans;
@@ -244,7 +244,7 @@ function Doc_Access($num) {
 
 function Doc_create($fname,$d,$size) {
   global $db,$USERID;
-  $qry = "INSERT INTO Documents SET Dir=$d, SName='" . addslashes($fname) . "', Who='$USERID', Created=" . time() .
+  $qry = "INSERT INTO Documents SET Dir=$d, SN='" . addslashes($fname) . "', Who='$USERID', Created=" . time() .
          ", filesize=" . $size . ", Access=666";
   $ans = $db->query($qry);
   return $ans;
@@ -281,7 +281,7 @@ function List_dir_ent(&$dir,$type) {
   $parid = $dir['Parent'];
   $Parent = Get_DirInfo($parid);
   
-  echo "<tr><td><a href=Dir.php?d=" . $dir['DirId'] . ">" . htmlspec($dir['SName']) . "</a>";
+  echo "<tr><td><a href=Dir.php?d=" . $dir['DirId'] . ">" . htmlspec($dir['SN']) . "</a>";
   echo "<td class=FullD hidden>" . (isset($AllU[$dir['Who']])?$AllU[$dir['Who']]: "Unknown");
   echo "<td>$type";
   echo "<td class=FullD hidden>" . date('d/m/y H:i:s',$dir['Created']);
@@ -306,7 +306,7 @@ function List_dir_ent(&$dir,$type) {
 
 function Doc_List($file,$opts=0) {
   global $USERID,$Access_Levels;
-  $name = htmlspec($file['SName']);
+  $name = htmlspec($file['SN']);
   $fid = $file['DocId'];
   $d = $file['Dir'];
   $dir = Get_DirInfo($d);
@@ -347,14 +347,14 @@ function Find_Doc_For($fname) {
     $d = 0;
     $chk = 1;
     while ($chk < $nchunks-1) {
-      $res = $db->query("SELECT * FROM Directories WHERE Parent='" . $d . "' AND SName='" . $chunks[$chk] . "'");
+      $res = $db->query("SELECT * FROM Directories WHERE Parent='" . $d . "' AND SN='" . $chunks[$chk] . "'");
       if (!$res) return 0;
       $ans = $res->fetch_assoc();
       $d = $ans['DirId'];
       $chk++;
     }
   }
-  $res = $db->query("SELECT * FROM Documents WHERE Dir='" . $d . "' AND SName='" . $chunks[$nchunks-1] . "'");
+  $res = $db->query("SELECT * FROM Documents WHERE Dir='" . $d . "' AND SN='" . $chunks[$nchunks-1] . "'");
   if (!$res) return 0;
   $ans = $res->fetch_assoc();
   return $ans;

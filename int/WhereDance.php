@@ -22,10 +22,10 @@
       if ($Sid['Sat']) {
         $PCodes[$PCa][$Sid['Sun']?'Both':'Sat'] += $Perf;
       } else if ($Sid['Sun']) $PCodes[$PCa]['Sun'] += $Perf;
-      if ($PCa == '' && $Perf>0) echo "No Postcode for: " . $Sid['SName'] . " " . $Perf . "<br>";
+      if ($PCa == '' && $Perf>0) echo "No Postcode for: " . $Sid['SN'] . " " . $Perf . "<br>";
       $Total += $Perf;
     } else {
-      echo "No Numbers for: " . $Sid['SName'] . "<br>";
+      echo "No Numbers for: " . $Sid['SN'] . "<br>";
     }
   }
 

@@ -199,19 +199,19 @@ function linkemail(&$data,$type="Side",$xtr='') {
   $email = Clean_Email($email);
   $key = $data['AccessKey'];
   if (isset($data['Contact'])) { $name = firstword($data['Contact']); }
-  else { $name = $data['SName']; }
+  else { $name = $data['SN']; }
   if ($type="Side") { $id = $data['SideId']; }
   else { $id = $data = $data['ActId']; };
 
   $ProgInfo = Show_Prog($type,$id,1);
 
   $lnk = "<a href=mailto:$email?from=" . $USER['Email'] .
-         "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SName']) . 
+         "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SN']) . 
          "&body=" . urlencode("$name,\n\n" .
                  "You can check your programme times and update your side details at any time by visiting " .
                  "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=$type&id=$id&key=$key>this link</a>.  " .
                 $ProgInfo . "\n\n" .
-                 "\n\nRegards " . $USER['SName'] . "\n\n") .
+                 "\n\nRegards " . $USER['SN'] . "\n\n") .
          ">Email</a>";
   return $lnk;
 }
@@ -232,20 +232,20 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
       $email = $data['AgentEmail'];
       $xtr = 'Agent';
       if (isset($data['AgentName'])) { $name = firstword($data['AgentName']); }
-      else { $name = $data['SName']; }
+      else { $name = $data['SN']; }
     } else if ($xtr == '!!') {
       if (!isset($data["Email"])) return "";
       $email = $data['Email'];
       $xtr = '';
       $Label = 'Direct ';
       if (isset($data[$xtr .'Contact'])) { $name = firstword($data[$xtr .'Contact']); }
-      else { $name = $data['SName']; }
+      else { $name = $data['SN']; }
     } else {
       if (!isset($data[$xtr . "Email"])) return "";
       $email = $data[$xtr . 'Email'];
       $Label = $xtr;
       if (isset($data[$xtr .'Contact'])) { $name = firstword($data[$xtr .'Contact']); }
-      else { $name = $data['SName']; }
+      else { $name = $data['SN']; }
     }
   } else {
     if ($xtr == '!!') $xtr = '';
@@ -253,7 +253,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
     $email = $data[$xtr . 'Email'];
     $Label = $xtr;
     if (isset($data[$xtr .'Contact'])) { $name = firstword($data[$xtr .'Contact']); }
-    else { $name = $data['SName']; }
+    else { $name = $data['SN']; }
   }
   if ($email == '') return "";
   $email = Clean_Email($email);
@@ -266,7 +266,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
   if (!isset($id)) return "";
 
   $link = "'mailto:$email?from=" . $USER['Email'] .
-         "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SName']) . "'";
+         "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SN']) . "'";
   $direct = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=$type&id=$id&key=$key&Y=$YEAR>this link</a>  " ;
 
 // ONLY DANCE AT THE MOMENT...
@@ -281,7 +281,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
                 "You can update information at any time, until the programme goes to print. " .
                 "(You'll also be able to view your programme times, once we've done the programme)<p>" .
                 "<div id=SideProg$id>$ProgInfo</div><p>" .
-                 "Regards " . $USER['SName'] . "<p>"); 
+                 "Regards " . $USER['SN'] . "<p>"); 
       break;
 
     case 'Act':
@@ -298,14 +298,14 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
                 "Please add/correct details about your business, contact information, your product descriptions, pitch and power requirements, " . 
                 "update your Insurance and Risc Assessment etc. by visiting $direct.</div><p>" .
                 "Details of your pitch location, general trader information and particulars of setup and cleardown information will also appear there.<p>" .
-                 "Regards " . $USER['SName'] . "<p>" 
+                 "Regards " . $USER['SN'] . "<p>" 
                 ); 
       break;
 
 // For OTHER at present
     default:
       $Content = urlencode("$name,<p>" .
-                 "Regards " . $USER['SName'] . "<p>"); 
+                 "Regards " . $USER['SN'] . "<p>"); 
       break;
   }
 
@@ -464,7 +464,7 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
               }
             }
             $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
-                        "<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SName'] . "</a><td $cls>";
+                        "<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SN'] . "</a><td $cls>";
             if ($VenC) $str .= " starting from ";
             $str .= "<a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) ;
             $str .= "</a><td $cls>";
@@ -474,7 +474,7 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
             $str .= "\n";
           } else { // Normal Event
             $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
-                        "<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SName'] . 
+                        "<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SN'] . 
                         "</a><td $cls><a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a>";
             if ($With) {
               $str .= "<td $cls>";
@@ -505,7 +505,7 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
         $Thing = Get_Side($id);
         $Desc = ($Worst > 2)?"":'Current ';
         if ($With) $str = "<td>With\n" . $str;
-        $str = "<h2>$Desc Programme for " . $Thing['SName'] . ":</h2>\n" . ($UsedNotPub?"<span class=NotCSide>These are not currently public<p>\n</span>":"") .
+        $str = "<h2>$Desc Programme for " . $Thing['SN'] . ":</h2>\n" . ($UsedNotPub?"<span class=NotCSide>These are not currently public<p>\n</span>":"") .
                 "<table border><tr><td>Day<td>time<td>Event<td>Venue" . $str;
       }
     }

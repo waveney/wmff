@@ -6,7 +6,7 @@
 
   global $EType_States,$TicketStates;
   include_once("DateTime.php");
-  $Dates = array('PriceChange1','PriceChange2');
+  $Dates = array('PriceChange1','PriceChange2','TradeMainDate','TradeLastDate');
 
   echo "<div class='content'><h2>General Year Settings</h2>\n";
   
@@ -72,6 +72,9 @@
     echo "<tr><td>Priced Complete Fri:" . fm_checkbox('',$Gen,'PriceComplete0') . "<td>This and all completes surpress more to come on tickets/events\n";
     echo "<tr><td>Priced Complete Sat:" . fm_checkbox('',$Gen,'PriceComplete1') . "<td>This and all completes surpress more to come on tickets/events\n";
     echo "<tr><td>Priced Complete Sun:" . fm_checkbox('',$Gen,'PriceComplete2') . "<td>This and all completes surpress more to come on tickets/events\n";
+    echo "<tr>" . fm_date('Date Sending Main Trade Invoices',$Gen,'TradeMainDate') . "<td>\n";    
+    echo "<tr>" . fm_date('Date Last Trade Payments',$Gen,'TradeLastDate') . "<td>\n";    
+    
     echo "<tr><td>Ticket Control:<td>" . fm_select($TicketStates,$Gen,'TicketControl') . "<td>Master Ticketing control\n";
     echo "<tr>" . fm_number1("Weekend Pass Price",$Gen,'WeekendPass') . fm_text("Weekend Pass Code",$Gen,'WeekendPassCode');
     echo "<tr>" . fm_number1("Friday Pass",$Gen,'FridayPass') . fm_text("Friday Pass Code",$Gen,'FridayPassCode');

@@ -16,7 +16,7 @@
   echo "<div id=InformationPane></div><p>\n";
   echo fm_hidden('Year',$YEAR);
   $Types = Get_Dance_Types(1);
-  foreach ($Types as $i=>$ty) $Colour[strtolower($ty['SName'])] = $ty['Colour'];
+  foreach ($Types as $i=>$ty) $Colour[strtolower($ty['SN'])] = $ty['Colour'];
 
   echo "<h2>";
   $Loc = 0;
@@ -30,7 +30,7 @@
   $LastYear = $YEAR-1;
   $flds = "s.*, ly.Invite AS LyInvite, ly.Coming AS LyComing, y.Invite, y.Invited, y.Coming";
   $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR " .
-                        "LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE s.IsASide=1 AND s.SideStatus=0 ORDER BY SName");
+                        "LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE s.IsASide=1 AND s.SideStatus=0 ORDER BY SN");
   $col5 = "Invited $LastYear";
   $col6 = "Coming $LastYear";
   $col7 = "Invite $YEAR";
@@ -61,7 +61,7 @@
     echo "</thead><tbody>";
     while ($fetch = $SideQ->fetch_assoc()) {
       $snum = $fetch['SideId'];
-      echo "<tr><td><a href=AddDance.php?sidenum=$snum&Y=$YEAR>" . $fetch['SName'] . "</a>";
+      echo "<tr><td><a href=AddDance.php?sidenum=$snum&Y=$YEAR>" . $fetch['SN'] . "</a>";
       if ($fetch['SideStatus']) {
         echo "<td>DEAD";
       } else {
@@ -69,7 +69,7 @@
         $colour = '';
         foreach($Types as $T) {
           if ($T['Colour'] == '') continue;
-          $lct = "/" . strtolower($T['SName']) . "/";
+          $lct = "/" . strtolower($T['SN']) . "/";
           if (preg_match($lct,$ty)) {
             $colour = $T['Colour'];
             break;

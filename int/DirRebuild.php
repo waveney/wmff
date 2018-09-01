@@ -136,7 +136,7 @@ function Scan_Documents($Act) {
               $Parent = dirname($path);
               $leaf = basename($path);
               $Parentid = $RevD[$Parent];
-              $ndir = ['SName'=>addslashes($leaf), 'Who'=>$USERID, 'Created'=>time(), 'Parent'=> $Parentid];
+              $ndir = ['SN'=>addslashes($leaf), 'Who'=>$USERID, 'Created'=>time(), 'Parent'=> $Parentid];
               $nid = Insert_db('Directories',$ndir);
               $RevD[$path] =  $ndir['DirId'] = $nid;
               $Dirs[$nid] = $ndir;
@@ -204,7 +204,7 @@ function Scan_Documents($Act) {
   
   foreach ($Docs as $Doc) {
     $d = $Doc['DocId'];
-    $fullpath = $FullPs[$Doc['Dir']] . '/' . stripslashes($Doc['SName']);
+    $fullpath = $FullPs[$Doc['Dir']] . '/' . stripslashes($Doc['SN']);
     $RevDoc[$fullpath] = $d; // Used later in stage?
     
     if ($Doc['State'] == 1) continue;

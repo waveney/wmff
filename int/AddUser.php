@@ -35,7 +35,7 @@
       }
     } else { /* New User */
       $proc = 1;
-      if (!isset($_POST['SName'])) {
+      if (!isset($_POST['SN'])) {
         echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
         $proc = 0;
       }
@@ -61,7 +61,7 @@
         echo fm_hidden('UserId',-1);
         $User['AccessLevel'] = $Access_Type['Committee'];
       }
-    echo "<tr>" . fm_text('Name', $User,'SName',1,'','autocomplete=off');
+    echo "<tr>" . fm_text('Name', $User,'SN',1,'','autocomplete=off');
     echo "<tr>" . fm_text('Abrev', $User,'Abrev',1,'','autocomplete=off');
     echo "<tr>" . fm_text('Email',$User,'Email',1,'','autocomplete=off');
     echo "<tr>" . fm_text('Phone',$User,'Phone',1,'','autocomplete=off');

@@ -45,7 +45,7 @@
 
       echo "<td>";
         if ($edit) echo "<a href=AddVenue.php?v=$i>";
-        echo $Ven['SName'];
+        echo $Ven['SN'];
         if ($edit) echo "</a>";
 
       echo "<td>" . ($Ven['IsVirtual']?'Y':'');

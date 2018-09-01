@@ -10,11 +10,11 @@
     $uid = $_GET['U'];
     $user = Get_User($uid);
 
-    $letter = firstword($user['SName']) . ",<p>" .
+    $letter = firstword($user['SN']) . ",<p>" .
         "This is yet another test message ...<p>".
         "Richard";
  
-    NewSendEmail($user['Email'],"Test From " . firstword($user['SName']) . " from WMFF Staff pages",$letter);
+    NewSendEmail($user['Email'],"Test From " . firstword($user['SN']) . " from WMFF Staff pages",$letter);
 
     echo "Email sent:<p>$letter";
   } else {

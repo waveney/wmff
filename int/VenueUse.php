@@ -17,8 +17,8 @@
   else $ven=1;
 
   $venue = Get_Venue($ven);
-  echo "<h2>Use of " . ($venue['SName']?$venue['SName']:$venue['ShortName']) . "</h2>";
-  if ($venue['ShortName'] && $venue['ShortName'] != $venue['SName']) echo "<h3>(" . $venue['ShortName'] . ")</h3>\n";
+  echo "<h2>Use of " . ($venue['SN']?$venue['SN']:$venue['ShortName']) . "</h2>";
+  if ($venue['ShortName'] && $venue['ShortName'] != $venue['SN']) echo "<h3>(" . $venue['ShortName'] . ")</h3>\n";
 
   $res = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND Venue=$ven ORDER BY Day, Start");
   $parname = '';
@@ -33,14 +33,14 @@
       }
 
       if ($e['SubEvent'] <1) {
-        $parname = $e['SName'];
+        $parname = $e['SN'];
         echo "<p class=Vuse2>" . $DayList[$e['Day']] . " " . $e['Start'] . " - " . $e['End'] . " " . $parname;
       }
       if ($imps) {
         if ($e['SubEvent'] < 0) echo "<p class=Vuse3>" . $e['Start'] . " - " . $e['SlotEnd'] . " ";
         if ($e['SubEvent'] > 0) { 
           echo "<p class=Vuse3>" . $e['Start'] . " - " . $e['End'] . " ";
-          if ($e['SName'] && $e['SName'] != $parname) echo " &nbsp; &nbsp; " . $e['SName'] . " &nbsp; ";
+          if ($e['SN'] && $e['SN'] != $parname) echo " &nbsp; &nbsp; " . $e['SN'] . " &nbsp; ";
         }
 
         echo "&nbsp; &nbsp; &nbsp; ";
@@ -50,7 +50,7 @@
           if ($imp) echo "<span style='font-size:" . (15+$imp*2) . "'>";
             foreach ($imps[$imp] as $thing) {
             if ($things++) echo " , ";
-            echo $thing['SName'];
+            echo $thing['SN'];
             if (isset($thing['Type'])) echo " (" . $thing['Type'] . ") ";
           }
           if ($imp) echo "</span>";
