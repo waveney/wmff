@@ -14,7 +14,7 @@
   $AllActive = [];
   foreach ($All as $usr) {
     $id = $usr['UserId'];
-    if ($usr['AccessLevel'] >=2 && $usr['AccessLevel']<= 6 && $usr['NoTasks']==0 ) $AllActive[$id] = $usr['SN'];  
+    /*if ($usr['AccessLevel'] >=2 && $usr['AccessLevel']<= 6 && $usr['NoTasks']==0 ) */ $AllActive[$id] = $usr['SN'];  
   }
 
   $now = time();
