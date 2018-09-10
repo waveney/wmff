@@ -4,7 +4,7 @@
 
   dostaffhead("Manage Email Proformas");
 
-  include_once("TradeLib.php");
+  include_once("Email.php");
   echo "<div class='content'><h2>Manage Email Proformas</h2>\n";
   
   $Pros=Get_Email_Proformas(1);

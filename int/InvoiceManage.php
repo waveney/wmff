@@ -20,7 +20,7 @@
 
   global $YEAR,$PLANYEAR,$BUDGET,$USER;
 
-var_dump($_REQUEST);
+//var_dump($_REQUEST);
 
   echo "<script>
     function diffprompt(id){
@@ -94,22 +94,29 @@ var_dump($_REQUEST);
     dotail();
   }
   
+  $NewXtra = '';
   if (isset($_REQUEST['ALL'])) {
     $Invs = Get_Invoices();
     echo "<h2><a href=InvoiceManage.php?Y=$YEAR>Show Outstanding Only</a></h2>\n";
     $All = 1;
+  } elseif (isset($_REQUEST['FOR'])) {
+    $Trad = Get_Trader($_REQUEST['FOR']);
+    $Invs = Get_Invoices(" OurRef='" . Sage_Code($Trad) . "'"," IssueDate DESC ");
+    $All = 1;
+    $NewXtra = "&Tid=" . $Trad['Tid'];
   } else {
     $Invs = Get_Invoices('PayDate=0 AND Total>0');  
     echo "<h2><a href=InvoiceManage.php?Y=$YEAR&ALL>Show All Invoices and Credit notes</a></h2>\n";
     $All = 0;
   }
-  
+
   
   $Now = time();
   $coln = 0;
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Id</a>\n";
+  if ($All) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Inv/CN</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Our Ref</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D')>Date Raised</a>\n";
@@ -123,6 +130,7 @@ var_dump($_REQUEST);
   foreach($Invs as $i=>$inv) {
     $id = $inv['id'];
     echo "<tr><td><a href=InvoiceManage.php?Show=$id>$id</a>";
+    if ($All) echo "<td>" . ($inv['Total']>=0 ? 'Invoice' : 'Credit Note') ; 
     echo "<td>" . $inv['BZ']; // Make link soon
     echo "<td>" . $inv['OurRef'] . '/' . $inv['id'];
     echo "<td>" . date('j/n/Y',$inv['IssueDate']);
@@ -134,7 +142,7 @@ var_dump($_REQUEST);
         echo date('j/n/Y',$inv['DueDate'] );
       }
     }
-    if ($All) echo "<td>" . ($inv['PayDate']? date('j/n/Y',$inv['PayDate']) : "" );
+    if ($All) echo "<td>" . ($inv['PayDate']? date('j/n/Y',abs($inv['PayDate'])) : "" );
     echo "<td>" . Print_Pence($inv['Total']);
     if ($inv['PaidTotal'] > 0 && $inv['PaidTotal'] < $inv['Total']) echo " (" . Print_Pence($inv['Total'] - $inv['PaidTotal']) . ")";
     if ($All) echo "<td>" . Print_Pence($inv['PaidTotal']);
@@ -151,7 +159,7 @@ var_dump($_REQUEST);
   }
   echo "</table>\n";
   
-  echo "<h2><a href=InvoiceManage.php?ACTION=NEW>New Invoice</a></h2>";  
+  echo "<h2><a href=InvoiceManage.php?ACTION=NEW$NewXtra>New Invoice</a></h2>";  
   dotail();
 
 ?>

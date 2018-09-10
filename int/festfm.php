@@ -341,7 +341,7 @@ function AlphaNumeric($txt) {
 }
 
 function Print_Pence($amt) {
-  return sprintf("&pound;%0.2f",$amt/100);
+  return ($amt<0?"-":"") . sprintf("&pound;%0.2f",abs($amt)/100);
 }
 
 function DurationFormat($mins) { // Show N mins as N <=90, x hr ymins 

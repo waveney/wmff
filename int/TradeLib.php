@@ -1,9 +1,9 @@
 <?php
 
 // For Book -> Confirm -> Deposit ->Pay , if class begins with a - then not used/don't list
-$Trade_States = array('Not Submitted','Declined','Refunded','Cancelled','Submitted','Quoted','Accepted','Deposit Paid','Invoiced','Fully Paid','Wait List');
+$Trade_States = array('Not Submitted','Declined','Refunded','Cancelled','Submitted','Quoted','Accepted','Deposit Paid','Invoiced','Fully Paid','Wait List','Requote');
 $Trade_State = array_flip($Trade_States);
-$Trade_StateClasses = array('TSNotSub','TSDecline','-TSRefunded','TSCancel','TSSubmit','TSInvite','TSConf','TSDeposit','-TSInvoice','TSPaid','TSWaitList');
+$Trade_StateClasses = array('TSNotSub','TSDecline','-TSRefunded','TSCancel','TSSubmit','TSInvite','TSConf','TSDeposit','TSInvoice','TSPaid','TSWaitList','TSRequote');
 $TS_Actions = array('Submit,Invite,Invite Better',
                 'Resend',
                 'Resend',
@@ -11,53 +11,35 @@ $TS_Actions = array('Submit,Invite,Invite Better',
                 'Resend,Quote,Accept,Decline,Hold,Cancel',
                 'Resend,Quote,Invite,Accept,Decline',
                 'Resend,Dep Paid,Cancel',
-                'Resend,Paid,Cancel',
+                'Resend,Paid,Invoice,Cancel',
                 'Resend,Paid,Cancel',
                 'Resend,Cancel',
-                'Resend,Accept,Decline,Cancel');
+                'Resend,Accept,Decline,Cancel',
+                'Resend,Quote,Cancel');
 
 $Trader_Status = array('Alive','Banned','Not trading');
 $Trader_State = array_flip($Trader_Status);
-$ButExtra = array('Accept'=>'','Decline'=>'','Submit'=>'','Hold'=>'title="Hold for space available"','Dep Paid','Paid',
-        'Quote'=>'title="Send or repeat Quote email"','Invite'=>'title="Send or repeat the Invitation Email"',
+$ButExtra = array(
+        'Accept'=>'',
+        'Decline'=>'',
+        'Submit'=>'',
+        'Hold'=>'title="Hold for space available"',
+        'Dep Paid'=>'Deposit Paid',
+        'Invoice'=>'',
+        'Paid'=>'Full Fees Paid',
+        'Quote'=>'title="Send or repeat Quote email"',
+        'Invite'=>'title="Send or repeat the Invitation Email"',
+        'Invoiced'=>'Final Invoice Sent',
         'Cancel'=>'onClick="javascript:return confirm(\'are you sure you want to cancel this?\');"',
-        'Resend'=>''
+        'Resend'=>'Resend last email to trader',
+        'Invite Better'=>''
         ); 
 $Trade_Email = array('','Trade_Decline','Trade_Refunded','Trade_Cancel','Trade_Submit', 'Trade_Quoted',
-                'Trade_Accepted','Trade_Status','Trade_Status','Trade_Status','Trade_Hold');
-$ButTrader = array('Submit','Accept','Decline','Cancel'); // Actions Traders can do
+                'Trade_Accepted','Trade_Status','Trade_Status','Trade_Status','Trade_Hold',''); // Might be better to store this in record as there are many veriants and atachments
+$ButTrader = array('Submit','Accept','Decline','Cancel'); // Actions Traders can do  TODO add resend my email (eg invoice)
 $Trade_Days = array('Both','Saturday Only','Sunday Only');
 $Prefixes = array ('in','in the','by the');
 $TaxiAuthorities = array('East Dorset','Poole','Bournemouth');
-
-function Get_Email_Proformas() { 
-  global $db;
-  $res = $db->query("SELECT * FROM EmailProformas ORDER BY SN ");
-  if ($res) {
-    while ($typ = $res->fetch_assoc()) $full[$typ['id']] = $typ;
-  }
-  return $full;
-}
-
-function Get_Email_Proforma($id) {
-  global $db;
-  if (is_numeric($id)) {
-    $res=$db->query("SELECT * FROM EmailProformas WHERE id=$id");
-  } else {
-    $res=$db->query("SELECT * FROM EmailProformas WHERE SN='$id'");
-  }
-  if ($res) {
-    $ans = $res->fetch_assoc();
-    return $ans;
-  }
-  return 0; 
-}
-
-function Put_Email_Proforma(&$now) {
-  $e=$now['id'];
-  $Cur = Get_Email_Proforma($e);
-  return Update_db('EmailProformas',$Cur,$now);
-}
 
 function Get_Trade_Locs($tup=0) { // 0 just names, 1 all data
   global $db;
@@ -547,150 +529,13 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
   echo "</table>\n";
 }
 
-function Email_Body(&$Trad,&$Trady,$messcat='Link',$simple=0) {
-  global $PLANYEAR,$USER,$MASTER;
-  include_once("InvoiceLib.php");
-
-  $Prof = Get_Email_Proforma($messcat);
-  $Mess = ($Prof? $Prof['Body'] : "Unknown message $messcat");
-  $Tid = $Trad['Tid'];
-
-  $Key = $Trad['AccessKey'];
-  $Link = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=Trade&id=$Tid&key=$Key><b>link</b></a>";
-  $WmffLink = "<a href=http://wimbornefolk.co.uk/int/Trade.php?id=$Tid><b>link</b></a>";
-  $Remove = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Remove.php?t=Trade&id=$Tid&key=$Key><b>here</b></a>";
-  $Contact = $Trad['Contact']? firstword($Trad['Contact']) : $Trad['SN'];
-  $Sender = $USER['SN'];
-
-  if (!$simple) {
-    $Locs = Get_Trade_Locs(1);
-    $Location = '';
-    if ($Trady['PitchLoc0']) $Location = $Locs[$Trady['PitchLoc0']]['SN'];
-    if ($Trady['PitchLoc1']) {
-      if ($Trady['PitchLoc2']) { $Location .= ", " . $Locs[$Trady['PitchLoc1']]['SN']; }
-      else { $Location .= " and " . $Locs[$Trady['PitchLoc1']]['SN']; }
-    };
-    if ($Trady['PitchLoc2']) { $Location .= " and " . $Locs[$Trady['PitchLoc2']]['SN']; }
-
-    $Details = Get_Trade_Details($Trad,$Trady);
-    $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
-  
-    $Price = $Trady['Fee'];
-    if ($Price < 0) { $Price = "Free"; }
-    elseif ($Price==0) { $Price = "Not Known"; }
-    else { $Price = "&pound;" . $Price; }
-    $Dep = T_Deposit($Trad);
-    preg_match('/(\d*)\.pdf/',$att,$mtch);
-    $Bacs = Sage_Code($Trad) . "/" . ($mtch[1] ? $mtch[1] : '0000' );
-    
-//echo "DETAILS: $Details<p><p>\n";
-  }
-
-  $Mess = preg_replace('/\*WHO\*/',     $Contact,$Mess);
-  $Mess = preg_replace('/\*LINK\*/',    $Link,$Mess);
-  $Mess = preg_replace('/\*WMFFLINK\*/',$WmffLink,$Mess);
-
-  if (!$simple) {
-    $Mess = preg_replace('/\*HERE\*/'    ,$Remove,$Mess);
-    $Mess = preg_replace('/\*LOCATION\*/',$Location,$Mess);
-    $Mess = preg_replace('/\*PRICE\*/'   ,$Price,$Mess);
-    $Mess = preg_replace('/\*DEPOSIT\*/' ,$Dep,$Mess);
-    $Mess = preg_replace('/\*BALANCE\*/' ,($Trady['Fee'] - $Dep),$Mess);
-    $Mess = preg_replace('/\*DETAILS\*/' ,$Details,$Mess);
-    $Mess = preg_replace('/\*PLANYEAR\*/',$PLANYEAR,$Mess);
-    $Mess = preg_replace('/\*DATES\*/'   ,$Dates,$Mess);
-    $Mess = preg_replace('/\*BACSREF\*/' ,$Bacs,$Mess);
-    $Mess = preg_replace('/\*TOTAL\*/'   ,$Trady['Fee'],$Mess);
-  }
-
-  $Mess .= "<p>Regards, Wimborne Minster Folk Festival\n";
-
-  return $Mess;
-}
-
-function Send_Trader_Email(&$Trad,&$Trady,$messcat='Link',$att='') {
-  include_once("Email.php");
-//  Get EMail template
-//  Edit in all standard expansions
-//  Send
-//  Send Copy to Mandy
-//  Log for Weekly Email
-
-  $Mess = Email_Body($Trad,$Trady,$messcat,0,$att);
-  if (file_exists("testing")) {
-    NewSendEmail("Richard@wavwebs.com","Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SN'],$Mess,$att);
-  } else {
-    NewSendEmail($Trad['Email'],"Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SN'],$Mess,$att);
-  }
-
-  $logf = fopen("LogFiles/TradeLog.txt","a");
-  fwrite($logf,"\n\nEmail to : " . $Trad['Email'] . "\n\n" . $Mess);
-  fclose($logf);
-}
-
-// Not logged
-function Send_Trader_Simple_Email(&$Trad,$messcat='Trade_Link') {
-  $Mess = Email_Body($Trad,$Trad,$messcat,1);
-  
-  if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SN'],$Mess);
-  } else {
-    SendEmail($Trad['Email'],"Wimborne Minster Folk Festival $PLANYEAR and " . $Trad['SN'],$Mess);
-  }
-}
-
-function Old_Send_Trader_Email(&$Trad,$messcat='Link',$cont='') {
-
-  $letter = '';
-
-  if (isset($data[$xtr .'Contact'])) { $name = firstword($Trad[$xtr .'Contact']); }
-  else { $name = $Trad['SN']; }
-  $id = $Trad['Tid'];
-  $key = $Trad['AccessKey'];
-  $to = $Trad[$xtr . 'Email'];
-  
-  $letter .= "$name,<p>\n";
-  
-  switch ($messcat) {
-  case 'Link':
-    $letter .= $cont;
-    $letter .= "Please use this " .  "<a href=http://wimbornefolk.co.uk/int/Direct.php?t=trade&id=$id&key=$key>this Wimborne Minster Folk Festival link</a>.<p>  " .
-                    "To add and/or correct details about your business, contact information, your product descriptions, book pitch(es) and give power requirements, " . 
-                "update your Insurance and Risc Assessment etc.<p>" .
-                "Details of your pitch location, general trader information and particulars of setup and cleardown information will also appear there.<p>" . 
-                "Save the link for future use.<p>";
-    break;
-  case 'Submit':
-    $letter .= "Thankyou for submitting your application for Trading at the Wimborne Minster Folk Festival.\n" .
-                    "Please use this " .  "<a href=http://wimbornefolk.co.uk/int/Direct.php?t=trade&id=$id&key=$key>this Wimborne Minster Folk Festival link</a>,  " .
-                    "to add and/or correct details about your business, contact information, your product descriptions, book or change your pitch(es) and give " .
-                " power requirements, update your Insurance and Risc Assessment etc.<p>" .
-                "Details of your pitch location, general trader information and particulars of setup and cleardown information will also appear there.<p>" . 
-                "Save the link for future use.<p>" .
-                "If you have any queries that are not answered by the <a href=http://wimbornefolk.co.uk/int/TradeFAQ.php>Trade FAQ</a>, " .
-                "please contact <a href=mailto:trade@wimbornefolk.co.uk>trade@wimbornefolk.co.uk</a>\n\n";
-    $cont = preg_replace("/\n/","<br>\n",$cont);
-    $letter .= $cont;
-    break;
-  }
-  $letter .= "Regards, The Wimborne Minster Folk Festival booking system.<p>"; 
-
-  if (file_exists('testing')) {
-    echo "<h3>The following Email would be sent to $to:</h3><p><div class=DevEmail>$letter</div><p>\n";
-
-    echo "Use the <a href=Direct.php?t=trade&id=$id&key=$key>link</a>.<p>  ";
-  } else {
-//   SendEmail($to,'Wimborne Minster Folk Festival Trader Link',$letter);
-  }
-}
-
 function Get_Trade_Details(&$Trad,&$Trady) {
   global $Trade_Days,$TradeLocData,$TradeTypeData;
 
 //  $Body  = "\nWimborne Minster Folk festival Trading application\n";
   $Body = "\nFrom: " . $Trad['SN'] . "\n";
   $Body .= "Goods: " . $Trad['GoodsDesc'] . "\n\n";
-  $Body .= "Type: " . $TradeTypeData[$Trad['TradeType']] . "\n\n";
+  $Body .= "Type: " . $TradeTypeData[$Trad['TradeType']]['SN'] . "\n\n";
   if ($Trad['Website']) $Body .= "Website: " . $Trad['Website'] . "\n\n";
   $Body .= "Contact: " . $Trad['Contact'] . "\n";
   if ($Trad['Phone']) $Body .= "Phone: " . $Trad['Phone'] . "\n";
@@ -737,6 +582,71 @@ function Get_Trade_Details(&$Trad,&$Trady) {
   return $Body;
 }
 
+function Trader_Details($key,&$data,$att=0) {
+  $Trad = &$data[0];
+  $Trady = &$data[1];
+  $Tid = $Trad['Tid'];
+  switch ($key) {
+  case 'WHO':  return $Trad['Contact']? firstword($Trad['Contact']) : $Trad['SN'];
+  case 'LINK': return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "<b>link</b></a>";
+  case 'WMFFLINK': return "<a href=http://wimbornefolk.co.uk/int/Trade.php?id=$Tid><b>link</b></a>";
+  case 'HERE': return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Remove.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "<b>here</b></a>";
+  case 'LOCATION': 
+    $Location = '';
+    if ($Trady['PitchLoc0']) $Location = $Locs[$Trady['PitchLoc0']]['SN'];
+    if ($Trady['PitchLoc1']) {
+      if ($Trady['PitchLoc2']) { $Location .= ", " . $Locs[$Trady['PitchLoc1']]['SN']; }
+      else { $Location .= " and " . $Locs[$Trady['PitchLoc1']]['SN']; }
+    };
+    if ($Trady['PitchLoc2']) { $Location .= " and " . $Locs[$Trady['PitchLoc2']]['SN']; }
+    return $Location;
+  case 'PRICE':
+    $Price = $Trady['Fee'];
+    if ($Price < 0) return "Free";
+    if ($Price ==0) return "Not Known";
+    return "&pound;" . $Price;
+  case 'DEPOSIT': return ;
+  case 'BALANCE': return ($Trady['Fee'] - T_Deposit($Trad));
+  case 'DETAILS': return Get_Trade_Details($Trad,$Trady);
+  case 'BACSREF':
+    preg_match('/(\d*)\.pdf/',$att,$mtch);
+    return Sage_Code($Trad) . "/" . (isset($mtch[1]) ? $mtch[1] : '0000' );
+  default: return "UNKNOWN CODE $key UNKNOWN UNKNOWN";
+  }
+}
+
+function Trader_Admin_Details($key,&$data,$att=0) {
+  $Trad = &$data[0];
+  $Trady = &$data[1];
+  $res = Trader_Admin_Details($key,$data,$att);
+  if ($key == 'DETAILS') {
+    if ($Trad['Status'] == 1) $res = "THIS IS FROM A BANNED TRADER<P>" . $res;
+    if ($Trad['Notes']) $res .= "<p>PRIVATE NOTES:<br>" . $Trad['Notes'] . "<p>";
+    if ($Trady['PNotes']) $res .= "<p>PRIVATE NOTES:<br>" . $Trady['PNotes'] . "<p>";
+  }
+  return $res;
+}
+
+function Send_Trader_Email(&$Trad,&$Trady,$messcat='Link',$att='') {
+  global $PLANYEAR,$MASTER_DATA;
+  include_once("Email.php");
+  Email_Proforma([$Trad['Email'],$Trad['Contact']],$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att);
+}
+
+function Send_Trade_Finance_Email(&$Trad,&$Trady,$messcat,$att=0) {
+  global $PLANYEAR,$MASTER_DATA;
+  include_once("Email.php");
+
+  Email_Proforma("treasurer@" . $MASTER_DATA['HostURL'],$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att);
+}
+
+function Send_Trade_Admin_Email(&$Trad,&$Trady,$messcat,$att=0) {
+
+  global $PLANYEAR,$MASTER_DATA;
+  include_once("Email.php");
+
+  Email_Proforma("trade@" . $MASTER_DATA['HostURL'],$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Admin_Details',[&$Trad,&$Trady],'TradeLog',$att);
+}
 
 //  Mark as submitted, email fest and trader, record data of submission
 function Submit_Application(&$Trad,&$Trady,$Mode=0) {  
@@ -916,7 +826,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
 
       Update_db_post('Trade',$Trad);
       if ($_POST{'Year'} == $PLANYEAR) {
-        $same = 0;
+        $same = 1;
         if (isset($Trady) && $Trady) {
           $OldFee = $Trady['Fee'];
           if ($Mode) {
@@ -1043,7 +953,13 @@ function Trade_Main($Mode,$Program,$iddd=0) {
   }
   echo "</form>\n";
 
-  if ($Mode) echo "<h2><a href=ListCTrade.php>List Traders Coming</a></h2>";
+  if ($Mode && $Tid>0) {
+    $Invs = Get_Invoices(" OurRef='" . Sage_Code($Trad) . "'"," IssueDate DESC ");
+    echo "<h2><a href=ListCTrade.php>List Traders Coming</a> ";
+//    var_dump($Invs);
+    if ($Invs) echo ", <a href=InvoiceManage.php?FOR=$Tid>Show All Invoices for " . $Trad['SN'] . "</a>";
+    echo "</h2>";
+  }
 }
 
 // Send confirmation email and deposit invoice
@@ -1064,38 +980,6 @@ function Trade_Confirm(&$Trad,&$Trady) {
   Send_Trader_Email($Trad,$Trady,'Link',$letter);
 }
 
-function Send_Trade_Admin_Email(&$Trad,&$Trady,$messcat) {
-  $Mess = Email_Body($Trad,$Trady,$messcat);
-  if ($Trad['Status'] == 1) $Mess = "THIS IS FROM A BANNED TRADER<P>" . $Mess;
-
-  if ($Trad['Notes']) $Mess .= "<p>PRIVATE NOTES:<br>" . $Trad['Notes'] . "<p>";
-
-  if ($Trady['PNotes']) $Mess .= "<p>PRIVATE NOTES:<br>" . $Trady['PNotes'] . "<p>";
-
-  if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com", "WMFF Trade Admin Message",$Mess);
-  } else {
-    SendEmail("trade@wimbornefolk.co.uk", "WMFF Trade Admin Message",$Mess);
-  }
-
-  $logf = fopen("LogFiles/TradeLog.txt","a");
-  fwrite($logf,"\n\nEmail to : " . $Trad['Email'] . "\n\n" . $Mess);
-  fclose($logf);
-}
-
-function Send_Trade_Finance_Email(&$Trad,&$Trady,$messcat) {
-  $Mess = Email_Body($Trad,$Trady,$messcat);
-  if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com", "WMFF Finance Message",$Mess);
-  } else {
-    SendEmail("mandy.dorset@gmail.com", "WMFF Finance Message",$Mess);
-  }
-
-  $logf = fopen("LogFiles/TradeLog.txt","a");
-  fwrite($logf,"\n\nEmail to : " . $Trad['Email'] . "\n\n" . $Mess);
-  fclose($logf);
-}
-
 function Trade_Date_Cutoff() { // return 0 - normal, 30, full payment (normal duration), >0 = Days left to trade stop (full payment)
   global $MASTER;
   $Now = time();
@@ -1105,12 +989,37 @@ function Trade_Date_Cutoff() { // return 0 - normal, 30, full payment (normal du
   return $DaysLeft;
 }
 
+function Trade_Deposit_Invoice(&$Trad,&$Trady,$full='Full',$extra='') {
+  if (! Feature("AutoInvoices")) return 0;
+  
+  include_once("InvoiceLib.php");
+  $InvCode = $TradeLocData[$Trady['PitchLoc0']]['InvoiceCode'];
+  if ($InvCode == 0) $InvCode = $TradeTypeData[$Trad['TradeType']]['InvoiceCode'];
+  $DueDate = Trade_Date_Cutoff();
+  if ($DueDate == 0 && $full == 0) {
+//      if (Now < Main invoice date, Due = 30, else invoice full amount (if Now < 30 before cut date, Due = 30, else Due = CutDate - now
+    $ipdf = New_Invoice($Trad,
+                        ["Deposit for your trade stand at the $PLANYEAR festival",$Dep*100],
+                        'Trade Stand Deposit',
+                        $InvCode);
+  } else {
+    $details = ["$Full fees for your trade stand at the $PLANYEAR festival",$Trady['Fee']*100];
+    if ($extra) $details = [$details,$extra];
+    $ipdf = New_Invoice($Trad,
+                        $details,
+                        'Trade Stand Charge',
+                        $InvCode, 1, $DueDate);
+  }
+  return $ipdf;
+}
+
 // Highly recursive set of actions - some trigger others 
 function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='') {
-  global $Trade_State,$TradeTypeData,$Trade_Email,$USER,$TradeLocData;
+  global $Trade_State,$TradeTypeData,$Trade_Email,$USER,$TradeLocData,$PLANYEAR;
   $Tchng = $Ychng = 0;
   $PaidSoFar = $Trady['TotalPaid'];
   $CurState = $NewState = $Trady['BookingState'];
+  $xtra = '';
 
   switch ($Action) {
   case 'Create' :
@@ -1135,50 +1044,57 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='') {
       Trade_Action('Dep Paid',$Trad,$Trady,$Mode,"$Hist $Action");
       Send_Trader_Email($Trad,$Trady,'Trade_AcceptNoDeposit');
       return;
-    } else {
-      $ProformaName = (($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) ? "Trade_Artisan_Accept" : "Trade_Accepted");
+    }
+
+    $ProformaName = (($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) ? "Trade_Artisan_Accept" : "Trade_Accepted");
+    $ipdf = Trade_Deposit_Invoice($Trad,$Trady);
    
-      if (Feature("AutoInvoices")) {
-        $InvCode = $TradeLocData[$Trady['PitchLoc0']]['InvoiceCode'];
-        if ($InvCode == 0) $InvCode = $TradeTypeData[$Trad['TradeType']]['InvoiceCode'];
-        $DueDate = Trade_Date_Cutoff();
-        if ($DueDate == 0) {
- //       if (Now < Main invoice date, Due = 30, else invoice full amount (if Now < 30 before cut date, Due = 30, else Due = CutDate - now
-          $ipdf = New_Invoice($Trad,
-                              ["Deposit payment to secure your trade stand at the $PLANYEAR festival",$Dep*100],
-                              'Trade Stand Deposit',
-                              $InvCode);
-          Send_Trader_Email($Trad,$Trady,$ProformaName . "_Invoice",$ipdf);
-          // Message and attach
-        } else {
-          $ipdf = New_Invoice($Trad,
-                              ["Full payment to secure your trade stand at the $PLANYEAR festival",$Trady['Fee']*100],
-                              'Trade Stand Charge',
-                              $InvCode, 1, $DueDate);
-          Send_Trader_Email($Trad,$Trady,$ProformaName . "_FullInvoice",$ipdf);
-        }
-        // Attach pdf to appropriate email and send it - email for normal, atisan, all in1 normal, artisan
-      } else {
-        if ($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) {
-          Send_Trader_Email($Trad,$Trady,'Trade_Artisan_Accept');
-        } else {
-          Send_Trader_Email($Trad,$Trady,'Trade_Accepted');
-        }
-        Send_Trade_Finance_Email($Trad,$Trady,'Trade_RequestDeposit');
-      }
+    if ($ipdf) {
+      $DueDate = Trade_Date_Cutoff();
+      Send_Trader_Email($Trad,$Trady,$ProformaName . ($DueDate?"_FullInvoice":"_Invoice"),$ipdf);
+    } else {
+      Send_Trader_Email($Trad,$Trady,$ProformaName);
+      Send_Trade_Finance_Email($Trad,$Trady,'Trade_RequestDeposit');
     }
     break;
     
   case 'Invoice':
+    if ($CurState == $Trade_State['Fully Paid']) break; // should not be here...
+    $Fee = $Trady['Fee'];
+    if ($Fee <= $PaidSoFar) { 
+      $NewState = $Trade_State['Fully Paid']; // Should not be here...
+      break; 
+    }
+
+    if (Feature("AutoInvoices")) {
+      include_once("InvoiceLib.php");
+      $ProformaName = (($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) ? "Trade_Artisan_Final_Invoice" : "Trade_Final_Invoice");
+      $InvCode = $TradeLocData[$Trady['PitchLoc0']]['InvoiceCode'];
+      if ($InvCode == 0) $InvCode = $TradeTypeData[$Trad['TradeType']]['InvoiceCode'];
+      $DueDate = Trade_Date_Cutoff();
+      $ipdf = New_Invoice($Trad,
+                          [["Full payment to secure your trade stand at the $PLANYEAR festival",$Fee*100],["Less your deposit payment",-T_Deposit($Trad)*100]],
+                           'Trade Stand Charge',
+                           $InvCode, 1, $DueDate);
+      Send_Trader_Email($Trad,$Trady,$ProformaName,$ipdf);
+      $NewState = $Trade_State['Invoiced'];
+    }
     break;
 
   case 'Resend Finance':
-    Send_Trade_Finance_Email($Trad,$Trady,'Trade_RequestDeposit');
+    Send_Trade_Finance_Email($Trad,$Trady,'Trade_RequestDeposit');  // Only used when no auto invoices
     break;
 
   case 'Decline' :
     $NewState = $Trade_State['Declined'];
-    Send_Trader_Email($Trad,$Trady,'Trade_Decline');
+    $att = 0;
+
+    if ($CurState == $Trade_State['Accepted']) { // Should not be here ...
+      // Is there an invoice ? If so credit it and attach credit note
+      $Invs = Get_Invoices(" PayDate=0 AND OurRef='" . Sage_Code($Trad) . "'"," IssueDate DESC ");
+      if ($Invs) $att = Invoice_Credit_Note($Invs[0]);
+    }
+    Send_Trader_Email($Trad,$Trady,'Trade_Decline',$att);
     break;
 
   case 'Hold' :
@@ -1229,7 +1145,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='') {
     break;
 
   case 'Change' :
-    $NewState = $Trade_State['Submitted'];
+    $NewState = $Trade_State['Requote'];
     Send_Trader_Email($Trad,$Trady,'Trade_Changes');
     Send_Trade_Admin_Email($Trad,$Trady,'Trade_Changes');
     break;
@@ -1256,19 +1172,120 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='') {
     break;
 
   case 'Quote' :
-    if ($Trady['Fee']) {
+  /*
+    if (!requote) just quote (Quoted)
+    else if free then fully paid and message (fully Paid)
+    else if dep not paid and not due and dep not changed Statement (Accepted)
+    else if dep not paid and due and not invoiced Issue full invoice (Invoiced)
+    else if dep not paid and due and invoice credit and new invoice (Invoiced) 
+    else if dep paid and not due - statement (Dep Paid)
+    else if no invoice issue balance invoice (Invoiced)
+    else if not yet paid - additional invoice (Invoiced)
+    if paid new invoice for extra (Invoiced)
+    
+    if dep not paid and dep not changed { if due
+    
+    bit 0 - Dep <= Paid
+    bit 1 - Dep Invoice issued
+    bit 2 - Dep Invoice = current Dep
+    bit 3 - due date reached
+    bit 4 - Existing Final invoice issued
+    bit 5 - Existing Final invoice paid
+    bit 6 - Existing Final > New Final
+    
+    
+  */
+  
+    if ($CurState != $Trade_State['Requote']) {
+      $NewState = $Trade_State['Quoted'];
+      Send_Trader_Email($Trad,$Trady,'Trade_Quote');    
+    } elseif ($Trady['Fee'] <0) {
+      $NewState = $Trade_State['Fully Paid'];
+      Send_Trader_Email($Trad,$Trady,'Trade_AcceptNoDeposit');
+    } else {
+      $Invs = Get_Invoices(" OurRef='" . Sage_Code($Trad) . "'"," IssueDate DESC ");
+      $InvoicedTotal = 0;
+      foreach ($Invs as $inv) $InvoicedTotal += $inv['Total'];
+      $Dep = T_Deposit($Trad);
+      $DueDate = Trade_Date_Cutoff();
+      if ($Invs) $invoice = Get_Invoice_Pdf($Invs[0]['id']);
+      
+      if ($PaidSoFar < $Dep && $DueDate==0) {  // Need a deposit
+        if ($Invs && $PaidSoFar==0 && $InvoicedTotal>=$Dep) { // For info no action required, existing deposit fine, repeat it
+          $NewState = $Trade_State['Accepted'];
+          Send_Trader_Email($Trad,$Trady,'Trade_Statement_Deposit',$invoice);  
+        } elseif (!$Invs) {
+          $ProformaName = (($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) ? "Trade_Artisan_Accept" : "Trade_Accepted");
+          $ipdf = Trade_Deposit_Invoice($Trad,$Trady);
+          if ($ipdf) Send_Trader_Email($Trad,$Trady,$ProformaName . ($DueDate?"_FullInvoice":"_Invoice"),$ipdf);
+        } else ($PaidSoFar >= $Dep) 
+          $NewState = $Trade_State['Dep Paid'];
+          Send_Trader_Email($Trad,$Trady,'Trade_Statement');  // For info no action required
+      
+      } elseif ($DueDate) { // Issue /update final invoice
+      
+      } else { // No need for a deposit - send update to trader
+        $NewState = $Trade_State['Dep Paid'];        
+        Send_Trader_Email($Trad,$Trady,'Trade_Statement');  // For info no action required
+      }
+      
+      
+        // Stage 1 has deposit been paid 
+        if ($PaidSoFar < $Dep && $DueDate==0) {
+          if ($Invs) {
+            $NewState = $Trade_State['Accepted'];
+            Send_Trader_Email($Trad,$Trady,'Trade_Statement');  // For info no action required
+          } 
+            $NewState = $Trade_State['Accepted'];
+            Deposit Invoice
+          }
+        } elseif ($PaidSoFar < $Dep && $DueDate==0) 
+       
+       
+       
+        if ($Dep > $InvoicedTotal) {
+          $NewState = $Trade_State['Quoted'];
+          Send_Trader_Email($Trad,$Trady,'Trade_Quote');
+        } elseif ($DueDate == 0) {
+          $NewState = ($PaidSoFar >= $Dep ? $Trade_State['Dep Paid'] : $Trade_State['Accepted'] ).;
+          Send_Trader_Email($Trad,$Trady,'Trade_Statement');  // For info no action required
+        } else     
+        
+        
+        
+        break;
+    
+
+      if invoiced need credit note HOW  // TODO 
+      return; //?
+    }
+    $Dep = T_Deposit($Trad);
+    if ($PaidSoFar >= $Dep) {  // TODO if invoiced need to change/credit invoice 
+    
+    } else {
       $NewState = $Trade_State['Quoted'];
       Send_Trader_Email($Trad,$Trady,'Trade_Quote');
     }
     break;
 
   case 'Resend' :
-    Send_Trader_Email($Trad,$Trady,$Trade_Email[$CurState]);
+    Send_Trader_Email($Trad,$Trady,$Trade_Email[$CurState]); // TODO this is wrong wrong wrong - statement with any outstanding invoices - for trader
 
     break;
   default:
     break;
   }
+/* TODO
+   send final invoice on dep paid
+   send invoice paid to anyone who pays full amount on dep invoice
+   Need schedualled events:
+     Send final invoices
+     Overdue Invoices
+   
+   
+   
+   */
+
 
 // var_dump($Ychng,$CurState,$NewState);
 
