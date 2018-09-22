@@ -1,15 +1,24 @@
 <?php
   include_once("fest.php");
-  A_Check('Committee','Bugs');
+  A_Check('Committee');
 
   dostaffhead("Manage Email Proformas");
 
   include_once("Email.php");
   echo "<div class='content'><h2>Manage Email Proformas</h2>\n";
   
+  if (Access('SysAdmin')) {
+    $Edit = 1;
+  } else {
+    echo "These are the proforma messages.  You cannot change them, email changes to Richard.<p>";
+    fm_addall('disabled readonly');
+    $Edit = 0;
+  }
+  
+  
   $Pros=Get_Email_Proformas(1);
 
-  if (UpdateMany('EmailProformas','Put_Email_Proforma',$Pros,0)) $Pros=Get_Email_Proformas(1);
+  if ($Edit && UpdateMany('EmailProformas','Put_Email_Proforma',$Pros,0)) $Pros=Get_Email_Proformas(1);
 
   echo "Standard replaces:<p>";
   echo "<table border>\n";
@@ -44,10 +53,13 @@
     echo "<td>" . fm_basictextarea($t,'Body',6,8,'',"Body$i");
     echo "\n";
   }
-  echo "<tr><td><td><input type=text name=SN0 >";
-  echo "<td><textarea name=Body0 rows=6 cols=120></textarea>";
+  if ($Edit) {
+    echo "<tr><td><td><input type=text name=SN0 >";
+    echo "<td><textarea name=Body0 rows=6 cols=120></textarea>";
+  }
   echo "</table>\n";
-  echo "<input type=submit name=Update value=Update>\n";
+  if ($Edit) echo "<input type=submit name=Update value=Update>\n";
+  
   echo "</form></div>";
 
   dotail();

@@ -45,4 +45,10 @@ function InvoiceCatChange(e,v) {
   if (v == 1) $('.InvOrg2').show();
 }
 
+// Maintain id D for size siz form fld
+function SetDSize(D,siz,fld) {
+  var len = document.getElementById(fld).value.length;
+  document.getElementById(D).innerHTML = "<b>(" + len + "/" + siz + ")</b>";
+}
+
 

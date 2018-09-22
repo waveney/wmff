@@ -275,8 +275,9 @@
       echo "<li><a href=AddBug.php>New Bug/Feature request</a>\n";
       echo "<li><a href=ListBugs.php>List Bugs/Feature requests</a><p>\n";
     }
+
+    if (Access('Committee')) echo "<li class=smalltext><a href=TEmailProformas.php>EMail Proformas</a>";
     if (Access('SysAdmin')) {
-      echo "<li class=smalltext><a href=TEmailProformas.php>EMail Proformas</a>";
       echo "<li><a href=General.php>General Year Settings</a> \n";
       echo "<li><a href=MasterData.php>Master Data Settings</a> \n";
     }

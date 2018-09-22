@@ -393,7 +393,9 @@ function Show_Invoice($id) { // Show details, limited edit
   echo "<input type=submit name=ACTION value=UPDATE>";
   if (Access('SysAdmin')) echo "<input type=submit name=ACTION value=PRINTPDF>";
   echo "</form>";
-  echo "<h2><a href=InvoiceManage.php?Y=$YEAR>Back to Invoices</h2>";
+  echo "<h2><a href=InvoiceManage.php?Y=$YEAR>Back to Invoices</a> ";
+  if ($inv['Source'] == 1) echo ", <a href=Trade.php?id=" . $inv['SourceId'] . "&Y=$YEAR>Back to Trader</a>";
+  echo "</h2>";
   
   // TODO Link to trader info, show email and phone(s)
 }

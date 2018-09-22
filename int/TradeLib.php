@@ -229,8 +229,7 @@ function Put_Trade_Year(&$now) {
 function Set_Trade_Help() {
   static $t = array(
         'Website'=>'If you would like to be listed on the Folk Festival Website, please supply your website (if you have one) and an Image and tick the box (Note traders will appear on the public website shortly)',
-        'GoodsDesc'=>'Describe your goods and buisness.  At least 20 words please.  This is used both to decide whether to accept your booking and as words
-to accompany your Image on the festival website',
+        'GoodsDesc'=>'Describe your goods and buisness.  At least 20 words please.  This is used both to decide whether to accept your booking and as words to accompany your Image on the festival website',
         'PitchSize'=>'If you want more than 1 pitch, give each pitch size, a deposit will be required for each.  If you attempt to setup a pitch larger than booked you may be told to leave',
         'Power'=>'Some locations can provide power, some only support lower power requirements. 
 There will be an additional fee for power from &pound;10-20, that will be added to your final invoice.
@@ -258,7 +257,6 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
   if (isset($Trad['Photo']) && $Trad['Photo']) echo "<img class=floatright src=" . $Trad['Photo'] . " height=80>\n";
   if ($Tid > 0) echo "<input  class=floatright type=Submit name='Update' value='Save Changes' form=mainform>";
   if ($Mode && isset($Trad['Email']) && strlen($Trad['Email']) > 5) {
-    echo "If you click on the " . linkemailhtml($Trad,'Trade');
     echo ", press control-V afterwards to paste the <button type=button onclick=Copy2Div('Email$Tid','SideLink$Tid')>standard link</button>";
     echo "<p>\n";
   }
@@ -296,7 +294,8 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
       } else {
         echo "<td colspan=3>You can upload a photo once you have created your record\n";
       }
-    echo "<tr>" . fm_textarea('Products Sold',$Trad,'GoodsDesc',7,1);
+    echo "<tr>" . fm_textarea('Products Sold <span id=DescSize></span>',$Trad,'GoodsDesc',7,1,
+                        'maxlength=500 oninput=SetDSize("DescSize",500,"GoodsDesc")');     
 
 //********* PRIVATE
 
@@ -955,7 +954,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
     if (Access('SysAdmin')) {
       echo "<div class=floatright>";
       echo "<input type=Submit id=smallsubmit name='NewAccessKey' value='New Access Key'>";
-      if ($Trady['BookingState'] >= $Trade_State['Accepted']) echo "<input type=Submit id=smallsubmit name='ACTION' value='Resend Finance'>";
+      if (!Feature("AutoInvoices") && $Trady['BookingState'] >= $Trade_State['Accepted']) echo "<input type=Submit id=smallsubmit name='ACTION' value='Resend Finance'>";
       echo "</div>\n";
     }
     echo "<Center>";
@@ -1290,7 +1289,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
       if ($PaidSoFar < $Dep && $DueDate==0) {  // Need a deposit
         if ($Invs && $PaidSoFar==0 && $InvoicedTotal>=$Dep) { // For info no action required, existing deposit fine, repeat it
           $NewState = $Trady['BookingState'] = $Trade_State['Accepted'];
-          Send_Trader_Email($Trad,$Trady,'Trade_Statement_Deposit',$invoice);  
+          Send_Trader_Email($Trad,$Trady,'Trade_Statement',$invoice);  
         } elseif (!$Invs) {
           $ProformaName = (($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) ? "Trade_Artisan_Accept" : "Trade_Accepted");
           $ipdf = Trade_Deposit_Invoice($Trad,$Trady);
