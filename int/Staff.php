@@ -245,15 +245,19 @@
     if (Access('Committee','Finance')) {
       echo "<li><a href=BudgetManage.php>Budget Management</a>\n";
       echo "<li><a href=InvoiceManage.php>Invoice Management</a>\n";
-      echo "<li><a href=Sponsors.php>Sponsors</a>\n";
-      echo "<li><a href=WaterManage.php>Water Refills</a>\n";
-      echo "<li><a href=InvoiceCodes.php>Invoice Codes</a>\n";      
+      echo "<li><a href=InvoiceCodes.php>Invoice Codes</a>\n";   
+      echo "<li><a href=InvoiceSummary.php>Invoice Summary</a>\n";   
 
     } else {
       echo "<li><a href=BudgetManage.php>Budget View</a>\n";
     }
     if (Access('SysAdmin')) {
+      echo "<p>";
       echo "<li class=smalltext><a href=ImportDebtorCodes.php>Import Debtor Codes</a>";
+      echo "<p>";
+      echo "<li><a href=Sponsors.php>Sponsors</a>\n";
+      echo "<li><a href=WaterManage.php>Water Refills</a>\n";
+
     }
     echo "</ul>\n";
     

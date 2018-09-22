@@ -13,17 +13,21 @@
 
   echo "Standard replaces:<p>";
   echo "<table border>\n";
-  echo "<tr><td>*WHO*<td>First name of contact\n";
-  echo "<tr><td>*PLANYEAR<td>Year for the booking\n";
-  echo "<tr><td>*DATES*<td>Dates of Saturday and Sunday\n";
-  echo "<tr><td>*LOCATION*<td>Location(s) of Pitches\n";
-  echo "<tr><Td>*PRICE*<td>Total Price quoted\n";
-  echo "<tr><td>*LINK*<td>Personal Link for trader\n";
-  echo "<tr><td>*HERE*<td>Remove Request\n";
-  echo "<tr><td>*WMFFLINK*<td>Link for Moe/Mandy direct to that trader\n";
-  echo "<tr><td>*DEPOSIT*<td>Deposit Required\n";
-  echo "<tr><td>*BALANCE*<td>Balance Required\n";
-  echo "<tr><td>*DETAILS*<td>Full details of trader\n";
+  echo "<tr><td>Code<td>What it does<td>Areas \n";
+  echo "<tr><td>*WHO*<td>First name of contact<td>All\n";
+  echo "<tr><td>*PLANYEAR<td>Year for the booking<td>All\n";
+  echo "<tr><td>*DATES*<td>Dates of Saturday and Sunday<td>All\n";
+  echo "<tr><td>*LOCATION*<td>Location(s) of Pitches<td>Trade\n";
+  echo "<tr><Td>*PRICE*<td>Total Price quoted<td>Trade\n";
+  echo "<tr><td>*LINK*<td>Personal Link for trader<td>Trade, Stewards\n";
+  echo "<tr><td>*HERE*<td>Remove Request<td>Trade\n";
+  echo "<tr><td>*WMFFLINK*<td>Link for Moe/Mandy direct to that trader<td>Trade\n";
+  echo "<tr><td>*DEPOSIT*<td>Deposit Required<td>Trade\n";
+  echo "<tr><td>*BALANCE*<td>Balance Required<td>Trade\n";
+  echo "<tr><td>*DETAILS*<td>Full details of booking<td>Trade, BB, LOL, LNL, Stewards\n";
+  echo "<tr><td>*FINANCIAL<td>Trade financial statement<td>Trade\n";
+  echo "<tr><td>*STATE*<td>Decsription of application state<td>Trade\n";
+  echo "<tr><td>*PAIDSOFAR*<td>Total payments so far<td>Trade\n";
   echo "</table><p>\n";
 
   $coln = 0;

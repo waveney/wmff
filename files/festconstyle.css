@@ -769,6 +769,14 @@ input[type='file'] {
   background:darkseagreen;
 }
 
+.TSWaitList {
+  background: #ffb380;
+}
+
+.TSRequote {
+  background:#e6d9b2;
+}
+
 .KeepTogether {
   float:left;
 }

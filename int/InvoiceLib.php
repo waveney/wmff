@@ -42,7 +42,7 @@ function Put_Invoice(&$now) {
 function Inv_Amt($amt) {
   $str = '';
   if ($amt < 0) { $str .= "-"; $amt = - $amt; }
-  $str .= utf8_decode("£") . sprintf("%0.2f",$inv['Amount3']/100 );
+  $str .= utf8_decode("£") . sprintf("%0.2f",$amt/100 );
   return $str;
 }
 
@@ -50,7 +50,10 @@ function Inv_Amt($amt) {
 function Invoice_Print(&$inv) {
   global $MASTER_DATA,$PLANYEAR;
   
+  $CN = ((isset($inv['PayDate']) && $inv['PayDate']<0)?1:0);
+  
   // File for printings dddDDD is Invoices/ddd/dddDDD.pdf
+  // Credit notes Invoices/ddd/DDDCN.pdf
   include_once('fpdf.php');
   $cw = 3;
   $ch = 5;
@@ -74,11 +77,14 @@ function Invoice_Print(&$inv) {
 //  $pdf->Cell(21*$cw,7*$ch,$whotxt);
 
   $pdf->Rect($padx+36*$cw,$pady+6*$ch,27*$cw,7*$ch); // Ref Box
-  $pdf->Text($padx+37*$cw,$pady+8*$ch,"Invoice No:");
-  $pdf->Text($padx+48*$cw,$pady+8*$ch,$inv['id']);
+  
+  if (!$CN) {
+    $pdf->Text($padx+37*$cw,$pady+8*$ch,"Invoice No:");
+    $pdf->Text($padx+48*$cw,$pady+8*$ch,$inv['id']);
+  }
   
   $pdf->Text($padx+37*$cw,$pady+9*$ch,"Date:");
-  $pdf->Text($padx+48*$cw,$pady+9*$ch,date('J F Y',$inv['IssueDate']));
+  $pdf->Text($padx+48*$cw,$pady+9*$ch,date('J F Y',($CN?-$inv['PayDate']:$inv['IssueDate'])));
   
   $pdf->Text($padx+37*$cw,$pady+10*$ch,"Your Ref:");
   $pdf->Text($padx+48*$cw,$pady+10*$ch,$inv['Contact']);
@@ -105,31 +111,46 @@ function Invoice_Print(&$inv) {
   $pdf->Text($padx+$cw,$pady+19*$ch,"RE: " . $MASTER_DATA['FestName'] . " " . $PLANYEAR);
   $pdf->SetFont('Arial','',$fs);
 
-  if ($inv['Desc1']) $pdf->Text($padx+$cw,$pady+ 21*$ch,$inv['Desc1']);
-  if ($inv['Amount1']) $pdf->Text($padx+46*$cw,$pady+21*$ch, utf8_decode("£0.00"));
-  if ($inv['Amount1']) $pdf->Text($padx+56*$cw,$pady+21*$ch,Inv_Amt($inv['Amount1']/100));
+  if ($CN) {
+    $pdf->Text($padx+$cw,$pady+ 21*$ch,"To negate our invoice " . $inv['OurRef'] . '/' . $inv['id'] ." issued on " . date('j/n/Y',$inv['IssueDate']));
+    $pdf->Text($padx+46*$cw,$pady+21*$ch, utf8_decode("£0.00"));
+    $pdf->Text($padx+56*$cw,$pady+21*$ch,Inv_Amt(-$inv['Total']));
+    $pdf->Text($padx+$cw,$pady+ 23*$ch,$inv['CNReason']);
+    if ($inv['PaidTotal']) {
+      $pdf->SetTextColor(255,0,0);
+      $pdf->Text($padx+$cw, $pady+25*$ch,"Less paid so far");
+      $pdf->Text($padx+46*$cw,$pady+25*$ch,utf8_decode("£0.00"));
+      $pdf->Text($padx+56*$cw,$pady+25*$ch,Inv_Amt(-$inv['PaidSoFar']));
+    } 
+  } else {  
+    if ($inv['Desc1']) $pdf->Text($padx+$cw,$pady+ 21*$ch,$inv['Desc1']);
+    if ($inv['Amount1']) $pdf->Text($padx+46*$cw,$pady+21*$ch, utf8_decode("£0.00"));
+    if ($inv['Amount1']) $pdf->Text($padx+56*$cw,$pady+21*$ch,Inv_Amt($inv['Amount1']));
   
-  if ($inv['Amount1']>0 && ($inv['Amount2'])<0) { $pdf->SetTextColor(255,0,0); } else $pdf->SetTextColor(0,0,0);
-  if ($inv['Desc2']) $pdf->Text($padx+$cw,$pady+ 23*$ch,$inv['Desc2']);
-  if ($inv['Amount2']) $pdf->Text($padx+46*$cw,$pady+23*$ch,utf8_decode("£0.00"));
-  if ($inv['Amount2']) $pdf->Text($padx+56*$cw,$pady+23*$ch,Inv_Amt($inv['Amount2']/100));
+    if ($inv['Amount1']>0 && ($inv['Amount2'])<0) { $pdf->SetTextColor(255,0,0); } else $pdf->SetTextColor(0,0,0);
+    if ($inv['Desc2']) $pdf->Text($padx+$cw,$pady+ 23*$ch,$inv['Desc2']);
+    if ($inv['Amount2']) $pdf->Text($padx+46*$cw,$pady+23*$ch,utf8_decode("£0.00"));
+    if ($inv['Amount2']) $pdf->Text($padx+56*$cw,$pady+23*$ch,Inv_Amt($inv['Amount2']));
   
-  if ($inv['Amount1']>0 && ($inv['Amount3'])<0) { $pdf->SetTextColor(255,0,0); } else $pdf->SetTextColor(0,0,0);
-  if ($inv['Desc3']) $pdf->Text($padx+$cw, $pady+25*$ch,$inv['Desc3']);
-  if ($inv['Amount3']) $pdf->Text($padx+46*$cw,$pady+25*$ch,utf8_decode("£0.00"));
-  if ($inv['Amount3']) $pdf->Text($padx+56*$cw,$pady+25*$ch,Inv_Amt($inv['Amount3']/100));
+    if ($inv['Amount1']>0 && ($inv['Amount3'])<0) { $pdf->SetTextColor(255,0,0); } else $pdf->SetTextColor(0,0,0);
+    if ($inv['Desc3']) $pdf->Text($padx+$cw, $pady+25*$ch,$inv['Desc3']);
+    if ($inv['Amount3']) $pdf->Text($padx+46*$cw,$pady+25*$ch,utf8_decode("£0.00"));
+    if ($inv['Amount3']) $pdf->Text($padx+56*$cw,$pady+25*$ch,Inv_Amt($inv['Amount3']));
+  }
   $pdf->SetTextColor(0,0,0);
-  
-  $pdf->SetFont('Arial','B',14);
-  $pdf->Text($padx+$cw,$pady+29*$ch,"BACS PAYMENTS TO:");  
-  $pdf->SetFont('Arial','',$fs);
-  $pdf->Text($padx+$cw,$pady+31*$ch,"TSB Bank, 5 The Square, Wimborne, Dorset BH21 1JE");
-  $pdf->Text($padx+$cw,$pady+32*$ch,"Sort Code:"); 
-  $pdf->Text($padx+23*$cw,$pady+32*$ch,"77-50-27"); 
-  $pdf->Text($padx+$cw,$pady+33*$ch,"Account No:");
-  $pdf->Text($padx+23*$cw,$pady+33*$ch,"22719960");
-  $pdf->Text($padx+$cw,$pady+34*$ch,"Quote Reference:");
-  $pdf->Text($padx+23*$cw,$pady+34*$ch,$inv['OurRef'] . '/' . $inv['id'] );
+      
+  if (!$CN) {
+    $pdf->SetFont('Arial','B',14);
+    $pdf->Text($padx+$cw,$pady+29*$ch,"BACS PAYMENTS TO:");  
+    $pdf->SetFont('Arial','',$fs);
+    $pdf->Text($padx+$cw,$pady+31*$ch,"TSB Bank, 5 The Square, Wimborne, Dorset BH21 1JE");
+    $pdf->Text($padx+$cw,$pady+32*$ch,"Sort Code:"); 
+    $pdf->Text($padx+23*$cw,$pady+32*$ch,"77-50-27"); 
+    $pdf->Text($padx+$cw,$pady+33*$ch,"Account No:");
+    $pdf->Text($padx+23*$cw,$pady+33*$ch,"22719960");
+    $pdf->Text($padx+$cw,$pady+34*$ch,"Quote Reference:");
+    $pdf->Text($padx+23*$cw,$pady+34*$ch,$inv['OurRef'] . '/' . $inv['id'] );
+  }
  
   // Totals
   
@@ -138,18 +159,18 @@ function Invoice_Print(&$inv) {
   $pdf->SetLineWidth(.5);
   $pdf->Rect($padx+44*$cw,$pady+37*$ch,19.5*$cw,2*$ch);
   $pdf->Text($padx+36*$cw,$pady+36.5*$ch,"Net");
-  $pdf->Text($padx+56*$cw,$pady+36.5*$ch,Inv_Amt($inv['Total']));
+  $pdf->Text($padx+56*$cw,$pady+36.5*$ch,Inv_Amt($CN?$inv['PaidTotal']-$inv['Total']:$inv['Total']));
   $pdf->Text($padx+36*$cw,$pady+38.5*$ch,"VAT");
   $pdf->Text($padx+48*$cw,$pady+38.5*$ch,'"T0"');
   $pdf->Text($padx+56*$cw,$pady+38.5*$ch,utf8_decode(" £0.00"));
   $pdf->Text($padx+36*$cw,$pady+40.5*$ch,"Gross");
   $pdf->SetFont('Arial','B',$fs);
-  $pdf->Text($padx+56*$cw,$pady+40.5*$ch,Inv_Amt($inv['Total']));
+  $pdf->Text($padx+56*$cw,$pady+40.5*$ch,Inv_Amt($CN?$inv['PaidTotal']-$inv['Total']:$inv['Total']));
   $pdf->SetFont('Arial','',$fs);
 
   // Payment terms
   
-  if ($inv['Total'] >= 0) {
+  if (!$CN) {
     $pdf->SetFont('Arial','B',$fs+1);
     if (isset($inv['PayDate']) && $inv['PayDate']) {
       $pdf->Text($padx+10*$cw,$pady+45*$ch,"PAYMENT TERMS: PAID WITH THANKS " . date('j/n/Y',$inv['PayDate']) );
@@ -159,7 +180,6 @@ function Invoice_Print(&$inv) {
   }
   $pdf->SetFont('Arial','',$fs); 
 
-  
   // footer
   $pdf->Text($padx+1*$cw,$pady+48*$ch,"Registered Office:");
   $pdf->Text($padx+15*$cw,$pady+48*$ch,"Wimborne Minster Folk Festival Ltd");
@@ -173,9 +193,10 @@ function Invoice_Print(&$inv) {
   $pdf->Text($padx+36*$cw,$pady+54*$ch,"Non-VAT Registered");
 
   $id = $inv['id'];
+  $CN = ((isset($inv['PayDate']) && $inv['PayDate']>0) ? '' : 'CN');
   $dir = "Invoices/" . substr($id,0,-3 ) . "000";
   if (!file_exists($dir)) mkdir($dir,0777,1);
-  $pdf->Output('F',"$dir/$id.pdf");
+  $pdf->Output('F',"$dir/$id$CN.pdf");
 
 //  $pdf->Output('F',"Temp/Invoice.pdf");
 //  echo "<h2>pdf outputed</h2>";
@@ -183,8 +204,8 @@ function Invoice_Print(&$inv) {
 }  
 
 // Returns the file name of Pdf of a previously printed invoice
-function Get_Invoice_Pdf($id) {
-  return "Invoices/" . substr($id,0,-3) . "000/$id.pdf"; 
+function Get_Invoice_Pdf($id,$CN='') {
+  return "Invoices/" . substr($id,0,-3) . "000/$id$CN.pdf"; 
 }
 
 function Sage_Code(&$Whose) { // May only work for trade at the moment
@@ -239,7 +260,7 @@ function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=30
   $inv['IssueDate'] = time();
   $inv['DueDate'] = ($DueDate < 365? time() + $DueDate*24*60*60 : $DueDate);
   $inv['OurRef'] = Sage_Code($Whose);
-  $inv['InvCode'] = $InvCode;
+  $inv['InvoiceCode'] = $InvCode;
   $inv['Reason'] = $Reason;
   $inv['History'] = '';
   $inv['YourRef'] = '';
@@ -352,18 +373,21 @@ function Show_Invoice($id) { // Show details, limited edit
     echo "<tr>" . fm_text1("",$inv,"Desc$i",3,$RO) . "<td>" . Print_Pence($inv["Amount$i"]);
   }
   echo "<tr><td colspan=3>Total<td>" . Print_Pence($inv['Total']);
+  echo "<tr><td>Issued on:<td>" . date('d/m/y H:i:s',$inv['IssueDate']);
+  echo "<td>Dute Date:<td>" . date('d/m/y H:i:s',$inv['DueDate']);
   
 // Status
   if ($inv['PayDate'] < 0) { 
-     echo "<tr><td>Crediited: <td>" . Print_Pence($inv['Total']);
+     echo "<tr><td>Credited: <td>" . Print_Pence($inv['Total']);
      echo "<td>On " . date('j/n/Y',-$inv['PayDate']);
+     echo  fm_text("CN Reason",$inv,'CNReason',2,$RO);
   } elseif ($inv['PaidTotal']) {
      echo "<tr><td>Paid Total: <td>" . Print_Pence($inv['PaidTotal']);
      if ($inv['PayDate']) echo "<td>On " . date('j/n/Y',$inv['PayDate']);
   }
 
 // Other - History, Source, SourceId
-  echo "<tr><td>Source:<td>" . fm_select($Invoice_Sources,$inv,'Source',1,$RO) . fm_number("SourceId", $inv,'SourceId','',$RO); 
+  echo "<tr><td>Source:<td>" . fm_select($Invoice_Sources,$inv,'Source',0,$RO) . fm_number("SourceId", $inv,'SourceId','',$RO); 
   echo "<tr>" . fm_textarea('History',$inv,'History',5,2,'','maxlength=2000');
   echo "</table>";
   echo "<input type=submit name=ACTION value=UPDATE>";
@@ -374,19 +398,14 @@ function Show_Invoice($id) { // Show details, limited edit
   // TODO Link to trader info, show email and phone(s)
 }
 
-function Invoice_Credit_Note(&$Oinv, $Reason='') { // issue credit note for invoice
-  $Ninv = $Oinv;
-  $Oinv['PayDate'] = -time();
-  Put_Invoice($Oinv);  // Mark invoice as credit noted
-  $Ninv['IssueDate'] = $Ninv['PayDate'] = time();
-  $Ninv['Ammount1'] = $Ninv['Total'] = - $Ninv['Total'];
-  $Ninv['Desc2'] = $Ninv['Desc3'] = ''
-  $Ninv['Ammount2'] =   $Ninv['Ammount2'] = 0;
-  $Ninv['Desc1'] = "To negate our invoice " . $Ninv['OurRef'] . '/' . $Oinv['id'] ." issued on " . date('j/n/Y',$Oinv['IssueDate']);
-  $Ninv['Desc2'] = $Reason;
+function Invoice_Credit_Note(&$inv, $Reason='Credit Note') { // issue credit note for invoice
+  $inv['PayDate'] = -time();
+
+//  $Ninv['Desc1'] = "To negate our invoice " . $Ninv['OurRef'] . '/' . $Oinv['id'] ." issued on " . date('j/n/Y',$Oinv['IssueDate']);
+  $inv['CNReason'] = $Reason;
   
-  Insert_db("Invoices",$Ninv);
-  return Invoice_Print($Ninv);
+  Put_Invoice($inv);  // Mark invoice as credit noted
+  return Invoice_Print($inv);
 }
 
 function Get_InvoiceCodes($type=0) {  // 0 simple list, 1 full data

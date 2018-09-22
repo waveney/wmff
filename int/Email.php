@@ -16,24 +16,24 @@ function Pretty_Print_To($to) {
         $n = (isset($too[2])?$too[2]:'');
         switch ($too[0]) {
           case 'to':
-            $str .= " to: $a $n, ";
+            $str .= " to: $a &lt;$n&gt;, ";
             break;
           case 'cc':
-            $str .= " cc: $a $n, ";
+            $str .= " cc: $a &lt;$n&gt;, ";
             break;
           case 'bcc':
-            $str .= " bcc: $a $n, ";
+            $str .= " bcc: $a &lt;$n&gt;, ";
             break;
           case 'replyto':
-            $str .= " replyto: $a $n, ";
+            $str .= " replyto: $a &lt;$n&gt;, ";
             break;
           case 'from':
-            $str .= " from: $a $n, ";
+            $str .= " from: $a &lt;$n&gt;, ";
             break;
         } 
       }
     } else {
-      $str .= "to: " . $to[0] . (isset($to[1])?$to[1]:'');      
+      $str .= "to: " . $to[0] . (isset($to[1])? " &lt;" . $to[1] . "&gt; ":'');      
     }
   } else {
     $str .= "to: " . $to;
@@ -162,24 +162,27 @@ function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='
   $Prof = Get_Email_Proforma($mescat);
   $Reps = [];
   $Mess = ($Prof? $Prof['Body'] : "Unknown message $mescat");
-  if (preg_match_all('/\*(\w*)\*/',$Mess,$Matches)) {
-    foreach($Matches[1] as $key) {
-      if (!isset($Reps[$key])) {
-        switch ($key) {
+  while (preg_match('/\*(\w*)\*/',$Mess)) {
+    if (preg_match_all('/\*(\w*)\*/',$Mess,$Matches)) {
+      foreach($Matches[1] as $key) {
+        if (!isset($Reps[$key])) {
+          switch ($key) {
           case 'PLANYEAR': 
-          $rep = $PLANYEAR;
-          break;
-        case 'DATES':
-          $rep = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
-          break;
-        default:
-          $rep = ($helper?$helper($key,$helperdata,$attachments):"*$key*");
-          break;
+          case 'THISYEAR': // For historic proformas should be removed in time
+            $rep = $PLANYEAR;
+            break;
+          case 'DATES':
+            $rep = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
+            break;
+          default:
+            $rep = ($helper?$helper($key,$helperdata,$attachments):"*$key*");
+            break;
+          }
+        $Reps[$key] =$rep;
         }
-      $Reps[$key] =$rep;
       }
+      foreach ($Reps as $k=>$v) $Mess = preg_replace("/\*$k\*/",$v,$Mess);
     }
-    foreach ($Reps as $k=>$v) $Mess = preg_replace("/\*$k\*/",$v,$Mess);
   }
   NewSendEmail($to,$subject,$Mess,$attachments);
   

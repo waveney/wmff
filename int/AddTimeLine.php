@@ -18,7 +18,7 @@
   }
 
   $now = time();
-  $Editable = Access('Committee','Tline');
+  $Editable = Access('Committee','TLine');
 //var_dump($All);echo"<p>";var_dump($AllActive);
 
 

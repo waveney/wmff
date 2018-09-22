@@ -10,10 +10,11 @@
   $Codes = Get_InvoiceCodes(1);
   if (UpdateMany('InvoiceCodes','Put_InvoiceCode',$Codes,1)) $Codes=Get_InvoiceCodes(1);
 
-  $invs = Get_Invoices();
+  $invs = Get_Invoices(' PayDate>=0 ');
   foreach ($invs as $inv) {
-    
-  
+    if (!isset($TotInv[$inv['InvoiceCode']])) $TotInv[$inv['InvoiceCode']] = $TotPaid[$inv['InvoiceCode']] = 0;
+    $TotInv[$inv['InvoiceCode']] += $inv['Total'];
+    $TotPaid[$inv['InvoiceCode']] += $inv['PaidTotal'];
   }
   
 
@@ -36,8 +37,8 @@
     echo "<tr><td>$i" . fm_number1("",$C,'Code','','',"Code$i");
     echo fm_text1("",$C,'SN',1,'','',"SN$i");
     echo fm_text1("",$C,'Notes',1,'','',"Notes$i");
-    echo "<td>x";
-    echo "<td>y";
+    echo "<td>" . Print_Pence($TotInv[$C['Code']]);
+    echo "<td>" . Print_Pence($TotPaid[$C['Code']]);
     echo "<td>z";
   }
   echo "<tr><td><td><input type=number name=Code0><td><input type=text size=16 name=SN0 >";

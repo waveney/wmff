@@ -88,6 +88,15 @@
     echo "<tr>" . fm_number1("Camping Fee 2 Nights",$Gen,'CampingPrice2Day');
     echo "<tr>" . fm_number1("Camping Fee 3 Nights",$Gen,'CampingPrice3Day');
     echo "<tr>" . fm_number1("Camping Fee 4 Nights",$Gen,'CampingPrice4Day'); // Missing all the Codes for camping
+    echo "<tr>" . fm_text("Camping Thurs-Sun Code",$Gen,'	CampingCode_TFSS');
+    echo "<tr>" . fm_text("Camping Fri Code",$Gen,'	CampingCode_xFxx');
+    echo "<tr>" . fm_text("Camping Fri-Sun Code",$Gen,'	CampingCode_xFSS');
+    echo "<tr>" . fm_text("Camping Fri-Sat Code",$Gen,'	CampingCode_xFSx');
+    echo "<tr>" . fm_text("Camping Sat Code",$Gen,'	CampingCode_xxSx');
+    echo "<tr>" . fm_text("Camping Sat-Sun Code",$Gen,'	CampingCode_xxSS');
+    echo "<tr>" . fm_text("Camping Sun Code",$Gen,'	CampingCode_xxxS');
+
+
 /*    
     echo "<tr>" . fm_text("Friday Pass",$Gen,'FridayPass');
     echo "<tr>" . fm_text("Friday Pass",$Gen,'FridayPass');
