@@ -229,7 +229,7 @@ $SHOWYEAR = $MASTER_DATA['ShowYear'];
 $YEAR = $PLANYEAR = $MASTER_DATA['PlanYear'];  //$YEAR can be overridden
 $MASTER_DATA['V'] = $CALYEAR . "." . $MASTER_DATA['Version'];
 
-function Feature($Name) {  // Return value of feature if set from Master_Data
+function Feature($Name,$default='') {  // Return value of feature if set from Master_Data
   static $Features;
   global $MASTER_DATA;
   if (!$Features) {
@@ -240,7 +240,7 @@ function Feature($Name) {  // Return value of feature if set from Master_Data
     }
   }
   if (isset($Features[$Name])) return $Features[$Name];
-  return 0;
+  return $default;
 }
 
 function set_ShowYear() { // Overrides default above if not set by a Y argument

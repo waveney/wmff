@@ -15,7 +15,6 @@
     $Edit = 0;
   }
   
-  
   $Pros=Get_Email_Proformas(1);
 
   if ($Edit && UpdateMany('EmailProformas','Put_Email_Proforma',$Pros,0)) $Pros=Get_Email_Proformas(1);
@@ -34,7 +33,7 @@
   echo "<tr><td>*DEPOSIT*<td>Deposit Required<td>Trade\n";
   echo "<tr><td>*BALANCE*<td>Balance Required<td>Trade\n";
   echo "<tr><td>*DETAILS*<td>Full details of booking<td>Trade, BB, LOL, LNL, Stewards\n";
-  echo "<tr><td>*FINANCIAL<td>Trade financial statement<td>Trade\n";
+  echo "<tr><td>*FINANCIAL*<td>Trade financial statement<td>Trade\n";
   echo "<tr><td>*STATE*<td>Decsription of application state<td>Trade\n";
   echo "<tr><td>*PAIDSOFAR*<td>Total payments so far<td>Trade\n";
   echo "</table><p>\n";

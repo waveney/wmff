@@ -6,7 +6,8 @@
 
   include_once("TradeLib.php");
   include_once("DateTime.php"); 
-
+  include_once("Email.php"); 
+  
   global $db,$YEAR,$PLANYEAR,$Trade_State,$USER;
 
   $Messages = Get_Email_Proformas();
@@ -17,7 +18,7 @@
     // Select list?
 
     echo "This is the message that will be sent.<p>"; 
-    echo "The *LIMITED* will indicate it is an early booking option if appropriate.<p>";
+//    echo "The *LIMITED* will indicate it is an early booking option if appropriate.<p>";
     echo "The *WHO* will be the first name of the contact.<p>";
     echo "The *LINK* and *HERE* will be the direct links to edit their data and remove entries - do NOT change these.<p>"; 
     echo "The *DETAILS* are the booking details.<p>";
@@ -27,6 +28,7 @@
 
     echo "<h2>";
     foreach ($Messages as $mes) {
+      if (!preg_match('/Trade_/',$mes['SN'])) continue;
       if ($mes['id'] == $Messkey) {
         echo $mes['SN'];
         $Mess = $mes['Body'];
@@ -37,6 +39,7 @@
     }
     echo "</h2>\n";
 
+    if (!isset($Mess)) $Mess = $Messages[1]['Body'];
     $Sender = $USER['SN'];
     $Mess = preg_replace('/\$PLANYEAR/',$PLANYEAR,$Mess);
 
