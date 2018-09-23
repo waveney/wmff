@@ -34,8 +34,6 @@ $ButExtra = array(
         'Resend'=>'Resend last email to trader',
         'Invite Better'=>''
         ); 
-$Trade_Email = array('','Trade_Decline','Trade_Refunded','Trade_Cancel','Trade_Submit', 'Trade_Quoted',
-                'Trade_Accepted','Trade_Status','Trade_Status','Trade_Status','Trade_Hold',''); // Might be better to store this in record as there are many veriants and atachments
 $ButTrader = array('Submit','Accept','Decline','Cancel','Resend'); // Actions Traders can do
 $RestrictButs = array('Paid','Dep Paid'); // If !AutoInvoice or SysAdmin
 $Trade_Days = array('Both','Saturday Only','Sunday Only');
@@ -536,7 +534,7 @@ function Get_Trade_Details(&$Trad,&$Trady) {
   $Body = "\nBusiness: " . $Trad['SN'] . "\n";
   $Body .= "Goods: " . $Trad['GoodsDesc'] . "\n\n";
   $Body .= "Type: " . $TradeTypeData[$Trad['TradeType']]['SN'] . "\n\n";
-  if ($Trad['Website']) $Body .= "Website: " . $Trad['Website'] . "\n\n";
+  if ($Trad['Website']) $Body .= "Website: " . weblink($Trad['Website'],$Trad['Website']) . "\n\n";
   $Body .= "Contact: " . $Trad['Contact'] . "\n";
   if ($Trad['Phone']) $Body .= "Phone: " . $Trad['Phone'] . "\n";
   if ($Trad['Mobile']) $Body .= "Mobile: " . $Trad['Mobile'] . "\n";
@@ -617,7 +615,8 @@ function Trader_Details($key,&$data,$att=0) {
   case 'WHO':  return $Trad['Contact']? firstword($Trad['Contact']) : $Trad['SN'];
   case 'LINK': return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "<b>link</b></a>";
   case 'WMFFLINK': return "<a href=http://wimbornefolk.co.uk/int/Trade.php?id=$Tid><b>link</b></a>";
-  case 'HERE': return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Remove.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "<b>here</b></a>";
+  case 'HERE':
+  case 'REMOVE': return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Remove.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "<b>remove</b></a>";
   case 'LOCATION': 
     $Locs = Get_Trade_Locs(1);
     $Location = '';
@@ -1068,7 +1067,7 @@ function Trade_Deposit_Invoice(&$Trad,&$Trady,$Full='Full',$extra='') {
 
 // Highly recursive set of actions - some trigger others amt = paid amount (0 = all)
 function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
-  global $Trade_State,$TradeTypeData,$Trade_Email,$USER,$TradeLocData,$PLANYEAR;
+  global $Trade_State,$TradeTypeData,$USER,$TradeLocData,$PLANYEAR;
   include_once("InvoiceLib.php");
   $Tchng = $Ychng = 0;
   $PaidSoFar = (isset($Trady['TotalPaid']) ? $Trady['TotalPaid'] : 0);
@@ -1213,6 +1212,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
     Send_Trader_Email($Trad,$Trady,'Trade_Cancel',$att);
     Send_Trade_Admin_Email($Trad,$Trady,'Trade_Cancel');
     
+    $xtra .= "Fee was " . $Trady['Fee'] . ", Pitch was " . $Trady['PitchLoc0'] . ", Number was " . $Trady['PitchNum0'] . "\n";
     $Trady['Fee'] = 0;
     $Trady['PitchLoc0'] = $Trady['PitchLoc1'] = $Trady['PitchLoc2'] = '';
     $Trady['PitchNum0'] = $Trady['PitchNum1'] = $Trady['PitchNum2'] = 0;

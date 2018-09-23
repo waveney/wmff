@@ -28,7 +28,7 @@
   echo "<tr><td>*LOCATION*<td>Location(s) of Pitches<td>Trade\n";
   echo "<tr><Td>*PRICE*<td>Total Price quoted<td>Trade\n";
   echo "<tr><td>*LINK*<td>Personal Link for trader<td>Trade, Stewards\n";
-  echo "<tr><td>*HERE*<td>Remove Request<td>Trade\n";
+  echo "<tr><td>*REMOVE*<td>Remove Request<td>Trade\n";
   echo "<tr><td>*WMFFLINK*<td>Link for Moe/Mandy direct to that trader<td>Trade\n";
   echo "<tr><td>*DEPOSIT*<td>Deposit Required<td>Trade\n";
   echo "<tr><td>*BALANCE*<td>Balance Required<td>Trade\n";
