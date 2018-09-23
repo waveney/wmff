@@ -112,9 +112,9 @@ function Invoice_Print(&$inv) {
   $pdf->Line($padx+44*$cw,$pady+16*$ch,$padx+44*$cw,$pady+35*$ch);
   
   $pdf->SetFont('Arial','B',$fs);
-  $pdf->Text($padx+17*$cw,$pady+17.5*$ch,"DESCRIPTION");
-  $pdf->Text($padx+48*$cw,$pady+17.5*$ch,"VAT");
-  $pdf->Text($padx+55.5*$cw,$pady+17.5*$ch,"AMOUNT");
+  $pdf->Text($padx+17*$cw,$pady+17.25*$ch,"DESCRIPTION");
+  $pdf->Text($padx+47.5*$cw,$pady+17.5*$ch,"VAT");
+  $pdf->Text($padx+55.5*$cw,$pady+17.4*$ch,"AMOUNT");
 
   $pdf->SetFont('Arial','BU',14);  
   $pdf->Text($padx+$cw,$pady+19.5*$ch,"Re: " . $MASTER_DATA['FestName'] . " " . $PLANYEAR);
@@ -164,7 +164,7 @@ function Invoice_Print(&$inv) {
   // Totals
   
   $pdf->SetLineWidth(0.5); 
-  $pdf->Rect($padx+54*$cw,$pady+35*$ch,9*$cw,6*$ch);
+  $pdf->Rect($padx+54*$cw,$pady+35*$ch,9.5*$cw,6*$ch);
   $pdf->SetLineWidth(0.25);
   $pdf->Rect($padx+44*$cw,$pady+37*$ch,19.25*$cw,2*$ch);
   $pdf->Text($padx+36*$cw,$pady+36.5*$ch,"Net");
