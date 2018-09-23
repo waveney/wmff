@@ -1043,6 +1043,7 @@ function Trade_Date_Cutoff() { // return 0 - normal, 30, full payment (normal du
   if ($MASTER['TradeMainDate'] > $Now) return 0;
   $DaysLeft = intdiv(($MASTER['TradeLastDate'] - $Now),24*60*60);
   if ($DaysLeft > 30) $DaysLeft = 30;
+  if ($DaysLeft < 0) $DaysLeft = 1;
   return $DaysLeft;
 }
 
@@ -1054,7 +1055,7 @@ function Trade_Invoice_Code(&$Trad,&$Trady) {
   return $InvCode;
 }
 
-function Trade_Deposit_Invoice(&$Trad,&$Trady,$full='Full',$extra='') {
+function Trade_Deposit_Invoice(&$Trad,&$Trady,$Full='Full',$extra='') {
   global $Trade_Days,$PLANYEAR;
   if (! Feature("AutoInvoices")) return 0;
   

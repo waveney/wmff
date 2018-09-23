@@ -62,7 +62,7 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0) {
     }
     
     if (!file_exists("stagetesting")) return;
-    $to = "richard@wavwebs.com";
+    $to = "richardjproctor42@gmail.com";
   }
   
   $email = new PhpMailer(true);
