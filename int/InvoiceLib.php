@@ -50,7 +50,7 @@ function Inv_Amt($amt) {
 function Invoice_Print(&$inv) {
   global $MASTER_DATA,$PLANYEAR;
   
-  $CN = ((isset($inv['PayDate']) && $inv['PayDate']<0)?1:0);
+  $CN = ((isset($inv['PayDate']) && $inv['PayDate']<0)?'CN':'');
   
   // File for printings dddDDD is Invoices/ddd/dddDDD.pdf
   // Credit notes Invoices/ddd/DDDCN.pdf
