@@ -87,7 +87,12 @@ function Invoice_Print(&$inv) {
   $pdf->Text($padx+48*$cw,$pady+9*$ch,date('j F Y',($CN?-$inv['PayDate']:$inv['IssueDate'])));
   
   $pdf->Text($padx+37*$cw,$pady+10*$ch,"Your Ref:");
-  $pdf->Text($padx+48*$cw,$pady+10*$ch,$inv['Contact']);
+  $yourref = $inv['Contact'];
+  if (strlen($yourref) > 15 ) {
+    $yourref = firstword($yourref);
+    if (strlen($yourref) > 15 ) $yourref = substr($yourref,0,15);
+    }
+  $pdf->Text($padx+48*$cw,$pady+10*$ch,$yourref);
   
   $pdf->Text($padx+37*$cw,$pady+11*$ch,"Our Ref:");
   $pdf->Text($padx+48*$cw,$pady+11*$ch,$inv['OurRef'] . '/' . $inv['id']);
@@ -155,7 +160,7 @@ function Invoice_Print(&$inv) {
   // Totals
   
   $pdf->SetLineWidth(1); 
-  $pdf->Rect($padx+54*$cw,$pady+35*$ch,9.5*$cw,6*$ch);
+  $pdf->Rect($padx+54*$cw,$pady+35*$ch,9.25*$cw,6*$ch);
   $pdf->SetLineWidth(.5);
   $pdf->Rect($padx+44*$cw,$pady+37*$ch,19.25*$cw,2*$ch);
   $pdf->Text($padx+36*$cw,$pady+36.5*$ch,"Net");

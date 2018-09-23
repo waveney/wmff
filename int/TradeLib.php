@@ -1195,7 +1195,9 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
       $Ychng = 1;
 //var_dump($Trady);
     }
-    if ($Trady['TotalPaid'] >= $fee) $NewState = $Trade_State['Fully Paid'];
+    if ($Trady['TotalPaid'] >= $fee) { 
+      $NewState = $Trade_State['Fully Paid'];
+    } else if ($Trady['TotalPaid'] >= $Dep && $CurState == $Trade_State['Accepted']) $NewState = $Trade_State['Deposit Paid'];
     break;
 
   case 'Local Auth Checked' :
