@@ -84,7 +84,7 @@ function Invoice_Print(&$inv) {
   }
   
   $pdf->Text($padx+37*$cw,$pady+9*$ch,"Date:");
-  $pdf->Text($padx+48*$cw,$pady+9*$ch,date('J F Y',($CN?-$inv['PayDate']:$inv['IssueDate'])));
+  $pdf->Text($padx+48*$cw,$pady+9*$ch,date('j F Y',($CN?-$inv['PayDate']:$inv['IssueDate'])));
   
   $pdf->Text($padx+37*$cw,$pady+10*$ch,"Your Ref:");
   $pdf->Text($padx+48*$cw,$pady+10*$ch,$inv['Contact']);
@@ -157,7 +157,7 @@ function Invoice_Print(&$inv) {
   $pdf->SetLineWidth(1); 
   $pdf->Rect($padx+54*$cw,$pady+35*$ch,9.5*$cw,6*$ch);
   $pdf->SetLineWidth(.5);
-  $pdf->Rect($padx+44*$cw,$pady+37*$ch,19.5*$cw,2*$ch);
+  $pdf->Rect($padx+44*$cw,$pady+37*$ch,19.25*$cw,2*$ch);
   $pdf->Text($padx+36*$cw,$pady+36.5*$ch,"Net");
   $pdf->Text($padx+56*$cw,$pady+36.5*$ch,Inv_Amt($CN?$inv['PaidTotal']-$inv['Total']:$inv['Total']));
   $pdf->Text($padx+36*$cw,$pady+38.5*$ch,"VAT");
@@ -173,9 +173,9 @@ function Invoice_Print(&$inv) {
   if (!$CN) {
     $pdf->SetFont('Arial','B',$fs+1);
     if (isset($inv['PayDate']) && $inv['PayDate']) {
-      $pdf->Text($padx+10*$cw,$pady+45*$ch,"PAYMENT TERMS: PAID WITH THANKS " . date('j/n/Y',$inv['PayDate']) );
+      $pdf->Text($padx+10*$cw,$pady+44*$ch,"PAYMENT TERMS: PAID WITH THANKS " . date('j/n/Y',$inv['PayDate']) );
     } else {
-      $pdf->Text($padx+10*$cw,$pady+45*$ch,"PAYMENT TERMS: PAYABLE BY " . date('j/n/Y',$inv['DueDate']) . " PLEASE");
+      $pdf->Text($padx+10*$cw,$pady+44*$ch,"PAYMENT TERMS: PAYABLE BY " . date('j/n/Y',$inv['DueDate']) . " PLEASE");
     }
   }
   $pdf->SetFont('Arial','',$fs); 
