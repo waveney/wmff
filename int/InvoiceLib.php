@@ -193,7 +193,6 @@ function Invoice_Print(&$inv) {
   $pdf->Text($padx+36*$cw,$pady+54*$ch,"Non-VAT Registered");
 
   $id = $inv['id'];
-  $CN = ((isset($inv['PayDate']) && $inv['PayDate']>0) ? '' : 'CN');
   $dir = "Invoices/" . substr($id,0,-3 ) . "000";
   if (!file_exists($dir)) mkdir($dir,0777,1);
   $pdf->Output('F',"$dir/$id$CN.pdf");

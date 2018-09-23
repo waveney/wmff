@@ -533,7 +533,7 @@ function Get_Trade_Details(&$Trad,&$Trady) {
   global $Trade_Days,$TradeLocData,$TradeTypeData;
 
 //  $Body  = "\nWimborne Minster Folk festival Trading application\n";
-  $Body = "\nFrom: " . $Trad['SN'] . "\n";
+  $Body = "\Business: " . $Trad['SN'] . "\n";
   $Body .= "Goods: " . $Trad['GoodsDesc'] . "\n\n";
   $Body .= "Type: " . $TradeTypeData[$Trad['TradeType']]['SN'] . "\n\n";
   if ($Trad['Website']) $Body .= "Website: " . $Trad['Website'] . "\n\n";
@@ -593,15 +593,15 @@ function Trade_Finance(&$Trad,&$Trady) { // Finance statement as part of stateme
   
   $Str = "Paid so far: &pound;$PaidSoFar<br>";
   $Dep = T_Deposit($Trad);
-  if ($Dep) $Str .= "The deposit is &pound;$Dep<br>";
+  if ($Dep) $Str .= "The deposit is: &pound;$Dep<br>";
   if ($PaidSoFar) {
-    if ($PaidSoFar < $Trady['Fee']) $Str .= "There will be a balance of &pound;" . ($Trady['Fee'] - $PaidSoFar) . "<br>";
+    if ($PaidSoFar < $Trady['Fee']) $Str .= "There will be a balance of: &pound;" . ($Trady['Fee'] - $PaidSoFar) . "<br>";
   } else {
-    $Str .= "There will be a balance of &pound;" . ($Trady['Fee'] - $Dep) . "<br>";
+    $Str .= "There will be a balance of: &pound;" . ($Trady['Fee'] - $Dep) . "<br>";
   }
   
   if ($Invs[0]['PayDate']) {
-    $Str .= "The most recent invoice is attached for your records.<p>";
+    $Str .= "The most recently paid invoice is attached for your records.<p>";
   } else {
     $Str .= "There is an outstanding invoice for " . Print_Pence($Invs[0]['Total']) . " (attached)<p>";
   }

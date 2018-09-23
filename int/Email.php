@@ -67,13 +67,13 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0) {
   
   $email = new PhpMailer(true);
   try {
-    $email->SMTPDebug = 4;
+    $email->SMTPDebug = 2;
     $email->isSMTP();
     $email->Host = $MASTER_DATA['HostURL'];
     $email->SMTPAuth = true;
     $email->AuthType = 'LOGIN';
     $email->From = $email->Username = $MASTER_DATA['SMTPuser'] . "@" . $MASTER_DATA['HostURL'];
-    $email->FromName = "Wimborne Minster Folk Festival";
+    $email->FromName = "Wimborne Folk Festival";
     $email->Password = $MASTER_DATA['SMTPpwd'];
     $email->SMTPSecure = 'tls';
     $email->Port = 587;
