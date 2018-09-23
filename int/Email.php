@@ -73,7 +73,7 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0) {
     $email->SMTPAuth = true;
     $email->AuthType = 'LOGIN';
     $email->From = $email->Username = $MASTER_DATA['SMTPuser'] . "@" . $MASTER_DATA['HostURL'];
-    $email->FromName = "Wimborne Folk Festival";
+    $email->FromName = $MASTER_DATA['FestName'];
     $email->Password = $MASTER_DATA['SMTPpwd'];
     $email->SMTPSecure = 'tls';
     $email->Port = 587;

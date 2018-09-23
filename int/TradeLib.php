@@ -533,7 +533,7 @@ function Get_Trade_Details(&$Trad,&$Trady) {
   global $Trade_Days,$TradeLocData,$TradeTypeData;
 
 //  $Body  = "\nWimborne Minster Folk festival Trading application\n";
-  $Body = "\Business: " . $Trad['SN'] . "\n";
+  $Body = "\nBusiness: " . $Trad['SN'] . "\n";
   $Body .= "Goods: " . $Trad['GoodsDesc'] . "\n\n";
   $Body .= "Type: " . $TradeTypeData[$Trad['TradeType']]['SN'] . "\n\n";
   if ($Trad['Website']) $Body .= "Website: " . $Trad['Website'] . "\n\n";
@@ -1019,24 +1019,6 @@ function Trade_Main($Mode,$Program,$iddd=0) {
   }
 }
 
-// Send confirmation email and deposit invoice
-function Trade_Confirm(&$Trad,&$Trady) {
-  return;
-  global $PLANYEAR;
-  $Dep = T_Deposit($Trad);
-  $letter = "This is to confirm your booking for Trading at the $PLANYEAR Wimborne Minster Folk Festival.<p>";
-  if ($Dep) {
-    $letter .= "Please now pay the deposit of &pound;$Dep quoting reference " . (1000000 +$Trady['TYid']) . "<br>" .
-        "Account Name: Wimborne Minster Folk Festival Ltd<br>" .
-        "Sort Code: 77 50 27<br>" .
-        "Account Number: 22719960<p>";
-  }
-
-  $letter .= "Later, your location has been assigned and the fees calculated, you will recieve details and the invoice for the remainder.<p>";
-        
-  Send_Trader_Email($Trad,$Trady,'Link',$letter);
-}
-
 function Trade_Date_Cutoff() { // return 0 - normal, 30, full payment (normal duration), >0 = Days left to trade stop (full payment)
   global $MASTER;
   $Now = time();
@@ -1060,6 +1042,11 @@ function Trade_Deposit_Invoice(&$Trad,&$Trady,$Full='Full',$extra='') {
   if (! Feature("AutoInvoices")) return 0;
   
   $Dep = T_Deposit($Trad);
+  $PaidSoFar = (isset($Trady['TotalPaid']) ? $Trady['TotalPaid'] : 0);
+  if ($PaidSoFar) {
+    $Dep -= $PaidSoFar;
+    if ($Dep < 0) $Dep = 0;
+  }
   $InvCode = Trade_Invoice_Code($Trad,$Trady);
   $DueDate = Trade_Date_Cutoff();
   if ($DueDate == 0 && $full == 0) {
