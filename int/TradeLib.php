@@ -5,9 +5,9 @@ $Trade_States = array('Not Submitted','Declined','Refunded','Cancelled','Submitt
 $Trade_State = array_flip($Trade_States);
 $Trade_StateClasses = array('TSNotSub','TSDecline','-TSRefunded','TSCancel','TSSubmit','TSInvite','TSConf','TSDeposit','TSInvoice','TSPaid','TSWaitList','TSRequote');
 $TS_Actions = array('Submit,Invite,Invite Better',
+                'Resend,Submit',
                 'Resend',
-                'Resend',
-                'Resend',
+                'Resend,Submit',
                 'Resend,Quote,Accept,Decline,Hold,Cancel',
                 'Resend,Quote,Invite,Accept,Decline',
                 'Resend,Dep Paid,Cancel',
@@ -904,7 +904,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
           $chks = ['Insurance','RiskAssessment','PitchSize0','PitchSize1','PitchSize2','Power0','Power1','Power2','YNotes','BookingState','Submit','Days','Fee','PitchLoc0','PitchLoc1',
                     'PitchLoc2','ACTION'];
           foreach($chks as $c) if (isset($_POST[$c]) && $_POST[$c]) {
-            if ($c == 'PitchSize0' && $_POST[$Sc] == "3Mx3M") continue; // This is the only non blank default
+            if ($c == 'PitchSize0' && $_POST[$c] == "3Mx3M") continue; // This is the only non blank default
             if (isset($_POST['Fee']) && ($_POST['Fee'] < 0) && ($_POST['BookingState'] >= $Trade_State['Accepted'])) $_POST['BookingState'] = $Trade_State['Fully Paid'];
             $_POST['Year'] = $PLANYEAR;
             $TYid = Insert_db_post('TradeYear',$Trady);
@@ -1048,7 +1048,7 @@ function Trade_Deposit_Invoice(&$Trad,&$Trady,$Full='Full',$extra='') {
   }
   $InvCode = Trade_Invoice_Code($Trad,$Trady);
   $DueDate = Trade_Date_Cutoff();
-  if ($DueDate == 0 && $full == 0) {
+  if ($DueDate == 0) {
 //      if (Now < Main invoice date, Due = 30, else invoice full amount (if Now < 30 before cut date, Due = 30, else Due = CutDate - now
     $ipdf = New_Invoice($Trad,
                         ["Deposit for trade stand at the $PLANYEAR festival",$Dep*100],
@@ -1203,14 +1203,15 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
 
   case 'Cancel' : // If invoiced - credit note, free up fee and locations if set email moe need a reason field
     $att = 0;
-    if ($CurState == $Trade_State['Accepted']) { 
-      // Is there an invoice ? If so credit it and attach credit note
-      $Invs = Get_Invoices(" PayDate=0 AND OurRef='" . Sage_Code($Trad) . "'"," IssueDate DESC ");
-      if ($Invs) $att = Invoice_Credit_Note($Invs[0],$data);
-    }
+
+    // Is there an invoice ? If so credit it and attach credit note
+    $Invs = Get_Invoices(" PayDate=0 AND OurRef='" . Sage_Code($Trad) . "'"," IssueDate DESC ");
+    if ($Invs) $att = Invoice_Credit_Note($Invs[0],$data);  // TODO BUG
+// var_dump($Invs);
+var_dump($att);
     $NewState = $Trade_State['Cancelled'];
     Send_Trader_Email($Trad,$Trady,'Trade_Cancel',$att);
-    Send_Trade_Admin_Email($Trad,$Trady,'Trade_Cancel');
+    Send_Trade_Admin_Email($Trad,$Trady,'Trade_Cancel_Admin');
     
     $xtra .= "Fee was " . $Trady['Fee'] . ", Pitch was " . $Trady['PitchLoc0'] . ", Number was " . $Trady['PitchNum0'] . "\n";
     $Trady['Fee'] = 0;

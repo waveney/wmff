@@ -98,23 +98,23 @@ function Invoice_Print(&$inv) {
   $pdf->Text($padx+48*$cw,$pady+11*$ch,$inv['OurRef'] . '/' . $inv['id']);
   
   $pdf->SetFont('Arial','B',24);  // Main Header
-  if ($inv['Total']>0) {
-    $pdf->Text($padx+27*$cw,$pady+15*$ch,"Invoice"); 
+  if ($CN) {
+    $pdf->Text($padx+24.2*$cw,$pady+15*$ch,"Credit Note"); 
   } else {
-    $pdf->Text($padx+25*$cw,$pady+15*$ch,"Credit Note");   
+    $pdf->Text($padx+27*$cw,$pady+15*$ch,"Invoice");   
   }
   $pdf->SetFont('Arial','',$fs);  
   
   $pdf->Rect($padx,$pady+16*$ch,$padx+60*$cw,$pady+17*$ch); // Main invoice BOx
   $pdf->SetLineWidth(0.25);  
-  $pdf->Line($padx,$pady+18*$ch,$padx+63*$cw,$pady+18*$ch);
+  $pdf->Line($padx,$pady+18*$ch,$padx+63.2*$cw,$pady+18*$ch);
   $pdf->Line($padx+54*$cw,$pady+16*$ch,$padx+54*$cw,$pady+35*$ch);
   $pdf->Line($padx+44*$cw,$pady+16*$ch,$padx+44*$cw,$pady+35*$ch);
   
   $pdf->SetFont('Arial','B',$fs);
-  $pdf->Text($padx+17*$cw,$pady+17.25*$ch,"DESCRIPTION");
-  $pdf->Text($padx+47.5*$cw,$pady+17.5*$ch,"VAT");
-  $pdf->Text($padx+55.5*$cw,$pady+17.4*$ch,"AMOUNT");
+  $pdf->Text($padx+17*$cw,$pady+17.2*$ch,"DESCRIPTION");
+  $pdf->Text($padx+47.5*$cw,$pady+17.2*$ch,"VAT");
+  $pdf->Text($padx+55.5*$cw,$pady+17.2*$ch,"AMOUNT");
 
   $pdf->SetFont('Arial','BU',14);  
   $pdf->Text($padx+$cw,$pady+19.5*$ch,"Re: " . $MASTER_DATA['FestName'] . " " . $PLANYEAR);
@@ -164,9 +164,9 @@ function Invoice_Print(&$inv) {
   // Totals
   
   $pdf->SetLineWidth(0.5); 
-  $pdf->Rect($padx+54*$cw,$pady+35*$ch,9.5*$cw,6*$ch);
+  $pdf->Rect($padx+54*$cw,$pady+35*$ch,9.35*$cw,6*$ch);
   $pdf->SetLineWidth(0.25);
-  $pdf->Rect($padx+44*$cw,$pady+37*$ch,19.25*$cw,2*$ch);
+  $pdf->Rect($padx+44*$cw,$pady+37*$ch,19.35*$cw,2*$ch);
   $pdf->Text($padx+36*$cw,$pady+36.5*$ch,"Net");
   $pdf->Text($padx+56*$cw,$pady+36.5*$ch,Inv_Amt($CN?$inv['PaidTotal']-$inv['Total']:$inv['Total']));
   $pdf->Text($padx+36*$cw,$pady+38.5*$ch,"VAT");
@@ -208,7 +208,7 @@ function Invoice_Print(&$inv) {
 
 //  $pdf->Output('F',"Temp/Invoice.pdf");
 //  echo "<h2>pdf outputed</h2>";
-  return "$dir/$id.pdf";
+  return "$dir/$id$CN.pdf";
 }  
 
 // Returns the file name of Pdf of a previously printed invoice
