@@ -26,8 +26,8 @@
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Id</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Code</a>\n";
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Notes</a>\n";
+  echo "<th colspan=3><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
+  echo "<th colspan=3><a href=javascript:SortTable(" . $coln++ . ",'T')>Notes</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Total Invoiced</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Total Paid</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Invoices</a>\n";
@@ -35,14 +35,14 @@
   if ($Codes) foreach($Codes as $C) {
     $i = $C['id'];
     echo "<tr><td>$i" . fm_number1("",$C,'Code','','',"Code$i");
-    echo fm_text1("",$C,'SN',1,'','',"SN$i");
-    echo fm_text1("",$C,'Notes',1,'','',"Notes$i");
+    echo fm_text1("",$C,'SN',3,'','',"SN$i");
+    echo fm_text1("",$C,'Notes',3,'','',"Notes$i");
     echo "<td>" . Print_Pence($TotInv[$C['Code']]);
     echo "<td>" . Print_Pence($TotPaid[$C['Code']]);
-    echo "<td>z";
+    echo "<td>Not Yet";
   }
-  echo "<tr><td><td><input type=number name=Code0><td><input type=text size=16 name=SN0 >";
-  echo "<td><input type=text name=Notes0><td><td><td>";
+  echo "<tr><td><td><input type=number name=Code0><td colspan=3><input type=text size=48 name=SN0 >";
+  echo "<td colspan=3><input type=text  size=48 name=Notes0><td><td><td>";
    echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";

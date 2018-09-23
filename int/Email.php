@@ -61,7 +61,8 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0) {
       echo "No Attachments<p>";
     }
     
-    return;
+    if (!file_exists("stagetesting")) return;
+    $to = "richard@wavwebs.com";
   }
   
   $email = new PhpMailer(true);
@@ -91,7 +92,7 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0) {
               $email->addCC($a,$n);
               break;
             case 'bcc':
-              $email->addBCC($a.$n);
+              $email->addBCC($a,$n);
               break;
             case 'replyto':
               $email->addReplyTo($a,$n);
