@@ -187,7 +187,7 @@ Coming ...
           $classes .= "TL_COMPLETE "; 
         } else {
           $classes .= "TL_OPEN ";
-          if ($tl['Due'] < $month || $tl['Start'] < $month) $classes .= "TL_MONTH ";
+          if ($tl['Due'] < $month ) $classes .= "TL_MONTH ";
           if ($tl['Due'] < $now ) $classes .= "TL_OVERDUE ";
         }
         if ($tl['Start'] > $now) $TLDue = "class=TL_NotYet";

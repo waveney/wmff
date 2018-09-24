@@ -30,10 +30,13 @@
 
 <p>If you are interested in supporting the festival, please contact committee secretary <a href="/contact" rel="bookmark"><strong>Graham Brown</strong></a>.</p>
 
-<h2 class="subtitle">Our Sponsors in 2017</h2>
-
-<div id="flex">
 <?php 
+  global $SHOWYEAR;
+  set_ShowYear();
+  echo "<h2 class=subtitle>Our Sponsors in $SHOWYEAR</h2>";
+
+  echo "<div id=flex>\n";
+
 
   include_once("int/TradeLib.php");
   $Spons = Get_Sponsors();

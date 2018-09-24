@@ -3,6 +3,7 @@
 
   dohead("Tickets");
   global $MASTER;
+  set_ShowYear();
 ?>
 <div class="biodiv">
 <img src="http://wimbornefolk.co.uk/images/Mawkin-Accordion.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />

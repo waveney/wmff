@@ -14,6 +14,8 @@ $Relations = array('Husband','Wife','Partner','Son','Daughter','Mother','Father'
 
 $SignUpActivities = array_merge($lnlclasses,['Buskers Bash','Laugh Out Loud']);
 
+include_once("Email.php");
+
 function Get_lnl_Details(&$lnl) {
   global $lnlclasses,$yesno;
   $Body = "\nCompetition: " . $lnlclasses[$lnl['Activity']] . "\n";

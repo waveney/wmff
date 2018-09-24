@@ -148,12 +148,6 @@ function OlapCatChange(e,l,v) {
   if (v == 2) $('#OlapOther' + olapn).show();
 }
 
-// Maintain id D for size siz form fld
-function SetDSize(D,siz,fld) {
-  var len = document.getElementById(fld).value.length;
-  document.getElementById(D).innerHTML = "<b>(" + len + "/" + siz + ")</b>";
-}
-
 function AutoInput(f) {
   debugger;
   var newval = document.getElementById(f).value;

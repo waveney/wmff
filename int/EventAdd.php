@@ -377,7 +377,7 @@ A similar feature will appear eventually for music.<p>
       if (Access('Committee','Venues')) {
         echo ", <form method=post action='EventAdd.php'>\n";
         echo fm_hidden('EventId',$eid);
-        echo fm_smalltext('Divide into ','SlotSize',30,2) . fm_smalltext(' minute slots with ','SlotSetup',0,2) . " minute setup";
+        echo fm_smalltext('Divide into ','SlotSize',Feature('DanceDefaultSlot',30),2) . fm_smalltext(' minute slots with ','SlotSetup',0,2) . " minute setup";
         echo "<input type=Submit name=ACTION value=Divide>, \n";
         echo "<input type=Submit name=ACTION value=Delete onClick=\"javascript:return confirm('are you sure you want to delete this?');\">, \n";
         echo "<input type=Submit name=ACTION value=Add>" . fm_smalltext('','Slots',1,2) . " sub events";

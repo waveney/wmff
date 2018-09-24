@@ -173,7 +173,7 @@
       echo "<li><a href=ListCTrade.php?Y=$YEAR&SUM>Traders Summary</a>\n";
       echo "<li><a href=TradeLocs.php>Trade Locations</a>\n";
       if (Access('SysAdmin')) echo "<li><a href=TradeTypes.php>Trade Types and base Prices</a>\n";
-      echo "<li><a href=EmailTraders.php>Email Groups of Traders</a>\n";
+//      echo "<li><a href=EmailTraders.php>Email Groups of Traders</a>\n"; // Old code needs lots of changes
 //      if (Access('SysAdmin')) echo "<li><a href=TradeImport1.php>Convert old Trade Data</a>\n";
 //      if (Access('SysAdmin')) echo "<li><a href=TradeImport2.php>Merge Mandy's Trade Data</a>\n";
 //      if (Access('SysAdmin')) echo "<li><a href=TradeImport3.php>Fix Access Keys</a>\n";
@@ -245,15 +245,19 @@
     if (Access('Committee','Finance')) {
       echo "<li><a href=BudgetManage.php>Budget Management</a>\n";
       echo "<li><a href=InvoiceManage.php>Invoice Management</a>\n";
-      echo "<li><a href=Sponsors.php>Sponsors</a>\n";
-      echo "<li><a href=WaterManage.php>Water Refills</a>\n";
-      echo "<li><a href=InvoiceCodes.php>Invoice Codes</a>\n";      
+      echo "<li><a href=InvoiceCodes.php>Invoice Codes</a>\n";   
+      echo "<li><a href=InvoiceSummary.php>Invoice Summary</a>\n";   
 
     } else {
       echo "<li><a href=BudgetManage.php>Budget View</a>\n";
     }
     if (Access('SysAdmin')) {
+      echo "<p>";
       echo "<li class=smalltext><a href=ImportDebtorCodes.php>Import Debtor Codes</a>";
+      echo "<p>";
+      echo "<li><a href=Sponsors.php>Sponsors</a>\n";
+      echo "<li><a href=WaterManage.php>Water Refills</a>\n";
+
     }
     echo "</ul>\n";
     
@@ -271,8 +275,9 @@
       echo "<li><a href=AddBug.php>New Bug/Feature request</a>\n";
       echo "<li><a href=ListBugs.php>List Bugs/Feature requests</a><p>\n";
     }
+
+    if (Access('Committee')) echo "<li><a href=TEmailProformas.php>EMail Proformas</a>";
     if (Access('SysAdmin')) {
-      echo "<li class=smalltext><a href=TEmailProformas.php>EMail Proformas</a>";
       echo "<li><a href=General.php>General Year Settings</a> \n";
       echo "<li><a href=MasterData.php>Master Data Settings</a> \n";
     }

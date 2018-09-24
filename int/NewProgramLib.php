@@ -35,7 +35,7 @@ function Grab_Data($day='',$Media='Dance') {
   } else if (isset($_GET{'d'})) { $DAY = $_GET{'d'}; } else { $DAY='Sat'; }
 
   if (!isset($_GET{'EInfo'})) $_GET{'EInfo'} = 0;
-  for ($t=10;$t<($Media=='Dance'?18:24);$t++) {
+  for ($t=10;$t<($Media=='Dance'?18:24);$t++) { // TODO fix for non 30 minute slots
     $Times[] = $t*100;
     if ($Media != 'Dance') $Times[] = $t*100+15;
     $Times[] = $t*100+30;
@@ -46,11 +46,11 @@ function Grab_Data($day='',$Media='Dance') {
   if ($Media == 'Dance') {
     $Sides = Select_Come_Day($DAY);
     $Round = 30;
-    $DefLineLim = 2;
+    $DefLineLim = Feature('DanceDefaultPerSlot',2);
   } else {
     $Sides = Select_Act_Come($DAY);
     $Round = 15;
-    $DefLineLim = 1;
+    $DefLineLim = Feature('MusicDefaultPerSlot',1);
   }
   if ($Sides) foreach ($Sides as $i=>$s) { $SideCounts[$i]=0; }
   foreach ($Times as $t) $lineLimit[$t]=$DefLineLim;

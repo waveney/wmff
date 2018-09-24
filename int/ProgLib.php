@@ -379,7 +379,7 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
       } else {
         foreach ($flds as $f) {
           for($i=1;$i<5;$i++) {
-               if (isset($e["$f$i"])) { 
+            if (isset($e["$f$i"])) { 
               $ee = $e["$f$i"];
               if ($ee) {
                 if (!isset($found[$ee]) || !$found[$ee]) {

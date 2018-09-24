@@ -56,7 +56,7 @@
     echo "<td>" . fm_checkbox("",$t,'NeedRiskAssess','',"NeedRiskAssess$i");
     echo "<td>" . fm_checkbox("",$t,'ArtisanMsgs','',"ArtisanMsgs$i");
     echo "<td>" . fm_checkbox("",$t,'TOpen','',"TOpen$i");
-    echo "<td>" . fm_select($InvCodes,$t,'InvoiceCode',1,'',"InvoiceCode$i");
+    echo "<td>" . fm_select($InvCodes,$t,'SalesCode',1,'',"SalesCode$i");
     echo "<td>" . fm_basictextarea($t,'Description',2,1,'',"Description$i");
     echo "\n";
   }
@@ -73,7 +73,7 @@
   echo "<td><input type=checkbox name=NeedRiskAssess0>";
   echo "<td><input type=checkbox name=ArtisanMsgs0>";
   echo "<td><input type=checkbox name=TOpen0>";
-  echo "<td>" . fm_select($InvCodes,$t,'InvoiceCode',1,'',"InvoiceCode0");
+  echo "<td>" . fm_select($InvCodes,$t,'InvoiceCode',1,'',"SalesCode0");
   echo "<td><textarea name=Description0 cols=40></textarea>";
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";

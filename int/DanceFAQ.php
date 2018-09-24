@@ -94,6 +94,19 @@ the dance side record.
 <dt>Solo or Shared Dance Spots?<dd>There is a box to tick to show if you
 prefer to do a half hour spot on your own, or to share your half hour spot alternating with another team.
 
+<dt>Children<dd>All Children's events at the festival are free.
+
+<dt>Workshops<dd>All Workshops are free.
+
+<dt>Pubs<dd>All Festival events in pubs are free.
+
+<dt>Sessions<dd> All Sessions are free.
+
+<dt>Music<dd> All Music on Willow Walk, the Square and in the Microbreweries is free.
+
+<dt>Partners<dd>We do not provide reduced rate tickets for partners of performers or for children, 
+but we hope the large amount of free music, sessions, workshops and childrens events will help compensate for this.
+
 <dt>Map<dd>A Map of all festival venues can be found <a href=/Map.php>Here</a>
 
 </dl>

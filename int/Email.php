@@ -7,25 +7,73 @@ require 'vendor/phpmailer/phpmailer/src/Exception.php';
 require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require 'vendor/phpmailer/phpmailer/src/SMTP.php';
 
+function Pretty_Print_To($to) {
+  $str = '';
+  if (is_array($to)) {
+    if (is_array($to[0])) {
+      foreach ($to as $i=>$too) {
+        $a = $too[1];
+        $n = (isset($too[2])?$too[2]:'');
+        switch ($too[0]) {
+          case 'to':
+            $str .= " to: $a &lt;$n&gt;, ";
+            break;
+          case 'cc':
+            $str .= " cc: $a &lt;$n&gt;, ";
+            break;
+          case 'bcc':
+            $str .= " bcc: $a &lt;$n&gt;, ";
+            break;
+          case 'replyto':
+            $str .= " replyto: $a &lt;$n&gt;, ";
+            break;
+          case 'from':
+            $str .= " from: $a &lt;$n&gt;, ";
+            break;
+        } 
+      }
+    } else {
+      $str .= "to: " . $to[0] . (isset($to[1])? " &lt;" . $to[1] . "&gt; ":'');      
+    }
+  } else {
+    $str .= "to: " . $to;
+  }
+  return $str;
+}
+
 //$to can be single address, a [address, name] or [[to,address,name],[cc,addr,name],bcc,addr,name],replyto,addr,name]...]
 //$atts can be simple fie or [[file, name],[file,name]...]
 
 function NewSendEmail($to,$sub,&$letter,&$attachments=0) { 
   global $MASTER_DATA;
   if (file_exists("testing")) {
-    echo "<p>Would send email to $to with subject: $sub<p>Content:<p>$letter<p>\n";
-    return;
+    echo "<p>Would send email to " . Pretty_Print_To($to) . " with subject: $sub<p>Content:<p>$letter<p>\n";
+    
+    if ($attachments) {
+      if (is_array($attachments)) {
+        foreach ($attachments as $i=>$att) {
+          echo "Would attachment " . $att[0] . " as " . $att[1] . "<p>";
+        }                 
+      } else {
+        echo "Would attach $attachments<p>";       
+      }
+    } else {
+      echo "No Attachments<p>";
+    }
+    
+    if (!file_exists("stagetesting")) return;
+    $to = "richardjproctor42@gmail.com";
   }
   
   $email = new PhpMailer(true);
   try {
-//    $email->SMTPDebug = 4;
+    $email->SMTPDebug = 0;  // 2 general testing, 4 problems...
     $email->isSMTP();
     $email->Host = $MASTER_DATA['HostURL'];
     $email->SMTPAuth = true;
     $email->AuthType = 'LOGIN';
     $email->From = $email->Username = $MASTER_DATA['SMTPuser'] . "@" . $MASTER_DATA['HostURL'];
-    $email->FromName = "Wimborne Minster Folk Festival";
+    $email->FromName = $MASTER_DATA['FestName'];
     $email->Password = $MASTER_DATA['SMTPpwd'];
     $email->SMTPSecure = 'tls';
     $email->Port = 587;
@@ -44,7 +92,7 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0) {
               $email->addCC($a,$n);
               break;
             case 'bcc':
-              $email->addBCC($a.$n);
+              $email->addBCC($a,$n);
               break;
             case 'replyto':
               $email->addReplyTo($a,$n);
@@ -76,54 +124,81 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0) {
     }
 
     $email->Send();
-  
-  
+    
   } catch (Exception $e) {
     echo 'Message could not be sent. Mailer Error: ', $email->ErrorInfo;
   }
-    
 }
 
-// Setup SMTP to outgoing mail
-// Add message
-// Add any attachments
-// Send and log
-
-/*
-
-  PHPmailer
-  PDF docs
-  Invoice records
-  THEN do it to trade
-
-
-
-*/
-/* this below is historic test code
-
-// Fudge to get email working I hope
-
-function SendEmail($to,$sub,$letter) {
-  $url = 'http://www.wimbornefolk.org/RemoteEmail.php';
-  $data = array('TO' => $to, 'SUBJECT' => $sub, 'CONTENT'=>$letter, 'KEY' => 'UGgugue2eun23@');
-
-  // use key 'http' even if you send the request to https://...
-  $options = array(
-    'http' => array(
-        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-        'method'  => 'POST',
-        'content' => http_build_query($data)
-    )
-  );
-  $context  = stream_context_create($options);
-  $result = file_get_contents($url, false, $context);
-  if ($result === FALSE) { /* Handle error  }
+function Get_Email_Proformas() { 
+  global $db;
+  $res = $db->query("SELECT * FROM EmailProformas ORDER BY SN ");
+  if ($res) while ($typ = $res->fetch_assoc()) $full[$typ['id']] = $typ;
+  return $full;
 }
 
-SendEmail("richardjproctor42@gmail.com","test message","Test message via other domain");
-echo "Done!";
+function Get_Email_Proforma($id) {
+  global $db;
+  if (is_numeric($id)) {
+    $res=$db->query("SELECT * FROM EmailProformas WHERE id=$id");
+  } else {
+    $res=$db->query("SELECT * FROM EmailProformas WHERE SN='$id'");
+  }
+  if ($res) {
+    $ans = $res->fetch_assoc();
+    return $ans;
+  }
+  return 0; 
+}
 
+function Put_Email_Proforma(&$now) {
+  $e=$now['id'];
+  $Cur = Get_Email_Proforma($e);
+  return Update_db('EmailProformas',$Cur,$now);
+}
 
-*/
+// helper is a function that takes (THING,helperdata,atts) to return THING - not needed for generic fields typical THINGs are DETAILS, DEPOSIT...
+function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='',&$attachments=0) {
+  global $PLANYEAR,$MASTER;
+  $Prof = Get_Email_Proforma($mescat);
+  $Reps = [];
+  $Mess = ($Prof? $Prof['Body'] : "Unknown message $mescat");
+  while (preg_match('/\*(\w*)\*/',$Mess)) {
+    if (preg_match_all('/\*(\w*)\*/',$Mess,$Matches)) {
+      foreach($Matches[1] as $key) {
+        if (!isset($Reps[$key])) {
+          switch ($key) {
+          case 'PLANYEAR': 
+          case 'THISYEAR': // For historic proformas should be removed in time
+            $rep = $PLANYEAR;
+            break;
+          case 'DATES':
+            $rep = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
+            break;
+          default:
+            $rep = ($helper?$helper($key,$helperdata,$attachments):"*$key*");
+            break;
+          }
+        $Reps[$key] =$rep;
+        }
+      }
+      foreach ($Reps as $k=>$v) $Mess = preg_replace("/\*$k\*/",$v,$Mess);
+    }
+  }
+  NewSendEmail($to,$subject,$Mess,$attachments);
+  
+  if ($logfile) {
+    $logf = fopen("LogFiles/$logfile.txt","a");
+    fwrite($logf,"\n\nEmail to : " . Pretty_Print_To($to) . "Subject:$subject\n\n$Mess");
+    if ($attachments) {
+      if (is_array($attachments)) {
+        foreach ($attachments as $i=>$att) fwrite($logf,"With attachment: " . $att[0] . " as " . $att[1] . "\n\n");
+      } else {
+        fwrite($logf,"With attachment $attachments\n\n");       
+      }
+    }
+    fclose($logf);
+  }
+}
 
 ?>
