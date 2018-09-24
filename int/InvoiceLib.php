@@ -68,34 +68,31 @@ function Invoice_Print(&$inv) {
   $pdf->Image('images/icons/Long-Banner-Logo.png',$padx,$pady,40*$cw);
   $pdf->SetLineWidth(0.5);
 
-  $pdf->Rect($padx,$pady+6*$ch,32*$cw,7*$ch); // Who box
-  $pdf->Text($padx+$cw,$pady+7*$ch,$inv['BZ']);
+  $pdf->Text($padx+$cw,$pady+7*$ch,$inv['BZ']); // Who box
   $ln = 1;
-  foreach (explode(',', $inv['Address'] . "," . $inv['PostCode']) as $bit) $pdf->Text($padx+2*$cw,$pady+(7+$ln++)*$ch,trim($bit));
+  foreach (explode(',', $inv['Address'] . "," . $inv['PostCode']) as $bit) $pdf->Text($padx+$cw,$pady+(7+$ln++)*$ch,trim($bit));
+  $pdf->Rect($padx,$pady+6*$ch,32*$cw,($ln+0.5)*$ch); 
   
-//  $pdf->SetXY(3*$cw,9*$ch);
-//  $pdf->Cell(21*$cw,7*$ch,$whotxt);
-
-  $pdf->Rect($padx+36*$cw,$pady+6*$ch,27*$cw,7*$ch); // Ref Box
+  $pdf->Rect($padx+36*$cw,$pady+6*$ch,27*$cw,4.5*$ch); // Ref Box
   
   if (!$CN) {
-    $pdf->Text($padx+37*$cw,$pady+8*$ch,"Invoice No:");
-    $pdf->Text($padx+48*$cw,$pady+8*$ch,$inv['id']);
+    $pdf->Text($padx+37*$cw,$pady+7*$ch,"Invoice No:");
+    $pdf->Text($padx+48*$cw,$pady+7*$ch,$inv['id']);
   }
   
-  $pdf->Text($padx+37*$cw,$pady+9*$ch,"Date:");
-  $pdf->Text($padx+48*$cw,$pady+9*$ch,date('j F Y',($CN?-$inv['PayDate']:$inv['IssueDate'])));
+  $pdf->Text($padx+37*$cw,$pady+8*$ch,"Date:");
+  $pdf->Text($padx+48*$cw,$pady+8*$ch,date('j F Y',($CN?-$inv['PayDate']:$inv['IssueDate'])));
   
-  $pdf->Text($padx+37*$cw,$pady+10*$ch,"Your Ref:");
+  $pdf->Text($padx+37*$cw,$pady+9*$ch,"Your Ref:");
   $yourref = $inv['Contact'];
   if (strlen($yourref) > 15 ) {
     $yourref = firstword($yourref);
     if (strlen($yourref) > 15 ) $yourref = substr($yourref,0,15);
     }
-  $pdf->Text($padx+48*$cw,$pady+10*$ch,$yourref);
+  $pdf->Text($padx+48*$cw,$pady+9*$ch,$yourref);
   
-  $pdf->Text($padx+37*$cw,$pady+11*$ch,"Our Ref:");
-  $pdf->Text($padx+48*$cw,$pady+11*$ch,$inv['OurRef'] . '/' . $inv['id']);
+  $pdf->Text($padx+37*$cw,$pady+10*$ch,"Our Ref:");
+  $pdf->Text($padx+48*$cw,$pady+10*$ch,$inv['OurRef'] . '/' . $inv['id']);
   
   $pdf->SetFont('Arial','B',24);  // Main Header
   if ($CN) {
@@ -112,9 +109,9 @@ function Invoice_Print(&$inv) {
   $pdf->Line($padx+44*$cw,$pady+16*$ch,$padx+44*$cw,$pady+35*$ch);
   
   $pdf->SetFont('Arial','B',$fs);
-  $pdf->Text($padx+17*$cw,$pady+17.2*$ch,"DESCRIPTION");
-  $pdf->Text($padx+47.5*$cw,$pady+17.2*$ch,"VAT");
-  $pdf->Text($padx+55.5*$cw,$pady+17.2*$ch,"AMOUNT");
+  $pdf->Text($padx+17*$cw,$pady+17.3*$ch,"DESCRIPTION");
+  $pdf->Text($padx+47.5*$cw,$pady+17.3*$ch,"VAT");
+  $pdf->Text($padx+55.5*$cw,$pady+17.3*$ch,"AMOUNT");
 
   $pdf->SetFont('Arial','BU',14);  
   $pdf->Text($padx+$cw,$pady+19.5*$ch,"Re: " . $MASTER_DATA['FestName'] . " " . $PLANYEAR);

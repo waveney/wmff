@@ -722,7 +722,7 @@ function Validate_Trade($Mode=0) { // Mode 1 for Staff Submit, less stringent
         $proc = 0;
       }
 
-      if (!isset($_POST['Contact']) || strlen($_POST['Contact']) < 6 ) {
+      if (!isset($_POST['Contact']) || strlen($_POST['Contact']) < 4 ) {
         echo "<h2 class=ERR>No Contact Name Given</h2>\n";
         $proc = 0;
       }
