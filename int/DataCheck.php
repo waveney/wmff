@@ -1,6 +1,8 @@
 <?php
 
 include_once('SignupLib.php');
+include_once('Email.php');
+
 function SetAccessKey(&$Data,$table,$id='id') {
   global $db;
   if ($Data['AccessKey']) return;
@@ -111,11 +113,7 @@ function Links_Email($Addr,&$list) {
     }
   }
 
-  if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com",$MASTER_DATA['ShortName'] . " records of $Addr",$Mess);
-  } else {
-    SendEmail($Addr,$MASTER_DATA['ShortName'] . " data records of $Addr",$Mess);
-  }
+  NewSendEmail($Addr,$MASTER_DATA['ShortName'] . " data records of $Addr",$Mess);
 
   $logf = fopen("LogFiles/DataCheck.txt","a");
   if( $logf) {

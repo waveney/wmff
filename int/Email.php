@@ -199,6 +199,7 @@ function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='
     }
     fclose($logf);
   }
+  return $Mess;
 }
 
 ?>

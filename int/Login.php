@@ -6,7 +6,9 @@
  */
 
   include_once("fest.php"); 
-
+  include_once("Email.php"); 
+  include_once("UserLib.php");
+    
 function Logon(&$use=0) {
   global $YEAR,$USER,$USERID;
   $Rem = 0;
@@ -43,6 +45,7 @@ function Logon(&$use=0) {
 }
 
 function Forgot() {
+  global $MASTER_DATA;
   $rand_hash = rand_string(40);
   $user = $_POST{'UserName'};
   if (strlen($user) > 2) {
@@ -52,14 +55,9 @@ function Forgot() {
         $ans['ChangeSent'] = time();
         $ans['AccessKey'] = $rand_hash;
         Put_User($ans);
-        $message = "A limited use link has been emailed to you";
-        if (file_exists("Testing")) {
-          $message .= "</h2>Email link is <a href=Login.php?ACTION=LIMITED&U=$user&A=$rand_hash>$user $rand_hash</a><h2>";
-        } else {
-          SendEmail($ans['Email'],"Wimborne Minster Folk Festival",$ans['SN'] . "<p>\n\nYour limited duration " .
-                                "<a href=https://wimbornefolk.co.uk/int/Login.php?ACTION=LIMITED&U=$user&A=$rand_hash>New Password link</a>.");
-        }
-        return $message;
+
+        Email_Proforma($ans['Email'],'Login_Forgot_Password', $MASTER_DATA['FestName'] . " Staff Access for " . $ans['SN'],'Login_Details',$ans,'LoginLog.txt');
+        return "A limited use link has been emailed to you";
       }
     }
   }

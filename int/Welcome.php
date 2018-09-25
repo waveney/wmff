@@ -4,6 +4,8 @@
 
   dostaffhead("Welcome");
   include_once("UserLib.php");
+  include_once("Email.php");
+  
   global $MASTER_DATA;
 
   if (isset($_GET['U'])) {
@@ -17,24 +19,10 @@
     $hash = crypt($newpwd,"WM");
     $User['password'] = $hash;
     Put_User($User);
-
-    $letter = firstword($User['SN']) . "<p>Welcome to the " . $MASTER_DATA['FestName'] . " staff pages.<p>" .
-        "It is initially accessed by using the <a href=https://wimbornefolk.co.uk/int/Login.php>Login</a> at the bottom of any page below " .
-        "the copyright statement on any page of the <a href=https://wimbornefolk.co.uk>website</a>.<p>" .
-        "Your username is : " . $User['Login'] ."<br>" .
-        "Initial password : $newpwd<p>" .
-        "When you are logged in, an extra tab will apear on the navigation bar 'Staff Tools' this gives access to the database and ".
-        "document storage.<p>" .
-        "Everyone can use the document storage.  To save any files for use by the festival.  <p>" .
-        "Everyone can use the simple reporting of problems and requesting features.<p>" .
-        "Access to other areas is restricted, most things can be read by everbody, " .
-        "but the creation and editing is restricted to relevant people.<p>" .
-        "Dance is ready for full use, as are most features of Music, Trade, News and Sponsors.<p>" .
-        "If something is not obvious please tell me and I will try and improve it.<p>" .
-        "Richard";
+    $User['ActualPwd'] = $newpwd; // Not stored
  
-    SendEmail($User['Email'],"Welcome " . firstword($User['SN']) . " to " . $MASTER_DATA['ShortName'] . " Staff pages",$letter);
-
+    $subject = "Welcome " . firstword($User['SN']) . " to " . $MASTER_DATA['ShortName'] . " Staff pages";
+    $letter = Email_Proforma($User['Email'],'Login_Welcome',$subject,'Login_Details',$User,'LoginLog.txt');
     echo "Email sent:<p>$letter";
   } else {
     echo "No user..."; 
