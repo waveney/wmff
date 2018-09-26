@@ -57,6 +57,15 @@
       exit;
     }
     $Perfy = Get_SideYear($id);
+    if (!$Perfy) {
+      $flds = table_fields('SideYear');
+      if (isset($flds[$field])) {
+        $Perfy = Default_SY($id);
+        $Perfy[$field] = $Value;
+        echo Put_SideYear($Perfy);
+        exit;
+      }
+    }
     if (isset($Perfy[$field])) {
       $Perfy[$field] = $Value;
       echo Put_SideYear($Perfy);
@@ -69,7 +78,45 @@
       echo Put_ActYear($Perfy);
       exit;
     }
+    if (!$Perfy) {
+      $flds = table_fields('ActYear');
+      if (isset($flds[$field])) {
+        $Perfy = Default_AY($id);
+        $Perfy[$field] = $Value;
+        echo Put_ActYear($Perfy);
+        exit;
+      }
+    }
+
     // SHOULD never get here...
+
+        
+  case 'Trader': 
+    include_once("TradeLib.php");
+    $Trad = Get_Trader($id);
+    if (isset($Trad[$field])) {
+      $Trad[$field] = $Value;
+      echo Put_Trader($Trad);
+      exit;
+    }   
+    $Trady = Get_Trade_Year($id);
+    if (isset($Trady[$field])) {
+      $Trady[$field] = $Value;
+      echo Put_Trade_Year($Trady);
+      exit;
+    }
+    if (!$Trady) {
+      $flds = table_fields('TradeYear');
+      if (isset($flds[$field])) {
+        $Trady = Default_Trade($id);
+        $Trady[$field] = $Value;
+        echo Put_Trade_Year($Trady);
+        exit;
+      }
+    }
+    
+    // SHOULD never get here...    
+    exit;   
   }
 ?>
 

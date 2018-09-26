@@ -47,7 +47,7 @@
   $res = $db->query($qry);
   $totfee = $totrec = $totsub = 0;
 
-  $Acts = Access('Committee','Trade');
+  $ActsEnable = Access('Committee','Trade');
   if (!$res || $res->num_rows==0) {
     echo "<h2>No Traders Found</h2>\n";
   } else {
@@ -75,9 +75,9 @@
     while ($fetch = $res->fetch_assoc()) {
       $Tid = $fetch['Tid'];
       $str .= "<tr><td>";
-        if ($Acts) $str .= "<a href=Trade.php?id=$Tid>";
+        if ($ActsEnable) $str .= "<a href=Trade.php?id=$Tid>";
         $str .= ($fetch['SN']?$fetch['SN']:'No Name Given');
-        if ($Acts) $str .= "</a>";
+        if ($ActsEnable) $str .= "</a>";
       $str .= "<td style='background:" . $Trade_Types[$fetch['TradeType']]['Colour'] . ";'>" . $Trade_Types[$fetch['TradeType']]['SN'];
       $str .= "<td width=300>" . $fetch['GoodsDesc'];
       $str .= "<td>" . $fetch['Contact'];
@@ -92,7 +92,7 @@
         $TrState[$stat]++;
 
         $Act = $TS_Actions[$stat];
-        if ($Acts && $Act ) {
+        if ($ActsEnable && $Act ) {
           $Acts = preg_split('/,/',$Act); 
           $str .= "<form>" . fm_Hidden('id',$Tid);
           foreach($Acts as $ac) {

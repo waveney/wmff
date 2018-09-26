@@ -147,18 +147,18 @@ function Insert_db($table, &$from, &$data=0, $proced=1) {
   $fcnt = 0;
   $Flds = table_fields($table);
   $indxname = (isset($TableIndexes[$table])?$TableIndexes[$table]:'id');
-
+//echo "Fields: "; var_dump($from);
   foreach ($Flds as $fname=>$ftype) {
-    if (isset($from{$fname}) && $from{$fname} != '' && $indxname!=$fname ) { 
+    if (isset($from[$fname]) && $from[$fname] != '' && $indxname!=$fname ) { 
       if ($fcnt++ > 0) { $newrec .= " , "; }
       if ($ftype == 'text') {
-        $dbform = addslashes($from{$fname});
+        $dbform = addslashes($from[$fname]);
         if ($data) $data[$fname] = $dbform;
         $newrec .= " $fname=" . '"' . $dbform . '"';
       } elseif ($ftype == "tinyint" || $ftype == 'smallint') {
         $dbform = 0;
         if ($from{$fname}) {
-          if ((string)(int)$from{$fname} = $from{$fname}) { $dbform = $from{$fname}; } else { $dbform = 1; };
+          if ((string)(int)$from[$fname] = $from[$fname]) { $dbform = $from[$fname]; } else { $dbform = 1; };
         }
         if ($data) $data[$fname] = $dbform;
         $newrec .= " $fname=$dbform ";

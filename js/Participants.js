@@ -10,14 +10,16 @@ function blurbedit(ev) { // Not currently used
 
 function nameedit(ev) {
 
-//  if (document.getElementById("SName").value.length > 20 ) {
-  var v = $("#SName").val();
-  if (v.length > 20 ) {
-    var r = v.substring(0,20);
-    if ($('#ShortName').attr("hidden")) {
-	$('#ShortName').val(r);
+//  if (document.getElementById("SN").value.length > 20 ) {
+  var v = $("#SN").val();
+  if ($('#ShortName')) {
+    if (v.length > 20 ) {
+      var r = v.substring(0,20);
+      if ($('#ShortName').attr("hidden")) {
+          $('#ShortName').val(r);
+      }
+      $(".ShortName").removeAttr("hidden");
     }
-    $(".ShortName").removeAttr("hidden");
   }
 }
 
