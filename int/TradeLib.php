@@ -1193,9 +1193,12 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
       $Ychng = 1;
 //var_dump($Trady);
     }
+    $xtra = $data;
     if ($Trady['TotalPaid'] >= $fee) { 
       $NewState = $Trade_State['Fully Paid'];
-    } else if ($Trady['TotalPaid'] >= $Dep && $CurState == $Trade_State['Accepted']) $NewState = $Trade_State['Deposit Paid'];
+    } else if ($Trady['TotalPaid'] >= $Dep && $CurState == $Trade_State['Accepted']) {
+      $NewState = $Trade_State['Deposit Paid'];
+      $Action = "Deposit Paid";
     break;
 
   case 'Local Auth Checked' :
@@ -1220,7 +1223,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
     $Invs = Get_Invoices(" PayDate=0 AND OurRef='" . Sage_Code($Trad) . "'"," IssueDate DESC ");
     if ($Invs) $att = Invoice_Credit_Note($Invs[0],$data);  // TODO BUG
 // var_dump($Invs);
-var_dump($att);
+//var_dump($att);
     $NewState = $Trade_State['Cancelled'];
     Send_Trader_Email($Trad,$Trady,'Trade_Cancel',$att);
     Send_Trade_Admin_Email($Trad,$Trady,'Trade_Cancel_Admin');
