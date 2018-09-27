@@ -32,7 +32,7 @@ function fm_addall($txt) {
 
 function fm_textinput($field,$value='',$extra='') {
   global $ADDALL,$AutoADD;
-  $str = "<input type=text name=$field id=$field size=16 $extra $ADDALL";
+  $str = "<input type=text name=$field id=$field $extra $ADDALL";
   if ($AutoADD) $str .=  " oninput=AutoInput('$field') ";
   if ($value) $str .= " value=\"" . htmlspec($value) . '"';
   return $str  .">";

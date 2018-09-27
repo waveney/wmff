@@ -68,7 +68,7 @@
   }
 
   echo "<tr><td colspan=4><h3>Legal</h3>\n";
-  echo "<tr><td colspan=4>Do you have a current DBS check? if so please give details<br>" . fm_textinput('DBS',$_POST['DBS'],'size=100');
+  echo "<tr><td colspan=4>Do you have a current DBS check? if so please give details<br>" . fm_textinput('DBS',(isset($_POST['DBS'])?$_POST['DBS']:''),'size=100');
   echo "<tr><td colspan=4><h3>Emergency Contact</h3>\n";
   echo "<tr>" . fm_text('Contact Name',$_POST,'ContactName',2);
   echo "<tr>" . fm_text('Contact Phone',$_POST,'ContactPhone',2);

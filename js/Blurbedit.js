@@ -12,12 +12,12 @@ function blurbedit(ev) {
 function nameedit(ev) {
   debugger;
 
-//  if (document.getElementById("SName").value.length > 20 ) {
-  var v = $("#SName").val();
+//  if (document.getElementById("SN").value.length > 20 ) {
+  var v = $("#SN").val();
   if (v.length > 20 ) {
     var r = v.substring(0,20);
     if ($('#ShortName').attr("hidden")) {
-	$('#ShortName').val(r);
+        $('#ShortName').val(r);
     }
     $(".ShortName").removeAttr("hidden");
   }

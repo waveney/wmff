@@ -29,6 +29,7 @@
       $Trad['AccessKey'] = rand_string(40);
       Put_Trader($Trad);
     }
+
     Send_Trader_Simple_Email($Trad,'Trade_Link');
     echo "<h3>A direct link has been emailed to you, you can use this at anytime to book, update your records, ";
     echo "see details of your pitch(es) and other usefull information.</h3>";

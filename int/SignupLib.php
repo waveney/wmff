@@ -41,37 +41,16 @@ function Get_lnl_Details(&$lnl) {
   return $Body;
 }
 
+function Lnl_Details($key,&$lnl) {
+  switch ($key) {
+  case 'WHO': return firstword(($lnl['Contact']? $lnl['Contact'] : $lnl['SN']));
+  case 'DETAILS': return Get_lnl_Details($lnl);
+  }
+}
+
 function Email_Signup(&$lnl,$messcat,$whoto) {
-  global $PLANYEAR,$USER,$MASTER;
-  include_once("int/TradeLib.php");
-
-  $Prof = Get_Email_Proforma($messcat);
-  $Mess = ($Prof? $Prof['Body'] : "Unknown message $messcat");
-
-  $Contact = $lnl['Contact']? firstword($lnl['Contact']) : $lnl['SN'];
-
-  $Details = Get_lnl_Details($lnl);
-  $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
-  
-  $Mess = preg_replace('/\*WHO\*/',$Contact,$Mess);
-//  $Mess = preg_replace('/\*LINK\*/',$Link,$Mess);
-//  $Mess = preg_replace('/\*WMFFLINK\*/',$WmffLink,$Mess);
-
-  $Mess = preg_replace('/\*PLANYEAR\*/',$PLANYEAR,$Mess);
-  $Mess = preg_replace('/\*DATES\*/',$Dates,$Mess);
-  $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
-
-  if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Live and Loud $PLANYEAR and " . $lnl['SN'],$Mess);
-  } else {
-    SendEmail($whoto,"Live and Loud $PLANYEAR and " . $lnl['SN'],$Mess);
-  }
-
-  $logf = fopen("LogFiles/LiveNLoudLog.txt","a");
-  if( $logf) {
-    fwrite($logf,"\n\nEmail to : " . $whoto . "\n\n" . $Mess);
-    fclose($logf);
-  }
+  global $PLANYEAR,$USER,$MASTER_DATA;
+  Email_Proforma($whoto,$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $lnl['SN'],'lnl_Details',$lnl,'LiveNLoudLog.txt');
 }
 
 function Get_lol_Details(&$lol) {
@@ -95,35 +74,16 @@ function Get_lol_Details(&$lol) {
   return $Body;
 }
 
+function Lol_Details($key,&$lol) {
+  switch ($key) {
+  case 'WHO': return firstword(($lol['Contact']? $lol['Contact'] : $lol['SN']));
+  case 'DETAILS': return Get_lol_Details($lol);
+  }
+}
+
 function Email_lol_Signup(&$lol,$messcat,$whoto) {
-  global $PLANYEAR,$USER,$MASTER;
-  include_once("int/TradeLib.php");
-
-  $Prof = Get_Email_Proforma($messcat);
-  $Mess = ($Prof? $Prof['Body'] : "Unknown message $messcat");
-
-  $Contact = $lol['Contact']? firstword($lol['Contact']) : $lol['SN'];
-
-  $Details = Get_lol_Details($lol);
-  $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
-  
-  $Mess = preg_replace('/\*WHO\*/',$Contact,$Mess);
-
-  $Mess = preg_replace('/\*PLANYEAR\*/',$PLANYEAR,$Mess);
-  $Mess = preg_replace('/\*DATES\*/',$Dates,$Mess);
-  $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
-
-  if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Lol Comp $PLANYEAR and " . $lol['SN'],$Mess);
-  } else {
-    SendEmail($whoto,"Lol Comp $PLANYEAR and " . $lol['SN'],$Mess);
-  }
-
-  $logf = fopen("LogFiles/LaughOutLog.txt","a");
-  if( $logf) {
-    fwrite($logf,"\n\nEmail to : " . $whoto . "\n\n" . $Mess);
-    fclose($logf);
-  }
+  global $PLANYEAR,$USER,$MASTER_DATA;
+  Email_Proforma($whoto,$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $lol['SN'],'lol_Details',$lnl,'LaughOutLog.txt');
 }
 
 function Get_BB_Details(&$bb) {
@@ -136,39 +96,19 @@ function Get_BB_Details(&$bb) {
   $Body .= "\n\n";
 
   $Body .= "Example:" . $bb['Example'];
-
   return $Body;
 }
 
+function BB_Details($key,&$bb) {
+  switch ($key) {
+  case 'WHO': return $lnl['Contact']? firstword($bb['Contact']) : $bb['SN'];
+  case 'DETAILS': return Get_BB_Details($bb);
+  }
+}
+
 function Email_BB_Signup(&$bb,$messcat,$whoto) {
-  global $PLANYEAR,$USER,$MASTER;
-  include_once("int/TradeLib.php");
-
-  $Prof = Get_Email_Proforma($messcat);
-  $Mess = ($Prof? $Prof['Body'] : "Unknown message $messcat");
-
-  $Contact = $bb['Contact']? firstword($bb['Contact']) : $bb['SN'];
-
-  $Details = Get_BB_Details($bb);
-  $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
-  
-  $Mess = preg_replace('/\*WHO\*/',$Contact,$Mess);
-
-  $Mess = preg_replace('/\*PLANYEAR\*/',$PLANYEAR,$Mess);
-  $Mess = preg_replace('/\*DATES\*/',$Dates,$Mess);
-  $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
-
-  if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Buskers Bash $PLANYEAR and " . $bb['SN'],$Mess);
-  } else {
-    SendEmail($whoto,"Buskers Bash $PLANYEAR and " . $bb['SN'],$Mess);
-  }
-
-  $logf = fopen("LogFiles/BuskersBashLog.txt","a");
-  if( $logf) {
-    fwrite($logf,"\n\nEmail to : " . $whoto . "\n\n" . $Mess);
-    fclose($logf);
-  }
+  global $PLANYEAR,$USER,$MASTER_DATA;
+  Email_Proforma($whoto,$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $bb['SN'],'BB_Details',$bb,'BuskersBashLog.txt');
 }
 
 function Get_Stew_Details(&$stew) {
@@ -197,35 +137,16 @@ function Get_Stew_Details(&$stew) {
   return $Body;
 }
 
-function Email_Steward(&$stew,$messcat,$whoto) {
-  global $PLANYEAR,$USER,$MASTER;
-  include_once("int/TradeLib.php");
-
-  $Prof = Get_Email_Proforma($messcat);
-  $Mess = ($Prof? $Prof['Body'] : "Unknown message $messcat");
-
-  $Contact = firstword($stew['SN']);
-
-  $Details = Get_Stew_Details($stew);
-  $Dates = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
-  
-  $Mess = preg_replace('/\*WHO\*/',$Contact,$Mess);
-  $Mess = preg_replace('/\*LINK\*/',$Link,$Mess);
-  $Mess = preg_replace('/\*WMFFLINK\*/',$WmffLink,$Mess);
-
-  $Mess = preg_replace('/\*PLANYEAR\*/',$PLANYEAR,$Mess);
-  $Mess = preg_replace('/\*DATES\*/',$Dates,$Mess);
-  $Mess = preg_replace('/\*DETAILS\*/',$Details,$Mess);
-
-  if (file_exists("testing")) {
-    SendEmail("Richard@wavwebs.com","Volunteer WMFF $PLANYEAR and " . $stew['SN'],$Mess);
-  } else {
-    SendEmail($whoto,"Volunteer WMFF $PLANYEAR and " . $stew['SN'],$Mess);
+function Stew_Details($key,&$stew) {
+  switch ($key) {
+  case 'WHO': return firstword($stew['SN']);
+  case 'DETAILS': return Get_Stew_Details($stwe);
   }
+}
 
-  $logf = fopen("LogFiles/Steward.txt","a");
-  fwrite($logf,"\n\nEmail to : " . $whoto . "\n\n" . $Mess);
-  fclose($logf);
+function Email_Steward(&$stew,$messcat,$whoto) {
+  global $PLANYEAR,$USER,$MASTER_DATA;
+  Email_Proforma($whoto,$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $stew['SN'],'Stew_Details',$stew,'Steward.txt');
 }
 
 function Get_Steward($id) {

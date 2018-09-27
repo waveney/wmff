@@ -24,15 +24,16 @@ $ButExtra = array(
         'Decline'=>'',
         'Submit'=>'',
         'Hold'=>'title="Hold for space available"',
-        'Dep Paid'=>'Deposit Paid',
+        'Dep Paid'=>'title="Deposit Paid"',
         'Invoice'=>'',
-        'Paid'=>'Full Fees Paid',
+        'Paid'=>'title=Full Fees Paid"',
         'Quote'=>'title="Send or repeat Quote email"',
         'Invite'=>'title="Send or repeat the Invitation Email"',
         'Invoiced'=>'Final Invoice Sent',
         'Cancel'=>'onClick="javascript:return confirm(\'are you sure you want to cancel this?\');"',
         'Resend'=>'Resend last email to trader',
-        'Invite Better'=>''
+        'Invite Better'=>'',
+        'Artisan Invite'=>'',
         ); 
 $ButTrader = array('Submit','Accept','Decline','Cancel','Resend'); // Actions Traders can do
 $RestrictButs = array('Paid','Dep Paid'); // If !AutoInvoice or SysAdmin
@@ -221,7 +222,8 @@ function Get_Trade_Year($Tid,$year=0) {
 function Put_Trade_Year(&$now) {
   $e=$now['Tid'];
   $Cur = Get_Trade_Year($e,$now['Year']);
-  return Update_db('TradeYear',$Cur,$now);
+  if ($Cur) return Update_db('TradeYear',$Cur,$now);
+  Insert_db('TradeYear',$now);
 }
 
 function Set_Trade_Help() {
@@ -244,7 +246,7 @@ Any generator must meet the Euro 4 silent generator standard.',
 
 function Default_Trade($id) {
   global $YEAR;
-  return array('Year'=>$YEAR,'Tid'=>$id,'PitchSize0'=>'3Mx3M','Power0'=>0);
+  return array('Year'=>$YEAR,'Tid'=>$id,'PitchSize0'=>'3Mx3M','Power0'=>0,'BookingState'=>0);
 
 }
 
@@ -255,6 +257,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
   if (isset($Trad['Photo']) && $Trad['Photo']) echo "<img class=floatright src=" . $Trad['Photo'] . " height=80>\n";
   if ($Tid > 0) echo "<input  class=floatright type=Submit name='Update' value='Save Changes' form=mainform>";
   if ($Mode && isset($Trad['Email']) && strlen($Trad['Email']) > 5) {
+    echo "If you click on the " . linkemailhtml($Trad,'Trade');
     echo ", press control-V afterwards to paste the <button type=button onclick=Copy2Div('Email$Tid','SideLink$Tid')>standard link</button>";
     echo "<p>\n";
   }
@@ -273,9 +276,10 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
   if (!isset($Trad['TradeType']) || ($Trad['TradeType'] == 0)) $Trad['TradeType'] = 1;
 
   echo "<form method=post id=mainform enctype='multipart/form-data' action=$Form>";
+  Register_AutoUpdate('Trader',$Tid);  
   echo "<table width=90% border class=SideTable>\n";
     echo "<tr><th colspan=8><b>Public Information</b>" . Help('PublicInfo');
-    echo "<tr>" . fm_text('Business Name', $Trad,'SN',2,'','autocomplete=off onchange=nameedit(event) oninput=nameedit(event) id=SN');
+    echo "<tr>" . fm_text('Business Name', $Trad,'SN',2,'','autocomplete=off id=SN');
     echo "<tr>";
       if (isset($Trad['Website']) && strlen($Trad['Website'])>1) {
         echo fm_text(weblink($Trad['Website']),$Trad,'Website');
@@ -308,6 +312,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
         echo " onclick='SetTradeType(" . $d['NeedPublicHealth'] . "," . $d['NeedCharityNum'] . "," .
                                         $d['NeedInsurance'] . "," . $d['NeedRiskAssess'] . ',"' . $d['Description'] . '","' . 
                                         $d['Colour'] . "\")'"; // not fm-Radio because of this line
+        echo " id=TradeType$i oninput=AutoRadioInput('TradeType',$i) ";
         echo ">&nbsp;</div>\n ";
       }
       echo "<br clear=all><div id=TTDescription style='background:" . $TradeTypeData[$Trad['TradeType']]['Colour'] . ";'>" . 
@@ -523,7 +528,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
       echo fm_date('Invite Sent',$Trady,'SentInvite');
     }
   }
-
+  if (file_exists("testing") || Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=6 class=NotSide><textarea id=Debug></textarea>";
   echo "</table>\n";
 }
 
@@ -609,7 +614,7 @@ function Trade_Finance(&$Trad,&$Trady) { // Finance statement as part of stateme
 function Trader_Details($key,&$data,$att=0) {
   global $Trade_Days,$TradeLocData,$TradeTypeData;
   $Trad = &$data[0];
-  $Trady = &$data[1];
+  if (isset($data[1])) $Trady = &$data[1];
   $Tid = $Trad['Tid'];
   switch ($key) {
   case 'WHO':  return $Trad['Contact']? firstword($Trad['Contact']) : $Trad['SN'];
@@ -672,6 +677,12 @@ function Send_Trader_Email(&$Trad,&$Trady,$messcat='Link',$att='') {
   global $PLANYEAR,$MASTER_DATA;
   include_once("Email.php");
   Email_Proforma([$Trad['Email'],$Trad['Contact']],$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att);
+}
+
+function Send_Trader_Simple_Email(&$Trad,$messcat='Link',$att='') {
+  global $PLANYEAR,$MASTER_DATA;
+  include_once("Email.php");
+  Email_Proforma([$Trad['Email'],$Trad['Contact']],$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad],'TradeLog',$att);
 }
 
 function Send_Trade_Finance_Email(&$Trad,&$Trady,$messcat,$att=0) {
@@ -963,10 +974,11 @@ function Trade_Main($Mode,$Program,$iddd=0) {
     $Act = $TS_Actions[$Trady['BookingState']];
     if ($Act ) {
       $Acts = preg_split('/,/',$Act); 
-      if ($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs']) {
-        if ($TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) $dummy=1;
-      }
-      if ($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) $Acts[] = 'Artisan Invite';
+//      if ($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs']) {
+//        if ($TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) $dummy=1;
+//      }
+//echo $Trad['TradeType'];
+      if ($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && isset($Trady['PitchLoc0']) && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) $Acts[] = 'Artisan Invite';
       foreach($Acts as $ac) {
         if ($Mode==0 && !in_array($ac,$ButTrader)) continue;
         if (Feature('AutoInvoices') && !Access('SysAdmin') && in_array($ac,$RestrictButs)) continue;  // Normal people cant hit Paid have to be through the invoice
@@ -1181,9 +1193,12 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
       $Ychng = 1;
 //var_dump($Trady);
     }
+    $xtra = $data;
     if ($Trady['TotalPaid'] >= $fee) { 
       $NewState = $Trade_State['Fully Paid'];
-    } else if ($Trady['TotalPaid'] >= $Dep && $CurState == $Trade_State['Accepted']) $NewState = $Trade_State['Deposit Paid'];
+    } else if ($Trady['TotalPaid'] >= $Dep && $CurState == $Trade_State['Accepted']) {
+      $NewState = $Trade_State['Deposit Paid'];
+      $Action = "Deposit Paid";
     break;
 
   case 'Local Auth Checked' :
@@ -1208,7 +1223,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
     $Invs = Get_Invoices(" PayDate=0 AND OurRef='" . Sage_Code($Trad) . "'"," IssueDate DESC ");
     if ($Invs) $att = Invoice_Credit_Note($Invs[0],$data);  // TODO BUG
 // var_dump($Invs);
-var_dump($att);
+//var_dump($att);
     $NewState = $Trade_State['Cancelled'];
     Send_Trader_Email($Trad,$Trady,'Trade_Cancel',$att);
     Send_Trade_Admin_Email($Trad,$Trady,'Trade_Cancel_Admin');

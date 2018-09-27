@@ -18,7 +18,7 @@
 
   $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND (y.BookingState=" . $Trade_State['Deposit Paid'] .
                 " OR y.BookingState=" . $Trade_State['Fully Paid'] . " ) AND t.TradeType=$Type ORDER BY SN";
-
+  $ActsEnable = Access('Committee','Trade');
 //echo "$qry<p>";
   $res = $db->query($qry);
   $totdep = $totbal = $totrec = 0;
@@ -56,7 +56,8 @@
         } else {
           $str .= " class=" . $Trade_StateClasses[$stat] . ">";
         }
-        if ($Acts && $Act ) {
+        $Act = $TS_Actions[$stat];
+        if ($ActsEnable && $Act ) {
           $Acts = preg_split('/,/',$Act); 
           $str .= "<form>" . fm_Hidden('id',$Tid);
           foreach($Acts as $ac) {
