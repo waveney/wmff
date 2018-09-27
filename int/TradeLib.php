@@ -1199,6 +1199,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
     } else if ($Trady['TotalPaid'] >= $Dep && $CurState == $Trade_State['Accepted']) {
       $NewState = $Trade_State['Deposit Paid'];
       $Action = "Deposit Paid";
+    }
     break;
 
   case 'Local Auth Checked' :

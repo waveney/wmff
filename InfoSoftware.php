@@ -15,7 +15,7 @@ Rather than having lots of non-integrated spreadsheets and lists on many peoples
 <h3>FRONT END</h3>
 Most pages are generated on the fly as needed, showing performers (music, dance, other), tickets and prices, events listed by venue, time, type.<p>
 
-Everything that can be a link is a link.  An event links to venues, venues have list of all events at venue, each participant at each event has links to where and when they are on and who they
+Everything that can be a link is a link.  An event links to venues and participants, venues have list of all events at venue, each participant has links to where and when they are on and who they
 are with.  Each performer has their own page with details of their programme, who they are and about them.<p>
 
 This is not yet as sophisticated as the back end yet, but is getting there.<p>
