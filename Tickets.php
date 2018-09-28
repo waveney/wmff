@@ -2,8 +2,9 @@
   include_once("int/fest.php");
 
   dohead("Tickets");
-  global $MASTER;
-  set_ShowYear();
+  global $MASTER,$YEAR;
+//  set_ShowYear();
+  include_once "int/ProgLib.php";
 ?>
 <div class="biodiv">
 <img src="http://wimbornefolk.co.uk/images/Mawkin-Accordion.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
@@ -12,93 +13,85 @@
 
 <h2 class="maintitle">Buy Festival Tickets</h2>
 
-Select from the options below to purchase your tickets for Wimborne Minster Folk Festival 2018. 
+Select from the options below to purchase your tickets for Wimborne Minster Folk Festival <?php echo $YEAR ?>.<p>
+ 
 Your ticket will grant you access to official festival concerts and ceilidhs listed below. 
 During the festival weekend there are unofficial events in Wimborne that these tickets do
 not cover and we are unable to refund tickets bought in error.<p>
 
-Please note that there is a booking fee of &pound;1.00 per ticket when ordering tickets online. 
+<?php
+  if ($MASTER['BookingFee']) echo "Please note that there is a booking fee of &pound;" . $MASTER['BookingFee'] . " per ticket when ordering tickets online. ";
+?>
 Please take care whilst ordering tickets as we are unable to process exchanges or refunds.<p>
 
 Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require a carer ticket.<p>
 
-Order your festival tickets and camping together, by selecting <strong>Continue Shopping</strong> 
-before you checkout!  Camping costs &pound;7.50pppn + booking fee in advance or &pound;8.50pppn on the gate.<p>
+<?php
+  if ($MASTER['CampingCost']) {
+    echo "Order your festival tickets and camping together, by selecting <strong>Continue Shopping</strong> ";
+    echo "before you checkout!  Camping costs &pound;" . $MASTER['CampingPrice1Day'] . "per person per night, plus booking fee in advance or &pound;" . $MASTER['CampingGateFee'] ;
+    echo " on the gate.<p>";
+  } else {
+    echo "Camping is not yet open to book<p>";
+  }
+?>
 
 <a href=TermsAndConditions.php>Full Terms and Conditions</a>.<p>
 
 <a href=/InfoCamping.php><b>Camping Information and Camping Tickets.</b></a><p>
 
-<b>Note: Online Ticket sales will stop at 6am on Friday 8th of June.  Event tickets and passes will be available from the 
-Allendale Information point once it has opened on Friday at 2pm.  Camping tickets may be bought at the gate.</b><p>.
-
 <p><table cellspacing="5" cellpadding="5" style="background-color:#39a5d8; border-color:#39a5d8">
-<tr>
-<th colspan="5">Festival Passes</th>
-</tr>
-<tr>
-<td><a href="https://www.ticketsource.co.uk/event/208030" rel="tag" target="_blank" style="font-size:18px"><strong>Weekend Pass</strong></a>
-<br />Adult (13+): <strong>&pound;50.00</strong>
-<br />Child (5-12): <strong>&pound;25.00</strong>
-<br />Infant (0-4): <strong>Free</strong></td>
-<td style="width:70%">Book your Weekend Pass for official festival events. <!--Events at the Tivoli are not covered by this pass.-->  See below for the events that it covers.<p>
-
-Only this ticket includes entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
+<tr><th colspan="5">Festival Passes</th>
 <?php
-  if ($MASTER['TicketControl'] == 1) echo "<td style='text-align:center; font-size:20px'><a href='https://www.ticketsource.co.uk/event/208030' " .
-					" target=_blank><strong>Buy Now</strong></a></td>";
-?>
-</tr>
-<tr>
-<td><a href="https://www.ticketsource.co.uk/event/210981" rel="tag" target="_blank" style="font-size:18px"><strong>Friday Pass</strong></a>
-<br />Adult (13+): <strong>&pound;15.00</strong>
-<br />Child (5-12): <strong>&pound;7.50</strong>
-<br />Infant (0-4): <strong>Free</strong></td>
-<td style="width:70%">Book your Friday Pass for official festival events. <!--Events at the Tivoli are not covered by this pass.-->  See below for the events that it covers.<p>
+  foreach(['Weekend','Friday','Saturday','Sunday'] as $day) {
+//  echo $day;
+    if ($MASTER[$day . "PassCode"]) {
+      echo "<tr><td>";
+      if ($MASTER['TicketControl'] == 1) echo "<a href='https://www.ticketsource.co.uk/event/" . $MASTER[$day . "PassCode"] . "' target=_blank style='font-size:18px'>";
+      echo "<strong>$day Pass</strong></a><br>";
+      echo "Adult (13+): <strong>";
+      
+      $str = '';
+      $Cpri = $MASTER[$day . 'Pass'];
 
-Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
-</td>
-<?php
-  if ($MASTER['TicketControl'] == 1) echo "<td style='text-align:center; font-size:20px'><a href='https://www.ticketsource.co.uk/event/210981' " .
-					" target=_blank><strong>Buy Now</strong></a></td>";
-?>
-</tr>
+      if ($MASTER['PriceChange1']) {
+        $pc = $MASTER['PriceChange1'];
+        $Npri = $MASTER[$day . 'Pass1'];
+        if ($Npri != $Cpri && $Npri != 0) {
+          if ($pc > time()) $str .= "&pound;" . $Cpri . "</strong> until " . date('j M Y',$pc);
+          $Cpri = $Npri;
+        }
+      }
+  
+      if ($MASTER['PriceChange2']) {
+        $pc = $MASTER['PriceChange2'];
+        $Npri = $MASTER[$day . 'Pass2'];
+        if ($Npri != $Cpri && $Npri != 0) {
+          if ($pc > time()) {
+            if ($str) $str .= ", then ";
+            $str .= "&pound;" . $Cpri . "</strong> until " . date('j M Y',$pc);
+          }
+          $Cpri = $Npri;
+        }
+      }
 
-<tr>
-<td><a href="https://www.ticketsource.co.uk/event/211013" rel="tag" target="_blank" style="font-size:18px"><strong>Saturday Pass</strong></a>
-<br />Adult (13+): <strong>&pound;30.00</strong>
-<br />Child (5-12): <strong>&pound;15.00</strong>
-<br />Infant (0-4): <strong>Free</strong></td>
-<td style="width:70%">Book your Saturday Pass for official festival events. See below for the events that it covers.<p>
+      if ($str) $str .= ", then ";
+      $str .= "&pound;$Cpri </strong><br>"; 
 
-Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
-</td>
-<?php
-  if ($MASTER['TicketControl'] == 1) echo "<td style='text-align:center; font-size:20px'><a href='https://www.ticketsource.co.uk/event/211013' " .
-					" target=_blank><strong>Buy Now</strong></a></td>";
-?>
-</tr>
+      echo $str;
+      echo "Child (5-12): <strong>" . Print_Pence($Cpri*50) . "</strong><br>";
+      echo "Infant (0-4): <strong>Free</strong>";
+      echo "<td style='width:70%'>" . $MASTER[$day . "Text"] . "<td style='text-align:center; font-size:20px'>";
 
-<tr>
-<td><a href="https://www.ticketsource.co.uk/event/211014" rel="tag" target="_blank" style="font-size:18px"><strong>Sunday Pass</strong></a>
-<br />Adult (13+): <strong>&pound;20.00</strong>
-<br />Child (5-12): <strong>&pound;10.00</strong>
-<br />Infant (0-4): <strong>Free</strong></td>
-<td style="width:70%">Book your Sunday Pass for official festival events. See below for the events that it covers.<p>
+      switch ($MASTER['TicketControl']) {
+      case 0: echo "Not Yet"; break;
+      case 1: echo "<a href='https://www.ticketsource.co.uk/event/" . $MASTER[$day . "PassCode"] . "' target=_blank ><strong>Buy Now</strong></a>"; break;
+      case 2: echo "Closed"; break;
+      }
+    }
+  }
+  echo "</table><p>";
 
-Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>*<p>
-</td>
-<?php
-  if ($MASTER['TicketControl'] == 1) echo "<td style='text-align:center; font-size:20px'><a href='https://www.ticketsource.co.uk/event/211014' " .
-					" target=_blank><strong>Buy Now</strong></a></td>";
-?>
-</tr>
-</table>
-
-<?php
-
-  include_once "int/fest.php";
-  include_once "int/ProgLib.php";
   global $YEAR,$db,$DayList,$MASTER;
 
   $Vens = Get_Venues(1);
@@ -112,9 +105,9 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
       echo Price_Show($E);
     echo "<td>" . $DayList[$E['Day']] . " " . ($MASTER['DateFri']+$E['Day']) ."th June $YEAR" . "<br>";
       if ($E['Venue']) {
-	echo "At: <a href=/int/VenueShow.php?v=" . $E['Venue'] . ">" . VenName($Vens[$E['Venue']]) . "</a><br>";
+        echo "At: <a href=/int/VenueShow.php?v=" . $E['Venue'] . ">" . VenName($Vens[$E['Venue']]) . "</a><br>";
       } else {
-	echo "At: </b>Venue not yet known</b><br>";
+        echo "At: </b>Venue not yet known</b><br>";
       }
       echo "From: " . timecolon($E['Start']) . " to " . timecolon($E['End']);
     echo "<td style='width:50%'>";
@@ -122,6 +115,8 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
       echo Get_Event_Participants($E['EventId'],1,15);
     if (($MASTER['TicketControl'] == 1) && ($E['TicketCode'] || $E['SpecPriceLink'])) echo "<td><strong>$bl Buy Now</a></strong>\n";
   }
+  
+  if (!$Evs->num_rows) echo "No Ticketed Events are yet published.<p>";
 ?>
 
 </table></p>
@@ -141,13 +136,11 @@ Does <b>NOT</b> Include entry to <a href="http://partyinthepaddock.com" rel="tag
 <p>If you're looking to combine a weekend of official festival events and a trip to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>, then book your tickets with us!</p>
 
 <h2 class="subtitle">Official Ticket Outlets</h2>
-<p>Event tickets and day/weekend passes are on sale at these Wimborne outlets, with zero booking fee*:</p>
+<p>Event tickets and day/weekend passes are on sale at these Wimborne outlets:</p>
 <ul>
-<li><strong>The Allendale Centre</strong>, Wimborne, BH21 1AS (but not the camping tickets)</li>
 <li><strong>Tourist Information Centre</strong>, Wimborne, BH21 1HR &#8211; Telephone bookings: 01202 886116</li>
 </ul>
 
-<p>*subject to card transaction fees.</p>
 
 </div>
 <?php
