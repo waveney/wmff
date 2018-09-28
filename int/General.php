@@ -76,10 +76,19 @@
     echo "<tr>" . fm_date('Date Last Trade Payments',$Gen,'TradeLastDate') . "<td>\n";    
     
     echo "<tr><td>Ticket Control:<td>" . fm_select($TicketStates,$Gen,'TicketControl') . "<td>Master Ticketing control\n";
-    echo "<tr>" . fm_number1("Weekend Pass Price",$Gen,'WeekendPass') . fm_text("Weekend Pass Code",$Gen,'WeekendPassCode');
-    echo "<tr>" . fm_number1("Friday Pass",$Gen,'FridayPass') . fm_text("Friday Pass Code",$Gen,'FridayPassCode');
-    echo "<tr>" . fm_number1("Saturday Pass",$Gen,'SaturdayPass') . fm_text("Saturday Pass Code",$Gen,'SaturdayPassCode');
-    echo "<tr>" . fm_number1("Sunday Pass",$Gen,'SundayPass') . fm_text("Sunday Pass Code",$Gen,'SundayPassCode');
+    echo "<tr>" . fm_text1("Weekend Pass Code",$Gen,'WeekendPassCode') . fm_number1("Weekend Pass Price",$Gen,'WeekendPass') . 
+                  fm_number1("Weekend Pass Price1",$Gen,'WeekendPass1') . fm_number1("Weekend Pass Price2",$Gen,'WeekendPass2');
+    echo "<tr>" . fm_textarea("Text for Weekend Pass",$Gen,'WeekendText',6,2);
+    echo "<tr>" . fm_text1("Friday Pass Code",$Gen,'FridayPassCode') . fm_number1("Friday Pass Price",$Gen,'FridayPass') . 
+                  fm_number1("Friday Pass Price1",$Gen,'FridayPass1') . fm_number1("Friday Pass Price2",$Gen,'FridayPass2');
+    echo "<tr>" . fm_textarea("Text for Friday Pass",$Gen,'FridayText',6,2);
+    echo "<tr>" . fm_text1("Saturday Pass Code",$Gen,'SaturdayPassCode') . fm_number1("Saturday Pass Price",$Gen,'SaturdayPass') . 
+                  fm_number1("Saturday Pass Price1",$Gen,'SaturdayPass1') . fm_number1("Saturday Pass Price2",$Gen,'SaturdayPass2');
+    echo "<tr>" . fm_textarea("Text for Saturday Pass",$Gen,'SaturdayText',6,2);
+    echo "<tr>" . fm_text1("Sunday Pass Code",$Gen,'SundayPassCode') . fm_number1("Sunday Pass Price",$Gen,'SundayPass') . 
+                  fm_number1("Sunday Pass Price1",$Gen,'SundayPass1') . fm_number1("Sunday Pass Price2",$Gen,'SundayPass2');
+    echo "<tr>" . fm_textarea("Text for Sunday Pass",$Gen,'SundayText',6,2);
+
     echo "<tr>" . fm_number1("Programme Book",$Gen,'ProgrammeBook');
     echo "<tr>" . fm_number1("Booking Fee",$Gen,'BookingFee');
     echo "<tr>" . fm_number1("Camping Cost",$Gen,'CampingCost') . "<td>This is the cost to us per night - not the public price";

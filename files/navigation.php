@@ -61,6 +61,7 @@
      <a href=$host/info/thanks>With Thanks</a>
      <a href=$host/RadioWimborne.php>Radio Wimborne</a>
      <a href=$host/InfoData.php>Data Records</a>
+     <a href=$host/InfoSoftware.php>Software</a>
   </div>
 </div>
 <!--
