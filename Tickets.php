@@ -3,7 +3,7 @@
 
   dohead("Tickets");
   global $MASTER,$YEAR;
-//  set_ShowYear();
+  set_ShowYear();
   include_once "int/ProgLib.php";
 ?>
 <div class="biodiv">
