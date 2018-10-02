@@ -79,8 +79,8 @@
       $proc = 1;
       $Side = array();
       if (!isset($_POST['SN'])) {
-      echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
-      $proc = 0;
+        echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
+        $proc = 0;
       }
       $_POST['AccessKey'] = rand_string(40);
       Clean_Email($_POST{'Email'});

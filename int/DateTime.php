@@ -10,6 +10,7 @@
 //        returns 0 or best guess date
 function Date_BestGuess($txt) {
   global $PLANYEAR;
+  if (!$txt) return 0;
   $Months = array('jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec');
   $daysOfM = array(31,28,31,30,31,30,31,31,30,31,30,31);
   $yr = $day = $mnth = 0;

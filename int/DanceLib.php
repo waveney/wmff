@@ -2,6 +2,9 @@
 // Common Dance Library
 
 $Dance_TimeFeilds = array('SatArrive','SatDepart','SunArrive','SunDepart');
+$OlapTypes = array('Dancer','Musician');
+$OlapDays = array('All','Sat Only','Sun Only','None');
+$OlapCats = array('Side','Act','Other');
 
 function Sides_Name_List() {
   global $db;

@@ -86,6 +86,7 @@ function Update_db($table,&$old,&$new,$proced=1) {
   $newrec = "UPDATE $table SET ";
   $fcnt = 0;
 
+//var_dump( $Flds);
 //echo "<p>$newrec<p>";
 
   foreach ($Flds as $fname=>$ftype) {
@@ -110,6 +111,7 @@ function Update_db($table,&$old,&$new,$proced=1) {
       }
     } else {
       if ($ftype == 'tinyint' || $ftype == 'smallint' ) {
+//      if ($fname == 'InUse') debug_print_backtrace();
         if ($old[$fname]) {
           $old[$fname] = 0;
             if ($fcnt++ > 0) { $newrec .= " , "; }

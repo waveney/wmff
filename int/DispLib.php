@@ -286,3 +286,10 @@ function ShowArticles() {
   echo "</div><div class=content style='clear:both;'>";
 }
 
+function Show_Articles_For($page='') {
+  if (!Feature('UseArticles')) return;
+  
+  $Arts = Get_All_Articles(0,$page);
+  
+
+}
