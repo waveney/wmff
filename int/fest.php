@@ -44,7 +44,7 @@ $Book_Actions = array('None'=>'Book','Declined'=>'Book,Contract','Booking'=>'Con
 $Book_ActionExtras = array('Book'=>'', 'Contract'=>'', 'Decline'=>'', 'Cancel'=>'', 'Confirm'=>'');
 $EType_States = array('Very Early','Draft','Partial','Provisional','Complete');
 $TicketStates = array('Not Yet','Open','Closed');
-$ArticleFormats = ['Large Image','Small Image','Text'];
+$ArticleFormats = ['Large Image','Small Image','Text','Banner Image','Banner Text'];
 
 
 date_default_timezone_set('GMT');

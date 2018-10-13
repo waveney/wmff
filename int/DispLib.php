@@ -241,7 +241,7 @@ function ShowArticles() {
         case '@Dance_Many':
           ShowArticle(array(
                 'SN'=>"Dancing in $SHOWYEAR",
-                'Link'=>"$host/LineUpDance.php",
+                'Link'=>"/LineUpDance.php",
                 'Text'=>"$Dsc Dance teams have already confirmed for $SHOWYEAR.  Many of your favourite teams and some new faces.\n",
                 'Image'=>$DPhoto,
                 'ImageWidth'=>$DMany['ImageWidth'],
@@ -263,7 +263,7 @@ function ShowArticles() {
         case '@Music_Many':
           ShowArticle(array(
                 'SN'=>"Music in $SHOWYEAR",
-                'Link'=>"$host/LineUpMusic.php",
+                'Link'=>"/LineUpMusic.php",
                 'Text'=>"$Msc Music acts have already confirmed for $SHOWYEAR.\n",
                 'Image'=>$MPhoto,
                 'ImageWidth'=>$MMany['ImageWidth'],
@@ -286,10 +286,155 @@ function ShowArticles() {
   echo "</div><div class=content style='clear:both;'>";
 }
 
+function Expand_Special(&$Art) {
+  static $Dstuff,$DMany,$DPhoto,$Dsc,$Mstuff,$MMany,$MPhoto,$Msc;
+  global $db,$SHOWYEAR,$Coming_Type;
+  if (!$Dstuff) {
+  // Specials data gathering - DANCE
+    $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$SHOWYEAR AND y.Coming=" . $Coming_Type['Y']);
+    $Dsc = 0;
+    if ($ans) $Dsc= ($ans->fetch_assoc())['Total'];
+    $ans = $db->query("SELECT s.Photo,s.SideId,s.ImageHeight,s.ImageWidth FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$SHOWYEAR AND s.Photo!='' AND y.Coming=" . 
+                    $Coming_Type['Y'] . " ORDER BY RAND() LIMIT 1");
+    if ($ans) {
+      $DMany = $ans->fetch_assoc();
+      $DPhoto = $DMany['Photo'];
+    } else $DPhoto = "/images/Hobos-Morris-2016.jpg";
+    $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$SHOWYEAR AND s.Photo!='' AND y.Coming=" . 
+                            $Coming_Type['Y'] . " AND s.Importance!=0 ORDER BY RAND() LIMIT 2");
+    if (!$ans) $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$SHOWYEAR AND s.Photo!='' AND y.Coming=" . 
+                        $Coming_Type['Y'] . " ORDER BY RAND() LIMIT 2");
+    if ($ans) {
+      $Dstuff = $ans->fetch_assoc();
+      if ($Dstuff['SideId'] == $DMany['SideId']) $Dstuff = $ans->fetch_assoc();
+    }
+
+    // Music stuff
+    $ans = $db->query("SELECT count(*) AS Total FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$SHOWYEAR AND y.YearState>0 ");
+    $Msc = 0;
+    if ($ans) $Msc= ($ans->fetch_assoc())['Total'];
+    $ans = $db->query("SELECT s.Photo,s.SideId,s.ImageHeight,s.ImageWidth FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$SHOWYEAR AND " . 
+                        "s.Photo!='' AND y.YearState>0 ORDER BY RAND() LIMIT 1");
+    if ($ans) {
+      $MMany = $ans->fetch_assoc();
+      $MPhoto = $MMany['Photo'];
+    } else $MPhoto = "/images/Hobos-Morris-2016.jpg";
+
+    $ans = $db->query("SELECT s.* FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$SHOWYEAR AND s.Photo!='' AND y.YearState>0 " . 
+                        " AND s.Importance!=0 ORDER BY RAND() LIMIT 2");
+    if (!$ans) $ans = $db->query("SELECT s.* FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$SHOWYEAR AND s.Photo!='' AND y.YearState>0 " . 
+                        " ORDER BY RAND() LIMIT 2");
+    if ($ans) {
+      $Mstuff = $ans->fetch_assoc();
+      if ($Mstuff['SideId'] == $MMany['SideId']) $Mstuff = $ans->fetch_assoc();
+    }
+    // No Other yet
+  }
+  
+
+  switch ($Art['SN']) {
+  case '@Dance_Imp':
+    $Art['SN'] = $Dstuff['SN'];
+    $Art['Link'] = ('int/ShowDance.php?sidenum=' . $Dstuff['SideId']);
+    $Art['Text'] = $Dstuff['Description'];
+    $Art['Image'] = $Dstuff['Photo'];
+    $Art['ImageWidth'] = (isset($Dstuff['ImageWidth'])?$Dstuff['ImageWidth']:100);
+    $Art['ImageHeight'] = (isset($Dstuff['ImageHeight'])?$Dstuff['ImageHeight']:100);
+    break;
+
+  case '@Dance_Many':
+    $Art['SN'] = "Dancing in $SHOWYEAR";
+    $Art['Link'] = "/LineUpDance.php";
+    $Art['Text'] = "$Dsc Dance teams have already confirmed for $SHOWYEAR.  Many of your favourite teams and some new faces.\n";
+    $Art['Image'] = $DPhoto;
+    $Art['ImageWidth'] = (isset($DMany['ImageWidth'])?$DMany['ImageWidth']:100);
+    $Art['ImageHeight'] = (isset($DMany['ImageHeight'])?$DMany['ImageHeight']:100);
+    break;
+
+  case '@Music_Imp':
+    $Art['SN'] = $Mstuff['SN'];
+    $Art['Link'] = ('int/ShowMusic.php?sidenum=' . $Mstuff['SideId']);
+    $Art['Text'] = $Mstuff['Description'];
+    $Art['Image'] = $Mstuff['Photo'];
+    $Art['ImageWidth'] = (isset($Mstuff['ImageWidth'])?$Mstuff['ImageWidth']:100);
+    $Art['ImageHeight'] = (isset($Mstuff['ImageHeight'])?$Mstuff['ImageHeight']:100);
+    break;
+
+  case '@Music_Many':
+    $Art['SN'] = "Music in $SHOWYEAR";
+    $Art['Link'] = "/LineUpMusic.php";
+    $Art['Text'] = "$Msc Music acts have already confirmed for $SHOWYEAR.\n";
+    $Art['Image'] = $MPhoto;
+    $Art['ImageWidth'] = (isset($MMany['ImageWidth'])?$MMany['ImageWidth']:100);
+    $Art['ImageHeight'] = (isset($MMany['ImageHeight'])?$MMany['ImageHeight']:100);
+    break;
+    
+  default:
+    
+  }
+}
+
 function Show_Articles_For($page='') {
   if (!Feature('UseArticles')) return;
   
   $Arts = Get_All_Articles(0,$page);
-  
-
+//  var_dump($Arts);
+  echo "<div id=ShowArt></div><p>";
+  echo "<div id=OrigArt hidden>";
+  foreach ($Arts as $i=>$Art) {
+    $fmt = (isset($Art['Format'])?$Art['Format']:0);
+    echo "<div id=Art$i data-format=$fmt class=ArtFormat$fmt>";
+    
+    if (substr($Art['SN'],0,1) == '@') { // Special
+      Expand_Special($Art);  // Will Update content of Art
+    }
+    switch ($fmt) {
+    case 0: // Large Image
+    default:
+      if ($Art['Link']) echo "<a href='" . $Art['Link'] . "'>";
+      if (!$Art['HideTitle']) echo "<div class=ArtTitleL>" . $Art['SN'] . "</div>";
+      if ($Art['Image']) echo "<img id=ArtImg$i class=ArtImageL src=" . $Art['Image'] . " data-height=" . $Art['ImageHeight'] . " data-width=" . $Art['ImageWidth'] .">";
+      if ($Art['Link']) echo "</a>";
+      echo "<div class=ArtTextL>" . $Art['Text'];
+      break;
+          
+    case 1: // Small Image (to left of title and text)
+      if ($Art['Link']) echo "<a href='" . $Art['Link'] . "'>";
+      if ($Art['Image']) echo "<img id=ArtImg$i class=ArtImageS src=" . $Art['Image'] . " data-height=" . $Art['ImageHeight'] . " data-width=" . $Art['ImageWidth'] . ">";
+      if (!$Art['HideTitle']) echo "<div class=ArtTitleS>" . $Art['SN'] . "</div>";
+      if ($Art['Link']) echo "</a>";
+      echo "<div class=ArtTextS>" . $Art['Text'];
+      break;
+          
+    case 2: // Text Only
+      if ($Art['Link']) echo "<a href='" . $Art['Link'] . "'>";
+      if (!$Art['HideTitle']) echo "<div class=ArtTitleT>" . $Art['SN'] . "</div>";
+      if ($Art['Link']) echo "</a>";
+      echo "<div class=ArtTextT>" . $Art['Text'];
+      break;
+      
+    case 3: // Banner Image
+      if ($Art['Link']) echo "<a href='" . $Art['Link'] . "'>";
+      if (!$Art['HideTitle']) echo "<div class=ArtTitleBI>" . $Art['SN'] . "</div>";
+      if ($Art['Image']) echo "<img id=ArtImg$i class=ArtImageBI src=" . $Art['Image'] . " data-height=" . $Art['ImageHeight'] . " data-width=" . $Art['ImageWidth'] .">";
+      if ($Art['Link']) echo "</a>";
+      echo "<div class=ArtTextBI>" . $Art['Text'];
+      break;
+              
+    case 4: // Banner Text
+      if ($Art['Link']) echo "<a href='" . $Art['Link'] . "'>";
+      if (!$Art['HideTitle']) echo "<div class=ArtTitleBT>" . $Art['SN'] . "</div>";
+      if ($Art['Link']) echo "</a>";
+      echo "<div class=ArtTextBT>" . $Art['Text'];
+      break;
+      
+    
+    }
+    echo "</div></div><br clear=all>\n";          
+  }
+  echo "</div>";
+  echo "\n";
 }
+
+
+

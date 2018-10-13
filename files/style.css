@@ -918,3 +918,102 @@ textarea {
   height:100%;
   box-sizing:border-box;
 }
+
+.ArtBanner {}
+
+.ArtColClass {
+  float:left;
+  padding:5;
+  max-width:100%;
+  flex-wrap: wrap;
+  word-wrap: break-word;
+}
+
+.ArtFormat0 {}
+
+.ArtTitleL {
+  margin:0;
+  font-size:30px;
+  color:#005C8F;
+  font-weight:bold;
+  transition:opacity .5s, filter .5s;
+  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+}
+
+.ArtImageL {}
+
+.ArtTextL {
+  padding-top:5px;
+  font-size:16px;
+}
+
+.ArtFormat1 {}
+
+.ArtTitleS {
+  margin:0;
+  padding:0;
+  padding-top:5;
+  font-size:24px;
+  color:#005C8F;
+  font-weight:bold;
+  transition:opacity .5s, filter .5s;
+  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+}
+
+.ArtImageS {
+  float:left;
+  padding-right:5;
+  padding-top:5;
+}
+
+.ArtTextS {}
+
+.ArtFormat2 {}
+
+.ArtTitleT {
+  margin:0;
+  padding:0;
+  font-size:30px;
+  color:#005C8F;
+  font-weight:bold;
+  transition:opacity .5s, filter .5s;
+  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+}
+
+.ArtTextT {}
+
+.ArtFormat4 {}
+
+.ArtTitleBT {
+  text-align:center;
+}
+
+.ArtTextBT {
+  text-align:center;
+  color: #005983;
+  font-weight:normal;
+  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+  font-size:24px;
+}
+
+.ArtFormat3 {}
+
+.ArtTitleBI {}
+
+.ArtImageBI {
+  width:100%
+}
+
+.ArtTextBI {}
+
+.ArtImageL:hover, .ArtImageS:hover, .ArtImageBI:hover {
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
+
+.Red {
+  color:red;
+  font-weight:bold;
+}
+
+

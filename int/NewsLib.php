@@ -76,7 +76,11 @@ function Get_All_Articles($nid=0,$use='') { // 0 - Current, 1 = all, if current 
   global $db;
   $Arts = array();
   $now = time();
-  $res = $db->query("SELECT * FROM Articles " . ($nid?'':' WHERE ( StartDate="" OR StartDate<$time ) AND (StopDate="" OR StopDate>$now )') . ($use? " ( AND UsedOn LIKE '%$use%')" );
+  $qry = "SELECT * FROM Articles ";
+  if (!$nid) $qry .= " WHERE ( StartDate='' OR StartDate<$now ) AND (StopDate='' OR StopDate>$now )" . ($use? " AND ( UsedOn LIKE '%$use%' )" :"");
+  $qry .= " ORDER BY UsedOn, Importance DESC, RelOrder DESC";
+//  echo "$qry<p>";
+  $res = $db->query($qry);
   if ($res) while ($ns = $res->fetch_assoc())  $Arts[] = $ns;
   return $Arts;
 }

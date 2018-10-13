@@ -51,23 +51,27 @@
   
 //  var_dump($Art);
   echo "To limit when article will appear give a start and/or end date.<p>Do NOT use a facebook image as a link - they are transient.<p>\n";
-  echo "Set Title as @[Dance|Music|Other]_[Imp,Many] to have a random important Performer or a random performer along with a count<p>\n";
+  echo "Set Title as @[Dance|Music]_[Imp,Many] to have a random important Performer or a random performer along with a count<p>\n";
+  echo "The Banner formats go across the entire page<p>";
 
   echo "<form method=post>";
   echo "<table border>\n";
   echo "<tr>" . fm_text("Title",$Art,'SN');
     echo fm_text("Usage",$Art,'UsedOn');
-    echo "<td colspan=2 rowspan=4>";
-    if ($Art['Image']) {
+    echo "<td colspan=2 rowspan=5>";
+    if ( isset($Art['Image']) && $Art['Image']) {
       echo "<img src=" . $Art['Image'] . " height=200>";
     } else {
       echo "No Image";
     }
-  echo "<tr><td>Importance:<td>" . fm_select($Importance,$Art,'Importance');
+  echo "<tr><td>" . fm_checkbox('Hide Title',$Art,'HideTitle');
     echo "<td>Format:<td>" . fm_select($ArticleFormats,$Art,'Format');
+  echo "<tr><td>Importance:<td>" . fm_select($Importance,$Art,'Importance');
+    echo fm_text("Relative Order",$Art,'RelOrder');    
   echo "<tr>" . fm_date("Start Date",$Art,'StartDate') . fm_date("Stop Date",$Art,'StopDate');
   echo "<tr>" . fm_text("Link - may be blank",$Art,'Link') . "<td>";
     if ($id > 0) echo fm_hidden('id',$id) . "id: $id";
+    echo fm_text1("Image",$Art,'Image');
   echo "<tr>" . fm_textarea("Text:<br>(some html)", $Art,'Text',6,10);
   echo "</table>";
   
