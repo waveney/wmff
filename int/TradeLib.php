@@ -618,10 +618,10 @@ function Trader_Details($key,&$data,$att=0) {
   $Tid = $Trad['Tid'];
   switch ($key) {
   case 'WHO':  return $Trad['Contact']? firstword($Trad['Contact']) : $Trad['SN'];
-  case 'LINK': return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "<b>link</b></a>";
+  case 'LINK': return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "><b>link</b></a>";
   case 'WMFFLINK': return "<a href=http://wimbornefolk.co.uk/int/Trade.php?id=$Tid><b>link</b></a>";
   case 'HERE':
-  case 'REMOVE': return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Remove.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "<b>remove</b></a>";
+  case 'REMOVE': return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Remove.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "><b>remove</b></a>";
   case 'LOCATION': 
     $Locs = Get_Trade_Locs(1);
     $Location = '';
