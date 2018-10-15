@@ -155,7 +155,7 @@ The Comedy Competition.
   echo "</div>";
   echo "</div>\n";
 
-}
+} // End of old content that will be going
 
   echo "<br clear=all>";
   echo '<h2 class="subtitle">Sponsors & Supporters</h2>';

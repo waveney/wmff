@@ -72,6 +72,7 @@ function Gallery($id,$embed=0) {
 
   $name = $Gal['SN'];
   if (!$embed) dohead($name, '/files/gallery.css');
+
   echo "<h2 class=maintitle>$name</h2><p>";
   echo "Click on any slide to start a Slide Show with that slide.<p>\n";
 
@@ -136,6 +137,7 @@ function Gallery($id,$embed=0) {
   if (!$embed) dotail();
 }
 
+/*
 function ShowArticle($a,$mxat=0) {
   if (!isset($a['Scale'])) $s['Scale'] = 1;
   echo "<div class=mnfloatleft>";
@@ -285,6 +287,7 @@ function ShowArticles() {
   }
   echo "</div><div class=content style='clear:both;'>";
 }
+*/
 
 function Expand_Special(&$Art) {
   static $Dstuff,$DMany,$DPhoto,$Dsc,$Mstuff,$MMany,$MPhoto,$Msc;
@@ -383,54 +386,65 @@ function Show_Articles_For($page='') {
   echo "<div id=OrigArt hidden>";
   foreach ($Arts as $i=>$Art) {
     $fmt = (isset($Art['Format'])?$Art['Format']:0);
-    echo "<div id=Art$i data-format=$fmt class=ArtFormat$fmt>";
+    echo "<div id=Art$i data-format=$fmt class=\"Art ArtFormat$fmt\" ";
     
     if (substr($Art['SN'],0,1) == '@') { // Special
       Expand_Special($Art);  // Will Update content of Art
     }
+    if (!$Art['Text'] && !$Art['Image'] && (!$Art['SN'] || $Art['HideTitle'])) {
+      echo "hidden ></div>";
+      continue; // No content...
+    }
+    echo ">";
     switch ($fmt) {
     case 0: // Large Image
     default:
       if ($Art['Link']) echo "<a href='" . $Art['Link'] . "'>";
-      if (!$Art['HideTitle']) echo "<div class=ArtTitleL>" . $Art['SN'] . "</div>";
-      if ($Art['Image']) echo "<img id=ArtImg$i class=ArtImageL src=" . $Art['Image'] . " data-height=" . $Art['ImageHeight'] . " data-width=" . $Art['ImageWidth'] .">";
+      if (!$Art['HideTitle']) echo "<div class=\"ArtTitleL\" id=\"ArtTitle$i\">" . $Art['SN'] . "</div>";
+      if ($Art['Image']) echo "<img id=\"ArtImg$i\" class=\"ArtImageL\" src=" . $Art['Image'] . " data-height=" . $Art['ImageHeight'] . " data-width=" . $Art['ImageWidth'] .">";
       if ($Art['Link']) echo "</a>";
-      echo "<div class=ArtTextL>" . $Art['Text'];
+      echo "<br><span class=\"ArtTextL\" id=\"ArtText$i\">" . $Art['Text'];
       break;
           
     case 1: // Small Image (to left of title and text)
       if ($Art['Link']) echo "<a href='" . $Art['Link'] . "'>";
-      if ($Art['Image']) echo "<img id=ArtImg$i class=ArtImageS src=" . $Art['Image'] . " data-height=" . $Art['ImageHeight'] . " data-width=" . $Art['ImageWidth'] . ">";
-      if (!$Art['HideTitle']) echo "<div class=ArtTitleS>" . $Art['SN'] . "</div>";
+      if ($Art['Image']) echo "<img id=\"ArtImg$i\" class=\"ArtImageS\" src=" . $Art['Image'] . " data-height=" . $Art['ImageHeight'] . " data-width=" . $Art['ImageWidth'] . ">";
+      if (!$Art['HideTitle']) echo "<div class=\"ArtTitleS\" id=\"ArtTitle$i\">" . $Art['SN'] . "</div>";
       if ($Art['Link']) echo "</a>";
-      echo "<div class=ArtTextS>" . $Art['Text'];
+      echo "<span class=\"ArtTextS\" id=\"ArtText$i\">" . $Art['Text'];
       break;
           
     case 2: // Text Only
       if ($Art['Link']) echo "<a href='" . $Art['Link'] . "'>";
-      if (!$Art['HideTitle']) echo "<div class=ArtTitleT>" . $Art['SN'] . "</div>";
+      if (!$Art['HideTitle']) echo "<div class=\"ArtTitleT\" id=\"ArtTitle$i\">" . $Art['SN'] . "</div>";
       if ($Art['Link']) echo "</a>";
-      echo "<div class=ArtTextT>" . $Art['Text'];
+      echo "<span class=\"ArtTextT\" id=\"ArtText$i\">" . $Art['Text'];
       break;
       
     case 3: // Banner Image
       if ($Art['Link']) echo "<a href='" . $Art['Link'] . "'>";
-      if (!$Art['HideTitle']) echo "<div class=ArtTitleBI>" . $Art['SN'] . "</div>";
-      if ($Art['Image']) echo "<img id=ArtImg$i class=ArtImageBI src=" . $Art['Image'] . " data-height=" . $Art['ImageHeight'] . " data-width=" . $Art['ImageWidth'] .">";
+      if (!$Art['HideTitle']) echo "<div class=\"ArtTitleBI\" id=\"ArtTitle$i\">" . $Art['SN'] . "</div>";
+      if ($Art['Image']) echo "<img id=\"ArtImg$i\" class=\"ArtImageBI\" src=" . $Art['Image'] . " data-height=" . $Art['ImageHeight'] . " data-width=" . $Art['ImageWidth'] .">";
       if ($Art['Link']) echo "</a>";
-      echo "<div class=ArtTextBI>" . $Art['Text'];
+      echo "<span class=\"ArtTextBI\" id=\"ArtText$i\">" . $Art['Text'];
       break;
               
     case 4: // Banner Text
       if ($Art['Link']) echo "<a href='" . $Art['Link'] . "'>";
-      if (!$Art['HideTitle']) echo "<div class=ArtTitleBT>" . $Art['SN'] . "</div>";
+      if (!$Art['HideTitle']) echo "<div class=\"ArtTitleBT\" id=\"ArtTitle$i\">" . $Art['SN'] . "</div>";
       if ($Art['Link']) echo "</a>";
-      echo "<div class=ArtTextBT>" . $Art['Text'];
+      echo "<span class=\"ArtTextBT\" id=\"ArtText$i\">" . $Art['Text'];
       break;
       
-    
+    case 5: // Fixed Image large box has ratio of 550:500
+      if ($Art['Link']) echo "<a href='" . $Art['Link'] . "'>";
+      if (!$Art['HideTitle']) echo "<div class=\"ArtTitleF\" id=\"ArtTitle$i\">" . $Art['SN'] . "</div>";
+      if ($Art['Image']) echo "<img class=\"ArtImageF\" id=\"ArtImg$i\" src=" . $Art['Image'] . " data-height=" . $Art['ImageHeight'] . " data-width=" . $Art['ImageWidth'] .">";
+      if ($Art['Link']) echo "</a>";
+      echo "<br><span class=\"ArtTextF\" id=\"ArtText$i\">" . $Art['Text'];
+      break;
     }
-    echo "</div></div><br clear=all>\n";          
+    echo "</span></div><br clear=all>\n";          
   }
   echo "</div>";
   echo "\n";
