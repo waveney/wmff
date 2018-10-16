@@ -48,7 +48,7 @@ Click on the title to edit.<p>";
 
   echo "</table>\n";
   
-  echo "<h2><a href=AddArticle.php>Add An Article</a></h2>\n";
+  echo "<h2><a href=AddArticle.php>Add An Article</a>, <a href=HomeFuture.php?F=7>Top Page in a Week</a></h2>\n";
 
   dotail();
 

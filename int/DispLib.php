@@ -377,10 +377,10 @@ function Expand_Special(&$Art) {
   }
 }
 
-function Show_Articles_For($page='') {
-  if (!Feature('UseArticles')) return;
+function Show_Articles_For($page='',$future=0) {
+  if ($future == 0 && !Feature('UseArticles')) return;
   
-  $Arts = Get_All_Articles(0,$page);
+  $Arts = Get_All_Articles(0,$page,$future);
 //  var_dump($Arts);
   echo "<div id=ShowArt></div><p>";
   echo "<div id=OrigArt hidden>";

@@ -72,10 +72,10 @@ function News_Item(&$news,$tlim=500,$more=0,$class='newsimg') { // if tlim=0 all
   echo "</div>\n";
 }
 
-function Get_All_Articles($nid=0,$use='') { // 0 - Current, 1 = all, if current wont give those in future
+function Get_All_Articles($nid=0,$use='',$future=0) { // 0 - Current, 1 = all, if current wont give those in future, future is days in future
   global $db;
   $Arts = array();
-  $now = time();
+  $now = time() + $future*60*60*24;
   $qry = "SELECT * FROM Articles ";
   if (!$nid) $qry .= " WHERE ( StartDate='' OR StartDate<$now ) AND (StopDate='' OR StopDate>$now )" . ($use? " AND ( UsedOn LIKE '%$use%' )" :"");
   $qry .= " ORDER BY UsedOn, Importance DESC, RelOrder DESC";
