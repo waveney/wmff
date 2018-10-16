@@ -11,6 +11,7 @@
 //var_dump($_POST);
 
   $Arts = Get_All_Articles(1);
+  echo "<button class='floatright FullD' onclick=\"($('.FullD').toggle())\">All Articles</button><button class='floatright FullD' hidden onclick=\"($('.FullD').toggle())\">Current/Future Articles Only</button> ";
 
   echo "<H2>Articles</h2>
 The Articles in use will be displayed on the top page and any other pages that use the feature.  Sorting by Importance then random.<p>
@@ -21,6 +22,7 @@ Titles starting with @ have special derived content, which is generated on the f
 
 Click on the title to edit.<p>";
   $coln = 0;
+  $now = time();
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Index</a>\n";
@@ -34,7 +36,8 @@ Click on the title to edit.<p>";
   echo "</thead><tbody>";
   if ($Arts) foreach($Arts as $t) {
     $i = $t['id'];
-    echo "<tr><td>" . $t['id'];
+    echo "<tr" . (($t['StopDate']> 0 && $t['StopDate'] <$now)?" class=FullD hidden" : "" ) . ">";
+    echo "<td><a href=AddArticle.php?id=$i>" . $t['id'] . "</a>";
     echo "<td><a href=AddArticle.php?id=$i>" . $t['SN'] . "</a>";
     preg_match('/(.*)[ \n].*?$/',substr($t['Text'],0,80),$mtch);
     
