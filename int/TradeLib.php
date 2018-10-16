@@ -904,7 +904,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
           foreach(["Power0","Power1","Power2"] as $cc) if ($Trady[$cc] && $_POST[$cc] && $Trady[$cc] != $_POST[$cc]) $same = 0;
 
           if (!$Mess) Update_db_post('TradeYear',$Trady);
-          if (!$Mess && $same == 0 && $Trady['BookingState'] >= $Trade_State['Submitted']) {
+          if (!$Mess && $same == 0 && $Trady['BookingState'] > $Trade_State['Submitted']) {
             Send_Trade_Admin_Email($Trad,$Trady,'Trade_Changes');
             $Trady['BookingState'] = $Trade_State['Requote'];
             Put_Trade_Year($Trady);
