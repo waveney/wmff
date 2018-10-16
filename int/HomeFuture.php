@@ -1,7 +1,7 @@
 <?php // Future front page options
   include_once("int/fest.php");
 
-  set_ShowYear();  
+//  set_ShowYear();  // May want to do something more elaborate soon
   dohead('7,8,9 June 2019', '/js/WmffAds.js', "/js/HomePage.js");
 
   global $MASTER_DATA;

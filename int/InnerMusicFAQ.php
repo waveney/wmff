@@ -1,7 +1,7 @@
 <?php
 
 return <<<XXXXXX
-<h2>FAQ for Music Acts at Wimborne in 2018</h2>
+<h2>FAQ for Music Acts at Wimborne in 2019</h2>
 
 <dl class=WMFF_FAQ>
 <dt>Security<dd>Employer will provide sufficient security so that no unauthorized persons will have access to the
