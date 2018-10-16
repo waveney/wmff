@@ -4,7 +4,7 @@
 
   dostaffhead("List Music", "/js/clipboard.min.js", "/js/emailclick.js");
 
-  global $YEAR,$PLANYEAR,$Book_Colours,$Book_States,$Book_Actions,$Book_ActionExtras;
+  global $YEAR,$PLANYEAR,$Book_Colours,$Book_States,$Book_Actions,$Book_ActionExtras,$Importance;
   include_once("DanceLib.php"); 
   include_once("MusicLib.php"); 
 
@@ -52,6 +52,7 @@
                 " ORDER BY SN");
     $col5 = "Book State";
     $col6 = "Actions";
+    $col7 = "Importance";
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
     $SideQ = $db->query("SELECT $flds FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
@@ -131,6 +132,9 @@
             }
             echo "</form>";
           } 
+          break;
+        case 'Importance':
+          echo "<td>" . $Importance[$fetch['Importance']];
           break;
         default:
           break;
