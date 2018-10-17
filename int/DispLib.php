@@ -70,12 +70,17 @@ function Gallery($id,$embed=0) {
   include_once("ImageLib.php");
   $PS = (isset($_GET['S']) ? $_GET['S'] : 50);
 
+
   if (is_numeric($id)) {
     $Gal = db_get('Galleries',"id='$id'");
   } else {
     $Gal = db_get('Galleries',"SN='$id'");
   }
-  if (!$Gal) Error_Page("Gallery $id does not exist");
+
+  if (!$Gal) {
+//    echo "About to call Error_Page<p>";
+    Error_Page("Gallery $id does not exist");
+  }
 
   $name = $Gal['SN'];
   if (!$embed) dohead($name, '/files/gallery.css');
@@ -92,32 +97,37 @@ function Gallery($id,$embed=0) {
   $Imgs = Get_Gallery_Photos($Gal['id']);
   $ImgCount = count($Imgs);
 
+
+  $PStr = "";
   if ($ImgCount > $PS) {
     $Page = (isset($_GET['p']) ? $_GET['p'] : 1);
     $lastP = ceil($ImgCount/$PS);
     if ($Page > $lastP) $Page = $lastP;
-    echo "<div class=gallerypage>Page : ";
+    $PStr .= "<div class=gallerypage>Page : ";
     $bl = "<a href=ShowGallery.php?g=$id";
     if ($PS != 50) $bl .= "&S=$PS";
     $bl .= "&p=";
-    echo $bl . "1>First</a> ";
-    if ($Page > 1) echo $bl . ($Page-1) . ">Prev</a> ";
+    $PStr .= $bl . "1>First</a> ";
+    if ($Page > 1) $PStr .= $bl . ($Page-1) . ">Prev</a> ";
     for ($p = 1; $p <= $lastP; $p++) { 
       if ($p == $Page) {
-        echo "$p ";
+        $PStr .= "$p ";
       } else {
-        echo $bl . $p . ">$p</a> ";
+        $PStr .= $bl . $p . ">$p</a> ";
       }
     }
-    if ($Page != $lastP) echo $bl . ($Page+1) . ">Next</a> ";
-    echo $bl . $lastP . ">Last</a></div><p>";
+    if ($Page != $lastP) $PStr .= $bl . ($Page+1) . ">Next</a> ";
+    $PStr .= $bl . $lastP . ">Last</a></div><p>";
     $first = ($Page-1)*$PS;
     $last = $first+$PS;
   } else {
     $first = 0;
     $last = $PS;
   }
-
+  $PStr .= "<p>\n";
+  
+  echo $PStr;
+  
   echo '<div id=galleryflex>';
 
 
@@ -136,9 +146,10 @@ function Gallery($id,$embed=0) {
     echo "<h2 class=Err>Sorry that Gallery is empty</h2>\n";
   }
 
+  echo "</div>" . $PStr;
+  
   if ($Gal['Credits']) {
-//    echo '</div><h2 class="subtitle">Credits</h2>';
-    echo "<p></div>Photos by: " . $Gal['Credits'] . "<p>";
+    echo "<p>Photos by: " . $Gal['Credits'] . "<p>";
   }
 
   if (!$embed) dotail();

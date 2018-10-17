@@ -89,10 +89,9 @@
   </div>
 </div>
 <div class=dropdown onmouseover=NoHoverSticky(event)>
-  <a onclick=NavStick(event)>Also</a>
+  <a onclick=NavStick(event)>Other Events</a>
   <div class=dropdown-content>
      <a href=$host/LiveNLoud.php >Live and Loud</a>
-     <a href=$host/LaughOutLoud.php>Laugh out Loud</a>
      <a href=$host/BuskersBash.php>Buskers Bash</a>
      <a href=$host/OtherFest.php>Other Festivals</a>
   </div>

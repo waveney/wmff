@@ -338,7 +338,10 @@ function Put_User(&$data,$Save_User=0) {
 
 function Error_Page ($message) {
   global $Access_Type,$USER,$USERID;
+  set_user();
   if (isset($USER{'AccessLevel'})) { $type = $USER{'AccessLevel'}; } else { $type = 0; }
+//  var_dump($USER);
+//  echo "$type<p>";
   switch ($type) {
   case $Access_Type['Participant'] :
     switch ( $USER{'Subtype'}) {
@@ -352,7 +355,7 @@ function Error_Page ($message) {
     case 'Sponsor' :
     case 'Other' :
     default:
-      include_once("index.php");
+      include_once("/index.php");
       exit;
     }
 
@@ -360,7 +363,8 @@ function Error_Page ($message) {
   case $Access_Type['Steward'] :
   case $Access_Type['Staff'] :
   case $Access_Type['Upload'] :
-    $ErrorMessage = $message;
+//    $ErrorMessage = $message;
+    var_dump($message);
     include_once('int/Staff.php');  // Should be good
     exit;                        // Just in case
   case $Access_Type['SysAdmin'] :
