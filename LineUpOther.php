@@ -21,9 +21,10 @@
 
     echo "Click on the name of a Act, or their photograph to find out more about them and where they are performing.<p>\n";
   }
+  $now=time();
 
   $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, ActYear AS y " .
-           "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>=" . $Book_State['Booking'] . " AND s.IsOther=1 ORDER BY s.Importance DESC, s.SN");
+           "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>=" . $Book_State['Booking'] . " AND s.IsOther=1 AND y.ReleaseDate<$now ORDER BY s.Importance DESC, s.SN");
   
   while($side = $SideQ->fetch_assoc()) formatminimax($side,'ShowMusic.php',1);
 

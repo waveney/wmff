@@ -175,6 +175,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   $LastDay = -99;
   $ETused = array();
   $MaxEvDay = array();
+  $now=time();
   while ($e = $res->fetch_assoc()) {
     if ($LastDay != $e['Day']) { $MaxEv = 0; $LastDay = $e['Day']; };
     $WithC = 0;
@@ -189,15 +190,15 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
             if (in_array($thing['Identifier'],$VenList)) $found = 1; 
             break;
           case 'Side':
-            if ($thing['Identifier']) $e['With'][($Poster?$sides[$thing['Identifier']]['Importance']:0)][] = $sides[$thing['Identifier']];
+            if ($thing['Identifier'] && ($Mode || $thing['ReleaseDate']<$now)) $e['With'][($Poster?$sides[$thing['Identifier']]['Importance']:0)][] = $sides[$thing['Identifier']];
             $WithC++;
             break;
           case 'Act':
-            if ($thing['Identifier']) $e['With'][($Poster?$Acts[$thing['Identifier']]['Importance']:0)][] = $Acts[$thing['Identifier']];
+            if ($thing['Identifier'] && ($Mode || $thing['ReleaseDate']<$now)) $e['With'][($Poster?$Acts[$thing['Identifier']]['Importance']:0)][] = $Acts[$thing['Identifier']];
             $WithC++;
             break;
           case 'Other':
-            if ($thing['Identifier']) $e['With'][($Poster?$Others[$thing['Identifier']]['Importance']:0)][] = $Others[$thing['Identifier']];
+            if ($thing['Identifier'] && ($Mode || $thing['ReleaseDate']<$now)) $e['With'][($Poster?$Others[$thing['Identifier']]['Importance']:0)][] = $Others[$thing['Identifier']];
             $WithC++;
             break;
           default:

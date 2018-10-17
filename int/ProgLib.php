@@ -360,12 +360,13 @@ function ListLinks(&$ev,$type,$single,$plural,$size,$mult) {
 }
 
 // Get Participants, Order by Importance/Time, if l>0 give part links as well
-function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
+function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
   global $db,$Event_Types_Full,$YEAR;
 
   include_once "DanceLib.php";
   include_once "MusicLib.php";
   $ans = "";
+  $now = time();
   $flds = array('Side','Act','Other');
   $MainEv = 0;
   $res = $db->query("SELECT * FROM Events WHERE EventId='$Ev' OR SubEvent='$Ev' ORDER BY Day, Start DESC");
@@ -398,7 +399,7 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
                       $s['NotComing'] = ($s['YearState'] < 2);
                     } else $s['NotComing'] = 1;
                   }  
-                  if ($s) $imps[$s['Importance']][] = $s; 
+                  if ($s && ($s['ReleaseDate'] < $now) || ( Access('Committee') && $Mode)) $imps[$s['Importance']][] = $s; 
                   $found[$ee]=1;
                 }
               }
@@ -458,7 +459,7 @@ function Get_Event_Participants($Ev,$l=0,$size=12,$mult=1,$prefix='') {
   return "";
 }
 
-function Get_Other_Participants(&$Others,$l=0,$size=12,$mult=1,$prefix='') {
+function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
   global $db;
   include_once "DanceLib.php";
   $imps=array();
@@ -470,7 +471,7 @@ function Get_Other_Participants(&$Others,$l=0,$size=12,$mult=1,$prefix='') {
       $si = $o['Identifier'];  
       if (!isset($found[$si])) {
         $s = Get_Side($si);  
-        if ($s) $imps[$s['Importance']][] = $s; 
+        if ($s && ($s['ReleaseDate'] < $now) || ( Access('Committee') && $Mode)) $imps[$s['Importance']][] = $s; 
         $something = 1;
         $found[$si] = 1;
       }

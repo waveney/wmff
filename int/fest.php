@@ -400,7 +400,7 @@ function First_Sent($stuff) {
 }
 
 function munge_array(&$thing) {
-  if (is_array($thing)) return $thing;
+  if (isset($thing) && is_array($thing)) return $thing;
   return [];
 }
 

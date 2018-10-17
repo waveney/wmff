@@ -112,7 +112,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
       echo "From: " . timecolon($E['Start']) . " to " . timecolon($E['End']);
     echo "<td style='width:50%'>";
       if ($E['Description']) echo $E['Description'] . "<br>";
-      echo Get_Event_Participants($E['EventId'],1,15);
+      echo Get_Event_Participants($E['EventId'],0,1,15);
     if (($MASTER['TicketControl'] == 1) && ($E['TicketCode'] || $E['SpecPriceLink'])) echo "<td><strong>$bl Buy Now</a></strong>\n";
   }
   

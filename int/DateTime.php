@@ -17,7 +17,7 @@ function Date_BestGuess($txt) {
   if (preg_match('/(\d+)\/(\d+)\/?(\d+)?/',$txt,$mtch)) {
     $day = $mtch[1];
     $mnth = $mtch[2];
-    if ($mtch[3]) $yr = $mtch[3];
+    if (isset($mtch[3]) && $mtch[3])$yr = $mtch[3];
   } else if (preg_match('/(\d+)-(\d+)-(\d+)/',$txt,$mtch)) {
     $day = $mtch[3];
     $mnth = $mtch[2];

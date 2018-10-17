@@ -80,7 +80,7 @@
         if ($o['Type'] == 'Venue') echo ", <a href=/int/VenueShow.php?v=" . $o['Identifier'] . ">" . $Vens[$o['Identifier']]['SN'] . "</a>";
       }
     }
-    echo "<td>" . ($e['BigEvent'] ? Get_Other_Participants($Others,1,15,1) : Get_Event_Participants($eid,1,15));
+    echo "<td>" . ($e['BigEvent'] ? Get_Other_Participants($Others,0,1,15,1) : Get_Event_Participants($eid,0,1,15));
     echo "<td>" . Price_Show($e);
     $something = 1;
   }

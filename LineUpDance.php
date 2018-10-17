@@ -21,8 +21,9 @@
     if ($ET['State'] >=3 ) echo "<b><a href=/int/ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR>" . $EType_States[$ET['State']] . " Dance Programme for $YEAR</a></b><p>\n";
   }
 
+  $now = time();
   $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, SideYear AS y " .
-           "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " AND s.IsASide=1 ORDER BY s.Importance DESC, s.SN");
+           "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " AND s.IsASide=1 AND y.ReleaseDate<$now ORDER BY s.Importance DESC, s.SN");
   
   while($side = $SideQ->fetch_assoc()) formatminimax($side,'ShowDance.php',99);
 
