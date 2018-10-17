@@ -5,6 +5,7 @@ $Colours = array('white','lime','orange','grey');
 $yesno = array('','Yes','No');
 $States = array('Submitted','Paid','Cancelled');
 $StewClasses = array('Stewarding'=> '(Info Points, Concerts, Road Closures, Street Collecting etc)',
+                'Setup' => '(Banners, Bunting, Posters, Stages, Marquees, Venues, Furniture etc)',
                 'Technical' => '(Stage Crew, Runners, Setup/Packdown etc)',
                 'Artistic' => '(Setting up art displays, town decorations etc)', 
                 'Media' => '(Photography, Videography etc)');

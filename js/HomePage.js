@@ -142,6 +142,7 @@ $(document).ready(function() {
           // if title, Swap title and image elements over - class becomes FP - scrolls text if needed
           clone = clone.replace(/(<div class="ArtTitleF" (.*?)>)(<img class="ArtImageF" (.*?)>)/,"<img class=\"ArtImageFP\" $4 width=0 height=0><div class=\"ArtTitleFP\" $2>");
           clone = clone.replace(/class="ArtTextF"/,"class=ArtTextFP");
+          clone = clone.replace(/clear="all"/,"");
           Col.append(clone); 
           $('#SArt'+ArtNum).height(targetht);       
           $('#SArtImg'+ArtNum).width(imgwd*targetht/imght);

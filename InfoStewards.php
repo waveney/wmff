@@ -47,12 +47,14 @@
 
 </ul></li>
 <li><strong>Setup/Cleardown Crew</strong>
+<ul>
 <li>Setup and cleardown of Banners, Marquees, Bunting, Furniture, Venues, Posters
-<li>Mostly before and after the festival, leaving you free to enjoy it
+<li>Most of these tasks are before and after the festival, leaving you free to enjoy the festival
 </ul>
 
-<li><strong>Technical Crew</strong>
-<ul><li>Setup / Packdown of festival stages (some jobs may involve heavy lifting)</li>
+<li><strong>Technical Crew</strong></li>
+<ul>
+<li>Setup / Packdown of festival stages (some jobs may involve heavy lifting)</li>
 <li>Runners between festival venues (all abilities)</li>
 <li>Stage Hands to assist with change overs (some previous experience preferred)</li>
 </ul></li>

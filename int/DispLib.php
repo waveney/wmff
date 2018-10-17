@@ -305,7 +305,7 @@ function Expand_Special(&$Art) {
     $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " AND y.ReleaseDate<$now");
     $Dsc = 0;
     if ($ans) $Dsc= ($ans->fetch_assoc())['Total'];
-    $ans = $db->query("SELECT s.Photo,s.SideId,s.ImageHeight,s.ImageWidth FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND s.Photo!='' AND y.Coming=" . 
+    $ans = $db->query("SELECT s.Photo,s.SideId,s.ImageHeight,s.ImageWidth,s.SN FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND s.Photo!='' AND y.Coming=" . 
                     $Coming_Type['Y'] . " AND y.ReleaseDate<$now ORDER BY RAND() LIMIT 1");
     if ($ans) {
       $DMany = $ans->fetch_assoc();
@@ -324,7 +324,7 @@ function Expand_Special(&$Art) {
     $ans = $db->query("SELECT count(*) AS Total FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.YearState>0 AND y.ReleaseDate<$now");
     $Msc = 0;
     if ($ans) $Msc= ($ans->fetch_assoc())['Total'];
-    $ans = $db->query("SELECT s.Photo,s.SideId,s.ImageHeight,s.ImageWidth FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$YEAR AND " . 
+    $ans = $db->query("SELECT s.Photo,s.SideId,s.ImageHeight,s.ImageWidth,s.SN FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$YEAR AND " . 
                         "s.Photo!='' AND y.YearState>0 AND y.ReleaseDate<$now ORDER BY RAND() LIMIT 1");
     if ($ans) {
       $MMany = $ans->fetch_assoc();
@@ -346,7 +346,7 @@ function Expand_Special(&$Art) {
   switch ($Art['SN']) {
   case '@Dance_Imp':
     $Art['SN'] = $Dstuff['SN'];
-    $Art['Link'] = ('int/ShowDance.php?sidenum=' . $Dstuff['SideId']);
+    $Art['Link'] = ('/int/ShowDance.php?sidenum=' . $Dstuff['SideId']);
     $Art['Text'] = $Dstuff['Description'];
     $Art['Image'] = $Dstuff['Photo'];
     $Art['ImageWidth'] = (isset($Dstuff['ImageWidth'])?$Dstuff['ImageWidth']:100);
@@ -356,7 +356,8 @@ function Expand_Special(&$Art) {
   case '@Dance_Many':
     $Art['SN'] = "Dancing in $YEAR";
     $Art['Link'] = "/LineUpDance.php";
-    $Art['Text'] = "$Dsc Dance team" . ($Dsc == 1?" has":"s have") . " already confirmed for $YEAR.  Many of your favourite teams and some new faces.\n";
+    $Art['Text'] = "$Dsc Dance team" . ($Dsc == 1?" has":"s have") . " already confirmed for $YEAR.  Many of your favourite teams and some new faces." .
+       "  Including <a href=/int/ShowDance.php?sidenum=" . $Dstuff['SideId'] . ">" . $DMany['SN'] . "</a>";
     $Art['Image'] = $DPhoto;
     $Art['ImageWidth'] = (isset($DMany['ImageWidth'])?$DMany['ImageWidth']:100);
     $Art['ImageHeight'] = (isset($DMany['ImageHeight'])?$DMany['ImageHeight']:100);
@@ -364,7 +365,7 @@ function Expand_Special(&$Art) {
 
   case '@Music_Imp':
     $Art['SN'] = $Mstuff['SN'];
-    $Art['Link'] = ('int/ShowMusic.php?sidenum=' . $Mstuff['SideId']);
+    $Art['Link'] = ('/int/ShowMusic.php?sidenum=' . $Mstuff['SideId']);
     $Art['Text'] = $Mstuff['Description'];
     $Art['Image'] = $Mstuff['Photo'];
     $Art['ImageWidth'] = (isset($Mstuff['ImageWidth'])?$Mstuff['ImageWidth']:100);
@@ -374,7 +375,8 @@ function Expand_Special(&$Art) {
   case '@Music_Many':
     $Art['SN'] = "Music in $YEAR";
     $Art['Link'] = "/LineUpMusic.php";
-    $Art['Text'] = "$Msc Music act" . ($Msc == 1?" has":"s have") . " already confirmed for $YEAR.\n";
+    $Art['Text'] = "$Msc Music act" . ($Msc == 1?" has":"s have") . " already confirmed for $YEAR." .
+       "  Including <a href=/int/ShowMusic.php?sidenum=" . $Dstuff['SideId'] . ">" . $MMany['SN'] . "</a>";
     $Art['Image'] = $MPhoto;
     $Art['ImageWidth'] = (isset($MMany['ImageWidth'])?$MMany['ImageWidth']:100);
     $Art['ImageHeight'] = (isset($MMany['ImageHeight'])?$MMany['ImageHeight']:100);
@@ -448,7 +450,7 @@ function Show_Articles_For($page='',$future=0) {
       if ($Art['Link']) echo "<a href='" . $Art['Link'] . "'>";
       if (!$Art['HideTitle']) echo "<div class=\"ArtTitleF\" id=\"ArtTitle$i\">" . $Art['SN'] . "</div>";
       if ($Art['Image']) echo "<img class=\"ArtImageF\" id=\"ArtImg$i\" src=" . $Art['Image'] . " data-height=" . $Art['ImageHeight'] . " data-width=" . $Art['ImageWidth'] .">";
-      if ($Art['Link']) echo "</a><br style='height:0'>";
+      if ($Art['Link']) echo "</a><br style='height:0' clear=\"all\">";
       echo "<div class=\"ArtTextF\" id=\"ArtText$i\">" . $Art['Text'] . "</div>";
       break;
     }
