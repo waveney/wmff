@@ -158,8 +158,8 @@ $(document).ready(function() {
           var newwidth = ActColWidth;
           var newheight = Math.floor(imght*newwidth/imgwd);
           if (newheight > imgspace) {
-            newwidth = Math.floor(imgwd*imgspace/newheight);
-            newheight = Math.floor(imght*imgspace/newheight);
+            newwidth = Math.floor(newwidth*imgspace/newheight);
+            newheight = Math.floor(newheight*imgspace/newheight);
           }
           $('#SArtImg'+ArtNum).width(newwidth);
           $('#SArtImg'+ArtNum).height(newheight);         
