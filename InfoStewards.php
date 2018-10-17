@@ -46,6 +46,11 @@
 <p><i>You will be scheduled in and not expected to work all hours!</i></p>
 
 </ul></li>
+<li><strong>Setup/Cleardown Crew</strong>
+<li>Setup and cleardown of Banners, Marquees, Bunting, Furniture, Venues, Posters
+<li>Mostly before and after the festival, leaving you free to enjoy it
+</ul>
+
 <li><strong>Technical Crew</strong>
 <ul><li>Setup / Packdown of festival stages (some jobs may involve heavy lifting)</li>
 <li>Runners between festival venues (all abilities)</li>

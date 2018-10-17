@@ -154,12 +154,12 @@ $(document).ready(function() {
           
           // Find actual height left
           var used = $('#SArtTitle' +ArtNum).height() + $('#SArtText' +ArtNum).height();
-          var imgspace = targetht - used - 10;
+          var imgspace = targetht - used - PadWidth*2;
           var newwidth = ActColWidth;
           var newheight = Math.floor(imght*newwidth/imgwd);
           if (newheight > imgspace) {
-            newwidth = Math.floor(newwidth*imgspace/newheight);
-            newheight = Math.floor(newheight*imgspace/newheight);
+            newwidth = Math.floor(imgwd*imgspace/newheight);
+            newheight = Math.floor(imght*imgspace/newheight);
           }
           $('#SArtImg'+ArtNum).width(newwidth);
           $('#SArtImg'+ArtNum).height(newheight);         
