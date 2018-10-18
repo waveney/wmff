@@ -164,7 +164,7 @@ function Expand_Special(&$Art) {
 
   switch ($words[0]) {
   case '@Dance_Imp':
-    $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.IsASide=1 AND s.SideId=y.SideId AND y.Year=$YEAR AND s.Photo!='' AND y.YearState>0 " . 
+    $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.IsASide=1 AND s.SideId=y.SideId AND y.Year=$YEAR AND s.Photo!='' AND y.Coming=" . $Coming_Type['Y'] .
                         " AND s.Importance!=0 AND y.ReleaseDate<$now ORDER BY RAND() LIMIT 5");
     if (!$ans) { $Art = []; return; }  
   

@@ -6,11 +6,11 @@
 ?>
 <div class="biodiv">
 <img src="/images/Young-Volunteer-2015.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
-<p>Apply to volunteer at Wimborne Minster Folk Festival 2018</p>
+<p>Apply to volunteer at Wimborne Minster Folk Festival 2019</p>
 </div>
 
 <h2 class="maintitle">Stewards & Volunteers</h2>
-<p>Volunteer at Wimborne Minster Folk Festival 2018.</p>
+<p>Volunteer at Wimborne Minster Folk Festival 2019.</p>
 
 <p>We are looking for vibrant people to be part of the festival team who are prepared to work in shifts, for around 12 hours in total over the three day festival.</p>
 
