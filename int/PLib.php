@@ -339,6 +339,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
       if ($Mode) {
         echo "<tr><td class=NotSide>Invite:<td class=NotSide>" . fm_select($Invite_States,$Sidey,'Invite');
           echo fm_text('Invited',$Sidey,'Invited',1,'class=NotSide');
+          echo fm_date('Release Date',$Sidey,'ReleaseDate','class=NotSide','class=NotSide');     
       }
 
       echo "<tr><td>";
@@ -628,6 +629,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
           echo "<td class=NotSide>Booking State:" . help('YearState') . "<td class=NotSide>" . $Book_States[$Sidey['YearState']];
           echo fm_hidden('YearState',$Sidey['YearState']);
         }
+        echo fm_date('Release Date',$Sidey,'ReleaseDate','class=NotSide','class=NotSide');     
       if (Access('Committee','Music') || Access('Committee','Finance')) {
         echo "<tr>". fm_number1('Fee',$Sidey,'TotalFee','class=NotCSide');
         echo fm_text('Other payments',$Sidey,'OtherPayment',3,(isset($Sidey['OtherPayment']) && strlen($Sidey['OtherPayment'])>1?'class=NotCSide':'class=NotCSide'));

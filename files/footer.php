@@ -1,5 +1,5 @@
 </div></div>
-<br clear=all>
+<br clear=all  style='height=0'>
 <div class="footer">
 
 <div id="flex">

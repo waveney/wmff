@@ -10,13 +10,14 @@
 //        returns 0 or best guess date
 function Date_BestGuess($txt) {
   global $PLANYEAR;
+  if (!$txt) return 0;
   $Months = array('jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec');
   $daysOfM = array(31,28,31,30,31,30,31,31,30,31,30,31);
   $yr = $day = $mnth = 0;
   if (preg_match('/(\d+)\/(\d+)\/?(\d+)?/',$txt,$mtch)) {
     $day = $mtch[1];
     $mnth = $mtch[2];
-    if ($mtch[3]) $yr = $mtch[3];
+    if (isset($mtch[3]) && $mtch[3])$yr = $mtch[3];
   } else if (preg_match('/(\d+)-(\d+)-(\d+)/',$txt,$mtch)) {
     $day = $mtch[3];
     $mnth = $mtch[2];

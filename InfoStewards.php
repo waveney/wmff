@@ -6,11 +6,11 @@
 ?>
 <div class="biodiv">
 <img src="/images/Young-Volunteer-2015.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
-<p>Apply to volunteer at Wimborne Minster Folk Festival 2018</p>
+<p>Apply to volunteer at Wimborne Minster Folk Festival 2019</p>
 </div>
 
 <h2 class="maintitle">Stewards & Volunteers</h2>
-<p>Volunteer at Wimborne Minster Folk Festival 2018.</p>
+<p>Volunteer at Wimborne Minster Folk Festival 2019.</p>
 
 <p>We are looking for vibrant people to be part of the festival team who are prepared to work in shifts, for around 12 hours in total over the three day festival.</p>
 
@@ -29,9 +29,9 @@
 </ul>
 
 <p>Stewarding & Volunteer roles available:</p>
-
-<ul>
 <li><strong>Stewarding</strong>
+<ul>
+
 <li>Information desks at The Square
 <li>Event stewards at Concerts, Ceildihs, Sessions and Workshops.
 <li>Procession stewards</li>
@@ -46,8 +46,25 @@
 <p><i>You will be scheduled in and not expected to work all hours!</i></p>
 
 </ul></li>
-<li><strong>Technical Crew</strong>
-<ul><li>Setup / Packdown of festival stages (some jobs may involve heavy lifting)</li>
+<li><strong>Setup/Cleardown Crew</strong>
+<ul>
+<li>Setup and cleardown of Banners, Marquees, Bunting, Furniture, Venues, Posters, Generators, 
+<li>Most of these tasks are before and after the festival, leaving you free to enjoy the festival
+
+<p><strong>Operational Days/Hours</strong>:
+<li>Starting in April: Banners, Posters (A couple of hours every few weeks or so for 2-3 crew)
+<li>Week Before: Some decorations, Bunting etc - A few hours for a small crew.
+<li>Thursday: Stage Setup, Some Marquees - All day for a small crew
+<li>Friday: Fencing, Marquees, Furniture, Posters - All day for a large crew
+<li>Saturday: A few minor jobs 
+<li>Sunday: Starting at 5pm - Main cleardown of Marquees and Clearing up many venues - A large crew is needed
+<li>Monday: Finish all Marquees and tidying of town, removal of Posters, removal of stages - Some crew, maybe all day
+<li>Tuesday: Rest!
+</ul>
+
+<li><strong>Technical Crew</strong></li>
+<ul>
+<li>Setup / Packdown of festival stages (some jobs may involve heavy lifting)</li>
 <li>Runners between festival venues (all abilities)</li>
 <li>Stage Hands to assist with change overs (some previous experience preferred)</li>
 </ul></li>

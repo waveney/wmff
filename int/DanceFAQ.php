@@ -4,7 +4,7 @@
 
 ?>
 
-<div class=content><h2>FAQ for Dance Teams at Wimborne in 2018</h2>
+<div class=content><h2>FAQ for Dance Teams at Wimborne in 2019</h2>
 
 <dl class=WMFF_FAQ>
 <dt>Evening dance spots<dd>If you'd like to dance in the evening in an informal

@@ -33,6 +33,11 @@
   if (isset($_POST{'SideId'})) { /* Response to update button */
     $snum = $_POST{'SideId'};
     A_Check('Participant','Side',$snum);
+
+    Clean_Email($_POST{'Email'});
+    Clean_Email($_POST{'AltEmail'});
+    Parse_TimeInputs($Dance_TimeFeilds);      
+
     if ($snum > 0) {                                 // existing Side 
       $Side = Get_Side($snum);
       if ($Side) {
@@ -41,10 +46,6 @@
       } else {
         echo "<h2 class=ERR>Could not find Side $snum</h2>\n";
       }
-
-      Clean_Email($_POST{'Email'});
-      Clean_Email($_POST{'AltEmail'});
-      Parse_TimeInputs($Dance_TimeFeilds);      
 
       if ($_POST{'Photo'} != $Side{'Photo'}) {
         include_once("ImageLib.php");

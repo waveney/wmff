@@ -12,6 +12,7 @@
   include_once("BudgetLib.php");
   echo '<h2>Add/Edit Music Act</h2>';
 
+  $DateFlds = ['ReleaseDate'];
 //var_dump($_POST);
   $Action = 0; 
   $Mess = '';
@@ -37,7 +38,12 @@
 //  echo "<!-- " . var_dump($_POST) . " -->\n";
   if (isset($_POST{'SideId'})) { /* Response to update button */
     $snum = $_POST{'SideId'};
-    if ($snum > 0) {                                 // existing Side 
+
+    Clean_Email($_POST{'Email'});
+    Clean_Email($_POST{'AltEmail'});
+    Parse_DateInputs($DateFlds);    
+    
+    if ($snum > 0) {  // existing Side 
       $Side = Get_Side($snum);
       if ($Side) {
         $Actyrs = Get_Actyears($snum);
@@ -58,26 +64,19 @@
         Contract_Decline($Side,$Sidey,2); 
       }
 
-      Clean_Email($_POST{'Email'});
-      Clean_Email($_POST{'AltEmail'});
-
       Update_db_post('Sides',$Side);
       if ($_POST{'Year'} >= $PLANYEAR) {
         if (isset($Sidey) && $Sidey){
           $Sve_Sidey = $Sidey;
           Update_db_post('ActYear',$Sidey);
           if (ActYear_Check4_Change($Sve_Sidey,$Sidey)) $Sidey = Get_Actyear($snum);
-//          UpdateBudget($Sidey,$Sve_Sidey);
         } else {
           $Sidey['Year'] = $PLANYEAR;
           $ActId = Insert_db_post('ActYear',$Sidey);
           $Sidey['ActId'] = $ActId;
-//          UpdateBudget($Sidey);
         };
 
       }
-      UpdateBand($snum);
-      UpdateOverlaps($snum);
 
     } else { /* New Act */
       $proc = 1;
@@ -87,14 +86,15 @@
         $proc = 0;
       }
       $_POST['AccessKey'] = rand_string(40);
-      Clean_Email($_POST{'Email'});
-      Clean_Email($_POST{'AltEmail'});
       $snum = Insert_db_post('Sides',$Side,$proc);
       if ($snum) Insert_db_post('ActYear',$Sidey,$proc);
-      UpdateBand($snum);
-      UpdateOverlaps($snum);
-//      UpdateBudget($Sidey);
+
     }
+
+    UpdateBand($snum);
+    UpdateOverlaps($snum);
+//      UpdateBudget($Sidey);
+
     $type = 'Act';
     if (!$Side['IsAnAct'] && $Side['IsOther']) $type = 'Other';
 

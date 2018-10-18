@@ -206,7 +206,7 @@ function fm_date($Name,&$data,$field,$extra1='',$extra2='',$field2='') {
   global $ADDALL,$AutoADD;
   if ($field2 == '') $field2=$field;
   $str = "<td $extra1>$Name" . ($Name?':':'') . help($field) . "<td $extra1><input type=text name=$field2 id=$field2 $extra2 size=16"; 
-  if (isset($data[$field]) && $data[$field]) $str .= " value=\"" . date('j M Y H:i',$data[$field]) . "\"";
+  if (isset($data[$field]) && $data[$field]) $str .= " value=\"" . ($data[$field]?date('j M Y H:i',$data[$field]):'') . "\"";
   if ($AutoADD) $str .= " oninput=AutoInput('$field2') ";
   return $str . " $ADDALL>";
 }
@@ -215,7 +215,16 @@ function fm_date1($Name,&$data,$field,$extra1='',$extra2='',$field2='') {
   global $ADDALL,$AutoADD;
   if ($field2 == '') $field2=$field;
   $str = "<td $extra1>$Name" . ($Name?':':'') . help($field) . "<input type=text name=$field2 id=$field2 $extra2 size=16"; 
-  if (isset($data[$field]) && $data[$field]) $str .= " value=\"" . date('j M Y H:i',$data[$field]) ."\"";
+  if (isset($data[$field]) && $data[$field]) $str .= " value=\"" . ($data[$field]?date('j M Y H:i',$data[$field]):'') ."\"";
+  if ($AutoADD) $str .= " oninput=AutoInput('$field2') ";
+  return $str . " $ADDALL>";
+}
+
+function fm_date0($Name,&$data,$field,$extra1='',$extra2='',$field2='') {
+  global $ADDALL,$AutoADD;
+  if ($field2 == '') $field2=$field;
+  $str = $Name . ($Name?':':'') . help($field) . "<input type=text name=$field2 id=$field2 $extra2 size=16"; 
+  if (isset($data[$field]) && $data[$field]) $str .= " value=\"" . ($data[$field]?date('j M Y H:i',$data[$field]):'') ."\"";
   if ($AutoADD) $str .= " oninput=AutoInput('$field2') ";
   return $str . " $ADDALL>";
 }

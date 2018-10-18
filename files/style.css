@@ -5,7 +5,7 @@ img
     }
 body
     {
-    background-color:#FFFFFF;
+  background-color:#c2eff4;
     min-width:320px;
     width:responsive;
     height:100%;
@@ -139,7 +139,7 @@ h2 {
     min-height:580px;
     margin: 0 auto 0 auto;
     padding: 15px 25px;
-    background-color: #FFFFFF;
+  background-color:#c2eff4;
     }
 .footer
     {
@@ -918,3 +918,153 @@ textarea {
   height:100%;
   box-sizing:border-box;
 }
+
+.ArtBanner {}
+
+.ArtColClass {
+  float:left;
+  padding:10;
+  max-width:100%;
+  flex-wrap: wrap;
+  word-wrap: break-word;
+}
+
+.Art {
+  border-width:2px;
+  border-style:solid;
+  border-color:#a30046;
+  padding:8px;
+  margin-bottom:20px;
+}
+
+.ArtFormat0 {}
+
+.ArtTitleL {
+  margin:0;
+  font-size:30px;
+  color:#005C8F;
+  font-weight:bold;
+  transition:opacity .5s, filter .5s;
+  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+}
+
+.ArtImageL {
+  padding-bottom:5px;
+}
+
+.ArtTextL {
+  padding-top:5px;
+  font-size:16px;
+}
+
+.ArtFormat1 {
+  overflow:contain;
+}
+
+.ArtTitleS {
+  margin:0;
+  padding:0;
+  font-size:24px;
+  color:#005C8F;
+  font-weight:bold;
+  transition:opacity .5s, filter .5s;
+  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+}
+
+.ArtImageS {
+  float:left;
+  padding-right:5;
+}
+
+.ArtTextS {}
+
+.ArtFormat2 {}
+
+.ArtTitleT {
+  margin:0;
+  padding:0;
+  font-size:30px;
+  color:#005C8F;
+  font-weight:bold;
+  transition:opacity .5s, filter .5s;
+  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+}
+
+.ArtTextT {}
+
+.ArtFormat4 {}
+
+.ArtTitleBT {
+  text-align:center;
+}
+
+.ArtTextBT {
+  text-align:center;
+  color: #005983;
+  font-weight:normal;
+  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+  font-size:24px;
+}
+
+.ArtFormat3 {}
+
+.ArtTitleBI {}
+
+.ArtImageBI {
+  width:100%
+}
+
+.ArtTextBI {}
+
+.ArtFormat5 {
+  overflow:auto;
+}
+
+.ArtTitleF {
+  float:left; 
+  margin:0;
+  font-size:30px;
+  color:#005C8F;
+  font-weight:bold;
+  transition:opacity .5s, filter .5s;
+  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+}
+
+.ArtImageF {
+  width:100%;
+}
+
+.ArtTextF {
+  padding-top:5px;
+  font-size:16px;
+}
+
+.ArtTitleFP {
+  font-size:30px;
+  color:#005C8F;
+  font-weight:bold;
+  transition:opacity .5s, filter .5s;
+  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+}
+
+.ArtImageFP {
+  float:left;
+  padding-right:5;
+}
+
+.ArtTextFP {
+  padding-top:5px;
+  font-size:16px;
+}
+
+.ArtImageL:hover, .ArtImageS:hover, .ArtImageBI:hover, .ArtImageF:hover, .ArtImageFP:hover {
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
+
+.Red {
+  color:red;
+  font-weight:bold;
+}
+
+

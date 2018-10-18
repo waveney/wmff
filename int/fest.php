@@ -44,9 +44,7 @@ $Book_Actions = array('None'=>'Book','Declined'=>'Book,Contract','Booking'=>'Con
 $Book_ActionExtras = array('Book'=>'', 'Contract'=>'', 'Decline'=>'', 'Cancel'=>'', 'Confirm'=>'');
 $EType_States = array('Very Early','Draft','Partial','Provisional','Complete');
 $TicketStates = array('Not Yet','Open','Closed');
-$OlapTypes = array('Dancer','Musician');
-$OlapDays = array('All','Sat Only','Sun Only','None');
-$OlapCats = array('Side','Act','Other');
+$ArticleFormats = ['Large Image','Small Image','Text','Banner Image','Banner Text','Fixed'];
 
 
 date_default_timezone_set('GMT');
@@ -340,7 +338,10 @@ function Put_User(&$data,$Save_User=0) {
 
 function Error_Page ($message) {
   global $Access_Type,$USER,$USERID;
+  set_user();
   if (isset($USER{'AccessLevel'})) { $type = $USER{'AccessLevel'}; } else { $type = 0; }
+//  var_dump($USER);
+//  echo "$type<p>";
   switch ($type) {
   case $Access_Type['Participant'] :
     switch ( $USER{'Subtype'}) {
@@ -354,7 +355,7 @@ function Error_Page ($message) {
     case 'Sponsor' :
     case 'Other' :
     default:
-      include_once("index.php");
+      include_once("/index.php");
       exit;
     }
 
@@ -362,7 +363,8 @@ function Error_Page ($message) {
   case $Access_Type['Steward'] :
   case $Access_Type['Staff'] :
   case $Access_Type['Upload'] :
-    $ErrorMessage = $message;
+//    $ErrorMessage = $message;
+    var_dump($message);
     include_once('int/Staff.php');  // Should be good
     exit;                        // Just in case
   case $Access_Type['SysAdmin'] :
@@ -402,7 +404,7 @@ function First_Sent($stuff) {
 }
 
 function munge_array(&$thing) {
-  if (is_array($thing)) return $thing;
+  if (isset($thing) && is_array($thing)) return $thing;
   return [];
 }
 
@@ -554,9 +556,9 @@ function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
   echo "</head><body>\n";
 
   echo "<div id=HeadRow>";
-  echo "<a href=/InfoBuses.php><img src=/images/icons/leftspon.jpg id=leftspon hidden></a>";
-  echo "<a href=/><img id=HeadBan src=/images/icons/WimborneFolkV3Banner-2019-2.png?V=$V ></a>";
-  echo "<a href=http://www.hall-woodhouse.co.uk/find-your-perfect-pub/oddfellows-arms target=_blank><img src=/images/icons/rightspon.jpg id=rightspon hidden></a>";
+//  echo "<a href=/InfoBuses.php><img src=/images/icons/leftspon.jpg id=leftspon hidden></a>";
+  echo "<center><a href=/><img id=HeadBan src=/images/icons/WimborneFolkV3Banner-2019-2.png?V=$V ></a></center>";
+//  echo "<a href=http://www.hall-woodhouse.co.uk/find-your-perfect-pub/oddfellows-arms target=_blank><img src=/images/icons/rightspon.jpg id=rightspon hidden></a>";
   echo "</div>\n";
   echo "<script src=/js/WmffAds.js?V=$V></script>";
 

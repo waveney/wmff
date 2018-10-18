@@ -618,10 +618,10 @@ function Trader_Details($key,&$data,$att=0) {
   $Tid = $Trad['Tid'];
   switch ($key) {
   case 'WHO':  return $Trad['Contact']? firstword($Trad['Contact']) : $Trad['SN'];
-  case 'LINK': return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "<b>link</b></a>";
+  case 'LINK': return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "><b>link</b></a>";
   case 'WMFFLINK': return "<a href=http://wimbornefolk.co.uk/int/Trade.php?id=$Tid><b>link</b></a>";
   case 'HERE':
-  case 'REMOVE': return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Remove.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "<b>remove</b></a>";
+  case 'REMOVE': return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Remove.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "><b>remove</b></a>";
   case 'LOCATION': 
     $Locs = Get_Trade_Locs(1);
     $Location = '';
@@ -904,7 +904,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
           foreach(["Power0","Power1","Power2"] as $cc) if ($Trady[$cc] && $_POST[$cc] && $Trady[$cc] != $_POST[$cc]) $same = 0;
 
           if (!$Mess) Update_db_post('TradeYear',$Trady);
-          if (!$Mess && $same == 0 && $Trady['BookingState'] >= $Trade_State['Submitted']) {
+          if (!$Mess && $same == 0 && $Trady['BookingState'] > $Trade_State['Submitted']) {
             Send_Trade_Admin_Email($Trad,$Trady,'Trade_Changes');
             $Trady['BookingState'] = $Trade_State['Requote'];
             Put_Trade_Year($Trady);

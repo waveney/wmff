@@ -125,7 +125,7 @@
       if ($se != 0) {
         echo "<td>";
         if ($evnt['SubEvent']>0) {
-          echo Get_Event_Participants($i,2) ;
+          echo Get_Event_Participants($i,1,2) ;
         } else {
         }
       }

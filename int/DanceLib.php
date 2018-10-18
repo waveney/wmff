@@ -2,6 +2,9 @@
 // Common Dance Library
 
 $Dance_TimeFeilds = array('SatArrive','SatDepart','SunArrive','SunDepart');
+$OlapTypes = array('Dancer','Musician');
+$OlapDays = array('All','Sat Only','Sun Only','None');
+$OlapCats = array('Side','Act','Other');
 
 function Sides_Name_List() {
   global $db;
@@ -364,6 +367,7 @@ function Set_Side_Year_Help() {
                 * IF you need part of the fee to come under a different budget, you set up to 2 areas to have parts of the Fee and the amount to assign',
         'OtherPayment' => 'Eg A bottle of Rum',
         'OtherPayCost' => 'Cost of the other payment, eg the bottle of Rum',
+        'ReleaseDate' => 'If set, do not show to public until after this date/time',
 
   );
   Set_Help_Table($t);

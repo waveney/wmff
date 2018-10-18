@@ -17,11 +17,11 @@
   $Type = $_GET['t'];
 
   $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND (y.BookingState=" . $Trade_State['Deposit Paid'] .
-                " OR y.BookingState=" . $Trade_State['Fully Paid'] . " ) AND t.TradeType=$Type ORDER BY SN";
+                " OR y.BookingState=" . $Trade_State['Fully Paid'] . " OR y.BookingState=" . $Trade_State['Accepted'] . ") AND t.TradeType=$Type ORDER BY SN";
   $ActsEnable = Access('Committee','Trade');
 //echo "$qry<p>";
   $res = $db->query($qry);
-  $totdep = $totbal = $totrec = 0;
+  $totfee = $totdep = $totbal = $totrec = 0;
 
   if (!$res || $res->num_rows==0) {
     echo "<h2>No Traders Found</h2>\n";
@@ -113,12 +113,13 @@
 
       $str .= "<td>$tot";
 
+      $totfee += $fee;
       $totdep += (($Dep <= $tot)?$Dep:$tot);
       $totbal += (($tot >= $Dep)?($tot-$Dep):0);
       $totrec += $tot;
     }
     echo "$str\n";
-    echo "<tr><td>Totals:<td><td><td><td><td>$totdep<td><td><td>$totbal<td><td>$totrec\n";
+    echo "<tr><td>Totals:<td><td><td>$totfee<td><td>$totdep<td><td><td>$totbal<td><td>$totrec\n";
     echo "</table><p>";
   }
   dotail();

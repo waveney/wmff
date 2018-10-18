@@ -57,6 +57,7 @@
      <a href=$host/InfoSponsors.php>Sponsorship</a>
      <a href=$host/InfoStewards.php>Stewards</a>
      <a href=$host/info/trade>Trade Stands</a>
+     <a href=$host/contact.php>Contact</a>
      <a href=$host/RoadClosure.php >Road Closures</a>
      <a href=$host/info/thanks>With Thanks</a>
      <a href=$host/RadioWimborne.php>Radio Wimborne</a>
@@ -88,15 +89,14 @@
   </div>
 </div>
 <div class=dropdown onmouseover=NoHoverSticky(event)>
-  <a onclick=NavStick(event)>Also</a>
+  <a onclick=NavStick(event)>Other Events</a>
   <div class=dropdown-content>
      <a href=$host/LiveNLoud.php >Live and Loud</a>
-     <a href=$host/LaughOutLoud.php>Laugh out Loud</a>
      <a href=$host/BuskersBash.php>Buskers Bash</a>
      <a href=$host/OtherFest.php>Other Festivals</a>
   </div>
 </div>
-<a href=$host/contact.php onmouseover=NoHoverSticky()>Contact</a>
+
 <a href=http://facebook.com/WimborneFolk onmouseover=NoHoverSticky() target=_blank>
 <img class=headericon src=/images/icons/Facebook.png alt=Facebook title='Wimborne Minster Folk Festival on Facebook'></a>
 <a href=http://twitter.com/WimborneFolk onmouseover=NoHoverSticky() target=_blank>

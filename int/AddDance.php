@@ -11,7 +11,8 @@
   global $YEAR,$PLANYEAR,$Mess,$BUTTON;
 
   echo '<h2>Add/Edit Dance Side</h2>';
-  global $Mess,$Action,$Dance_TimeFeilds;      
+  global $Mess,$Action,$Dance_TimeFeilds;
+  $DateFlds = ['ReleaseDate'];
 
 //var_dump($_POST);
   $Action = 0; 
@@ -38,6 +39,13 @@
 //  echo "<!-- " . var_dump($_POST) . " -->\n";
   if (isset($_POST{'SideId'})) { /* Response to update button */
     $snum = $_POST{'SideId'};
+    
+    Clean_Email($_POST{'Email'});
+    Clean_Email($_POST{'AltEmail'});
+    Parse_TimeInputs($Dance_TimeFeilds);    
+    Parse_DateInputs($DateFlds);    
+ 
+    $Sidey = Default_SY();
     if ($snum > 0) {         // existing Side 
       $Side = Get_Side($snum);
       if ($Side) {
@@ -46,6 +54,7 @@
       } else {
         echo "<h2 class=ERR>Could not find Side $snum</h2>\n";
       }
+
 
       if (isset($_POST{'InviteAct'}) || isset($_POST{'ReminderAct'})) {
         date_default_timezone_set('GMT');
@@ -59,9 +68,6 @@
         Contract_Decline($Side,$Sidey,2); 
       }
 
-      Clean_Email($_POST{'Email'});
-      Clean_Email($_POST{'AltEmail'});
-      Parse_TimeInputs($Dance_TimeFeilds);      
 
       Update_db_post('Sides',$Side);
       if ($_POST{'Year'} >= $PLANYEAR) {
@@ -79,17 +85,16 @@
       $proc = 1;
       $Side = array();
       if (!isset($_POST['SN'])) {
-      echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
-      $proc = 0;
+        echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
+        $proc = 0;
       }
       $_POST['AccessKey'] = rand_string(40);
-      Clean_Email($_POST{'Email'});
-      Clean_Email($_POST{'AltEmail'});
       $snum = Insert_db_post('Sides',$Side,$proc);
       if ($snum) Insert_db_post('SideYear',$Sidey,$proc);
-      UpdateBand($snum);
-      UpdateOverlaps($snum);
     }
+    UpdateBand($snum);
+    UpdateOverlaps($snum);
+
 
   } elseif (isset($_GET{'sidenum'})) { /* Link from elsewhere */
     $snum = $_GET{'sidenum'};

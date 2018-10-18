@@ -183,7 +183,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
   if ($ETs[$Ev['Type']]['UseImp']) {
     switch ($ETs[$Ev['Type']]['SN']) {
     case 'Ceildih':
-      echo Get_Event_Participants($Eid,0,$size=17,$mult=2);
+      echo Get_Event_Participants($Eid,0,0,$size=17,$mult=2); // TODO Not sure of Mode here
       break;
 
     default:
