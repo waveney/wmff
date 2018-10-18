@@ -45,6 +45,7 @@
     Parse_TimeInputs($Dance_TimeFeilds);    
     Parse_DateInputs($DateFlds);    
  
+    $Sidey = Default_SY();
     if ($snum > 0) {         // existing Side 
       $Side = Get_Side($snum);
       if ($Side) {

@@ -58,6 +58,7 @@
 //  var_dump($Art);
   echo "To limit when article will appear give a start and/or end date.<p>Do NOT use a facebook image as a link - they are transient.<p>\n";
   echo "Set Title as @[Dance|Music]_[Imp,Many] to have a random important Performer or a random performer along with a count<p>\n";
+  echo "Set Title as @Perf 23 to do Performer 23, @Event will be used to highlight event<p>\n";
   echo "The Banner formats go across the entire page<p>";
 
   echo "<form method=post>";

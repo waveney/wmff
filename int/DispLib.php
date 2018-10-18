@@ -353,8 +353,8 @@ function Expand_Special(&$Art) {
     // No Other yet
   }
   
-
-  switch ($Art['SN']) {
+  $words = explode(' ',$Art['SN']);
+  switch ($words[0]) {
   case '@Dance_Imp':
     $Art['SN'] = $Dstuff['SN'];
     $Art['Link'] = ('/int/ShowDance.php?sidenum=' . $Dstuff['SideId']);
@@ -392,6 +392,20 @@ function Expand_Special(&$Art) {
     $Art['ImageWidth'] = (isset($MMany['ImageWidth'])?$MMany['ImageWidth']:100);
     $Art['ImageHeight'] = (isset($MMany['ImageHeight'])?$MMany['ImageHeight']:100);
     break;
+
+  case '@Perf': // Just this performer
+    $Perf = Get_Side($words[1]);
+    $Art['SN'] = $Perf['SN'];
+    $Art['Link'] = ($Perf['IsASide']?'/int/ShowDance.php?sidenum=':'/int/ShowMusic.php?sidenum=') . $Perf['SideId'];
+    $Art['Text'] = $Perf['Description'];
+    $Art['Image'] = $Perf['Photo'];
+    $Art['ImageWidth'] = (isset($Perf['ImageWidth'])?$Perf['ImageWidth']:100);
+    $Art['ImageHeight'] = (isset($Perf['ImageHeight'])?$Perf['ImageHeight']:100);
+    break;
+    
+  case '@Event' : // Just this Event
+  
+    break;
     
   default:
     
@@ -400,6 +414,7 @@ function Expand_Special(&$Art) {
 
 function Show_Articles_For($page='',$future=0) {
   if ($future == 0 && !Feature('UseArticles')) return;
+  include_once("DanceLib.php");
   
   $Arts = Get_All_Articles(0,$page,$future);
 //  var_dump($Arts);
@@ -459,7 +474,7 @@ function Show_Articles_For($page='',$future=0) {
       
     case 5: // Fixed Image large box has ratio of 550:500
       if ($Art['Link']) echo "<a href='" . $Art['Link'] . "'>";
-      if (!$Art['HideTitle']) echo "<div class=\"ArtTitleF\" id=\"ArtTitle$i\">" . $Art['SN'] . "</div>";
+      if (!$Art['HideTitle']) echo "<div class=\"ArtTitleF\" id=\"ArtTitle$i\">" . $Art['SN'] . "</div><br>";
       if ($Art['Image']) echo "<img class=\"ArtImageF\" id=\"ArtImg$i\" src=" . $Art['Image'] . " data-height=" . $Art['ImageHeight'] . " data-width=" . $Art['ImageWidth'] .">";
       if ($Art['Link']) echo "</a><br style='height:0' clear=\"all\">";
       echo "<div class=\"ArtTextF\" id=\"ArtText$i\">" . $Art['Text'] . "</div>";
