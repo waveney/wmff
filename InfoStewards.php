@@ -29,9 +29,9 @@
 </ul>
 
 <p>Stewarding & Volunteer roles available:</p>
-
-<ul>
 <li><strong>Stewarding</strong>
+<ul>
+
 <li>Information desks at The Square
 <li>Event stewards at Concerts, Ceildihs, Sessions and Workshops.
 <li>Procession stewards</li>
@@ -48,8 +48,18 @@
 </ul></li>
 <li><strong>Setup/Cleardown Crew</strong>
 <ul>
-<li>Setup and cleardown of Banners, Marquees, Bunting, Furniture, Venues, Posters
+<li>Setup and cleardown of Banners, Marquees, Bunting, Furniture, Venues, Posters, Generators, 
 <li>Most of these tasks are before and after the festival, leaving you free to enjoy the festival
+
+<p><strong>Operational Days/Hours</strong>:
+<li>Starting in April: Banners, Posters (A couple of hours every few weeks or so for 2-3 crew)
+<li>Week Before: Some decorations, Bunting etc - A few hours for a small crew.
+<li>Thursday: Stage Setup, Some Marquees - All day for a small crew
+<li>Friday: Fencing, Marquees, Furniture, Posters - All day for a large crew
+<li>Saturday: A few minor jobs 
+<li>Sunday: Starting at 5pm - Main cleardown of Marquees and Clearing up many venues - A large crew is needed
+<li>Monday: Finish all Marquees and tidying of town, removal of Posters, removal of stages - Some crew, maybe all day
+<li>Tuesday: Rest!
 </ul>
 
 <li><strong>Technical Crew</strong></li>
