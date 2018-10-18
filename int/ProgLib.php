@@ -462,6 +462,7 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
 function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
   global $db;
   include_once "DanceLib.php";
+  $now = time();
   $imps=array();
   $found = array();
   $something = 0;
@@ -470,8 +471,9 @@ function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='
     if ($o['Type'] == 'Side' || $o['Type'] == 'Act' || $o['Type'] == 'Other') {
       $si = $o['Identifier'];  
       if (!isset($found[$si])) {
-        $s = Get_Side($si);  
-        if ($s && ($s['ReleaseDate'] < $now) || ( Access('Committee') && $Mode)) $imps[$s['Importance']][] = $s; 
+        $s = Get_Side($si);
+        $sy = Get_SideYear($si);
+        if ($s && ($sy['ReleaseDate'] < $now) || ( Access('Committee') && $Mode)) $imps[$s['Importance']][] = $s; 
         $something = 1;
         $found[$si] = 1;
       }

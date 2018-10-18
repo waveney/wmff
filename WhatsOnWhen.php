@@ -68,6 +68,11 @@
     echo "<td>" . Price_Show($e);
   }
   echo "</table>\n";
+  
+  if ($YEAR > 2018) {
+    echo "<h3><a href=WhatsOnWhen.php?Y=" . ($YEAR-1) . "> Whats on When from " . ($YEAR-1) . "</h3></a>";
+  }
+
 
   dotail();
 
