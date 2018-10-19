@@ -90,14 +90,17 @@
     echo "<tr>" . fm_textarea("Text for Sunday Pass",$Gen,'SundayText',6,2);
 
     echo "<tr>" . fm_number1("Programme Book",$Gen,'ProgrammeBook');
-    echo "<tr>" . fm_number1("Booking Fee",$Gen,'BookingFee');
+    echo "<tr>" . fm_text1("Booking Fee",$Gen,'BookingFee');
     echo "<tr>" . fm_number1("Camping Cost",$Gen,'CampingCost') . "<td>This is the cost to us per night - not the public price";
     echo "<tr>" . fm_number1("Camping Gate Fee",$Gen,'CampingGateFee') . "<td>This is the cost at the gate per night";
     echo "<tr>" . fm_number1("Camping Fee 1 Night",$Gen,'CampingPrice1Day') . "<td>If any of these are zero, then it is not available";
     echo "<tr>" . fm_number1("Camping Fee 2 Nights",$Gen,'CampingPrice2Day');
     echo "<tr>" . fm_number1("Camping Fee 3 Nights",$Gen,'CampingPrice3Day');
-    echo "<tr>" . fm_number1("Camping Fee 4 Nights",$Gen,'CampingPrice4Day'); // Missing all the Codes for camping
+    echo "<tr>" . fm_number1("Camping Fee 4 Nights",$Gen,'CampingPrice4Day'); 
     echo "<tr>" . fm_text("Camping Thurs-Sun Code",$Gen,'	CampingCode_TFSS');
+    echo "<tr>" . fm_text("Camping Thurs-Sat Code",$Gen,'	CampingCode_TFSx');
+    echo "<tr>" . fm_text("Camping Thurs-Fri Code",$Gen,'	CampingCode_TFxx');
+    echo "<tr>" . fm_text("Camping Thurs Code",$Gen,'	CampingCode_Txxx');
     echo "<tr>" . fm_text("Camping Fri Code",$Gen,'	CampingCode_xFxx');
     echo "<tr>" . fm_text("Camping Fri-Sun Code",$Gen,'	CampingCode_xFSS');
     echo "<tr>" . fm_text("Camping Fri-Sat Code",$Gen,'	CampingCode_xFSx');

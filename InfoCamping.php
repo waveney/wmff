@@ -24,47 +24,40 @@ The site is just a 10 minute walk from the town centre over Julian's bridge.<p>
 <?php
 if ($MASTER['TicketControl'] == 1) {
 ?>
-Camping at Meadows Campsite this year is <strong>&pound;7.50</strong> per person per night (+ booking fee) when booked in 
-advance online or <strong>&pound;8.50</strong> per person per night on the gate. Under 10's are free.<p>
+Camping at Meadows Campsite this year is <strong>&pound;10</strong> for the first night and <strong>&pound;8</strong> for each additional night.  
+Under 10's are free.<p>
+
+<?php
+  if ($MASTER['BookingFee']) echo "Please note that there is a booking fee of " . $MASTER['BookingFee'] . " when ordering tickets online. <p>";
+?>
 
 The site has toilets, showers, food and good 24 hour security. Entry to the campsite is by camping wristband only.<p>
 
 Please be aware that access to/from the town on foot is over Julian's bridge, which has no footpath, so please take care when crossing at all times.</p>
 
-<b>Note: Online Ticket sales will stop at 6am on Friday 8th of June.  Event tickets and passes will be available from the 
-Allendale Information point once it has opened on Friday at 2pm.  Camping tickets may be bought at the gate.</b><p>.
+This year the campsite will be available from Thursday (5pm onwards).<p>
+
 
 <table cellspacing="5" cellpadding="5" style="background-color:#59B404; border-color:#59B404; width:50%;">
-<tr><td>Weekend Camping (Friday to Monday morning)<td>&pound;22.50<td>
-<a href="https://www.ticketsource.co.uk/date/420204" target=_blank>
-<img border="0" width="130" height="56" alt="Book now" src="https://www.ticketsource.co.uk/images/bookNow/bookNow-black-small.png">
-</a>
-
-<tr><td>Friday only Camping<td>&pound;7.50<td>
-<a href="https://www.ticketsource.co.uk/date/420201" target=_blank>
-<img border="0" width="130" height="56" alt="Book now" src="https://www.ticketsource.co.uk/images/bookNow/bookNow-black-small.png">
-</a>
-
-<tr><td>Friday and Saturday Camping<td>&pound;15.00<td>
-<a href="https://www.ticketsource.co.uk/date/427252" target=_blank>
-<img border="0" width="130" height="56" alt="Book now" src="https://www.ticketsource.co.uk/images/bookNow/bookNow-black-small.png">
-</a>
-
-<tr><td>Saturday only Camping<td>&pound;7.50<td>
-<a href="https://www.ticketsource.co.uk/date/420202" target=_blank>
-<img border="0" width="130" height="56" alt="Book now" src="https://www.ticketsource.co.uk/images/bookNow/bookNow-black-small.png">
-</a>
-
-<tr><td>Saturday and Sunday Camping<td>&pound;15.00<td>
-<a href="https://www.ticketsource.co.uk/date/435615" target=_blank>
-<img border="0" width="130" height="56" alt="Book now" src="https://www.ticketsource.co.uk/images/bookNow/bookNow-black-small.png">
-</a>
-
-<tr><td>Sunday only Camping<td>&pound;7.50<td>
-<a href="https://www.ticketsource.co.uk/date/420203" target=_blank>
-<img border="0" width="130" height="56" alt="Book now" src="https://www.ticketsource.co.uk/images/bookNow/bookNow-black-small.png">
-</a>
-
+<?php
+  $Avails = ['Weekend (Friday to Monday morning)'=>['xFSS',3],
+             'Thursday only'=>['Txxx',1],
+             'Thursday and Friday'=>['TFxx',2],             
+             'Thursday to Sunday morning'=>['TFSx',3],
+             'Four Day (Thursday to Monday morning)'=>['TFSS',4],
+             'Friday only'=>['xFxx',1],
+             'Friday and Saturday'=>['xFSx',2],
+             'Saturday only'=>['xxSx',1],
+             'Saturday and Sunday'=>['xxSS',2],
+             'Sunday only'=>['xxxS',1]
+            ];
+   foreach ($Avails as $txt=>$dat) {
+     if (!$MASTER['CampingCode_' . $dat[0] ]) continue;
+     echo "<tr><td>$txt Camping<td>" . Print_Pence($MASTER['CampingPrice' . $dat[1] . 'Day']*100) . "<td>";
+     echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER['CampingCode_' . $dat[0] ] . "' target=_blank>";
+     echo "<img border=0 width=130 height=56 alt='Book now' src='https://www.ticketsource.co.uk/images/bookNow/bookNow-black-small.png'>";
+   }
+?>
 </table>
 
 <?php 
@@ -73,7 +66,7 @@ Allendale Information point once it has opened on Friday at 2pm.  Camping ticket
 
 <b>Online booking has now closed</b><p>
 
-Camping at Meadows Campsite this year is <strong>&pound;8.50</strong> per person per night at the gate. Under 10's are free.<p>
+Camping at Meadows Campsite this year is <strong>&pound;10</strong> per person per night at the gate. Under 10's are free.<p>
 
 The site has toilets, showers, food and good 24 hour security. Entry to the campsite is by camping wristband only.<p>
 

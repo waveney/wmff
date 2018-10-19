@@ -20,7 +20,7 @@ During the festival weekend there are unofficial events in Wimborne that these t
 not cover and we are unable to refund tickets bought in error.<p>
 
 <?php
-  if ($MASTER['BookingFee']) echo "Please note that there is a booking fee of &pound;" . $MASTER['BookingFee'] . " per ticket when ordering tickets online. ";
+  if ($MASTER['BookingFee']) echo "Please note that there is a booking fee of " . $MASTER['BookingFee'] . " when ordering tickets online.<p> ";
 ?>
 Please take care whilst ordering tickets as we are unable to process exchanges or refunds.<p>
 

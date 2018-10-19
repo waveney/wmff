@@ -39,6 +39,10 @@
     echo "<p>";
     echo "</div>";
   }
-  
+
+  if ($YEAR > 2018) {
+    echo "<h3><a href=TraderList.php?Y=" . ($YEAR-1) . "> Traders from " . ($YEAR-1) . "</h3></a>";
+  }
+
   dotail();
 ?>

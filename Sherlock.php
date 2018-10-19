@@ -21,13 +21,15 @@
   $xtr = (isset($Extras[$Type]))? $Extras[$Type] : '';
   $Evs = array();
   $Complete = 0;
-
+  $BackStop = 2018;
+  
   if ($Ett >= 0) { 
     $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND ( e.Type=$Ett $xtr ) AND e.SubEvent<1 AND e.Venue!=0 AND " .
                 "( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) ORDER BY e.Day, e.Start"); // Need to work with release settings as well
     if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
     if (count($Evs) > 1) $Types = $Ets[$Ett]['Plural'];
     $Complete = $Ets[$Ett]['State'];
+    $BackStop = $Ets[$Ett]['FirstYear'];
   } else { // Handle other Sherlock calls
     switch ($Type) {
       case 'Family':
@@ -35,7 +37,7 @@
                 "( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
         $Types = "Family Event";
-        if (count($Evs) > 1) $Types .= "s";
+        if (count($Evs) != 1) $Types .= "s";
         $Complete = $MASTER[$Type . 'State'];
         break;
       case 'Special':
@@ -43,7 +45,7 @@
                 "( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
         $Types = "Special Event";
-        if (count($Evs) > 1) $Types .= "s";
+        if (count($Evs) != 1) $Types .= "s";
         $Complete = $MASTER[$Type . 'State'];
         break;
       default:
@@ -99,7 +101,10 @@
   } else {
     echo "<h3>Sorry there are currently no announced $Types for $YEAR, please check back later</h3>";
   }
-  // Backwards looking link
+  
+  if ($YEAR > $BackStop) {
+    echo "<h3><a href=Sherlock.php?t=$Type&Y=" . ($YEAR-1) . "> $Types in " . ($YEAR-1) . "</h3></a>";
+  }
   dotail();
 
 ?>

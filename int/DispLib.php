@@ -189,7 +189,11 @@ function Expand_Special(&$Art) {
 
     $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " AND y.ReleaseDate<$now");
     $Dsc = 0;
-    if ($ans) $Dsc= ($ans->fetch_assoc())['Total'];
+    if ($ans) {
+      $res = $ans->fetch_assoc();
+      $Dsc = $res['Total'];
+    }
+    
     $Art['Text'] = "$Dsc Dance team" . ($Dsc == 1?" has":"s have") . " already confirmed for $YEAR.  Many of your favourite teams and some new faces.";
 
     $ans = $db->query("SELECT s.Photo,s.SideId,s.ImageHeight,s.ImageWidth,s.SN FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND s.Photo!='' AND y.Coming=" . 
@@ -234,7 +238,10 @@ function Expand_Special(&$Art) {
 
     $ans = $db->query("SELECT count(*) AS Total FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.YearState>0 AND y.ReleaseDate<$now");
     $Msc = 0;
-    if ($ans) $Msc= ($ans->fetch_assoc())['Total'];
+    if ($ans) {
+      $res = $ans->fetch_assoc();
+      $Msc = $res['Total'];
+    }
 
     $Art['Text'] = "$Msc Music act" . ($Msc == 1?" has":"s have") . " already confirmed for $YEAR.";
     

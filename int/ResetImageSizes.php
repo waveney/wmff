@@ -15,6 +15,8 @@
 
       if (preg_match('/^https?:\/\//i',$side['Photo'])) {
         $stuff = getimagesize($side['Photo']);
+      } else if (preg_match('/^\/(.*)\?.*/',$side['Photo'],$mtch)) {
+        $stuff = getimagesize($mtch[1]);
       } else if (preg_match('/^\/(.*)/',$side['Photo'],$mtch)) {
         $stuff = getimagesize($mtch[1]);
       } else {
