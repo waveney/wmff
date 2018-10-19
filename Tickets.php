@@ -29,8 +29,8 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 <?php
   if ($MASTER['CampingCost']) {
     echo "Order your festival tickets and camping together, by selecting <strong>Continue Shopping</strong> ";
-    echo "before you checkout!  Camping costs &pound;" . $MASTER['CampingPrice1Day'] . "per person per night, plus booking fee in advance or &pound;" . $MASTER['CampingGateFee'] ;
-    echo " on the gate.<p>";
+    echo "before you checkout!  Camping costs <strong>&pound;" . $MASTER['CampingPrice1Day'] . "</strong> for the first night and <strong>&pound;" .
+     ($MASTER['CampingPrice2Day'] - $MASTER['CampingPrice1Day']) . "</strong> for each additional night.<p>";
   } else {
     echo "Camping is not yet open to book<p>";
   }

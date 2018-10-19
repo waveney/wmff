@@ -75,6 +75,25 @@ function Image_Validate($img) {
   }
 }
 
+function Localise_Image(&$data,$field='Photo') { // If not local, get image store it locally find image size and record its size
+  $src = $data[$field];
+      if (preg_match('/^https?:\/\//i',$side['Photo'])) {
+        $stuff = getimagesize($side['Photo']);
+      } else if (preg_match('/^\/(.*)\?.*/',$side['Photo'],$mtch)) {
+        $stuff = getimagesize($mtch[1]);
+      } else if (preg_match('/^\/(.*)/',$side['Photo'],$mtch)) {
+        $stuff = getimagesize($mtch[1]);
+      } else {
+        $stuff = getimagesize($side['Photo']);
+      }
+      if ($stuff) {
+        $wi = $stuff[0];
+        $ht = $stuff[1];
+        $side['ImageHeight'] = $ht;
+        $side['ImageWidth'] = $wi;
+
+}
+
 function Get_Gallery_Names() {
   global $db;
   $res=$db->query("SELECT * FROM Galleries");

@@ -155,12 +155,16 @@ $(document).ready(function() {
           
           // Find actual height left
           var used = $('#SArtTitle' +ArtNum).height() + $('#SArtText' +ArtNum).height();
-          var imgspace = targetht - used - PadWidth*2;
+          var imgspace = targetht - used - PadWidth;
           var newwidth = ActColWidth;
           var newheight = Math.floor(imght*newwidth/imgwd);
           if (newheight > imgspace) {
             newwidth = Math.floor(newwidth*imgspace/newheight);
             newheight = Math.floor(newheight*imgspace/newheight);
+          } else { // Spare space
+            var spare = imgspace-newheight;
+            spare = Math.min(spare/2,40);
+            $('#SArtText'+ArtNum).css({"padding-top":spare});
           }
           $('#SArtImg'+ArtNum).width(newwidth);
           $('#SArtImg'+ArtNum).height(newheight);         

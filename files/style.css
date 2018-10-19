@@ -144,11 +144,10 @@ h2 {
 .footer
     {
     font-size:13px;
-    padding: 25px 25px 100px 25px;
+    padding: 20px 25px 100px 25px;
     font-family: Tahoma;
     background:url(/images/icons/Flora.png) repeat-x bottom left;
     background-color:#005983;
-    border-top:5px solid #FFFFFF;
     color:#FFFFFF;
     }
 @font-face
