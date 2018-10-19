@@ -945,7 +945,6 @@ textarea {
   color:#005C8F;
   font-weight:bold;
   transition:opacity .5s, filter .5s;
-  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
 }
 
 .ArtImageL {
@@ -968,7 +967,6 @@ textarea {
   color:#005C8F;
   font-weight:bold;
   transition:opacity .5s, filter .5s;
-  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
 }
 
 .ArtImageS {
@@ -987,7 +985,6 @@ textarea {
   color:#005C8F;
   font-weight:bold;
   transition:opacity .5s, filter .5s;
-  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
 }
 
 .ArtTextT {}
@@ -1002,7 +999,6 @@ textarea {
   text-align:center;
   color: #005983;
   font-weight:normal;
-  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
   font-size:24px;
 }
 
@@ -1022,12 +1018,12 @@ textarea {
 
 .ArtTitleF {
   float:left; 
+  padding-bottom:5px;
   margin:0;
   font-size:30px;
   color:#005C8F;
   font-weight:bold;
   transition:opacity .5s, filter .5s;
-  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
 }
 
 .ArtImageF {
@@ -1041,10 +1037,10 @@ textarea {
 
 .ArtTitleFP {
   font-size:30px;
+  padding-bottom:5px;
   color:#005C8F;
   font-weight:bold;
   transition:opacity .5s, filter .5s;
-  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
 }
 
 .ArtImageFP {

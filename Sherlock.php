@@ -37,7 +37,7 @@
                 "( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
         $Types = "Family Event";
-        if (count($Evs) > 1) $Types .= "s";
+        if (count($Evs) != 1) $Types .= "s";
         $Complete = $MASTER[$Type . 'State'];
         break;
       case 'Special':
@@ -45,7 +45,7 @@
                 "( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
         $Types = "Special Event";
-        if (count($Evs) > 1) $Types .= "s";
+        if (count($Evs) != 1) $Types .= "s";
         $Complete = $MASTER[$Type . 'State'];
         break;
       default:
