@@ -46,7 +46,7 @@
       } else {
         Insert_db('Overlaps',$O); 
       }
-    } else if ($field == 'Photo' && (preg_match('/^https?:\/\//i',$Value ))) { // Remote Photos are a special case - look for localisation
+    } else if ($field == 'Photo' && (preg_match('/^\s*https?:\/\//i',$Value ))) { // Remote Photos are a special case - look for localisation
       $Perf = Get_Side($id);
       include_once("ImageLib.php");
       preg_match('/\.(jpg|jpeg|gif|png)/i',$Value,$mtch);
@@ -112,7 +112,28 @@
         
   case 'Trader': 
     include_once("TradeLib.php");
+
     $Trad = Get_Trader($id);
+    if ($field == 'Photo' && (preg_match('/^\s*https?:\/\//i',$Value ))) { // Remote Photos are a special case - look for localisation
+      include_once("ImageLib.php");
+      preg_match('/\.(jpg|jpeg|gif|png)/i',$Value,$mtch);
+      if ($mtch) {
+        $sfx = $mtch[1];
+        $loc = "/images/Trade/$id.$sfx";
+        $res = Localise_Image($Value,$Trad,$loc);
+        Put_Trader($Trad);
+        if ($res) {
+          echo "!$res!";
+        } else {
+          echo "#$loc#TradThumb#$loc#";
+        }
+        exit;
+      };
+      echo "1, Not a recognisable image";
+      exit;
+    }
+
+
     if (isset($Trad[$field])) {
       $Trad[$field] = $Value;
       echo Put_Trader($Trad);

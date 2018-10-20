@@ -76,17 +76,15 @@ function Image_Validate($img) {
 }
 
 function Localise_Image($src,&$data,&$store,$field='Photo') { // If not local, get image store it locally find image size and record its size
-//echo "xxxxx $src XXX ";
   if (preg_match('/^\s*https?:\/\//i',$src)) {
-//echo "yyyyy";
     $img = file_get_contents($src);
-//echo "zzzzz";
-    if ($img === false) return "Could not get the Photo";
+    if ($img === false) {
+      $data[$field] = '';
+      return "Could not get the Photo";
+    }
     $file = "../$store";
     $store .= "?99" . rand();
-//echo $store;
     $a = file_put_contents($file,$img);
-//echo " DA " . $a;
     $data[$field] = $store;
     $stuff = getimagesize($file);
     if ($stuff) {

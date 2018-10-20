@@ -58,7 +58,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
   }
   $snum = $Side['SideId'];
   
-  echo "<div id=ErrorMessage class=Err></div>";
+  echo "<div id=ErrorMessage class=ERR></div>";
 
 //********* PUBLIC
 

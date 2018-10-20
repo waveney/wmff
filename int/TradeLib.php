@@ -254,7 +254,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
   global $YEAR,$ADDALL,$Mess,$Action,$Trader_Status,$TradeTypeData,$TradeLocData;
   Set_Trade_Help();
 
-  if (isset($Trad['Photo']) && $Trad['Photo']) echo "<img class=floatright src=" . $Trad['Photo'] . " height=80>\n";
+  if (isset($Trad['Photo']) && $Trad['Photo']) echo "<img class=floatright id=TradThumb src=" . $Trad['Photo'] . " height=80>\n";
   if ($Tid > 0) echo "<input  class=floatright type=Submit name='Update' value='Save Changes' form=mainform>";
   if ($Mode && isset($Trad['Email']) && strlen($Trad['Email']) > 5) {
     echo "If you click on the " . linkemailhtml($Trad,'Trade');
@@ -270,7 +270,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
   } else {
     $Adv = 'class=Adv';
   }
-
+  echo "<div id=ErrorMessage class=ERR></div>";
 //********* PUBLIC
 
   if (!isset($Trad['TradeType']) || ($Trad['TradeType'] == 0)) $Trad['TradeType'] = 1;
@@ -981,6 +981,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
       if ($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && isset($Trady['PitchLoc0']) && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) $Acts[] = 'Artisan Invite';
       foreach($Acts as $ac) {
         if ($Mode==0 && !in_array($ac,$ButTrader)) continue;
+        if (!isset($Trady['Fee'])) $Trady['Fee'] = 0;
         if (Feature('AutoInvoices') && !Access('SysAdmin') && in_array($ac,$RestrictButs)) continue;  // Normal people cant hit Paid have to be through the invoice
         switch ($ac) {
           case 'Quote':
