@@ -75,25 +75,28 @@ function Image_Validate($img) {
   }
 }
 
-function Localise_Image(&$data,$field='Photo') { // If not local, get image store it locally find image size and record its size
-  $src = $data[$field];
-
-      if (preg_match('/^https?:\/\//i',$side['Photo'])) {
-        $stuff = getimagesize($side['Photo']);
-      } else if (preg_match('/^\/(.*)\?.*/',$side['Photo'],$mtch)) {
-        $stuff = getimagesize($mtch[1]);
-      } else if (preg_match('/^\/(.*)/',$side['Photo'],$mtch)) {
-        $stuff = getimagesize($mtch[1]);
-      } else {
-        $stuff = getimagesize($side['Photo']);
-      }
-      if ($stuff) {
-        $wi = $stuff[0];
-        $ht = $stuff[1];
-        $side['ImageHeight'] = $ht;
-        $side['ImageWidth'] = $wi;
-        }
-        
+function Localise_Image($src,&$data,&$store,$field='Photo') { // If not local, get image store it locally find image size and record its size
+//echo "xxxxx $src XXX ";
+  if (preg_match('/^\s*https?:\/\//i',$src)) {
+//echo "yyyyy";
+    $img = file_get_contents($src);
+//echo "zzzzz";
+    if ($img === false) return "Could not get the Photo";
+    $file = "../$store";
+    $store .= "?99" . rand();
+//echo $store;
+    $a = file_put_contents($file,$img);
+//echo " DA " . $a;
+    $data[$field] = $store;
+    $stuff = getimagesize($file);
+    if ($stuff) {
+      $data['ImageHeight'] = $stuff[1];
+      $data['ImageWidth'] = $stuff[0];
+      return 0;
+    }
+    return "Could not get image information";
+  }
+  return 0;    // TODO make it work for local as well setting stuff
 }
 
 function Get_Gallery_Names() {

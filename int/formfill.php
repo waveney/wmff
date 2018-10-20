@@ -1,12 +1,12 @@
 <?php
   include_once("fest.php");
-  
   $field = $_POST['F'];
   $Value = $_POST['V'];
   $id    = $_POST['I'];
   $type  = $_POST['D'];
 
 //  var_dump($_POST);  
+// Special returns @x@ changes id to x, #x# sets feild to x, !x! important error message
   switch ($type) {
   case 'Performer':
     include_once("DanceLib.php");
@@ -46,6 +46,25 @@
       } else {
         Insert_db('Overlaps',$O); 
       }
+    } else if ($field == 'Photo' && (preg_match('/^https?:\/\//i',$Value ))) { // Remote Photos are a special case - look for localisation
+      $Perf = Get_Side($id);
+      include_once("ImageLib.php");
+      preg_match('/\.(jpg|jpeg|gif|png)/i',$Value,$mtch);
+
+      if ($mtch) {
+        $sfx = $mtch[1];
+        $loc = "/images/Sides/$id.$sfx";
+        $res = Localise_Image($Value,$Perf,$loc);
+        Put_Side($Perf);
+        if ($res) {
+          echo "!$res!";
+        } else {
+          echo "#$loc#PerfThumb#$loc#";
+        }
+        exit;
+      };
+      echo "1, Not a recognisable image";
+      exit;
     }
     
     // else general cases
