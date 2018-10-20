@@ -75,6 +75,17 @@ function Image_Validate($img) {
   }
 }
 
+function Find_Hidden_Image_Type ($filename) {
+  $hand = fopen($filename,'r');
+  $first8 = fread($hand,8);
+  fclose($hand);
+
+  if (preg_match('/^GIF8[79]a/',$first8)) return "gif";
+  if (preg_match('/^\xff\xd8\xff/',$first8)) return "jpeg";
+  if (preg_match('/^\x89PNG\x0d\x0a\x1a\x0a/',$first8)) return "png";
+  return 0;
+}
+
 function Localise_Image($src,&$data,&$store,$field='Photo') { // If not local, get image store it locally find image size and record its size
   if (preg_match('/^\s*https?:\/\//i',$src)) {
     $img = file_get_contents($src);
@@ -95,6 +106,31 @@ function Localise_Image($src,&$data,&$store,$field='Photo') { // If not local, g
     return "Could not get image information";
   }
   return 0;    // TODO make it work for local as well setting stuff
+}
+
+function Image_Cache_Update(&$Datas,$field='Photo',$path='') {  //'Image','images/Sponsors','Put') {
+  foreach ($Datas as $Data) {
+    $id = $Data['id'];
+    $fld = $field . $id;
+    if (isset($_POST[$fld])) {
+      $Cur = $_POST[$fld];
+      if ($Cur) {
+        preg_match('/\.(jpg|jpeg|gif|png)/i',$Cur,$mtch);
+
+        if ($mtch) {
+          $sfx = $mtch[1];
+          $loc = "$path/$id.$sfx"; 
+          $res = Localise_Image($Cur,$_POST, $loc, $fld);
+        } else {
+          $sfx = Find_Hidden_Image_Type($Cur);
+          if ($sfx) {
+            $loc = "$path/$id.$sfx"; 
+            $res = Localise_Image($Cur,$_POST,$loc, $fld);
+          }
+        }        
+      }
+    }
+  }
 }
 
 function Get_Gallery_Names() {
