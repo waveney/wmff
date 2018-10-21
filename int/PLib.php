@@ -22,7 +22,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
   if ($Side['IsOther']) Add_Act_Help();
   $Sidey = Get_SideYear($snum);
 
-  if ( isset($Side['Photo']) && ($Side['Photo'])) echo "<img class=floatright src=" . $Side['Photo'] . " height=80>\n";
+  if ( isset($Side['Photo']) && ($Side['Photo'])) echo "<img class=floatright id=PerfThumb src=" . $Side['Photo'] . " height=80>\n";
   echo "<input  class=floatright type=Submit name='Update' value='Save Changes' form=mainform>";
   if ($Mode && ((isset($Side['Email']) && strlen($Side['Email']) > 5) || (isset($Side['AltEmail']) && strlen($Side['AltEmail']) > 5)) )  {
     echo "If you click on the ";
@@ -57,6 +57,8 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
     echo "Please keep this information up to date, even if you are not coming so we can invite you in the future.";
   }
   $snum = $Side['SideId'];
+  
+  echo "<div id=ErrorMessage class=ERR></div>";
 
 //********* PUBLIC
 
@@ -380,12 +382,12 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
         echo "<td class=ComeSat>" . fm_checkbox('Plus the Procession',$Sidey,'Procession');
         echo "<td class=ComeSat>" . fm_checkbox('Dance Saturday Eve?',$Sidey,'SatEve');
         echo "<tr>" .fm_text1('Earliest Spot',$Sidey,'SatArrive',1,'class=ComeSat');
-        echo fm_text1('Latest Spot',$Sidey,'SatDepart',1,'class=ComeSat');  
+        echo fm_text1('End of latest Spot',$Sidey,'SatDepart',1,'class=ComeSat');  
       echo "<tr>";
         echo "<td rowspan=2>" . fm_checkbox('Sunday',$Sidey,'Sun','onchange=ComeSwitch(event)');
         echo fm_text1('Daytime Spots',$Sidey,'SunDance',1,'class=ComeSun');
         echo "<tr>" .fm_text1('Earliest Spot',$Sidey,'SunArrive',1,'class=ComeSun');
-        echo fm_text1('Latest Spot',$Sidey,'SunDepart',1,'class=ComeSun');  
+        echo fm_text1('End of latest Spot',$Sidey,'SunDepart',1,'class=ComeSun');  
       if ($Mode) {
         echo "<tr><td class=NotSide>" . fm_checkbox('Tuesday',$Sidey,'Tue') . "<td class=NotSide>" . fm_checkbox('Wednesday',$Sidey,'Wed');
         echo "<td class=NotSide>" . fm_checkbox('Thursday',$Sidey,'Thur') . "<td class=NotSide>" . fm_checkbox('Monday',$Sidey,'Mon');

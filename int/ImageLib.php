@@ -75,26 +75,64 @@ function Image_Validate($img) {
   }
 }
 
-function Localise_Image(&$data,$field='Photo') { // If not local, get image store it locally find image size and record its size
-  $src = $data[$field];
+function Find_Hidden_Image_Type ($filename) {
+  $hand = fopen($filename,'r');
+  $first8 = fread($hand,8);
+  fclose($hand);
 
-      if (preg_match('/^https?:\/\//i',$side['Photo'])) {
-        $stuff = getimagesize($side['Photo']);
-      } else if (preg_match('/^\/(.*)\?.*/',$side['Photo'],$mtch)) {
-        $stuff = getimagesize($mtch[1]);
-      } else if (preg_match('/^\/(.*)/',$side['Photo'],$mtch)) {
-        $stuff = getimagesize($mtch[1]);
-      } else {
-        $stuff = getimagesize($side['Photo']);
-      }
-      if ($stuff) {
-        $wi = $stuff[0];
-        $ht = $stuff[1];
-        $side['ImageHeight'] = $ht;
-        $side['ImageWidth'] = $wi;
-        }
-        
+  if (preg_match('/^GIF8[79]a/',$first8)) return "gif";
+  if (preg_match('/^\xff\xd8\xff/',$first8)) return "jpeg";
+  if (preg_match('/^\x89PNG\x0d\x0a\x1a\x0a/',$first8)) return "png";
+  return 0;
 }
+
+function Localise_Image($src,&$data,&$store,$field='Photo') { // If not local, get image store it locally find image size and record its size
+  if (preg_match('/^\s*https?:\/\//i',$src)) {
+    $img = file_get_contents($src);
+    if ($img === false) {
+      $data[$field] = '';
+      return "Could not get the Photo";
+    }
+    $file = "../$store";
+    $store .= "?99" . rand();
+    $a = file_put_contents($file,$img);
+    $data[$field] = $store;
+    $stuff = getimagesize($file);
+    if ($stuff) {
+      $data['ImageHeight'] = $stuff[1];
+      $data['ImageWidth'] = $stuff[0];
+      return 0;
+    }
+    return "Could not get image information";
+  }
+  return 0;    // TODO make it work for local as well setting stuff
+}
+
+function Image_Cache_Update_POST(&$Datas,$field='Photo',$path='') { 
+  foreach ($Datas as $Data) {
+    $id = $Data['id'];
+    $fld = $field . $id;
+    if (isset($_POST[$fld])) {
+      $Cur = $_POST[$fld];
+      if ($Cur) {
+        preg_match('/\.(jpg|jpeg|gif|png)/i',$Cur,$mtch);
+
+        if ($mtch) {
+          $sfx = $mtch[1];
+          $loc = "$path/$id.$sfx"; 
+          $res = Localise_Image($Cur,$_POST, $loc, $fld);
+        } else {
+          $sfx = Find_Hidden_Image_Type($Cur);
+          if ($sfx) {
+            $loc = "$path/$id.$sfx"; 
+            $res = Localise_Image($Cur,$_POST,$loc, $fld);
+          }
+        }        
+      }
+    }
+  }
+}
+
 
 function Get_Gallery_Names() {
   global $db;

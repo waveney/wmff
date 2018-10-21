@@ -4,23 +4,38 @@
   A_Check('SysAdmin');
   
   include_once("DanceLib.php");
+  include_once("ImageLib.php");
   dostaffhead("Update image info for all participants");
   echo "This may be extended to other image categories later.<p>";
 
   global $db;
   $ans = $db->query("SELECT * FROM Sides");
-  while ($fside = $ans->fetch_assoc()) {
-    if ($fside['Photo']) {
-      $side = Get_Side($fside['SideId']);
-
-      if (preg_match('/^https?:\/\//i',$side['Photo'])) {
-        $stuff = getimagesize($side['Photo']);
-      } else if (preg_match('/^\/(.*)\?.*/',$side['Photo'],$mtch)) {
+  while ($side = $ans->fetch_assoc()) {
+    $Photo = $side['Photo'];
+    $id = $side['SideId'];
+    if ($Photo) {
+      if (preg_match('/^\s*https?:\/\//i',$Photo)) {
+        preg_match('/\.(jpg|jpeg|gif|png)/i',$Photo,$mtch);
+        if ($mtch) {
+          $sfx = $mtch[1];
+          $loc = "/images/$id.$sfx"; 
+          $res = Localise_Image($Photo,$side, $loc);
+        } else {
+          $sfx = Find_Hidden_Image_Type($Photo);
+          if ($sfx) {
+            $loc = "/images/Sides/$id.$sfx"; 
+            $res = Localise_Image($Photo,$side,$loc);
+          }
+        }        
+        Put_Side($side);
+        echo "Cached " . $id . " " . $side['SN'] . "<br>\n";
+        continue;
+      } else if (preg_match('/^\/(.*)\?.*/',$Photo,$mtch)) {
         $stuff = getimagesize($mtch[1]);
-      } else if (preg_match('/^\/(.*)/',$side['Photo'],$mtch)) {
+      } else if (preg_match('/^\/(.*)/',$Photo,$mtch)) {
         $stuff = getimagesize($mtch[1]);
       } else {
-        $stuff = getimagesize($side['Photo']);
+        $stuff = getimagesize($Photo);
       }
       if ($stuff) {
         $wi = $stuff[0];
@@ -28,9 +43,9 @@
         $side['ImageHeight'] = $ht;
         $side['ImageWidth'] = $wi;
         Put_Side($side);
-        echo "Done " . $side['SideId'] . "<br>\n";
+        echo "Done " . $id  . " " . $side['SN']. "<br>\n";
       } else {
-        echo "Not Done " . $side['SideId'] . "<br>\n";
+        echo "Not Done " . $id . " " . $side['SN']. "<br>\n";
       }
     }
   }
