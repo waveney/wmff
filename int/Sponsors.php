@@ -11,7 +11,7 @@
   echo "<div class='content'><h2>Manage Sponsors</h2>\n";
   
   $Spons=Get_Sponsors(1);
-  Image_Cache_Update($Spons,'Image','/images/Sponsors');
+  Image_Cache_Update_POST($Spons,'Image','/images/Sponsors');
   if (UpdateMany('Sponsors','Put_Sponsor',$Spons,0)) $Spons=Get_Sponsors(1);
 
   echo "Year is the most recent year they are a sponsor.  Importance is a relative value (not yet used).<p>\n";

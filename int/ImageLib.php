@@ -108,7 +108,7 @@ function Localise_Image($src,&$data,&$store,$field='Photo') { // If not local, g
   return 0;    // TODO make it work for local as well setting stuff
 }
 
-function Image_Cache_Update(&$Datas,$field='Photo',$path='') {  //'Image','images/Sponsors','Put') {
+function Image_Cache_Update_POST(&$Datas,$field='Photo',$path='') { 
   foreach ($Datas as $Data) {
     $id = $Data['id'];
     $fld = $field . $id;
@@ -132,6 +132,7 @@ function Image_Cache_Update(&$Datas,$field='Photo',$path='') {  //'Image','image
     }
   }
 }
+
 
 function Get_Gallery_Names() {
   global $db;

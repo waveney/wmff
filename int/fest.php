@@ -561,8 +561,8 @@ function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
   } else echo "<center>";
   echo "<a href=/><img id=HeadBan src=/images/icons/WimborneFolkV3Banner-2019-2.png?V=$V ></a></center>";
   if ($MASTER_DATA['AdvertImgRight']) { 
-    echo "<a href=" . $MASTER_DATA['AdvertLinkRight'] . "><img src=" . $MASTER_DATA['AdvertImgRight'] . " id=rightspon hidden style=float:right></a>";
-  } else if ($MASTER_DATA['AdvertImgLeft']) echo "<a href=" . $MASTER_DATA['AdvertLinkLeft'] . "><img src=" . $MASTER_DATA['AdvertImgLeft'] . " id=rightspon hidden style=float:right></a>";
+    echo "<a href=" . $MASTER_DATA['AdvertLinkRight'] . "><img src=" . $MASTER_DATA['AdvertImgRight'] . " id=rightspon hidden></a>";
+  } else if ($MASTER_DATA['AdvertImgLeft']) echo "<a href=" . $MASTER_DATA['AdvertLinkLeft'] . "><img src=" . $MASTER_DATA['AdvertImgLeft'] . " id=rightspon hidden></a>";
   echo "</div>\n";
   echo "<script src=/js/WmffAds.js?V=$V></script>";
 
