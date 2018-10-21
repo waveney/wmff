@@ -94,7 +94,7 @@ function Localise_Image($src,&$data,&$store,$field='Photo') { // If not local, g
       return "Could not get the Photo";
     }
     $file = "../$store";
-    $store .= "?99" . rand();
+    $store .= "?" . rand();
     $a = file_put_contents($file,$img);
     $data[$field] = $store;
     $stuff = getimagesize($file);

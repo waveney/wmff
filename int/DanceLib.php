@@ -224,7 +224,7 @@ function Get_Side($who) {
 function Put_Side(&$data) {
   global $db;
   global $Save_Sides;
-  if (!isset($Save_Sides[$data['SideId']])) return 0;
+  if (!isset($Save_Sides[$data['SideId']])) Get_Side($data['SideId']);
   $Save = &$Save_Sides[$data['SideId']];
   $fcnt = 0;
   $rec = "UPDATE Sides SET ";
