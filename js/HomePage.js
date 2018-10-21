@@ -146,16 +146,14 @@ $(document).ready(function() {
           Col.append(clone); 
           $('#SArt'+ArtNum).height(targetht);       
           $('#SArtImg'+ArtNum).width(imgwd*targetht/imght);
-          $('#SArtImg'+ArtNum).height(targetht);
-                    
+          $('#SArtImg'+ArtNum).height(targetht);                
         } else { // Landscape
           clone = clone.replace(/class="ArtImageF"/,'class="ArtImageF" width=0 height=0 ');
           Col.append(clone); //No image yet
           $('#SArt' +ArtNum).height(targetht);
-          
           // Find actual height left
           var used = $('#SArtTitle' +ArtNum).height() + $('#SArtText' +ArtNum).height();
-          var imgspace = targetht - used - PadWidth;
+          var imgspace = targetht - used - PadWidth -10;
           var newwidth = ActColWidth;
           var newheight = Math.floor(imght*newwidth/imgwd);
           if (newheight > imgspace) {

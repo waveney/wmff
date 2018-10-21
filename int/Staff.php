@@ -87,7 +87,7 @@
       echo "<p><table><tr><td>";
       echo "<li class=smalltext><a href=ShowMusicProg.php?Pub=1&Y=$YEAR>Public Music Programme</a>";
       echo "<li class=smalltext><a href=MusicTypes.php>Set Music Types</a>";
-      echo "<li class=smalltext><a href=ResetImageSizes.php>Scan and save Image sizes</a>";
+      echo "<li class=smalltext><a href=ResetImageSizes.php?PERF>Scan and save Image sizes</a>";
       echo "</table><p>\n";
     }
     echo "<li><a href=LiveNLoudView.php?Y=$YEAR>Show Live N Loud applications</a>";
@@ -178,6 +178,11 @@
 //      if (Access('SysAdmin')) echo "<li><a href=TradeImport3.php>Fix Access Keys</a>\n";
 //      echo "<li><a href=/admin/trade/index.php>Old Trade Stand Section</a>\n";
       echo "<li><a href=Trade2CSV.php?Y=$YEAR>Traders as CSV</a>\n";
+    }
+    if (Access('SysAdmin')) {
+      echo "<p><table><tr><td>";
+      echo "<li class=smalltext><a href=ResetImageSizes.php?TRADE>Scan and save Image sizes</a>";
+      echo "</table><p>\n";
     }
     echo "</ul>\n";
 
