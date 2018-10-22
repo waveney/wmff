@@ -90,6 +90,7 @@
       echo "<li class=smalltext><a href=ResetImageSizes.php?PERF>Scan and save Image sizes</a>";
       echo "</table><p>\n";
     }
+    echo "<li><a href=ContractView.php>Dummy Music Contract</a>";
     echo "<li><a href=LiveNLoudView.php?Y=$YEAR>Show Live N Loud applications</a>";
     echo "<li><a href=BuskersBashView.php?Y=$YEAR>Show Buskers Bash applications</a>";
     if (Access('SysAdmin')) echo "<li class=smalltext><a href=LiveNLoudEmail.php>Send LNL bulk email</a>";
@@ -240,7 +241,7 @@
     if (Access('Committee')) echo "<li><a href=Campsite.php?Y=$YEAR>Manage Campsite Use</a>\n"; 
     if (Access('Committee')) echo "<li><a href=CarerTickets.php?Y=$YEAR>Manage Carer Tickets</a>\n"; 
     if (Access('Staff')) echo "<li><a href=TaxiCompanies.php>Manage Taxi Company List</a>\n"; 
-
+//    echo "<li><a href=ContractView.php>Dummy Music Contract</a>";
     echo "</ul>\n";
 
 // *********************** Finance **************************************************************

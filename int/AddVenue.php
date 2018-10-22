@@ -93,7 +93,7 @@
     echo "<tr>" . fm_text('Dance Rider',$Venue,'DanceRider',5);
     echo "<tr>" . fm_text('Music Rider',$Venue,'MusicRider',5);
     echo "<tr>" . fm_text('Other Rider',$Venue,'OtherRider',5);
-//    echo "<tr><td>" . fm_checkbox("Parking",$Venue,'Parking');
+    echo "<tr><td>" . fm_checkbox("Parking",$Venue,'Parking');
     echo "</table>\n";
 
   if ($vid > 0) {

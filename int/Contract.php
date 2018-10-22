@@ -4,19 +4,35 @@
   include_once("ProgLib.php"); 
   include_once("PLib.php"); 
 
-function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-1 Draft,0 proposed, 1 freeze reason - see contractConfirm, ctype 0=Side,1=act,2=other
-  global $Mess,$Action,$MASTER,$Cat_Type,$YEAR,$PLANYEAR,$DayList,$Event_Types,$ContractMethods;
-
-  $FullDay = [-3=>'Tuesday',-2=>'Wednesday',-1=>'Thursday',0=>'Friday',1=> 'Saturday',2=> 'Sunday',3=>'Monday'];
+function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-2 dummy-1 Draft,0 proposed, 1 freeze reason - see contractConfirm, ctype 0=Side,1=act,2=other
+  global $Mess,$Action,$MASTER,$Cat_Type,$YEAR,$PLANYEAR,$DayList,$DayLongList, $Event_Types,$ContractMethods,$USERID;
 
   $str = "<div class=content900>\n";
+  $Venues = Get_Real_Venues(1);
+    
+  if ($mode > -1) {  
+    $Side = Get_Side($snum);
+    $Sidey = ($ctype == 0 ? Get_SideYear($snum,$YEAR) : Get_ActYear($snum,$YEAR) );
+    $Booked = Get_User($Sidey['BookedBy']);
+    $kwd = ($mode < 0?'DRAFT':($mode ==0?'Proposed':''));
+  } else {
+    $Side = ['SN' => 'Dummy Performer','StagePA'=>'Just a Mike', 'SortCode'=>'99 99 99', 'Account'=>'12345678', 'AccountName' => 'Mystery Products',
+    
+            ];
+    $Sidey = ['ContractDate'=>time(),
+              'Year'=>$YEAR,
+              'TotalFee'=>100, 'OtherPayment'=>'Bottle of Rum',
+              'CampSat'=>3, 'CampFri' => 0, 'CampSun'=> 0,
+              'Rider' => 'If there is any riders on the contract they will appear here',
+             ];
+    $Booked = Get_User($USERID);
+    $kwd = 'Dummy';
+    foreach($Venues as $i=>$v) { $Ven = $i; break;};
+    $Evs = [['SN' => 'Concert','Type' => 5, 'Day'=> 1, 'Start'=>1900, 'End'=>2000, 'Setup' => 10, 'Venue'=>$Ven, 'SubEvent' => 0, 'Duration'=>60]];
+  }
 
-  $Side = Get_Side($snum);
-  $Sidey = ($ctype == 0 ? Get_SideYear($snum,$YEAR) : Get_ActYear($snum,$YEAR) );
-  $Booked = Get_User($Sidey['BookedBy']);
-  $kwd = ($mode < 0?'DRAFT':($mode ==0?'Proposed':''));
 
-  $str .= "<h2>Wimborne Minster Folk Festival - WimborneFolk.co.uk - $kwd Contract</h2>\n";
+  $str .= "<h2>Wimborne Minster Folk Festival - $kwd Contract</h2>\n";
   if ($kwd) $str .= "<em><b>$kwd contract:</b></em><p>\n";
 
   $str .= "Standard Agreement between " . ($ctype == 1?"Band/Artist/Performer":"Performer") . " & Employer.<p>\n";
@@ -29,12 +45,15 @@ hire the below-identified Artist to perform an engagement and the Artist agrees 
 services, under the following terms and conditions:<p>\n";
 
   $str .= "This agreement for performance services is entered into by the performers(s) known as:<br>";
-  $str .= "<b>" . $Side['SN'] . " </b>(now referred to as Artist) and <b>" . $Booked['SN'] . "</b> for and on behalf of
-Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
+  $str .= "<b>" . $Side['SN'] . " </b>(now referred to as Artist) and ";
+  $str .= "<b>" . $Booked['SN'] . "</b> for and on behalf of Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
 
   $str .= "Performances:<p>";
 
-  $Evs = Get_Events4Act($snum,$YEAR);
+  if ($mode > -1) {  
+    $Evs = Get_Events4Act($snum,$YEAR);
+  }
+  
   $ETs = Get_Event_Types();
   $evc = $evd = $evv = 0;
   $riders = array();
@@ -44,7 +63,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
   if (!$Evs) {
     return "";  // With no events there is no conract, not even a draft
   } else {
-    $Venues = Get_Real_Venues(1);
+
     $str .= "<table border>";
     if ($ctype == 1) { 
       $str .= "<tr><td>Number<td>Event Name<td>Date<td>On Stage at<td>Start<td>Duration<td colspan=3>Where\n";
@@ -88,19 +107,28 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
     $str .= "</table>\n";
   } 
 
-  $str .= "Total of $evc events, with a total duration of " . ($evv?"at least ":"") . DurationFormat($evd) . "<p>\n";
+  $str .= "Total of $evc event" . ($evc>1?'s':'') . ", with a total duration of " . ($evv?"at least ":"") . DurationFormat($evd) . "<p>\n";
 
   $str .= "Total Fee: &pound;" . $Sidey['TotalFee'];
   if ($Sidey['OtherPayment']) $str .= " plus " . $Sidey['OtherPayment'];
   $str .= "<p>\n";
+  // Extra for supplied camping
+  $camp = [];
+  for ($day = 0; $day<3; $day++) {
+    $dy = "Camp" . $DayList[$day];
+    if ($Sidey[$dy]) $camp[] = $Sidey[$dy] . (($Sidey[$dy]) == 1 ?" person":" people") . " on " . $DayLongList[$day] . " " .
+          ($MASTER['DateFri']+$day) . "th June $YEAR";
+  }
+  if ($camp) $str .= "Camping will be provided for " . FormatList($camp) . " at the <a href=/InfoCamping.php>Meadows Campsite</a>.<p>\n"; 
 
   if ($Sidey['TotalFee']) {
     if ($Side['SortCode'] || $Side['Account'] || $Side['AccountName']) {
       $str .= "<b>BACS:</b> Sort Code: " . $Side['SortCode'] . " Account Number: " . $Side['Account'] . " Account Name : " . $Side['AccountName'] . "<p>\n";
     }
   }
-
-  if ($ctype == 1) $str .= "ON ARRIVAL: Please report to Info Desk in the square (manned from 2pm Friday)<p>\n";
+  
+  
+  if ($ctype == 1) $str .= "ON ARRIVAL: Please report to Information Desk in the Square (manned from 2pm Friday)<p>\n";
 
   if ($Side['StagePA'] == 'None') {
     $str .= "If you have any PA/Technical requirments, please fill in the relevant section on your Acts pesonal record.<p>\n";
@@ -114,9 +142,9 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
   }
 
   if (strlen($Sidey['Rider']) > 5) $str .= "<b>Rider:</b> " . $Sidey['Rider'] . "<p>\n";
-  // Extra for supplied camping
 
-  $faq = ($ctype > 1 ? include_once("InnerMusicFAQ.php") : "Payment: All payments will be made by BACS, within 48 hours of the end of the Festival. Cash will not be used for payments. Any queries should be submitted through the employer." );
+
+  $faq = ($ctype > 0 ? include_once("InnerMusicFAQ.php") : "Payment: All payments will be made by BACS, within 48 hours of the end of the Festival. Cash will not be used for payments. Any queries should be submitted through the employer." );
 
   if ($pking) {
     $allfree = 1;
@@ -125,7 +153,7 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
       if ($evday[$i] > 0 && $pkday[$i] == 0) $allfree = 0;
       if ($evday[$i] > 0 && $pkday[$i] != 0) {
         if ($freon) $freon .= " and ";
-        $freon .= $FullDay[$i];
+        $freon .= $DayLongList[$i];
       }
     }
 
@@ -147,6 +175,8 @@ Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
   if ($mode > 0) {
     $str .= "This contract was " . $ContractMethods[$mode] . " on " . date('d/m/y',$Sidey['ContractDate']) . "<P>\n";
   }
+
+  if ($mode < -1) $str .= "<p>NOTE: The parking statement can be overridden to say there is free parking near the venue(s), if appropriate.<p>";
 
   $str .= "</div>";  
   return $str;
