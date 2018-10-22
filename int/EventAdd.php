@@ -287,8 +287,8 @@ A similar feature will appear eventually for music.<p>
       echo "<td>Alt Edit:" . fm_select($AllActive,$Event,'Owner2',1);
       echo "<td class=NotSide>Importance: " . fm_select($Importance,$Event,'Importance');
 
-      echo "<tr>" . fm_text('Name', $Event,'SN');
-        echo "<td>Event Type:" . fm_select($Event_Types,$Event,'Type');
+      echo "<tr>" . fm_text('<b>Name</b>', $Event,'SN');
+        echo "<td><b>Event Type</b>:" . fm_select($Event_Types,$Event,'Type');
         $se = isset($Event['SubEvent'])? $Event['SubEvent'] : 0;
         if ($se == 0) { echo "<td>No Sub Events"; }
         elseif ($se < 0) { echo "<td><a href=EventList.php?se=$eid>Has Sub Events</a>"; }
@@ -296,17 +296,17 @@ A similar feature will appear eventually for music.<p>
         echo "<td>" .fm_checkbox('Needs Stewards',$Event,'NeedSteward');
 
       if ($se <= 0) {
-        echo "<tr>";
-        echo "<td>" . fm_simpletext('Price &pound;',$Event,'Price1');
-        if ($MASTER['PriceChange1']) echo "<td>" . fm_simpletext('Price after ' . date('j M Y',$MASTER['PriceChange1']) . '(if diff) &pound;',$Event,'Price2');
-        if ($MASTER['PriceChange2']) echo "<td>" . fm_simpletext('Price after ' . date('j M Y',$MASTER['PriceChange2']) . '(if diff) &pound;',$Event,'Price3');
-        echo "<td>" . fm_simpletext('Door Price (if different) &pound;',$Event,'DoorPrice');
+        echo "<tr class=NotSide>";
+        echo "<td  class=NotSide>" . fm_simpletext('Price &pound;',$Event,'Price1');
+        if ($MASTER['PriceChange1']) echo "<td class=NotSide>" . fm_simpletext('Price after ' . date('j M Y',$MASTER['PriceChange1']) . '(if diff) &pound;',$Event,'Price2');
+        if ($MASTER['PriceChange2']) echo "<td class=NotSide>" . fm_simpletext('Price after ' . date('j M Y',$MASTER['PriceChange2']) . '(if diff) &pound;',$Event,'Price3');
+        echo "<td class=NotSide>" . fm_simpletext('Door Price (if different) &pound;',$Event,'DoorPrice');
         echo "<td class=NotSide>" . fm_simpletext('Ticket Code',$Event,'TicketCode');
       }
 
-      echo "<tr>" . fm_radio('<span class=mday $hidemday>Start </span>Day',$DayList,$Event,'Day');
+      echo "<tr>" . fm_radio("<b><span class=mday $hidemday>Start </span>Day</b>",$DayList,$Event,'Day');
 //      echo fm_text('Year',$Event,'Year');
-      echo "<td colspan=3>Times: " . fm_smalltext2('Start:',$Event,'Start');
+      echo "<td colspan=3><b>Times</b>: " . fm_smalltext2('Start:',$Event,'Start');
         echo fm_smalltext2(', End:',$Event,'End');
         echo fm_smalltext2(', Setup Time (mins):',$Event,'Setup') ;
         echo fm_smalltext2(', Duration:',$Event,'Duration') . "&nbsp;minutes ";
@@ -314,7 +314,7 @@ A similar feature will appear eventually for music.<p>
         echo fm_smalltext2(', Doors:',$Event,'DoorsOpen');
       if ($se <= 0) echo "<tr class=mday $hidemday>" . fm_radio('End Day',$DayList,$Event,'EndDay') . 
                 "<td colspan=3>Set up a sub event for each day after first, times are for first day";
-      echo "<tr><td>Venue:<td>" . fm_select($Venues,$Event,'Venue',1);
+      echo "<tr><td><b>Venue</b>:<td>" . fm_select($Venues,$Event,'Venue',1);
         echo fm_textarea('Notes', $Event,'Notes',4,2);
       $et = 'Mixed';
       if (isset($Event['Type'])) $et = $Event_Types[$Event['Type']];
