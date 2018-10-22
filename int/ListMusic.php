@@ -45,7 +45,7 @@
     $col9 = "Coming $PLANYEAR";
   } else if ($_GET{'SEL'} == 'Coming') {
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
-                $Book_State['Booked'] . " ORDER BY Importance DESC, SN");
+                $Book_State['Contract Signed'] . " ORDER BY Importance DESC, SN");
     $col5 = "Complete?";
   } else if ($_GET{'SEL'} == 'Booking') {
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>0" . 
@@ -56,7 +56,7 @@
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
     $SideQ = $db->query("SELECT $flds FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
-                $Book_State['Booked'] . " ORDER BY Importance DESC SN");
+                $Book_State['Contract Signed'] . " ORDER BY Importance DESC SN");
   }
 
   if (!$SideQ || $SideQ->num_rows==0) {

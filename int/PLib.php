@@ -451,7 +451,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
         $old = 0;
         if (!isset($Sidey['Contracts'])) $Sidey['Contracts']=0;
         switch ($Sidey['YearState']) {
-          case $Book_State['Booked']:
+          case $Book_State['Contract Signed']:
             echo "<tr><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR&ctype=0>View Contract</a>";
             if ($Sidey['Contracts'] >= 1) $old = $Sidey['Contracts'];
             break;
@@ -473,7 +473,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
           } 
         }
         switch ($Sidey['YearState']) {
-          case $Book_State['Booked']:
+          case $Book_State['Contract Signed']:
             echo "<td>Contract Confirmed " .$ContractMethods[$Sidey['ContractConfirm']] . " on " . date('d/m/y',$Sidey['ContractDate']) . "\n";
             break;
           case $Book_State['Contract Ready']:
@@ -725,7 +725,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
     $old = 0;
     if (!isset($Sidey['Contracts'])) $Sidey['Contracts']=0;
     switch ($Sidey['YearState']) {
-      case $Book_State['Booked']:
+      case $Book_State['Contract Signed']:
         echo "<tr><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR>View Contract</a>";
         if ($Sidey['Contracts'] >= 1) $old = $Sidey['Contracts'];
         break;
@@ -747,7 +747,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
       } 
     }
     switch ($Sidey['YearState']) {
-      case $Book_State['Booked']:
+      case $Book_State['Contract Signed']:
         echo "<td>Contract Confirmed " .$ContractMethods[$Sidey['ContractConfirm']] . " on " . date('d/m/y',$Sidey['ContractDate']) . "\n";
         break;
       case $Book_State['Contract Ready']:
@@ -758,7 +758,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
                 echo fm_hidden('ContractDate',time());
             echo "<td colspan=2><input type=submit id=redsubmit name=Decline value='Decline Contract by Clicking Here'>";
           } else {
-            echo "<td colspan=2><input type=submit id=greensubmit name=Contract value='Confirm Contract by Clicking Here'>";
+            echo "<td colspan=2><input type=submit id=greensubmit name=Contract value='Confirm and Sign Contract by Clicking Here'>";
             echo fm_hidden('ContractDate',time());
             echo "<td colspan=2><input type=submit id=redsubmit name=Decline value='Decline Contract by Clicking Here'>";
           }
