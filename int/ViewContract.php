@@ -24,7 +24,7 @@
   $Sidey = (($ctype==0) ? Get_SideYear($snum) : Get_ActYear($snum));
   $Opt = 0;
   $IssNum = $Sidey['Contracts']; 
-  if ($Sidey['YearState'] == $Book_State['Booked']) $Opt += 1;
+  if ($Sidey['YearState'] == $Book_State['Contract Signed']) $Opt += 1;
   if ($Sidey['Contracts']) $Opt +=2;
   if (isset($_GET{'I'})) { $IssNum = $_GET{'I'}; $Opt += 4; }
 

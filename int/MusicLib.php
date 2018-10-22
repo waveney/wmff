@@ -25,7 +25,7 @@ function Add_Act_Year_Help() {
 Declined - Will leave this state after any change that would affect the contract.
 Booking - negotiations in place. 
 Contract Ready - For the Act to confirm it.
-Booked - Enables listing to public.',
+Contract Signed - Enables listing to public.',
         'Rider'=>'Additional text to be added to the Contract',
         'EnableCamp' => 'Note this will be added to the fee as part of your budget',
         'RadioWimborne'=>'Permission given for performances to be recorded by Radio Wimborne, and broadcast live or after the festival'
@@ -363,7 +363,7 @@ function Contract_Save($Side,$Sidey,$Reason) {
     $IssNum = abs($Sidey['Contracts'])+1;
     $_POST['Contracts'] = $IssNum;
     $_POST['ContractDate'] = time();
-    $_POST['YearState'] = $Book_State['Booked'];
+    $_POST['YearState'] = $Book_State['Contract Signed'];
     file_put_contents("Contracts/$PLANYEAR/$snum.$IssNum.html",$Cont);
     return 1;
   }
@@ -431,7 +431,7 @@ function Contract_Check($snum,$chkba=1,$ret=0) { // if ret=1 returns result numb
 function Contract_Changed(&$Sidey) {
   global $Book_State,$YEAR;
   $snum = $Sidey['SideId'];
-  if ($Sidey['YearState'] == $Book_State['Booked']) {
+  if ($Sidey['YearState'] == $Book_State['Contract Signed']) {
     $chk = Contract_Check($snum);
     $Sidey['YearState'] = ($chk == ''? $Book_State['Contract Ready'] : ($chk == 'Start Time'? $Book_State['Confirmed'] : $Book_State['Booking']));
     Put_ActYear($Sidey);
@@ -487,7 +487,7 @@ function Contract_State_Check(&$Sidey,$chkba=1) {
       if (!$Valid)  $ys = $Book_State[$Es?'Booking':'None']; 
       break;
 
-    case $Book_State['Booked']:
+    case $Book_State['Contract Signed']:
       break;
   }
   if ($ys != $Sidey['YearState']) {
@@ -549,7 +549,7 @@ function MusicMail($data,$name,$id,$direct) {
   $Msg = '';
 
   if ($data['YearState']) {
-    if ($data['YearState'] == $Book_State['Booked']) { 
+    if ($data['YearState'] == $Book_State['Contract Signed']) { 
       $p = 1; 
       $AddC = 1;
     } else {

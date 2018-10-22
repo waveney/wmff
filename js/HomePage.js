@@ -76,7 +76,7 @@ $(document).ready(function() {
     var Cols =[];
     
     if (WorkWidth > (2*MinWidth+PadWidth)) ColCount = Math.floor(WorkWidth/(MinWidth+PadWidth));
-    var ActOutColWidth = Math.floor((WorkWidth - ColCount*PadWidth)/ColCount);
+    var ActOutColWidth = Math.floor((WorkWidth - ColCount*PadWidth)/ColCount) - 2;
     var ActColWidth = ActOutColWidth-PadWidth
 
     // Create columns
