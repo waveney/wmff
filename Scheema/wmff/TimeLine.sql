@@ -1,0 +1,23 @@
+CREATE TABLE `TimeLine` (
+  `TLid` int(11) NOT NULL AUTO_INCREMENT,
+  `Title` text NOT NULL,
+  `Progress` int(11) NOT NULL,
+  `Assigned` int(11) NOT NULL,
+  `Created` int(11) NOT NULL,
+  `Completed` int(11) NOT NULL,
+  `CreatedBy` int(11) NOT NULL,
+  `Start` int(11) NOT NULL,
+  `Due` int(11) NOT NULL,
+  `Notes` text NOT NULL,
+  `Year` int(11) NOT NULL,
+  `NextYearId` int(11) NOT NULL,
+  `Progtext` text NOT NULL,
+  `History` text NOT NULL,
+  `Importance` tinyint(4) NOT NULL,
+  `Recuring` tinyint(4) NOT NULL,
+  `DependsOn1` int(11) NOT NULL,
+  `DependsOn2` int(11) NOT NULL,
+  `DependsOn3` int(11) NOT NULL,
+  `DependsOn4` int(11) NOT NULL,
+  PRIMARY KEY (`TLid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

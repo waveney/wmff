@@ -31,4 +31,6 @@ int/Invoices/*/*.pdf
 devtools
 cache
 files/TitlePrefix
+Scheema/phpmyadmin
+Scheema/wmffsave1
 
