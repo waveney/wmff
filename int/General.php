@@ -105,7 +105,7 @@
     echo "<tr>" . fm_text("Camping Fri-Sun Code",$Gen,'CampingCode_xFSS');
     echo "<tr>" . fm_text("Camping Fri-Sat Code",$Gen,'CampingCode_xFSx');
     echo "<tr>" . fm_text("Camping Sat Code",$Gen,'CampingCode_xxSx');
-    echo "<tr>" . fm_text("Camping Sat-Sun Code",$Gen,'	CampingCode_xxSS');
+    echo "<tr>" . fm_text("Camping Sat-Sun Code",$Gen,'CampingCode_xxSS');
     echo "<tr>" . fm_text("Camping Sun Code",$Gen,'CampingCode_xxxS');
 
 
