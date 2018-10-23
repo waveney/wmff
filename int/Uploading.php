@@ -176,8 +176,12 @@ function Upload_PASpec($Dir='') {
   $target_file = $target_dir . "$snum.$suffix";
 
   $files = glob("$target_dir/$snum.*");
-  $Current = $files[0];
-  $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
+  if ($files) {
+    $Current = $files[0];
+    $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
+  } else {
+    $Current = $Cursfx = '';
+  }
 
   if (file_exists("$target_dir/$snum.$Cursfx")) {
     rename($Current, "$Current.old");

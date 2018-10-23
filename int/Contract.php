@@ -16,16 +16,20 @@ function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-2 dummy-1 Draft,0 prop
     $Booked = Get_User($Sidey['BookedBy']);
     $kwd = ($mode < 0?'DRAFT':($mode ==0?'Proposed':''));
   } else {
-    $Side = ['SN' => 'Dummy Performer','StagePA'=>'Just a Mike', 'SortCode'=>'99 99 99', 'Account'=>'12345678', 'AccountName' => 'Mystery Products',
+    $str .= "<span class=NotSide>Data that has been filled (other than the list of performances) in as part of the dummy are marked this way</span><p>";
+    
+    $Side = ['SN' => '<span class=NotSide>Dummy Performer</span>','StagePA'=>'Just a Mike', 
+             'SortCode'=>'<span class=NotSide>99 99 99</span>', 'Account'=>'<span class=NotSide>12345678</span>', 
+             'AccountName' => '<span class=NotSide>Mystery Products</span>',
     
             ];
     $Sidey = ['ContractDate'=>time(),
               'Year'=>$YEAR,
-              'TotalFee'=>100, 'OtherPayment'=>'Bottle of Rum',
+              'TotalFee'=>'<span class=NotSide>100', 'OtherPayment'=>'Bottle of Rum</span>',
               'CampSat'=>3, 'CampFri' => 0, 'CampSun'=> 0,
-              'Rider' => 'If there is any riders on the contract they will appear here',
+              'Rider' => '<span class=NotSide>If there is any riders on the contract they will appear here</span>',
              ];
-    $Booked = Get_User($USERID);
+    $Booked = Get_User(4);
     $kwd = 'Dummy';
     foreach($Venues as $i=>$v) { $Ven = $i; break;};
     $Evs = [['SN' => 'Concert','Type' => 5, 'Day'=> 1, 'Start'=>1900, 'End'=>2000, 'Setup' => 10, 'Venue'=>$Ven, 'SubEvent' => 0, 'Duration'=>60]];
@@ -35,7 +39,7 @@ function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-2 dummy-1 Draft,0 prop
   $str .= "<h2>Wimborne Minster Folk Festival - $kwd Contract</h2>\n";
   if ($kwd) $str .= "<em><b>$kwd contract:</b></em><p>\n";
 
-  $str .= "Standard Agreement between " . ($ctype == 1?"Band/Artist/Performer":"Performer") . " & Employer.<p>\n";
+  $str .= "Standard Agreement between " . ($ctype == 1?"Band/Artist/Performer":"Performer") . " &amp; Employer.<p>\n";
 
   $str .= "This Agreement made as of " . date('d/m/Y',  ($Sidey['ContractDate']>0?$Sidey['ContractDate']:time())) . 
         " by and between the parties identified below.<p>\n";
@@ -52,6 +56,8 @@ services, under the following terms and conditions:<p>\n";
 
   if ($mode > -1) {  
     $Evs = Get_Events4Act($snum,$YEAR);
+  } else {
+//    $str .= "<span class=NotSide>";  
   }
   
   $ETs = Get_Event_Types();
@@ -87,7 +93,6 @@ services, under the following terms and conditions:<p>\n";
           $v = $Venues[$e['Venue']];
           $str .= "<a href=http://" . $_SERVER['HTTP_HOST'] . "/int/VenueShow.php?v=" . $v['VenueId'] . ">" . $v['SN'] . "</a><br>";
           if ($v['Address']) $str .= $v['Address'] . "<br>" . $v['PostCode'] ."<br>";
- //         if ($v['Description']) $str .= $v['Description'];
           if ($v['MusicRider']) $riders[$v] = 1;
           if ($v['Parking']) {
             $pkday[$e['Day']]++;
@@ -107,6 +112,8 @@ services, under the following terms and conditions:<p>\n";
     $str .= "</table>\n";
   } 
 
+//  if ($mode < -1) $str .= "</span>";
+
   $str .= "Total of $evc event" . ($evc>1?'s':'') . ", with a total duration of " . ($evv?"at least ":"") . DurationFormat($evd) . "<p>\n";
 
   $str .= "Total Fee: &pound;" . $Sidey['TotalFee'];
@@ -119,14 +126,19 @@ services, under the following terms and conditions:<p>\n";
     if ($Sidey[$dy]) $camp[] = $Sidey[$dy] . (($Sidey[$dy]) == 1 ?" person":" people") . " on " . $DayLongList[$day] . " " .
           ($MASTER['DateFri']+$day) . "th June $YEAR";
   }
-  if ($camp) $str .= "Camping will be provided for " . FormatList($camp) . " at the <a href=/InfoCamping.php>Meadows Campsite</a>.<p>\n"; 
+  if ($camp) {
+    
+    $str .= "Camping will be provided for ";
+    if ($mode < 1) $str .= "<span class=NotSide>";
+    $str .= FormatList($camp) . " at the <a href=/InfoCamping.php>Meadows Campsite</a>.<p>\n"; 
+    if ($mode < 1) $str .= "</span>";
+  }
 
   if ($Sidey['TotalFee']) {
     if ($Side['SortCode'] || $Side['Account'] || $Side['AccountName']) {
       $str .= "<b>BACS:</b> Sort Code: " . $Side['SortCode'] . " Account Number: " . $Side['Account'] . " Account Name : " . $Side['AccountName'] . "<p>\n";
     }
   }
-  
   
   if ($ctype == 1) $str .= "ON ARRIVAL: Please report to Information Desk in the Square (manned from 2pm Friday)<p>\n";
 
@@ -176,7 +188,7 @@ services, under the following terms and conditions:<p>\n";
     $str .= "This contract was " . $ContractMethods[$mode] . " on " . date('d/m/y',$Sidey['ContractDate']) . "<P>\n";
   }
 
-  if ($mode < -1) $str .= "<p>NOTE: The parking statement can be overridden to say there is free parking near the venue(s), if appropriate.<p>";
+  if ($mode < -1) $str .= "<p><span class=NotSide>NOTE: The parking statement can be overridden to say there is free parking near the venue(s), if appropriate.</span><p>";
 
   $str .= "</div>";  
   return $str;

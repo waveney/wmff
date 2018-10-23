@@ -185,7 +185,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
            "<label for=StagePAfile>File</label> <input type=radio $ADDALL name=StagePAtext value=2 onchange=setStagePA(0) id=StagePAfile " . ($f?"checked":"") . ">" .
            Help("StagePA");
       echo "<td id=StagePAtextF colspan=5" . ($f?' hidden':'') . " >" . fm_basictextarea($Side,'StagePA',5,1,'id=StagePA');
-      echo "<td id=StagePAFileF" . ($f?'':' hidden') . " colspan=4>";
+      echo "<td id=StagePAFileF" . ($f?'':' hidden') . " colspan=5>";
       $files = glob("PAspecs/$snum.*");
       if ($files) {
         $Current = $files[0];
@@ -638,15 +638,16 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
         echo fm_number1('Cost of this',$Sidey,'OtherPayCost','class=NotSide');
         if (Feature('CampControl')) {
           $campxtr =  ((Feature('CampControl') ==2 )? " class=NotCSide":'');
-          echo "<tr>";
+          
           if ($campxtr) {
-            echo "<td $campxtr>Camping numbers:" . fm_number1('Fri',$Sidey,'CampFri',$campxtr) . 
+            echo "<tr><td $campxtr>Camping numbers:" . fm_number1('Fri',$Sidey,'CampFri',$campxtr) . 
                   fm_number1('Sat',$Sidey,'CampSat',$campxtr) . fm_number1('Sun',$Sidey,'CampSun',$campxtr);
 
           } else {
-            echo "<td class=NotSide>" . fm_checkbox("Allow Camping",$Sidey,'EnableCamp','onchange="($(\'.CampDay\').toggle())"'); 
+            echo "<tr><td class=NotSide>" . fm_checkbox("Allow Camping",$Sidey,'EnableCamp','onchange="($(\'.CampDay\').toggle())"'); 
             $pcamp = " Class=CampDay " . ((isset($Sidey['EnableCamp']) && $Sidey['EnableCamp'])? '' : ' hidden');         
-            echo "<td $pcamp>Camping numbers:" . fm_number1('Fri',$Sidey,'CampFri',$pcamp) . 
+            // if ($Sidey['CampFri'] || $Sidey['CampSat'] || $Sidey['CampSun']) 
+              echo "<td $pcamp>Camping numbers:" . fm_number1('Fri',$Sidey,'CampFri',$pcamp) . 
                   fm_number1('Sat',$Sidey,'CampSat',$pcamp) . fm_number1('Sun',$Sidey,'CampSun',$pcamp);
 
           }
@@ -674,7 +675,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
         echo fm_hidden('EnableCamp',$Sidey['EnableCamp']);
         if (Feature('CampControl') == 2 ) {
           echo "<tr><td>Camping numbers:" . fm_number1('Fri',$Sidey,'CampFri') . fm_number1('Sat',$Sidey,'CampSat') . fm_number1('Sun',$Sidey,'CampSun');
-        } else {
+        } else if ($Sidey['CampFri'] || $Sidey['CampSat'] || $Sidey['CampSun'])  {
           echo "<tr><td>Camping numbers:";
           if ($Sidey['CampFri']) echo "<td>Friday: " . $Sidey['CampFri'];
           if ($Sidey['CampSat']) echo "<td>Saturday: " . $Sidey['CampSat'];

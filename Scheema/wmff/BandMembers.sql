@@ -1,0 +1,6 @@
+CREATE TABLE `BandMembers` (
+  `BandMemId` int(11) NOT NULL AUTO_INCREMENT,
+  `SN` text NOT NULL,
+  `BandId` int(11) NOT NULL,
+  PRIMARY KEY (`BandMemId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
