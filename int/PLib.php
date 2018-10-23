@@ -265,7 +265,20 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
           echo "<td class=NotSide><a href=Direct.php?id=$snum&key=" . $Side['AccessKey'] . "&Y=$YEAR>Use</a>" . help('Testing');
         }
       }
-      echo "<tr>" . fm_textarea('Notes',$Side,'Notes',7,2,'class=NotSide','class=NotSide');
+      echo "<tr>" . fm_textarea('Notes',$Side,'Notes',5,2,'class=NotSide','class=NotSide');
+      echo "<td class=NotSide colspan=2>";
+      if (file_exists("Store/Performers/$snum")) {
+/*
+        $fcount = ..;
+        if ($fcount < 2) {
+          if ($fcount == 1) echo "<>Name of File view download ";
+          echo "<button type=submit formaction='PerformerData.php?id=$snum&ACTION=STORE'>Store Files</button>";
+        } else {
+          echo "$fcount Files stored <button type=submit formaction='PerformerData.php?id=$snum&ACTION=LIST'>List Files</button>";
+        }*/
+      } else {
+        echo "<button type=submit formaction='PerformerData.php?id=$snum&ACTION=STORE'>Store Files</button>";
+      }
     }
   if (file_exists("testing") || Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=6 class=NotSide><textarea id=Debug></textarea>";
 

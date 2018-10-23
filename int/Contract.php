@@ -16,7 +16,7 @@ function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-2 dummy-1 Draft,0 prop
     $Booked = Get_User($Sidey['BookedBy']);
     $kwd = ($mode < 0?'DRAFT':($mode ==0?'Proposed':''));
   } else {
-    $str .= "<span class=NotSide>Data that has been filled (other than the list of performances) in as part of the dummy are marked this way</span><p>";
+    $str .= "<span class=NotSide>Data that has been filled (other than the list of performances) in as part of the dummy contract are marked this way.</span><p>";
     
     $Side = ['SN' => '<span class=NotSide>Dummy Performer</span>','StagePA'=>'Just a Mike', 
              'SortCode'=>'<span class=NotSide>99 99 99</span>', 'Account'=>'<span class=NotSide>12345678</span>', 
@@ -30,7 +30,7 @@ function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-2 dummy-1 Draft,0 prop
               'Rider' => '<span class=NotSide>If there is any riders on the contract they will appear here</span>',
              ];
     $Booked = Get_User(4);
-    $kwd = 'Dummy';
+    $kwd = 'Dummy Music';
     foreach($Venues as $i=>$v) { $Ven = $i; break;};
     $Evs = [['SN' => 'Concert','Type' => 5, 'Day'=> 1, 'Start'=>1900, 'End'=>2000, 'Setup' => 10, 'Venue'=>$Ven, 'SubEvent' => 0, 'Duration'=>60]];
   }
@@ -188,7 +188,10 @@ services, under the following terms and conditions:<p>\n";
     $str .= "This contract was " . $ContractMethods[$mode] . " on " . date('d/m/y',$Sidey['ContractDate']) . "<P>\n";
   }
 
-  if ($mode < -1) $str .= "<p><span class=NotSide>NOTE: The parking statement can be overridden to say there is free parking near the venue(s), if appropriate.</span><p>";
+  if ($mode < -1) {
+    $str .= "<p><span class=NotSide>NOTE: The parking statement can be overridden to say there is free parking near the venue(s), if appropriate.</span><p>";
+    $str .= "<p><span class=NotSide>NOTE2: Additional clause(s) can be added for a particular venue, if appropriate.</span><p>";
+  }
 
   $str .= "</div>";  
   return $str;
