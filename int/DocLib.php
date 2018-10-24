@@ -360,6 +360,49 @@ function Find_Doc_For($fname) {
   return $ans;
 }
 
+function Find_Dir_For($dname) { 
+  global $db;
+  $chunks = preg_split('/\//',$dname);
+  $nchunks = sizeof($chunks);
+  if ($nchunks <= 1) return 0;
+  $d = 0;
+  $chk = 1;
+  while ($chk < $nchunks-1) {
+    $res = $db->query("SELECT * FROM Directories WHERE Parent='" . $d . "' AND SN='" . $chunks[$chk] . "'");
+    if (!$res) return 0;
+    $ans = $res->fetch_assoc();
+    $d = $ans['DirId'];
+    $chk++;
+  }
+  return $d;
+}
+
+function Make_dir_Path($Path,$User=1) {
+  umask(0);
+  $chunks = preg_split('/\//',$dname);
+  if ($chunk[0] != 'Store') array_unshift($chunks,'Store');
+  
+  $CurD = 0;
+  $CurP = '.';
+  foreach ($chunks as $chunk) {
+    $CurP .= "/$chunk";
+    if (!file_exists($CurP)) {
+    }
+  }
+              umask(0);
+            $ans = mkdir ($ndir,0777,1);
+            $newrec = array('SN'=>addslashes($NewDir), 'Who'=>$USERID, 'Created'=>time(), 'Parent'=> $d);
+            Insert_db('Directories',$newrec);
+
+}
+
+function Dir_File_Count($dir) {
+  global $db;
+  $res = $db->query("SELECT * FROM Documents WHERE Dir='" . $d );
+  if (!$res) return 0;
+  return $res->num_rows;
+}
+
 function SearchForm($where=0) {
   $SearchLocs = ['Everywhere','Here'];
   if (!isset($_POST{'Titles'}) && !isset($_POST{'Cont'})) { $_POST{'Titles'} = 1; }

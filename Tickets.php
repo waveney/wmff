@@ -15,9 +15,7 @@
 
 Select from the options below to purchase your tickets for Wimborne Minster Folk Festival <?php echo $YEAR ?>.<p>
  
-Your ticket will grant you access to official festival concerts and ceilidhs listed below. 
-During the festival weekend there are unofficial events in Wimborne that these tickets do
-not cover and we are unable to refund tickets bought in error.<p>
+Your ticket will grant you access to official festival concerts and ceilidhs listed below.<p>
 
 <?php
   if ($MASTER['BookingFee']) echo "Please note that there is a booking fee of " . $MASTER['BookingFee'] . " when ordering tickets online.<p> ";
@@ -40,7 +38,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 
 <a href=/InfoCamping.php><b>Camping Information and Camping Tickets.</b></a><p>
 
-<p><table cellspacing="5" cellpadding="5" style="background-color:#39a5d8; border-color:#39a5d8">
+<p><table cellspacing="5" cellpadding="5" style="background-color:#39a5d8; border-color:#39a5d8; max-width:1200">
 <tr><th colspan="5">Festival Passes</th>
 <?php
   foreach(['Weekend','Friday','Saturday','Sunday'] as $day) {
@@ -120,6 +118,29 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 ?>
 
 </table></p>
+
+<table cellspacing="5" cellpadding="5" style="background-color:#59B404; border-color:#59B404; max-width:1200;">
+<tr><th colspan=3>Camping Tickets
+<?php
+  $Avails = [
+             'Thursday, Friday, Saturday and Sunday nights'=>['TFSS',4],
+             'Thursday, Friday and Saturday nights'=>['TFSx',3],
+             'Thursday and Friday nights'=>['TFxx',2],             
+             'Thursday night only'=>['Txxx',1],
+             'Friday, Saturday and Sunday nights'=>['xFSS',3],
+             'Friday and Saturday nights'=>['xFSx',2],
+             'Friday night only'=>['xFxx',1],
+             'Saturday and Sunday nights'=>['xxSS',2],
+             'Saturday night only'=>['xxSx',1],
+             'Sunday night only'=>['xxxS',1],
+            ];
+   foreach ($Avails as $txt=>$dat) {
+     if (!$MASTER['CampingCode_' . $dat[0] ]) continue;
+     echo "<tr><td>$txt Camping<td>" . Print_Pence($MASTER['CampingPrice' . $dat[1] . 'Day']*100) . "<td>";
+     echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER['CampingCode_' . $dat[0] ] . "' target=_blank><b>Buy Now</b></a>";
+   }
+?>
+</table><p>
 
 <h2 class="subtitle">Child Tickets</h2>
 

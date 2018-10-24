@@ -4,7 +4,7 @@
 
   dostaffhead("List Traders", "/js/clipboard.min.js", "/js/emailclick.js");
 
-  global $YEAR,$PLANYEAR,$Trade_States,$Trade_StateClasses,$Trade_State,$TS_Actions,$ButExtra;
+  global $YEAR,$PLANYEAR,$Trade_States,$Trade_StateClasses,$Trade_State,$TS_Actions,$ButExtra,$TradeLocData;
   include_once("TradeLib.php");
 
   $Sum = isset($_GET['SUM']);
@@ -25,8 +25,11 @@
   }
 
   $Trade_Types = Get_Trade_Types(1);
-  $TradeLocs = Get_Trade_Locs();
   $TrMon = $TrRec = $TrSub = $TrState = array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+  foreach ($TradeLocData as $i=>$TLoc) {
+    $TradeLocData[$i]['ReceiveTot'] = $TradeLocData[$i]['AcceptTot'] = $TradeLocData[$i]['QuoteTot'] = 0;
+  }
+  $TotLRec = $TotLAcc = $TotLQut = 0;
 
   if (isset($_GET['ACTION'])) {
     $Tid = $_GET['id'];
@@ -157,7 +160,7 @@
           if ($fetch["PitchSize$i"]) {
             if ($i) $str .= "<br>";
             if ($fetch["PitchLoc$i"]) {
-               $str .= NoBreak($TradeLocs[$fetch["PitchLoc$i"]]);
+               $str .= NoBreak($TradeLocData[$fetch["PitchLoc$i"]]['SN']);
               if ($fetch["PitchNum$i"]) $str .= "&nbsp;" . $fetch["PitchNum$i"];
             } else {
               $str .= "&nbsp;";
@@ -199,6 +202,19 @@
           $TrSub[$fetch['TradeType']] += $fee;
           $totsub += $fee;
         }
+        $pitches = 0;
+        for ($i = 0; $i<3; $i++) if ($fetch["PitchLoc$i"]) $pitches++;
+        if ($pitches) {
+          for ($i = 0; $i < 3; $i++) {
+            if ($fetch["PitchLoc$i"]) {
+              if ($stat >= $Trade_State['Submitted'] && $stat != $Trade_State['Quoted'] && $stat != $Trade_State['Wait List']) {
+                $TradeLocData[$fetch["PitchLoc$i"]]['AcceptTot'] += $fee/$pitches;
+              }
+              $TradeLocData[$fetch["PitchLoc$i"]]['QuoteTot'] += $fee/$pitches;
+              $TradeLocData[$fetch["PitchLoc$i"]]['ReceiveTot'] += $fetch['TotalPaid']/$pitches;
+            }
+          }
+        }
       }
     }
     $str .= "</tbody></table>\n";
@@ -215,12 +231,26 @@
     }
   }
   echo "<tr><td>Total Fees<td>&pound;$totrec<td>&pound;$totsub<td>&pound;$totfee<td>\n";
+  echo "</table>";
+  echo "<table border id=narrowtable><tr><td>Location<td>Received<td>Total Accept<td>Total inc Quoted<td>Details\n";
+  foreach ($TradeLocData as $TLoc) {
+    if (!isset($TLoc['QuoteTot']) || $TLoc['QuoteTot'] == 0) continue;
+    echo "<tr><td>" . $TLoc['SN'];
+    echo "<td>&pound;" . $TLoc['ReceiveTot'] . "<td>&pound;" . round($TLoc['AcceptTot']) . "<td>&pound;" . round($TLoc['QuoteTot']);
+    echo "<td><a href=ListDTrade.php?l=" . round($TLoc['TLocId']) . ">Details</a>\n";
+    $TotLRec += $TLoc['ReceiveTot'];
+    $TotLAcc += $TLoc['AcceptTot'];
+    $TotLQut += $TLoc['QuoteTot'];
+    }
+  echo "<tr><td>Total Fees<td>&pound;$TotLRec<td>&pound;$TotLAcc<td>&pound;$TotLQut<td>\n";
+
   echo "</table>\n";
   echo "<table border id=narrowtable><tr><td>State<td>Number\n";
   foreach ($Trade_States as $i=>$state) {
     if (isset($TrState[$i]) && $TrState[$i]>0) echo "<tr><td class=" . $Trade_StateClasses[$i] . ">$state<td>" . $TrState[$i];
   }
-  echo "</table><p>";
+  echo "</table>";
+  echo "<p>";
   dotail();
 ?>
 

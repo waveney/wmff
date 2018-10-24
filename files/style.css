@@ -139,7 +139,7 @@ h2 {
     min-height:580px;
     margin: 0 auto 0 auto;
     padding: 15px 25px;
-  background-color:#c2eff4;
+/*  background-color:#ffffaa;*/
     }
 .footer
     {
@@ -828,7 +828,7 @@ textarea:Focus
 .lemontab, .lemontab td {
   padding:5;
   border-spacing:5;
-  width:auto;
+  max-width:1200;
 }
 .sponcontainer {
   position:relative;
@@ -918,7 +918,14 @@ textarea {
   box-sizing:border-box;
 }
 
-.ArtBanner {}
+#ArtShow {
+  margin:auto;
+}
+
+.ArtBanner {
+  max-width:1000;
+  margin:auto;
+}
 
 .ArtColClass {
   float:left;
@@ -931,7 +938,9 @@ textarea {
 .Art {
   border-width:2px;
   border-style:solid;
-  border-color:#a30046;
+  border:none;
+  background:white;
+/*  border-color:#a30046; */
   padding:8px;
   margin-bottom:20px;
 }

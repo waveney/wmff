@@ -25,7 +25,7 @@ The site is just a 10 minute walk from the town centre over Julian's bridge.<p>
 if ($MASTER['TicketControl'] == 1) {
 ?>
 Camping at Meadows Campsite this year is <strong>&pound;10</strong> for the first night and <strong>&pound;8</strong> for each additional night.  
-Under 10's are free.<p>
+Under 8's are free.<p>
 
 <?php
   if ($MASTER['BookingFee']) echo "Please note that there is a booking fee of " . $MASTER['BookingFee'] . " when ordering tickets online. <p>";
@@ -38,27 +38,27 @@ Please be aware that access to/from the town on foot is over Julian's bridge, wh
 This year the campsite will be available from Thursday (5pm onwards).<p>
 
 
-<table cellspacing="5" cellpadding="5" style="background-color:#59B404; border-color:#59B404; width:50%;">
+<table cellspacing="5" cellpadding="5" style="background-color:#59B404; border-color:#59B404; max-width:900;">
 <?php
-  $Avails = ['Weekend (Friday to Monday morning)'=>['xFSS',3],
-             'Thursday only'=>['Txxx',1],
-             'Thursday and Friday'=>['TFxx',2],             
-             'Thursday to Sunday morning'=>['TFSx',3],
-             'Four Day (Thursday to Monday morning)'=>['TFSS',4],
-             'Friday only'=>['xFxx',1],
-             'Friday and Saturday'=>['xFSx',2],
-             'Saturday only'=>['xxSx',1],
-             'Saturday and Sunday'=>['xxSS',2],
-             'Sunday only'=>['xxxS',1]
+  $Avails = [
+             'Thursday, Friday, Saturday and Sunday nights'=>['TFSS',4],
+             'Thursday, Friday and Saturday nights'=>['TFSx',3],
+             'Thursday and Friday nights'=>['TFxx',2],             
+             'Thursday night only'=>['Txxx',1],
+             'Friday, Saturday and Sunday nights'=>['xFSS',3],
+             'Friday and Saturday nights'=>['xFSx',2],
+             'Friday night only'=>['xFxx',1],
+             'Saturday and Sunday nights'=>['xxSS',2],
+             'Saturday night only'=>['xxSx',1],
+             'Sunday night only'=>['xxxS',1],
             ];
    foreach ($Avails as $txt=>$dat) {
      if (!$MASTER['CampingCode_' . $dat[0] ]) continue;
      echo "<tr><td>$txt Camping<td>" . Print_Pence($MASTER['CampingPrice' . $dat[1] . 'Day']*100) . "<td>";
-     echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER['CampingCode_' . $dat[0] ] . "' target=_blank>";
-     echo "<img border=0 width=130 height=56 alt='Book now' src='https://www.ticketsource.co.uk/images/bookNow/bookNow-black-small.png'>";
+     echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER['CampingCode_' . $dat[0] ] . "' target=_blank><b>Buy Now</b></a>";
    }
 ?>
-</table>
+</table><p>
 
 <?php 
 } else {
@@ -66,7 +66,7 @@ This year the campsite will be available from Thursday (5pm onwards).<p>
 
 <b>Online booking has now closed</b><p>
 
-Camping at Meadows Campsite this year is <strong>&pound;10</strong> per person per night at the gate. Under 10's are free.<p>
+Camping at Meadows Campsite this year is from <strong>&pound;8</strong> per person per night. Under 8's are free.<p>
 
 The site has toilets, showers, food and good 24 hour security. Entry to the campsite is by camping wristband only.<p>
 

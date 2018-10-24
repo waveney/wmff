@@ -90,7 +90,7 @@
       echo "<li class=smalltext><a href=ResetImageSizes.php?PERF>Scan and save Image sizes</a>";
       echo "</table><p>\n";
     }
-    echo "<li><a href=ContractView.php>Dummy Music Contract</a>";
+    echo "<li><a href=ContractView.php?t=1>Dummy Music Contract</a>";
     echo "<li><a href=LiveNLoudView.php?Y=$YEAR>Show Live N Loud applications</a>";
     echo "<li><a href=BuskersBashView.php?Y=$YEAR>Show Buskers Bash applications</a>";
     if (Access('SysAdmin')) echo "<li class=smalltext><a href=LiveNLoudEmail.php>Send LNL bulk email</a>";

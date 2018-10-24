@@ -63,7 +63,9 @@ $(document).ready(function() {
   debugger;
   
   var MinWidth = 450;
+  var MaxWidth = 700;
   var PadWidth = 20;
+  var MaxCols = 3;
   
   var OrigArt = $('#OrigArt');
   if (!OrigArt) return; 
@@ -75,8 +77,8 @@ $(document).ready(function() {
     var ColCount = 1;
     var Cols =[];
     
-    if (WorkWidth > (2*MinWidth+PadWidth)) ColCount = Math.floor(WorkWidth/(MinWidth+PadWidth));
-    var ActOutColWidth = Math.floor((WorkWidth - ColCount*PadWidth)/ColCount) - 5;
+    if (WorkWidth > (2*MinWidth+PadWidth)) ColCount = Math.min(Math.floor(WorkWidth/(MinWidth+PadWidth)));
+    var ActOutColWidth = Math.min(Math.floor((WorkWidth - ColCount*PadWidth)/ColCount) - 5,MaxWidth);
     var ActColWidth = ActOutColWidth-PadWidth
 
     // Create columns
