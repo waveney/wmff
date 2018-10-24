@@ -241,8 +241,8 @@
   foreach ($TradeLocData as $TLoc) {
     if (!isset($TLoc['QuoteTot']) || $TLoc['QuoteTot'] == 0) continue;
     echo "<tr><td>" . $TLoc['SN'];
-    echo "<td>&pound;" . $TLoc['ReceiveTot'] . "<td>&pound;" . $TLoc['AcceptTot'] . "<td>&pound;" . $TLoc['QuoteTot'];
-    echo "<td><a href=ListDTrade.php?l=" . $TLoc['TLocId'] . ">Details</a>\n";
+    echo "<td>&pound;" . $TLoc['ReceiveTot'] . "<td>&pound;" . round($TLoc['AcceptTot']) . "<td>&pound;" . round($TLoc['QuoteTot']);
+    echo "<td><a href=ListDTrade.php?l=" . round($TLoc['TLocId']) . ">Details</a>\n";
     $TotLRec += $TLoc['ReceiveTot'];
     $TotLAcc += $TLoc['AcceptTot'];
     $TotLQut += $TLoc['QuoteTot'];
