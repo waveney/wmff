@@ -828,7 +828,7 @@ textarea:Focus
 .lemontab, .lemontab td {
   padding:5;
   border-spacing:5;
-  width:auto;
+  max-width:1200;
 }
 .sponcontainer {
   position:relative;
@@ -918,7 +918,14 @@ textarea {
   box-sizing:border-box;
 }
 
-.ArtBanner {}
+#ArtShow {
+  margin:auto;
+}
+
+.ArtBanner {
+  max-width:1000;
+  margin:auto;
+}
 
 .ArtColClass {
   float:left;

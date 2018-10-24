@@ -231,11 +231,6 @@
     }
   }
   echo "<tr><td>Total Fees<td>&pound;$totrec<td>&pound;$totsub<td>&pound;$totfee<td>\n";
-  echo "</table>\n";
-  echo "<table border id=narrowtable><tr><td>State<td>Number\n";
-  foreach ($Trade_States as $i=>$state) {
-    if (isset($TrState[$i]) && $TrState[$i]>0) echo "<tr><td class=" . $Trade_StateClasses[$i] . ">$state<td>" . $TrState[$i];
-  }
   echo "</table>";
   echo "<table border id=narrowtable><tr><td>Location<td>Received<td>Total Accept<td>Total inc Quoted<td>Details\n";
   foreach ($TradeLocData as $TLoc) {
@@ -248,7 +243,14 @@
     $TotLQut += $TLoc['QuoteTot'];
     }
   echo "<tr><td>Total Fees<td>&pound;$TotLRec<td>&pound;$TotLAcc<td>&pound;$TotLQut<td>\n";
-  echo "</table><p>";
+
+  echo "</table>\n";
+  echo "<table border id=narrowtable><tr><td>State<td>Number\n";
+  foreach ($Trade_States as $i=>$state) {
+    if (isset($TrState[$i]) && $TrState[$i]>0) echo "<tr><td class=" . $Trade_StateClasses[$i] . ">$state<td>" . $TrState[$i];
+  }
+  echo "</table>";
+  echo "<p>";
   dotail();
 ?>
 

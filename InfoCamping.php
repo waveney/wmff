@@ -38,7 +38,7 @@ Please be aware that access to/from the town on foot is over Julian's bridge, wh
 This year the campsite will be available from Thursday (5pm onwards).<p>
 
 
-<table cellspacing="5" cellpadding="5" style="background-color:#59B404; border-color:#59B404; width:50%;">
+<table cellspacing="5" cellpadding="5" style="background-color:#59B404; border-color:#59B404; max-width:900;">
 <?php
   $Avails = [
              'Thursday, Friday, Saturday and Sunday nights'=>['TFSS',4],
@@ -55,8 +55,7 @@ This year the campsite will be available from Thursday (5pm onwards).<p>
    foreach ($Avails as $txt=>$dat) {
      if (!$MASTER['CampingCode_' . $dat[0] ]) continue;
      echo "<tr><td>$txt Camping<td>" . Print_Pence($MASTER['CampingPrice' . $dat[1] . 'Day']*100) . "<td>";
-     echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER['CampingCode_' . $dat[0] ] . "' target=_blank>";
-     echo "<img border=0 width=130 height=56 alt='Book now' src='https://www.ticketsource.co.uk/images/bookNow/bookNow-black-small.png'>";
+     echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER['CampingCode_' . $dat[0] ] . "' target=_blank><b>Buy Now</b></a>";
    }
 ?>
 </table><p>
