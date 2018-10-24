@@ -811,7 +811,6 @@ function Validate_Pitches(&$CurDat) {
   return 0;   
 }
 
-
 function Trade_Main($Mode,$Program,$iddd=0) {
 // Mode 0 = Traders, 1 = ctte, Program = Trade/Trader$iddd if set starts it up, with that Tid
 
@@ -1097,6 +1096,11 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
       Trade_Action('Accept',$Trad,$Trady,$Mode,"$Hist $Action");
       return;
     } else {
+      if ($CurState >= 'Submitted') {
+        echo "<h3>This has already been Submitted</h3>";
+        return;
+      }
+
       echo "This takes a few seconds, please be patient.<p>";
       $NewState = $Trade_State['Submitted'];
       Submit_Application($Trad,$Trady,$Mode);
@@ -1104,6 +1108,10 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
     break;
 
   case 'Accept' :
+    if ($CurState >= 'Accepted') {
+      echo "<h3>This has already been accepted</h3>";
+      return;
+    }
     $Dep = T_Deposit($Trad);
     $NewState = $Trade_State['Accepted'];
     if ($Dep <= $PaidSoFar) {
@@ -1125,6 +1133,11 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
     break;
     
   case 'Invoice':
+    if ($CurState >= 'Invoiced') {
+      echo "<h3>This has already been Invoiced</h3>";
+      return;
+    }
+
     if ($CurState == $Trade_State['Fully Paid']) break; // should not be here...
     $Fee = $Trady['Fee'];
     if ($Fee <= $PaidSoFar) { // Fully paid on depoist invoice - needs final invoice
@@ -1150,6 +1163,11 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
     break;
 
   case 'Decline' :
+    if ($CurState == 'Declined') {
+      echo "<h3>This has already been Declined</h3>";
+      return;
+    }
+
     $NewState = $Trade_State['Declined'];
     $att = 0;
     if ($CurState == $Trade_State['Accepted']) { // Should not be here ...
@@ -1161,6 +1179,11 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
     break;
 
   case 'Hold' :
+    if ($CurState == 'Wait List') {
+      echo "<h3>This has already been Wait Listed</h3>";
+      return;
+    }
+
     $NewState = $Trade_State['Wait List'];
     Send_Trader_Email($Trad,$Trady,'Trade_Hold');
     break;
@@ -1219,6 +1242,11 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
     break;
 
   case 'Cancel' : // If invoiced - credit note, free up fee and locations if set email moe need a reason field
+    if ($CurState == 'Cancelled') {
+      echo "<h3>This has already been Cancelled</h3>";
+      return;
+    }
+
     $att = 0;
 
     // Is there an invoice ? If so credit it and attach credit note
@@ -1337,7 +1365,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
     if ($Invs) $att = Get_Invoice_Pdf($Invs[0]['id']);
 
     Send_Trader_Email($Trad,$Trady,'Trade_Statement',$att); 
-
+    echo "<h3>An Email has been sent to you with a statement of where your booking is</h3>";
     break;
   default:
     break;

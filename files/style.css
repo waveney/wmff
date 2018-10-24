@@ -139,7 +139,7 @@ h2 {
     min-height:580px;
     margin: 0 auto 0 auto;
     padding: 15px 25px;
-  background-color:#c2eff4;
+/*  background-color:#ffffaa;*/
     }
 .footer
     {
@@ -931,7 +931,9 @@ textarea {
 .Art {
   border-width:2px;
   border-style:solid;
-  border-color:#a30046;
+  border:none;
+  background:white;
+/*  border-color:#a30046; */
   padding:8px;
   margin-bottom:20px;
 }

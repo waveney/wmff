@@ -67,7 +67,7 @@ This year the campsite will be available from Thursday (5pm onwards).<p>
 
 <b>Online booking has now closed</b><p>
 
-Camping at Meadows Campsite this year is from <strong>&pound;8</strong> per person per night at the gate. Under 8's are free.<p>
+Camping at Meadows Campsite this year is from <strong>&pound;8</strong> per person per night. Under 8's are free.<p>
 
 The site has toilets, showers, food and good 24 hour security. Entry to the campsite is by camping wristband only.<p>
 

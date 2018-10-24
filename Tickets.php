@@ -15,9 +15,7 @@
 
 Select from the options below to purchase your tickets for Wimborne Minster Folk Festival <?php echo $YEAR ?>.<p>
  
-Your ticket will grant you access to official festival concerts and ceilidhs listed below. 
-During the festival weekend there are unofficial events in Wimborne that these tickets do
-not cover and we are unable to refund tickets bought in error.<p>
+Your ticket will grant you access to official festival concerts and ceilidhs listed below.<p>
 
 <?php
   if ($MASTER['BookingFee']) echo "Please note that there is a booking fee of " . $MASTER['BookingFee'] . " when ordering tickets online.<p> ";

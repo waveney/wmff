@@ -277,7 +277,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
           echo "$fcount Files stored <button type=submit formaction='PerformerData.php?id=$snum&ACTION=LIST'>List Files</button>";
         }*/
       } else {
-        echo "<button type=submit formaction='PerformerData.php?id=$snum&ACTION=STORE'>Store Files</button>";
+        if (Access('SysAdmin')) echo "<button type=submit formaction='PerformerData.php?id=$snum&ACTION=STORE'>Store Files</button>";
       }
     }
   if (file_exists("testing") || Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=6 class=NotSide><textarea id=Debug></textarea>";
