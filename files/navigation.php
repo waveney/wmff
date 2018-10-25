@@ -65,17 +65,23 @@
      <a href=$host/InfoSoftware.php>Software</a>
   </div>
 </div>
-<!--
 <div class=dropdown onmouseover=NoHoverSticky(event)>
   <a href=$host/About.php class=NotYet>About</a>
   <div class=dropdown-content>
      <a href=$host/AboutWMFF.php class=NotYet>About the Festival</a>
+     <a href=$host/FestivalHistory.php class=NotYet>Festival History</a>
+
+     <a href=$host/DanceStyles.php class=NotYet>Dance Styles</a>
+     <a href=$host/DanceComp.php class=NotYet>North West Dance Competition</a>
+          
      <a href=$host/AboutWimborne.php class=NotYet>About Wimborne</a>
      <a href=$host/EnjoyWimborne.php class=NotYet>Enjoy Wimborne</a>
-     <a href=$host/FestivalHistory.php class=NotYet>Festival History</a>
+
+     <a href=$host/LiveNLoud.php >Live and Loud</a>
+     <a href=$host/BuskersBash.php>Buskers Bash</a>
   </div>
 </div>
--->
+<a href=$host/InfoStewards.php onmouseover=NoHoverSticky()>Volunteer</a>
 <div class=dropdown onmouseover=NoHoverSticky(event)>
   <a onclick=NavStick(event)>Gallery</a>
   <div class=dropdown-content>
@@ -88,15 +94,16 @@
      <a href=$host/int/ShowGallery.php?g=3>2017 Laugh Out Loud</a>
   </div>
 </div>
+<!--
 <div class=dropdown onmouseover=NoHoverSticky(event)>
-  <a onclick=NavStick(event)>Other Events</a>
+  <a onclick=NavStick(event class=NotYet)>Other Events</a>
   <div class=dropdown-content>
      <a href=$host/LiveNLoud.php >Live and Loud</a>
      <a href=$host/BuskersBash.php>Buskers Bash</a>
      <a href=$host/OtherFest.php>Other Festivals</a>
   </div>
 </div>
-
+-->
 <a href=http://facebook.com/WimborneFolk onmouseover=NoHoverSticky() target=_blank>
 <img class=headericon src=/images/icons/Facebook.png alt=Facebook title='Wimborne Minster Folk Festival on Facebook'></a>
 <a href=http://twitter.com/WimborneFolk onmouseover=NoHoverSticky() target=_blank>

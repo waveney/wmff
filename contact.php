@@ -12,8 +12,8 @@
 </tr>
 <tr>
 <td>Music</td>
-<td style="font-weight:bold; color:orange;">Opening soon</td>
-<td>Music applications are <strong>Opening soon</strong> for the 2019 festival.</td>
+<td style="font-weight:bold; color:#00cc00;">Open</td>
+<td>Music applications are open for the 2019 festival.</td>
 </tr>
 <tr>
 <td>Dance</td>
@@ -28,7 +28,8 @@
 <tr>
 <td>Volunteers</td>
 <td style="font-weight:bold; color:#00CC00;">Open</td>
-<td>Visit our <a href=/InfoStewards.php><strong>Volunteers</strong></a> page to apply online for stewarding, technical crew, artistic team and media team positions.</td>
+<td>Visit our <a href=/InfoStewards.php><strong>Volunteers</strong></a> page to apply online for stewarding, setup/cleardown crew, technical crew, 
+artistic team and media team positions.</td>
 </tr>
 </table></p>
 

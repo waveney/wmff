@@ -60,24 +60,24 @@ $(document).ready(function() {
 
 // Article Display
 $(document).ready(function() {
-  debugger;
   
-  var MinWidth = 450;
-  var MaxWidth = 700;
+  var MinWidth = 300;
+  var MaxWidth = 600;
   var PadWidth = 20;
-  var MaxCols = 3;
+  var MaxColns = 99;
   
   var OrigArt = $('#OrigArt');
   if (!OrigArt) return; 
   
   function SetupArts() {
     // Works out columns
+    debugger;
     var Show = $('#ShowArt');
     var WorkWidth = Show.width();
     var ColCount = 1;
     var Cols =[];
     
-    if (WorkWidth > (2*MinWidth+PadWidth)) ColCount = Math.min(Math.floor(WorkWidth/(MinWidth+PadWidth)));
+    if (WorkWidth > (2*MinWidth+PadWidth)) ColCount = Math.min(Math.floor(WorkWidth/(MinWidth+PadWidth)),MaxColns);
     var ActOutColWidth = Math.min(Math.floor((WorkWidth - ColCount*PadWidth)/ColCount) - 5,MaxWidth);
     var ActColWidth = ActOutColWidth-PadWidth
 
@@ -180,6 +180,7 @@ $(document).ready(function() {
     SetupArts();    
   }
 
+  [MinWidth, MaxWidth, PadWidth, MaxColns] = $('#ShowArt').data('settings').split(',').map(Number); // Settings
   SetupArts();
   window.addEventListener('resize',ArtResize);
 });

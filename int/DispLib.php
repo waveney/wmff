@@ -290,9 +290,9 @@ function Show_Articles_For($page='',$future=0) {
   if ($future == 0 && !Feature('UseArticles')) return;
   include_once("DanceLib.php");
   
-  $Arts = Get_All_Articles(0,$page,$future);
+  $Arts = Get_All_Articles(0,$page,$future,$datas='400,700,20,3');
 //  var_dump($Arts);
-  echo "<div id=ShowArt></div><p>";
+  echo "<div id=ShowArt data-settings='$datas'></div><p>";
   echo "<div id=OrigArt hidden>";
   foreach ($Arts as $i=>$Art) {
     $fmt = (isset($Art['Format'])?$Art['Format']:0);

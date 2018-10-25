@@ -134,13 +134,16 @@ h2 {
     {
     background-color:#005983;
     }
-.content
-    {
+.content, .contentlim     {
     min-height:580px;
     margin: 0 auto 0 auto;
     padding: 15px 25px;
 /*  background-color:#ffffaa;*/
     }
+.contentlim {
+  max-width:1500;
+  margin:auto;
+}
 .footer
     {
     font-size:13px;

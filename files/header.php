@@ -16,4 +16,6 @@
     <link href="/files/themes.css" type="text/css" rel="stylesheet" />
     <script src="/js/lightbox.js"></script>
     <link href="/css/lightbox.css" rel="stylesheet" />
+    <script src="/js/responsiveslides.js"></script>
+    <link href="/css/responsiveslides.css" rel="stylesheet" />
 
