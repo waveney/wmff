@@ -7,7 +7,7 @@
   include_once("int/MapLib.php");
 ?>
 <h2 class="maintitle">Camping</h2>
-<div class=rightdiv>
+<div class=rightdiv style='margin-bottom:50'>
 <div class="biodiv">
 <img src="http://wimbornefolk.co.uk/images/Wimborne-Folk-Festival-Campsite.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
 The Meadows Campsite during the folk festival weekend<p>

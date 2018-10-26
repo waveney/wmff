@@ -23,7 +23,6 @@
   <div class=dropdown-content>
      <a href=$host/LineUpDance.php>Dance</a>
      <a href=$host/LineUpMusic.php>Music</a>
-     <a href=$host/TraderList.php>Traders</a>
      <a href=$host/LineUpOther.php>Family/Comedy/Other</a>
   </div>
 </div>
@@ -43,6 +42,7 @@
      <a href=$host/Sherlock.php?t=Session >Sessions</a>
      <a href=$host/Sherlock.php?t=Craft>Craft</a>
      <a href=$host/Sherlock.php?t=Other>Other</a>
+     <a href=$host/TraderList.php>Traders</a>
   </div>
 </div>
 <a href=$host/Tickets.php onmouseover=NoHoverSticky()>Tickets</a>
@@ -55,7 +55,7 @@
      <a href=$host/InfoGettingHere.php>Travel - Trains, Buses and Taxis</a>
      <a href=$host/InfoWater.php>Water Bottle Refills</a>
      <a href=$host/InfoSponsors.php>Sponsorship</a>
-     <a href=$host/InfoStewards.php>Stewards</a>
+     <a href=$host/InfoStewards.php>Volunteers</a>
      <a href=$host/info/trade>Trade Stands</a>
      <a href=$host/contact.php>Contact</a>
      <a href=$host/RoadClosure.php >Road Closures</a>
@@ -66,16 +66,16 @@
   </div>
 </div>
 <div class=dropdown onmouseover=NoHoverSticky(event)>
-  <a href=$host/About.php class=NotYet>About</a>
+  <a href=$host/About.php>Curiosity</a>
   <div class=dropdown-content>
-     <a href=$host/AboutWMFF.php class=NotYet>About the Festival</a>
-     <a href=$host/FestivalHistory.php class=NotYet>Festival History</a>
+     <a href=$host/int/ShowArticles.php?w=AboutWMFF class=NotYet>About the Festival</a>
+     <a href=$host/int/ShowArticles.php?w=FestHistory class=NotYet>Festival History</a>
 
-     <a href=$host/DanceStyles.php class=NotYet>Dance Styles</a>
-     <a href=$host/DanceComp.php class=NotYet>North West Dance Competition</a>
+     <a href=$host/int/ShowArticles.php?w=DanceStyles class=NotYet>Dance Styles</a>
+     <a href=$host/int/ShowArticles.php?w=NWDance class=NotYet>North West Dance Competition</a>
           
-     <a href=$host/AboutWimborne.php class=NotYet>About Wimborne</a>
-     <a href=$host/EnjoyWimborne.php class=NotYet>Enjoy Wimborne</a>
+     <a href=$host/int/ShowArticles.php?w=AboutWimborne class=NotYet>About Wimborne</a>
+     <a href=$host/int/ShowArticles.php?w=EnjoyWimborne class=NotYet>Enjoy Wimborne</a>
 
      <a href=$host/LiveNLoud.php >Live and Loud</a>
      <a href=$host/BuskersBash.php>Buskers Bash</a>

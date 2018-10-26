@@ -21,7 +21,7 @@ function formatminimax(&$side,$link,$mnat=2) {
   echo "<div class=$mnmx" . "_$fmt id=$id>";
   echo "<a href=/int/$link?sidenum=" . $side['SideId'] . "&Y=$YEAR>";
   if ($mnmx != 'maxi' && $side['Photo']) echo "<div class=mnmximgwrap><img class=mnmximg src='" . $side['Photo'] ."'></div>";
-  echo "<div class=mnmxttl style='font-size:" . (27+$side['Importance']*3) . "px'>" . $side['SN'] . "</div>";
+  echo "<div class=mnmxttl style='font-size:" . (24+$side['Importance']*3) . "px'>" . $side['SN'] . "</div>";
   if ($mnmx == 'maxi' && $side['Photo']) echo "<div class=mnmximgwrap><img class=mnmximg src='" . $side['Photo'] ."'></div>";
   echo "</a><div class=mnmxtxt>" . $side['Description'] . "</div>";
   echo "</div></div>\n";
@@ -286,11 +286,11 @@ function Expand_Special(&$Art) {
   }
 }
 
-function Show_Articles_For($page='',$future=0) {
+function Show_Articles_For($page='',$future=0,$datas='400,700,20,3') {
   if ($future == 0 && !Feature('UseArticles')) return;
   include_once("DanceLib.php");
   
-  $Arts = Get_All_Articles(0,$page,$future,$datas='400,700,20,3');
+  $Arts = Get_All_Articles(0,$page,$future);
 //  var_dump($Arts);
   echo "<div id=ShowArt data-settings='$datas'></div><p>";
   echo "<div id=OrigArt hidden>";

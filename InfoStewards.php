@@ -50,6 +50,7 @@
 <ul>
 <li>Setup and cleardown of Banners, Marquees, Bunting, Furniture, Venues, Posters, Generators, 
 <li>Most of these tasks are before and after the festival, leaving you free to enjoy the festival
+<li>Most jobs involve heavy lifting.  Hi vis jackets and hard hats provided.
 
 <p><strong>Operational Days/Hours</strong>:
 <li>Starting in April: Banners, Posters (A couple of hours every few weeks or so for 2-3 crew)
@@ -62,12 +63,6 @@
 <li>Tuesday: Rest!
 </ul>
 
-<li><strong>Technical Crew</strong></li>
-<ul>
-<li>Setup / Packdown of festival stages (some jobs may involve heavy lifting)</li>
-<li>Runners between festival venues (all abilities)</li>
-<li>Stage Hands to assist with change overs (some previous experience preferred)</li>
-</ul></li>
 <li><strong>Artistic Team</strong>
 <ul><li>Setup / Packdown of festival art displays</li>
 <li>Assisting with decorating the town</li>
