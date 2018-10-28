@@ -32,7 +32,7 @@ This is where 90%+ of the system is.  It has support for:
 <li>Event management - details of venues, events, maps and posters for venues
 <li>Finance - invoices, budgets
 <li>User management - different users, with capabilities based on user roles and access level
-<li>News and front page article management - a Content Management System to manage what appears and when (currently crude)
+<li>News and front page article management - a Content Management System to manage what appears and when
 <li>Galleries - setup, import, crop, caption photos
 <li>Multiyear working - Everything from previous years is stored, forward planning can be made as many years in advance as wanted
 <li>Many other facilities

@@ -117,9 +117,8 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
           echo fm_hidden('Id',-1);
         }
         echo "<td class=NotSide colspan=2>Importance:" . fm_select($Importance, $Side,'Importance');
-        echo fm_text('Where found',$Side,'Pre2017',1,'class=NotSide','class=NotSide'); // This sort of info from SideYear in future
-//        echo "<td class=NotSide>Last Checked:" . help('DataCheck'] . "<td class=NotSide>" . $Side['DataCheck'] . "\n";
-//        if (Access('SysAdmin')) {
+        echo fm_text1("Rel Order",$Side,'RelOrder',1,'class=NotSide','class=NotSide size=4'); 
+        echo fm_text1('Where found',$Side,'Pre2017',1,'class=NotSide','class=NotSide'); 
           echo "<td class=NotSide colspan=2>" . fm_checkbox('Dance Side',$Side,'IsASide');
           echo fm_checkbox('Music Act',$Side,'IsAnAct') . fm_checkbox('Other',$Side,'IsOther');
 //        }

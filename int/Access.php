@@ -7,7 +7,7 @@
   include_once("MusicLib.php");
   include_once("TradeLib.php");
   include_once("SignupLib.php");
-
+  include_once("VolLib.php");
 
   if ( !isset($_GET['i']) || !isset($_GET['k']) || !isset($_GET['t'])) Error_Page("Invalid link"); // No return
 
@@ -33,6 +33,10 @@
       $Data = Get_Steward($id);
       break;
 
+    case 'v' : // Steward
+      $Data = Get_Volunteer($id);
+      break;
+
     case 'u' : // Sign Up
       $Data = Get_SignUp($id);
       break;
@@ -44,8 +48,8 @@
 
   if ($Data['AccessKey'] != $key) Error_Page("Sorry - This is not the right key");
 
-  $CakeTypes = ['s'=>'Side','a'=>'Act','o'=>'Other','t'=>'Trader','w'=>'Steward','u'=>'SignUp','c'=>'Staff'];// Not Sure on staff
-  $includes = ['s'=>'DanceEdit.php','a'=>'MusicEdit.php','o'=>'MusicEdit.php','t'=>'TraderPage.php','w'=>'ViewStew.php','u'=>'SignUp','c'=>'Staff'];// Not Sure on staff
+  $CakeTypes = ['s'=>'Side','a'=>'Act','o'=>'Other','t'=>'Trader','w'=>'Steward','v'=>'Volunteer','u'=>'SignUp','c'=>'Staff'];// Not Sure on staff
+  $includes = ['s'=>'DanceEdit.php','a'=>'MusicEdit.php','o'=>'MusicEdit.php','t'=>'TraderPage.php','w'=>'ViewStew.php','v'=>'Volunteers.php','u'=>'SignUp','c'=>'Staff'];// Not Sure on staff
 
   $Cake = sprintf("%s:%d:%06d",$CakeTypes[$t],$Access_Type['Participant'],$id ); 
   $biscuit = openssl_encrypt($Cake,'aes-128-ctr','Quarterjack',0,'BrianMBispHarris');

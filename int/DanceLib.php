@@ -343,6 +343,7 @@ function Set_Side_Help() {
         'PrivateInfo'=>'Anything here is ONLY visible to you and the relevant members of the festival',
         'NeedBank'=>'Set this to enable bank details for dance sides (for payments)',
         'Bank'=>'If you expect to be paid, please fill your bank details in',
+        'RelOrder'=>'To give finer control than Importance, can be negative',
         'Testing'=>'Testing Only'
   );
   Set_Help_Table($t);

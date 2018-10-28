@@ -559,7 +559,7 @@ function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
   if ($MASTER_DATA['AdvertImgLeft']) { 
     echo "<a href=" . $MASTER_DATA['AdvertLinkLeft'] . "><img src=" . $MASTER_DATA['AdvertImgLeft'] . " id=leftspon hidden></a>";
   } else echo "<center>";
-  echo "<a href=/><img id=HeadBan src=/images/icons/WimborneFolkV3Banner-2019-2.png?V=$V ></a></center>";
+  echo "<a href=/><img id=HeadBan src=" . $MASTER_DATA['WebSiteBanner'] . "?V=$V ></a></center>";
   if ($MASTER_DATA['AdvertImgRight']) { 
     echo "<a href=" . $MASTER_DATA['AdvertLinkRight'] . "><img src=" . $MASTER_DATA['AdvertImgRight'] . " id=rightspon hidden></a>";
   } else if ($MASTER_DATA['AdvertImgLeft']) echo "<a href=" . $MASTER_DATA['AdvertLinkLeft'] . "><img src=" . $MASTER_DATA['AdvertImgLeft'] . " id=rightspon hidden></a>";
@@ -567,7 +567,7 @@ function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
   echo "<script src=/js/WmffAds.js?V=$V></script>";
 
   include_once("files/navigation.php"); 
-  echo "<div class=content>";
+  echo "<div class=contentlim>";
   $head_done = 1;
 }
 

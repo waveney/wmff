@@ -8,7 +8,7 @@
 ?>
 <div class="biodiv">
 <img src="http://wimbornefolk.co.uk/images/Mawkin-Accordion.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
-<p>Buy Tickets for Wimborne Minster Folk Festival 2018.</p>
+<p>Buy Tickets for Wimborne Minster Folk Festival</p>
 </div>
 
 <h2 class="maintitle">Buy Festival Tickets</h2>
@@ -27,7 +27,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 <?php
   if ($MASTER['CampingCost']) {
     echo "Order your festival tickets and camping together, by selecting <strong>Continue Shopping</strong> ";
-    echo "before you checkout!  Camping costs <strong>&pound;" . $MASTER['CampingPrice1Day'] . "</strong> for the first night and <strong>&pound;" .
+    echo "before you checkout!<p>  Camping costs <strong>&pound;" . $MASTER['CampingPrice1Day'] . "</strong> for the first night and <strong>&pound;" .
      ($MASTER['CampingPrice2Day'] - $MASTER['CampingPrice1Day']) . "</strong> for each additional night.<p>";
   } else {
     echo "Camping is not yet open to book<p>";

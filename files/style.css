@@ -5,7 +5,8 @@ img
     }
 body
     {
-  background-color:#c2eff4;
+/*  background-color:#c2eff4;*/
+  background-image:url(/images/icons/background.png);
     min-width:320px;
     width:responsive;
     height:100%;
@@ -58,14 +59,14 @@ h2 {
   margin:0;
   padding:0px;
   font-weight:normal;
-  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+/*  font-family:SHONAR, verdana, arial, helvetica, sans-serif;*/
 }
 .centhead {
   color: #005983;
   font-weight:normal;
   text-align:center;
   padding:0px;
-  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+/*  font-family:SHONAR, verdana, arial, helvetica, sans-serif;*/
   font-size:24px;
 }	
 .navigation
@@ -134,13 +135,16 @@ h2 {
     {
     background-color:#005983;
     }
-.content
-    {
+.content, .contentlim     {
     min-height:580px;
     margin: 0 auto 0 auto;
     padding: 15px 25px;
 /*  background-color:#ffffaa;*/
     }
+.contentlim {
+  max-width:1500;
+  margin:auto;
+}
 .footer
     {
     font-size:13px;
@@ -187,7 +191,7 @@ sup
     color:#FFFFFF;
     font-size:25px;
     font-weight:normal;
-    font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+/*    font-family:SHONAR, verdana, arial, helvetica, sans-serif; */
     }
 .bioimg
     {
@@ -362,7 +366,7 @@ th
     color:#FFFFFF;
     border-radius:5px;
     font-weight:normal;
-    font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+/*    font-family:SHONAR, verdana, arial, helvetica, sans-serif; */
     font-size:35px;
     }
 td
@@ -732,12 +736,12 @@ textarea:Focus
 }
 .mnmxttl {
   max-width:100%;
-  font-size:27px;
+  font-size:24px;
   font-weight:bold;
   color:#005c8f;
   text-align:center;
   transition:opacity .5s, filter .5s;
-  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+/*  font-family:SHONAR, verdana, arial, helvetica, sans-serif;*/
 }
 .mnmxttl:visited, .mnmxttl:active {
   color:#005c8f;
@@ -836,7 +840,7 @@ textarea:Focus
 }
 .sponText {
   position: absolute;
-  font-size:36;
+  font-size:24;
   top:10;
   left:50%;
   transform: translate(-50%, -50%);
@@ -864,7 +868,7 @@ textarea:Focus
   color:#005c8f;
   text-align:center;
   transition:opacity .5s, filter .5s;
-  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+/*  font-family:SHONAR, verdana, arial, helvetica, sans-serif; */
 }
 .BBImg, .SBImg {
   object-fit:contain;
@@ -923,7 +927,7 @@ textarea {
 }
 
 .ArtBanner {
-  max-width:1000;
+/*  max-width:1000;*/
   margin:auto;
 }
 
