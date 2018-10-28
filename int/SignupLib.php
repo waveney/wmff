@@ -4,11 +4,10 @@ $lnlclasses = array('','Live and Louder (under 16s)','Live and Loud (17-44)','St
 $Colours = array('white','lime','orange','grey');
 $yesno = array('','Yes','No');
 $States = array('Submitted','Paid','Cancelled');
-$StewClasses = array('Stewarding'=> '(Info Points, Concerts, Road Closures, Street Collecting etc)',
-                'Setup' => '(Banners, Bunting, Posters, Stages, Marquees, Venues, Furniture etc)',
-                'Technical' => '(Stage Crew, Runners, Setup/Packdown etc)',
-                'Artistic' => '(Setting up art displays, town decorations etc)', 
-                'Media' => '(Photography, Videography etc)');
+$StewClasses = array('Stewarding'=> ['Info Points, Concerts, Road Closures, Street Collecting etc',[0,1,2],'stewards'],
+                'Setup' => ['Banners, Bunting, Posters, Stages, Marquees, Venues, Furniture etc',['Before',-1,0,1,2,3],'setup'],
+                'Artistic' => ['Setting up art displays, town decorations etc',['Before',-1,0,1,2,3],'Art'],
+                'Media' => ['Photography, Videography etc',[0,1,2],'Media']);
 $Days = array('Wed'=>'Wednesday','Thu'=>'Thursday','Fri'=>'Friday','Sat'=>'Saturday','Sun'=>'Sunday','Mon'=>'Monday','Tue'=>'Tuesday');
 $Relations = array('Husband','Wife','Partner','Son','Daughter','Mother','Father','Brother','Sister','Grandchild','Grandparent','Guardian','Uncle','Aunty',
                 'Son/Daughter in law', 'Friend','Other');
@@ -112,47 +111,55 @@ function Email_BB_Signup(&$bb,$messcat,$whoto) {
   Email_Proforma($whoto,$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $bb['SN'],'BB_Details',$bb,'BuskersBashLog.txt');
 }
 
-function Get_Stew_Details(&$stew) {
-  global $StewClasses,$Days,$Relations;
-  $Body = "\nName: " . $stew['SN'] . "\n";
-  $Body .= "Email: <a href=mailto:" . $stew['Email'] . ">" . $stew['Email'] . "</a>\n";
-  if ($stew['Phone']) $Body .= "Phone: " . $stew['Phone'] . "\n";
-  $Body .= "Address: " . $stew['Address'] . "\n";
-  $Body .= "PostCode: " . $stew['PostCode'] . "\n\n";
+function Get_Vol_Details(&$vol) {
+  global $volClasses,$Days,$Relations;
+  $Body = "\nName: " . $vol['SN'] . "\n";
+  $Body .= "Email: <a href=mailto:" . $vol['Email'] . ">" . $vol['Email'] . "</a>\n";
+  if ($vol['Phone']) $Body .= "Phone: " . $vol['Phone'] . "\n";
+  $Body .= "Address: " . $vol['Address'] . "\n";
+  $Body .= "PostCode: " . $vol['PostCode'] . "\n\n";
 
-  $Body .= "Birthday: " . $stew['Birthday'] . "\n";
+  $Body .= "Birthday: " . $vol['Birthday'] . "\n";
   $Body .= "\n\n";
 
-  foreach ($StewClasses as $s=>$sl) if ($stew["SC_$s"]) $Body .= "Team: $s\n";
+  foreach ($volClasses as $s=>$sl) if ($vol["SC_$s"]) $Body .= "Team: $s\n";
 
-  $Body .= "\nPrefer: " . $stew['Prefer'] . "\n";
-  $Body .= "Dislike: " . $stew['Dislike'] . "\n";
+  $Body .= "\nPrefer: " . $vol['Prefer'] . "\n";
+  $Body .= "Dislike: " . $vol['Dislike'] . "\n";
 
-  $Body .= "\nDBS: " . ($stew['DBS']?$stew['DBS'] : 'No') . "\n\n";
+  $Body .= "\nDBS: " . ($vol['DBS']?$vol['DBS'] : 'No') . "\n\n";
 
-  foreach ($Days as $d=>$dl) if ($stew["Avail$d"]) $Body .= "Available $dl: " . $stew["Avail$d"] . "\n";
+  foreach ($Days as $d=>$dl) if ($vol["Avail$d"]) $Body .= "Available $dl: " . $vol["Avail$d"] . "\n";
 
-  $Body .= "Emergency Contact Name: " . $stew['ContactName'] . "\n";
-  $Body .= "Phone: " . $stew['ContactPhone'] . "\n";
-  $Body .= "Relationship: " . $Relations[$stew['Relation']] . "\n";
+  $Body .= "Emergency Contact Name: " . $vol['ContactName'] . "\n";
+  $Body .= "Phone: " . $vol['ContactPhone'] . "\n";
+  $Body .= "Relationship: " . $Relations[$vol['Relation']] . "\n";
   return $Body;
 }
 
-function Stew_Details($key,&$stew) {
+function Vol_Details($key,&$vol) {
   switch ($key) {
-  case 'WHO': return firstword($stew['SN']);
-  case 'DETAILS': return Get_Stew_Details($stwe);
+  case 'WHO': return firstword($vol['SN']);
+  case 'DETAILS': return Get_Vol_Details($stwe);
+  case 'LINK' :return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Access.php?t=w&id=" . $vol['id'] . "&key=" . $vol['AccessKey'] . "><b>link</b></a>";
   }
 }
 
-function Email_Steward(&$stew,$messcat,$whoto) {
+function Email_Volunteer(&$vol,$messcat,$whoto) {
   global $PLANYEAR,$USER,$MASTER_DATA;
-  Email_Proforma($whoto,$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $stew['SN'],'Stew_Details',$stew,'Steward.txt');
+  Email_Proforma($whoto,$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $vol['SN'],'Vol_Details',$vol,'Volunteer.txt');
 }
 
-function Get_Steward($id) {
+function Get_Volunteer($id) {
   global $db;
-  $res = $db->query("SELECT * FROM Stewards WHERE id=$id");
+  $res = $db->query("SELECT * FROM Volunteers WHERE id=$id");
   if ($res) return $res->fetch_assoc();
 }
+
+function Put_Volunteer(&$now) {
+  $e=$now['id'];
+  $Cur = Get_Volunteer($e);
+  return Update_db('Volunteers',$Cur,$now);
+}
+
 ?>

@@ -66,7 +66,7 @@
   </div>
 </div>
 <div class=dropdown onmouseover=NoHoverSticky(event)>
-  <a href=$host/About.php>Curiosity</a>
+  <a onclick=NavStick(event)>Curiosity</a>
   <div class=dropdown-content>
      <a href=$host/int/ShowArticles.php?w=AboutWMFF class=NotYet>About the Festival</a>
      <a href=$host/int/ShowArticles.php?w=FestHistory class=NotYet>Festival History</a>

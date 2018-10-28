@@ -51,20 +51,19 @@
   echo "<tr>" . fm_text('Date of Birth',$_POST,'Birthday');
 
   echo "<tr><td colspan=4><h3>Which Team(s) would you like to volunteer for?</h3>\n";
-  echo "<tr><td colspan=4>";
   foreach ($StewClasses as $c=>$exp) {
-    echo fm_checkbox($c,$_POST,"SC_$c") . $exp . "<br>\n";
+    echo "<tr><td>" .  fm_checkbox($c,$_POST,"SC_$c") . "<td>" . $exp[0];
   }
 
   echo "<tr>" . fm_text('Prefered Duties',$_POST,'Prefer',4) . "<br>Include any activity you would particularly like to be a steward for";
   echo "<tr>" . fm_text('Disliked Duties',$_POST,'Dislike',4) . "<br>Include any activity you would particularly like to NOT be a steward for";
 
+  if (!isset($_POST['SC_Setup'])) $_POST['SC_Setup']=0;
   echo "<tr><td colspan=4><h3>Availability</h3>If you could help on the days below, please give the times you would be available\n";
+  echo "<tr class=SC_Setup hidden>" . fm_text("Before",$_POST,"AvailBefore");
   $D = -2;
   foreach ($Days as $d=>$ld) {
-    if ($D >=0 && $D<3) {
-      echo "<tr>" . fm_text($ld . " " . ($MASTER['DateFri']+$D++) . "th June $PLANYEAR",$_POST,"Avail$d",4);
-    } else { $D++; };
+    echo "<tr class=SC_Setup " . ($_POST['SC_Setup']?'hidden':'') . ">" . fm_text($ld . " " . ($MASTER['DateFri']+$D++) . "th June $PLANYEAR",$_POST,"Avail$d",4);
   }
 
   echo "<tr><td colspan=4><h3>Legal</h3>\n";
