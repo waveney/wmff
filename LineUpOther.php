@@ -15,9 +15,9 @@
     echo "In $YEAR, These Acts were in Wimborne.  Click on the name or photograph to find out more and where they performed.<p>\n";
     echo "Here are the <b>Spotlight Performers</b> followed by <b>A - Z</b> of the rest of the line-up.<p>\n";
   } else {
-    echo "We are putting together an exciting and varied line-up for your enjoyment at this year's festival. <p>";
-    echo "They will be on various venues around town at both ticketed and free events. <p>";
-    echo "Here are our <b>Spotlight Performers</b> followed by <b>A - Z</b> of the rest of the line-up.<p>";
+//    echo "We are putting together an exciting and varied line-up for your enjoyment at this year's festival. <p>";
+//    echo "They will be on various venues around town at both ticketed and free events. <p>";
+//    echo "Here are our <b>Spotlight Performers</b> followed by <b>A - Z</b> of the rest of the line-up.<p>";
 
     echo "Click on the name of a Act, or their photograph to find out more about them and where they are performing.<p>\n";
   }

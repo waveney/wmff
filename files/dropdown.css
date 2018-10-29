@@ -14,14 +14,14 @@
     position: relative;
     display: inline-block;
     text-align: center;
-    font-size: 20px;
+    font-size: 24px;
     color:white;
     padding:8px 10px;
     vertical-align:middle;
 }
 
 .navigation a:hover {
-    background-color: #a30046;
+    background-color:#de3263;
 }
 
 .dropdown {
@@ -31,7 +31,7 @@
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #a30046;
+    background-color: #de3263;
     min-width: 100px;
     z-index: 100;
 }
@@ -65,7 +65,7 @@
 
 /* sub Main */
 .Staff .navigation {
-    background-color:#a30046;
+    background-color:#de3263;
 }
 
 .Staff .navigation a:hover {
@@ -77,6 +77,6 @@
 }
 
 .Staff .dropdown-content a:hover {
-    background-color:#a30046;
+    background-color:#de3263;
 }
 
