@@ -28,7 +28,8 @@ Contract Ready - For the Act to confirm it.
 Contract Signed - Enables listing to public.',
         'Rider'=>'Additional text to be added to the Contract',
         'EnableCamp' => 'Note this will be added to the fee as part of your budget',
-        'RadioWimborne'=>'Permission given for performances to be recorded by Radio Wimborne, and broadcast live or after the festival'
+        'RadioWimborne'=>'Permission given for performances to be recorded by Radio Wimborne, and broadcast live or after the festival',
+        'Performers'=>'Number of Performers Wristbands, if any',
   );
   Add_Help_Table($t);
 }

@@ -127,12 +127,14 @@ services, under the following terms and conditions:<p>\n";
           ($MASTER['DateFri']+$day) . "th June $YEAR";
   }
   if ($camp) {
-    
     $str .= "Camping will be provided for ";
-    if ($mode < 1) $str .= "<span class=NotSide>";
+    if ($mode < -1) $str .= "<span class=NotSide>";
     $str .= FormatList($camp) . " at the <a href=/InfoCamping.php>Meadows Campsite</a>.<p>\n"; 
-    if ($mode < 1) $str .= "</span>";
+    if ($mode < -1) $str .= "</span>";
   }
+  
+  if ($Sidey['Performers']) $str .= $Sidey['Performers'] . " performer's wristband" . ($Sidey['Performers']>1 ?"s":"") . 
+     " will be provided (free entry to all festival events, if space is available).<p>\n";
 
   if ($Sidey['TotalFee']) {
     if ($Side['SortCode'] || $Side['Account'] || $Side['AccountName']) {
@@ -156,7 +158,8 @@ services, under the following terms and conditions:<p>\n";
   if (strlen($Sidey['Rider']) > 5) $str .= "<b>Rider:</b> " . $Sidey['Rider'] . "<p>\n";
 
 
-  $faq = ($ctype > 0 ? include_once("InnerMusicFAQ.php") : "Payment: All payments will be made by BACS, within 48 hours of the end of the Festival. Cash will not be used for payments. Any queries should be submitted through the employer." );
+  $faq = ($ctype > 0 ? include_once("InnerMusicFAQ.php") : 
+    "Payment: All payments will be made by BACS, within 48 hours of the end of the Festival. Cash will not be used for payments. Any queries should be submitted through the employer." );
 
   if ($pking) {
     $allfree = 1;
