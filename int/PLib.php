@@ -665,6 +665,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
           }
         };
         echo "<tr class=NotCSide>" . fm_textarea('Additional Riders',$Sidey,'Rider',2,1,'class=NotCSide') ."\n";
+        if ($Side['IsOther']) echo fm_text('How Many Performers Wristbands',$Sidey,'Performers',1,'class=NotCSide','class=NotCSide');
         if (!isset($Sidey['BudgetArea']) || $Sidey['BudgetArea']==0) {
           if ($Side['IsAnAct']) {
             $Sidey['BudgetArea'] = FindBudget('Music');
