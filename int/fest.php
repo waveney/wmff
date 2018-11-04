@@ -44,7 +44,7 @@ $Book_Actions = array('None'=>'Book','Declined'=>'Book,Contract','Booking'=>'Con
 $Book_ActionExtras = array('Book'=>'', 'Contract'=>'', 'Decline'=>'', 'Cancel'=>'', 'Confirm'=>'');
 $EType_States = array('Very Early','Draft','Partial','Provisional','Complete');
 $TicketStates = array('Not Yet','Open','Closed');
-$ArticleFormats = ['Large Image','Small Image','Text','Banner Image','Banner Text','Fixed'];
+$ArticleFormats = ['Large Image','Small Image','Text','Banner Image','Banner Text','Fixed','Left/Right Pairs'];
 
 
 date_default_timezone_set('GMT');
@@ -95,7 +95,8 @@ function Access($level,$subtype=0,$thing=0) {
   switch  ($USER{'AccessLevel'}) {
 
   case $Access_Type['Participant'] : 
-    if ($USER{'Subtype'} != $subtype) return 0;
+    if ($USER['Subtype'] == 'Other' && $subtype == 'Act') {}
+    elseif ($USER{'Subtype'} != $subtype) return 0;
     return $thing == $USERID;
 
   case $Access_Type['Upload'] :
@@ -146,7 +147,6 @@ function A_Check($level,$subtype=0,$thing=0) {
     Login();
   }
   if (Access($level,$subtype,$thing)) return;
-
 //echo "Failed checking...";
 //exit;
   Error_Page("Insufficient Privilages");
@@ -355,7 +355,7 @@ function Error_Page ($message) {
     case 'Sponsor' :
     case 'Other' :
     default:
-      include_once("/index.php");
+      include_once("index.php");
       exit;
     }
 
