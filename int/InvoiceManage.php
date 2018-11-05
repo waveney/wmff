@@ -136,6 +136,7 @@
   if ($All) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Paid Amount</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Reason</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Actions</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>View</a>\n";
   echo "</thead><tbody>";
   foreach($Invs as $i=>$inv) {
     $id = $inv['id'];
@@ -165,6 +166,8 @@
         echo "<button name=ACTION value=CREDIT onclick=reasonprompt($id) >Cancel/credit</button> ";
         echo "</form>";
       }
+    echo "<td><a href=ShowFile.php?l=" . Get_Invoice_Pdf($id) . ">View</a>";
+    if ($All && $inv['PayDate']<0) echo ", <a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'CN') . ">Credit Note</a>";
     echo "\n";
   }
   echo "</table>\n";
