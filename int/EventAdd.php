@@ -27,7 +27,7 @@
   echo "<div class=content>";
   echo "<div class=HelpDiv hidden>";
 ?>
-<h3>Help for Adding/Creating/Modifying an Event</h3>
+<h3>Help for Adding/Creating/Modifying an Event (the form is stil on this page lower down)</h3>
 For most events you only need:<p>
 <ul><li>A Name (Can be pretty generic eg Dancing, Saturday Night Concert)
 <li>A Type (A Broad categorization as to what lists it appears in)<li>A Venue<li>A Day<li>A Start and End Time</ul>
@@ -309,7 +309,7 @@ A similar feature will appear eventually for music.<p>
       echo "<td colspan=3><b>Times</b>: " . fm_smalltext2('Start:',$Event,'Start');
         echo fm_smalltext2(', End:',$Event,'End');
         echo fm_smalltext2(', Setup Time (mins):',$Event,'Setup') ;
-        echo fm_smalltext2(', Duration:',$Event,'Duration') . "&nbsp;minutes ";
+        echo fm_smalltext2(', Duration:',$Event,'Duration') . "&nbsp;(mins)";
         if ($se < 0) echo fm_smalltext2(', Slot End:',$Event,'SlotEnd');
         echo fm_smalltext2(', Doors:',$Event,'DoorsOpen');
       if ($se <= 0) echo "<tr class=mday $hidemday>" . fm_radio('End Day',$DayList,$Event,'EndDay') . 

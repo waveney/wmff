@@ -129,7 +129,7 @@ function Set_Event_Help() {
         'Blurb'=>'Longer blurb if wanted, that will follow the description when this particular events is being looked at online',
         'Setup'=>'IF the event has setup prior to the start time, set it here in minutes to block out the venue',
         'Duration'=>'Duration in minutes of the event, this will normally be calculated from the End time',
-        'BigEvent'=>'For large events needing more than 4 participants of each type eg the procession',
+        'BigEvent'=>'For large events needing more than 4 participants of each type eg the procession and/or use more than one venue',
         'IgnoreClash'=>'Ignore two events at same time and surpress gap checking',
         'Public'=>'Controls public visibility of Event, "Not Yet" and "Never" are handled the same',
         'ExcludeCount'=>'For Big Events - if set exclude this event from Dance Spot counts - eg Procession',
@@ -149,6 +149,8 @@ function Set_Event_Help() {
         'Budget'=>'What part of the festival budget this Event comes under',
         'DoorsOpen'=>'If significantly before Start',
         'NeedSteward'=>'Most ticketed events (unless managed by third parties) and a few others will need stewards',
+        'InvisiblePart' => 'Not currently used',
+        
   );
   Set_Help_Table($t);
 }
@@ -578,7 +580,8 @@ function DayTable($d,$Types,$xtr='',$xtra2='') {
 
 function &Get_Active_Venues($All=0) {
   global $db,$YEAR;
-  $res = $db->query("SELECT DISTINCT v.* FROM Venues v, Events e WHERE ( v.VenueId=e.Venue AND e.Year=$YEAR AND v.PartVirt=0) OR v.IsVirtual ORDER BY v.SN");
+  $res = $db->query("SELECT DISTINCT v.* FROM Venues v, Events e, EventTypes t WHERE ( v.VenueId=e.Venue AND e.Public=0 AND e.Type=t.ETypeNo AND t.State>1 AND " .
+                    " e.Year=$YEAR AND v.PartVirt=0) OR (v.IsVirtual AND e.Year=$YEAR e.Venue ORDER BY v.SN");
   if ($res) while($ven = $res->fetch_assoc()) $ans[] = $ven;
   return $ans;
 }

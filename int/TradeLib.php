@@ -239,6 +239,7 @@ Any generator must meet the Euro 4 silent generator standard.',
         'BookingState'=>'ONLY change this if you are fixing a problem, use the state change buttons',
         'PublicInfo'=>'Information in this section may be used on the public website if you tick the "Do you want to appear on the Folk Festival Website?" box', 
         'PrivateInfo'=>'Information in this section is only visible to you and the revelent members of the festival, you can amend this at any time',
+        'PublicHealth'=>'Please give the NAME of the local authority your registered with',
 
   );
   Set_Help_Table($t);
