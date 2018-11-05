@@ -1075,4 +1075,8 @@ textarea {
   font-weight:bold;
 }
 
+.MusicFAQ {}
+.OtherFAQ {
+  display:none;
+}
 

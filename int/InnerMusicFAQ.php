@@ -1,10 +1,12 @@
 <?php
-
+global $YEAR;
 return <<<XXXXXX
-<h2>FAQ for Music Acts at Wimborne in 2019</h2>
+<h2 class=MusicFAQ>FAQ for Music Acts at Wimborne in $YEAR</h2>
+<h2 class=OtherFAQ>FAQ for Other Participants at Wimborne in $YEAR</h2>
+
 
 <dl class=WMFF_FAQ>
-<dt>Security<dd>Employer will provide sufficient security so that no unauthorized persons will have access to the
+<dt class=MusicFAQ>Security<dd>Employer will provide sufficient security so that no unauthorized persons will have access to the
 stage area or backstage area.
 
 <dt>Promotion and Production<dd>Employer shall be responsible for most of the Promotion, however, the artist is

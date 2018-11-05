@@ -21,7 +21,7 @@
 }
 
 .navigation a:hover {
-    background-color:#de3263;
+    background-color:#ec038c;
 }
 
 .dropdown {
@@ -31,7 +31,7 @@
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #de3263;
+    background-color: #ec038c;
     min-width: 100px;
     z-index: 100;
 }
@@ -65,7 +65,7 @@
 
 /* sub Main */
 .Staff .navigation {
-    background-color:#de3263;
+    background-color:#ec038c;
 }
 
 .Staff .navigation a:hover {
@@ -77,6 +77,6 @@
 }
 
 .Staff .dropdown-content a:hover {
-    background-color:#de3263;
+    background-color:#ec038c;
 }
 

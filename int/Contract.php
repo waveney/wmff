@@ -26,7 +26,7 @@ function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-2 dummy-1 Draft,0 prop
     $Sidey = ['ContractDate'=>time(),
               'Year'=>$YEAR,
               'TotalFee'=>'<span class=NotSide>100', 'OtherPayment'=>'Bottle of Rum</span>',
-              'CampSat'=>3, 'CampFri' => 0, 'CampSun'=> 0,
+              'CampSat'=>3, 'CampFri' => 0, 'CampSun'=> 0,'Performers'=>0,
               'Rider' => '<span class=NotSide>If there is any riders on the contract they will appear here</span>',
              ];
     $Booked = Get_User(4);
