@@ -7,7 +7,7 @@
   include_once "int/ProgLib.php";
 ?>
 <div class="biodiv">
-<img src="http://wimbornefolk.co.uk/images/Mawkin-Accordion.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
+<img src="https://wimbornefolk.co.uk/images/Weekend-Wristband.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
 <p>Buy Tickets for Wimborne Minster Folk Festival</p>
 </div>
 

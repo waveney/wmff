@@ -77,11 +77,11 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
       echo fm_text('Grid Name', $Side,'ShortName',1,$snx,$snx . " id=ShortName") . "\n";
       echo fm_text('Type', $Side,'Type') . "\n";
 
-    if ($Side['IsASide']) echo "<tr>" . fm_textarea('Costume Description <span id=CostSize></span>',$Side,'CostumeDesc',7,1,'',
-                        'maxlength=150 oninput=SetDSize("CostSize",150,"CostBlurb") id=CostBlurb'); 
-    echo "<tr>" . fm_textarea('Short Blurb <span id=DescSize></span>',$Side,'Description',7,1,'',
-                        'maxlength=150 oninput=SetDSize("DescSize",150,"ShortBlurb") id=ShortBlurb'); 
-    echo "<tr>" . fm_textarea('Blurb for web',$Side,'Blurb',7,2,'', 'size=2000' ) . "\n";
+    if ($Side['IsASide']) echo "<tr>" . fm_textarea('Costume Description <span id=CostSize></span>',$Side,'CostumeDesc',7,1,
+                        "maxlength=150 oninput=SetDSize('CostSize',150,'CostumeDesc')"); 
+    echo "<tr>" . fm_textarea('Short Blurb <span id=DescSize></span>',$Side,'Description',7,1,
+                        "maxlength=150 oninput=SetDSize('DescSize',150,'Description')"); 
+    echo "<tr>" . fm_textarea('Blurb for web',$Side,'Blurb',7,2,'','size=2000' ) . "\n";
     echo "<tr>";
       if (isset($Side['Website']) && strlen($Side['Website'])>1) {
         echo fm_text(weblink($Side['Website']),$Side,'Website');
