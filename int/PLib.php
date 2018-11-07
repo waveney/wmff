@@ -267,17 +267,18 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
       echo "<tr>" . fm_textarea('Notes',$Side,'Notes',5,2,'class=NotSide','class=NotSide');
       echo "<td class=NotSide colspan=2>";
       if (file_exists("Store/Performers/$snum")) {
-/*
-        $fcount = ..;
-        if ($fcount < 2) {
-          if ($fcount == 1) echo "<>Name of File view download ";
-          echo "<button type=submit formaction='PerformerData.php?id=$snum&ACTION=STORE'>Store Files</button>";
+        $files = glob("Store/Performers/$snum/*");
+        $fcount = count($files);
+        if ($fcount == 1 ) {
+          $fname = basename($files[0]);
+          echo "File: <a href=ShowFile.php?l64=" . base64_encode("Store/Performers/$snum/$fname") . ">$fname</a>";
         } else {
-          echo "$fcount Files stored <button type=submit formaction='PerformerData.php?id=$snum&ACTION=LIST'>List Files</button>";
-        }*/
-      } else {
-        if (Access('SysAdmin')) echo "<button type=submit formaction='PerformerData.php?id=$snum&ACTION=STORE'>Store Files</button>";
+          echo "$fcount files are stored ";
+        }
       }
+      
+      echo " <button type=submit formaction='PerformerData.php?id=$snum&ACTION=LIST'>Manage Files</button>";
+      
     }
   if (file_exists("testing") || Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=6 class=NotSide><textarea id=Debug></textarea>";
 
