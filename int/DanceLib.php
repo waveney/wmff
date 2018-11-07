@@ -344,6 +344,7 @@ function Set_Side_Help() {
         'NeedBank'=>'Set this to enable bank details for dance sides (for payments)',
         'Bank'=>'If you expect to be paid, please fill your bank details in',
         'RelOrder'=>'To give finer control than Importance, can be negative',
+        'ManageFiles'=>'Use this to upload, download, view and delete as manay files as you wish about this performer',
         'Testing'=>'Testing Only'
   );
   Set_Help_Table($t);

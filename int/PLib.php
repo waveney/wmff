@@ -277,7 +277,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
         }
       }
       
-      echo " <button type=submit formaction='PerformerData.php?id=$snum&ACTION=LIST'>Manage Files</button>";
+      echo " <button type=submit formaction='PerformerData.php?id=$snum&ACTION=LIST'>Manage Files</button>" . help('ManageFiles');
       
     }
   if (file_exists("testing") || Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=6 class=NotSide><textarea id=Debug></textarea>";
