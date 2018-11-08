@@ -632,15 +632,14 @@ textarea:Focus
 .HomePageSponsors {
   margin:0 2.5px 15px 2.5px;
   column-width:170px;
-  width:auto;
-  height:auto;
   min-width:170px;
   max-width:170px;
-  min-height:150px;
-  max-height:150px;
+  min-height:170px;
+  max-height:170px;
   vertical-align:middle;
   padding:0 3px 0 3px;
 }
+.sponImage{}
 .Eventfloatleft {
   display: inline-block;
   padding-right:3px;
