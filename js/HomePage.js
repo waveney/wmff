@@ -170,6 +170,8 @@ $(document).ready(function() {
           $('#SArtImg'+ArtNum).height(newheight);         
         }
         break;
+        
+      case 6: // Left/Right Pairs fullwidth
       }
       ArtNum++
     }

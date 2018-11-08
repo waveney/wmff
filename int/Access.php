@@ -33,7 +33,7 @@
       $Data = Get_Steward($id);
       break;
 
-    case 'v' : // Steward
+    case 'v' : // Volunteer
       $Data = Get_Volunteer($id);
       break;
 

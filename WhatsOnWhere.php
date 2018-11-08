@@ -11,16 +11,20 @@
   $Vens = Get_Active_Venues();
 
   echo "<h2 class=subtitle>Select a Venue</h2>";
-  if ($YEAR < $PLANYEAR) {
+  if ($YEAR == $PLANYEAR) {
     echo "All these venues have events schedualled, not all may be public yet.<p>";
   } else {
     echo "All these venues had events schedualled.<p>";
   }
-  echo "<ul>";
-  foreach ($Vens as $ven) {
-    echo "<li><a href=/int/VenueShow.php?v=" . $ven['VenueId'] . "&Y=$YEAR>" . $ven['SN'] . "</a><br>";
+
+  if ($Vens) {
+    echo "<ul>";
+    foreach ($Vens as $ven) echo "<li><a href=/int/VenueShow.php?v=" . $ven['VenueId'] . "&Y=$YEAR>" . $ven['SN'] . "</a><br>";
+    echo "</ul>";
+  } else {
+    echo "<h3>No venues have published events yet</h3>";
   }
-  echo "</ul>";
+
 
   dotail();
 

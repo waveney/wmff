@@ -150,6 +150,56 @@ function Vol_Emails(&$Vol) {
   dotail();
 }
 
+function List_Vols() {
+  global $YEAR,$db,$volClasses;
+  echo "<button class='floatright FullD' onclick=\"($('.FullD').toggle())\">All Applications</button><button class='floatright FullD' hidden onclick=\"($('.FullD').toggle())\">Curent Aplications</button> ";
+
+
+  echo "Click on name for full info<p>";
+  $coln = 0;  
+  echo "<form method=post action=StewardView.php>";
+  echo "<table id=indextable border>\n";
+  echo "<thead><tr>";
+
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Id</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Email</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Phone</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Steward</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Setup</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Artistic</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Media</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Before</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Thu</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Fri</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Sat</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Sun</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Mon</a>\n";
+  echo "</thead><tbody>";
+
+  $res=$db->query("SELECT * FROM Volunteers ORDER BY SN");
+  
+  if ($res) while ($Vol = $res->fetch_assoc()) {
+    $id = $Vol['id'];
+    echo "<tr" . (($Vol['Year'] == $YEAR)?" class=FullD hidden" : "" ) . ">";
+    echo "<td>$id";
+    echo "<td><a href=Volunteers.php?A=View&id=$id>" . $Vol['SN'] . "</a>";
+    echo "<td>" . $Vol['Email'];
+    echo "<td>" . $Vol['Phone'];
+    foreach ($volClasses as $c=>$exp) echo "<td>" . ['','Y'][$Vol["SC_$c"]];
+    echo "<td>" . $Vol['AvailBefore'];
+    echo "<td>" . $Vol['AvailThu'];
+    echo "<td>" . $Vol['AvailFri'];
+    echo "<td>" . $Vol['AvailSat'];
+    echo "<td>" . $Vol['AvailSun'];
+    echo "<td>" . $Vol['AvailMon'];
+  }
+  echo "</tbody></table>\n";
+
+  dotail();
+}
+
+
 function VolAction($Action) {
   switch ($Action) {
   
@@ -159,7 +209,7 @@ function VolAction($Action) {
     VolForm($Vol);
     
   case 'List': // List Volunteers
-    
+    List_Vols();
     break;
     
   case 'Create': // Volunteer hass clicked 'Submit', store and email staff
@@ -177,6 +227,11 @@ function VolAction($Action) {
     Vol_Emails($Vol);
     break;
   
+  case 'View':
+    $Vol = Get_Voluteer($_POST['id']);
+    VolForm($Vol);
+    break;
+  
   case 'Update': // Volunteer/Staff has updated entry - if Volunteer, remail relevant staff
     $Vol = Get_Voluteer($_POST['id']);
     Update_db_post('Volunteers',$Vol);
@@ -192,7 +247,6 @@ function VolAction($Action) {
     break;
   }  
 }
- 
 
   
 

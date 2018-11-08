@@ -33,7 +33,7 @@ have free entry to festival ticket holders.<p>
 If the child requires a separate seat, then the appropriate children’s ticket must be bought.  
 Children's tickets are half the price of adult tickets, but there are no Early Bird children's tickets.<p>
 
-<li>Age Categories for Tickets: Adults (aged 13+), Children (aged 5 -12).  The age categories are determined by
+<li>Age Categories for Tickets: Adults (aged 13+), Children (aged 5 -15).  The age categories are determined by
 the age on the Saturday of the Folk Festival. Holders of children's tickets must be accompanied by a responsible
 adult for all performance events. Stewards reserve the right to refuse admission to children not accompanied by an adult.<p>
 

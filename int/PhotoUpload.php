@@ -17,7 +17,7 @@
 // var_dump($_FILES);
   
   if (isset($_POST['Action'])) {
-    if (!$_POST['Where']) $_POST['Where'] = "images";
+    if (!isset($_POST['Where']) || !$_POST['Where']) $_POST['Where'] = "images";
     $target_dir = "" . $_POST['Where'];
     $prefix = $_POST['Prefix'];
     umask(0);
