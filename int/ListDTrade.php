@@ -23,10 +23,19 @@
   } else if (isset($_REQUEST['l']))  {
     $Loc = $_REQUEST['l'];
 
-    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND (y.BookingState=" . $Trade_State['Deposit Paid'] .
+    if ($Loc) {
+      $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND (y.BookingState=" . $Trade_State['Deposit Paid'] .
                 " OR y.BookingState=" . $Trade_State['Invoiced'] . 
+                " OR y.BookingState=" . $Trade_State['Quoted'] . 
                 " OR y.BookingState=" . $Trade_State['Fully Paid'] . " OR y.BookingState=" . $Trade_State['Accepted'] . ") AND " .
                 "(y.PitchLoc0=$Loc OR y.PitchLoc1=$Loc OR y.PitchLoc2=$Loc ) ORDER BY SN";
+    } else {
+      $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND (y.BookingState=" . $Trade_State['Deposit Paid'] .
+                " OR y.BookingState=" . $Trade_State['Invoiced'] . 
+                " OR y.BookingState=" . $Trade_State['Quoted'] . 
+                " OR y.BookingState=" . $Trade_State['Fully Paid'] . " OR y.BookingState=" . $Trade_State['Accepted'] . ") AND " .
+                "(y.PitchLoc0=0 AND y.PitchLoc1=0 AND y.PitchLoc2=0 ) ORDER BY SN";    
+    }
   
   } else Error_Page('Do Not Know What Details Are Needed');
   $ActsEnable = Access('Committee','Trade');

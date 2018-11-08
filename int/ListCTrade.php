@@ -29,6 +29,9 @@
   foreach ($TradeLocData as $i=>$TLoc) {
     $TradeLocData[$i]['ReceiveTot'] = $TradeLocData[$i]['AcceptTot'] = $TradeLocData[$i]['QuoteTot'] = 0;
   }
+  $TradeLocData[0]['ReceiveTot'] = $TradeLocData[0]['AcceptTot'] = $TradeLocData[0]['QuoteTot'] = 0;
+  $TradeLocData[0]['SN'] = 'HOMELESS';
+  $TradeLocData[0]['TLocId'] = 0;
   $TotLRec = $TotLAcc = $TotLQut = 0;
 
   if (isset($_GET['ACTION'])) {
@@ -214,7 +217,11 @@
               $TradeLocData[$fetch["PitchLoc$i"]]['ReceiveTot'] += $fetch['TotalPaid']/$pitches;
             }
           }
-        }
+        } else if ($fee) {
+          if ($stat >= $Trade_State['Submitted'] && $stat != $Trade_State['Quoted'] && $stat != $Trade_State['Wait List']) $TradeLocData[0]['AcceptTot'] += $fee;
+          $TradeLocData[0]['QuoteTot'] += $fee;
+          $TradeLocData[0]['ReceiveTot'] += $fetch['TotalPaid'];
+        }          
       }
     }
     $str .= "</tbody></table>\n";
@@ -237,11 +244,12 @@
     if (!isset($TLoc['QuoteTot']) || $TLoc['QuoteTot'] == 0) continue;
     echo "<tr><td>" . $TLoc['SN'];
     echo "<td>&pound;" . $TLoc['ReceiveTot'] . "<td>&pound;" . round($TLoc['AcceptTot']) . "<td>&pound;" . round($TLoc['QuoteTot']);
-    echo "<td><a href=ListDTrade.php?l=" . round($TLoc['TLocId']) . ">Details</a>\n";
+    echo "<td><a href=ListDTrade.php?l=" . $TLoc['TLocId'] . ">Details</a>\n";
     $TotLRec += $TLoc['ReceiveTot'];
     $TotLAcc += $TLoc['AcceptTot'];
     $TotLQut += $TLoc['QuoteTot'];
     }
+    
   echo "<tr><td>Total Fees<td>&pound;$TotLRec<td>&pound;$TotLAcc<td>&pound;$TotLQut<td>\n";
 
   echo "</table>\n";

@@ -47,7 +47,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
       echo "<tr><td>";
       if ($MASTER['TicketControl'] == 1) echo "<a href='https://www.ticketsource.co.uk/event/" . $MASTER[$day . "PassCode"] . "' target=_blank style='font-size:18px'>";
       echo "<strong>$day Pass</strong></a><br>";
-      echo "Adult (13+): <strong>";
+      echo "Adult (16+): <strong>";
       
       $str = '';
       $Cpri = $MASTER[$day . 'Pass'];
@@ -77,7 +77,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
       $str .= "&pound;$Cpri </strong><br>"; 
 
       echo $str;
-      echo "Child (5-12): <strong>" . Print_Pence($Cpri*50) . "</strong><br>";
+      echo "Child (5-15): <strong>" . Print_Pence($Cpri*50) . "</strong><br>";
       echo "Infant (0-4): <strong>Free</strong>";
       echo "<td style='width:70%'>" . $MASTER[$day . "Text"] . "<td style='text-align:center; font-size:20px'>";
 
@@ -144,7 +144,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 
 <h2 class="subtitle">Child Tickets</h2>
 
-<p>Child ticket pricing for the festival is 0-4 Free, 5-12 Half Price, 13+ Standard ticket price.</p>
+<p>Child ticket pricing for the festival is 0-4 Free, 5-15 Half Price, 16+ Standard ticket price.</p>
 
 <h2 class="subtitle">Official Campsite</h2>
 <p>

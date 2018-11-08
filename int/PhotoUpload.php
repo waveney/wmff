@@ -17,7 +17,7 @@
 // var_dump($_FILES);
   
   if (isset($_POST['Action'])) {
-    if (!$_POST['Where']) $_POST['Where'] = "images";
+    if (!isset($_POST['Where']) || !$_POST['Where']) $_POST['Where'] = "images";
     $target_dir = "" . $_POST['Where'];
     $prefix = $_POST['Prefix'];
     umask(0);
@@ -36,7 +36,7 @@
       if ($check == false) {
         echo "<div class=Err>$tmpFilePath is not an image</div>";
       } else {
-        if ($check[0] > 800 || $check[1] > 536) { // Need to resize
+        if ((!$_POST['NoReSize']) && ($check[0] > 800 || $check[1] > 536)) { // Need to resize
           $move = Image_Convert($tmpFilePath,800,536, $target_file);
         } else {
           $move = move_uploaded_file($tmpFilePath, $target_file);
@@ -50,7 +50,8 @@
   echo fm_radio("Where to put them",$Pflip,$_POST,'Where','',0) . "<p>";
   echo fm_text("Prefix - if it has a / it will make any necessary directories",$_POST,'Prefix') . "<br>\n";
   echo fm_hidden('Action', 'Upload');
-
+  echo fm_checkbox("Supress resizing",$_POST,'NoReSize') . "<br>";
+  
   echo "Select Photo files to upload:";
   echo '<input type=file name="PhotoForm[]" multiple id=manyfiles onchange=this.form.submit()>';
   echo "<p><input type=submit name=Action2 value=Upload id=PhotoButton>";
