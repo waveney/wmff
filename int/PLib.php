@@ -18,8 +18,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
 
   Set_Side_Help();
   $snum=$Side['SideId'];
-  if ($Side['IsAnAct']) Add_Act_Help();
-  if ($Side['IsOther']) Add_Act_Help();
+  if ($Side['IsAnAct'] || $Side['IsOther']) Add_Act_Help();
   $Sidey = Get_SideYear($snum);
 
   if ( isset($Side['Photo']) && ($Side['Photo'])) echo "<img class=floatright id=PerfThumb src=" . $Side['Photo'] . " height=80>\n";
@@ -27,14 +26,14 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
   if ($Mode && ((isset($Side['Email']) && strlen($Side['Email']) > 5) || (isset($Side['AltEmail']) && strlen($Side['AltEmail']) > 5)) )  {
     echo "If you click on the ";
     if (isset($Side['HasAgent']) && $Side['HasAgent']) {
-      echo linkemailhtml($Side,'Side','Agent','Agents');
-      if (isset($Side['Email'])) echo " or contacts " . linkemailhtml($Side,'Side','!!');
+      echo linkemailhtml($Side,$CatT,'Agent','Agents');
+      if (isset($Side['Email'])) echo " or contacts " . linkemailhtml($Side,$CatT,'!!');
     } else {
-      if (isset($Side['Email'])) echo linkemailhtml($Side,'Side','!!');
+      if (isset($Side['Email'])) echo linkemailhtml($Side,$CatT,'!!');
     }
     if (isset($Side['AltEmail']) && $Side['AltEmail']) {
       if ($Side['Email']) echo " or ";
-      echo linkemailhtml($Side,'Side','Alt');
+      echo linkemailhtml($Side,$CatT,'Alt');
     }
     echo ", press control-V afterwards to paste the <button type=button onclick=Copy2Div('Email$snum','SideLink$snum')>standard link</button>";
 

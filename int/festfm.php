@@ -138,15 +138,15 @@ function fm_basictextarea(&$data,$field,$cols=1,$rows=1,$extra1='',$field2='') {
   return $str . (isset($data[$field])? htmlspec($data[$field]) : '' ) . "</textarea>\n";
 }
 
-function fm_checkbox($Desc,&$data,$field,$extra='',$field2='') {
+function fm_checkbox($Desc,&$data,$field,$extra='',$field2='',$split=0) {
   global $ADDALL,$AutoADD;
   if ($field2 == '') $field2=$field;
   if (isset($data[$field])) if ($data[$field]) {
-    return ($Desc?"<label for=$field2>$Desc:</label>":'') . help($field) . "<input type=checkbox $ADDALL " . ($AutoADD? " oninput=AutoCheckBoxInput('$field2') " : "") . 
-           " Name=$field2 id=$field2 $extra checked>";
+    return ($Desc?"<label for=$field2>$Desc:</label>":'') . help($field) . ($split?"<td>":"") . "<input type=checkbox $ADDALL " . 
+           ($AutoADD? " oninput=AutoCheckBoxInput('$field2') " : "") . " Name=$field2 id=$field2 $extra checked>";
   }
-  return ($Desc?"<label for=$field2>$Desc:</label>":'') . help($field) . "<input type=checkbox $ADDALL " . ($AutoADD? " oninput=AutoCheckBoxInput('$field2') " : "") . 
-          " Name=$field2 id=$field2 $extra>";
+  return ($Desc?"<label for=$field2>$Desc:</label>":'') . help($field) . ($split?"<td>":"") . "<input type=checkbox $ADDALL " . 
+          ($AutoADD? " oninput=AutoCheckBoxInput('$field2') " : "") . " Name=$field2 id=$field2 $extra>";
 }
 
 function fm_select2(&$Options,$Curr,$field,$blank=0,$selopt='',$field2='') {
