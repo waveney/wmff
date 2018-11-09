@@ -52,19 +52,19 @@ Stewarding & Volunteer roles available:<p>
 <ul>
 <li>Setup and cleardown of Banners, Marquees, Bunting, Furniture, Venues, Posters, Generators, 
 <li>Most of these tasks are before and after the festival, leaving you free to enjoy the festival
-<li>Most jobs involve heavy lifting.  Hi vis jackets and hard hats provided.
+<li>Many jobs involve heavy lifting.  Hi vis jackets and hard hats provided as appropriate.
 </ul>
 
 <p><strong>Operational Days/Hours</strong>:
 <ul>
 <li>Starting in April: Banners, Posters (A couple of hours every few weeks or so for 2-3 crew)
-<li>Week Before: Some decorations, Bunting etc - A few hours for a small crew.
+<li>The Week Before: Some decorations, Bunting, Road Notices etc - A few hours many days for a small crew.
 <li>Thursday: Stage Setup, Some Marquees - All day for a small crew
-<li>Friday: Fencing, Marquees, Furniture, Posters - All day for a large crew
+<li>Friday: Fencing, Marquees, Stages, Generators, Furniture, Posters - All day for a large crew
 <li>Saturday: A few minor jobs 
 <li>Sunday: Starting at 5pm - Main cleardown of Marquees and Clearing up many venues - A large crew is needed
 <li>Monday: Finish all Marquees and tidying of town, removal of Posters, removal of stages - Some crew, maybe all day
-<li>Tuesday: Rest!
+<li>Tuesday: Rest!  (Hopefully)
 </ul>
 
 

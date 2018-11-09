@@ -3,19 +3,20 @@
 
   dostaffhead("Steward / Volunteer Application", "/js/Participants.js");
 
-  include_once("SignupLib.php");
+//  include_once("SignupLib.php");
   global $USER,$USERID,$db,$PLANYEAR,$StewClasses,$Relations,$Days;
   
 $yesno = array('','Yes','No');
-$volClasses = array('Stewarding'=> ['Info Points, Concerts, Road Closures, Street Collecting etc',[0,1,2],'stewards'],
-                'Setup' => ['Banners, Bunting, Posters, Stages, Marquees, Venues, Furniture etc',['Before',-1,0,1,2,3],'setup'],
-                'Artistic' => ['Setting up art displays, town decorations etc',['Before',-1,0,1,2,3],'Art'],
-                'Media' => ['Photography, Videography etc',[0,1,2],'Media'],
-                'Other' => ['Please elaborate',['Before',-1,0,1,2,3],'webmaster']);
+$volClasses = array('Stewarding'=> ['Info Points, Concerts, Road Closures, Street Collecting etc',[0,1,2],'stewards',0],
+                'Setup' => ['Banners, Bunting, Posters, Stages, Marquees, Venues, Furniture etc',['Before',-2,-1,0,1,2,3],'setup',0],
+                'Artistic' => ['Setting up art displays, town decorations etc',['Before',-1,0,1,2,3],'Art',0],
+                'Media' => ['Photography, Videography etc',[0,1,2],'Media',0],
+                'Other' => ['Please elaborate',['Before',-1,0,1,2,3],'webmaster',1]);
 $Days = array('Wed'=>'Wednesday','Thu'=>'Thursday','Fri'=>'Friday','Sat'=>'Saturday','Sun'=>'Sunday','Mon'=>'Monday','Tue'=>'Tuesday');
 $Relations = array('Husband','Wife','Partner','Son','Daughter','Mother','Father','Brother','Sister','Grandchild','Grandparent','Guardian','Uncle','Aunty',
                 'Son/Daughter in law', 'Friend','Other');
  
+
 function Get_Vol_Details(&$vol) {
   global $volClasses,$Days,$Relations;
   $Body = "\nName: " . $vol['SN'] . "\n";
@@ -68,6 +69,7 @@ function Put_Volunteer(&$now) {
 }
 
 function VolForm(&$Vol,$Err='') {
+  global $volClasses,$MASTER,$PLANYEAR,$Relations;
   echo "<h2 class=subtitle>Steward / Volunteer Application Form</h2>\n";
   echo "<p class=Err>$Err<p>";
   echo "<form method=post action=StewardForm.php>";
@@ -80,8 +82,9 @@ function VolForm(&$Vol,$Err='') {
   echo "<tr>" . fm_text('Date of Birth',$Vol,'Birthday');
 
   echo "<tr><td colspan=4><h3>Which Team(s) would you like to volunteer for?</h3>\n";
-  foreach ($StewClasses as $c=>$exp) {
-    echo "<tr><td>" .  fm_checkbox($c,$Vol,"SC_$c") . "<td>" . $exp[0];
+  foreach ($volClasses as $c=>$exp) {
+    echo "<tr><td>" .  fm_checkbox($c,$Vol,"SC_$c",'','',1) . " " . $exp[0];
+    if ($exp[3]) echo  fm_simpletext("",$Vol,'OtherText','size=100');
   }
 
   echo "<tr>" . fm_text('Prefered Duties',$Vol,'Prefer',4) . "<br>Include any activity you would particularly like to be a steward for";
@@ -89,14 +92,14 @@ function VolForm(&$Vol,$Err='') {
 
   if (!isset($Vol['SC_Setup'])) $Vol['SC_Setup']=0;
   echo "<tr><td colspan=4><h3>Availability</h3>If you could help on the days below, please give the times you would be available\n";
-  echo "<tr class=SC_Setup hidden>" . fm_text("Before",$Vol,"AvailBefore");
+  echo "<tr class=SC_Setup hidden>" . fm_text("Before the festival",$Vol,"AvailBefore");
   $D = -2;
   foreach ($Days as $d=>$ld) {
     echo "<tr class=SC_Setup " . ($Vol['SC_Setup']?'hidden':'') . ">" . fm_text($ld . " " . ($MASTER['DateFri']+$D++) . "th June $PLANYEAR",$Vol,"Avail$d",4);
   }
 
   echo "<tr><td colspan=4><h3>Legal</h3>\n";
-  echo "<tr><td colspan=4>Do you have a current DBS check? if so please give details<br>" . fm_textinput('DBS',(isset($Vol['DBS'])?$Vol['DBS']:''),'size=100');
+  echo "Do you have a current DBS check? if so please give details<br>" . fm_textinput('DBS',(isset($Vol['DBS'])?$Vol['DBS']:''),'size=100');
   echo "<tr><td colspan=4><h3>Emergency Contact</h3>\n";
   echo "<tr>" . fm_text('Contact Name',$Vol,'ContactName',2);
   echo "<tr>" . fm_text('Contact Phone',$Vol,'ContactPhone',2);
@@ -201,11 +204,14 @@ function List_Vols() {
 
 
 function VolAction($Action) {
+  global $PLANYEAR;
+  
   switch ($Action) {
   
   case 'New': // New Volunteer
   default:
     $Vol = ['id'=>-1,'Relation'=>-1, 'Year'=>$PLANYEAR];
+
     VolForm($Vol);
     
   case 'List': // List Volunteers
@@ -249,7 +255,7 @@ function VolAction($Action) {
 }
 
   
-
+/*
   if (isset($Vol['submit'])) {
     if (strlen($Vol['SN']) < 2) { echo "<p class=Err>Please give your name\n"; $err=1; };
     if (strlen($Vol['Email']) < 6) { echo "<p class=Err>Please give your Email\n"; $err=1; };
@@ -285,7 +291,6 @@ function VolAction($Action) {
     }
   }
   }
-
-  dotail();
+*/
 
 ?>

@@ -361,9 +361,9 @@ function Set_Side_Year_Help() {
         'Share'=>'Do you like shared or dedicated dance spots?', 
         'CarPark'=>'Number of free car park tickets for parking at QE school (10 minute walk to square)',
         'SatArrive'=>'The earliest time (eg 1000), if blank no restrictions are assumed',
-        'SatDepart'=>'The start of the last spot (eg 1600).  If blank no restictions are assumed.',
+        'SatDepart'=>'The end of the last spot (eg 1700).  If blank no restictions are assumed.',
         'SunArrive'=>'The earliest time (eg 1000), if blank no restrictions are assumed',
-        'SunDepart'=>'The start of the last spot (eg 1600).  If blank no restictions are assumed.',
+        'SunDepart'=>'The end of the last spot (eg 1700).  If blank no restictions are assumed.',
         'BudgetArea'=>'In MOST cases nothing needs setting here as Music acts will default to Music and Dance to Dance.  
                 * IF you need to assign to a different budget change the area
                 * IF you need part of the fee to come under a different budget, you set up to 2 areas to have parts of the Fee and the amount to assign',

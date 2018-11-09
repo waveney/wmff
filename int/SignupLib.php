@@ -9,7 +9,7 @@ $StewClasses = array('Stewarding'=> ['Info Points, Concerts, Road Closures, Stre
                 'Artistic' => ['Setting up art displays, town decorations etc',['Before',-1,0,1,2,3],'Art'],
                 'Media' => ['Photography, Videography etc',[0,1,2],'Media']);
 $Days = array('Wed'=>'Wednesday','Thu'=>'Thursday','Fri'=>'Friday','Sat'=>'Saturday','Sun'=>'Sunday','Mon'=>'Monday','Tue'=>'Tuesday');
-$Relations = array('Husband','Wife','Partner','Son','Daughter','Mother','Father','Brother','Sister','Grandchild','Grandparent','Guardian','Uncle','Aunty',
+$Relations = array('','Husband','Wife','Partner','Son','Daughter','Mother','Father','Brother','Sister','Grandchild','Grandparent','Guardian','Uncle','Aunty',
                 'Son/Daughter in law', 'Friend','Other');
 
 $SignUpActivities = array_merge($lnlclasses,['Buskers Bash','Laugh Out Loud']);
