@@ -173,7 +173,7 @@
       echo "<li><a href=ListCTrade.php?Y=$YEAR&SUM>Traders Summary</a>\n";
       echo "<li><a href=TradeLocs.php>Trade Locations</a>\n";
       if (Access('SysAdmin')) echo "<li><a href=TradeTypes.php>Trade Types and base Prices</a>\n";
-//      echo "<li><a href=EmailTraders.php>Email Groups of Traders</a>\n"; // Old code needs lots of changes
+      echo "<li><a href=EmailTraders.php>Email Groups of Traders</a>\n"; // Old code needs lots of changes
 //      if (Access('SysAdmin')) echo "<li><a href=TradeImport1.php>Convert old Trade Data</a>\n";
 //      if (Access('SysAdmin')) echo "<li><a href=TradeImport2.php>Merge Mandy's Trade Data</a>\n";
 //      if (Access('SysAdmin')) echo "<li><a href=TradeImport3.php>Fix Access Keys</a>\n";

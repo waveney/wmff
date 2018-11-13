@@ -41,8 +41,8 @@ Stewarding & Volunteer roles available:<p>
 </ul>
 
 <p><strong>Operational Hours</strong>:
-<br />Friday 2pm - 11:30pm
-<br />Saturday 9am - 11pm
+<br />Friday noon - 11:30pm
+<br />Saturday 9am - 11:30pm
 <br />Sunday 9am - 10:30pm</p>
 <p><i>You will be scheduled in and not expected to work all hours!</i></p>
 

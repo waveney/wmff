@@ -3,7 +3,7 @@
   A_Check('Steward');
 
   dostaffhead("List Traders", "/js/clipboard.min.js", "/js/emailclick.js");
-  global $YEAR,$PLANYEAR,$Trade_States,$Trader_Status;
+  global $YEAR,$PLANYEAR,$Trade_States,$Trader_Status,$Trade_State_Colours;
   include_once("files/navigation.php");
   include_once("TradeLib.php");
   echo "<h2>List Traders $YEAR</h2>\n";
@@ -53,7 +53,7 @@
           if ($fetch['Insurance'] ==0) echo ", no Insurance";
           if ($fetch['RiskAssessment'] ==0) echo ", no Risk Assess";
         } else {
-          echo " class=" . $Trade_StateClasses[$stat] . ">" . $Trade_States[$stat];
+          echo " style='background:" . $Trade_State_Colours[$stat] . ";padding:4; white-space: nowrap;'>" . $Trade_States[$stat];
         }
       echo Disp_CB($fetch['BID']);
       echo Disp_CB($fetch['ChamberTrade']);

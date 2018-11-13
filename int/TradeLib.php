@@ -3,7 +3,9 @@
 // For Book -> Confirm -> Deposit ->Pay , if class begins with a - then not used/don't list
 $Trade_States = array('Not Submitted','Declined','Refunded','Cancelled','Submitted','Quoted','Accepted','Deposit Paid','Invoiced','Fully Paid','Wait List','Requote');
 $Trade_State = array_flip($Trade_States);
-$Trade_StateClasses = array('TSNotSub','TSDecline','-TSRefunded','TSCancel','TSSubmit','TSInvite','TSConf','TSDeposit','TSInvoice','TSPaid','TSWaitList','TSRequote');
+//$Trade_StateClasses = array('TSNotSub','TSDecline','-TSRefunded','TSCancel','TSSubmit','TSInvite','TSConf','TSDeposit','TSInvoice','TSPaid','TSWaitList','TSRequote');
+$Trade_State_Colours = ['white','red','-grey','grey','yellow','lightyellow','cyan','lightblue','darkseagreen','LightGreen','#ffb380','#e6d9b2'];
+
 $TS_Actions = array('Submit,Invite,Invite Better',
                 'Resend,Submit',
                 'Resend',
@@ -369,7 +371,7 @@ function Trade_TandC() {
 }
 
 function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
-  global $YEAR,$PLANYEAR,$MASTER,$Trade_States,$Mess,$Action,$ADDALL,$Trade_StateClasses,$InsuranceStates,$Trade_State,$Trade_Days;
+  global $YEAR,$PLANYEAR,$MASTER,$Trade_States,$Mess,$Action,$ADDALL,$Trade_State_Colours,$InsuranceStates,$Trade_State,$Trade_Days;
   if ($year==0) $year=$YEAR;
   $CurYear = date("Y");
   if ($year < $PLANYEAR) { // Then it is historical - no changes allowed
@@ -401,9 +403,9 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
   if ($Mode) {
     echo "<td class=NotCSide>Booking State:" . help('BookingState') . "<td colspan=2 class=NotCSide>";
       foreach ($Trade_States as $i=>$ts) {
-        $cls = $Trade_StateClasses[$i];
-        if( preg_match('/^-/',$cls)) continue;
-        echo " <div class='KeepTogether $cls'>$ts: ";
+        if( preg_match('/^-/',$Trade_State_Colours[$i])) continue;
+        $cls = " style='background:" . $Trade_State_Colours[$i] . ";padding:4; white-space: nowrap;'";
+        echo " <div class=KeepTogether $cls>$ts: ";
         echo " <input type=radio name=BookingState $ADDALL value=$i ";
         if (isset($Trady['BookingState']) && ($Trady['BookingState'] == $i)) echo " checked";
         echo ">&nbsp;</div>\n ";
@@ -425,7 +427,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
           if ($Trady['Insurance'] ==0) echo ", no Insurance";
           if ($Trady['RiskAssessment'] ==0) echo ", no Risk Assess";
         } else {
-          echo " class=" . $Trade_StateClasses[$stat] . ">" . $Trade_States[$stat];
+          echo " style='background:" . $Trade_State_Colours[$stat] . ";padding:4; white-space: nowrap;'>" . $Trade_States[$stat];
         }
     }
   }
