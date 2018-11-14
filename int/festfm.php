@@ -195,12 +195,14 @@ function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field
     if ($multi) {
       $str .= "<input type=checkbox name=$field2$i id=$field2$i $ADDALL ";
       if ($AutoADD) $str .= " oninput=AutoInput('$field2$i',$i) ";    
+      $str .= " $ex value='$i'";
+      if (isset($data["$field$i"]) && ($data["$field$i"] == $i)) $str .= " checked";
     } else {
       $str .= "<input type=radio name=$field2 id=$field2$i $ADDALL ";
       if ($AutoADD) $str .= " oninput=AutoRadioInput('$field2',$i) ";
+      $str .= " $ex value='$i'";
+      if (isset($data[$field]) && ($data[$field] == $i)) $str .= " checked";
     }
-    $str .= " $ex value='$i'";
-    if (isset($data[$field]) && ($data[$field] == $i)) $str .= " checked";
     $str .= ">\n";
     if ($colours) $str .= "</span>";
   }
