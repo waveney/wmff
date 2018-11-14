@@ -545,12 +545,13 @@ function MusicMail($data,$name,$id,$direct) {
   include_once("Contract.php");
   global $USER,$Book_State;
 
+  $datay = Get_ActYear($id);
   $AddC = 0;
   $p = -1; // Draft
   $Msg = '';
 
-  if ($data['YearState']) {
-    if ($data['YearState'] == $Book_State['Contract Signed']) { 
+  if (isset(($datay['YearState'])) && $datay['YearState']) {
+    if ($datay['YearState'] == $Book_State['Contract Signed']) { 
       $p = 1; 
       $AddC = 1;
     } else {

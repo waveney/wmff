@@ -4,7 +4,7 @@
 
   dostaffhead("List Traders in Detail", "/js/clipboard.min.js", "/js/emailclick.js");
 
-  global $YEAR,$PLANYEAR,$Trade_States,$Trade_StateClasses,$Trade_State,$TS_Actions,$ButExtra;
+  global $YEAR,$PLANYEAR,$Trade_States,$Trade_State_Colours,$Trade_State,$TS_Actions,$ButExtra;
   include_once("TradeLib.php");
 
   $Trade_Types = Get_Trade_Types(1);
@@ -74,7 +74,7 @@
         if ($stat == $Trade_State['Fully Paid'] && ($fetch['Insurance'] == 0 || $fetch['RiskAssessment'] == 0)) {
           $str .= " class=TSNoInsRA>";
         } else {
-          $str .= " class=" . $Trade_StateClasses[$stat] . ">";
+          $str .= " style='background:" . $Trade_State_Colours[$stat] . ";padding:4; white-space: nowrap;'>";
         }
         $Act = $TS_Actions[$stat];
         if ($ActsEnable && $Act ) {

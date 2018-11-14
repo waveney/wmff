@@ -4,7 +4,7 @@
 
   dostaffhead("List Traders", "/js/clipboard.min.js", "/js/emailclick.js");
 
-  global $YEAR,$PLANYEAR,$Trade_States,$Trade_StateClasses,$Trade_State,$TS_Actions,$ButExtra,$TradeLocData;
+  global $YEAR,$PLANYEAR,$Trade_States,$Trade_State_Colours,$Trade_State,$TS_Actions,$ButExtra,$TradeLocData;
   include_once("TradeLib.php");
 
   $Sum = isset($_GET['SUM']);
@@ -66,7 +66,7 @@
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Goods</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Contact</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Email</a>\n";
-    $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>State</a>\n";
+    $str .= "<th style='min-width:350'><a href=javascript:SortTable(" . $coln++ . ",'T')>State</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Fee</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Sa</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Su</a>\n";
@@ -93,7 +93,7 @@
         if ($stat == $Trade_State['Fully Paid'] && ($fetch['Insurance'] == 0 || $fetch['RiskAssessment'] == 0)) {
           $str .= " class=TSNoInsRA>";
         } else {
-          $str .= " class=" . $Trade_StateClasses[$stat] . ">";
+          $str .= " style='background:" . $Trade_State_Colours[$stat] . ";padding:4; white-space: nowrap;'>";
         }
         $TrState[$stat]++;
 
@@ -255,7 +255,7 @@
   echo "</table>\n";
   echo "<table border id=narrowtable><tr><td>State<td>Number\n";
   foreach ($Trade_States as $i=>$state) {
-    if (isset($TrState[$i]) && $TrState[$i]>0) echo "<tr><td class=" . $Trade_StateClasses[$i] . ">$state<td>" . $TrState[$i];
+    if (isset($TrState[$i]) && $TrState[$i]>0) echo "<tr><td style='background:" . $Trade_State_Colours[$i] . ";padding:4; white-space: nowrap;'>$state<td>" . $TrState[$i];
   }
   echo "</table>";
   echo "<p>";
