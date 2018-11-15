@@ -284,20 +284,10 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
 
     case 'Act':
     case 'Music':
-
+    case 'Other':
+    
       include_once("MusicLib.php");
       $Content = MusicMail($data,$name,$id,$direct);
-      break;
-
-    case 'Trade':
-    case 'trade': // Not used I think (hope)
-      $Content = urlencode("$name,<p>" .
-                 "<div id=SideLink$id>" .
-                "Please add/correct details about your business, contact information, your product descriptions, pitch and power requirements, " . 
-                "update your Insurance and Risc Assessment etc. by visiting $direct.</div><p>" .
-                "Details of your pitch location, general trader information and particulars of setup and cleardown information will also appear there.<p>" .
-                 "Regards " . $USER['SN'] . "<p>" 
-                ); 
       break;
 
 // For OTHER at present

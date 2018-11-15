@@ -120,7 +120,7 @@
 
       if ($Sent_Count >= $StartAt && $Sent_Count < $EndAt) {
       
-        if (file_exists("testing")) {
+        if (0 && file_exists("testing")) {
           echo "Would send to " . $Trad['SN'] . "<br>";
         } else {
           Send_Trader_Email($Trad,$Trad,$Mess);
