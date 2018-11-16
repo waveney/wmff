@@ -38,8 +38,8 @@
       }
       $b = Insert_db_post('Bugs',$Bug,$proc); 
     }
-    if (!$USER['Bugs'] && $ReportSevs[$Bug['Severity']] && !file_exists('testing')) {
-      SendEmail(Get_Emails('Bugs'),"WMFF Bug report by " .$USER['SN'],json_encode($Bug));
+    if (!$USER['Bugs'] && $ReportSevs[$Bug['Severity']]) {
+      NewSendEmail(Get_Emails('Bugs'),"WMFF Bug report by " .$USER['SN'],json_encode($Bug));
     }
   } elseif (isset($_GET{'b'})) {
     $b = $_GET{'b'};

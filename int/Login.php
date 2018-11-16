@@ -180,7 +180,7 @@ function NewPasswd() {
 }
 
 /* MAIN CODE HERE */
-  global $USERID;
+  global $USERID,$CONF;
   Set_User();
   if(!isset($_GET{'ACTION'})) {
     if (!isset($_POST{'ACTION'})) Login(); // No Return
@@ -198,7 +198,7 @@ function NewPasswd() {
     case 'LOGOUT' :
       $USER = 0;
       setcookie('WMFF2',0,1,'/');
-      if (file_exists("testing")) Login();
+      if (@ $CONF['testing']) Login();
       include_once("../index.php"); 
       exit;
     case 'LIMITED' :

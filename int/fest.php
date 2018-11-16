@@ -158,35 +158,6 @@ function rand_string($len) {
   return $ans;
 }
 
-// Needs making work with SMTP so DKIM works
-function SendEmail($to,$sub,&$letter,$headopt='') {
-  if (file_exists("testing")) {
-    echo "<p>Would send email to $to with subject: $sub<p>Content:<p>$letter<p>\n";
-  } else {
-    mail($to,$sub,$letter,$headopt);
-  }
-  return;
-
-// Old via Clint's server code - retain incase...
-//  $url = 'http://www.wimbornefolk.org/RemoteEmail.php';
-  if (file_exists('testing')) return;
-  $url = 'http://moonblink.info/RemoteEmail.php';
-  $data = array('TO' => $to, 'SUBJECT' => $sub, 'CONTENT'=>$letter, 'KEY' => 'UGgugue2eun23@', 'HEADER' => $headopt);
-
-  // use key 'http' even if you send the request to https://...
-  $options = array(
-    'http' => array(
-        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-        'method'  => 'POST',
-        'content' => http_build_query($data)
-    )
-  );
-  $context  = stream_context_create($options);
-  $result = file_get_contents($url, false, $context);
-  if ($result === FALSE) { /* Handle error */ }
-}
-
-
 /*
 function linkemail(&$data,$type="Side",$xtr='') {
   global $YEAR,$USER;

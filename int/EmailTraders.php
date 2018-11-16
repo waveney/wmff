@@ -119,13 +119,8 @@
       };
 
       if ($Sent_Count >= $StartAt && $Sent_Count < $EndAt) {
-      
-        if (0 && file_exists("testing")) {
-          echo "Would send to " . $Trad['SN'] . "<br>";
-        } else {
-          Send_Trader_Email($Trad,$Trad,$Mess);
-          echo "Sent to " . $Trad['SN'] . "<br>";
-        }
+        Send_Trader_Email($Trad,$Trad,$Mess);
+        echo "Sent to " . $Trad['SN'] . "<br>";
       }
       $Sent_Count++;
     }

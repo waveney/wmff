@@ -6,6 +6,7 @@ OldStuff/*
 !images/icons
 !images/2018Pics
 !int/*/.htaccess
+int/Configuration.ini
 images/*.*
 images/Sponsors
 images/Sides

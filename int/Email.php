@@ -45,24 +45,26 @@ function Pretty_Print_To($to) {
 //$atts can be simple fie or [[file, name],[file,name]...]
 
 function NewSendEmail($to,$sub,&$letter,&$attachments=0) { 
-  global $MASTER_DATA;
-  if (file_exists("testing")) {
-    echo "<p>Would send email to " . Pretty_Print_To($to) . " with subject: $sub<p>Content:<p>$letter<p>\n";
+  global $MASTER_DATA,$CONF;
+  if (@ $CONF['testing']){
+    if (strstr($CONF['testing'],'@')) { 
+      $to = $CONF['testing'];
+    } else {    
+      echo "<p>Would send email to " . Pretty_Print_To($to) . " with subject: $sub<p>Content:<p>$letter<p>\n";
     
-    if ($attachments) {
-      if (is_array($attachments)) {
-        foreach ($attachments as $i=>$att) {
-          echo "Would attachment " . $att[0] . " as " . $att[1] . "<p>";
-        }                 
+      if ($attachments) {
+        if (is_array($attachments)) {
+          foreach ($attachments as $i=>$att) {
+            echo "Would attachment " . $att[0] . " as " . $att[1] . "<p>";
+          }                 
+        } else {
+          echo "Would attach $attachments<p>";       
+        }
       } else {
-        echo "Would attach $attachments<p>";       
+        echo "No Attachments<p>";
       }
-    } else {
-      echo "No Attachments<p>";
+      return;
     }
-    
-    if (!file_exists("stagetesting")) return;
-    $to = "richardjproctor42@gmail.com";
   }
   
   $email = new PhpMailer(true);
