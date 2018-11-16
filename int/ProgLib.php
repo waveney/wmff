@@ -36,7 +36,7 @@ function Set_Venue_Help() {
         'IsVirtual'=>'Combined site for display purposes, do not use for real events',
         'PartVirt'=>'What virtual site this is part of (if any)',
         'SupressFree'=>'If the venue has an entry change set this',
-        'Minor'=>'Treatment of venue in final dance grid'
+        'Minor'=>'Treatment of venue in final dance grid',
   );
   Set_Help_Table($t);
 }
@@ -150,6 +150,9 @@ function Set_Event_Help() {
         'DoorsOpen'=>'If significantly before Start',
         'NeedSteward'=>'Most ticketed events (unless managed by third parties) and a few others will need stewards',
         'InvisiblePart' => 'Not currently used',
+        'Bar'=>'Does the venue have a bar?',
+        'Food'=>'Does the venue serve food?',
+        'BarFoodText'=>'Any text that expands on the food and drink available',
         
   );
   Set_Help_Table($t);
