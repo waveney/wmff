@@ -33,8 +33,10 @@ function Budget_Update($area,$value,$oldvalue=0) {
 
 function Budget_Scan($Detail=0) {
   global $YEAR,$db,$BUDGET,$Coming_Idx,$MASTER;
+  foreach ($BUDGET as $B) $B['CommittedSoFar'] = 0;
+
   include_once("DanceLib.php");
-  $qry = "SELECT * FROM SideYear WHERE Year=$YEAR AND ( TotalFee>0 OR OtherPayCost>0)";
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND s.IsASide=1 AND y.Year=$YEAR AND ( TotalFee>0 OR OtherPayCost>0)";
   $res = $db->query($qry);
   if ($res) while ($sy = $res->fetch_assoc()) {
     if (preg_match('/N/',$Coming_Idx[$sy['Coming']])) continue;
@@ -54,7 +56,8 @@ function Budget_Scan($Detail=0) {
   }
 
   include_once("MusicLib.php");
-  $qry = "SELECT * FROM ActYear WHERE YEAR=$YEAR AND (TotalFee>0 OR OtherPayCost>0 OR (EnableCamp=1 AND (CampFri>0 OR CampSat>0 OR CampSun>0)))";
+  $qry = "SELECT s.*, y.* FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND (s.IsAnAct=1 OR s.IsOther=1) AND y.Year=$YEAR AND " .
+         "(TotalFee>0 OR OtherPayCost>0 OR (EnableCamp=1 AND (CampFri>0 OR CampSat>0 OR CampSun>0)))";
   $res = $db->query($qry);
   if ($res) while ($sy = $res->fetch_assoc()) {
     if ($sy['YearState'] < 2) continue;

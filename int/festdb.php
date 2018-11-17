@@ -9,9 +9,14 @@ $TableIndexes = array(  'Sides'=>'SideId', 'SideYear'=>'syId', 'FestUsers'=>'Use
                         );
 
 function db_open () {
-  global $db;
-  @ $db = new mysqli('localhost','wmff','','wmff');
-  if (!$db) die ('Could not connect: ' .  mysqli_error());
+  global $db,$CONF;
+  if (@ $CONF = parse_ini_file("Configuration.ini")) {
+    @ $db = new mysqli($CONF['host'],$CONF['user'],$CONF['passwd'],$CONF['dbase']);
+  } else {
+    @ $db = new mysqli('localhost','wmff','','wmff');
+    $CONF = [];
+  }
+  if (!$db || $db->connect_error ) die ('Could not connect: ' .  $db->connect_error);
 }
 
 db_open();
@@ -69,7 +74,7 @@ function Report_Log($roll) {
 
     $emails = Get_Emails($roll);
     if ($emails) {
-      SendEmail($emails,$MASTER_DATA['ShortName'] . " update by $who",$UpdateLog);
+      NewSendEmail($emails,$MASTER_DATA['ShortName'] . " update by $who",$UpdateLog);
     }
     Logg($MASTER_DATA['ShortName'] . " update by $who\n" . $UpdateLog);
     $UpdateLog = '';
