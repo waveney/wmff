@@ -21,6 +21,10 @@
   if (isset($_GET{'ctype'})) $ctype = $_GET{'ctype'};
 
   $Side = Get_Side($snum);
+  if     ($Side['IsAnAct']) { $ctype = 1; }
+  elseif ($Side['IsOther']) { $ctype = 2; }
+  elseif ($Side['IsASide']) { $ctype = 0;; }
+  
   $Sidey = (($ctype==0) ? Get_SideYear($snum) : Get_ActYear($snum));
   $Opt = 0;
   $IssNum = $Sidey['Contracts']; 

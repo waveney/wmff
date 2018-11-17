@@ -22,5 +22,6 @@ CREATE TABLE `MasterData` (
   `AdvertLinkLeft` text NOT NULL,
   `AdvertImgRight` text NOT NULL,
   `AdvertLinkRight` text NOT NULL,
+  `WebSiteBanner` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

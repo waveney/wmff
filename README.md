@@ -11,7 +11,7 @@ Needs to be at a webspace root
 
 Php needs the webspace root in the php include path.  
 
-If the mysql (or equivalent compatible) database is not to be called wmff copy and edit Example_Config.ini into Configuration.ini on your system
+If the mysql (or equivalent compatible) database is not to be called wmff, copy and edit Example_Config.ini into Configuration.ini on your system
 
 Then run int/Initialise.php - (when written) this will create appropriate subdirectories and populate the database with appropriate initial tables and values.
 

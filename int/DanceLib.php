@@ -333,6 +333,7 @@ function Set_Side_Help() {
         'MorrisAnimal'=>'If the side has a morris animal - what kind is it',
         'Workshops'=>'That the side could run',
         'Overlaps'=>'Do you overlap with any dance sides or other performers who might be at Wimborne, if so please describe in detail and we will try and prevent clashes',
+        'OverlapRules'=>'Dancer - must have break between spots, musician allowed to play at same spot for two periods - then must break.  Major - major error, minor avoid if you can',
         'Contact'=>'Main Contact',
         'AgentName'=>'Main Contact',
         'DirContact'=>'Direct Performer Contact',

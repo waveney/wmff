@@ -550,7 +550,7 @@ function MusicMail($data,$name,$id,$direct) {
   $p = -1; // Draft
   $Msg = '';
 
-  if (isset(($datay['YearState'])) && $datay['YearState']) {
+  if (isset($datay['YearState']) && $datay['YearState']) {
     if ($datay['YearState'] == $Book_State['Contract Signed']) { 
       $p = 1; 
       $AddC = 1;
@@ -566,7 +566,7 @@ function MusicMail($data,$name,$id,$direct) {
         case 2: // Ok apart from bank account
           $Msg = 'Please follow the link, fill in your bank account details (so we can pay you), then click "Save Changes".<p> ' .
                 'Then you will be able to view and confirm your contract, ' .
-                'by clicking on the "Confirm" button. (The button is only there once Bank account is).<p>';
+                'by clicking on the "Confirm" button. (The button will only appear once you have input your bank account details ).<p>';
           $p = 0;
           $AddC = 1;
           break;

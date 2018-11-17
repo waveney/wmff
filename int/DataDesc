@@ -12,4 +12,13 @@ YEAR, CALYEAR, SHOWYEAR, PLANYEAR
   SHOWYEAR is the year most of the public front end works with.  Will remain as the festival just held until new stuff is ready to display - most front end progs call set_ShowYear to override YEAR default - call is needed before a call to dohead.
 
 
-
+CONF - the real top from Configure.ini IF present, otherwise default values used - useful for testing, stage and non wmff usage
+ user
+ passwd
+ dbase
+ testing
+ 
+MASTER-DATA - data that is not year related
+  Includes Features - controls many things
+  
+MASTER - Data that is year related

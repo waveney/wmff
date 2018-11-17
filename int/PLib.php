@@ -238,7 +238,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
       $ActList=Act_All();
       $OtherList=Other_All();
       $row = 0;
-      echo "<tr id=OverlapRow$row class=NotSide><td rowspan=$rows class=NotSide>Overlap Rules: \n"; //<button type=button onclick=AddOverlapRow()>+</button>\n";
+      echo "<tr id=OverlapRow$row class=NotSide><td rowspan=$rows class=NotSide>Overlap Rules: \n" . help('OverlapRules'); //<button type=button onclick=AddOverlapRow()>+</button>\n";
       for ($i = 0; $i < $rows; $i++) {
         $O = (isset($olaps[$i]) ? $olaps[$i] : ['Sid1'=>$snum,'Cat2'=>0]);
         $Other =  ($O['Sid1'] == $snum)?'Sid2':'Sid1';
