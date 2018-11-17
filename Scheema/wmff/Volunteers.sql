@@ -1,4 +1,4 @@
-CREATE TABLE `Stewards` (
+CREATE TABLE `Volunteers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `SN` text,
   `Email` text NOT NULL,
@@ -15,6 +15,7 @@ CREATE TABLE `Stewards` (
   `SC_Media` tinyint(4) NOT NULL,
   `Prefer` text NOT NULL,
   `Dislike` text NOT NULL,
+  `AvailBefore` text NOT NULL,
   `AvailWed` text NOT NULL,
   `AvailThu` text NOT NULL,
   `AvailFri` text NOT NULL,
@@ -26,5 +27,7 @@ CREATE TABLE `Stewards` (
   `Relation` smallint(6) NOT NULL,
   `Year` int(11) NOT NULL,
   `AccessKey` text NOT NULL,
+  `OtherText` text NOT NULL,
+  `Notes` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

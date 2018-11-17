@@ -14,7 +14,7 @@ function db_open () {
     @ $db = new mysqli($CONF['host'],$CONF['user'],$CONF['passwd'],$CONF['dbase']);
   } else {
     @ $db = new mysqli('localhost','wmff','','wmff');
-    $CONF = [];
+    $CONF = ['dbase'=>'wmff'];
   }
   if (!$db || $db->connect_error ) die ('Could not connect: ' .  $db->connect_error);
 }
@@ -28,11 +28,11 @@ function Logg($what) {
 }
 
 function table_fields($table) {
-  global $db;
+  global $db,$CONF;
   static $tables = array();
   if (isset($tables[$table])) return $tables[$table];
 
-  $qry = "SELECT Column_Name, Data_type FROM information_schema.columns WHERE table_name='" . $table . "'";
+  $qry = "SELECT Column_Name, Data_type FROM information_schema.columns WHERE table_schema='" . $CONF['dbase'] ."' AND table_name='" . $table . "'";
   $Flds = $db->query($qry);
   while ($Field = $Flds->fetch_array()) {
     $tables[$table][$Field['Column_Name']] = $Field['Data_type'];

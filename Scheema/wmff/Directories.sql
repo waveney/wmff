@@ -7,5 +7,6 @@ CREATE TABLE `Directories` (
   `State` tinyint(4) NOT NULL DEFAULT '0',
   `AccessLevel` int(11) NOT NULL,
   `AccessSections` text NOT NULL,
+  `ExtraData` int(11) NOT NULL,
   PRIMARY KEY (`DirId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

@@ -64,6 +64,8 @@ CREATE TABLE `Sides` (
   `SortCode` text NOT NULL,
   `Account` text NOT NULL,
   `AccountName` text NOT NULL,
+  `DocDirNum` int(11) NOT NULL,
+  `RelOrder` int(11) NOT NULL,
   PRIMARY KEY (`SideId`),
   KEY `SideNum` (`SideId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

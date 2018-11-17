@@ -128,6 +128,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
     echo "<tr><td>Finishing On:<td>" . $DayLongList[$Ev['EndDay']] . " " . ($MASTER['DateFri']+$Ev['EndDay']) . "th June " . $Ev['Year'] . "\n";
   } else {
     echo "On:<td>" . $DayLongList[$Ev['Day']] . " " . ($MASTER['DateFri']+$Ev['Day']) . "th June " . $Ev['Year'] . "\n";
+    if ($Ev['DoorsOpen']) echo "<tr><td>Doors Open at:<td>" . timecolon($Ev['DoorsOpen']). "\n";
     echo "<tr><td>Starting at:<td>" . timecolon($Ev['Start']) . "\n";
     echo "<tr><td>Finishing at:<td>" . timecolon($Ev['End']) . "\n";
   }

@@ -36,5 +36,6 @@ CREATE TABLE `ActYear` (
   `VATreg` tinyint(4) NOT NULL,
   `RadioWimborne` tinyint(4) NOT NULL,
   `ReleaseDate` int(11) NOT NULL,
+  `Performers` int(11) NOT NULL,
   PRIMARY KEY (`ActId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

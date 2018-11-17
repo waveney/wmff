@@ -145,9 +145,9 @@ services, under the following terms and conditions:<p>\n";
   if ($ctype == 1) $str .= "ON ARRIVAL: Please report to Information Desk in the Square (manned from 2pm Friday)<p>\n";
 
   if ($Side['StagePA'] == 'None') {
-    $str .= "If you have any PA/Technical requirments, please fill in the relevant section on your Acts pesonal record.<p>\n";
+    $str .= "If you have any PA/Technical requirements, please fill in the relevant section on your Act's personal record.<p>\n";
   } else {
-    $str .= "Thankyou for filling in your PA/Technical requirments.<p>\n";
+    $str .= "Thankyou for filling in your PA/Technical requirements.<p>\n";
   }
 
   // Riders for Venues
@@ -157,9 +157,26 @@ services, under the following terms and conditions:<p>\n";
 
   if (strlen($Sidey['Rider']) > 5) $str .= "<b>Rider:</b> " . $Sidey['Rider'] . "<p>\n";
 
-
-  $faq = ($ctype > 0 ? include_once("InnerMusicFAQ.php") : 
-    "Payment: All payments will be made by BACS, within 48 hours of the end of the Festival. Cash will not be used for payments. Any queries should be submitted through the employer." );
+  switch ($ctype) {
+  case 0:
+    $faq = "Payment: All payments will be made by BACS, within 48 hours of the end of the Festival. " .
+           "Cash will not be used for payments. Any queries should be submitted through the employer.";
+    break;
+  
+  case 1:
+    $faq = include_once("InnerMusicFAQ.php");
+    $faq = preg_replace("/<h2 class=OtherFAQ.*?<\/h2>/",'',$faq);
+    if (!$camp) $faq = preg_replace("/<CAMPCLAUSE>.*<\/CAMPCLAUSE>/",'',$faq);
+    break;
+      
+  case 2:
+    $faq = include_once("InnerMusicFAQ.php");  
+    $faq = preg_replace("/<h2 class=MusicFAQ.*?<\/h2>/",'',$faq);  
+    $faq = preg_replace("/<dt class=MusicFAQ.*?<dt>/s",'<dt>',$faq);
+    $faq = preg_replace("/class=OtherFAQ/",'',$faq);
+    if (!$camp) $faq = preg_replace("/<CAMPCLAUSE>.*<\/CAMPCLAUSE>/",'',$faq);
+    break;  
+  }
 
   if ($pking) {
     $allfree = 1;
