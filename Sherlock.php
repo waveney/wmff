@@ -24,36 +24,36 @@
   $BackStop = 2018;
   
   if ($YEAR == $PLANYEAR) {
-    $restrict = "( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 ))";
+    $restrict = "AND ( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 ))";
   } else {
     $restrict = "";
     $Complete = 4;
   }
   
   if ($Ett >= 0) { 
-    $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND ( e.Type=$Ett $xtr ) AND e.SubEvent<1 AND e.Venue!=0 AND " .
+    $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND ( e.Type=$Ett $xtr ) AND e.SubEvent<1 AND e.Venue!=0 " .
                 "$restrict ORDER BY e.Day, e.Start"); // Need to work with release settings as well
     if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
     if (count($Evs) > 1) $Types = $Ets[$Ett]['Plural'];
-    $Complete = $Ets[$Ett]['State'];
+    if ($YEAR == $PLANYEAR) $Complete = $Ets[$Ett]['State'];
     $BackStop = $Ets[$Ett]['FirstYear'];
   } else { // Handle other Sherlock calls
     switch ($Type) {
       case 'Family':
-        $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND e.Family=1 AND e.SubEvent<1 AND e.Venue!=0 AND " .
+        $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND e.Family=1 AND e.SubEvent<1 AND e.Venue!=0 " .
                 "$restrict ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
         $Types = "Family Event";
         if (count($Evs) != 1) $Types .= "s";
-        $Complete = $MASTER[$Type . 'State'];
+        if ($YEAR == $PLANYEAR) $Complete = $MASTER[$Type . 'State'];
         break;
       case 'Special':
-        $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND e.Special=1 AND (e.SubEvent<1 OR e.LongEvent=1) AND e.Venue!=0 AND " .
+        $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND e.Special=1 AND (e.SubEvent<1 OR e.LongEvent=1) AND e.Venue!=0 " .
                 "$restrict ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
         $Types = "Special Event";
         if (count($Evs) != 1) $Types .= "s";
-        $Complete = $MASTER[$Type . 'State'];
+        if ($YEAR == $PLANYEAR) $Complete = $MASTER[$Type . 'State'];
         break;
       default:
         break;
