@@ -45,7 +45,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 //  echo $day;
     if ($MASTER[$day . "PassCode"]) {
       echo "<tr><td>";
-      if ($MASTER['TicketControl'] == 1) echo "<a href='https://www.ticketsource.co.uk/event/" . $MASTER[$day . "PassCode"] . "' target=_blank style='font-size:18px'>";
+      if ($MASTER['TicketControl'] == 1) echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER[$day . "PassCode"] . "' target=_blank style='font-size:18px'>";
       echo "<strong>$day Pass</strong></a><br>";
       echo "Adult (16+): <strong>";
       
@@ -83,7 +83,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 
       switch ($MASTER['TicketControl']) {
       case 0: echo "Not Yet"; break;
-      case 1: echo "<a href='https://www.ticketsource.co.uk/event/" . $MASTER[$day . "PassCode"] . "' target=_blank ><strong>Buy Now</strong></a>"; break;
+      case 1: echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER[$day . "PassCode"] . "' target=_blank ><strong>Buy Now</strong></a>"; break;
       case 2: echo "Closed"; break;
       }
     }
@@ -98,7 +98,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 
   while ($E = $Evs->fetch_assoc()) {
     DayTable($E['Day'],"Event Tickets",($MASTER['PriceComplete' . $E['Day']]?'':'(More to come)'));
-    $bl = "<a href=" . ($E['SpecPriceLink']? $E['SpecPriceLink'] : ("https://www.ticketsource.co.uk/event/" . $E['TicketCode'])) . " target=_blank>" ;
+    $bl = "<a href=" . ($E['SpecPriceLink']? $E['SpecPriceLink'] : ("https://www.ticketsource.co.uk/date/" . $E['TicketCode'])) . " target=_blank>" ;
     echo "<tr><td><strong><a href=/int/EventShow.php?e=" . $E['EventId'] . ">" . $E['SN'] . "</a></strong><br>"; 
       echo Price_Show($E);
     echo "<td>" . $DayList[$E['Day']] . " " . ($MASTER['DateFri']+$E['Day']) ."th June $YEAR" . "<br>";
