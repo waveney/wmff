@@ -7,7 +7,7 @@
   echo "<meta name=copyright content='Copyright &copy; Wimborne Minster Folk Festival $CALYEAR'>\n"; 
  
   $V = $MASTER_DATA['V'];
-  include_once("int/analyticstracking.php");
+  echo "<script>" . $MASTER_DATA['Analytics'] . "</script>";
   echo "<link href=/files/style.css?V=$V type=text/css rel=stylesheet />";
   echo "<link href=/files/dropdown.css?V=$V type=text/css rel=stylesheet />\n";
 ?>

@@ -3,6 +3,8 @@
 <div class="footer">
 
 <div id="flex">
+
+<!--
 <?php
   global $MASTER_DATA,$CALYEAR;
   include_once("int/NewsLib.php");
@@ -14,9 +16,9 @@
     echo "</div>";
   }
 ?>
-
+-->
 <div class="mini" style="border-bottom:0; margin-bottom:0;">
-Copyright &copy; <a href="/" rel="bookmark" style="color:#FFFFFF;">Wimborne Minster Folk Festival Ltd</a> <?php echo $CALYEAR ?>; All Rights Reserved. Registered Company: 08290423</p>
+Copyright &copy; <a href="/" style="color:#FFFFFF;">Wimborne Minster Folk Festival Ltd</a> <?php echo $CALYEAR ?>; All Rights Reserved. Registered Company: 08290423</p>
 
 <p>Photos remain Copyright of their respective owners and cannot be reproduced or used without permission.</p>
 
