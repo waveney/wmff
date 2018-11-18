@@ -84,7 +84,7 @@ function Init_Map($CentType,$Centerid,$Zoom,$Features=1) { // CentType 0=Venue, 
 
   $V = $MASTER_DATA['V'];
   echo fm_hidden('MapLat',$Lat) . fm_hidden('MapLong',$Long) . fm_hidden('MapZoom',$Zoom) . fm_hidden('MapFeat',$Features);
-  echo "<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBPxpYmezfuaG9M1aVLBDjI0srpmJlfPPY' ></script>";
+  echo "<script src='https://maps.googleapis.com/maps/api/js?key=" . $MASTER_DATA['GoogleAPI'] . "' ></script>";
   echo "<script src=/js/maplabel.js?V=$V ></script>";
   echo "<script src=/js/Mapping.js?V=$V ></script>";
 }

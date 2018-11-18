@@ -24,6 +24,8 @@
   echo "<tr>" . fm_text("Left Ad Img",$MASTER_DATA,'AdvertImgLeft') . fm_text("Left Ad Link",$MASTER_DATA,'AdvertLinkLeft');
   echo "<tr>" . fm_text("Right Ad Img",$MASTER_DATA,'AdvertImgRight') . fm_text("Left Ad Right",$MASTER_DATA,'AdvertLinkRight');
   echo "<tr>" . fm_text("Website Banner",$MASTER_DATA,'WebSiteBanner',3);
+  echo "<tr>" . fm_textarea("Analytics code",$MASTER_DATA,'Analytics',3,3);
+  echo "<tr>" . fm_text("Directions Google API key",$MASTER_DATA,'GoogleAPI',3);
   echo "</table>\n";
 
   echo "<Center><input type=Submit name='Update' value='Update'></center>\n";
