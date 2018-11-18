@@ -5,6 +5,7 @@
   dostaffhead("Add/Change Bug");
   include_once("DocLib.php");
   include_once("BugLib.php");
+  include_once("Email.php");
   global $USERID,$USER;
 
   Set_Bug_Help();
@@ -39,7 +40,9 @@
       $b = Insert_db_post('Bugs',$Bug,$proc); 
     }
     if (!$USER['Bugs'] && $ReportSevs[$Bug['Severity']]) {
-      NewSendEmail(Get_Emails('Bugs'),"WMFF Bug report by " .$USER['SN'],json_encode($Bug));
+      $je = json_encode($Bug);
+      $em = Get_Emails('Bugs');
+      if ($em) NewSendEmail($em,"WMFF Bug report by " .$USER['SN'],$je);
     }
   } elseif (isset($_GET{'b'})) {
     $b = $_GET{'b'};
