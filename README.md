@@ -19,6 +19,8 @@ Then run int/Initialise.php - (when written) this will create appropriate subdir
 
 It will (soon?) track changes to the structure of the database and automatically update as appropriate.
 
+See int/AdminGuide.php for a lot more about the system admin
+
 Does not include the data from the database, and most uploaded images under /images
 
 

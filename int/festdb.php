@@ -286,6 +286,8 @@ function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$M
               $t[$fld] = Time_BestGuess($_POST["$fld$i"]);
             } else if (isset($_POST["$fld$i"])) {
               $t[$fld] = $_POST["$fld$i"];
+            } else {
+              $t[$fld] = 0;
             }
           }
           $Putfn($t);

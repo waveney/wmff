@@ -118,7 +118,7 @@ echo "All done<p>";
   
   run any neededscripts to mod data from old to new
 
-  Need to embed skeema in project
+  Need to embed skeema in project - done
 
 
 */
