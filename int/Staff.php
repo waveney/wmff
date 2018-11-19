@@ -299,6 +299,9 @@
     } else {
       echo "<li><a href=ListUsers.php>List Committee/Group Users</a>";    
     }
+    if (Access('Staff','Bugs')) {
+      echo "<li><a href=AdminGuide.php>Admin Guide</a> \n";
+    }
   echo "</table>\n";
 
   dotail();
