@@ -127,7 +127,7 @@ Setup the dance types you wish to categorise.  Give them a relative importance -
 A similar table may appear for music in time.<p>
 
 <h3>Trade Types and base prices</h3>
-This can be setup by staff the Trade access.<p>
+This can be setup by staff the Trade access.  The first one is the default<p>
 <ul>
 <li>Setup the trade types you wish to recognise.
 <li>Give them a relative order.
@@ -144,8 +144,44 @@ This can be setup by staff the Trade access.<p>
 </ul>
 
 <h3>Trade Locations</h3>
+This can be setup by staff the Trade access.<p>
+<ul>
+<li>Setup the locations you MAY wish to recognise
+<li>Give it a name
+<li>Choose an appropriate prefix to describe it
+<li>Tick Power if it is an option for the location
+<li>Give number of pitches
+<li>Untick "In use" if not used currently
+<li>Change Days if not both days
+<li>Artisan Msgs, same as above for trade type - either sets the alternative message proformas
+<li>Invoice Code - if set overrides the code from the trade type
+<li>Notes - for admin use only
+</ul><p>
+
+Coming soon: Maps for each location to allow click and drag to position traders on the maps<p>
+
 
 <h3>Event Types</h3>
+This has the big controls for event types.<p>
+<ul>
+<li>Name - simple broad categorisation - Dancing, Music, Session etc.  Plurall - what ever to include when listing many of the event
+<li>Public - If not set these events will never be public.  Typically used for sound checks.
+<li>Has Music/Dance/Other - what broad categories it should appear under - used to create Music/Dance/Other event grids.
+<li>Set the Use Imp flag to bring headline particpants to top of an event, they still get bigger fonts.
+<li>Set Format to drive EventShow rules 0=All Large, 2=Switch to large at Importance-High, 9+=All Small
+<li>State - This is a big control to how and where the events are listed:
+  <ul>
+  <li>Very Early - only seen by staff
+  <li>Draft - only seen by staff and participants if they are in that event
+  <li>Partial - Seen by the public, but with warnings that not all of this type of event is published
+  <li>Provisional - Seen by the public - probably complete
+  <li>Complete - seen by the public, no changes are expected
+  </ul>
+<li>Set Inc Type to indicate event type in description if it is not part of the events name
+<li>Set the Not critical flag for sound checks - means that this event type does not have to be complete for contract signing.
+<li>Set No Part if event type is valid without any participants
+<li>First Year - First year this event type is used at te festival - limits backtracking to show events of previous years beyond this.
+</ul>
 
 <h3>Map Point Types</h3>
 
