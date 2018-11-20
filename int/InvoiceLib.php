@@ -251,8 +251,9 @@ function Sage_Code(&$Whose) { // May only work for trade at the moment
 // Create an invoice for whose, details covers the amount(s) note details can be negative
 // Source 1=Trade, 2 = Sponsor/Adverts, 3= Other) returns incoice number - for WMFF I will start invoices at 2000
 // Due date < 365 = days, > 365 taken as actual date
-function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=30) {
+function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=-1) {
   global $db,$YEAR;
+  if ($DueDate < 0) $DueDate=Feature('PaymentTerms',30);
   $inv['Source'] = $Source;
   $inv['Year'] = $YEAR;
   $inv['BZ'] = $Whose['SN'];
