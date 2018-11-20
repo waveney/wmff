@@ -13,6 +13,8 @@
   $col9 = $col8 = $col7 = '';
   $Types = Get_Dance_Types(1);
   foreach ($Types as $i=>$ty) $Colour[strtolower($ty['SN'])] = $ty['Colour'];
+  
+  $link = (Access('Staff','Dance')?'AddDance.php':'ShowDance.php');
 
   if ($_GET{'SEL'} == 'ALL') {
     $SideQ = $db->query("SELECT s.*, y.*, s.SideId FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE s.IsASide=1 ORDER BY SN");
@@ -74,10 +76,7 @@
 
     $Dance_Comp[0] = '';
     while ($fetch = $SideQ->fetch_assoc()) {
-//if ($fetch['SN'] == 'apples') var_dump($fetch);
-//      echo "<tr><td><a href=AddDance.php?sidenum=" . $fetch['SideId'] . ">" . $fetch['SideId'] . "</a>";
-      echo "<tr><td><a href=AddDance.php?sidenum=" . $fetch['SideId'] . "&Y=$YEAR>" . $fetch['SN'] . "</a>";
-//echo " " . $fetch['syId'];
+      echo "<tr><td><a href=$link?sidenum=" . $fetch['SideId'] . "&Y=$YEAR>" . $fetch['SN'] . "</a>";
       if ($fetch['SideStatus']) {
         echo "<td>DEAD";
       } else {
