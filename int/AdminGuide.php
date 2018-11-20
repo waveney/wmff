@@ -80,7 +80,7 @@ next year as soon as the festival has finished, the Show year only when material
 <tr><td>Ads - image and link<td>On public pages an advert can be placed on the left/right of the banner.  Give the image and links to be followed (if any)
 <tr><td>Website Banner<td>The image for the main banner
 <tr><td>Analytics code<td>The Javascript to provide Analytics on all pages.  (Don't include the &lt;script&gt;,  just the code to go within)
-<tr><td>Google Maps API<td>The API key used to provide Directions on Maps - if not present no directions buttons will apear.  Note for very large festivals their is a potential cost if used
+<tr><td>Google Maps API<td>The API key used to provide Directions on Maps - if not present no directions buttons will appear.  Note for very large festivals there is a potential cost if used
 more than Google's free allowance. 
 </table><p>
 
@@ -92,29 +92,56 @@ Format of controls: Control : Value : Comment<p>
 <tr><td>CampControl<td>0 - no performer camping, 1 Camping can be enabled by festival for this performer but then they fill in how much, 2 Camping entirely controlled by festival
 <tr><td>DanceDefaultSlot<td>30 = 30 minute default dance spot, 45 for a 45 minute default.  Gives the default subevent split
 <tr><td>DanceComp<td>Show tick box for the dance competition
+<tr><td>PaymentTerms<td>30 = 30 day default payment terms on invoices
 </table><p>
 
 <H3>General Year Data</h3>
 This is festival data for each year.  You can create records as many years as you wish ahead.<p>
 
-TODO
+<table border>
+<tr><td>State of Family/Special<td>See Event types below
+<tr><td>State of Trade<td>Not used
+<tr><td>Date of Friday<td>Date of the Friday of the festival, it works out everything else from here
+<tr><td>Dates of Price Chnages<td>Their is scope for two different pre festival price hikes, as well ass the on door being different.  These give the price hike dates.
+<tr><td>Priced Complete<td>If ticked the ticket page says that all ticketed events for the day are now listed, tick this when the last ticketed event is listed for each day.  
+Will probably expand this to other days soon.
+<tr><td>Trade Invoice date<td>The date when the final invoices for trade will be sent - when a booking is made near to this date a single invoice is sent rather than a deposit one followed
+by the final invoice.
+<tr><td>Date Last Trade Payments<td>The date (pre festival) when all payments must be made.  Invoices sent near to this date have shorter payment periods than normal.
+<tr><td>Ticket Control<td>Select: "Not Yet" tickets not yet for sale, "Open" tickets are for sale, "Closed" too late for online booking (does not preclude on door sales).
+<tr><td>Pass Codes<td>For Weekeend, Friday, Saturday and Sunday Passes: TicketSource Event short code, the Basic price (prior to price hike 1) a price after price hike 2 (if used) 
+Descriptive text for the ticket page about the pass.  (Extending the passes is easy and straight forward)
+<tr><td>Programme Book<td>Cost of the programme book (Not sure this is actually used anywhere yet)
+<tr><td>Booking Fee<td>if set what is the booking fee - examples "&pound;1" and "approximately 3.5%"
+<tr><td>Camping<td>There are many variables, the following should allow some flexibility, more can be added
+<tr><td>Camping Cost<td>This is the cost to the festival of one night performer camping - automatically accounted for in budgetry calculations
+<tr><td>Camping Fess<td>Cost to camp for 1-4 nights
+<tr><td>Camping Codes<td>Ticketsource shortevent codes for all camping options available.  If blank that option is not available
+</table><p>
 
-<h3>Dance Types</h3>
+If you are looking at the last currently defined year at the bottom will be a link to create the next year.<p>
+
+<h3>Dance/Music Types</h3>
 Setup the dance types you wish to categorise.  Give them a relative importance - order they will apear and give the colour to be used.  Not currently used on the public side.<p>
 
+A similar table may appear for music in time.<p>
+
 <h3>Trade Types and base prices</h3>
-Setup the trade types you wish to recognise.<p>  
-Give them a relative order.<p>
-A Colour for the trade type.<p>
-Give a base price (will say prices from that number), the deposit price, the price can be per day, if so tick the box.<p>
-If it is an optional extra element (power) tick additional, (this may not work).<p>
-If it is a charity stall tick charity number to enforce the addition of the charity number.<p>
-Likewise if it sells food or drink, tick the need local authority.<p>
-If insurance is required (it probably is in all cases), tick insurance, likewise risk assesment (mechanism to use this is currently missing).<p>
-Artisan Msgs, changes the wording of some trade emails.<p>
-Open means submissions are accepted for this type of trade.<p>
-The Invoice Code, is the default code specified under Finance to apply to that type of trade, IF the trade location has a code, that will surperced any setting here.<p>
-Lastly description is a sentence or two that says what type of trade it is and/or puts restrictions - for example for Wimborne Local Artisan means wiithin 20 miles of Wimborne.
+This can be setup by staff the Trade access.<p>
+<ul>
+<li>Setup the trade types you wish to recognise.
+<li>Give them a relative order.
+<li>A Colour for the trade type.
+<li>Give a base price (will say prices from that number), the deposit price, the price can be per day, if so tick the box.
+<li>If it is an optional extra element (power) tick additional, (this may not work).
+<li>If it is a charity stall tick charity number to enforce the addition of the charity number.
+<li>Likewise if it sells food or drink, tick the need local authority.
+<li>If insurance is required (it probably is in all cases), tick insurance, likewise risk assesment (mechanism to use this is currently missing).
+<li>Artisan Msgs, changes the wording of some trade emails.
+<li>Open means submissions are accepted for this type of trade.
+<li>The Invoice Code, is the default code specified under Finance to apply to that type of trade, IF the trade location has a code, that will surperced any setting here.
+<li>Lastly description is a sentence or two that says what type of trade it is and/or puts restrictions - for example for Wimborne Local Artisan means wiithin 20 miles of Wimborne.
+</ul>
 
 <h3>Trade Locations</h3>
 

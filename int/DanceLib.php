@@ -124,7 +124,7 @@ function Show_Side($snum,$Message='') {
     if ($side['IsASide'] && $side['ShortName']) echo "( Appearing in the grids as:" . $side['ShortName'] . " )<br>";
 
     echo "<div style='width:800px;'>";
-    if ($side['Photo']) echo "<img src=" . $side['Photo'] . " width=400 style='float:left;padding-right:10px;'><p>\n";
+    if ($side['Photo']) echo "<img src=" . $side['Photo'] . " width=100%><p>\n";
 
     if ($side['Description']) echo $side['Description'] . "<p>";
 
