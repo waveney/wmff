@@ -14,7 +14,7 @@
   $Types = Get_Dance_Types(1);
   foreach ($Types as $i=>$ty) $Colour[strtolower($ty['SN'])] = $ty['Colour'];
   
-  $link = (Access('Staff','Dance')?'AddDance.php':'ShowDance.php');
+  $link = (Access('Staff')?'AddDance.php':'ShowDance.php');
 
   if ($_GET{'SEL'} == 'ALL') {
     $SideQ = $db->query("SELECT s.*, y.*, s.SideId FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE s.IsASide=1 ORDER BY SN");
