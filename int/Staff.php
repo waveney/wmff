@@ -48,7 +48,7 @@
     echo "<ul>\n";
     echo "<li><a href=TimeLine.php?Y=$YEAR>Time Line Management</a>\n<p>";
     echo "<li><a href=TLHelp.php>Timeline Help</a>\n";
-    echo "<li>Timeline Stats\n";
+//    echo "<li>Timeline Stats\n";
     if (Access('SysAdmin')) {
       echo "<p>";
 //      echo "<li class=smalltext><a href=TLImport1.php>Timeline Import 1</a>\n";
@@ -63,7 +63,7 @@
     if (Access('Staff')) {
       echo "<li><a href=ListMusic.php?SEL=ALL&Y=$YEAR>List All Music Acts in Database</a>\n";
       echo "<li><a href=ListMusic.php?SEL=Booking&Y=$YEAR>List Music Acts Booking</a>\n";
-      echo "<li>Music Acts Summary"; //<a href=MusicSummary.php?Y=$YEAR>Music Acts Summary</a>\n";
+//      echo "<li>Music Acts Summary"; //<a href=MusicSummary.php?Y=$YEAR>Music Acts Summary</a>\n";
     }
     if (Access('Staff','Music')) {
       echo "<li>Invite Music Acts\n";
@@ -155,9 +155,9 @@
     }
     echo "</ul>\n";
 
-// *********************** STALLS & SPONSORS  ****************************************************
+// *********************** STALLS   ****************************************************
   echo "<tr>";
-  echo "<td class=Stafftd><h2>Trade and Sponsors</h2>\n";
+  echo "<td class=Stafftd><h2>Trade </h2>\n";
     echo "<ul>\n";
     echo "<li><a href=ListCTrade.php?Y=$YEAR>List Active Traders This Year</a>\n";
     echo "<li><a href=ListTrade.php?Y=$YEAR>List All Traders</a>\n";
@@ -240,7 +240,7 @@
     echo "</ul>\n";
 
 // *********************** Finance **************************************************************
-  echo "<td class=Stafftd><h2>Finance</h2>\n";
+  echo "<td class=Stafftd><h2>Finance and Sponsors</h2>\n";
     echo "<ul>\n";
     if (Access('Committee','Finance')) {
       echo "<li><a href=BudgetManage.php>Budget Management</a>\n";
@@ -248,7 +248,7 @@
       echo "<li><a href=InvoiceCodes.php>Invoice Codes</a>\n";   
       echo "<li><a href=InvoiceSummary.php>Invoice Summary</a>\n";   
 
-    } else {
+    } elseif (Access('Committee')) {
       echo "<li><a href=BudgetManage.php>Budget View</a>\n";
     }
     if (Access('SysAdmin')) {
