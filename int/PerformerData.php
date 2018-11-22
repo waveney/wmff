@@ -77,7 +77,6 @@
         echo "<td>" . formatBytes(filesize($file)) . "<td>" . date('j/m/Y H:i:s',filectime($file));
         echo "<td><a href=ShowFile.php?D=Store/Performers/$id/$fname>download</a>";
         if ($UpdateValid) echo ", <a href=PerformerData.php?id=$id&ACTION=DELETE&f=" . base64_encode($fname) . ">delete</a>";
-        }
       }
       echo "</table><p>";
     } else {
