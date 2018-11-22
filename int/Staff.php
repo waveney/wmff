@@ -67,9 +67,7 @@
     }
     if (Access('Staff','Music')) {
       echo "<li>Invite Music Acts\n";
-//      echo "<li><a href=InviteMusic.php>Invite Music Acts</a>\n";
       echo "<li><a href=CreatePerf.php?T=Music&Y=$YEAR>Add Music Act to Database</a>";
-//      echo "<li><a href=AddMusic.php?Y=$YEAR>Add Music Act to Database</a>\n"; 
       echo "<li>Find Act"; // <a href=AddDance.php>Add Dance Side</a>"; 
 /*
 //      if ($YEAR == $PLANYEAR) echo "<li><a href=MusicProg.php?>Edit Music Programming</a>";
@@ -102,14 +100,11 @@
     if (Access('Staff','Dance')) {
       echo "<li><a href=InviteDance.php?Y=$YEAR>Invite Dance Sides</a>\n";
     }
-    if (Access('Committee')) {
+    if (Access('Staff')) {
       echo "<li><a href=ListDance.php?SEL=ALL&Y=$YEAR>List All Dance Sides in Database</a>\n";
       echo "<li><a href=ListDance.php?SEL=Coming&Y=$YEAR>List Dance Sides Coming</a>\n";
       echo "<li><a href=DanceSummary.php?Y=$YEAR>Dance Sides Summary</a>\n";
     }
-//    if (Access('Staff','Dance')) {
-//      echo "<li><a href=AddDance.php?Y=$YEAR>Add Dance Side to Database</a>"; 
-//    }
     if (Access('Staff','Dance')) echo "<li><a href=CreatePerf.php?T=Dance&Y=$YEAR>Add Dance Side to Database</a>";
 
 //      echo "<li><input class=typeahead type=text placeholder='Find a Side'>\n";
