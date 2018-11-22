@@ -27,7 +27,7 @@
   echo "<table border width=90% class=Staff>\n";
   echo "<tr><td class=Stafftd><h2>Document Storage</h2>\n";
     echo "<ul>\n";
-    if (Access('Staff') {
+    if (Access('Staff')) {
       echo "<li><a href=Dir.php>View Document Storage</a>\n";
       echo "<li><a href=Search.php>Search Document Storage</a>\n";
     }
