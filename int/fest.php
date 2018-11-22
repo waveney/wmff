@@ -90,8 +90,10 @@ function Access($level,$subtype=0,$thing=0) {
   $want = $Access_Type[$level];
   Set_User();
   if (!isset($USER{'AccessLevel'})) return 0;
-  if ($USER{'AccessLevel'} > $want) return 1;
   if ($USER{'AccessLevel'} < $want) return 0;
+  
+  if ($USER{'AccessLevel'} > $want+1) return 1;
+
   switch  ($USER{'AccessLevel'}) {
 
   case $Access_Type['Participant'] : 
@@ -102,12 +104,9 @@ function Access($level,$subtype=0,$thing=0) {
   case $Access_Type['Upload'] :
   case $Access_Type['Staff'] :
   case $Access_Type['Steward'] :
-    if ($USER{'AccessLevel'} > $want) return 1;
-    if ($USER{'AccessLevel'} == $want) {
-      if (!$subtype) return 1;
-      if (isset($USER[$subtype]) && $USER[$subtype]) return 1;
-    }
-    return 0; // For now
+    if (!$subtype) return $USER{'AccessLevel'} >= $want;
+    if (isset($USER[$subtype]) && $USER[$subtype]) return 1;
+    return 0; 
 
 
   case $Access_Type['Committee'] :
@@ -125,6 +124,7 @@ function Access($level,$subtype=0,$thing=0) {
     return 0;
   }
 }
+
 
 /*
   If not in session 

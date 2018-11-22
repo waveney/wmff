@@ -27,7 +27,7 @@
   echo "<table border width=90% class=Staff>\n";
   echo "<tr><td class=Stafftd><h2>Document Storage</h2>\n";
     echo "<ul>\n";
-    if (Access('Staff','Docs')) {
+    if (Access('Staff')) {
       echo "<li><a href=Dir.php>View Document Storage</a>\n";
       echo "<li><a href=Search.php>Search Document Storage</a>\n";
     }
@@ -48,7 +48,7 @@
     echo "<ul>\n";
     echo "<li><a href=TimeLine.php?Y=$YEAR>Time Line Management</a>\n<p>";
     echo "<li><a href=TLHelp.php>Timeline Help</a>\n";
-    echo "<li>Timeline Stats\n";
+//    echo "<li>Timeline Stats\n";
     if (Access('SysAdmin')) {
       echo "<p>";
 //      echo "<li class=smalltext><a href=TLImport1.php>Timeline Import 1</a>\n";
@@ -63,20 +63,20 @@
     if (Access('Staff')) {
       echo "<li><a href=ListMusic.php?SEL=ALL&Y=$YEAR>List All Music Acts in Database</a>\n";
       echo "<li><a href=ListMusic.php?SEL=Booking&Y=$YEAR>List Music Acts Booking</a>\n";
-      echo "<li>Music Acts Summary"; //<a href=MusicSummary.php?Y=$YEAR>Music Acts Summary</a>\n";
+//      echo "<li>Music Acts Summary"; //<a href=MusicSummary.php?Y=$YEAR>Music Acts Summary</a>\n";
     }
     if (Access('Staff','Music')) {
-      echo "<li>Invite Music Acts\n";
+//      echo "<li>Invite Music Acts\n";
       echo "<li><a href=CreatePerf.php?T=Music&Y=$YEAR>Add Music Act to Database</a>";
-      echo "<li>Find Act"; // <a href=AddDance.php>Add Dance Side</a>"; 
+//      echo "<li>Find Act"; // <a href=AddDance.php>Add Dance Side</a>"; 
 /*
 //      if ($YEAR == $PLANYEAR) echo "<li><a href=MusicProg.php?>Edit Music Programming</a>";
 */
-      echo "<li>Edit Music Programming";
+//      echo "<li>Edit Music Programming";
       if (Access('SysAdmin')) {
         echo "<li><a href=ShowMusicProg.php?Y=$YEAR>View Music Programming\n</a>"; 
       } else {
-        echo "<li>View Music Programming\n"; 
+//        echo "<li>View Music Programming\n"; 
       }
     } else {
 //      echo "<li><a href=ShowMusicProg.php?Y=$YEAR>View Music Programme</a>";
@@ -117,7 +117,7 @@
       echo "</span>"; //</span>";
 //        echo "</form>\n"; 
     } else {
-      echo "<li>Find a Side\n";
+//      echo "<li>Find a Side\n";
 //         echo "<li><input class=typeahead type=text placeholder='Find a Side'>\n";
     }
 
@@ -155,17 +155,17 @@
     }
     echo "</ul>\n";
 
-// *********************** STALLS & SPONSORS  ****************************************************
+// *********************** STALLS   ****************************************************
   echo "<tr>";
-  echo "<td class=Stafftd><h2>Trade and Sponsors</h2>\n";
+  echo "<td class=Stafftd><h2>Trade </h2>\n";
     echo "<ul>\n";
     echo "<li><a href=ListCTrade.php?Y=$YEAR>List Active Traders This Year</a>\n";
     echo "<li><a href=ListTrade.php?Y=$YEAR>List All Traders</a>\n";
     echo "<li><a href=TradeFAQ.php>Trade FAQ</a>\n";
-
-    if (Access('Staff','Trade')) {
+    echo "<li><a href=ListCTrade.php?Y=$YEAR&SUM>Traders Summary</a>\n";
+    
+    if (Access('Committee','Trade')) {
       echo "<li><a href=Trade.php?Y=$YEAR>Add Trader</a>\n";
-      echo "<li><a href=ListCTrade.php?Y=$YEAR&SUM>Traders Summary</a>\n";
       echo "<li><a href=TradeLocs.php>Trade Locations</a>\n";
       if (Access('SysAdmin')) echo "<li><a href=TradeTypes.php>Trade Types and base Prices</a>\n";
       if (Access('SysAdmin')) echo "<li><a href=EmailTraders.php>Email Groups of Traders</a>\n"; // Old code needs lots of changes
@@ -200,7 +200,7 @@
                 fm_select($Vens,0,'v',0," onchange=this.form.submit()") . 
                 fm_radio('',$Days,$_POST,'DAYS','',0) . fm_checkbox('Pics',$_POST,'Pics') .
                 "</form>\n";
-    if (Access('Staff') && $YEAR==$PLANYEAR) echo "<li><a href=EventAdd.php>Create Event(s)</a>";
+    if (Access('Staff','Venues') && $YEAR==$PLANYEAR) echo "<li><a href=EventAdd.php>Create Event(s)</a>";
     if (Access('SysAdmin')) echo "<li><a href=TicketEvents.php?Y=$YEAR>List Ticketed Events</a>\n";
     if (Access('Committee','Venues')) echo "<li><a href=MapPoints.php>Additional Map Points</a>\n";
     if (Access('SysAdmin')) echo "<li><a href=MapPTypes.php>Map Point Types</a>\n";
@@ -232,15 +232,15 @@
 //      echo "<li><a href=AddMusic.php?t=O>Add Other Particpant to Database</a>\n"; 
       echo "<li>Find Other";
     }
-    echo "<li><a href=LaughView.php?Y=$YEAR>Show Laugh Out Loud applications</a>";
+//    echo "<li><a href=LaughView.php?Y=$YEAR>Show Laugh Out Loud applications</a>";
     if (Access('Committee')) echo "<li><a href=Campsite.php?Y=$YEAR>Manage Campsite Use</a>\n"; 
     if (Access('Committee')) echo "<li><a href=CarerTickets.php?Y=$YEAR>Manage Carer Tickets</a>\n"; 
-    if (Access('Staff')) echo "<li><a href=TaxiCompanies.php>Manage Taxi Company List</a>\n"; 
+    if (Access('Staff','Sponsors')) echo "<li><a href=TaxiCompanies.php>Manage Taxi Company List</a>\n"; 
 //    echo "<li><a href=ContractView.php>Dummy Music Contract</a>";
     echo "</ul>\n";
 
 // *********************** Finance **************************************************************
-  echo "<td class=Stafftd><h2>Finance</h2>\n";
+  echo "<td class=Stafftd><h2>Finance and Sponsors</h2>\n";
     echo "<ul>\n";
     if (Access('Committee','Finance')) {
       echo "<li><a href=BudgetManage.php>Budget Management</a>\n";
@@ -248,7 +248,7 @@
       echo "<li><a href=InvoiceCodes.php>Invoice Codes</a>\n";   
       echo "<li><a href=InvoiceSummary.php>Invoice Summary</a>\n";   
 
-    } else {
+    } elseif (Access('Committee')) {
       echo "<li><a href=BudgetManage.php>Budget View</a>\n";
     }
     if (Access('SysAdmin')) {
