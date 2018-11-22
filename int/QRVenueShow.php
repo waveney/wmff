@@ -26,7 +26,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
           echo ($ll > 1 && $things == $ImpC && ($ImpC %2) == 1)?"<td colspan=$ll>":"<td>";
           $scale = $thing['Importance'];
 //var_dump($thing);
-          if (( $thing['IsASide'] && $thing['Coming'] != 2) || (($thing['IsAnAct'] || $thing['IsOther']) && $thing['YearState'] < 2)) {
+          if (( $thing['IsASide'] && $thing['Coming'] != 2) && (($thing['IsAnAct'] || $thing['IsOther']) && $thing['YearState'] < 2)) {
             echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
             echo " are no longer coming";
           } else {
@@ -157,11 +157,11 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   $VenList[] = $V;
   if ($Ven['IsVirtual']) {
     $res = $db->query("SELECT DISTINCT e.* FROM Events e, Venues v, EventTypes t WHERE e.Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1 OR " .
-                "( e.Venue=v.VenueId AND v.PartVirt=$V )) AND e.Type=t.ETypeNo AND t.State>1 $xtr ORDER BY Day, Start");
+                "( e.Venue=v.VenueId AND v.PartVirt=$V )) ORDER BY Day, Start");
     $parts = $db->query("SELECT VenueId FROM Venues v WHERE v.PartVirt=$V");
     while ($part = $parts->fetch_assoc()) $VenList[] = $part['VenueId'];
   } else {
-    $res = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1) AND e.Type=t.ETypeNo AND t.State>1 $xtr " .
+    $res = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1) $xtr " .
                 " ORDER BY Day, Start");
   }
 

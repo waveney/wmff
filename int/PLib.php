@@ -644,7 +644,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
           echo fm_hidden('YearState',$Sidey['YearState']);
         }
         echo fm_date('Release Date',$Sidey,'ReleaseDate','class=NotSide','class=NotSide');     
-      if (Access('Committee','Music') || Access('Committee','Finance')) {
+      if (Access('Committee','Music') || Access('Committee','Finance')  || !Feature('RestrictFinance',0)) {
         echo "<tr>". fm_number1('Fee',$Sidey,'TotalFee','class=NotCSide');
         echo fm_text('Other payments',$Sidey,'OtherPayment',3,(isset($Sidey['OtherPayment']) && strlen($Sidey['OtherPayment'])>1?'class=NotCSide':'class=NotCSide'));
         echo fm_number1('Cost of this',$Sidey,'OtherPayCost','class=NotSide');

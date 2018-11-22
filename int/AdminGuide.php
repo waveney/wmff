@@ -1,6 +1,6 @@
 <h2>Festival Software Admin Guide</h2>
 
-This is for the admin people looking after a festival, not for general committee members.<p>
+This is for the admin people looking after a festival website, not for general committee members.<p>
 
 <h2>Installation and initial setup</h2>
 
@@ -23,7 +23,7 @@ The setting up of this forwarding is done outside of the festival system on your
 <tr><td>Access Level<td>Select as appropriate:<br>
 <ul>
 <li>SysAdmin - this is for people like you who manage the site, these can see and change everything
-<li>Committee - your inner group managing the festival - these can see (almost) everything.  Financial information is restricted to those who need it.
+<li>Committee - your inner group managing the festival - these can see (almost) everything.  Financial information may be restricted to those who need it.
 <li>Staff - A slightly less important person on the festival, these can see a lot 
 <li>Steward - For Stewards, Sound engineers to see information related to them alone
 <li>Upload - Not used
@@ -33,12 +33,12 @@ The setting up of this forwarding is done outside of the festival system on your
 <tr><td>Image<td>Picture to appear on contacts page if apprropriate - optional
 <tr><td>Show on Contacts Page<td>Yes - they are listed<br>No - not listed<br>Role only - the email address is shown and what they do, but not their name
 <tr><td>Change areas<td>For each area what level of access does the person have.  meaningfull for committee, staff and steward level.<br>No - read, but not change<br>Edit - Make changes<br>
-Edit and Report - can make changes, also get an emal when others make changes to that area.  See below for list of areas
+Edit and Report - can make changes, also get an email when others make changes to that area.  See below for list of areas
 <tr><td>Change Sent, Access Key<td>Internal workings, dont change
 </table><p>
 
 <h3>Control areas</h3>
-Currently these are hard coded, but can be extended relatively easily.<p>
+Currently these are hard coded, but the list can be extended relatively easily (list at start of fest.php and add to festusers table) - dont remove from the list, gaps are fine.<p>
 <table border>
 <tr><td>Area<td>What
 <tr><td>Docs<td>Admin control of document storage - can change other peoples files
@@ -55,16 +55,23 @@ then the actual use of them is upto the people with dance control.
 <tr><td>TLine<td>Ability to administer the timeline and change tasks not just their own
 <tr><td>Bugs<td>Can administer the bug list, also if set to edit and report get emails when new ones are made.
 <tr><td>Photos<td>Can use the Photo upload and gallery management tools
+<tr><td>Comedy<td>Ability to setup comedy acts, edit their details, setup contracts etc
+<tr><td>Family<td>Ability to setup Family/Childrens, edit their details, setup contracts etc
+<tr><td>News<td>Ability to edit Articles and News
 </table><p>
 
 Note the first 10 users are reserved for internal use, only a few are actually used currently.<p>
 
 Looking at a list of users, if you click the "All users" top right, it will show internal users, hidden test users and those with removed access.<p>
 
+The main code controls are:<br>
+<li>Access(Level,area,detail) - Level is min access level, area if present is edit area required, detail only used for participants.  Returns false if not allowed.
+<li>A_Check(Level,area) - hard check - if failed Error_Page called directly, no return
+
 <h2>Initial Data Setup (beyond the first load above)</h2>
 
 <h3>Master Data</h3>
-This is data about the festival that is multi year.<p>
+This is data about the festival that is multi-year.<p>
 
 <table border>
 <tr><td>Feild<td>Details
@@ -77,7 +84,7 @@ next year as soon as the festival has finished, the Show year only when material
 <tr><td>Host URL<td>This is the host the SMTP will use to send outgoing email.
 <tr><td>SMTP user/password<td>This is used for the system to send emails
 <tr><td>Features<td>Controls Feature availability - see below
-<tr><td>Ads - image and link<td>On public pages an advert can be placed on the left/right of the banner.  Give the image and links to be followed (if any)
+<tr><td>Ads - image and link<td>On public pages an advert can be placed on the left/right of the main banner.  Give the image and links to be followed (if any)
 <tr><td>Website Banner<td>The image for the main banner
 <tr><td>Analytics code<td>The Javascript to provide Analytics on all pages.  (Don't include the &lt;script&gt;,  just the code to go within)
 <tr><td>Google Maps API<td>The API key used to provide Directions on Maps - if not present no directions buttons will appear.  Note for very large festivals there is a potential cost if used
@@ -93,10 +100,11 @@ Format of controls: Control : Value : Comment<p>
 <tr><td>DanceDefaultSlot<td>30 = 30 minute default dance spot, 45 for a 45 minute default.  Gives the default subevent split
 <tr><td>DanceComp<td>Show tick box for the dance competition
 <tr><td>PaymentTerms<td>30 = 30 day default payment terms on invoices
+<tr><td>RestrictFinance<td>If set to 1 it restricts who can see financial information on performers
 </table><p>
 
 <H3>General Year Data</h3>
-This is festival data for each year.  You can create records as many years as you wish ahead.<p>
+This is festival data for each year.  You can create records as many years in advance as you wish ahead.<p>
 
 <table border>
 <tr><td>State of Family/Special<td>See Event types below
@@ -127,7 +135,7 @@ Setup the dance types you wish to categorise.  Give them a relative importance -
 A similar table may appear for music in time.<p>
 
 <h3>Trade Types and base prices</h3>
-This can be setup by staff the Trade access.<p>
+This can be setup by staff with Trade access.  The first one is the default<p>
 <ul>
 <li>Setup the trade types you wish to recognise.
 <li>Give them a relative order.
@@ -144,8 +152,44 @@ This can be setup by staff the Trade access.<p>
 </ul>
 
 <h3>Trade Locations</h3>
+This can be setup by staff with Trade access.<p>
+<ul>
+<li>Setup the locations you MAY wish to recognise
+<li>Give it a name
+<li>Choose an appropriate prefix to describe it
+<li>Tick Power if it is an option for the location
+<li>Give number of pitches
+<li>Untick "In use" if not used currently
+<li>Change Days if not both days
+<li>Artisan Msgs, same as above for trade type - either sets the alternative message proformas
+<li>Invoice Code - if set overrides the code from the trade type
+<li>Notes - for admin use only
+</ul><p>
+
+Coming soon: Maps for each location to allow click and drag to position traders on the maps<p>
+
 
 <h3>Event Types</h3>
+This has the big controls for event types.<p>
+<ul>
+<li>Name - simple broad categorisation - Dancing, Music, Session etc.  Plurall - what ever to include when listing many of the event
+<li>Public - If not set these events will never be public.  Typically used for sound checks.
+<li>Has Music/Dance/Other - what broad categories it should appear under - used to create Music/Dance/Other event grids.
+<li>Set the Use Imp flag to bring headline particpants to top of an event, they still get bigger fonts.
+<li>Set Format to drive EventShow rules 0=All Large, 2=Switch to large at Importance-High, 9+=All Small
+<li>State - This is a big control to how and where the events are listed:
+  <ul>
+  <li>Very Early - only seen by staff
+  <li>Draft - only seen by staff and participants if they are in that event
+  <li>Partial - Seen by the public, but with warnings that not all of this type of event is published
+  <li>Provisional - Seen by the public - probably complete
+  <li>Complete - seen by the public, no changes are expected
+  </ul>
+<li>Set Inc Type to indicate event type in description if it is not part of the events name
+<li>Set the Not critical flag for sound checks - means that this event type does not have to be complete for contract signing.
+<li>Set No Part if event type is valid without any participants
+<li>First Year - First year this event type is used at the festival - limits backtracking to show events of previous years beyond this.
+</ul>
 
 <h3>Map Point Types</h3>
 
