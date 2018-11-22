@@ -66,17 +66,17 @@
 //      echo "<li>Music Acts Summary"; //<a href=MusicSummary.php?Y=$YEAR>Music Acts Summary</a>\n";
     }
     if (Access('Staff','Music')) {
-      echo "<li>Invite Music Acts\n";
+//      echo "<li>Invite Music Acts\n";
       echo "<li><a href=CreatePerf.php?T=Music&Y=$YEAR>Add Music Act to Database</a>";
 //      echo "<li>Find Act"; // <a href=AddDance.php>Add Dance Side</a>"; 
 /*
 //      if ($YEAR == $PLANYEAR) echo "<li><a href=MusicProg.php?>Edit Music Programming</a>";
 */
-      echo "<li>Edit Music Programming";
+//      echo "<li>Edit Music Programming";
       if (Access('SysAdmin')) {
         echo "<li><a href=ShowMusicProg.php?Y=$YEAR>View Music Programming\n</a>"; 
       } else {
-        echo "<li>View Music Programming\n"; 
+//        echo "<li>View Music Programming\n"; 
       }
     } else {
 //      echo "<li><a href=ShowMusicProg.php?Y=$YEAR>View Music Programme</a>";
@@ -162,10 +162,10 @@
     echo "<li><a href=ListCTrade.php?Y=$YEAR>List Active Traders This Year</a>\n";
     echo "<li><a href=ListTrade.php?Y=$YEAR>List All Traders</a>\n";
     echo "<li><a href=TradeFAQ.php>Trade FAQ</a>\n";
-
-    if (Access('Staff','Trade')) {
+    echo "<li><a href=ListCTrade.php?Y=$YEAR&SUM>Traders Summary</a>\n";
+    
+    if (Access('Committee','Trade')) {
       echo "<li><a href=Trade.php?Y=$YEAR>Add Trader</a>\n";
-      echo "<li><a href=ListCTrade.php?Y=$YEAR&SUM>Traders Summary</a>\n";
       echo "<li><a href=TradeLocs.php>Trade Locations</a>\n";
       if (Access('SysAdmin')) echo "<li><a href=TradeTypes.php>Trade Types and base Prices</a>\n";
       if (Access('SysAdmin')) echo "<li><a href=EmailTraders.php>Email Groups of Traders</a>\n"; // Old code needs lots of changes
