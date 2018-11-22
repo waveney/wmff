@@ -104,7 +104,7 @@ function Access($level,$subtype=0,$thing=0) {
   case $Access_Type['Upload'] :
   case $Access_Type['Staff'] :
   case $Access_Type['Steward'] :
-    if (!$subtype) return $USER{'AccessLevel'} >= $want
+    if (!$subtype) return $USER{'AccessLevel'} >= $want;
     if (isset($USER[$subtype]) && $USER[$subtype]) return 1;
     return 0; 
 
