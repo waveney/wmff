@@ -75,7 +75,7 @@
         $fname = basename($file);
         echo "<tr><td><a href=ShowFile.php?l64=" . base64_encode("Store/Performers/$id/$fname") . ">$fname</a>";
         echo "<td>" . formatBytes(filesize($file)) . "<td>" . date('j/m/Y H:i:s',filectime($file));
-        echo "<td><a href=ShowFile.php?D=Store/Performers/$id/$fname>download</a>"
+        echo "<td><a href=ShowFile.php?D=Store/Performers/$id/$fname>download</a>";
         if ($UpdateValid) echo ", <a href=PerformerData.php?id=$id&ACTION=DELETE&f=" . base64_encode($fname) . ">delete</a>";
         }
       }
