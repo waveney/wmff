@@ -1,6 +1,10 @@
 <?php
   include_once("fest.php");
-  A_Check('Committee','Dance');
+  
+  if (!Access('Staff','Dance')) {
+    A_Check('Staff');
+    fm_addall('disabled readonly');
+  }
 
   dostaffhead("Add/Change Dance Side", "/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js");
   include_once("DanceLib.php");
@@ -43,7 +47,7 @@
     Clean_Email($_POST{'Email'});
     Clean_Email($_POST{'AltEmail'});
     Parse_TimeInputs($Dance_TimeFeilds);    
-    Parse_DateInputs($DateFlds);    
+    Parse_DateInputs($DateFlds);
  
     $Sidey = Default_SY();
     if ($snum > 0) {         // existing Side 

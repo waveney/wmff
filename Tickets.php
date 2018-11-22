@@ -13,9 +13,9 @@
 
 <h2 class="maintitle">Buy Festival Tickets</h2>
 
-Select from the options below to purchase your tickets for Wimborne Minster Folk Festival <?php echo $YEAR ?>.<p>
+Select from the options below to purchase your passes and tickets for Wimborne Minster Folk Festival <?php echo $YEAR ?>.<p>
  
-Your ticket will grant you access to official festival concerts and ceilidhs listed below.<p>
+Your passes will grant you access to official festival concerts and ceilidhs listed below (excluding anything at the Tivoli).<p>
 
 <?php
   if ($MASTER['BookingFee']) echo "Please note that there is a booking fee of " . $MASTER['BookingFee'] . " when ordering tickets online.<p> ";

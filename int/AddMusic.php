@@ -1,6 +1,10 @@
 <?php
   include_once("fest.php");
-  A_Check('Staff','Music');
+
+  if (!Access('Staff','Music')) {
+    A_Check('Staff');
+    fm_addall('disabled readonly');
+  }
 
   dostaffhead("Add/Change Music Act","/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js");
 
