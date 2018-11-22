@@ -177,7 +177,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   $MaxEvDay = array();
   $now=time();
   while ($e = $res->fetch_assoc()) {
-    if ($LastDay != $e['Day']) { $MaxEv = 0; $LastDay = $e['Day']; };/No 
+    if ($LastDay != $e['Day']) { $MaxEv = 0; $LastDay = $e['Day']; };
     $WithC = 0;
     if ($e['BigEvent']) {
       $O = Get_Other_Things_For($e['EventId']);
