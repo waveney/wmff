@@ -276,7 +276,7 @@
       echo "<li><a href=ListBugs.php>List Bugs/Feature requests</a><p>\n";
     }
 
-    if (Access('Committee')) echo "<li><a href=TEmailProformas.php>EMail Proformas</a>";
+    if (Access('Staff')) echo "<li><a href=TEmailProformas.php>EMail Proformas</a>";
     if (Access('SysAdmin')) {
       echo "<li><a href=General.php>General Year Settings</a> \n";
       echo "<li><a href=MasterData.php>Master Data Settings</a> \n";
@@ -294,9 +294,7 @@
     } else {
       echo "<li><a href=ListUsers.php>List Committee/Group Users</a>";    
     }
-    if (Access('Staff','Bugs')) {
-      echo "<li><a href=AdminGuide.php>Admin Guide</a> \n";
-    }
+    if (Access('Staff')) echo "<li><a href=AdminGuide.php>Admin Guide</a> \n";
   echo "</table>\n";
 
   dotail();
