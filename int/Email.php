@@ -162,7 +162,7 @@ function Put_Email_Proforma(&$now) {
 // helper is a function that takes (THING,helperdata,atts) to return THING - not needed for generic fields typical THINGs are DETAILS, DEPOSIT...
 // if mescat > 30 chars it is assumed to be the proforma itself
 function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='',&$attachments=0) {
-  global $PLANYEAR,$MASTER;
+  global $PLANYEAR,$MASTER,$MASTER_DATA;
   if (strlen($mescat) < 30) {
     $Prof = Get_Email_Proforma($mescat);
     $Mess = ($Prof? $Prof['Body'] : "Unknown message $mescat");
@@ -182,6 +182,15 @@ function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='
             break;
           case 'DATES':
             $rep = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
+            break;
+          case 'FESTIVAL':
+            $rep = $MASTER_DATA['FestName'];
+            break;
+          case 'HOST':
+            $rep = $MASTER_DATA['HostURL'];
+            break;
+          case (preg_match('/MAILTO_(.*)/',$key,$mtch)?true:false):
+            $rep = "<a href='mailto:'" . $mtch[1] . "@" . $MASTER_DATA['HostURL'] . ">" . $mtch[1] . "@" . $MASTER_DATA['HostURL'] . "</a>";
             break;
           default:
             $rep = ($helper?$helper($key,$helperdata,$attachments):"*$key*");

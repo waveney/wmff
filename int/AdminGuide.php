@@ -1,10 +1,21 @@
 <h2>Festival Software Admin Guide</h2>
 
-This is for the admin people looking after a festival website, not for general committee members.<p>
+This is intended for the sysadmin people looking after a festival website, not for general committee/staff members.<p>
 
 <h2>Installation and initial setup</h2>
 
-Under development<p>
+<ul>
+<li>git clone https://github.com/waveney/wmff
+<li>Set up a mysql or mariadb user (may include a database)
+<li>Run int/initialise.php (from the web interface) - it will first time run prompt for the database user (above), the database name and its host.  
+These should be stored should you need to run again. [Done]
+<li>It will create many directories and permissions it needs [Done]
+<li>Initialise the database, create the tables and pre-load critical data into a few tables [Under test]
+<li>It will then prompt for the sysadmin user and password to be user to administer the site [TODO]
+<li>If sucessful it should eventually launch the staff page. [TODO]
+<li>
+
+This is under development.  In theory if it fails it can be re-run<p>
 
 <h2>Setting up users</h2>
 Under "Users" there is "Add User", it is also at the bottom of the user list.<p>
@@ -19,18 +30,18 @@ Under "Users" there is "Add User", it is also at the bottom of the user list.<p>
 The setting up of this forwarding is done outside of the festival system on your servers using server admin tools.
 <tr><td>Login<td>Login username - required for all
 <tr><td>Roll<td>What does that person do?  Shown on contacts page if that person is listed
-<tr><td>No Tasks<td>Set this for test users, these wont be listed as a timeline person
+<tr><td>No Tasks<td>Set this for test users, these wont be listed as a timeline person or on normal user lists
 <tr><td>Access Level<td>Select as appropriate:<br>
 <ul>
-<li>SysAdmin - this is for people like you who manage the site, these can see and change everything
+<li>SysAdmin - this is for people who manage the site, these can see and change everything
 <li>Committee - your inner group managing the festival - these can see (almost) everything.  Financial information may be restricted to those who need it.
-<li>Staff - A slightly less important person on the festival, these can see a lot 
+<li>Staff - A slightly less important person on the festival, these can see a lot
 <li>Steward - For Stewards, Sound engineers to see information related to them alone
-<li>Upload - Not used
+<li>Upload - Not currently used
 <li>Participant - Used as a temporary status by Dance Sides/ Musical Acts / Traders etc updating their own data.  Do not use this for a login level
 <li>System/Internal - not for outside use
 </ul>
-<tr><td>Image<td>Picture to appear on contacts page if apprropriate - optional
+<tr><td>Image<td>Picture to appear on contacts page if appropriate - optional
 <tr><td>Show on Contacts Page<td>Yes - they are listed<br>No - not listed<br>Role only - the email address is shown and what they do, but not their name
 <tr><td>Change areas<td>For each area what level of access does the person have.  meaningfull for committee, staff and steward level.<br>No - read, but not change<br>Edit - Make changes<br>
 Edit and Report - can make changes, also get an email when others make changes to that area.  See below for list of areas
@@ -50,17 +61,17 @@ then the actual use of them is upto the people with dance control.
 <tr><td>Music<td>Ability to setup acts, edit their details, setup contracts etc
 <tr><td>Sponsors<td>Setup and administer sponsors and advertisers
 <tr><td>Finance<td>See financial data on all performers and traders, set and administer budgets, mark invoices as paid, issue credit notes etc
-<tr><td>Craft<td>Not used yet
+<tr><td>Craft<td>Not yet used
 <tr><td>Other<td>Ability to setup other acts, edit their details, setup contracts etc - for performers who dont come under dance/music - eg some Childrens performers
 <tr><td>TLine<td>Ability to administer the timeline and change tasks not just their own
 <tr><td>Bugs<td>Can administer the bug list, also if set to edit and report get emails when new ones are made.
 <tr><td>Photos<td>Can use the Photo upload and gallery management tools
-<tr><td>Comedy<td>Ability to setup comedy acts, edit their details, setup contracts etc
-<tr><td>Family<td>Ability to setup Family/Childrens, edit their details, setup contracts etc
-<tr><td>News<td>Ability to edit Articles and News
+<tr><td>Comedy<td>Ability to setup comedy acts, edit their details, setup contracts etc (for near future enhancement)
+<tr><td>Family<td>Ability to setup Family/Childrens, edit their details, setup contracts etc (for near future enhancement)
+<tr><td>News<td>Ability to edit Articles and News (for near future enhancement)
 </table><p>
 
-Note the first 10 users are reserved for internal use, only a few are actually used currently.<p>
+Note the first 10 users are reserved for internal use, though only a few are actually used currently.<p>
 
 Looking at a list of users, if you click the "All users" top right, it will show internal users, hidden test users and those with removed access.<p>
 
@@ -77,7 +88,7 @@ This is data about the festival that is multi-year.<p>
 <tr><td>Feild<td>Details
 <tr><td>Festival Name<td>The full name of the festival - this is needed
 <tr><td>Shortname<td>eg WMFF for Wimborne Minster Folk Festival - this is needed
-<tr><td>Version<td>Software version number - currently manually updated for every git pull - this is ESSENTIAL keep it up to date - changing this forces reload of cached data.  
+<tr><td>Version<td>Software version number - currently manually updated for every git pull - this is ESSENTIAL keep it up to date - changing this forces reload of cached data by clients.  
 Hope to automate it soon.
 <tr><td>Show year/ Plan year<td>Show year is what year's festival the public side defaults to.  Plan year is what year the staff pages default to.  Typically the Plan year moves to the
 next year as soon as the festival has finished, the Show year only when material for the comming year is available.
@@ -107,7 +118,7 @@ Format of controls: Control : Value : Comment<p>
 This is festival data for each year.  You can create records as many years in advance as you wish ahead.<p>
 
 <table border>
-<tr><td>State of Family/Special<td>See Event types below
+<tr><td>State of Family/Special<td>See Event types below (same meaning, Family and Special are propeties that any event can add)
 <tr><td>State of Trade<td>Not used
 <tr><td>Date of Friday<td>Date of the Friday of the festival, it works out everything else from here
 <tr><td>Dates of Price Chnages<td>Their is scope for two different pre festival price hikes, as well ass the on door being different.  These give the price hike dates.
@@ -170,14 +181,14 @@ Coming soon: Maps for each location to allow click and drag to position traders 
 
 
 <h3>Event Types</h3>
-This has the big controls for event types.<p>
+This has the big controls for event types. DO NOT HAVE TOO MANY OF THESE.  <p>
 <ul>
 <li>Name - simple broad categorisation - Dancing, Music, Session etc.  Plurall - what ever to include when listing many of the event
 <li>Public - If not set these events will never be public.  Typically used for sound checks.
 <li>Has Music/Dance/Other - what broad categories it should appear under - used to create Music/Dance/Other event grids.
 <li>Set the Use Imp flag to bring headline particpants to top of an event, they still get bigger fonts.
 <li>Set Format to drive EventShow rules 0=All Large, 2=Switch to large at Importance-High, 9+=All Small
-<li>State - This is a big control to how and where the events are listed:
+<li>State - This is a big control to how and where the events are listed (see also General Year Data for Special/Family):
   <ul>
   <li>Very Early - only seen by staff
   <li>Draft - only seen by staff and participants if they are in that event
@@ -191,7 +202,27 @@ This has the big controls for event types.<p>
 <li>First Year - First year this event type is used at the festival - limits backtracking to show events of previous years beyond this.
 </ul>
 
-<h3>Map Point Types</h3>
+<h3>Additional Map Points, Map Point Types</h3>
+These allow extra information on the festival map, (in addition to the venues)<p>
+
+Map Point Types defines the icons to be used for each additional point.<p>
+
+Additional Map Points:<p>
+<table border>
+<tr><td>Feild<td>Details
+<tr><td>Name<td>Name the map point
+<tr><td>What<td>Select type of map point (and hence icon used)
+<tr><td>Lat/Long<td>Location of the point - look up locations on Google Maps and record them here
+<tr><td>Importance<td>This govens the map zoom levels that the feature will be shown at.  The range is from 1 - Whole Earth to 19 very close (20 is street view)<br>
+If a single value is used - this is the zoom level when it first appears and it will remain visible however far you zoom in.<br>
+If a range is given (eg 14-16) this gives a range of zoom levels that it will be shown
+<tr><td>Text Size<td>If set it gives the font size the feature is to be shown at (if not the default)
+<tr><td>Not Used<td>If ticked, the Map point will not be shown
+<tr><td>Directions<tdd>Tick if you want to enable a directions buttons to appear for this location
+<tr><td>Link<td>A link to be used on the map point (if any)
+</table>
+
+Example: I use a big text label for Wimborne at low zoom, then switch to individual features when zoomed in.<p>
 
 <h3>Email Proformas</h3>
 

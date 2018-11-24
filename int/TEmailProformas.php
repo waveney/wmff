@@ -1,6 +1,6 @@
 <?php
   include_once("fest.php");
-  A_Check('Committee');
+  A_Check('Staff');
 
   dostaffhead("Manage Email Proformas");
 
@@ -23,7 +23,7 @@
   echo "<table border>\n";
   echo "<tr><td>Code<td>What it does<td>Areas \n";
   echo "<tr><td>*WHO*<td>First name of contact<td>All\n";
-  echo "<tr><td>*PLANYEAR<td>Year for the booking<td>All\n";
+  echo "<tr><td>*PLANYEAR*<td>Year for the booking<td>All\n";
   echo "<tr><td>*DATES*<td>Dates of Saturday and Sunday<td>All\n";
   echo "<tr><td>*LOCATION*<td>Location(s) of Pitches<td>Trade\n";
   echo "<tr><Td>*PRICE*<td>Total Price quoted<td>Trade\n";
@@ -36,6 +36,9 @@
   echo "<tr><td>*FINANCIAL*<td>Trade financial statement<td>Trade\n";
   echo "<tr><td>*STATE*<td>Decsription of application state<td>Trade\n";
   echo "<tr><td>*PAIDSOFAR*<td>Total payments so far<td>Trade\n";
+  echo "<tr><td>*FESTIVAL*<td>Name of Festival<td>All\n";
+  echo "<tr><td>*HOST*<td>Host URL for festival<td>All\n";
+  echo "<tr><td>*MAILTO_name*<td>Inserts a mailto link to name@festival.org\n";
   echo "</table><p>\n";
 
   $coln = 0;

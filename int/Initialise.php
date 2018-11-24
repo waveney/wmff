@@ -140,32 +140,55 @@ user=" . $CONF['user'] . "\n";
   system("skeema diff"); // push for live
 }
 
-// [Table, [data]] - may contain id
+// [Table, id, [data]] 
+
 function Preload_Data() {
   $Year = gmdate('Y');
+  // Does not do Email Proformas - see below for
   $Preloads = [
-    ['FestUsers', ['UserId'=>1,'login'=>'system','password'=>'WMFh5W42eE2.E','AccessLevel'=>7,'Roll'=>'Start up','SN'=>'System']],
-    ['FestUsers', ['UserId'=>2,'login'=>'nobody','AccessLevel'=>7,'Roll'=>'Internal Workings','SN'=>'nobody']],
-    ['FestUsers', ['UserId'=>3,'login'=>'ALL','AccessLevel'=>4,'Roll'=>'Internal Workings','SN'=>'All']],
-    ['FestUsers', ['UserId'=>4,'login'=>'dummy','AccessLevel'=>7,'Roll'=>'Dummy Contracts','SN'=>'<span class=NotSide>Dummy Staff Member</span>']],
-    ['MasterData',['id'=>1,'FestName'=>'Festival','ShortName'=>'Fest','Version'=>666,'PlanYear'=>$Year, 'ShowYear'=>$Year]],
-    ['General',['Year'=>$Year]],
+    ['FestUsers', 1,['login'=>'system','password'=>'WMFh5W42eE2.E','AccessLevel'=>7,'Roll'=>'Start up']],
+    ['FestUsers', 2,['login'=>'nobody','AccessLevel'=>7,'Roll'=>'Internal Workings']],
+    ['FestUsers', 3,['login'=>'ALL','AccessLevel'=>4,'Roll'=>'Internal Workings','SN'=>'All']],
+    ['FestUsers', 4,['login'=>'dummy','AccessLevel'=>7,'Roll'=>'Dummy Contracts','SN'=>'<span class=NotSide>Dummy Staff Member</span>']],
+    ['FestUsers', 5,['login'=>'reserved']],
+    ['FestUsers', 6,['login'=>'reserved']],
+    ['FestUsers', 7,['login'=>'reserved']],
+    ['FestUsers', 8,['login'=>'reserved']],
+    ['FestUsers', 9,['login'=>'reserved']],
+    ['FestUsers', 10,['login'=>'reserved']],
+
+    ['MasterData',1,['FestName'=>'Festival','ShortName'=>'Fest','Version'=>666,'PlanYear'=>$Year, 'ShowYear'=>$Year]],
+    ['General',$Year,[]],
+    
+    ['MapPointTypes',1,['SN'=>'Text','Icon'=>'Text']],
+    ['MapPointTypes',2,['SN'=>'Music Venue','Icon'=>'MusicIcon.png']],
+    ['MapPointTypes',3,['SN'=>'Car Park','Icon'=>'carparkicon.png']],
+    ['MapPointTypes',4,['SN'=>'Toilets','Icon'=>'toileticon.png']],
+    ['MapPointTypes',5,['SN'=>'Information','Icon'=>'mapinfo.png']],
+    ['MapPointTypes',6,['SN'=>'Dance Venue','Icon'=>'DanceIcon.png']],
+    ['MapPointTypes',7,['SN'=>'Bicycle Park','Icon'=>'bicycleicom.png']],
   ];
 
+  // Now call festdb
+  include_once("festdb.php");
   foreach($Preloads as $P) {
-    
+    $indx = (isset($TableIndexes[$P[0]])? $TableIndexes[$P[0]] : 'id');
+    if (db_get($P[0],"$indx=" . $P[1])) continue; // already in - skip
+    Insert_db($P[0],$P[1]);
   }
 
-
-// Initial MASTER_DATA
-
-// A Year
-
-// A User, internal users
-
-
+  $file = fopen('files/EmailProformas.sql');
+  while ($line = fgets($file)) {
+    $bits = explode(',',$line,2);
+    $key = preg_replace('/\'/','',$bits[0]);
+    if (!db_get('TEmailProformas','SN=' . $bits[0])) {
+      $db->query("INSERT INTO TEmailProformas SET SN=" . $bits[0] . ", Body=" . trim($bits[1]));
+      echo "Created Email Proforma: $key<br>\n";
+    }
+  }
 }
 
+// Updating code - not yet written
 function BringUptoDate($oldversion) {
   
   
