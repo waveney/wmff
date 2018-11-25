@@ -192,7 +192,7 @@ function Preload_Data() {
     $db->query($qry);
   }
 
-  $file = fopen('files/EmailProformas.sql');
+  $file = fopen('files/EmailProformas.sql','r');
   while ($line = fgets($file)) {
     $bits = explode(',',$line,2);
     $key = preg_replace('/\'/','',$bits[0]);
@@ -209,16 +209,54 @@ function BringUptoDate($oldversion) {
   
 }
 
+function Check_Sysadmin() {
+  include_once("fest.php");
+  include_once("DocLib.php");
+  include_once("UserLib.php");
+  global $Access_Type;
+  
+  $Users = Get_AllUsers(2);
+  $isasys = 0;
+  
+  foreach($Users as $U) if ($U['AccessLevel'] == $Access_Type['SysAdmin']) $isasys = 1;
+  
+  if ($isasys) return;  // There is a sysadmin setup
+  
+  echo "<form method=post><h2>Setup a sysadmin account</h2>";
+  echo "<table><tr>" . fm_text("Login",$_POST,'login');
+  echo "<tr>" . fm_text("Password",$_POST,'login');
+  echo "<tr>" . fm_text("Full Name",$_POST,'SN');
+  echo "</table><p>";
+  echo "<input type=submit name=SETUPSYS value=SETUP>";
+  exit;
+}
 
+function Setup_Sysamin() {
+  $user = ['login'=>$_POST['login'], 'password'=> crypt($_POST['password'],"WM"), 'SN'=>$_POST['SN']];
+  $userid = Insert_db('FestUsers',$user,$ans);
+  echo "SysAdmin setup.<p>";
+  $ans['Yale'] = rand_string(40);
+  $USER = $ans;
+  $USERID = $userid;
+  setcookie('WMFF2',$ans['Yale'], mktime(0,0,0,1,1,$YEAR+1),'/');
+  Put_User($ans);
+  echo "All done<p>";
+  include ("Staff.php"); // no return wanted
+}
 
-Create_Directories();
-Create_Config();
-Create_Databases();
-Create_Skeema_local();
-Preload_Data();
-
+if (isset($_POST['SETUPSYS'])) {
+  Setup_Sysadmin();
+} else {
+  Create_Directories();
+  Create_Config();
+  Create_Databases();
+  Create_Skeema_local();
+  Preload_Data();
+  Check_Sysadmin();
+}
 
 echo "All done<p>";
+include ("Staff.php"); // no return wanted
 
 /* 
 

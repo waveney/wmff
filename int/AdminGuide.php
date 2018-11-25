@@ -8,11 +8,11 @@ This is intended for the sysadmin people looking after a festival website, not f
 <li>git clone https://github.com/waveney/wmff
 <li>Set up a mysql or mariadb user (may include a database)
 <li>Run int/initialise.php (from the web interface) - it will first time run prompt for the database user (above), the database name and its host.  
-These should be stored should you need to run again. [Done]
-<li>It will create many directories and permissions it needs [Done]
-<li>Initialise the database, create the tables and pre-load critical data into a few tables [Under test]
-<li>It will then prompt for the sysadmin user and password to be user to administer the site [TODO]
-<li>If sucessful it should eventually launch the staff page. [TODO]
+These should be stored should you need to run again. 
+<li>It will create many directories and permissions it needs 
+<li>Initialise the database, create the tables and pre-load critical data into a few tables
+<li>It will then prompt for the sysadmin user and password to be user to administer the site
+<li>If sucessful it should eventually launch the staff page. 
 <li>
 
 This is under development.  In theory if it fails it can be re-run<p>
