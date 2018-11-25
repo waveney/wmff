@@ -165,16 +165,16 @@ function Preload_Data() {
   $Year = gmdate('Y');
   // Does not do Email Proformas - see below for
   $Preloads = [
-    ['FestUsers', 1,['login'=>'system','password'=>'WMFh5W42eE2.E','AccessLevel'=>7,'Roll'=>'Start up']],
-    ['FestUsers', 2,['login'=>'nobody','AccessLevel'=>7,'Roll'=>'Internal Workings']],
-    ['FestUsers', 3,['login'=>'ALL','AccessLevel'=>4,'Roll'=>'Internal Workings','SN'=>'All']],
-    ['FestUsers', 4,['login'=>'dummy','AccessLevel'=>7,'Roll'=>'Dummy Contracts','SN'=>'<span class=NotSide>Dummy Staff Member</span>']],
-    ['FestUsers', 5,['login'=>'reserved']],
-    ['FestUsers', 6,['login'=>'reserved']],
-    ['FestUsers', 7,['login'=>'reserved']],
-    ['FestUsers', 8,['login'=>'reserved']],
-    ['FestUsers', 9,['login'=>'reserved']],
-    ['FestUsers', 10,['login'=>'reserved']],
+    ['FestUsers', 1,['Login'=>'system','password'=>'WM/boBz3JdYIA','AccessLevel'=>7,'Roll'=>'Start up']],
+    ['FestUsers', 2,['Login'=>'nobody','AccessLevel'=>7,'Roll'=>'Internal Workings']],
+    ['FestUsers', 3,['Login'=>'ALL','AccessLevel'=>4,'Roll'=>'Internal Workings','SN'=>'All']],
+    ['FestUsers', 4,['Login'=>'dummy','AccessLevel'=>7,'Roll'=>'Dummy Contracts','SN'=>'<span class=NotSide>Dummy Staff Member</span>']],
+    ['FestUsers', 5,['Login'=>'reserved']],
+    ['FestUsers', 6,['Login'=>'reserved']],
+    ['FestUsers', 7,['Login'=>'reserved']],
+    ['FestUsers', 8,['Login'=>'reserved']],
+    ['FestUsers', 9,['Login'=>'reserved']],
+    ['FestUsers', 10,['Login'=>'reserved']],
 
     ['MasterData',1,['FestName'=>'Festival','ShortName'=>'Fest','Version'=>666,'PlanYear'=>$Year, 'ShowYear'=>$Year]],
     ['General',$Year,[]],
@@ -195,7 +195,7 @@ function Preload_Data() {
     if (db_get($P[0],"$indx=" . $P[1])) continue; // already in - skip
     $qry = "INSERT INTO " . $P[0] . " SET ";
     $bits = [];
-    $bits = " $indx=" . $P[1];
+    $bits[] = " $indx=" . $P[1];
     foreach($P[2] as $k=>$v) $bits[] = " $k='$v' ";
     $qry .= implode(", ",$bits);
     $db->query($qry);
@@ -219,7 +219,7 @@ function BringUptoDate($oldversion) {
 }
 
 function Check_Sysadmin() {
-  include_once("fest.php");
+
   include_once("DocLib.php");
   include_once("UserLib.php");
   global $Access_Type;
@@ -233,7 +233,7 @@ function Check_Sysadmin() {
   
   echo "<form method=post><h2>Setup a sysadmin account</h2>";
   echo "<table><tr>" . fm_text("Login",$_POST,'login');
-  echo "<tr>" . fm_text("Password",$_POST,'login');
+  echo "<tr>" . fm_text("Password",$_POST,'password');
   echo "<tr>" . fm_text("Full Name",$_POST,'SN');
   echo "</table><p>";
   echo "<input type=submit name=SETUPSYS value=SETUP>";
@@ -242,7 +242,7 @@ function Check_Sysadmin() {
 
 function Setup_Sysadmin() {
   global $Access_Type;
-  $user = ['login'=>$_POST['login'], 'AccessLevel'=> $Access_Type['SysAdmin'], 'password'=> crypt($_POST['password'],"WM"), 'SN'=>$_POST['SN']];
+  $user = ['Login'=>$_POST['login'], 'AccessLevel'=> $Access_Type['SysAdmin'], 'password'=> crypt($_POST['password'],"WM"), 'SN'=>$_POST['SN']];
   $userid = Insert_db('FestUsers',$user,$ans);
   echo "SysAdmin setup.<p>";
   $ans['UserId'] = $userid;
@@ -251,8 +251,6 @@ function Setup_Sysadmin() {
   $USERID = $userid;
   setcookie('WMFF2',$ans['Yale'], mktime(0,0,0,1,1,$YEAR+1),'/');
   Put_User($ans);
-  echo "All done<p>";
-  include ("Staff.php"); // no return wanted
 }
 
 if (isset($_POST['SETUPSYS'])) {
@@ -265,6 +263,7 @@ if (isset($_POST['SETUPSYS'])) {
   Create_Databases();
   Create_Skeema_local();
   Preload_Data();
+  include_once("fest.php");
   Check_Sysadmin();
 }
 
