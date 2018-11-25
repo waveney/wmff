@@ -61,7 +61,7 @@
 
       Update_db_post('Sides',$Side);
       if ($_POST{'Year'} >= $PLANYEAR) {
-        if (isset($Sidey) && $Sidey){
+        if (isset($Sidey) && $Sidey && isset($Sidey['syId']) && $Sidey['syId']){
           Update_db_post('SideYear',$Sidey);
         } else {
           $Sidey['Year'] = $PLANYEAR;
