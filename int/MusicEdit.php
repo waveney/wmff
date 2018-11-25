@@ -54,7 +54,7 @@
       }
       Update_db_post('Sides',$Side,1);
       if ($_POST{'Year'} >= $PLANYEAR) {
-        if (isset($Sidey) && $Sidey){
+        if (isset($Sidey) && $Sidey && isset($Sidey['syId']) && $Sidey['syId']){
           $Sve_Sidey = $Sidey;
           Update_db_post('ActYear',$Sidey);
           if (ActYear_Check4_Change($Sve_Sidey,$Sidey)) $Sidey = Get_Actyear($snum);

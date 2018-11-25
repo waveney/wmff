@@ -15,6 +15,7 @@ $CONF = [];
 include_once("festfm.php"); // Not db or main fest
 
 function Get_Config() {
+  global $CONF;
   if (@ !$CONF = parse_ini_file("Configuration.ini")) {
     $CONF = ['host'=>'localhost','user'=>'wmff','passwd'=>'','dbase'=>'wmff','testing'=>''];
     return 0;
@@ -23,6 +24,7 @@ function Get_Config() {
 }
 
 function Create_Config() {
+  global $CONF;
   if (Get_Config()) return;
   
   if (!isset($_POST['dbase']) || !isset($_POST['user'])) {
@@ -48,21 +50,21 @@ function Create_Config() {
 ; comments start with ;
 
 ; host - usually localhost
-host = " . $_POST['host'] . "
+host=" . $_POST['host'] . "
 
 ; username for the database
-user = " . $_POST['user'] . "
+user=" . $_POST['user'] . "
 
 ; password for the database
-passwd = " . $_POST['passwd'] . "
+passwd=" . $_POST['passwd'] . "
 
 ; database to be used
-dbase = " . $_POST['dbase'] . "
+dbase=" . $_POST['dbase'] . "
 
 ; testing - if not set the system will send emails normally
 ; if it contains an @ it is treated as an email address to send all emails to
 ; otherwise no emails are sent
-testing = " . $_POST['testing'] . "
+testing=" . $_POST['testing'] . "
 
 ; everything else is configured from with the festival software itself
 ";
@@ -77,6 +79,7 @@ testing = " . $_POST['testing'] . "
 }
 
 function Create_Directories() {  // Makes all needed directories and adds .htaccess where appropriate
+  global $CONF;
   $Dirs = [['int/ArchiveImages',1],  // dir name, access control
            ['int/Contracts',1],
            ['int/Insurance',1],
@@ -100,6 +103,7 @@ function Create_Directories() {  // Makes all needed directories and adds .htacc
 }
 
 function Create_Databases() {
+  global $CONF;
   //  Does the database exist?
   try {
     $db = new mysqli($CONF['Host'], $CONF['user'], $CONF['passwd']);
@@ -126,6 +130,7 @@ function Create_Databases() {
 
 // Modifys name of database for Skeema to run
 function Create_Skeema_local() {
+  global $CONF;
   if (!file_exists("../Schema/.skeema")) {
     $skeema = "schema=" . $CONF['dbase'] . "
 default-character-set=utf8mb4
@@ -135,14 +140,19 @@ host=127.0.0.1
 port=3306 
 user=" . $CONF['user'] . "\n";
     if ($CONF['passwd']) $schema .= "password=" . $CONF['passwd'] . "\n"; 
+    file_put_contents("../Schema/.skeema",$skeema);
   }
   
-  system("skeema diff"); // push for live
+  chdir ("..");
+  system("int/skeema push"); // push for live
+  chdir ("int");
+  echo "Database tables created.<p>";
 }
 
 // [Table, id, [data]] 
 
 function Preload_Data() {
+  global $db;
   $Year = gmdate('Y');
   // Does not do Email Proformas - see below for
   $Preloads = [
@@ -174,15 +184,20 @@ function Preload_Data() {
   foreach($Preloads as $P) {
     $indx = (isset($TableIndexes[$P[0]])? $TableIndexes[$P[0]] : 'id');
     if (db_get($P[0],"$indx=" . $P[1])) continue; // already in - skip
-    Insert_db($P[0],$P[1]);
+    $qry = "INSERT INTO " . $P[0] . " SET ";
+    $bits = [];
+    $bits = " $indx=" . $P[1];
+    foreach($P[2] as $k=>$v) $bits[] = " $k='$v' ";
+    $qry .= implode(", ",$bits);
+    $db->query($qry);
   }
 
   $file = fopen('files/EmailProformas.sql');
   while ($line = fgets($file)) {
     $bits = explode(',',$line,2);
     $key = preg_replace('/\'/','',$bits[0]);
-    if (!db_get('TEmailProformas','SN=' . $bits[0])) {
-      $db->query("INSERT INTO TEmailProformas SET SN=" . $bits[0] . ", Body=" . trim($bits[1]));
+    if (!db_get('EmailProformas','SN=' . $bits[0])) {
+      $db->query("INSERT INTO EmailProformas SET SN=" . $bits[0] . ", Body=" . trim($bits[1]));
       echo "Created Email Proforma: $key<br>\n";
     }
   }
