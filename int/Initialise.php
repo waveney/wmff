@@ -14,6 +14,15 @@
 $CONF = [];
 include_once("festfm.php"); // Not db or main fest
 
+function Check_PHP_Config() {
+  if (!strstr(get_include_path(),$_SERVER['DOCUMENT_ROOT'])) {
+    echo "The document Root is not part of the php include path - LOTS of things depend on this<p>";
+    exit;
+  }
+  // Should check for open_basedir and file size eventually
+}
+
+
 function Get_Config() {
   global $CONF;
   if (@ !$CONF = parse_ini_file("Configuration.ini")) {
@@ -231,10 +240,12 @@ function Check_Sysadmin() {
   exit;
 }
 
-function Setup_Sysamin() {
-  $user = ['login'=>$_POST['login'], 'password'=> crypt($_POST['password'],"WM"), 'SN'=>$_POST['SN']];
+function Setup_Sysadmin() {
+  global $Access_Type;
+  $user = ['login'=>$_POST['login'], 'AccessLevel'=> $Access_Type['SysAdmin'], 'password'=> crypt($_POST['password'],"WM"), 'SN'=>$_POST['SN']];
   $userid = Insert_db('FestUsers',$user,$ans);
   echo "SysAdmin setup.<p>";
+  $ans['UserId'] = $userid;
   $ans['Yale'] = rand_string(40);
   $USER = $ans;
   $USERID = $userid;
@@ -245,8 +256,10 @@ function Setup_Sysamin() {
 }
 
 if (isset($_POST['SETUPSYS'])) {
+  include_once("fest.php");
   Setup_Sysadmin();
 } else {
+  Check_PHP_Config();
   Create_Directories();
   Create_Config();
   Create_Databases();
@@ -260,17 +273,12 @@ include ("Staff.php"); // no return wanted
 
 /* 
 
-  get contributions from github - save to update master_data
-  
-  operate skeema - create/mod data
   
   bring_uptodate run from old version to new version
   
   run any neededscripts to mod data from old to new
 
-  Need to embed skeema in project - done
-
-
+  php include path $_SYSTEM['DOCUMENT_ROOT'] get_include_path
 */
 
 ?>

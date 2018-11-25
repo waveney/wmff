@@ -6,6 +6,7 @@ This is intended for the sysadmin people looking after a festival website, not f
 
 <ul>
 <li>git clone https://github.com/waveney/wmff
+<li>Make sure the sites document root is in the php_include_path (it wont work without this).  Also make the maximum file uploads at least 16M (highly desirable).
 <li>Set up a mysql or mariadb user (may include a database)
 <li>Run int/initialise.php (from the web interface) - it will first time run prompt for the database user (above), the database name and its host.  
 These should be stored should you need to run again. 
