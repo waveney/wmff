@@ -181,7 +181,7 @@ function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='
             $rep = $PLANYEAR;
             break;
           case 'DATES':
-            $rep = ($MASTER['DateFri']+1) . "," . ($MASTER['DateFri']+2) ."th June $PLANYEAR";
+            $rep = FestDate($MASTER['FirstDate']) . " to " . FestDate($MASTER['LastDate'],'M') ;
             break;
           case 'FESTIVAL':
             $rep = $MASTER_DATA['FestName'];

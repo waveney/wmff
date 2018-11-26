@@ -80,7 +80,7 @@ services, under the following terms and conditions:<p>\n";
       $evc++;
       if ($e['SubEvent'] < 0) { $End = $e['SlotEnd']; } else { $End = $e['End']; };
       if (($e['Start'] != 0) && ($End != 0) && ($e['Duration'] == 0)) $e['Duration'] = timeadd2real($End, - $e['Start']);
-      $str .= "<tr><td>$evc<td>" . $e['SN'] . "<td>" . $DayList[$e['Day']] . " " . ($MASTER['DateFri']+$e['Day']) ."th June $YEAR";
+      $str .= "<tr><td>$evc<td>" . $e['SN'] . "<td>" . FestDate($e['Day'],'L');
       if ($ctype == 1 ) $str .= "<td>" . ($e['Start']? ( timecolon(timeadd2($e['Start'],- $e['Setup']) )) : "TBD" ) ;
       $str .= "<td>" . ($e['Start']?timecolon($e['Start']):"TBD");
       $str .= "<td>" . ($e['Duration']? DurationFormat($e['Duration']) :"TBD"); 
@@ -123,8 +123,7 @@ services, under the following terms and conditions:<p>\n";
   $camp = [];
   for ($day = 0; $day<3; $day++) {
     $dy = "Camp" . $DayList[$day];
-    if ($Sidey[$dy]) $camp[] = $Sidey[$dy] . (($Sidey[$dy]) == 1 ?" person":" people") . " on " . $DayLongList[$day] . " " .
-          ($MASTER['DateFri']+$day) . "th June $YEAR";
+    if ($Sidey[$dy]) $camp[] = $Sidey[$dy] . (($Sidey[$dy]) == 1 ?" person":" people") . " on " . FestDate($day,'L');
   }
   if ($camp) {
     $str .= "Camping will be provided for ";

@@ -56,6 +56,13 @@ It is possible to edit sides into dancing here, but it is far far easier with th
 A similar feature will appear eventually for music.<p>
 <?php
   echo "</div>";
+  
+  $FestDays = [];
+  if ($MASTER['LastDay']-$MASTER['FirstDay'] < 6) {
+    for ($day= $MASTER['FirstDay']; $day <=$MASTER['LastDay']; $day++) $FestDays[$day] = $DayList[$day];
+  } else {
+    for ($day= $MASTER['FirstDay']; $day <=$MASTER['LastDay']; $day++) $FestDays[$day] = FestDate($day,'S');
+  }
 
   echo "<h2>Add/Edit Events</h2>\n";
   echo "<form method=post action='EventAdd.php'>\n";
@@ -304,15 +311,14 @@ A similar feature will appear eventually for music.<p>
         echo "<td class=NotSide>" . fm_simpletext('Ticket Code',$Event,'TicketCode');
       }
 
-      echo "<tr>" . fm_radio("<b><span class=mday $hidemday>Start </span>Day</b>",$DayList,$Event,'Day');
-//      echo fm_text('Year',$Event,'Year');
+      echo "<tr>" . fm_radio("<b><span class=mday $hidemday>Start </span>Day</b>",$FestDays,$Event,'Day');
       echo "<td colspan=3><b>Times</b>: " . fm_smalltext2('Start:',$Event,'Start');
         echo fm_smalltext2(', End:',$Event,'End');
         echo fm_smalltext2(', Setup Time (mins):',$Event,'Setup') ;
         echo fm_smalltext2(', Duration:',$Event,'Duration') . "&nbsp;(mins)";
         if ($se < 0) echo fm_smalltext2(', Slot End:',$Event,'SlotEnd');
         echo fm_smalltext2(', Doors:',$Event,'DoorsOpen');
-      if ($se <= 0) echo "<tr class=mday $hidemday>" . fm_radio('End Day',$DayList,$Event,'EndDay') . 
+      if ($se <= 0) echo "<tr class=mday $hidemday>" . fm_radio('End Day',$FestDays,$Event,'EndDay') . 
                 "<td colspan=3>Set up a sub event for each day after first, times are for first day";
       echo "<tr><td><b>Venue</b>:<td>" . fm_select($Venues,$Event,'Venue',1);
         echo fm_textarea('Notes', $Event,'Notes',4,2);

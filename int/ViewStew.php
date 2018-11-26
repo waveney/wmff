@@ -85,7 +85,7 @@ function Submit_Steward() {
   $D = -2;
   foreach ($Days as $d=>$ld) {
     if ($D >=0 && $D<3) {
-      echo "<tr>" . fm_text($ld . " " . ($MASTER['DateFri']+$D++) . "th June $PLANYEAR",$stew,"Avail$d",4);
+      echo "<tr>" . fm_text(FestDate($D,'L'),$stew,"Avail$d",4);
     } else { $D++; };
   }
 
