@@ -575,7 +575,7 @@ function DayTable($d,$Types,$xtr='',$xtra2='') {
     if ($lastday != -99) echo "</table><p>\n";
     $lastday = $d;
     echo '<p><table class=' . $DayList[$d] . 'tab>';
-    echo "<tr><th colspan=99 $xtra2>$Types on " . $DayLongList[$d] . " " . ($MASTER['DateFri']+$d) ."th June $YEAR" . " $xtr</th>\n";
+    echo "<tr><th colspan=99 $xtra2>$Types on " . FestDate($d,'L') . " $xtr</th>\n";
     return 1;
   }
   return 0;

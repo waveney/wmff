@@ -82,7 +82,7 @@
       if (DayTable($E['Day'],$Types,($Complete>2?'':'(More to come)'))) echo "<tr><td>When<td>What<td>Where<td>Description" . ($NotAllFree?"<td>Price\n":"\n");
 
       echo "<tr>";
-      echo "<td>"; // . $DayList[$E['Day']] . " " . ($MASTER['DateFri']+$E['Day']) ."th June $YEAR" . "<br>";
+      echo "<td>"; 
         echo timecolon($E['Start']) . " to " . timecolon($E['End']);
       echo "<td><strong><a href=/int/EventShow.php?e=$eid>" . $E['SN'] . "</a></strong>"; 
       echo "<td><a href=/int/VenueShow.php?v=" . $E['Venue'] . ">" . $Vens[$E['Venue']]['SN'] . "</a>";

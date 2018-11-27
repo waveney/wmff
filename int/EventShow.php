@@ -45,7 +45,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
     if ($e['Start'] == $e['End']) {
       echo "Times not yet known";
     } else {
-      if ($e['LongEvent']) echo "On: " . $DayLongList[$e['Day']] . " " . ($MASTER['DateFri']+$e['Day']) . "th June " . $e['Year'] . "<br>\n";
+      if ($e['LongEvent']) echo "On: " . FestDate($e['Day'],'L') . "<br>\n";
       echo "From: " . timecolon($e['Start']) . "<br>";
       echo " to: " . timecolon($e['End']) . "<br>";
     }
@@ -124,10 +124,10 @@ function Print_Participants($e,$when=0,$thresh=0) {
   // On, Start, End, Durration, Price, Where 
   echo "<table><tr><td>";
   if ($Ev['LongEvent']) {
-    echo "Starting On:<td>" . $DayLongList[$Ev['Day']] . " " . ($MASTER['DateFri']+$Ev['Day']) . "th June " . $Ev['Year'] . "\n";
-    echo "<tr><td>Finishing On:<td>" . $DayLongList[$Ev['EndDay']] . " " . ($MASTER['DateFri']+$Ev['EndDay']) . "th June " . $Ev['Year'] . "\n";
+    echo "Starting On:<td>" . FestDate($Ev['Day'],'L') . "\n";
+    echo "<tr><td>Finishing On:<td>" . FestDate($Ev['EndDay'],'L') . "\n";
   } else {
-    echo "On:<td>" . $DayLongList[$Ev['Day']] . " " . ($MASTER['DateFri']+$Ev['Day']) . "th June " . $Ev['Year'] . "\n";
+    echo "On:<td>" . FestDate($Ev['Day'],'L') . "\n";
     if ($Ev['DoorsOpen']) echo "<tr><td>Doors Open at:<td>" . timecolon($Ev['DoorsOpen']). "\n";
     echo "<tr><td>Starting at:<td>" . timecolon($Ev['Start']) . "\n";
     echo "<tr><td>Finishing at:<td>" . timecolon($Ev['End']) . "\n";

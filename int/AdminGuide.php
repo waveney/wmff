@@ -121,7 +121,9 @@ This is festival data for each year.  You can create records as many years in ad
 <table border>
 <tr><td>State of Family/Special<td>See Event types below (same meaning, Family and Special are propeties that any event can add)
 <tr><td>State of Trade<td>Not used
-<tr><td>Date of Friday<td>Date of the Friday of the festival, it works out everything else from here
+<tr><td>Date of Friday<td>Date of the Friday of the festival, it works out everything else from here.
+<tr><td>First day/Last Day<td>It can start up to 4 days before the "Friday" (ie Monday), or as late as the Sunday.  It can finish up to 10 days after the "Friday" ie on a Tuesday.
+Setting these limits various displays.  Note Passes and camping don't currently run for this full range of options.  After setting these save changes to refresh the page.
 <tr><td>Dates of Price Chnages<td>Their is scope for two different pre festival price hikes, as well ass the on door being different.  These give the price hike dates.
 <tr><td>Priced Complete<td>If ticked the ticket page says that all ticketed events for the day are now listed, tick this when the last ticketed event is listed for each day.  
 Will probably expand this to other days soon.

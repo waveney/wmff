@@ -66,12 +66,14 @@
     echo "<tr><td>State of Family:<td>" . fm_select($EType_States,$Gen,'FamilyState') . "<td>Controls level of Participant interfaces";
     echo "<tr><td>State of Specials:<td>" . fm_select($EType_States,$Gen,'SpecialState') . "<td>";
     echo "<tr><td>State of Trade:<td>" . fm_select($EType_States,$Gen,'TradeState') . "<td>No effect yet";
-    echo "<tr>" . fm_number1('Date of Friday',$Gen,'DateFri') . "<td>ie 8 for 8th of June.  It works out the rest from this\n";
+    echo "<tr>" . fm_number1('Date of Friday',$Gen,'DateFri') . fm_number1('Month of Friday',$Gen,'MonthFri') . "<td>ie 8,6 for 8th of June.  It works out the rest from these\n";
+    echo "<tr>" . fm_number1('First Day',$Gen,'FirstDay') . fm_number1('Last Day',$Gen,'LastDay') . 
+         "<td colspan=2> Start -4 to 2 days before/after Friday, finish up to 10 days later - save changes after change\n";
     echo "<tr>" . fm_date('Date of Price Change 1',$Gen,'PriceChange1') . "<td>\n";
     echo "<tr>" . fm_date('Date of Price Change 2',$Gen,'PriceChange2') . "<td>\n";
-    echo "<tr><td>Priced Complete Fri:" . fm_checkbox('',$Gen,'PriceComplete0') . "<td>This and all completes surpress more to come on tickets/events\n";
-    echo "<tr><td>Priced Complete Sat:" . fm_checkbox('',$Gen,'PriceComplete1') . "<td>This and all completes surpress more to come on tickets/events\n";
-    echo "<tr><td>Priced Complete Sun:" . fm_checkbox('',$Gen,'PriceComplete2') . "<td>This and all completes surpress more to come on tickets/events\n";
+    for ($day=$Gen['FirstDay']; $day<=$Gen['LastDay']; $day++) {
+      echo "<tr><td>Priced Complete " . FestDate($day,'s') . "<td>" . fm_checkbox('',$Gen,"PricedComplete$day") . "<td>This and all completes surpress more to come on tickets/events\n";
+    }
     echo "<tr>" . fm_date('Date Sending Main Trade Invoices',$Gen,'TradeMainDate') . "<td>\n";    
     echo "<tr>" . fm_date('Date Last Trade Payments',$Gen,'TradeLastDate') . "<td>\n";    
     

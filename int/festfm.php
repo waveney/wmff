@@ -372,4 +372,17 @@ function Register_AutoUpdate($type,$ref) {
   $AutoADD = 1;
 }
 
+function FestDate($day,$format='M',$Year=0) {
+  global $MASTER,$YEAR;
+  if ($Year == 0) $Year=$YEAR;
+  $date = mktime(0,0,0,$MASTER['MonthFri'],$MASTER['DateFri']+$day,$Year);
+  
+  switch (strtoupper($format)) {
+    default:
+    case 'S': return date('D j M',$date);
+    case 'M': return date('D jS M Y',$date);
+    case 'L': return date('l jS F Y',$date);
+  }
+}
+
 ?>

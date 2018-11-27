@@ -507,11 +507,11 @@ function doextras($extra1,$extra2,$extra3,$extra4,$extra5) {
 }
 
 function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
-  global $head_done,$MASTER_DATA;
+  global $head_done,$MASTER_DATA,$CONF;
   if ($head_done) return;
   $V=$MASTER_DATA['V'];
   $pfx="";
-  if (file_exists("files/TitlePrefix")) $pfx = file_get_contents("files/TitlePrefix");
+  if (isset($CONF['TitlePrefix'])) $pfx = $CONF['TitlePrefix'];
   echo "<html><head>";
   echo "<title>$pfx " . $MASTER_DATA['FestName'] . " | $title</title>\n";
   include_once("files/header.php");
@@ -537,11 +537,11 @@ function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
 }
 
 function doheadpart($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
-  global $head_done,$MASTER_DATA;
+  global $head_done,$MASTER_DATA,$CONF;
   if ($head_done) return;
   $V=$MASTER_DATA['V'];
   $pfx="";
-  if (file_exists("files/TitlePrefix")) $pfx = file_get_contents("files/TitlePrefix");
+  if (isset($CONF['TitlePrefix'])) $pfx = $CONF['TitlePrefix'];
   echo "<html><head>";
   echo "<title>$pfx " . $MASTER_DATA['FestName'] . " | $title</title>\n";
   include_once("files/header.php");
@@ -552,11 +552,11 @@ function doheadpart($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='
 }
 
 function dostaffhead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
-  global $head_done,$MASTER_DATA;
+  global $head_done,$MASTER_DATA,$CONF;
   if ($head_done) return;
   $V=$MASTER_DATA['V'];
   $pfx="";
-  if (file_exists("files/TitlePrefix")) $pfx = file_get_contents("files/TitlePrefix");
+  if (isset($CONF['TitlePrefix'])) $pfx = $CONF['TitlePrefix'];
   echo "<html><head>";
   echo "<title>$pfx " . $MASTER_DATA['ShortName'] . " | $title</title>\n";
   include_once("files/header.php");
@@ -572,10 +572,10 @@ function dostaffhead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5=
 }
 
 function dominimalhead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') { 
-  global $head_done,$MASTER_DATA;
+  global $head_done,$MASTER_DATA,$CONF;
   $V=$MASTER_DATA['V'];
   $pfx="";
-  if (file_exists("files/TitlePrefix")) $pfx = file_get_contents("files/TitlePrefix");
+  if (isset($CONF['TitlePrefix'])) $pfx = $CONF['TitlePrefix'];
   echo "<html><head>";
   echo "<title>$pfx " . $MASTER_DATA['ShortName'] . " | $title</title>\n";
   echo "<link href=files/style.css?V=$V type=text/css rel=stylesheet>";

@@ -63,7 +63,7 @@
   echo "<tr class=SC_Setup hidden>" . fm_text("Before",$_POST,"AvailBefore");
   $D = -2;
   foreach ($Days as $d=>$ld) {
-    echo "<tr class=SC_Setup " . ($_POST['SC_Setup']?'hidden':'') . ">" . fm_text($ld . " " . ($MASTER['DateFri']+$D++) . "th June $PLANYEAR",$_POST,"Avail$d",4);
+    echo "<tr class=SC_Setup " . ($_POST['SC_Setup']?'hidden':'') . ">" . fm_text(FestDate($D++,'L'),$_POST,"Avail$d",4);
   }
 
   echo "<tr><td colspan=4><h3>Legal</h3>\n";
@@ -77,7 +77,7 @@
   echo "</form>\n";
 
   echo "<h3>Terms and Conditions</h3>\n";
-  echo "<ul><li>I am, or will be over 18 years of age on Thursday " . ($MASTER['DateFri'] -1) . "th June $PLANYEAR.\n";
+  echo "<ul><li>I am, or will be over 18 years of age on Thursday " . FestDate(-1,'L') . ".\n";
   echo "<li>You will be responsible for the health and safety of the general public, yourself and others around you " .
         "and must co-operate with festival organisers and supervisors at all times.\n";
   echo "<li>All volunteers must ensure that they are never, under any circumstances, alone with any person under the age of 18.\n";

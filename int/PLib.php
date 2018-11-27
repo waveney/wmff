@@ -714,7 +714,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
       if (($e['Start'] != 0) && ($End != 0) && ($e['Duration'] == 0)) $e['Duration'] = timeadd2real($End, - $e['Start']);
       echo "<tr><td><a href=$Detail?e=" . $e['EventId'] . ">" . $e['SN'] . "</a>";
       echo "<td>" . $ETs[$e['Type']];
-      echo "<td>" . $DayList[$e['Day']] . " " . ($MASTER['DateFri']+$e['Day']) ."th June $YEAR";
+      echo "<td>" . FestDate($e['Day'],'L');
       echo "<td>" . ($e['Start']? ( timecolon(timeadd2($e['Start'],- $e['Setup']) )) : "TBD" ) ;
       echo "<td>" . ($e['Start']?timecolon($e['Start']):"TBD");
       echo "<td>" . ($e['Duration']?$e['Duration']:"TBD"); 
