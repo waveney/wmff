@@ -60,7 +60,7 @@
      <a href=$host/contact.php>Contact</a>
      <a href=$host/RoadClosure.php >Road Closures</a>
      <a href=$host/info/thanks>With Thanks</a>
-     <a href=$host/RadioWimborne.php>Radio Wimborne</a>
+<!--     <a href=$host/RadioWimborne.php>Radio Wimborne</a> -->
      <a href=$host/InfoData.php>Data Records</a>
      <a href=$host/InfoSoftware.php>Software</a>
   </div>
@@ -70,15 +70,10 @@
   <div class=dropdown-content>
      <a href=$host/int/ShowArticles.php?w=AboutWMFF class=NotYet>About the Festival</a>
      <a href=$host/int/ShowArticles.php?w=FestHistory class=NotYet>Festival History</a>
-
-     <a href=$host/int/ShowArticles.php?w=DanceStyles class=NotYet>Dance Styles</a>
+     <a href=$host/int/ShowArticles.php?w=DanceStyles>Dance Styles</a>
      <a href=$host/int/ShowArticles.php?w=NWDance class=NotYet>North West Dance Competition</a>
-          
      <a href=$host/int/ShowArticles.php?w=AboutWimborne class=NotYet>About Wimborne</a>
      <a href=$host/int/ShowArticles.php?w=EnjoyWimborne class=NotYet>Enjoy Wimborne</a>
-
-     <a href=$host/LiveNLoud.php >Live and Loud</a>
-     <a href=$host/BuskersBash.php>Buskers Bash</a>
   </div>
 </div>
 <a href=$host/InfoStewards.php onmouseover=NoHoverSticky()>Volunteer</a>
@@ -94,16 +89,16 @@
      <a href=$host/int/ShowGallery.php?g=3>2017 Laugh Out Loud</a>
   </div>
 </div>
-<!--
+
 <div class=dropdown onmouseover=NoHoverSticky(event)>
-  <a onclick=NavStick(event class=NotYet)>Other Events</a>
+  <a onclick=NavStick(event )>Also</a>
   <div class=dropdown-content>
      <a href=$host/LiveNLoud.php >Live and Loud</a>
      <a href=$host/BuskersBash.php>Buskers Bash</a>
      <a href=$host/OtherFest.php>Other Festivals</a>
   </div>
 </div>
--->
+
 <a href=http://facebook.com/WimborneFolk onmouseover=NoHoverSticky() target=_blank>
 <img class=headericon src=/images/icons/Facebook.png alt=Facebook title='Wimborne Minster Folk Festival on Facebook'></a>
 <a href=http://twitter.com/WimborneFolk onmouseover=NoHoverSticky() target=_blank>
