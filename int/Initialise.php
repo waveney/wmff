@@ -44,6 +44,7 @@ function Create_Config() {
     echo "<tr>" . fm_text("Database User - Must be already setup",$_POST,'user');
     echo "<tr>" . fm_text("Database Password (if any)",$_POST,'passwd');
     echo "<tr>" . fm_text("Testing mode - blank for live, 1 for simple test, an email address to divert all emails too",$_POST,'testing');
+    echo "<tr>" . fm_text("Title Prefix - for test sites only",$_POST,'TitlePrefix');
     echo "</table><input type=submit></form>\n";
     echo "</body></html>\n";
     exit;
@@ -74,6 +75,9 @@ dbase=" . $_POST['dbase'] . "
 ; if it contains an @ it is treated as an email address to send all emails to
 ; otherwise no emails are sent
 testing=" . $_POST['testing'] . "
+
+; Title Prefix - prepended to Title string - useful for test environments
+TitlePrefix=" . $_POST['TitlePrefix'] . "
 
 ; everything else is configured from with the festival software itself
 ";

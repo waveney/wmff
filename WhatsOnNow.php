@@ -23,15 +23,24 @@
   */
 
   $Now = getdate();
+  $now = time();
+  
   $Now['hours']++; // Festivals is BST server is UTC
 // Fudge for testing...
 //  $Now['mon'] = 6;
 //  $Now['mday']= 9;
  
-  if (($Now['year'] != $SHOWYEAR) || ($Now['mon'] != 6) || ($Now['mday'] < ($MASTER['DateFri']-3)) || ($Now['mday'] > ($MASTER['DateFri']+3))) { // Not during festival
+  $StartTime = mktime(0,0,0,$MASTER['MonthFri'],$MASTER['DateFri']+$MASTER['FirstDay'],$PLANYEAR);
+  $EndTime = mktime(23,59,59,$MASTER['MonthFri'],$MASTER['DateFri']+$MASTER['LastDay'],$PLANYEAR);
+ 
+  if ($now < $StartTime || $now > $EndTime) {
     echo "<h3>There are no festival events today</h3>\n";
-    dotail();
+    dotail();  
   }
+/*
+  if (($Now['year'] != $SHOWYEAR) || ($Now['mon'] != 6) || ($Now['mday'] < ($MASTER['DateFri']-3)) || ($Now['mday'] > ($MASTER['DateFri']+3))) { // Not during festival
+  }
+*/
 
   $xtr = isset($_GET['Mode'])?'':"AND ( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 ))";
   $today = ($Now['mday']-$MASTER['DateFri']);
