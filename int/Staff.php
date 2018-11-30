@@ -207,7 +207,6 @@
     echo "<li><a href=$host/Map.php>Map</a>\n";
     echo "<li><a href=EventSummary.php?Y=$YEAR>Event Summary</a>\n";
 //    if (Access('SysAdmin')) echo "<li><a href=BusTimes.php>Fetch and Cache Bus Times</a>\n";
-//    echo "<li><a href=VenuePoster.php?Y=$YEAR>Venue Posters</a>\n";
     echo "</ul>\n";
 
 // *********************** OTHER *****************************************************************
@@ -215,7 +214,6 @@
   echo "<td class=Stafftd><h2>Other (Arts, Crafts, Children, Comedy)</h2>\n";
     echo "<ul>\n";
     echo "<li><a href=StewardView.php>Stewarding Applications</a>\n";
-//    if (Access('SysAdmin')) echo "<li><a href=NewsConvert1.php>Convert News</a>";
     if (Access('Staff','Photos')) {
       echo "<li><a href=PhotoUpload.php>Photo Upload</a>";
       echo "<li><a href=PhotoManage.php>Photo Manage</a>";
@@ -229,7 +227,6 @@
     }
     if (Access('Staff','Other')) {
       echo "<li><a href=CreatePerf.php?T=Other&Y=$YEAR>Add Other Particpant to Database</a>";
-//      echo "<li><a href=AddMusic.php?t=O>Add Other Particpant to Database</a>\n"; 
       echo "<li>Find Other";
     }
 //    echo "<li><a href=LaughView.php?Y=$YEAR>Show Laugh Out Loud applications</a>";
