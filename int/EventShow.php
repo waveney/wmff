@@ -140,7 +140,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
       echo Price_Show($Ev) . ", or by Weekend ticket or " . $DayLongList[$Ev['Day']] . " ticket\n";
     }
     if ($Ev['TicketCode']) {
-      $bl = "<a href=https://www.ticketsource.co.uk/event/" . $Ev['TicketCode'] . " target=_blank>" ;
+      $bl = "<a href=https://www.ticketsource.co.uk/date/" . $Ev['TicketCode'] . " target=_blank>" ;
       echo " -  <strong>$bl Buy Now</a></strong>\n";
     } else if ($Ev['SpecPriceLink']) {
       echo " -  <strong><a href=" . $Ev['SpecPriceLink'] . " target=_blank>Buy Now</a></strong>\n";

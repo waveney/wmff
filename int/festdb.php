@@ -5,7 +5,7 @@ $TableIndexes = array(  'Sides'=>'SideId', 'SideYear'=>'syId', 'FestUsers'=>'Use
                         'General'=>'Year', 'Bugs'=>'BugId', 'BigEvent'=>'BigEid', 'DanceTypes'=>'TypeId', 
                         'Directory'=>'DirId', 'Documents'=>'DocId', 'EventTypes'=>'ETypeNo',
                         'MusicTypes'=>'TypeId','TimeLine'=>'TLid', 'BandMembers'=>'BandMemId', 'ActYear'=>'ActId',
-                        'TradeLocs'=>'TLocId','Trade'=>'Tid','TradeYear'=>'TYid'
+                        'TradeLocs'=>'TLocId','Trade'=>'Tid','TradeYear'=>'TYid','VolYear'=>'Volid'
                         );
 
 function db_open () {
@@ -267,6 +267,7 @@ function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$M
   $DateFlds = explode(',',$Dateflds);
   $TimeFlds = explode(',',$Timeflds);
   $indxname = (isset($TableIndexes[$table])?$TableIndexes[$table]:'id');
+
   if (isset($_POST{'Update'})) {
     if ($data) foreach($data as $t) {
       $i = $t[$indxname];
