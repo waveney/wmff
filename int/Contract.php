@@ -49,8 +49,9 @@ hire the below-identified Artist to perform an engagement and the Artist agrees 
 services, under the following terms and conditions:<p>\n";
 
   $str .= "This agreement for performance services is entered into by the performers(s) known as:<br>";
-  $str .= "<b>" . $Side['SN'] . " </b>(now referred to as Artist) and ";
-  $str .= "<b>" . $Booked['SN'] . "</b> for and on behalf of Wimborne Minister Folk Festival (now referred to as Employer)<p>\n";
+
+  $str .= "<b>" . $Booked['SN'] . "</b> for and on behalf of Wimborne Minister Folk Festival (now referred to as Employer) and \n";
+  $str .= "<b>" . $Side['SN'] . " </b>(now referred to as Artist)<p>";
 
   $str .= "Performances:<p>";
 
@@ -141,7 +142,11 @@ services, under the following terms and conditions:<p>\n";
     }
   }
   
-  if ($ctype == 1) $str .= "ON ARRIVAL: Please report to Information Desk in the Square (manned from 2pm Friday)<p>\n";
+  if ($ctype == 1) {
+    $str .= "<b>ON ARRIVAL</b>: Please report to the Artist Green Room in <a href='https://" .  $_SERVER['HTTP_HOST'] . "/int/VenueShow?v=79'><b>Church House</b></a> " .
+            "(In the High Street opposite the Minster Church - click for map and directions). " .
+            "You will need to arrive prior to your soundcheck time to collect wristbands. Details of parking for venue load-in will be available here.<p>\n";
+    }
 
   if ($Side['StagePA'] == 'None') {
     $str .= "If you have any PA/Technical requirements, please fill in the relevant section on your Act's personal record.<p>\n";
@@ -191,10 +196,10 @@ services, under the following terms and conditions:<p>\n";
     if ($pkingand = preg_replace('/,([^,]*)$/'," and $1",$pking)) $pking = $pkingand;
 
     if ($allfree) { 
-      $ptxt = "You may request free parking near $pking.";
-      $faq = preg_replace("/<PARKING>.*<\/PARKING>/",$ptxt,$faq);
+      $ptxt = "<dt>Parking<dd>You may request free parking near $pking.";
+      $faq = preg_replace("/<PARKING>/",$ptxt,$faq);
     } if ($freon) {
-      $ptxt = "On $freon you may book free parking near $pking.<p>";
+      $ptxt = "<dt>Parking<dd>On $freon you may book free parking near $pking.<p>";
       $faq = preg_replace("/<PARKING>/",$ptxt,$faq);
     } else {
       // Should never get here
@@ -208,7 +213,7 @@ services, under the following terms and conditions:<p>\n";
   }
 
   if ($mode < -1) {
-    $str .= "<p><span class=NotSide>NOTE: The parking statement can be overridden to say there is free parking near the venue(s), if appropriate.</span><p>";
+    $str .= "<p><span class=NotSide>NOTE: A parking statement inserted prior to the camping to say there is free parking near the venue(s), if appropriate.</span><p>";
     $str .= "<p><span class=NotSide>NOTE2: Additional clause(s) can be added for a particular venue, if appropriate.</span><p>";
   }
 

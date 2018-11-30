@@ -5,7 +5,7 @@ $TableIndexes = array(  'Sides'=>'SideId', 'SideYear'=>'syId', 'FestUsers'=>'Use
                         'General'=>'Year', 'Bugs'=>'BugId', 'BigEvent'=>'BigEid', 'DanceTypes'=>'TypeId', 
                         'Directory'=>'DirId', 'Documents'=>'DocId', 'EventTypes'=>'ETypeNo',
                         'MusicTypes'=>'TypeId','TimeLine'=>'TLid', 'BandMembers'=>'BandMemId', 'ActYear'=>'ActId',
-                        'TradeLocs'=>'TLocId','Trade'=>'Tid','TradeYear'=>'TYid','VolYear'=>'Volid'
+                        'TradeLocs'=>'TLocId','Trade'=>'Tid','TradeYear'=>'TYid','VolYear'=>'VYid'
                         );
 
 function db_open () {
@@ -109,7 +109,7 @@ function Update_db($table,&$old,&$new,$proced=1) {
       }
 
 //echo "$fname " . $old[$fname] . " $dbform<br>";
-      if ($dbform != $old[$fname]) {
+      if (!isset($old[$fname]) || $dbform != $old[$fname]) {
         $old[$fname] = $dbform;
         if ($fcnt++ > 0) { $newrec .= " , "; }
         $newrec .= " $fname=" . '"' . $dbform . '"';
