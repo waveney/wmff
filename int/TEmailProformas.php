@@ -27,12 +27,12 @@
   echo "<tr><td>*DATES*<td>Dates of Saturday and Sunday<td>All\n";
   echo "<tr><td>*LOCATION*<td>Location(s) of Pitches<td>Trade\n";
   echo "<tr><Td>*PRICE*<td>Total Price quoted<td>Trade\n";
-  echo "<tr><td>*LINK*<td>Personal Link for trader<td>Trade, Stewards\n";
+  echo "<tr><td>*LINK*<td>Personal Link for trader<td>Trade, Volunteers\n";
   echo "<tr><td>*REMOVE*<td>Remove Request<td>Trade\n";
-  echo "<tr><td>*WMFFLINK*<td>Link for Committee members direct to that trader<td>Trade\n";
+  echo "<tr><td>*WMFFLINK*<td>Link for Committee members direct to that trader<td>Trade,Volunteers\n";
   echo "<tr><td>*DEPOSIT*<td>Deposit Required<td>Trade\n";
   echo "<tr><td>*BALANCE*<td>Balance Required<td>Trade\n";
-  echo "<tr><td>*DETAILS*<td>Full details of booking<td>Trade, BB, LOL, LNL, Stewards\n";
+  echo "<tr><td>*DETAILS*<td>Full details of booking<td>Trade, BB, LOL, LNL, Volunteers\n";
   echo "<tr><td>*FINANCIAL*<td>Trade financial statement<td>Trade\n";
   echo "<tr><td>*STATE*<td>Decsription of application state<td>Trade\n";
   echo "<tr><td>*PAIDSOFAR*<td>Total payments so far<td>Trade\n";

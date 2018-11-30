@@ -28,6 +28,7 @@
           break;
         }
       } else {
+//      var_dump($_POST);
         Update_db_post('General',$Gen);
       }
     } else { /* New Year */
@@ -72,7 +73,8 @@
     echo "<tr>" . fm_date('Date of Price Change 1',$Gen,'PriceChange1') . "<td>\n";
     echo "<tr>" . fm_date('Date of Price Change 2',$Gen,'PriceChange2') . "<td>\n";
     for ($day=$Gen['FirstDay']; $day<=$Gen['LastDay']; $day++) {
-      echo "<tr><td>Priced Complete " . FestDate($day,'s') . "<td>" . fm_checkbox('',$Gen,"PricedComplete$day") . "<td>This and all completes surpress more to come on tickets/events\n";
+      echo "<tr><td>Priced Complete " . FestDate($day,'s') . "<td>" . fm_checkbox('',$Gen,"PriceComplete" .($day>=0?$day:"_" . (-$day))) . 
+           "<td>This and all completes surpress more to come on tickets/events\n";
     }
     echo "<tr>" . fm_date('Date Sending Main Trade Invoices',$Gen,'TradeMainDate') . "<td>\n";    
     echo "<tr>" . fm_date('Date Last Trade Payments',$Gen,'TradeLastDate') . "<td>\n";    

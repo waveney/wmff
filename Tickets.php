@@ -97,7 +97,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
   $Evs = $db->query($qry);
 
   while ($E = $Evs->fetch_assoc()) {
-    DayTable($E['Day'],"Event Tickets",($MASTER['PriceComplete' . $E['Day']]?'':'(More to come)'));
+    DayTable($E['Day'],"Event Tickets",($MASTER['PriceComplete' . ($E['Day'] >=0?$E['Day']:"_" . (-$E['Day'])) ]?'':'(More to come)'));
     $bl = "<a href=" . ($E['SpecPriceLink']? $E['SpecPriceLink'] : ("https://www.ticketsource.co.uk/date/" . $E['TicketCode'])) . " target=_blank>" ;
     echo "<tr><td><strong><a href=/int/EventShow.php?e=" . $E['EventId'] . ">" . $E['SN'] . "</a></strong><br>"; 
       echo Price_Show($E);

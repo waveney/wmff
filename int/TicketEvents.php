@@ -37,7 +37,7 @@
     echo "<td>" . (isset($Vens[$E['Venue']])? $Vens[$E['Venue']] : "Unknown");
     echo "<td>" . $E['Price1'];
     echo "<td>" . $E['DoorPrice'];
-    echo "<td><a href=https://www.ticketsource.co.uk/event/" . $E['TicketCode'] . "><strong>Buy Now</strong></a>\n";
+    echo "<td><a href=https://www.ticketsource.co.uk/date/" . $E['TicketCode'] . "><strong>Buy Now</strong></a>\n";
     echo "<td>" . $E['Public'];
   }
   echo "</tbody></table>\n";

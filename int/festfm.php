@@ -72,6 +72,15 @@ function fm_text1($Name,&$data,$field,$cols=1,$extra1='',$extra2='',$field2='') 
   return $str . " $ADDALL>";
 }
 
+function fm_text0($Name,&$data,$field,$cols=1,$extra1='',$extra2='',$field2='') {
+  global $ADDALL,$AutoADD;
+  if ($field2 == '') $field2=$field;
+  $str = $Name . ($Name?':':'') . help($field) . "<input type=text name=$field2 id=$field2 $extra2 size=" . $cols*16; 
+  if (isset($data[$field])) $str .= " value=\"" . htmlspec($data[$field]) ."\"";
+  if ($AutoADD) $str .= " oninput=AutoInput('$field2') ";
+  return $str . " $ADDALL>";
+}
+
 function fm_simpletext($Name,&$data=0,$field,$extra='') {
   global $ADDALL,$AutoADD;
   $str = "$Name: " . help($field) . "<input type=text name=$field  id=$field $extra";

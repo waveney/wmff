@@ -1,0 +1,9 @@
+# run check
+# run skema pull dev
+# git add -A
+# git commit -m msg - build para
+# git push
+
+# At sever script after git update -does
+# skema push
+# update data

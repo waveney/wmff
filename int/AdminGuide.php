@@ -9,11 +9,11 @@ This is intended for the sysadmin people looking after a festival website, not f
 <li>Make sure the sites document root is in the php_include_path (it wont work without this).  Also make the maximum file uploads at least 16M (highly desirable).
 <li>Set up a mysql or mariadb user (may include a database)
 <li>Run int/initialise.php (from the web interface) - it will first time run prompt for the database user (above), the database name and its host.  
-These should be stored should you need to run again. 
+These should be stored, should you need to run again. 
 <li>It will create many directories and permissions it needs 
 <li>Initialise the database, create the tables and pre-load critical data into a few tables
 <li>It will then prompt for the sysadmin user and password to be user to administer the site
-<li>If sucessful it should eventually launch the staff page. 
+<li>If sucessful it should eventually launch the staff page.  All other configuration can be run from this.
 <li>
 
 This is under development.  In theory if it fails it can be re-run<p>
@@ -45,16 +45,16 @@ The setting up of this forwarding is done outside of the festival system on your
 <tr><td>Image<td>Picture to appear on contacts page if appropriate - optional
 <tr><td>Show on Contacts Page<td>Yes - they are listed<br>No - not listed<br>Role only - the email address is shown and what they do, but not their name
 <tr><td>Change areas<td>For each area what level of access does the person have.  meaningfull for committee, staff and steward level.<br>No - read, but not change<br>Edit - Make changes<br>
-Edit and Report - can make changes, also get an email when others make changes to that area.  See below for list of areas
-<tr><td>Change Sent, Access Key<td>Internal workings, dont change
+Edit and Report - can make changes, also get an email when others make changes to that area (may no longer work).  See below for list of areas
+<tr><td>Change Sent, Access Key<td>These are for internal workings, dont change
 </table><p>
 
 <h3>Control areas</h3>
-Currently these are hard coded, but the list can be extended relatively easily (list at start of fest.php and add to festusers table) - dont remove from the list, gaps are fine.<p>
+Currently these are hard coded, but the list can be extended relatively easily (list at start of fest.php and add to FestUsers table) - dont remove from the list, gaps are fine.<p>
 <table border>
 <tr><td>Area<td>What
 <tr><td>Docs<td>Admin control of document storage - can change other peoples files
-<tr><td>Dance<td>Ability to setup sides, edit their details, schedual dance spots
+<tr><td>Dance<td>Ability to setup dance sides, edit their details, schedual dance spots
 <tr><td>Trade<td>Ability to setup traders, send them quotes, accept/cancel their bookings
 <tr><td>Users<td>Setup and manage users - currently not meaningful as only sysadmin can do it, however may allow setup of staff/stewards later
 <tr><td>Venues<td>Setup venues and events programme events and similar activities.  Note if someone with this privalige level sets up dance spots/times, 
@@ -215,7 +215,7 @@ Additional Map Points:<p>
 <tr><td>Feild<td>Details
 <tr><td>Name<td>Name the map point
 <tr><td>What<td>Select type of map point (and hence icon used)
-<tr><td>Lat/Long<td>Location of the point - look up locations on Google Maps and record them here
+<tr><td>Lat/Long<td>Location of the point - look up locations on Google Maps and record them here (you need at least 3 digits after the decimal points)
 <tr><td>Importance<td>This govens the map zoom levels that the feature will be shown at.  The range is from 1 - Whole Earth to 19 very close (20 is street view)<br>
 If a single value is used - this is the zoom level when it first appears and it will remain visible however far you zoom in.<br>
 If a range is given (eg 14-16) this gives a range of zoom levels that it will be shown

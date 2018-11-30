@@ -43,8 +43,8 @@ function Create_Config() {
     echo "<tr>" . fm_text("Database Name - must be unique to server",$_POST,'dbase');
     echo "<tr>" . fm_text("Database User - Must be already setup",$_POST,'user');
     echo "<tr>" . fm_text("Database Password (if any)",$_POST,'passwd');
-    echo "<tr>" . fm_text("Testing mode - blank for live, 1 for simple test, an email address to divert all emails too",$_POST,'testing');
-    echo "<tr>" . fm_text("Title Prefix - for test sites only",$_POST,'TitlePrefix');
+    echo "<tr>" . fm_text("Testing mode - blank for live, 1 for simple test (no emails), an email address to divert all emails too",$_POST,'testing');
+    echo "<tr>" . fm_text("Title Prefix - for test/stage/dev sites only",$_POST,'TitlePrefix');
     echo "</table><input type=submit></form>\n";
     echo "</body></html>\n";
     exit;
@@ -126,7 +126,7 @@ function Create_Databases() {
     exit;
   }
   if ($db->select_db($CONF['dbase']) === false) {
-    echo "Database to be created - if it fails during creation, fix, drop the database and retry.  There is not yet the capability to fix a partially built system<p>";
+    echo "Database to be created .<p>";
  
     $res = $db->query("CREATE DATABASE IF NOT EXISTS " . $CONF['dbase']);
     if ($db->select_db($CONF['dbase']) === false) {
@@ -136,7 +136,7 @@ function Create_Databases() {
     echo "Database created<br>";
   
   } else {
-    echo "Database already exists - table creation skipped - if it fails during creation, fix, drop the database and retry.  There is not yet the capability to fix a partially built system<p>";
+    echo "Database already exists.<p>";
   }
 }
 
@@ -167,7 +167,7 @@ user=" . $CONF['user'] . "\n";
 function Preload_Data() {
   global $db;
   $Year = gmdate('Y');
-  // Does not do Email Proformas - see below for
+  // Does not do Email Proformas - see below for them
   $Preloads = [
     ['FestUsers', 1,['Login'=>'system','password'=>'WM/boBz3JdYIA','AccessLevel'=>7,'Roll'=>'Start up']],
     ['FestUsers', 2,['Login'=>'nobody','AccessLevel'=>7,'Roll'=>'Internal Workings']],
@@ -205,6 +205,7 @@ function Preload_Data() {
     $db->query($qry);
   }
 
+// Email proformas - lots of these read from munged sql dump
   $file = fopen('files/EmailProformas.sql','r');
   while ($line = fgets($file)) {
     $bits = explode(',',$line,2);
@@ -233,7 +234,7 @@ function Check_Sysadmin() {
   
   foreach($Users as $U) if ($U['AccessLevel'] == $Access_Type['SysAdmin']) $isasys = 1;
   
-  if ($isasys) return;  // There is a sysadmin setup
+  if ($isasys) return;  // There is a sysadmin setup - skip
   
   echo "<form method=post><h2>Setup a sysadmin account</h2>";
   echo "<table><tr>" . fm_text("Login",$_POST,'login');
@@ -246,6 +247,13 @@ function Check_Sysadmin() {
 
 function Setup_Sysadmin() {
   global $Access_Type;
+  
+  $Users = Get_AllUsers(2);
+  $isasys = 0;
+  
+  foreach($Users as $U) if ($U['AccessLevel'] == $Access_Type['SysAdmin']) $isasys = 1;
+  if ($isasys) return;  // There is a sysadmin setup - skip
+
   $user = ['Login'=>$_POST['login'], 'AccessLevel'=> $Access_Type['SysAdmin'], 'password'=> crypt($_POST['password'],"WM"), 'SN'=>$_POST['SN']];
   $userid = Insert_db('FestUsers',$user,$ans);
   echo "SysAdmin setup.<p>";
