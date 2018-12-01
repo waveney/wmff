@@ -10,7 +10,7 @@
   global $Mess,$Action,$MASTER,$YEAR,$PLANYEAR,$Book_State;
 
 //var_dump($_POST);
-  $Action = 0; 
+  $Action = ''; 
   $Mess = '';
 /*    User Editing of Side Data */ ////////// DUFF
   if (isset($_POST{'Action'})) {

@@ -550,7 +550,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
             echo fm_hidden('Insurance',$Sidey['Insurance']);
             }
 
-          if ($Mess && $Action == 'Insurance') echo "<td colspan=2>$Mess\n"; 
+          if ($Mess && ($Action == 'Insurance')) echo "<td colspan=2>$Mess\n"; 
         } else {
             echo "<td>Insurance:<td colspan=3>You will be able to upload your Insurance here in $YEAR\n";
         }
@@ -577,7 +577,7 @@ function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank
 //******************************************************* Music YEAR ***********************************************
 function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
   global $YEAR,$CALYEAR,$PLANYEAR,$MASTER,$Invite_States,$Coming_States,$Mess,$Action,$ADDALL,$Invite_Type;
-  global $DayList,$Book_States,$Book_State,$Book_Colours,$ContractMethods,$CurYear;
+  global $InsuranceStates,$DayList,$Book_States,$Book_State,$Book_Colours,$ContractMethods,$CurYear;
   include_once('ProgLib.php');
 
   if ($year==0) $year=$YEAR;
@@ -796,9 +796,30 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
 
       default:
         break;
-    }
-    echo "<td>" . fm_checkbox('Radio Wimborne',$Sidey,'RadioWimborne');
+    }    
   }
+  echo "<tr>";
+    echo "<td colspan=3 $Imp>Select insurance file to upload:";
+    echo "<input type=file $ADDALL name=InsuranceForm id=InsuranceForm onchange=document.getElementById('InsuranceButton').click()>";
+    echo "<input hidden type=submit name=Action value=Insurance id=InsuranceButton>";
+
+    if ($Mode) {
+      echo "<td class=NotCSide colspan=2>" . fm_radio('Insurance',$InsuranceStates,$Sidey,'Insurance','',0);
+      if (isset($Sidey['Insurance']) && $Sidey['Insurance']) {
+        $files = glob("Insurance/$YEAR/Sides/$snum.*");
+        if ($files) {
+          $Current = $files[0];
+          $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
+          echo " <a href=ShowFile.php?l=Insurance/$YEAR/Sides/$snum.$Cursfx>View</a>";
+        }
+      }
+    } else {
+      $tmp['Ignored'] = $Sidey['Insurance'];
+      echo "<td>" . fm_checkbox('Insurance Uploaded',$tmp,'Ignored','disabled');
+      echo fm_hidden('Insurance',$Sidey['Insurance']);
+    }
+
+    if ($Mess && ($Action == 'Insurance')) echo "<td colspan=2>$Mess\n"; 
 
 /*
   echo "<tr><td>Parking:";

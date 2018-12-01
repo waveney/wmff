@@ -18,7 +18,7 @@
 
   $DateFlds = ['ReleaseDate'];
 //var_dump($_POST);
-  $Action = 0; 
+  $Action = ''; 
   $Mess = '';
   $snum = -1;
   if (isset($_POST{'Action'})) {
