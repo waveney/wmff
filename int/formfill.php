@@ -75,20 +75,22 @@
       echo Put_Side($Perf);
       exit;
     }
+    if ($Perf['IsASide']) {
     $Perfy = Get_SideYear($id);
-    if (!$Perfy) {
-      $flds = table_fields('SideYear');
-      if (isset($flds[$field])) {
-        $Perfy = Default_SY($id);
+      if (!$Perfy) {
+        $flds = table_fields('SideYear');
+        if (isset($flds[$field])) {
+          $Perfy = Default_SY($id);
+          $Perfy[$field] = $Value;
+          echo Put_SideYear($Perfy);
+          exit;
+        }
+      }
+      if (isset($Perfy[$field])) {
         $Perfy[$field] = $Value;
         echo Put_SideYear($Perfy);
         exit;
       }
-    }
-    if (isset($Perfy[$field])) {
-      $Perfy[$field] = $Value;
-      echo Put_SideYear($Perfy);
-      exit;
     }
     include_once("MusicLib.php");
     $Perfy = Get_ActYear($id);

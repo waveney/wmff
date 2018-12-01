@@ -4,7 +4,7 @@
 
   dostaffhead("List Music", "/js/clipboard.min.js", "/js/emailclick.js");
 
-  global $YEAR,$PLANYEAR,$Book_Colours,$Book_States,$Book_Actions,$Book_ActionExtras,$Importance;
+  global $YEAR,$PLANYEAR,$Book_Colours,$Book_States,$Book_Actions,$Book_ActionExtras,$Importance,$InsuranceStates;
   include_once("DanceLib.php"); 
   include_once("MusicLib.php"); 
 
@@ -16,6 +16,7 @@
     echo "<div class=content><h2>List Music Acts $YEAR</h2>\n";
   }
 
+  $Ins_colours = ['red','orange','lime'];
   echo "Click on column header to sort by column.  Click on Acts's name for more detail and programme when available,<p>\n";
 
   echo "If you click on the email link, press control-V afterwards to paste the standard link into message.<p>";
@@ -53,6 +54,7 @@
     $col5 = "Book State";
     $col6 = "Actions";
     $col7 = "Importance";
+    $col8 = "Insurance";
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
     $SideQ = $db->query("SELECT $flds FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
@@ -135,6 +137,10 @@
           break;
         case 'Importance':
           echo "<td>" . $Importance[$fetch['Importance']];
+          break;
+        case 'Insurance':
+          $ins = (isset($fetch['Insurance']) ? $fetch['Insurance'] : 0);
+          echo "<td style=background:" . $Ins_colours[$ins] . ">" . $InsuranceStates[$ins];
           break;
         default:
           break;
