@@ -55,13 +55,13 @@ function Get_Vol_Details(&$vol) {
     }
   $Body .= "<p>\n";
   $Body . "Available:<p>\n";
-  if (isset($vol['AvailBefore']))  $Body .= "Before Festival: " . $vol["AvailBefore"] . "<br>\n";
+  if (isset($vol['AvailBefore']) && $vol['AvailBefore'])  $Body .= "Before Festival: " . $vol["AvailBefore"] . "<br>\n";
   for ($day = $MASTER['FirstDay']-1; $day<= $MASTER['LastDay']+1; $day++) {
     $av = "Avail" . ($day <0 ? "_" . (-$day) : $day);
-    if (isset($vol[$av])) $Body .= FestDate($day,'M') . ": " . $vol[$av] . "<br>\n";
+    if (isset($vol[$av]) && $vol[$av]) $Body .= FestDate($day,'M') . ": " . $vol[$av] . "<br>\n";
   }
   
-  if (isset($Vol['Notes'])) $Body .= "<p>Notes: " . $Vol['Notes'] . "<p>\n";
+  if (isset($Vol['Notes']) && $Vol['Notes']) $Body .= "<p>Notes: " . $Vol['Notes'] . "<p>\n";
 
   $Body .= "<p>DBS: " . ($vol['DBS']?$vol['DBS'] : 'No') . "<p>\n\n";
 
@@ -130,6 +130,7 @@ function VolForm(&$Vol,$Err='') {
   echo "<form method=post action=Volunteers.php>";
   echo "<table border>\n";
   echo "<tr><td colspan=4><h3><center>Volunteer</center></h3>";
+  if (Access('Staff')) echo "<tr><td>id: " . $Vol['id'] . " VYid: " . $Vol['VYid'];
   echo "<tr>" . fm_text('Name',$Vol,'SN',2);
   echo "<tr>" . fm_text('Email',$Vol,'Email',2);
   echo "<tr>" . fm_text('Phone(s)',$Vol,'Phone',2);
@@ -168,10 +169,17 @@ function VolForm(&$Vol,$Err='') {
 
   echo "<tr><td><h3>Anything Else /Notes:</h3><td>" . fm_basictextarea($Vol,'Notes',4,3);
   echo "</table><p>";
-  echo "<input type=submit name=Submit value='Submit Application'><p>\n"; 
-  echo fm_hidden('A','Create') . fm_hidden('id',$id) . fm_hidden('VYid',$Vol['VYid']);
+  if ($Vol['VYid'] < 0) {
+    echo "<input type=submit name=Submit value='Submit Application'><p>\n"; 
+    echo fm_hidden('A','Submit');
+  } else {
+    echo "<input type=submit name=Submit value='Update Application'><p>\n"; 
+    echo fm_hidden('A','Update');  
+  }  
+  echo fm_hidden('id',$Vol['id']) . fm_hidden('VYid',$Vol['VYid']);
   echo "</form>\n";
-
+  if (Access('Staff')) echo "<h2><a href=Volunteers.php?A=List>Back to list of Volunteers</a></h2>";
+  
   echo "<h3>Terms and Conditions</h3>\n";
   echo "<ul><li>I am, or will be over 18 years of age on Thursday " . FestDate(-1,'L');
   echo "<li>You will be responsible for the health and safety of the general public, yourself and others around you " .
@@ -217,14 +225,14 @@ function Vol_Validate(&$Vol) {
   return 0;
 }
 
-function Vol_Emails(&$Vol,$reason='') {// Allow diff message on reason=update
+function Vol_Emails(&$Vol,$reason='Submit') {// Allow diff message on reason=update
   global $MASTER_DATA,$volClasses;
-  Email_Volunteer($Vol,'Vol_Application',$Vol['Email']);
+  Email_Volunteer($Vol,"Vol_Application_$reason",$Vol['Email']);
   foreach($volClasses as $vc=>$vd) {
-    if (isset($Vol["SC_" . $vc]) && $Vol["SC_" . $vc]) Email_Volunteer($Vol,'Vol_Staff',$vd[3]. "@" . $MASTER_DATA['HostURL']);
+    if (isset($Vol["SC_" . $vc]) && $Vol["SC_" . $vc]) Email_Volunteer($Vol,"Vol_Staff_$reason",$vd[3]. "@" . $MASTER_DATA['HostURL']);
   }
-  echo "<h2 class=subtitle>Thankyou for submitting your application</h2>";
-  
+  echo "<h2 class=subtitle>Thankyou for " . (($reason == 'Submit')?"submitting":"updating") . " your application</h2>";
+  if (Access('Staff')) echo "<h2><a href=Volunteers.php?A=List>Back to list of Volunteers</a></h2>";
   dotail();
 }
 
@@ -268,7 +276,7 @@ function List_Vols() {
     echo "<td>" . $Vol['Email'];
     echo "<td>" . $Vol['Phone'];
     echo "<td>" . $VY['Year'];
-    foreach ($volClasses as $c=>$exp) echo "<td>" . (isset($VY["SC_$c"])?'Y':'');
+    foreach ($volClasses as $c=>$exp) echo "<td>" . (isset($VY["SC_$c"]) && $VY["SC_$c"]?'Y':'');
     echo "<td>" . (isset($VY['AvailBefore'])?$VY['AvailBefore']:"");
     for ($day = $MASTER['FirstDay']-1; $day<= $MASTER['LastDay']+1; $day++) {
       $av = "Avail" . ($day <0 ? "_" . (-$day) : $day);
@@ -302,7 +310,6 @@ function VolAction($Action) {
   case 'Update': // Volunteer/Staff has updated entry - if Volunteer, remail relevant staff
     $res = Vol_Validate($_REQUEST);
     if ($res) VolForm($_REQUEST,$res);
-var_dump($_POST);
     
     if (!isset($_REQUEST['id']) || $_REQUEST['id'] < 0) { // New
       $_POST['AccessKey'] = rand_string(40);

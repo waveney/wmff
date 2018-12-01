@@ -425,6 +425,11 @@ function Contract_Check($snum,$chkba=1,$ret=0) { // if ret=1 returns result numb
 
 //echo "$InValid <br>";
   if ($ret) return $InValid;  
+  if ($InValid == 0) {
+    $act = Get_Side($snum);
+    if (!$act['Description']) return "No Short Description";
+    if (!$act['Photo']) return "No Photo";
+  }
   return $Check_Fails[$InValid];
 }
 
