@@ -9,7 +9,7 @@
   global $Mess,$Action,$MASTER,$Cat_Type,$YEAR,$PLANYEAR,$Dance_TimeFeilds;      
 
 //var_dump($_POST);
-  $Action = 0; 
+  $Action = ''; 
   $Mess = '';
 /*    User Editing of Side Data */ ////////// DUFF
   if (isset($_POST{'Action'})) {

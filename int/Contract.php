@@ -153,6 +153,16 @@ services, under the following terms and conditions:<p>\n";
   } else {
     $str .= "Thankyou for filling in your PA/Technical requirements.<p>\n";
   }
+  
+  if (isset($Sidey['Insurance']) && $Sidey['Insurance']>0) {
+    $str .= "Thankyou for uploading your Insurance.<p>\n";
+
+  } else {
+    $str .= "Please upload your Insurance before the festival.<p>\n";
+  }
+  
+  
+  
 
   // Riders for Venues
   foreach ($riders as $v) {
