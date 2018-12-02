@@ -213,7 +213,8 @@
   echo "<tr>";
   echo "<td class=Stafftd><h2>Other (Arts, Crafts, Children, Comedy)</h2>\n";
     echo "<ul>\n";
-    echo "<li><a href=StewardView.php>Stewarding Applications</a>\n";
+    echo "<li><a href=StewardView.php>Stewarding Applications (old)</a>\n";
+    echo "<li><a href=Volunteers.php?A=List>Volunteering Applications (new)</a>\n";
     if (Access('Staff','Photos')) {
       echo "<li><a href=PhotoUpload.php>Photo Upload</a>";
       echo "<li><a href=PhotoManage.php>Photo Manage</a>";

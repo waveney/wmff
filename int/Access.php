@@ -35,6 +35,8 @@
 
     case 'v' : // Volunteer
       $Data = Get_Volunteer($id);
+      $_REQUEST['A'] = 'View';
+      $_REQUEST['id'] = $id;
       break;
 
     case 'u' : // Sign Up
@@ -50,6 +52,7 @@
 
   $CakeTypes = ['s'=>'Side','a'=>'Act','o'=>'Other','t'=>'Trader','w'=>'Steward','v'=>'Volunteer','u'=>'SignUp','c'=>'Staff'];// Not Sure on staff
   $includes = ['s'=>'DanceEdit.php','a'=>'MusicEdit.php','o'=>'MusicEdit.php','t'=>'TraderPage.php','w'=>'ViewStew.php','v'=>'Volunteers.php','u'=>'SignUp','c'=>'Staff'];// Not Sure on staff
+  $DoHead = ['s'=>1,'a'=>1,'o'=>1,'t'=>1,'w'=>1,'v'=>0,'u'=>1,'c'=>1];
 
   $Cake = sprintf("%s:%d:%06d",$CakeTypes[$t],$Access_Type['Participant'],$id ); 
   $biscuit = openssl_encrypt($Cake,'aes-128-ctr','Quarterjack',0,'BrianMBispHarris');
@@ -60,7 +63,7 @@
   $USER{'UserId'} = $USERID = $id;
 
   $_GET['id'] = $id;
-  dostaffhead($CakeTypes[$t],"/js/Participants.js");
+  if ($DoHead[$t]) dostaffhead($CakeTypes[$t],"/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js");
   include_once($includes[$t]); // Should not return
   dotail();
 ?>

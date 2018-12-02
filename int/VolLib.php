@@ -1,7 +1,7 @@
 <?php
   include_once("fest.php");
 
-  dostaffhead("Steward / Volunteer Application", "/js/Volunteers.js");
+//  dostaffhead("Steward / Volunteer Application", "/js/Volunteers.js");
 
   include_once("Email.php");
 //  include_once("SignupLib.php");
@@ -63,7 +63,7 @@ function Get_Vol_Details(&$vol) {
   
   if (isset($Vol['Notes']) && $Vol['Notes']) $Body .= "<p>Notes: " . $Vol['Notes'] . "<p>\n";
 
-  $Body .= "<p>DBS: " . ($vol['DBS']?$vol['DBS'] : 'No') . "<p>\n\n";
+  $Body .= "<p>DBS: " . ((isset($Vol['VYid']) && $Vol['VYid'])?$vol['DBS'] : 'No') . "<p>\n\n";
 
   $Body .= "Emergency Contact<br>\nName: " . $vol['ContactName'] . "<br>\n";
   $Body .= "Phone: " . $vol['ContactPhone'] . "<br>\n";
@@ -76,7 +76,7 @@ function Vol_Details($key,&$vol) {
   switch ($key) {
   case 'WHO': return firstword($vol['SN']);
   case 'DETAILS': return Get_Vol_Details($vol);
-  case 'LINK' : return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Access.php?t=v&id=" . $vol['id'] . "&key=" . $vol['AccessKey'] . "><b>link</b></a>";
+  case 'LINK' : return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Access.php?t=v&i=" . $vol['id'] . "&k=" . $vol['AccessKey'] . "><b>link</b></a>";
   case 'WMFFLINK' : return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Volunteers.php?A=View&id=" . $vol['id'] . "><b>link</b></a>";
   }
 }
@@ -130,7 +130,7 @@ function VolForm(&$Vol,$Err='') {
   echo "<form method=post action=Volunteers.php>";
   echo "<table border>\n";
   echo "<tr><td colspan=4><h3><center>Volunteer</center></h3>";
-  if (Access('Staff')) echo "<tr><td>id: " . $Vol['id'] . " VYid: " . $Vol['VYid'];
+  if (1 || Access('Staff')) echo "<tr><td>id: " . $Vol['id'] . " VYid: " . $Vol['VYid'];
   echo "<tr>" . fm_text('Name',$Vol,'SN',2);
   echo "<tr>" . fm_text('Email',$Vol,'Email',2);
   echo "<tr>" . fm_text('Phone(s)',$Vol,'Phone',2);
@@ -144,7 +144,12 @@ function VolForm(&$Vol,$Err='') {
   echo "<tr><td>Relationship:<td>" . fm_select($Relations,$Vol,'Relation');
 
   echo "<tr><td colspan=4><h3><center>Volunteering in $YEAR</center></h3>";
+  if ($YEAR != $Vol['Year']) {
+    echo "<center>This shows what you filled in for " . $Vol['Year'] . " please update as appropriate</center>";
+    $Vol['VYid'] = -1;
+  }
   echo "<tr><td colspan=4><h3>Which Team(s) would you like to volunteer for?</h3>\n";
+
   foreach ($volClasses as $c=>$exp) {
     $rows = 1;
     if (@ is_array($exp[5])) $rows += count($exp[5]);
@@ -243,7 +248,7 @@ function List_Vols() {
 
   echo "Click on name for full info<p>";
   $coln = 0;  
-  echo "<form method=post action=StewardView.php>";
+  echo "<form method=post>";
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
 
@@ -286,19 +291,53 @@ function List_Vols() {
   }
   echo "</tbody></table>\n";
 
+  echo "<h2><a href=Volunteers.php?A=New>Add a Volunteer</a</h2>";
   dotail();
 }
 
+function Email_Form_Only($Vol) {
+  $coln = 0;
+  echo "<h2>Stage 1 - Who are you?</h2>";
+  echo "<form method=post>";
+  echo "<table border>";
+  echo "<tr>" . fm_text('Name',$Vol,'SN',2);
+  echo "<tr>" . fm_text('Email',$Vol,'Email',2);
+  echo fm_hidden('A','NewStage2');
+  echo "</table><p><input type=Submit>\n";
+  dotail();
+}
+
+function Check_Unique() { // Is email Email already registered - if so send new email back with link to update
+  global $db;
+  $adr = trim($_POST['Email']);
+  $res = $db->query("SELECT * FROM Volunteers WHERE Email LIKE '%$adr%'");
+  if ($res && $res->num_rows) {
+    $Vol = $res->fetch_assoc();
+    Email_Volunteer($Vol,"Vol_Link_Message",$Vol['Email']);
+    echo "<h2>You are already recorded as a Volunteer</h2>";
+    echo "An email has been sent to you with a link to your record, only information about this years volunteering is needed.<p>";
+    dotail();
+  } // else new - full through
+}
 
 function VolAction($Action) {
   global $PLANYEAR;
-  
+
+  dostaffhead("Steward / Volunteer Application", "/js/Volunteers.js");
   switch ($Action) {
   
   case 'New': // New Volunteer
   default:
     $Vol = ['id'=>-1, 'VYid'=>-1, 'Year'=>$PLANYEAR];
+    Email_Form_Only($Vol);
+    break;
 
+  case 'NewStage2': 
+    Check_Unique(); // Deliberate drop through
+  
+
+  case 'Form': // New stage 2
+    $Vol = ['id'=>-1, 'VYid'=>-1, 'Year'=>$PLANYEAR, 'SN'=>$_POST['SN'], 'Email'=>$_POST['Email']];
     VolForm($Vol);
     
   case 'List': // List Volunteers
@@ -356,10 +395,10 @@ function VolAction($Action) {
   TODO
   1) DBS upload
   2) Year operation
-  3) Revised application - change email to staff
   4) View to work with YEAR only - if not planyear - list to indicate if planyear submission
   5) multi year and access to current year
   6) Update...
+  7) Prevent dups - do like New Trader - also validate on create
   
   if viewold && newexists - no edit
   if viewold && !new - edit save new rec
