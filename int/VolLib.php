@@ -130,7 +130,7 @@ function VolForm(&$Vol,$Err='') {
   echo "<form method=post action=Volunteers.php>";
   echo "<table border>\n";
   echo "<tr><td colspan=4><h3><center>Volunteer</center></h3>";
-  if (1 || Access('Staff')) echo "<tr><td>id: " . $Vol['id'] . " VYid: " . $Vol['VYid'];
+  if (Access('Staff')) echo "<tr><td>id: " . $Vol['id'] . " VYid: " . $Vol['VYid'];
   echo "<tr>" . fm_text('Name',$Vol,'SN',2);
   echo "<tr>" . fm_text('Email',$Vol,'Email',2);
   echo "<tr>" . fm_text('Phone(s)',$Vol,'Phone',2);
@@ -247,6 +247,9 @@ function List_Vols() {
 
 
   echo "Click on name for full info<p>";
+  
+  echo "Where it says EXPAND under availability, means there is a longer entry - click on the persons name to see more info on their availabilty<p>";
+  
   $coln = 0;  
   echo "<form method=post>";
   echo "<table id=indextable border>\n";
@@ -313,10 +316,16 @@ function Check_Unique() { // Is email Email already registered - if so send new 
   $res = $db->query("SELECT * FROM Volunteers WHERE Email LIKE '%$adr%'");
   if ($res && $res->num_rows) {
     $Vol = $res->fetch_assoc();
-    Email_Volunteer($Vol,"Vol_Link_Message",$Vol['Email']);
-    echo "<h2>You are already recorded as a Volunteer</h2>";
-    echo "An email has been sent to you with a link to your record, only information about this years volunteering is needed.<p>";
-    dotail();
+    if (!Access('Staff')) {
+      Email_Volunteer($Vol,"Vol_Link_Message",$Vol['Email']);
+      echo "<h2>You are already recorded as a Volunteer</h2>";
+      echo "An email has been sent to you with a link to your record, only information about this years volunteering is now needed.<p>";
+      dotail();
+    }
+    echo "<h2>" . $Vol['SN'] . " Is already a volunteer</h2>";
+    $id = $Vol['id'];
+    $Vol = array_merge($Vol, Get_Vol_Year($id));
+    VolForm($Vol);
   } // else new - full through
 }
 
@@ -394,56 +403,7 @@ function VolAction($Action) {
 /*
   TODO
   1) DBS upload
-  2) Year operation
-  4) View to work with YEAR only - if not planyear - list to indicate if planyear submission
-  5) multi year and access to current year
-  6) Update...
-  7) Prevent dups - do like New Trader - also validate on create
-  
-  if viewold && newexists - no edit
-  if viewold && !new - edit save new rec
-  if viewcur - edit in place
-  if norecord - new form
-  
-  VolYear
 
-
-
-  if (isset($Vol['submit'])) {
-    if (strlen($Vol['SN']) < 2) { echo "<p class=Err>Please give your name\n"; $err=1; };
-    if (strlen($Vol['Email']) < 6) { echo "<p class=Err>Please give your Email\n"; $err=1; };
-    if (strlen($Vol['Phone']) < 6) { echo "<p class=Err>Please give your Phone number(s)\n"; $err=1; };
-    if (strlen($Vol['Address']) < 20) { echo "<p class=Err>Please give the contacts Address\n"; $err=1; };
-    if (strlen($Vol['Birthday']) < 4) { echo "<p class=Err>Please give your birthday\n"; $err=1; };
-
-    $Clss=0;
-    foreach ($StewClasses as $c=>$exp) if ($Vol["SC_$c"]) $Clss++;
-    if ($Clss == 0) { echo "<p class=Err>Please select at least once team\n"; $err=1; };
-
-    $Avail=0;
-    foreach ($Days as $d=>$ld) if (strlen($Vol["Avail$d"]) > 1) $Avail++;
-
-    if ($Avail == 0) { echo "<p class=Err>Please give your availabilty\n"; $err=1; };
-    if (strlen($Vol['ContactName']) < 2) { echo "<p class=Err>Please give an emergency contact\n"; $err=1; };
-    if (strlen($Vol['ContactPhone']) < 6) { echo "<p class=Err>Please give emergency Phone number(s)\n"; $err=1; };
-
-    Clean_Email($Vol['Email']);
-    if (!$err) {
-//      echo "<P>VALID...<P>";
-      $Vol['AccessKey'] = rand_string(40);
-      $Vol['Year'] = $PLANYEAR;
-      $id = Insert_db_post('Volunteers',$stew);
-    
-      Email_Steward($stew,'Vol_Application',$stew['Email']);
-      foreach($volClass as $vc=>$vd) {
-        if ($Vol["SC_" . $vc]) Email_Steward($stew,'Vol_Staff',$vd[2]. "@" . $MASTER_DATA['HostURL']);
-
-      echo "<h2 class=subtitle>Thankyou for submitting your application</h2>";
-      dotail();
-      exit();
-    }
-  }
-  }
 */
 
 ?>
