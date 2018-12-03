@@ -306,19 +306,19 @@ function isknown($snum,$yr) {
 function Set_Side_Help() {
   static $t = array(
         'SN'=>'To appear on website and in the programme',
-        'ShortName'=>'IF the sides name is more than 20 characters, give a short form to appear on the Grid.',
-        'Type'=>'For example North West, Border',
+        'ShortName'=>'IF the name is more than 20 characters, give a short form to appear on the Grids.',
+        'Type'=>'For example North West, Border, Folk, Jazz',
         'Importance'=>'Only raise the importance for those that really need it.  They get front billing and bigger fonts in publicity.  Under normal circumstances at most 3 should be Very High. Higher values are for the late addition of surprise headline acts.',
         'OverlapsD'=>'Sides that share Dancers - Where possible, there will be a 30 minute gap between any spot by any of these sides',
         'OverlapsM'=>'Sides that share Musicians - These can perform at the same spot at the same time, or consecutive times',
-        'Blurb'=>'Longer description, for the webpage on the festival website about the side, only seen when a user clicks a link for more info on them - OPTIONAL',
+        'Blurb'=>'Longer description, for the webpage on the festival website about the side/act/performer, only seen when a user clicks a link for more info on them - OPTIONAL',
         'CostumeDesc'=>'Short description of costume and where in the country they are from, for the programme book',
         'Description'=>'Short blurb to describe the performers, for lists of performers on the website - NOT OPTIONAL',
         'Website'=>'If more than one seperate with spaces (mainly for music acts)',
         'Facebook'=>'If more than one seperate with spaces (mainly for music acts)',
         'Twitter'=>'If more than one seperate with spaces (mainly for music acts)',
         'Instagram'=>'If more than one seperate with spaces (mainly for music acts)',
-        'Video'=>'Of the side - can use a YouTube embed or share link',
+        'Video'=>'You can use a YouTube embed or share link',
         'Likes'=>'Venues prefered, sides like to share with',
         'Dislikes'=>'Venues disliked, sides do not want to share with - not in use',
         'Pre2017'=>'Previous Wimbornes/Invites etc',
@@ -327,8 +327,8 @@ function Set_Side_Help() {
         'Mobile'=>'As an emergency contact number, this is important',
         'NoiseLevel'=>'Loud PAs are noisy, a single violin or flute is quiet',
         'Surfaces'=>'What surfaces can be danced on, if none are set all is assumed. Note the Square has flagstones and Crownmead has Bricks',
-        'SideStatus'=>'If the side is disbanded mark as dead',
-        'StagePA'=>'Mainly Appalachian Sides, give PA Reqs as text or upload a file',
+        'SideStatus'=>'If the act/side/performer is disbanded mark as dead',
+        'StagePA'=>'Give PA Requirments (if any) as simple text, or upload a file',
         'DataCheck'=>'Not yet working',
         'MorrisAnimal'=>'If the side has a morris animal - what kind is it',
         'Workshops'=>'That the side could run',
@@ -371,6 +371,13 @@ function Set_Side_Year_Help() {
         'OtherPayment' => 'Eg A bottle of Rum',
         'OtherPayCost' => 'Cost of the other payment, eg the bottle of Rum',
         'ReleaseDate' => 'If set, do not show to public until after this date/time',
+        'YearState'=>'This is generally set by your and the Acts actions.  
+Declined - Will leave this state after any change that would affect the contract.
+Booking - negotiations in place. 
+Contract Ready - For the Act to confirm it.
+Contract Signed - Enables listing to public.',
+        'Rider'=>'Additional text to be added to the Contract',
+        'EnableCamp' => 'Note this will be added to the fee as part of your budget',
 
   );
   Set_Help_Table($t);
