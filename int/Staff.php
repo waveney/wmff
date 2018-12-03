@@ -86,6 +86,7 @@
       echo "<li class=smalltext><a href=ShowMusicProg.php?Pub=1&Y=$YEAR>Public Music Programme</a>";
       echo "<li class=smalltext><a href=MusicTypes.php>Set Music Types</a>";
       echo "<li class=smalltext><a href=ResetImageSizes.php?PERF>Scan and save Image sizes</a>";
+      echo "<li class=smalltext><a href=CopyActYear.php>Copy all ActYear data to SideYear</a>";
       echo "</table><p>\n";
     }
     echo "<li><a href=ContractView.php?t=1>Dummy Music Contract</a>";
@@ -213,7 +214,9 @@
   echo "<tr>";
   echo "<td class=Stafftd><h2>Other (Arts, Crafts, Children, Comedy)</h2>\n";
     echo "<ul>\n";
-    echo "<li><a href=StewardView.php>Stewarding Applications</a>\n";
+    echo "<li><a href=StewardView.php>Stewarding Applications (old)</a>\n";
+    echo "<li><a href=Volunteers.php?A=New>Volunteering Application Form (draft)</a>\n";
+    echo "<li><a href=Volunteers.php?A=List>Volunteers (new)</a>\n";
     if (Access('Staff','Photos')) {
       echo "<li><a href=PhotoUpload.php>Photo Upload</a>";
       echo "<li><a href=PhotoManage.php>Photo Manage</a>";

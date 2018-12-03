@@ -5,32 +5,12 @@ $ContractMethods = array('','By Clicking Online','By Email Confirmation');
 
 // Additive over side helps
 function Add_Act_Help() {
-  static $t = array(
-        'ShortName'=>'IF the acts name is more than 20 characters, give a short form to appear on the Grid.',
-        'Type'=>'No examples yet',
-        'Blurb'=>'Longer description of the act, for the webpage on the festival website about the act - OPTIONAL',
-        'Description'=>'Short description for programme and lists on website',
-        'Video'=>'You can use a YouTube embed or share link',
-        'Likes'=>'',
-        'SideStatus'=>'If the act is disbanded mark as dead',
-        'StagePA'=>'Give PA Requirments as simple text, or upload a file',
-        'Bank'=>'Bank details so any fees can be paid.'
-  );
+  static $t = [];
   Add_Help_Table($t);
 }
 
 function Add_Act_Year_Help() {
-  static $t = array( // No detail yet
-        'YearState'=>'This is generally set by your and the Acts actions.  
-Declined - Will leave this state after any change that would affect the contract.
-Booking - negotiations in place. 
-Contract Ready - For the Act to confirm it.
-Contract Signed - Enables listing to public.',
-        'Rider'=>'Additional text to be added to the Contract',
-        'EnableCamp' => 'Note this will be added to the fee as part of your budget',
-        'RadioWimborne'=>'Permission given for performances to be recorded by Radio Wimborne, and broadcast live or after the festival',
-        'Performers'=>'Number of Performers Wristbands, if any',
-  );
+  static $t = [];
   Add_Help_Table($t);
 }
 

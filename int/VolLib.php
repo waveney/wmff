@@ -1,7 +1,7 @@
 <?php
   include_once("fest.php");
 
-  dostaffhead("Steward / Volunteer Application", "/js/Volunteers.js");
+//  dostaffhead("Steward / Volunteer Application", "/js/Volunteers.js");
 
   include_once("Email.php");
 //  include_once("SignupLib.php");
@@ -41,12 +41,12 @@ function Get_Vol_Details(&$vol) {
   $Body .= "Address: " . $vol['Address'] . "<br>\n";
   if (isset($vol['PostCode'])) $Body .= "PostCode: " . $vol['PostCode'] . "<br>\n\n";
 
-  $Body .= "Birthday: " . $vol['Birthday'] . "<br>\n";
+//  $Body .= "Birthday: " . $vol['Birthday'] . "<br>\n";
   $Body .= "\n\n";
 
   foreach ($volClasses as $s=>$sl) 
     if (isset($vol["SC_$s"]) && $vol["SC_$s"]) {
-      $Body .= "<p>Team: $s<br>\n";
+      $Body .= "<p>Team: " . $sl[0] . "<br>\n";
       
       if (is_array($sl[5]))
         foreach ($sl[5] as $xq) 
@@ -63,7 +63,7 @@ function Get_Vol_Details(&$vol) {
   
   if (isset($Vol['Notes']) && $Vol['Notes']) $Body .= "<p>Notes: " . $Vol['Notes'] . "<p>\n";
 
-  $Body .= "<p>DBS: " . ($vol['DBS']?$vol['DBS'] : 'No') . "<p>\n\n";
+  $Body .= "<p>DBS: " . ((isset($Vol['VYid']) && $Vol['VYid'])?$vol['DBS'] : 'No') . "<p>\n\n";
 
   $Body .= "Emergency Contact<br>\nName: " . $vol['ContactName'] . "<br>\n";
   $Body .= "Phone: " . $vol['ContactPhone'] . "<br>\n";
@@ -76,7 +76,7 @@ function Vol_Details($key,&$vol) {
   switch ($key) {
   case 'WHO': return firstword($vol['SN']);
   case 'DETAILS': return Get_Vol_Details($vol);
-  case 'LINK' : return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Access.php?t=v&id=" . $vol['id'] . "&key=" . $vol['AccessKey'] . "><b>link</b></a>";
+  case 'LINK' : return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Access.php?t=v&i=" . $vol['id'] . "&k=" . $vol['AccessKey'] . "><b>link</b></a>";
   case 'WMFFLINK' : return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Volunteers.php?A=View&id=" . $vol['id'] . "><b>link</b></a>";
   }
 }
@@ -135,16 +135,22 @@ function VolForm(&$Vol,$Err='') {
   echo "<tr>" . fm_text('Email',$Vol,'Email',2);
   echo "<tr>" . fm_text('Phone(s)',$Vol,'Phone',2);
   echo "<tr>" . fm_text('Address',$Vol,'Address',4);
-  echo "<tr>" . fm_text('Date of Birth',$Vol,'Birthday');
+  echo "<tr><td>" . fm_checkbox("I am over 18",$Vol,'Over18',"","",1);
+//  echo "<tr>" . fm_text('Date of Birth',$Vol,'Birthday');
   echo "<tr><td colspan=4><h3>Legal</h3>\n";
-  echo "Do you have a current DBS check? if so please give details<br>" . fm_textinput('DBS',(isset($Vol['DBS'])?$Vol['DBS']:''),'size=100');
+  echo "Do you have a current DBS certificate? if so please give details<br>" . fm_textinput('DBS',(isset($Vol['DBS'])?$Vol['DBS']:''),'size=100');
   echo "<tr><td colspan=4><h3>Emergency Contact</h3>\n";
   echo "<tr>" . fm_text('Contact Name',$Vol,'ContactName',2);
   echo "<tr>" . fm_text('Contact Phone',$Vol,'ContactPhone',2);
   echo "<tr><td>Relationship:<td>" . fm_select($Relations,$Vol,'Relation');
 
   echo "<tr><td colspan=4><h3><center>Volunteering in $YEAR</center></h3>";
+  if (isset($Vol['Year']) && $YEAR != $Vol['Year']) {
+    echo "<center>This shows what you filled in for " . $Vol['Year'] . " please update as appropriate</center>";
+    $Vol['VYid'] = -1;
+  }
   echo "<tr><td colspan=4><h3>Which Team(s) would you like to volunteer for?</h3>\n";
+
   foreach ($volClasses as $c=>$exp) {
     $rows = 1;
     if (@ is_array($exp[5])) $rows += count($exp[5]);
@@ -160,7 +166,7 @@ function VolForm(&$Vol,$Err='') {
   }
 
   echo "<tr><td colspan=4><h3>Availability</h3>If you could help on the days below, please give the times you would be available\n";
-  echo "<tr class=SC_Days>" . fm_text("Before the festival",$Vol,"AvailBefore",4);
+  echo "<tr class=SC_Days>" . fm_text("Months before the festival",$Vol,"AvailBefore",4);
   $D = -2;
   for ($day = $MASTER['FirstDay']-1; $day<=$MASTER['LastDay']+1; $day++) {
     $av = "Avail" . ($day <0 ? "_" . (-$day) : $day);
@@ -168,7 +174,8 @@ function VolForm(&$Vol,$Err='') {
   }
 
   echo "<tr><td><h3>Anything Else /Notes:</h3><td>" . fm_basictextarea($Vol,'Notes',4,3);
-  echo "</table><p>";
+
+  echo "<tr><td><td>";
   if ($Vol['VYid'] < 0) {
     echo "<input type=submit name=Submit value='Submit Application'><p>\n"; 
     echo fm_hidden('A','Submit');
@@ -177,7 +184,8 @@ function VolForm(&$Vol,$Err='') {
     echo fm_hidden('A','Update');  
   }  
   echo fm_hidden('id',$Vol['id']) . fm_hidden('VYid',$Vol['VYid']);
-  echo "</form>\n";
+
+  echo "</table><p>";
   if (Access('Staff')) echo "<h2><a href=Volunteers.php?A=List>Back to list of Volunteers</a></h2>";
   
   echo "<h3>Terms and Conditions</h3>\n";
@@ -191,19 +199,28 @@ function VolForm(&$Vol,$Err='') {
   echo "</ul>\n";
   echo "<h3>Information</h3>\n";
   echo "Once submitted, an email will be sent to the leaders of the teams you have selected.<p>";
-  echo "You will also get an email confirming what you have input and providing you a private link to edit and change your volunteer records.<p>";
+  echo "You will also get an email confirming what you have input and providing you a private link to view, edit and change your volunteer records.<p>";
   echo "Thank you for volunteering.<p>";
+  echo "</form>\n";
+
+  if ($Vol['VYid'] < 0) {
+    echo "<input type=submit name=Submit value='Submit Application'><p>\n"; 
+  } else {
+    echo "<input type=submit name=Submit value='Update Application'><p>\n"; 
+  }  
+
   dotail();
 }
 
 function Vol_Validate(&$Vol) {
   global $MASTER,$volClasses;
-  
+
   if (strlen($Vol['SN']) < 2) return "Please give your name";
   if (strlen($Vol['Email']) < 6) return "Please give your Email";
   if (strlen($Vol['Phone']) < 6) return "Please give your Phone number(s)";
-  if (strlen($Vol['Address']) < 20) return "Please give the contacts Address";
-  if (strlen($Vol['Birthday']) < 2) return "Please give your age";
+  if (strlen($Vol['Address']) < 10) return "Please give your Address";
+  if (!isset($Vol['Over18']) || !$Vol['Over18']) return "Please confirm you are over 18";
+//  if (strlen($Vol['Birthday']) < 2) return "Please give your age";
 
   $Clss=0;
   foreach ($volClasses as $c=>$exp) if (isset($Vol["SC_$c"]) && $Vol["SC_$c"]) $Clss++;
@@ -242,8 +259,11 @@ function List_Vols() {
 
 
   echo "Click on name for full info<p>";
+  
+  echo "Where it says EXPAND under availability, means there is a longer entry - click on the persons name to see more info on their availabilty<p>";
+  
   $coln = 0;  
-  echo "<form method=post action=StewardView.php>";
+  echo "<form method=post>";
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
 
@@ -251,7 +271,7 @@ function List_Vols() {
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Email</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Phone</a>\n";
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Year</a>\n";
+  echo "<th class=FullD hidden><a href=javascript:SortTable(" . $coln++ . ",'N')>Year</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Steward</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Setup</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Artistic</a>\n";
@@ -275,7 +295,7 @@ function List_Vols() {
     echo "<td>$link" . $Vol['SN'] . "</a>";
     echo "<td>" . $Vol['Email'];
     echo "<td>" . $Vol['Phone'];
-    echo "<td>" . $VY['Year'];
+    echo "<td class=FullD hidden>" . $VY['Year'];
     foreach ($volClasses as $c=>$exp) echo "<td>" . (isset($VY["SC_$c"]) && $VY["SC_$c"]?'Y':'');
     echo "<td>" . (isset($VY['AvailBefore'])?$VY['AvailBefore']:"");
     for ($day = $MASTER['FirstDay']-1; $day<= $MASTER['LastDay']+1; $day++) {
@@ -286,19 +306,59 @@ function List_Vols() {
   }
   echo "</tbody></table>\n";
 
+  echo "<h2><a href=Volunteers.php?A=New>Add a Volunteer</a</h2>";
   dotail();
 }
 
+function Email_Form_Only($Vol) {
+  $coln = 0;
+  echo "<h2>Stage 1 - Who are you?</h2>";
+  echo "<form method=post>";
+  echo "<table border>";
+  echo "<tr>" . fm_text('Name',$Vol,'SN',2);
+  echo "<tr>" . fm_text('Email',$Vol,'Email',2);
+  echo fm_hidden('A','NewStage2');
+  echo "</table><p><input type=Submit>\n";
+  dotail();
+}
+
+function Check_Unique() { // Is email Email already registered - if so send new email back with link to update
+  global $db;
+  $adr = trim($_POST['Email']);
+  $res = $db->query("SELECT * FROM Volunteers WHERE Email LIKE '%$adr%'");
+  if ($res && $res->num_rows) {
+    $Vol = $res->fetch_assoc();
+    if (!Access('Staff')) {
+      Email_Volunteer($Vol,"Vol_Link_Message",$Vol['Email']);
+      echo "<h2>You are already recorded as a Volunteer</h2>";
+      echo "An email has been sent to you with a link to your record, only information about this years volunteering is now needed.<p>";
+      dotail();
+    }
+    echo "<h2>" . $Vol['SN'] . " Is already a volunteer</h2>";
+    $id = $Vol['id'];
+    $Vol = array_merge($Vol, Get_Vol_Year($id));
+    VolForm($Vol);
+  } // else new - full through
+}
 
 function VolAction($Action) {
   global $PLANYEAR;
-  
+
+  dostaffhead("Steward / Volunteer Application", "/js/Volunteers.js");
   switch ($Action) {
   
   case 'New': // New Volunteer
   default:
     $Vol = ['id'=>-1, 'VYid'=>-1, 'Year'=>$PLANYEAR];
+    Email_Form_Only($Vol);
+    break;
 
+  case 'NewStage2': 
+    Check_Unique(); // Deliberate drop through
+  
+
+  case 'Form': // New stage 2
+    $Vol = ['id'=>-1, 'VYid'=>-1, 'Year'=>$PLANYEAR, 'SN'=>$_POST['SN'], 'Email'=>$_POST['Email']];
     VolForm($Vol);
     
   case 'List': // List Volunteers
@@ -355,56 +415,7 @@ function VolAction($Action) {
 /*
   TODO
   1) DBS upload
-  2) Year operation
-  3) Revised application - change email to staff
-  4) View to work with YEAR only - if not planyear - list to indicate if planyear submission
-  5) multi year and access to current year
-  6) Update...
-  
-  if viewold && newexists - no edit
-  if viewold && !new - edit save new rec
-  if viewcur - edit in place
-  if norecord - new form
-  
-  VolYear
 
-
-
-  if (isset($Vol['submit'])) {
-    if (strlen($Vol['SN']) < 2) { echo "<p class=Err>Please give your name\n"; $err=1; };
-    if (strlen($Vol['Email']) < 6) { echo "<p class=Err>Please give your Email\n"; $err=1; };
-    if (strlen($Vol['Phone']) < 6) { echo "<p class=Err>Please give your Phone number(s)\n"; $err=1; };
-    if (strlen($Vol['Address']) < 20) { echo "<p class=Err>Please give the contacts Address\n"; $err=1; };
-    if (strlen($Vol['Birthday']) < 4) { echo "<p class=Err>Please give your birthday\n"; $err=1; };
-
-    $Clss=0;
-    foreach ($StewClasses as $c=>$exp) if ($Vol["SC_$c"]) $Clss++;
-    if ($Clss == 0) { echo "<p class=Err>Please select at least once team\n"; $err=1; };
-
-    $Avail=0;
-    foreach ($Days as $d=>$ld) if (strlen($Vol["Avail$d"]) > 1) $Avail++;
-
-    if ($Avail == 0) { echo "<p class=Err>Please give your availabilty\n"; $err=1; };
-    if (strlen($Vol['ContactName']) < 2) { echo "<p class=Err>Please give an emergency contact\n"; $err=1; };
-    if (strlen($Vol['ContactPhone']) < 6) { echo "<p class=Err>Please give emergency Phone number(s)\n"; $err=1; };
-
-    Clean_Email($Vol['Email']);
-    if (!$err) {
-//      echo "<P>VALID...<P>";
-      $Vol['AccessKey'] = rand_string(40);
-      $Vol['Year'] = $PLANYEAR;
-      $id = Insert_db_post('Volunteers',$stew);
-    
-      Email_Steward($stew,'Vol_Application',$stew['Email']);
-      foreach($volClass as $vc=>$vd) {
-        if ($Vol["SC_" . $vc]) Email_Steward($stew,'Vol_Staff',$vd[2]. "@" . $MASTER_DATA['HostURL']);
-
-      echo "<h2 class=subtitle>Thankyou for submitting your application</h2>";
-      dotail();
-      exit();
-    }
-  }
-  }
 */
 
 ?>

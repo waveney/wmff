@@ -1,7 +1,7 @@
 <?php
   global $MASTER,$MASTER_DATA,$CALYEAR;
 
-  echo "<meta name=description content='Wimborne\'s annual folk festival takes place in the historic market town of Wimborne Minster in Dorset on the weekend of 14, 15, 16 June 2019.>\n";
+  echo "<meta name=description content='Wimborne\'s annual folk festival takes place in the historic market town of Wimborne Minster in Dorset on the weekend of 6th to 9th June 2019.>\n";
   echo "<meta name=keywords content='wimborne, minster, folk, festival, folk festival, dorset, folkie, fringe, paddock, morris, dance, side, music, concerts, camping, 
 	      parking, trade, trading, stewards, volunteer, tickets, line up, appalachian, ceildihs, procession, step dance, workshops, craft, sessions'>\n";
   echo "<meta name=copyright content='Copyright &copy; Wimborne Minster Folk Festival $CALYEAR'>\n"; 

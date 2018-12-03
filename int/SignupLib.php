@@ -111,7 +111,7 @@ function Email_BB_Signup(&$bb,$messcat,$whoto) {
   Email_Proforma($whoto,$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $bb['SN'],'BB_Details',$bb,'BuskersBashLog.txt');
 }
 
-function Get_Vol_Details(&$vol) {
+function Get_SVol_Details(&$vol) {
   global $volClasses,$Days,$Relations;
   $Body = "\nName: " . $vol['SN'] . "\n";
   $Body .= "Email: <a href=mailto:" . $vol['Email'] . ">" . $vol['Email'] . "</a>\n";
@@ -137,28 +137,28 @@ function Get_Vol_Details(&$vol) {
   return $Body;
 }
 
-function Vol_Details($key,&$vol) {
+function Vol_SDetails($key,&$vol) {
   switch ($key) {
   case 'WHO': return firstword($vol['SN']);
-  case 'DETAILS': return Get_Vol_Details($stwe);
-  case 'LINK' :return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Access.php?t=w&id=" . $vol['id'] . "&key=" . $vol['AccessKey'] . "><b>link</b></a>";
+  case 'DETAILS': return Get_SVol_Details($stwe);
+  case 'LINK' :return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Access.php?t=w&id=" . $vol['id'] . "&k=" . $vol['AccessKey'] . "><b>link</b></a>";
   }
 }
 
-function Email_Volunteer(&$vol,$messcat,$whoto) {
+function Email_SVolunteer(&$vol,$messcat,$whoto) {
   global $PLANYEAR,$USER,$MASTER_DATA;
-  Email_Proforma($whoto,$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $vol['SN'],'Vol_Details',$vol,'Volunteer.txt');
+  Email_Proforma($whoto,$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $vol['SN'],'Vol_SDetails',$vol,'Volunteer.txt');
 }
 
-function Get_Volunteer($id) {
+function Get_SVolunteer($id) {
   global $db;
   $res = $db->query("SELECT * FROM Volunteers WHERE id=$id");
   if ($res) return $res->fetch_assoc();
 }
 
-function Put_Volunteer(&$now) {
+function Put_SVolunteer(&$now) {
   $e=$now['id'];
-  $Cur = Get_Volunteer($e);
+  $Cur = Get_SVolunteer($e);
   return Update_db('Volunteers',$Cur,$now);
 }
 
