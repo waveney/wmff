@@ -38,7 +38,7 @@
   echo "<tr><td>*PAIDSOFAR*<td>Total payments so far<td>Trade\n";
   echo "<tr><td>*FESTIVAL*<td>Name of Festival<td>All\n";
   echo "<tr><td>*HOST*<td>Host URL for festival<td>All\n";
-  echo "<tr><td>*MAILTO_name*<td>Inserts a mailto link to name@festival.org\n";
+  echo "<tr><td>*MAILTO_name*<td>Inserts a mailto link to name@festival.org<td>All\n";
   echo "</table><p>\n";
 
   $coln = 0;

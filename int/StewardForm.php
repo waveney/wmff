@@ -29,7 +29,8 @@
 //      echo "<P>VALID...<P>";
       $_POST['AccessKey'] = rand_string(40);
       $_POST['Year'] = $PLANYEAR;
-      $id = Insert_db_post('Stewards',$stew);
+      $id = Insert_db_post('Volunteers',$stew);
+      $_POST['Over18']='on';
     
       Email_Steward($stew,'Stew_Application',$stew['Email']);
       Email_Steward($stew,'Stew_Paul','paulfolkfest@outlook.com');

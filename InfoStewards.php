@@ -12,7 +12,7 @@
 <h2 class="maintitle">Stewards & Volunteers</h2>
 Volunteer at Wimborne Minster Folk Festival<p>
 
-We are looking for vibrant people to be part of the festival team who are prepared to work in shifts, for around 12 hours in total over the three day festival.<p>
+We are looking for vibrant people to be part of the festival team who are prepared to work in shifts, for around 6-8 hours in total over the three day festival.<p>
 
 You must be over 18, reliable, have good people skills and be able to remain pleasant and cheerful whatever the circumstances!<p>
 
@@ -21,7 +21,7 @@ In exchange for your time, we will give you a pass for festival events and to <a
 <ul>
 <li>You will generally be working in teams.
 <li>Training will be given if necessary.
-<li>Certain jobs may require a DBS (Disclosure & Barring Service) check, which we can arrange.
+<!--<li>Certain jobs may require a DBS (Disclosure & Barring Service) check, which we can arrange.-->
 <li>You will need to sort out your own refreshments.
 <li>A free day/weekend pass will be given to stewards which covers all festival events and entry to <a href="http://partyinthepaddock.com" rel="tag"><strong>Party In The Paddock</strong></a>.
 <li>You will receive a free souvenir programme.
@@ -32,7 +32,7 @@ Stewarding & Volunteer roles available:<p>
 <h2 class="maintitle">Stewarding</h2>
 <ul>
 
-<li>Information desks at The Square
+<li>Information desk at The Square
 <li>Event stewards at Concerts, Ceildihs, Sessions and Workshops.
 <li>Procession stewards
 <li>Road Closures points
@@ -41,10 +41,11 @@ Stewarding & Volunteer roles available:<p>
 </ul>
 
 <p><strong>Operational Hours</strong>:
-<br />Friday noon - 11:30pm
-<br />Saturday 9am - 11:30pm
-<br />Sunday 9am - 10:30pm</p>
-<p><i>You will be scheduled in and not expected to work all hours!</i></p>
+<br />Thursday 1900-2300 (Evening concert, very limited requirement)
+<br />Friday 0900-1200 hrs (Limited Requirement) , 1200-2300 hrs
+<br />Saturday 0900-2300 hrs
+<br />Sunday 0900-2300 hrs</p>
+<p><i>Schedules will be designed to suit your requirements as much as possible.</i></p>
 
 <h3><a href=int/StewardForm.php>Please Volunteer as a Steward</a></h3>
 

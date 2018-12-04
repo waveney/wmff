@@ -8,12 +8,12 @@ This is intended for the sysadmin people looking after a festival website, not f
 <li>git clone https://github.com/waveney/wmff
 <li>Make sure the sites document root is in the php_include_path (it wont work without this).  Also make the maximum file uploads at least 16M (highly desirable).
 <li>Set up a mysql or mariadb user (may include a database)
-<li>Run int/initialise.php (from the web interface) - it will first time run prompt for the database user (above), the database name and its host.  
+<li>Run int/Initialise.php (from the web interface) - it will first time run prompt for the database user (above), the database name and its host.  
 These should be stored, should you need to run again. 
 <li>It will create many directories and permissions it needs 
 <li>Initialise the database, create the tables and pre-load critical data into a few tables
-<li>It will then prompt for the sysadmin user and password to be user to administer the site
-<li>If sucessful it should eventually launch the staff page.  All other configuration can be run from this.
+<li>It will then prompt for a SysAdmin user and password to be user to administer the site (others can be added later)
+<li>If sucessful it should eventually launch the staff page.  All other configuration can be setup from this.
 <li>
 
 This is under development.  In theory if it fails it can be re-run<p>
@@ -37,9 +37,9 @@ The setting up of this forwarding is done outside of the festival system on your
 <li>SysAdmin - this is for people who manage the site, these can see and change everything
 <li>Committee - your inner group managing the festival - these can see (almost) everything.  Financial information may be restricted to those who need it.
 <li>Staff - A slightly less important person on the festival, these can see a lot
-<li>Steward - For Stewards, Sound engineers to see information related to them alone
+<li>Steward - For Stewards, Sound engineers etc to see information related to them alone
 <li>Upload - Not currently used
-<li>Participant - Used as a temporary status by Dance Sides/ Musical Acts / Traders etc updating their own data.  Do not use this for a login level
+<li>Participant - Used as a temporary status by Dance Sides / Musical Acts / Traders / Volunteers etc updating their own data.  Do not use this for a login level
 <li>System/Internal - not for outside use
 </ul>
 <tr><td>Image<td>Picture to appear on contacts page if appropriate - optional

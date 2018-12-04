@@ -8,24 +8,25 @@
   global $USER,$USERID,$db,$PLANYEAR,$StewClasses,$Relations;
   
 $yesno = array('','Yes','No');
-// shortname =>[ longname, description, listofwhen, NotUsed days,emailto, Otherbox,[extrarows]] - extrarows = [field,shorttxt,longtxt]
-$volClasses = [ 'Stew' => ['Stewarding', 'Info Points, Concerts, Road Closures, Street Collecting etc',[0,1,2],'stewards',0,
+// shortname =>[ longname, description, listofwhen, NotUsed days,emailto, Otherbox, VolExtra, [extrarows]] - extrarows = [field,shorttxt,longtxt]
+// This data and that at the top of Volunteers.js must be kept in synch
+$volClasses = [ 'Stew' => ['Stewarding', 'Info Points, Concerts, Road Closures, Street Collecting etc',[0,1,2],'stewards',0,0,
                            [['Stew_Prefer','Prefered Stewarding Duties',"Include any activity you would particularly like to be a steward for"],
                             ['Stew_Dislike','Disliked Stewarding Duties',"Include any activity you would particularly NOT like to be a steward for"]]],
 
-                'Setup' => ['Setup/Cleardown', 'Banners, Bunting, Posters, Stages, Marquees, Venues, Furniture etc',['Before',-2,-1,0,1,2,3],'setup',0,
+                'Setup' => ['Setup/Cleardown', 'Banners, Bunting, Posters, Stages, Marquees, Venues, Furniture etc',['Before',-2,-1,0,1,2,3],'setup',0,1,
                             [['Setup_Like','Prefered Setup Tasks',"Setup/Cleardown tasks you would like to do"],
                              ['Setup_Dislike','Disliked Setup Tasks',"Any Setup/Cleardown tasks you would wish to avoid"]]],
 
-                'Art' => ['Artistic', 'Setting up art displays, town decorations etc',['Before',-1,0,1,2,3],'art',0,
+                'Art' => ['Artistic', 'Setting up art displays, town decorations etc',['Before',-1,0,1,2,3],'art',0,1,
                           [['Art_Like', 'Prefered Art Tasks',"What would you like to help decorate"],
                            ['Art_Dislike', 'Disliked Art Tasks',"What would you not like to do"]]],
 
-                'Media' => ['Media', 'Photography, Videography etc',[0,1,2],'media',0,
+                'Media' => ['Media', 'Photography, Videography etc',[0,1,2],'media',0,0,
                             [['Media_Like','Prefered Media Areas',"What events would you like to cover"],
                              ['Media_Dislike', 'Disliked Media Areas',"What events would you not want to cover"]]],
 
-                'Other' => ['Other', '',['Before',-1,0,1,2,3],'webmaster',0,
+                'Other' => ['Other', '',['Before',-1,0,1,2,3],'webmaster',0,0,
                             [['OtherText','Please elaborate','']]],
                ];
                
@@ -48,8 +49,8 @@ function Get_Vol_Details(&$vol) {
     if (isset($vol["SC_$s"]) && $vol["SC_$s"]) {
       $Body .= "<p>Team: " . $sl[0] . "<br>\n";
       
-      if (is_array($sl[5]))
-        foreach ($sl[5] as $xq) 
+      if (is_array($sl[6]))
+        foreach ($sl[6] as $xq) 
           if (isset($vol[$xq[0]]) && $vol[$xq[0]]) $Body .= $xq[1] . ": " . $vol[$xq[0]] . "<br>\n";
       if ($sl[4]) $Body .= "Other tasks:" . $vol['OtherText'] . "<br>\n";
     }
@@ -63,7 +64,9 @@ function Get_Vol_Details(&$vol) {
   
   if (isset($Vol['Notes']) && $Vol['Notes']) $Body .= "<p>Notes: " . $Vol['Notes'] . "<p>\n";
 
-  $Body .= "<p>DBS: " . ((isset($Vol['VYid']) && $Vol['VYid'])?$vol['DBS'] : 'No') . "<p>\n\n";
+  if (Feature('VolDBS')) {
+    $Body .= "<p>DBS: " . ((isset($Vol['VYid']) && $Vol['VYid'])?$vol['DBS'] : 'No') . "<p>\n\n";
+  }
 
   $Body .= "Emergency Contact<br>\nName: " . $vol['ContactName'] . "<br>\n";
   $Body .= "Phone: " . $vol['ContactPhone'] . "<br>\n";
@@ -123,73 +126,92 @@ function Put_Vol_Year(&$now) {
   return Insert_db('VolYear',$now);
 }
 
+function BeforeTeams() {
+  global $volClasses;
+  static $txt = '';
+  if ($txt) return $txt;
+  $teams = [];
+  foreach ($volClasses as $c=>$exp) if ( $exp[5]) $teams[] = $exp[0];
+  $txt = " Teams: " . implode(", ",$teams);
+  return $txt;
+}
+
 function VolForm(&$Vol,$Err='') {
   global $volClasses,$MASTER,$PLANYEAR,$YEAR,$Relations;
   echo "<h2 class=subtitle>Steward / Volunteer Application Form</h2>\n";
   echo "<p class=Err>$Err<p>";
   echo "<form method=post action=Volunteers.php>";
-  echo "<table border>\n";
-  echo "<tr><td colspan=4><h3><center>Volunteer</center></h3>";
-  if (Access('Staff')) echo "<tr><td>id: " . $Vol['id'] . " VYid: " . $Vol['VYid'];
-  echo "<tr>" . fm_text('Name',$Vol,'SN',2);
+  echo "<table border style='table-layout:fixed'>\n";
+  echo "<tr><td colspan=5><h3><center>Volunteer</center></h3>";
+  if (Access('SysAdmin')) echo "<tr><td>id: " . $Vol['id'] . " VYid: " . $Vol['VYid'];
+//  echo "<tr><td style='max-width:100;width:100'>Name:" . fm_text1('',$Vol,'SN',2,'');
+  echo "<tr>" . fm_text('Name',$Vol,'SN',2,'');
   echo "<tr>" . fm_text('Email',$Vol,'Email',2);
   echo "<tr>" . fm_text('Phone(s)',$Vol,'Phone',2);
   echo "<tr>" . fm_text('Address',$Vol,'Address',4);
   echo "<tr><td>" . fm_checkbox("I am over 18",$Vol,'Over18',"","",1);
 //  echo "<tr>" . fm_text('Date of Birth',$Vol,'Birthday');
-  echo "<tr><td colspan=4><h3>Legal</h3>\n";
-  echo "Do you have a current DBS certificate? if so please give details<br>" . fm_textinput('DBS',(isset($Vol['DBS'])?$Vol['DBS']:''),'size=100');
-  echo "<tr><td colspan=4><h3>Emergency Contact</h3>\n";
+  if (Feature('VolDBS')) {
+    echo "<tr><td colspan=4><h3>Legal</h3>\n";
+    echo "Do you have a current DBS certificate? if so please give details<br>" . fm_textinput('DBS',(isset($Vol['DBS'])?$Vol['DBS']:''),'size=100');
+  }
+  echo "<tr><td colspan=5><h3>Emergency Contact</h3>\n";
   echo "<tr>" . fm_text('Contact Name',$Vol,'ContactName',2);
   echo "<tr>" . fm_text('Contact Phone',$Vol,'ContactPhone',2);
   echo "<tr><td>Relationship:<td>" . fm_select($Relations,$Vol,'Relation');
 
-  echo "<tr><td colspan=4><h3><center>Volunteering in $YEAR</center></h3>";
+  echo "<tr><td colspan=5><h3><center>Volunteering in $YEAR</center></h3>";
   if (isset($Vol['Year']) && $YEAR != $Vol['Year']) {
     echo "<center>This shows what you filled in for " . $Vol['Year'] . " please update as appropriate</center>";
     $Vol['VYid'] = -1;
   }
-  echo "<tr><td colspan=4><h3>Which Team(s) would you like to volunteer for?</h3>\n";
+  echo "<tr><td colspan=5><h3>Which Team(s) would you like to volunteer for?</h3>\n";
 
   foreach ($volClasses as $c=>$exp) {
     $rows = 1;
-    if (@ is_array($exp[5])) $rows += count($exp[5]);
-    echo "<tr><td>" .  fm_checkbox($exp[0],$Vol,"SC_$c",'onchange=Update_VolClasses()','',1) . " ";
+    if (@ is_array($exp[6])) $rows += count($exp[6]);
+    echo "<tr><td>" .  fm_checkbox($exp[0],$Vol,"SC_$c",'onchange=Update_VolClasses()','',1,' colspan=4') . " ";
     if ($rows == 1) {
       echo $exp[1];
 //      if ($exp[4]) echo  fm_simpletext("",$Vol,'OtherText','size=100');
     } else {
       echo $exp[1];
-      foreach($exp[5] as $xtr)
+      foreach($exp[6] as $xtr)
         echo "<br><span class=SC_$c>" . fm_text0($xtr[1],$Vol,$xtr[0],3) . " " . $xtr[2];
     }
   }
 
-  echo "<tr><td colspan=4><h3>Availability</h3>If you could help on the days below, please give the times you would be available\n";
-  echo "<tr class=SC_Days>" . fm_text("Months before the festival",$Vol,"AvailBefore",4);
+  echo "<tr><td colspan=5><h3>Availability</h3>If you could help on the days below, please give the times you would be available\n";
+  echo "<tr class=SC_Days>" . fm_text("Months before the festival",$Vol,"AvailBefore",4) . BeforeTeams();
   $D = -2;
   for ($day = $MASTER['FirstDay']-1; $day<=$MASTER['LastDay']+1; $day++) {
     $av = "Avail" . ($day <0 ? "_" . (-$day) : $day);
-    echo "<tr " . (($day<$MASTER['FirstDay'] || $day> $MASTER['LastDay'])?'class=SC_Days':'') . ">" . fm_text("On " . FestDate($day,'M'), $Vol,$av,4);
+    $rs = (($day<$MASTER['FirstDay'] || $day> $MASTER['LastDay']));
+    echo "<tr " . ($rs?'class=SC_Days':'') . ">" . fm_text("On " . FestDate($day,'M'), $Vol,$av,4) . ($rs? BeforeTeams(): " <span class=SC_Days hidden> All Teams</span>");
   }
 
-  echo "<tr><td><h3>Anything Else /Notes:</h3><td>" . fm_basictextarea($Vol,'Notes',4,3);
+  echo "<tr><td><h3>Anything Else /Notes:</h3><td colspan=4>" . fm_basictextarea($Vol,'Notes',4,3);
 
-  echo "<tr><td><td>";
+  echo "<tr><td><td colspan=4><table border=0><tr><td width=33%>";
   if ($Vol['VYid'] < 0) {
-    echo "<input type=submit name=Submit value='Submit Application'><p>\n"; 
+    echo "<input type=submit name=Submit value='Submit Application'>\n"; 
     echo fm_hidden('A','Submit');
   } else {
-    echo "<input type=submit name=Submit value='Update Application'><p>\n"; 
+    echo "<input type=submit name=Submit value='Update Application'>\n"; 
     echo fm_hidden('A','Update');  
   }  
   echo fm_hidden('id',$Vol['id']) . fm_hidden('VYid',$Vol['VYid']);
+  if ($Vol['id'] > 0) {
+    echo "<td width=33%><input type=submit name=NotThisYear value='Sorry not this Year'>";
+    echo "<td><input class=floatright type=submit name=Delete value='Remove me from the festival records' onClick=\"javascript:return confirm('Please confirm delete?');\">";
+  }
+  echo "</table>";
 
   echo "</table><p>";
   if (Access('Staff')) echo "<h2><a href=Volunteers.php?A=List>Back to list of Volunteers</a></h2>";
   
   echo "<h3>Terms and Conditions</h3>\n";
-  echo "<ul><li>I am, or will be over 18 years of age on Thursday " . FestDate(-1,'L');
+  echo "<ul><li>I am, or will be over 18 years of age on " . FestDate($MASTER['FirstDay'],'L');
   echo "<li>You will be responsible for the health and safety of the general public, yourself and others around you " .
         "and must co-operate with festival organisers and supervisors at all times.\n";
   echo "<li>All volunteers must ensure that they are never, under any circumstances, alone with any person under the age of 18.\n";
@@ -253,6 +275,14 @@ function Vol_Emails(&$Vol,$reason='Submit') {// Allow diff message on reason=upd
   dotail();
 }
 
+function Vol_Staff_Emails(&$Vol,$reason='NotThisYear') {// Allow diff message on reason=update
+  global $MASTER_DATA,$volClasses;
+  foreach($volClasses as $vc=>$vd) {
+    if (isset($Vol["SC_" . $vc]) && $Vol["SC_" . $vc]) Email_Volunteer($Vol,"Vol_Staff_$reason",$vd[3]. "@" . $MASTER_DATA['HostURL']);
+  }
+}
+
+
 function List_Vols() {
   global $YEAR,$db,$volClasses,$MASTER,$PLANYEAR;
   echo "<button class='floatright FullD' onclick=\"($('.FullD').toggle())\">All Applications</button><button class='floatright FullD' hidden onclick=\"($('.FullD').toggle())\">Curent Aplications</button> ";
@@ -283,7 +313,7 @@ function List_Vols() {
   }
   echo "</thead><tbody>";
 
-  $res=$db->query("SELECT * FROM Volunteers ORDER BY SN");
+  $res=$db->query("SELECT * FROM Volunteers WHERE Status=0 ORDER BY SN");
   
   if ($res) while ($Vol = $res->fetch_assoc()) {
     $id = $Vol['id'];
@@ -310,9 +340,10 @@ function List_Vols() {
   dotail();
 }
 
-function Email_Form_Only($Vol) {
+function Email_Form_Only($Vol,$mess='') {
   $coln = 0;
   echo "<h2>Stage 1 - Who are you?</h2>";
+  if ($mess) echo "<h2 class=Err>$mess</h2>";
   echo "<form method=post>";
   echo "<table border>";
   echo "<tr>" . fm_text('Name',$Vol,'SN',2);
@@ -325,6 +356,7 @@ function Email_Form_Only($Vol) {
 function Check_Unique() { // Is email Email already registered - if so send new email back with link to update
   global $db;
   $adr = trim($_POST['Email']);
+  if (!filter_var($adr,FILTER_VALIDATE_EMAIL)) Email_Form_Only($_POST,"Please give an email address");
   $res = $db->query("SELECT * FROM Volunteers WHERE Email LIKE '%$adr%'");
   if ($res && $res->num_rows) {
     $Vol = $res->fetch_assoc();
@@ -405,9 +437,28 @@ function VolAction($Action) {
   
     break;
     
-  case 'Copy': // Create entry for PLANYEAR, from Most recent year
-  
+  case 'NotThisYear':
+    if (!isset($_REQUEST['VYid']) || $_REQUEST['VYid'] < 0) { // Not this year anyway
+    } else {
+      $Vol = Get_Volunteer($id = $_REQUEST['id']);
+      $Vol = array_merge($Vol, Get_Vol_Year($id));
+      db_delete('VolYear',$Vol['VYid']);
+      Vol_Staff_Emails($Vol);
+    }
+    
+    echo "<h2>Thankyou for letting us know</h2>";
     break;
+    
+  case 'Delete': // Delete Volunteer
+    $Vol = Get_Volunteer($id = $_REQUEST['id']);
+    $Vol['Status']=1;
+    Put_Volunteer($Vol);
+    $OldVol = $Vol = array_merge($Vol, Get_Vol_Year($id));
+    if ($Vol['Year'] == $PLANYEAR) Vol_Staff_Emails($Vol);
+
+    echo "<h2>Thankyou for Volunteering in the past, you are no longer recorded</h2>";    
+    break;
+    
   }  
 }
 
@@ -415,6 +466,7 @@ function VolAction($Action) {
 /*
   TODO
   1) DBS upload
+  6) Email all/subsets
 
 */
 

@@ -286,6 +286,8 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
 
 //******************************************************* SIDE YEAR ***********************************************
 // This needs modification for non dance
+// Drop CatT
+
 function Show_Part_Year($snum,$Sidey,$year=0,$CatT='',$Mode=0) { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
   global $YEAR,$CALYEAR,$PLANYEAR,$MASTER,$Invite_States,$Coming_States,$Coming_Colours, $Mess,$Action,$ADDALL,$Invite_Type;
   global $InsuranceStates,$Book_State,$Book_States,$Book_Colours,$ContractMethods,$Dance_Comp,$Dance_Comp_Colours;

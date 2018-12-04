@@ -147,14 +147,14 @@ function fm_basictextarea(&$data,$field,$cols=1,$rows=1,$extra1='',$field2='') {
   return $str . (isset($data[$field])? htmlspec($data[$field]) : '' ) . "</textarea>\n";
 }
 
-function fm_checkbox($Desc,&$data,$field,$extra='',$field2='',$split=0) {
+function fm_checkbox($Desc,&$data,$field,$extra='',$field2='',$split=0,$extra2='') {
   global $ADDALL,$AutoADD;
   if ($field2 == '') $field2=$field;
   if (isset($data[$field])) if ($data[$field]) {
-    return ($Desc?"<label for=$field2>$Desc:</label>":'') . help($field) . ($split?"<td>":"") . "<input type=checkbox $ADDALL " . 
+    return ($Desc?"<label for=$field2>$Desc:</label>":'') . help($field) . ($split?"<td $extra2>":"") . "<input type=checkbox $ADDALL " . 
            ($AutoADD? " oninput=AutoCheckBoxInput('$field2') " : "") . " Name=$field2 id=$field2 $extra checked>";
   }
-  return ($Desc?"<label for=$field2>$Desc:</label>":'') . help($field) . ($split?"<td>":"") . "<input type=checkbox $ADDALL " . 
+  return ($Desc?"<label for=$field2>$Desc:</label>":'') . help($field) . ($split?"<td $extra2>":"") . "<input type=checkbox $ADDALL " . 
           ($AutoADD? " oninput=AutoCheckBoxInput('$field2') " : "") . " Name=$field2 id=$field2 $extra>";
 }
 
