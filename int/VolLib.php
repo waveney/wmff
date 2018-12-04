@@ -340,9 +340,10 @@ function List_Vols() {
   dotail();
 }
 
-function Email_Form_Only($Vol) {
+function Email_Form_Only($Vol,$mess='') {
   $coln = 0;
   echo "<h2>Stage 1 - Who are you?</h2>";
+  if ($mess) echo "<h2 class=Err>$mess</h2>";
   echo "<form method=post>";
   echo "<table border>";
   echo "<tr>" . fm_text('Name',$Vol,'SN',2);
@@ -355,6 +356,7 @@ function Email_Form_Only($Vol) {
 function Check_Unique() { // Is email Email already registered - if so send new email back with link to update
   global $db;
   $adr = trim($_POST['Email']);
+  if (!filter_var($adr,FILTER_VALIDATE_EMAIL)) Email_Form_Only($_POST,"Please give an email address");
   $res = $db->query("SELECT * FROM Volunteers WHERE Email LIKE '%$adr%'");
   if ($res && $res->num_rows) {
     $Vol = $res->fetch_assoc();
