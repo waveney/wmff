@@ -214,8 +214,8 @@
   echo "<tr>";
   echo "<td class=Stafftd><h2>Other (Arts, Crafts, Children, Comedy)</h2>\n";
     echo "<ul>\n";
-    echo "<li><a href=StewardView.php>Stewarding Applications (old)</a>\n";
-    echo "<li><a href=Volunteers.php?A=New>Volunteering Application Form (draft)</a>\n";
+//    echo "<li><a href=StewardView.php>Stewarding Applications (old)</a>\n";
+    echo "<li><a href=Volunteers.php?A=New>Volunteering Application Form</a>\n";
     echo "<li><a href=Volunteers.php?A=List>Volunteers (new)</a>\n";
     if (Access('Staff','Photos')) {
       echo "<li><a href=PhotoUpload.php>Photo Upload</a>";

@@ -47,7 +47,7 @@ Stewarding & Volunteer roles available:<p>
 <br />Sunday 0900-2300 hrs</p>
 <p><i>Schedules will be designed to suit your requirements as much as possible.</i></p>
 
-<h3><a href=int/StewardForm.php>Please Volunteer as a Steward</a></h3>
+<h3><a href=int/Volunteers.php?A=New>Please Volunteer as a Steward</a></h3>
 
 <h2 class="maintitle">Setup/Cleardown Crew</h2>
 <ul>
@@ -69,7 +69,7 @@ Stewarding & Volunteer roles available:<p>
 </ul>
 
 
-<h3><a href=int/StewardForm.php>Please Volunteer as Setup Crew</a></h3>
+<h3><a href=int/Volunteers.php?A=New>Please Volunteer as Setup Crew</a></h3>
 
 <h2 class="maintitle">Artistic Team</h2>
 <ul>
@@ -78,14 +78,14 @@ Stewarding & Volunteer roles available:<p>
 <li>Assisting creative workshops prior to festival
 </ul>
 
-<h3><a href=int/StewardForm.php>Please Volunteer for the Artistic Team</a></h3>
+<h3><a href=int/Volunteers.php?A=New>Please Volunteer for the Artistic Team</a></h3>
 
 <h2 class="maintitle">Media Team</h2>
 <ul><li>Photographers (all abilities)
 <li>Videographers (previous experience preferred)
 </ul>
 
-<h3><a href=int/StewardForm.php>Please Volunteer for Media</a></h3>
+<h3><a href=int/Volunteers.php?A=New>Please Volunteer for Media</a></h3>
 
 
 <?php
