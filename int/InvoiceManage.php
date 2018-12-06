@@ -1,7 +1,11 @@
 <?php
   include_once("fest.php");
   
-  A_Check('Committee', 'Finance');
+  $ViewOnly = 0;
+  if (!Access('Committee', 'Finance')) {
+    A_Check('Committee');
+    $ViewOnly = 1;
+  }
 
   dostaffhead("Invoice Management");
 
@@ -95,7 +99,7 @@
   }
   
   if (isset($_REQUEST['Show'])) {
-    Show_Invoice($_REQUEST['Show']);
+    Show_Invoice($_REQUEST['Show'],$ViewOnly);
     dotail();
   }
   
@@ -135,7 +139,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Amount (left)</a>\n";
   if ($All) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Paid Amount</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Reason</a>\n";
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Actions</a>\n";
+  if (!$ViewOnly) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Actions</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>View</a>\n";
   echo "</thead><tbody>";
   foreach($Invs as $i=>$inv) {
@@ -158,7 +162,8 @@
     if ($inv['PaidTotal'] > 0 && $inv['PaidTotal'] != $inv['Total']) echo " (" . Print_Pence($inv['Total'] - $inv['PaidTotal']) . ")";
     if ($All) echo "<td>" . Print_Pence($inv['PaidTotal']);
     echo "<td>" . $inv['Reason'];
-    echo "<td>"; 
+    if (!$ViewOnly) { 
+      echo "<td>"; 
       if ($inv['PayDate'] == 0 && $inv['Total']>0) {// Pay, pay diff, cancel/credit, change
         echo "<form method=post>" . fm_hidden('i',$id) . fm_hidden("amt$id",0) . fm_hidden("reason$id",'');
         echo "<button name=ACTION value=PAID>Paid</button> ";
@@ -166,6 +171,7 @@
         echo "<button name=ACTION value=CREDIT onclick=reasonprompt($id) >Cancel/credit</button> ";
         echo "</form>";
       }
+    }
     echo "<td><a href=ShowFile.php?l=" . Get_Invoice_Pdf($id) . ">View</a>";
     if ($All && $inv['PayDate']<0) echo ", <a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'CN') . ">Credit Note</a>";
     echo "\n";

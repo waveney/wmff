@@ -113,6 +113,7 @@ Format of controls: Control : Value : Comment<p>
 <tr><td>DanceComp<td>Show tick box for the dance competition
 <tr><td>PaymentTerms<td>30 = 30 day default payment terms on invoices
 <tr><td>RestrictFinance<td>If set to 1 it restricts who can see financial information on performers
+<tr><td>VolDBS<td>If set to 1, enable DBS input for Volunteers
 </table><p>
 
 <H3>General Year Data</h3>

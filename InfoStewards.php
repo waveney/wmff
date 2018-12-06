@@ -12,7 +12,7 @@
 <h2 class="maintitle">Stewards & Volunteers</h2>
 Volunteer at Wimborne Minster Folk Festival<p>
 
-We are looking for vibrant people to be part of the festival team who are prepared to work in shifts, for around 6-8 hours in total over the three day festival.<p>
+We are looking for vibrant people to be part of the festival team who are prepared to work in shifts, for at least 6-8 hours for the festival.<p>
 
 You must be over 18, reliable, have good people skills and be able to remain pleasant and cheerful whatever the circumstances!<p>
 

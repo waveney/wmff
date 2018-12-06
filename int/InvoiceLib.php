@@ -356,11 +356,12 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade/sponsers/ad
 
 }
 
-function Show_Invoice($id) { // Show details, limited edit
+function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   global $Invoice_Sources,$Org_Cats,$YEAR;
   $inv = Get_Invoice($id);
   $InvCodes = Get_InvoiceCodes(0);
 
+  if ($ViewOnly) fm_addall('disabled readonly');
   $RO = (Access('SysAdmin')?'': ' READONLY ');
   echo "<h2>Details of " . ($inv['Total'] < 0 ? "Credit Note ": "Invoice ") . $id . "</h2>\n";
   echo "<form method=post action=InvoiceManage.php>";  
