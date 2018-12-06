@@ -25,15 +25,8 @@
     // Select (BID &/ TC), Previous (not BID/TC), All
     // Select list?
 //var_dump($_REQUEST);
-    echo "<h3>Select subset of traders - if no States/Locations/types are selected that category is treated as all</h3><p>";
-    echo "<form method=post><table class=Devemail>";
-    
-    echo "<tr height=30>" . fm_radio("State",$Trade_States,$_POST,'Tr_State','',1,'','',$Trade_State_Colours,1);
-    echo "<tr height=30>" . fm_radio("Location",$Trade_Loc_Names,$_POST,'Tr_Loc','',1,'','',null,1);
-    echo "<tr height=30>" . fm_radio("Trade Type",$Trade_Type_Names,$_POST,'Tr_Type','',1,'','',$Trade_Type_Colours,1);
-    echo "</table><p>";
-    
-    
+
+    echo "<h2>FIRST select message type to be sent</h2>";
     echo "This is the message that will be sent.<p>"; 
     echo "The Message here is editable to send, but the edited form is not stored.<p>";
 
@@ -50,8 +43,17 @@
       }
       echo "&nbsp; &nbsp; &nbsp; ";
     }
-    echo "</h2>\n";
+    echo "</h2><p>\n";
 
+    echo "<h2>THEN</h2>";
+    echo "<h3>Select subset of traders - if no States/Locations/types are selected that category is treated as all</h3><p>";
+    echo "<form method=post><table class=Devemail>";
+    
+    echo "<tr height=30>" . fm_radio("State",$Trade_States,$_POST,'Tr_State','',1,'','',$Trade_State_Colours,1);
+    echo "<tr height=30>" . fm_radio("Location",$Trade_Loc_Names,$_POST,'Tr_Loc','',1,'','',null,1);
+    echo "<tr height=30>" . fm_radio("Trade Type",$Trade_Type_Names,$_POST,'Tr_Type','',1,'','',$Trade_Type_Colours,1);
+    echo "</table><p>";
+    
     if (!isset($Mess)) $Mess = $Messages[1]['Body'];
     $Sender = $USER['SN'];
     $Mess = preg_replace('/\$PLANYEAR/',$PLANYEAR,$Mess);
@@ -119,8 +121,12 @@
       };
 
       if ($Sent_Count >= $StartAt && $Sent_Count < $EndAt) {
-        Send_Trader_Email($Trad,$Trad,$Mess);
-        echo "Sent to " . $Trad['SN'] . "<br>";
+        if ($_POST['JustList']) {
+          echo "Would Send to " . $Trad['SN'] . "<br>";
+        } else {
+          Send_Trader_Email($Trad,$Trad,$Mess);
+          echo "Sent to " . $Trad['SN'] . "<br>";
+        }
       }
       $Sent_Count++;
     }
