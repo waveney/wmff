@@ -53,6 +53,8 @@
      <a href=$host/InfoCamping.php>Camping</a>
      <a href=$host/InfoParking.php>Parking</a>
      <a href=$host/InfoGettingHere.php>Travel - Trains, Buses and Taxis</a>
+     <a href=$host/InfoMailingList.php class=NotYet>Mailing List</a>
+     
      <a href=$host/InfoWater.php>Water Bottle Refills</a>
      <a href=$host/InfoSponsors.php>Sponsorship</a>
      <a href=$host/InfoStewards.php>Volunteers</a>
@@ -60,7 +62,7 @@
      <a href=$host/contact.php>Contact</a>
      <a href=$host/RoadClosure.php >Road Closures</a>
      <a href=$host/info/thanks>With Thanks</a>
-<!--     <a href=$host/RadioWimborne.php>Radio Wimborne</a> -->
+
      <a href=$host/InfoData.php>Data Records</a>
      <a href=$host/InfoSoftware.php>Software</a>
   </div>

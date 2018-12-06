@@ -33,10 +33,14 @@ Information</a>
 car there, as it's a very short walk into the town centre. There are many car parks
 around town, including a popular one run by Allenbourne School. 
 
-<dt>Wristbands<dd> We will mail out performers'  wristbands a few weeks before the
-festival.  Performers wristbands give free entry to all offical fetival events, provided there is
+<dt>Wristbands<dd> We will mail out performers'  wristbands shortly before the
+festival.  Performers wristbands give free entry to all offical fetival events 
+(excluding anything at the Tivoli), provided there is
 space available.  They may also get you into the Party in the Paddock.  
-Make sure you have a postal address on your dance side record, for us to mail your wristbands to.
+Make sure you have a postal address on your dance side record, for us to mail your wristbands to.<p>
+
+Performers wristbands are not transferable.  If your team have to cancel, please post all wristbands
+back to: Judith Proctor, 28 Diprose rd, Corfe Mullen, Wimborne, Dorset BH21 3QY.
 
 <dt>Insurance<dd> In the New Year, when you new insurance certificates arrive, 
 please upload a copy of your <?php $PLANYEAR ?> public liability insurance to your dance side record.

@@ -385,12 +385,12 @@ Contract Signed - Enables listing to public.',
 
 function Default_SY($id=0) { 
   global $YEAR,$USERID;
-  $ans = array('SatDance'=>3,'SunDance'=>4,'Year'=>$YEAR,'Procession'=>1,'Invited'=>'');
+  $ans = array('SatDance'=>3,'SunDance'=>4,'Year'=>$YEAR,'Procession'=>1,'Invited'=>'','BookedBy'=>$USERID);
   if ($id) $ans['SideId'] = $id;
   return $ans;
 }
 
-function Default_AY($id=0) { 
+function Default_AY($id=0) { //TODO delete
   global $YEAR,$USERID;
   $ans = array('Year'=>$YEAR,'BookedBy'=>$USERID,'RadioWimborne'=>1);
   if ($id) $ans['SideId'] = $id;
