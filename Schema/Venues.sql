@@ -47,4 +47,4 @@ CREATE TABLE `Venues` (
   `DisabilityStat` text NOT NULL,
   PRIMARY KEY (`VenueId`),
   UNIQUE KEY `VenueId` (`VenueId`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=10  DEFAULT CHARSET=utf8;

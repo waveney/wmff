@@ -5,7 +5,7 @@
   include_once("PLib.php"); 
 
 function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-2 dummy-1 Draft,0 proposed, 1 freeze reason - see contractConfirm, ctype 0=Side,1=act,2=other
-  global $Mess,$Action,$MASTER,$Cat_Type,$YEAR,$PLANYEAR,$DayList,$DayLongList, $Event_Types,$ContractMethods,$USERID;
+  global $Mess,$Action,$MASTER,$Cat_Type,$YEAR,$PLANYEAR,$DayList,$DayLongList, $Event_Types,$ContractMethods,$USERID,$ReportTo;
 
   $str = "<div class=content900>\n";
   $Venues = Get_Real_Venues(1);
@@ -28,6 +28,7 @@ function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-2 dummy-1 Draft,0 prop
               'TotalFee'=>'<span class=NotSide>100', 'OtherPayment'=>'Bottle of Rum</span>',
               'CampSat'=>3, 'CampFri' => 0, 'CampSun'=> 0,'Performers'=>0,
               'Rider' => '<span class=NotSide>If there is any riders on the contract they will appear here</span>',
+              'ReportTo' => 0, 'GreenRoom'=> 1,
              ];
     $Booked = Get_User(4);
     $kwd = 'Dummy Music';
@@ -132,6 +133,13 @@ services, under the following terms and conditions:<p>\n";
     $str .= FormatList($camp) . " at the <a href=/InfoCamping.php>Meadows Campsite</a>.<p>\n"; 
     if ($mode < -1) $str .= "</span>";
   }
+
+  // Riders for Venues
+  foreach ($riders as $v) {
+    $str .= "<b>Rider for " . VenName($Venues[$v]) . "</b>:" . $Venues[$v]['MusicRider'] . "<p>\n";
+  }
+
+  if (strlen($Sidey['Rider']) > 5) $str .= "<b>Rider:</b> " . $Sidey['Rider'] . "<p>\n";
   
   if ($Sidey['Performers']) $str .= $Sidey['Performers'] . " performer's wristband" . ($Sidey['Performers']>1 ?"s":"") . 
      " will be provided (free entry to all festival events, if space is available).<p>\n";
@@ -142,11 +150,15 @@ services, under the following terms and conditions:<p>\n";
     }
   }
   
-  if ($ctype == 1) {
-    $str .= "<b>ON ARRIVAL</b>: Please report to the Artist Green Room in <a href='https://" .  $_SERVER['HTTP_HOST'] . "/int/VenueShow?v=79'><b>Church House</b></a> " .
-            "(In the High Street opposite the Minster Church - click for map and directions). " .
-            "You will need to arrive prior to your soundcheck time to collect wristbands. Details of parking for venue load-in will be available here.<p>\n";
-    }
+  if ($Sidey['ReportTo'] == 0 ) {
+    $str .= "<b>ON ARRIVAL</b>: Please report to the <b>Information Point in the square. </b>" .
+            "You will need to arrive prior to your soundcheck time to collect wristbands.<p>\n";
+  } else if ($Sidey['ReportTo'] == 1 ) { // None
+  } else {
+    $Reporttos = Report_To();
+    $str .= "<b>ON ARRIVAL</b>: Please report to <a href='https://" .  $_SERVER['HTTP_HOST'] . "/int/VenueShow?v=" . $Sidey['ReportTo'] . "'><b>" .
+             $Reporttos[$Sidey['ReportTo']] . "</b></a> (click for map and directions)<p>\n";
+  }
 
   if ($Side['StagePA'] == 'None') {
     $str .= "If you have any PA/Technical requirements, please fill in the relevant section on your Act's personal record.<p>\n";
@@ -161,16 +173,12 @@ services, under the following terms and conditions:<p>\n";
     $str .= "Please upload your Insurance before the festival.<p>\n";
   }
   
-  
-  
-
-  // Riders for Venues
-  foreach ($riders as $v) {
-    $str .= "<b>Rider for " . VenName($Venues[$v]) . "</b>:" . $Venues[$v]['MusicRider'] . "<p>\n";
+  if ($Sidey['ReportTo'] != 2 && $Sidey['GreenRoom']) {
+    $str .= "There is a Green Room, in <a href='https://" .  $_SERVER['HTTP_HOST'] . "/int/VenueShow?v=79'><b>Church House</b></a> " .
+            "(In the High Street opposite the Minster Church - click for map and directions).<p> ";
   }
-
-  if (strlen($Sidey['Rider']) > 5) $str .= "<b>Rider:</b> " . $Sidey['Rider'] . "<p>\n";
-
+  
+  
   switch ($ctype) {
   case 0:
     $faq = "Payment: All payments will be made by BACS, within 48 hours of the end of the Festival. " .

@@ -378,6 +378,8 @@ Contract Ready - For the Act to confirm it.
 Contract Signed - Enables listing to public.',
         'Rider'=>'Additional text to be added to the Contract',
         'EnableCamp' => 'Note this will be added to the fee as part of your budget',
+        'GreenRoom' => 'If ticked, their contract will inform them of the Green Room',
+        'ReportTo' => 'For the arrival statement in contract.  Most will report to the Infomation Point, None means no statement in contract, Green Room will say report to Green Room',
 
   );
   Set_Help_Table($t);
