@@ -672,6 +672,9 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
           }
         };
         echo "<tr class=NotCSide>" . fm_textarea('Additional Riders',$Sidey,'Rider',2,1,'class=NotCSide') ."\n";
+          echo "<td colspan=2 class=NotSide>On arrival report to: " . fm_select(Report_To(),$Sidey,'ReportTo') .
+               "<td class=NotSide colspan=2 >" . fm_checkbox('Tell about Green Room',$Sidey,'GreenRoom');
+               
         if ($Side['IsOther']) echo fm_text('How Many Performers Wristbands',$Sidey,'Performers',1,'class=NotCSide','class=NotCSide');
         if (!isset($Sidey['BudgetArea']) || $Sidey['BudgetArea']==0) {
           if ($Side['IsAnAct']) {
@@ -851,7 +854,7 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
 
 function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
   global $YEAR,$CALYEAR,$PLANYEAR,$MASTER,$Invite_States,$Coming_States,$Coming_Colours, $Mess,$Action,$ADDALL,$Invite_Type;
-  global $InsuranceStates,$Book_State,$Book_States,$Book_Colours,$ContractMethods,$Dance_Comp,$Dance_Comp_Colours;
+  global $InsuranceStates,$Book_State,$Book_States,$Book_Colours,$ContractMethods,$Dance_Comp,$Dance_Comp_Colours,$ReportTo;
   
   if ($year==0) $year=$YEAR;
 

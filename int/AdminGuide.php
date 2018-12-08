@@ -35,12 +35,12 @@ The setting up of this forwarding is done outside of the festival system on your
 <tr><td>Access Level<td>Select as appropriate:<br>
 <ul>
 <li>SysAdmin - this is for people who manage the site, these can see and change everything
-<li>Committee - your inner group managing the festival - these can see (almost) everything.  Financial information may be restricted to those who need it.
+<li>Committee - your inner group managing the festival - these can see (almost) everything.  Financial information may be restricted to those who need it (optional feature).
 <li>Staff - A slightly less important person on the festival, these can see a lot
 <li>Steward - For Stewards, Sound engineers etc to see information related to them alone
 <li>Upload - Not currently used
 <li>Participant - Used as a temporary status by Dance Sides / Musical Acts / Traders / Volunteers etc updating their own data.  Do not use this for a login level
-<li>System/Internal - not for outside use
+<li>System/Internal - internal workings only - not for outside use
 </ul>
 <tr><td>Image<td>Picture to appear on contacts page if appropriate - optional
 <tr><td>Show on Contacts Page<td>Yes - they are listed<br>No - not listed<br>Role only - the email address is shown and what they do, but not their name
@@ -99,8 +99,8 @@ next year as soon as the festival has finished, the Show year only when material
 <tr><td>Ads - image and link<td>On public pages an advert can be placed on the left/right of the main banner.  Give the image and links to be followed (if any)
 <tr><td>Website Banner<td>The image for the main banner
 <tr><td>Analytics code<td>The Javascript to provide Analytics on all pages.  (Don't include the &lt;script&gt;,  just the code to go within)
-<tr><td>Google Maps API<td>The API key used to provide Directions on Maps - if not present no directions buttons will appear.  Note for very large festivals there is a potential cost if used
-more than Google's free allowance. 
+<tr><td>Google Maps API<td>The API key used to provide Directions on Maps - if not present no directions buttons will appear.  
+Note for very large festivals there is a potential cost if used more than Google's free allowance. 
 </table><p>
 
 <b>Features</b><p>
@@ -124,7 +124,7 @@ This is festival data for each year.  You can create records as many years in ad
 <tr><td>State of Trade<td>Not used
 <tr><td>Date of Friday<td>Date of the Friday of the festival, it works out everything else from here.
 <tr><td>First day/Last Day<td>It can start up to 4 days before the "Friday" (ie Monday), or as late as the Sunday.  It can finish up to 10 days after the "Friday" ie on a Tuesday.
-Setting these limits various displays.  Note Passes and camping don't currently run for this full range of options.  After setting these save changes to refresh the page.
+Setting these limits various displays.  Note: Passes and camping don't currently run for this full range of options.  After setting these save changes to refresh the page.
 <tr><td>Dates of Price Chnages<td>Their is scope for two different pre festival price hikes, as well ass the on door being different.  These give the price hike dates.
 <tr><td>Priced Complete<td>If ticked the ticket page says that all ticketed events for the day are now listed, tick this when the last ticketed event is listed for each day.  
 Will probably expand this to other days soon.
@@ -230,6 +230,7 @@ Example: I use a big text label for Wimborne at low zoom, then switch to individ
 
 <h3>Email Proformas</h3>
 
-
+<h2>Venues and Events</h2>
+Venues start from 10, allowing special meaning for a few values: 0 = Info Point, 1 = None, 2-9 unused currently
 
 <h2>
