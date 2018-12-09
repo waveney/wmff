@@ -60,12 +60,12 @@ function TradeLinks($Addr) {
   if (isset($ans)) return $ans;
 }
 
-function StewardLinks($Addr) {
+function VolunteerLinks($Addr) {
   global $db;
-  $res = $db->query("SELECT * FROM Stewards WHERE Email='$Addr' ");
+  $res = $db->query("SELECT * FROM Volunteers WHERE Email='$Addr' AND Status=0 ");
   if ($res) while ($row = $res->fetch_assoc()) {
     SetAccessKey($row,'Stewards','id');
-    $ans[] = ['Steward','w',$row['id'],$row['SN'],$row['AccessKey']];
+    $ans[] = ['Volunteer','v',$row['id'],$row['SN'],$row['AccessKey']];
   }
   if (isset($ans)) return $ans;
 }
@@ -95,6 +95,7 @@ function Links_Email($Addr,&$list) {
       break;
 
     case 'w':
+    case 'v':
       $Mess .= "You are recorded as a " . $e[0] . " you can update, amend and cancel your record " .
         "<a href=https://wimbornefolk.co.uk/int/Access.php?i=" . $e[2] . "&t=" . $e[1] . "&k=" . $e[4] . ">Here</a><p>";
       break;
@@ -146,7 +147,7 @@ function Data_Check_Emails($Addr) {
   $ads = TradeLinks($Addr);
   if ($ads) $LinkList = array_merge($LinkList,$ads);
   
-  $ads = StewardLinks($Addr);
+  $ads = VolunteerLinks($Addr);
   if ($ads) $LinkList = array_merge($LinkList,$ads);
   
   $ads = SubmitLinks($Addr);

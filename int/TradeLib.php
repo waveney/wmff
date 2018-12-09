@@ -486,7 +486,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
   echo "<tr>";
     if ($Tid > 0) {
       echo "<td colspan=1>Select insurance file to upload:";
-      echo "<input type=file $ADDALL name=InsuranceForm id=InsuranceForm onchange=document.getElementById('InsuranceButton').click()>";
+      echo "<input type=file $ADDALL name=InsuranceForm id=InsuranceForm onchange=Trader_Insurance_Upload()>";
       echo "<input hidden type=submit name=Action value=Insurance id=InsuranceButton>";
 
       if ($Mode) {
@@ -499,7 +499,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
         }
       } else {
         $tmp['Ignored'] = $Trady['Insurance'];
-        echo "<td>" . fm_checkbox('Insurance Uploaded',$tmp,'Ignored','disabled');
+        echo "<td>" . fm_checkbox('Insurance Uploaded',$tmp,'Ignored','disabled') . fm_hidden('Insurance',$Trady['Insurance']);
         echo "<td colspan=2>You <b>must</b> have a copy available with you during the festival weekend\n";
       }
 

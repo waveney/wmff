@@ -201,5 +201,8 @@ function AutoRadioInput(f,i) {
   }
 }
 
-
+function Trader_Insurance_Upload() {
+  $('#Insurance').val(1);
+  document.getElementById('InsuranceButton').click();
+}
 
