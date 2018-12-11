@@ -53,7 +53,7 @@
      <a href=$host/InfoCamping.php>Camping</a>
      <a href=$host/InfoParking.php>Parking</a>
      <a href=$host/InfoGettingHere.php>Travel - Trains, Buses and Taxis</a>
-     <a href=$host/InfoMailingList.php class=NotYet>Mailing List</a>
+     <a href=$host/InfoMailingList.php >Mailing List</a>
      
      <a href=$host/InfoWater.php>Water Bottle Refills</a>
      <a href=$host/InfoSponsors.php>Sponsorship</a>
