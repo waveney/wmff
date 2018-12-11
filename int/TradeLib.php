@@ -11,7 +11,7 @@ $TS_Actions = array('Submit,Invite,Invite Better',
                 'Resend',
                 'Resend,Submit',
                 'Resend,Quote,Accept,Decline,Hold,Cancel',
-                'Resend,Quote,Invite,Accept,Decline',
+                'Resend,Quote,Invite,Accept,Decline,UnQuote',
                 'Resend,Dep Paid,Cancel',
                 'Resend,Paid,Invoice,Cancel',
                 'Resend,Paid,Cancel',
@@ -36,6 +36,7 @@ $ButExtra = array(
         'Resend'=>'Resend last email to trader',
         'Invite Better'=>'',
         'Artisan Invite'=>'',
+        'UnQuote'=>'title="Remove Quote or Invitation"',
         ); 
 $ButTrader = array('Submit','Accept','Decline','Cancel','Resend'); // Actions Traders can do
 $RestrictButs = array('Paid','Dep Paid'); // If !AutoInvoice or SysAdmin
@@ -407,6 +408,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
         $cls = " style='background:" . $Trade_State_Colours[$i] . ";padding:4; white-space: nowrap;'";
         echo " <div class=KeepTogether $cls>$ts: ";
         echo " <input type=radio name=BookingState $ADDALL value=$i ";
+        if (!Access('SysAdmin')) echo " readonly disabled ";
         if (isset($Trady['BookingState']) && ($Trady['BookingState'] == $i)) echo " checked";
         echo ">&nbsp;</div>\n ";
       }
@@ -741,24 +743,16 @@ function Validate_Trade($Mode=0) { // Mode 1 for Staff Submit, less stringent
         $proc = 0;
       }
       if ((!isset($_POST['Phone']) && !isset($_POST['Mobile'])) || (strlen($_POST['Phone']) < 6 && strlen($_POST['Mobile']) < 6)) {
-        echo "<h2 class=ERR>No Phone/Mobile Numbers Given</h2>\n";
-        $proc = 0;
+        echo "<h2 class=MERR>No Phone/Mobile Numbers Given</h2>\n";
+        if (!$Mode) $proc = 0;
       }
       if (!isset($_POST['Email']) || strlen($_POST['Email']) < 8) {
-        if ($Mode) {
-          echo "<h2 class=MERR>No Email Given</h2>\n";
-        } else {
-          echo "<h2 class=ERR>No Email Given</h2>\n";
-          $proc = 0;
-        }
+        echo "<h2 class=MERR>No Email Given</h2>\n";
+        if (!$Mode) $proc = 0;
       }
       if (!isset($_POST['Address']) || strlen($_POST['Address']) < 10) {
-        if ($Mode) {
-          echo "<h2 class=MERR>No Address Given</h2>\n";
-        } else {
-          echo "<h2 class=ERR>No Address Given</h2>\n";
-              $proc = 0;
-        }
+        echo "<h2 class=MERR>No Address Given</h2>\n";
+        if (!$Mode) $proc = 0;
       }
       if (!isset($_POST['GoodsDesc'])) {
         echo "<h2 class=ERR>No Products Description Given</h2>\n";
@@ -1371,6 +1365,12 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
     Send_Trader_Email($Trad,$Trady,'Trade_Statement',$att); 
     echo "<h3>An Email has been sent to you with a statement of where your booking is</h3>";
     break;
+    
+  case 'UnQuote' :
+    $NewState = $Trade_State['Declined'];
+    Send_Trader_Email($Trad,$Trady,'Trade_UnQuote');
+    break;  
+  
   default:
     break;
   }

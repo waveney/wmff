@@ -14,7 +14,7 @@ These should be stored, should you need to run again.
 <li>Initialise the database, create the tables and pre-load critical data into a few tables
 <li>It will then prompt for a SysAdmin user and password to be user to administer the site (others can be added later)
 <li>If sucessful it should eventually launch the staff page.  All other configuration can be setup from this.
-<li>
+</ul><p>
 
 This is under development.  In theory if it fails it can be re-run<p>
 
@@ -91,8 +91,9 @@ This is data about the festival that is multi-year.<p>
 <tr><td>Shortname<td>eg WMFF for Wimborne Minster Folk Festival - this is needed
 <tr><td>Version<td>Software version number - currently manually updated for every git pull - this is ESSENTIAL keep it up to date - changing this forces reload of cached data by clients.  
 Hope to automate it soon.
-<tr><td>Show year/ Plan year<td>Show year is what year's festival the public side defaults to.  Plan year is what year the staff pages default to.  Typically the Plan year moves to the
-next year as soon as the festival has finished, the Show year only when material for the comming year is available.
+<tr><td>Show year/ Plan year<td>Show year is what year's festival the public side defaults to.  Plan year is what year the staff pages default to.  
+Typically the Plan year moves to the next year as soon as the festival has finished, the Show year only when material for the comming year is available.  
+Internally use $YEAR, $PLANYEAR, $SHOWYEAR and $CALYEAR for year being worked on, the plan year, the show year and the actual callenda year.
 <tr><td>Host URL<td>This is the host the SMTP will use to send outgoing email.
 <tr><td>SMTP user/password<td>This is used for the system to send emails
 <tr><td>Features<td>Controls Feature availability - see below
@@ -104,7 +105,8 @@ Note for very large festivals there is a potential cost if used more than Google
 </table><p>
 
 <b>Features</b><p>
-This controls many features.  Often used to try things out initially, some controls however are ongoing, this list is only for the ongoing ones, anything else will disappear in time:<p>
+This controls many features.  Often used to try things out initially, some controls however are ongoing, the list below is only for the ongoing ones, 
+anything else will disappear in time:<p>
 
 Format of controls: Control : Value : Comment<p>
 <table border>
@@ -125,11 +127,11 @@ This is festival data for each year.  You can create records as many years in ad
 <tr><td>Date of Friday<td>Date of the Friday of the festival, it works out everything else from here.
 <tr><td>First day/Last Day<td>It can start up to 4 days before the "Friday" (ie Monday), or as late as the Sunday.  It can finish up to 10 days after the "Friday" ie on a Tuesday.
 Setting these limits various displays.  Note: Passes and camping don't currently run for this full range of options.  After setting these save changes to refresh the page.
-<tr><td>Dates of Price Chnages<td>Their is scope for two different pre festival price hikes, as well ass the on door being different.  These give the price hike dates.
+<tr><td>Dates of Price Chnages<td>There is scope for two different pre festival price hikes, as well as the on door being different.  These give the price hike dates.
 <tr><td>Priced Complete<td>If ticked the ticket page says that all ticketed events for the day are now listed, tick this when the last ticketed event is listed for each day.  
-Will probably expand this to other days soon.
-<tr><td>Trade Invoice date<td>The date when the final invoices for trade will be sent - when a booking is made near to this date a single invoice is sent rather than a deposit one followed
-by the final invoice.
+(Will probably expand this to other days soon)
+<tr><td>Trade Invoice date<td>The date when the final invoices for trade will be sent - when a booking is made near to this date a single invoice is sent rather 
+than a deposit one followed by the final invoice.
 <tr><td>Date Last Trade Payments<td>The date (pre festival) when all payments must be made.  Invoices sent near to this date have shorter payment periods than normal.
 <tr><td>Ticket Control<td>Select: "Not Yet" tickets not yet for sale, "Open" tickets are for sale, "Closed" too late for online booking (does not preclude on door sales).
 <tr><td>Pass Codes<td>For Weekeend, Friday, Saturday and Sunday Passes: TicketSource Event short code, the Basic price (prior to price hike 1) a price after price hike 2 (if used) 
@@ -138,7 +140,7 @@ Descriptive text for the ticket page about the pass.  (Extending the passes is e
 <tr><td>Booking Fee<td>if set what is the booking fee - examples "&pound;1" and "approximately 3.5%"
 <tr><td>Camping<td>There are many variables, the following should allow some flexibility, more can be added
 <tr><td>Camping Cost<td>This is the cost to the festival of one night performer camping - automatically accounted for in budgetry calculations
-<tr><td>Camping Fess<td>Cost to camp for 1-4 nights
+<tr><td>Camping Fees<td>Cost to camp for 1-4 nights
 <tr><td>Camping Codes<td>Ticketsource shortevent codes for all camping options available.  If blank that option is not available
 </table><p>
 
@@ -154,7 +156,7 @@ This can be setup by staff with Trade access.  The first one is the default<p>
 <ul>
 <li>Setup the trade types you wish to recognise.
 <li>Give them a relative order.
-<li>A Colour for the trade type.
+<li>A Colour for the trade type.  (Name or #rgb;)
 <li>Give a base price (will say prices from that number), the deposit price, the price can be per day, if so tick the box.
 <li>If it is an optional extra element (power) tick additional, (this may not work).
 <li>If it is a charity stall tick charity number to enforce the addition of the charity number.
@@ -165,6 +167,8 @@ This can be setup by staff with Trade access.  The first one is the default<p>
 <li>The Invoice Code, is the default code specified under Finance to apply to that type of trade, IF the trade location has a code, that will surperced any setting here.
 <li>Lastly description is a sentence or two that says what type of trade it is and/or puts restrictions - for example for Wimborne Local Artisan means wiithin 20 miles of Wimborne.
 </ul>
+
+Note trade currently works for Saturday/Sunday only.
 
 <h3>Trade Locations</h3>
 This can be setup by staff with Trade access.<p>
@@ -202,7 +206,7 @@ This has the big controls for event types. DO NOT HAVE TOO MANY OF THESE.  <p>
   </ul>
 <li>Set Inc Type to indicate event type in description if it is not part of the events name
 <li>Set the Not critical flag for sound checks - means that this event type does not have to be complete for contract signing.
-<li>Set No Part if event type is valid without any participants
+<li>Set "No Part" if event type is valid without any participants (note there is a per-event flag that does this as well)
 <li>First Year - First year this event type is used at the festival - limits backtracking to show events of previous years beyond this.
 </ul>
 
@@ -222,7 +226,7 @@ If a single value is used - this is the zoom level when it first appears and it 
 If a range is given (eg 14-16) this gives a range of zoom levels that it will be shown
 <tr><td>Text Size<td>If set it gives the font size the feature is to be shown at (if not the default)
 <tr><td>Not Used<td>If ticked, the Map point will not be shown
-<tr><td>Directions<tdd>Tick if you want to enable a directions buttons to appear for this location
+<tr><td>Directions<td>Tick if you want to enable a directions buttons to appear for this location
 <tr><td>Link<td>A link to be used on the map point (if any)
 </table>
 
@@ -231,6 +235,22 @@ Example: I use a big text label for Wimborne at low zoom, then switch to individ
 <h3>Email Proformas</h3>
 
 <h2>Venues and Events</h2>
-Venues start from 10, allowing special meaning for a few values: 0 = Info Point, 1 = None, 2-9 unused currently
+Venues start from 10, allowing special meaning for a few values: 0 = Info Point (default performer report location), 1 = None, 2-9 unused currently
 
-<h2>
+<h2>Articles</h2>
+
+<h2>Galleries</h2>
+
+<h2>Finance</h2>
+
+<h2>Performers</h2>
+
+<h2>Documents</h2>
+
+<h2>Time Line</h2>
+
+<h2>Trade</h2>
+
+<h2>Miscellaneous</h2>
+
+

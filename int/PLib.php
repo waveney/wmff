@@ -121,7 +121,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='DanceEdit.php') { // if Cat bla
         echo fm_text1('Where found',$Side,'Pre2017',1,'class=NotSide','class=NotSide'); 
         echo "<td class=NotSide colspan=3>";
         if (Access('SysAdmin')) {
-          foreach ($PerfTypes as $t=>$p) echo fm_checkbox($t,$Side,$p) . " ";
+          foreach ($PerfTypes as $t=>$p) echo fm_checkbox($t,$Side,$p[0]) . " ";
         } else { // Old code
           echo fm_checkbox('Dance Side',$Side,'IsASide');
           echo fm_checkbox('Music Act',$Side,'IsAnAct') . fm_checkbox('Other',$Side,'IsOther');
@@ -851,7 +851,10 @@ function Show_Music_Year($snum,$Sidey,$year=0,$CatT='Act',$Mode=0) { // if Cat b
    Music Programming - Venues, acts not placed, errors etc.
 */
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/*
 function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
   global $YEAR,$CALYEAR,$PLANYEAR,$MASTER,$Invite_States,$Coming_States,$Coming_Colours, $Mess,$Action,$ADDALL,$Invite_Type;
   global $InsuranceStates,$Book_State,$Book_States,$Book_Colours,$ContractMethods,$Dance_Comp,$Dance_Comp_Colours,$ReportTo;
@@ -872,17 +875,9 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
   $Imp = '';
   if (!$Mode) { // TODO
     $Adv = 'class=Adv';
-    if ($Mstate && $Side['IsASide']) $Imp = 'class=imp';
+    if ($Mstate) $Imp = 'class=imp';
   }
 
-  $Request = 0;
-  if ($Side['IsASide']) {
-    if ($Mode == 0 && (!isset($Sidey['Coming']) || $Sidey['Coming'] == 0) && (!isset($Sidey['Invite']) || $Sidey['Invite'] >= $Invite_Type['No'])) {
-      if ($YEAR >= $PLANYEAR) echo "<h2><a href=DanceRequest.php?sidenum=$snum&Y=$YEAR>Request Invite for $YEAR</a></h2>";
-      $Request = 1;
-    }
-  } 
-    
 //var_dump($Sidey);var_dump($Invite_Type);
   $Self = ($Mode ? $_SERVER{'PHP_SELF'} : "DanceEdit.php"); //TODO
   echo "<div class=floatright><h2>";
@@ -903,19 +898,46 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
 
   echo "</h2></div>";
 
-  if ($Request == 0) {
-    echo "<h2>Dancing in $year</h2>";
+  if ($year < $PLANYEAR && $Sidey['syId'] < 0) {
+    echo "<h2>" . $Side['SN'] . "did not perform in $YEAR</h2>";
+    return;
+  }
+
+  if ($Mode == 0) && (($Side['IsASide'] && (!isset($Sidey['Coming']) || $Sidey['Coming'] == 0) && (!isset($Sidey['Invite']) || $Sidey['Invite'] >= $Invite_Type['No'])) ||
+                      ($Side['IsASide'] == 0 && $Sidey['YearState'] == 0))) {
+    echo "<h2><a href=DanceRequest.php?sidenum=$snum&Y=$YEAR>Request Invite for $YEAR</a></h2>";
+    return;
+  }
+
+
+// Start here
+  echo "<h2>Performing in $year</h2>";
   
-    echo fm_hidden('Year',$year);
-    echo fm_hidden('Y',$year);
-    if (isset($Sidey['syId']) && ($Sidey['syId'])) echo fm_hidden('syId',$Sidey['syId']);
+  echo fm_hidden('Year',$year);
+  echo fm_hidden('Y',$year);
+  if (isset($Sidey['syId']) && ($Sidey['syId'])) echo fm_hidden('syId',$Sidey['syId']);
 
-    echo "<table width=90% border class=SideTable>\n";
+  echo "<table width=90% border class=SideTable>\n";
+  
+  // Booked by, Release Date, Camping
+  if ($Mode) {
+    include_once('DocLib.php');
+    include_once('BudgetLib.php');
+    Contract_State_Check($Sidey,0);
+         
+    echo "<tr>";
+      $Perfs = [];
+      foreach ($PerfTypes as $t=>$d) if ($Side[$d[0]]) $Perfs[] = $d[2];
+      $AllMU = Get_AllUsers4Perf($Perfs,$Sidey['BookedBy']);
+      echo "<td class=NotSide>Booked By: " . fm_select($AllMU,$Sidey,'BookedBy',1);
+      echo fm_date('Release Date',$Sidey,'ReleaseDate','class=NotSide','class=NotSide');     
 
-      if ($Mode) {
-        echo "<tr><td class=NotSide>Invite:<td class=NotSide>" . fm_select($Invite_States,$Sidey,'Invite');
+    
+    
+    
+    echo "<tr><td class=NotSide>Invite:<td class=NotSide>" . fm_select($Invite_States,$Sidey,'Invite');
           echo fm_text('Invited',$Sidey,'Invited',1,'class=NotSide');
-          echo fm_date('Release Date',$Sidey,'ReleaseDate','class=NotSide','class=NotSide');     
+
       }
 
       echo "<tr><td>";
@@ -1000,12 +1022,12 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
       if (isset($Sidey['TotalFee']) && $Sidey['TotalFee']) { // Contract if there is a fee
 
 // Contract - RO to Act, Confirmed ACT only
-/* Mode 0 - IF Booked - View Contract, IF Contract Ready - View Contract, Confirm Contract, IF Other & EVs - View DRAFT contract
-                If old contracts, link to old contracts and link to diff old/current, Confirm button -> conf by click
-   Mode 1 - If Booked - View Contract, Else view DRAFT Contract
-                If Contract Ready - Confirm by Email radio button
-                If old contracts, link to old contracts and link to diff old/current
-*/
+// Mode 0 - IF Booked - View Contract, IF Contract Ready - View Contract, Confirm Contract, IF Other & EVs - View DRAFT contract
+//              If old contracts, link to old contracts and link to diff old/current, Confirm button -> conf by click
+// Mode 1 - If Booked - View Contract, Else view DRAFT Contract
+//              If Contract Ready - Confirm by Email radio button
+//              If old contracts, link to old contracts and link to diff old/current
+//
         if ($Mode) {
           include_once('DocLib.php');
           $AllMU = Get_AllUsers4Sect('Dance',$Sidey['BookedBy'],'Other');
@@ -1117,17 +1139,6 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
             echo "<td>Insurance:<td colspan=3>You will be able to upload your Insurance here in $YEAR\n";
         }
 
-/*
-    // Overlaps...  With, Type, Days
-      if ($Mstate && 0) {
-        echo "<tr><td>Overlaps:" . help('Overlaps');
-          for ($i=1;$i<=4;$i++) {
-            $type = $Sidey["OverlapType$i"];
-            echo "<td colspan=6 id=Olap$i>" . fm_hidden("OverlapType$i",$type);
-          }
-        echo "<td colspan=6>" . fm_select(Sides_All($snum),$Sidey,'Overlap1',1);
-      }
-*/
       echo "<tr>" . fm_textarea('Notes',$Sidey,'YNotes',8,2);
     }
 
@@ -1135,5 +1146,6 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
     
   echo "</table>\n";
 }
+*/
 
 ?>
