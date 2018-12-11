@@ -49,7 +49,12 @@ $Book_ActionExtras = array('Book'=>'', 'Contract'=>'', 'Decline'=>'', 'Cancel'=>
 $EType_States = array('Very Early','Draft','Partial','Provisional','Complete');
 $TicketStates = array('Not Yet','Open','Closed');
 $ArticleFormats = ['Large Image','Small Image','Text','Banner Image','Banner Text','Fixed','Left/Right Pairs'];
-$PerfTypes = ['Dance Side'=>'IsASide','Musical Act'=>'IsAnAct','Comedy'=>'IsFunny','Child Ent'=>'IsChild','Other'=>'IsOther'];
+$PerfTypes = ['Dance Side'=>['IsASide','Dance','Dance'],
+              'Musical Act'=>['IsAnAct','Music','Music'],
+              'Comedy'=>['IsFunny','Comedy','Comedy'],
+              'Child Ent'=>['IsChild','Children','Family'],
+              'Other'=>['IsOther','Info','Other']];
+// Perfname => [field to test, email address for,Capability name]
 
 
 date_default_timezone_set('GMT');

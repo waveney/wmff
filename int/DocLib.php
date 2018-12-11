@@ -118,6 +118,7 @@ function Get_AllUsers($mode=0) { // 0 return login names, 1 return levels, 2 All
   $ans = array();
   $ac = array();
   while ($us = $res->fetch_assoc()) {
+    if ($us['NoTasks'] && !Access('SysAdmin')) continue;
     $uid = $us['UserId'];
     $ulog = $us['Login'];
     $Full[$uid] = $us;
@@ -137,6 +138,20 @@ function Get_AllUsers4Sect($Sect,$also=-1,$Sect2='@@',$Sect3='@@') { // Sect = M
     $uid = $us['UserId'];
     $ulog = $us['Login'];
     if ($us[$Sect] || $uid==$also || ($Sect2 != '@@' && isset($us[$Sect2]) && $us[$Sect2]) || ($Sect3 != '@@' && isset($us[$Sect3]) && $us[$Sect2])) $ans[$uid] = $ulog;
+  }
+  return $ans;
+}
+
+function Get_AllUsers4Perf($Sects,$also=-1) { // [Sect] = Music, Dance etc, include also even if not for sect
+  global $db,$PerfTypes;
+  $res = $db->query("SELECT * FROM FestUsers ORDER BY UserId");
+  $ans = [];
+  while ($us = $res->fetch_assoc()) {
+    $uid = $us['UserId'];
+    $ulog = $us['Login'];
+    $inc = 0;
+    foreach ($Sects as $sec=>$dat) if ($us[$dat[2]]) $inc = 1;
+    if (Access('SysAdmin') || $inc || $uid==$also ) $ans[$uid] = $ulog;
   }
   return $ans;
 }

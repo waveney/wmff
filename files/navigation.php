@@ -73,7 +73,7 @@
      <a href=$host/int/ShowArticles.php?w=AboutWMFF class=NotYet>About the Festival</a>
      <a href=$host/int/ShowArticles.php?w=FestHistory class=NotYet>Festival History</a>
      <a href=$host/int/ShowArticles.php?w=DanceStyles>Dance Styles</a>
-     <a href=$host/int/ShowArticles.php?w=NWDanceCompTop >North West Dance Competition</a>
+     <a href=$host/int/ShowArticles.php?w=NWDanceComp >North West Dance Competition</a>
      <a href=$host/int/ShowArticles.php?w=AboutWimborne class=NotYet>About Wimborne</a>
      <a href=$host/int/ShowArticles.php?w=EnjoyWimborne class=NotYet>Enjoy Wimborne</a>
   </div>
