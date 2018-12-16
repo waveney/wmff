@@ -33,15 +33,28 @@ function ShowAdv(ev) {
   }
 }
 
+// Where el is the DOM element you'd like to test for visibility
+function isHidden(el) {
+  return (el === null || el.offsetParent === null)
+}
+
 function updateimps() {
 //  debugger;
+  if (document.getElementById('ImpC') == undefined) return; 
   var imps=0;
+  var impt=4;
   if (document.getElementsByName('Mobile')[0].value.length > 8) imps++;
   if (document.getElementsByName('Address')[0].value.length > 12) imps++;
   if (document.getElementsByName('Performers')[0] != undefined) if (document.getElementsByName('Performers')[0].value > 0) imps++;
-  if (document.getElementsByName('Ignored')[0] != undefined) if (document.getElementsByName('Ignored')[0].checked) imps++;
+  if (document.getElementsByName('Ignored')[0] != undefined) if (document.getElementsByName('Ignored')[0].checked) imps++; // Insurance TODO Check
+  if (0 && !isHidden(document.getElementById('BankDetail'))) {
+    $impt++;
+    if ( (document.getElementsByName('SortCode')[0].value.length >= 6) && (document.getElementsByName('Account')[0].value.length >= 8) &&
+         (document.getElementsByName('AccountName')[0].value.length >= 6)) imps++;
+  }
 
-  if (document.getElementById('ImpC') != undefined) document.getElementById('ImpC').innerHTML = imps;
+  document.getElementById('ImpC').innerHTML = imps;
+  document.getElementById('ImpT').innerHTML = impt;
 }
 
 function AgentChange(ev) {
@@ -59,14 +72,25 @@ function AgentChange(ev) {
   }
 }
 
+function CheckContract() {
+  debugger;
+  if((document.getElementById('TotalFee').value > 0 ) || 
+     (document.getElementById('OtherPayment').value !='' )) { $('.ContractShow').show() }
+  else { $('.ContractShow').hide() }
+  
+  updateimps();
+}
+
 $(document).ready(function() {
   $(".Adv").hide();
 
   if(! $("[Name=Fri]").is(":checked")) $('.ComeFri').hide();
   if(! $("[Name=Sat]").is(":checked")) $('.ComeSat').hide();
   if(! $("[Name=Sun]").is(":checked")) $('.ComeSun').hide();
-  updateimps();
+
   AgentChange();
+  CheckContract();
+
 } );
 
 function ComeSwitch(ev) {
@@ -151,7 +175,7 @@ function OlapCatChange(e,l,v) {
 }
 
 function AutoInput(f) {
-  debugger;
+//  debugger;
   var newval = document.getElementById(f).value;
   var yearval = (document.getElementById('Year') ? (document.getElementById('Year').value || 0) : 0);
   var typeval = document.getElementById('AutoType').value;
@@ -173,9 +197,9 @@ function AutoInput(f) {
 }
 
 function AutoCheckBoxInput(f) {
-  debugger;
-  var newval = document.getElementById(f).value;
-  newval = (newval == 'on')?1:0; 
+//  debugger;
+  var cbval = document.getElementById(f).checked;
+  var newval = (cbval?1:0); 
   var yearval = (document.getElementById('Year') ? (document.getElementById('Year').value || 0) : 0);
   var typeval = document.getElementById('AutoType').value;
   var refval = document.getElementById('AutoRef').value;
@@ -188,7 +212,7 @@ function AutoCheckBoxInput(f) {
 }
 
 function AutoRadioInput(f,i) {
-  debugger;
+//  debugger;
   var newval = document.getElementById(f+i).value;
   var yearval = (document.getElementById('Year') ? (document.getElementById('Year').value || 0) : 0);
   var typeval = document.getElementById('AutoType').value;

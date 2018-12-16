@@ -28,16 +28,16 @@ $Invite_States = array('','Yes','YES!','No','Maybe');
 $Invite_Type = array_flip($Invite_States);
 $Dance_Comp = ['Don\'t Know','Yes','No'];
 $Dance_Comp_Colours = ['white','lime','salmon'];
-$Surfaces = array ('','Tarmac','Flagstones','Grass','Stage','Brick','Wood','Carpet','Astroturf');// Last 3 not used yet
+$Surfaces = ['','Tarmac','Flagstones','Grass','Stage','Brick','Wood','Carpet','Astroturf'];// Last 3 not used yet
 $Surface_Colours = ['','grey','Khaki','lightgreen','Peru','salmon','Peru','Teal','lime'];
 $Side_Statuses = array("Alive","Dead");
 $Share_Spots = array('Prefered','Always','Never','Sometimes');
 $Share_Type = array_flip($Share_Spots);
-$Access_Levels = array('','Participant','Upload','Steward','Staff','Committee','SysAdmin','Internal');// Sound Engineers will be Stewards, Upload not used yet
+$Access_Levels = ['','Participant','Upload','Steward','Staff','Committee','SysAdmin','Internal'];// Sound Engineers will be Stewards, Upload not used yet
 $Access_Type = array_flip($Access_Levels);
 $Area_Levels = array( 'No','Edit','Edit and Report');
 $Area_Type = array_flip($Area_Levels);
-$Sections = array( 'Docs','Dance','Trade','Users','Venues','Music','Sponsors','Finance','Craft','Other','TLine','Bugs','Photos','Comedy','Family','News'); // Note fest_users fields must match
+$Sections = [ 'Docs','Dance','Trade','Users','Venues','Music','Sponsors','Finance','Craft','Other','TLine','Bugs','Photos','Comedy','Family','News']; // Note fest_users fields must match
 $Importance = array('None','Some','High','Very High','Even Higher','Highest','The Queen');
 $Book_States = array('None','Declined','Booking','Contract Ready','Contract Signed');
 $Book_Colours = ['white','salmon','yellow','orange','lime'];
@@ -49,12 +49,12 @@ $Book_ActionExtras = array('Book'=>'', 'Contract'=>'', 'Decline'=>'', 'Cancel'=>
 $EType_States = array('Very Early','Draft','Partial','Provisional','Complete');
 $TicketStates = array('Not Yet','Open','Closed');
 $ArticleFormats = ['Large Image','Small Image','Text','Banner Image','Banner Text','Fixed','Left/Right Pairs'];
-$PerfTypes = ['Dance Side'=>['IsASide','Dance','Dance'],
-              'Musical Act'=>['IsAnAct','Music','Music'],
-              'Comedy'=>['IsFunny','Comedy','Comedy'],
-              'Child Ent'=>['IsChild','Children','Family'],
-              'Other'=>['IsOther','Info','Other']];
-// Perfname => [field to test, email address for,Capability name]
+$PerfTypes = ['Dance Side'=>['IsASide','Dance','Dance','Dance'],
+              'Musical Act'=>['IsAnAct','Music','Music','Music'],
+              'Comedy'=>['IsFunny','Comedy','Comedy','Comedy'],
+              'Child Ent'=>['IsFamily','Children','Family','Youth'],
+              'Other'=>['IsOther','Info','Other','']];
+// Perfname => [field to test, email address for,Capability name,budget]
 
 
 date_default_timezone_set('GMT');
@@ -436,7 +436,7 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
                 break;
               }
             }
-            $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
+            $str .= "<tr><td $cls>" . FestDate($e['Day'],'M') . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
                         "<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SN'] . "</a><td $cls>";
             if ($VenC) $str .= " starting from ";
             $str .= "<a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) ;
@@ -446,7 +446,7 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
             if ($NextI) { $str .= ", Before " . SAO_Report($NextI); };
             $str .= "\n";
           } else { // Normal Event
-            $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
+            $str .= "<tr><td $cls>" . FestDate($e['Day'],'M') . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
                         "<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SN'] . 
                         "</a><td $cls><a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a>";
             if ($With) {
@@ -587,8 +587,8 @@ function dominimalhead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra
   echo "<link href=files/style.css?V=$V type=text/css rel=stylesheet>";
   echo "<script src=/js/jquery-3.2.1.min.js></script>";
   if ($extra1) doextras($extra1,$extra2,$extra3,$extra4,$extra5);
+  echo "<script>" . $MASTER_DATA['Analytics'] . "</script>";
   echo "</head><body>\n";
-  include_once("int/analyticstracking.php");
   $head_done = 2;
 }
 

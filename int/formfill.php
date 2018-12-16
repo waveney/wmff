@@ -75,7 +75,7 @@
       echo Put_Side($Perf);
       exit;
     }
-    if ($Perf['IsASide']) {
+    if (Feature('NewPERF') || $Perf['IsASide']) {
     $Perfy = Get_SideYear($id);
       if (!$Perfy) {
         $flds = table_fields('SideYear');
@@ -88,6 +88,7 @@
       }
       if (isset($Perfy[$field])) {
         $Perfy[$field] = $Value;
+//        var_dump($Perfy);
         echo Put_SideYear($Perfy);
         exit;
       }

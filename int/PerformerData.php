@@ -95,7 +95,7 @@
       echo "</form>\n";
   };
       
-  echo "<h2><a href=" . ($Side['IsASide']?'AddDance.php':'AddMusic.php') . "?sidenum=$id>Back to " . $Side['SN'] . "</a></h2>\n";
+  echo "<h2><a href=AddPerf.php?sidenum=$id>Back to " . $Side['SN'] . "</a></h2>\n";
   
   dotail();
   

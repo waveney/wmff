@@ -15,7 +15,7 @@
 */
 
   include_once("BudgetLib.php");
-  global $YEAR,$PLANYEAR,$BUDGET;
+  global $YEAR,$PLANYEAR,$BUDGET,$PerfTypes;
 
 
   
@@ -43,11 +43,14 @@
   foreach($Bitem as $i=>$b) {
     $act = Get_Side($b[0]);
     echo "<tr><td>";
-    if ($act['IsASide']) echo "Side ";
-    if ($act['IsAnAct']) echo "Act ";
-    if ($act['IsOther']) echo "Other ";
+    $ts = [];
+    foreach($PerfTypes as $p=>$d) if ($act[$d[0]]) $ts[] = $p;
+    echo implode(", ",$ts);
+//    if ($act['IsASide']) echo "Side ";
+//    if ($act['IsAnAct']) echo "Act ";
+//    if ($act['IsOther']) echo "Other ";
     echo "<td>";
-    echo "<a href=" . (($act['IsASide'])?"AddDance.php":"AddMusic.php") . "?sidenum=" . $b[0] . ">" . $act['SN'] . "</a>";
+    echo "<a href=AddPerf.php?sidenum=" . $b[0] . ">" . $act['SN'] . "</a>";
     echo "<td>";
     echo $b[1];
     }

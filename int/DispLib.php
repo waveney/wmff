@@ -31,6 +31,7 @@ function formatminimax(&$side,$link,$mnat=2) {
 function Get_Imps(&$e,&$imps,$clear=1,$all=0) {
   global $Event_Types_Full,$YEAR;
   $ETs = Get_Event_Types(1);
+  $newf = Feature('NewPERF');
   $ets = $ETs[$e['Type']]['State']; 
   $useimp = ($Event_Types_Full[$e['Type']]['UseImp'] && ($e['BigEvent']==0));
   $now=time();
@@ -46,14 +47,14 @@ function Get_Imps(&$e,&$imps,$clear=1,$all=0) {
     if (isset($e["Act$i"]))  { if ($ee = $e["Act$i"])   { 
         $si = Get_Side($ee);
         if ($si) {
-          $y = Get_ActYear($ee,$YEAR);
+          $y = ($newf?Get_SideYear($ee,$YEAR):Get_ActYear($ee,$YEAR));
           $s = array_merge($si, munge_array($y)); 
           if ($s && ($all || (( $s['YearState'] >= 2) && ($ets >1 || ($ets==1 && Access('Participant','Act',$s))) && $s['ReleaseDate'] < $now))) 
             $imps[$useimp?$s['Importance']:0][] = $s; }; }; };
     if (isset($e["Other$i"])){ if ($ee = $e["Other$i"]) { 
         $si = Get_Side($ee);
         if ($si) {
-          $y = Get_ActYear($ee,$YEAR);
+          $y = ($newf?Get_SideYear($ee,$YEAR):Get_ActYear($ee,$YEAR));
           $s = array_merge($si, munge_array($y)); 
           if ($s && ($all || (( $s['YearState'] >= 2) && ($ets >1 || ($ets==1 && Access('Participant','Other',$s))) && $s['ReleaseDate'] < $now))) 
             $imps[$useimp?$s['Importance']:0][] = $s; }; }; };
@@ -213,7 +214,7 @@ function Expand_Special(&$Art) {
     break;
 
   case '@Music_Imp':  
-    $ans = $db->query("SELECT s.* FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$YEAR AND s.Photo!='' AND y.YearState>0 " . 
+    $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$YEAR AND s.Photo!='' AND y.YearState>0 " . 
                         " AND s.Importance!=0 AND y.ReleaseDate<$now ORDER BY RAND() LIMIT 5");
     if (!$ans) { echo "EEK"; $Art = []; return; }  
   
@@ -236,7 +237,7 @@ function Expand_Special(&$Art) {
     $Art['SN'] = "Music in $YEAR";
     $Art['Link'] = "/LineUpMusic.php";
 
-    $ans = $db->query("SELECT count(*) AS Total FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.YearState>0 AND y.ReleaseDate<$now");
+    $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.YearState>0 AND y.ReleaseDate<$now");
     $Msc = 0;
     if ($ans) {
       $res = $ans->fetch_assoc();
@@ -245,7 +246,7 @@ function Expand_Special(&$Art) {
 
     $Art['Text'] = "$Msc Music act" . ($Msc == 1?" has":"s have") . " already confirmed for $YEAR.";
     
-    $ans = $db->query("SELECT s.Photo,s.SideId,s.ImageHeight,s.ImageWidth,s.SN FROM Sides s, ActYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$YEAR AND " . 
+    $ans = $db->query("SELECT s.Photo,s.SideId,s.ImageHeight,s.ImageWidth,s.SN FROM Sides s, SideYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$YEAR AND " . 
                         "s.Photo!='' AND y.YearState>0 AND y.ReleaseDate<$now ORDER BY RAND() LIMIT 10");
     if (!$ans) return;
       

@@ -12,7 +12,7 @@ function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-2 dummy-1 Draft,0 prop
     
   if ($mode > -1) {  
     $Side = Get_Side($snum);
-    $Sidey = ($ctype == 0 ? Get_SideYear($snum,$YEAR) : Get_ActYear($snum,$YEAR) );
+    $Sidey = ((Feature('NewPERF') || $ctype == 0) ? Get_SideYear($snum,$YEAR) : Get_ActYear($snum,$YEAR) );
     $Booked = Get_User($Sidey['BookedBy']);
     $kwd = ($mode < 0?'DRAFT':($mode ==0?'Proposed':''));
   } else {
@@ -21,7 +21,6 @@ function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-2 dummy-1 Draft,0 prop
     $Side = ['SN' => '<span class=NotSide>Dummy Performer</span>','StagePA'=>'Just a Mike', 
              'SortCode'=>'<span class=NotSide>99 99 99</span>', 'Account'=>'<span class=NotSide>12345678</span>', 
              'AccountName' => '<span class=NotSide>Mystery Products</span>',
-    
             ];
     $Sidey = ['ContractDate'=>time(),
               'Year'=>$YEAR,
@@ -35,7 +34,6 @@ function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-2 dummy-1 Draft,0 prop
     foreach($Venues as $i=>$v) { $Ven = $i; break;};
     $Evs = [['SN' => 'Concert','Type' => 5, 'Day'=> 1, 'Start'=>1900, 'End'=>2000, 'Setup' => 10, 'Venue'=>$Ven, 'SubEvent' => 0, 'Duration'=>60]];
   }
-
 
   $str .= "<h2>Wimborne Minster Folk Festival - $kwd Contract</h2>\n";
   if ($kwd) $str .= "<em><b>$kwd contract:</b></em><p>\n";

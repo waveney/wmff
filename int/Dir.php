@@ -1,6 +1,6 @@
 <?php
   include_once("fest.php");
-  A_Check('Staff','Docs');
+  A_Check('Staff');
 
   dostaffhead("Document Storage");
   echo '<script> function uploaddocs(dir) { location.href="Dir.php?"; } </script>';

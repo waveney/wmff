@@ -149,6 +149,7 @@
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR>Public Dance Programme</a>";
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=0&Pub=1&Head=0&Day=Sat&Y=$YEAR>Dance Programme - Sat - no headers</a>";
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=0&Pub=1&Head=0&Day=Sun&Y=$YEAR>Dance Programme - Sun - no headers</a>";
+      echo "<li class=smalltext><a href=CheckDuplicates.php?Y=$YEAR>Check for Duplicate Year Tables Entries</a>";      
 //      echo "<li class=smalltext><a href=ImportDance2.php>Import Appalachian List</a>"; // Should never be needed again
       echo "</table>\n";
     } else if (Access('Staff','Dance')) {

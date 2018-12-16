@@ -17,6 +17,9 @@
     include_once("Uploading.php");
     $Action = $_POST{'Action'};
     switch ($Action) {
+    case 'PASpecUpload':
+      $Mess = Upload_PASpec();
+      break;
     case 'Insurance':
       $Mess = Upload_Insurance();
       break;

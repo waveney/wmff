@@ -89,6 +89,14 @@ function &Select_Come_All() {
 
 function &Part_Come_All() {
   global $db,$YEAR,$Coming_Type;
+  $Coming = [];
+  if (Feature('NewPERF')) {
+    $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND ( y.Coming=" . $Coming_Type['Y'] . " OR y.YearState>1 )" ;
+    $res = $db->query($qry);
+    if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row; // All Sides, now acts
+    return $Coming;  
+  }
+  // TODO Delete rest of this when new perf in usse
   $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] ;
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row; // All Sides, now acts
@@ -113,8 +121,13 @@ function Show_Side($snum,$Message='') {
     $syear = Get_SideYear($snum,$YEAR);
     if ($Message) echo "<h2 class=ERR>$Message</h2>"; 
 
-    $ed = 'DanceEdit';
-    if (!$side['IsASide']) $ed = 'MusicEdit';
+    if (Feature('NewPERF')) { 
+      $ed = "AddPerf";
+    } else {
+      $ed = 'DanceEdit';
+      if (!$side['IsASide']) $ed = 'MusicEdit';
+    }
+    
     if (Access('Participant','Side',$snum)) {
       echo "<h2><a href=$ed.php?sidenum=$snum>Click here to edit Details, Contacts, Days, Times, Requests, Upload Photos and Insurance</a></h2>";
       echo "<h2>Public Information about: " . $side['SN'] . "</h2>";
@@ -126,7 +139,10 @@ function Show_Side($snum,$Message='') {
     echo "<div style='width:800px;'>";
     if ($side['Photo']) echo "<img src=" . $side['Photo'] . " width=100%><p>\n";
 
-    if ($side['Description']) echo $side['Description'] . "<p>";
+   
+    if ($side['Description']) {
+      if ($side['OneBlurb']==0 || strlen($side['Description']) > strlen($side['Blurb'])) echo $side['Description'] . "<p>";
+    }
 
     if (isset($syear)) {
       switch ($syear['Coming']) {
@@ -291,6 +307,8 @@ function Put_SideYear(&$data) {
       $rec .= "$fld='" . $val . "'";
     }
   }
+//var_dump($rec);
+//var_dump($data);
   if (!$fcnt) return 0;
   if ($Up) $rec .= " WHERE syId='" . $Save['syId'] . "'";
   $Save = $data;
@@ -346,7 +364,9 @@ function Set_Side_Help() {
         'Bank'=>'If you expect to be paid, please fill your bank details in',
         'RelOrder'=>'To give finer control than Importance, can be negative',
         'ManageFiles'=>'Use this to upload, download, view and delete as manay files as you wish about this performer',
-        'Testing'=>'Testing Only'
+        'Testing'=>'Testing Only',
+        'PerfTypes'=>'You MUST Save changes after any changes to Performer Types, to refresh the page',
+        'OneBlurb'=>'Select this to surpress showing the Short Blurb and the Long Blurb at the same time',
   );
   Set_Help_Table($t);
 }
@@ -365,7 +385,7 @@ function Set_Side_Year_Help() {
         'SatDepart'=>'The end of the last spot (eg 1700).  If blank no restictions are assumed.',
         'SunArrive'=>'The earliest time (eg 1000), if blank no restrictions are assumed',
         'SunDepart'=>'The end of the last spot (eg 1700).  If blank no restictions are assumed.',
-        'BudgetArea'=>'In MOST cases nothing needs setting here as Music acts will default to Music and Dance to Dance.  
+        'BudgetArea0'=>'In MOST cases nothing needs setting here as Music acts will default to Music and Dance to Dance.  
                 * IF you need to assign to a different budget change the area
                 * IF you need part of the fee to come under a different budget, you set up to 2 areas to have parts of the Fee and the amount to assign',
         'OtherPayment' => 'Eg A bottle of Rum',
@@ -380,6 +400,7 @@ Contract Signed - Enables listing to public.',
         'EnableCamp' => 'Note this will be added to the fee as part of your budget',
         'GreenRoom' => 'If ticked, their contract will inform them of the Green Room',
         'ReportTo' => 'For the arrival statement in contract.  Most will report to the Infomation Point, None means no statement in contract, Green Room will say report to Green Room',
+        'Coming' => 'Please indicate you have got the invite and then update when you have made a decision',
 
   );
   Set_Help_Table($t);

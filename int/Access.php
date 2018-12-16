@@ -51,7 +51,11 @@
   if ($Data['AccessKey'] != $key) Error_Page("Sorry - This is not the right key");
 
   $CakeTypes = ['s'=>'Side','a'=>'Act','o'=>'Other','t'=>'Trader','w'=>'Steward','v'=>'Volunteer','u'=>'SignUp','c'=>'Staff'];// Not Sure on staff
-  $includes = ['s'=>'DanceEdit.php','a'=>'MusicEdit.php','o'=>'MusicEdit.php','t'=>'TraderPage.php','w'=>'ViewStew.php','v'=>'Volunteers.php','u'=>'SignUp','c'=>'Staff'];// Not Sure on staff
+  if (Feature('NewPERF')) {
+    $includes = ['s'=>'AddPerf.php','a'=>'AddPerf.php','o'=>'AddPerf.php','t'=>'TraderPage.php','w'=>'ViewStew.php','v'=>'Volunteers.php','u'=>'SignUp','c'=>'Staff'];  
+  } else {
+    $includes = ['s'=>'DanceEdit.php','a'=>'MusicEdit.php','o'=>'MusicEdit.php','t'=>'TraderPage.php','w'=>'ViewStew.php','v'=>'Volunteers.php','u'=>'SignUp','c'=>'Staff'];
+  } 
   $DoHead = ['s'=>1,'a'=>1,'o'=>1,'t'=>1,'w'=>1,'v'=>0,'u'=>1,'c'=>1];
 
   $Cake = sprintf("%s:%d:%06d",$CakeTypes[$t],$Access_Type['Participant'],$id ); 

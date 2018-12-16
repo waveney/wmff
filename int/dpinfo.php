@@ -8,6 +8,12 @@
   $s = $_GET['S'];
 
   switch ($t) {
+  case 'Perf':
+    $data = Get_Side($s);
+    $datay = Get_SideYear($s,$YEAR);
+    $link = "AddPerf.php?sidenum=$s";
+    break;
+
   case 'Side':
     $data = Get_Side($s);
     $datay = Get_SideYear($s,$YEAR);

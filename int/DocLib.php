@@ -150,7 +150,7 @@ function Get_AllUsers4Perf($Sects,$also=-1) { // [Sect] = Music, Dance etc, incl
     $uid = $us['UserId'];
     $ulog = $us['Login'];
     $inc = 0;
-    foreach ($Sects as $sec=>$dat) if ($us[$dat[2]]) $inc = 1;
+    foreach ($Sects as $sec) if ($us[$sec]) $inc = 1;
     if (Access('SysAdmin') || $inc || $uid==$also ) $ans[$uid] = $ulog;
   }
   return $ans;
