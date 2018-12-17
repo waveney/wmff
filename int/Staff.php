@@ -55,14 +55,27 @@
     }
     echo "</ul><p>\n";
 
+// *********************** Users  **************************************************************
+  echo "<td class=Stafftd><h2>Users</h2>\n";
+    echo "<ul>\n";
+    echo "<li><a href=Login.php?ACTION=NEWPASSWD>New Password</a>\n";
+    if (Access('Committee','Users')) {
+      echo "<li><a href=AddUser.php>Add User</a>";
+      echo "<li><a href=ListUsers.php?FULL>List Committee/Group Users</a>";
+      echo "<li><a href=UserDocs.php>Storage Used</a>";
+    } else {
+      echo "<li><a href=ListUsers.php>List Committee/Group Users</a>";    
+    }
+    echo "</ul><p>\n";
+
 // *********************** MUSIC ****************************************************
   echo "<tr>";
     echo "<td class=Stafftd><h2>Music</h2>\n";
     echo "<ul>\n";
     echo "<li><a href=MusicFAQ.php>Music FAQ</a>\n";
     if (Access('Staff')) {
-      echo "<li><a href=ListMusic.php?SEL=ALL&Y=$YEAR>List All Music Acts in Database</a>\n";
-      echo "<li><a href=ListMusic.php?SEL=Booking&Y=$YEAR>List Music Acts Booking</a>\n";
+      echo "<li><a href=ListMusic.php?SEL=ALL&Y=$YEAR&T=M>List All Music Acts in Database</a>\n";
+      echo "<li><a href=ListMusic.php?SEL=Booking&Y=$YEAR&T=M>List Music Acts Booking</a>\n";
 //      echo "<li>Music Acts Summary"; //<a href=MusicSummary.php?Y=$YEAR>Music Acts Summary</a>\n";
     }
     if (Access('Staff','Music')) {
@@ -85,8 +98,8 @@
       echo "<p><table><tr><td>";
       echo "<li class=smalltext><a href=ShowMusicProg.php?Pub=1&Y=$YEAR>Public Music Programme</a>";
       echo "<li class=smalltext><a href=MusicTypes.php>Set Music Types</a>";
-      echo "<li class=smalltext><a href=ResetImageSizes.php?PERF>Scan and save Image sizes</a>";
-      echo "<li class=smalltext><a href=CopyActYear.php>Copy all ActYear data to SideYear</a>";
+//      echo "<li class=smalltext><a href=ResetImageSizes.php?PERF>Scan and save Image sizes</a>";
+//      echo "<li class=smalltext><a href=CopyActYear.php>Copy all ActYear data to SideYear</a>";
       echo "</table><p>\n";
     }
     echo "<li><a href=ContractView.php?t=1>Dummy Music Contract</a>";
@@ -96,7 +109,7 @@
     echo "</ul>\n";
 
 // *********************** DANCE ****************************************************
-  echo "<td class=Stafftd><h2>Dance</h2>\n";
+  echo "<td class=Stafftd colspan=2><h2>Dance</h2>\n";
     echo "<ul>\n";
     if (Access('Staff','Dance')) {
       echo "<li><a href=InviteDance.php?Y=$YEAR>Invite Dance Sides</a>\n";
@@ -156,6 +169,40 @@
       echo "<li class=smalltext><a href=LineUpDance.php?MIN&Y=$YEAR>Picture free List of Dance Sides Coming</a>\n";
     }
     echo "</ul>\n";
+// *********************** Comedy, Childrens Ent, Other Perf
+  echo "<tr>";
+  echo "<td class=Stafftd><h2>Comedy</h2>\n";
+    echo "<ul>\n";    
+    if (Access('Staff')) {
+      echo "<li><a href=ListMusic.php?SEL=ALL&Y=$YEAR&T=C>List All Comedy Performers in Database</a>\n";
+      echo "<li><a href=ListMusic.php?SEL=Booking&Y=$YEAR&T=C>List Comedy Performers Booking</a>\n";
+    }
+    if (Access('Staff','Comedy')) {
+      echo "<li><a href=CreatePerf.php?T=C&Y=$YEAR>Add Comedy Performer to Database</a>";
+    }
+    echo "</ul>\n";
+  echo "<td class=Stafftd><h2>Children's Entertainers</h2>\n";
+    echo "<ul>\n";    
+    if (Access('Staff')) {
+      echo "<li><a href=ListMusic.php?SEL=ALL&Y=$YEAR&T=Y>List All Children's Entertainers in Database</a>\n";
+      echo "<li><a href=ListMusic.php?SEL=Booking&Y=$YEAR&T=Y>List Children's Entertainers Booking</a>\n";
+    }
+    if (Access('Staff','Comedy')) {
+      echo "<li><a href=CreatePerf.php?T=Y&Y=$YEAR>Add Children's Entertainers to Database</a>";
+    }
+    echo "</ul>\n";
+  echo "<td class=Stafftd><h2>Other Performers</h2>\n";
+    echo "<ul>\n";    
+    if (Access('Staff')) {
+      echo "<li><a href=ListMusic.php?SEL=ALL&Y=$YEAR&T=O>List All Other Performers in Database</a>\n";
+      echo "<li><a href=ListMusic.php?SEL=Booking&Y=$YEAR&T=O>List Other Performers Booking</a>\n";
+    }
+    if (Access('Staff','Comedy')) {
+      echo "<li><a href=CreatePerf.php?T=O&Y=$YEAR>Add Other Performer to Database</a>";
+    }
+    echo "</ul>\n";
+    
+    
 
 // *********************** STALLS   ****************************************************
   echo "<tr>";
@@ -186,7 +233,7 @@
 
 // *********************** VENUES & EVENTS *******************************************************
   $_POST['DAYS'] = 0; $_POST['Pics'] = 1;
-  echo "<td class=Stafftd><h2>Venues and Events</h2>\n";
+  echo "<td class=Stafftd colspan=2><h2>Venues and Events</h2>\n";
     $Vens = Get_AVenues();
     echo "<ul>\n";
     echo "<li><a href=VenueList.php?Y=$YEAR>List Venues</a>\n";
@@ -211,9 +258,9 @@
 //    if (Access('SysAdmin')) echo "<li><a href=BusTimes.php>Fetch and Cache Bus Times</a>\n";
     echo "</ul>\n";
 
-// *********************** OTHER *****************************************************************
+// *********************** Misc *****************************************************************
   echo "<tr>";
-  echo "<td class=Stafftd><h2>Other (Arts, Crafts, Children, Comedy)</h2>\n";
+  echo "<td class=Stafftd><h2>Misc</h2>\n";
     echo "<ul>\n";
 //    echo "<li><a href=StewardView.php>Stewarding Applications (old)</a>\n";
     echo "<li><a href=Volunteers.php?A=New>Volunteering Application Form</a>\n";
@@ -225,14 +272,6 @@
     }
     echo "<p>";
     
-    if (Access('Staff')) {
-      echo "<li><a href=ListMusic.php?SEL=ALL&Y=$YEAR&t=O>List All Other Participants in Database</a>\n";
-      echo "<li><a href=ListMusic.php?SEL=Booking&Y=$YEAR&t=O>List Other Participants Booking</a>\n";
-    }
-    if (Access('Staff','Other')) {
-      echo "<li><a href=CreatePerf.php?T=Other&Y=$YEAR>Add Other Particpant to Database</a>";
-      echo "<li>Find Other";
-    }
 //    echo "<li><a href=LaughView.php?Y=$YEAR>Show Laugh Out Loud applications</a>";
     if (Access('Committee')) echo "<li><a href=Campsite.php?Y=$YEAR>Manage Campsite Use</a>\n"; 
     if (Access('Committee')) echo "<li><a href=CarerTickets.php?Y=$YEAR>Manage Carer Tickets</a>\n"; 
@@ -264,12 +303,11 @@
     echo "</ul>\n";
     
 // *********************** GENERAL ADMIN *********************************************************
-  echo "<tr>";
   echo "<td class=Stafftd><h2>General Admin</h2>\n";
     echo "<ul>\n";
 
     if (Access('Committee','News')) {
-      echo "<li><a href=NewsManage.php>News Management</a>";
+//      echo "<li><a href=NewsManage.php>News Management</a>";
       echo "<li><a href=ListArticles.php>Front Page Article Management</a>";
       echo "<li><a href=LinkManage.php>Manage Other Fest Links</a>\n";
     }
@@ -279,24 +317,14 @@
     }
 
     if (Access('Staff')) echo "<li><a href=TEmailProformas.php>EMail Proformas</a>";
+    if (Access('Staff')) echo "<li><a href=AdminGuide.php>Admin Guide</a> \n";
     if (Access('SysAdmin')) {
       echo "<li><a href=General.php>General Year Settings</a> \n";
       echo "<li><a href=MasterData.php>Master Data Settings</a> \n";
     }
     echo "</ul>\n";
 
-// *********************** Users  **************************************************************
-  echo "<td class=Stafftd><h2>Users</h2>\n";
-    echo "<ul>\n";
-    echo "<li><a href=Login.php?ACTION=NEWPASSWD>New Password</a>\n";
-    if (Access('Committee','Users')) {
-      echo "<li><a href=AddUser.php>Add User</a>";
-      echo "<li><a href=ListUsers.php?FULL>List Committee/Group Users</a>";
-      echo "<li><a href=UserDocs.php>Storage Used</a>";
-    } else {
-      echo "<li><a href=ListUsers.php>List Committee/Group Users</a>";    
-    }
-    if (Access('Staff')) echo "<li><a href=AdminGuide.php>Admin Guide</a> \n";
+
   echo "</table>\n";
 
   dotail();

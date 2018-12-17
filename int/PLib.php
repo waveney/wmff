@@ -6,20 +6,13 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
   global $OlapTypes,$OlapCats,$OlapDays,$PerfTypes;
   if ($CatT == '') {
     $CatT = ($Side['IsASide'] ? 'Side' : $Side['IsAnAct'] ? 'Act' : 'Other');
-  } else {
-    if ($Side['IsASide'] || $Side['IsAnAct'] || $Side['IsOther']) {
-    } else {
-      if ($CatT == 'Side') $Side['IsASide']=1;
-      if ($CatT == 'Act') $Side['IsAnAct']=1;
-      if ($CatT == 'Other') $Side['IsOther']=1;
-    }
   }
 
-  $Mstate = ($PLANYEAR >= $CALYEAR && $PLANYEAR == $YEAR);
+  $Mstate = ($PLANYEAR == $CALYEAR && $PLANYEAR == $YEAR);
 
   Set_Side_Help();
   $snum=$Side['SideId'];
-  if ($Side['IsAnAct'] || $Side['IsOther']) Add_Act_Help();
+//  if ($Side['IsAnAct'] || $Side['IsOther']) Add_Act_Help();
   $Sidey = Get_SideYear($snum);
 
   $NotD = 0;
@@ -884,7 +877,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
   $Side=Get_Side($snum);
   Set_Side_Year_Help();
 
-  $Mstate = ($PLANYEAR >= $CALYEAR && $PLANYEAR == $YEAR);  // TODO?
+  $Mstate = ($PLANYEAR == $CALYEAR && $PLANYEAR == $YEAR);  // TODO?
 
   if ($year < $PLANYEAR) { // Then it is historical - no changes allowed
     fm_addall('disabled readonly');
@@ -899,6 +892,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
     $Adv = 'class=Adv';
     if ($Mstate) $Imp = 'class=imp';
   }
+//echo "HERE";
 
 //var_dump($Sidey);var_dump($Invite_Type);
   $Self = ($Mode ? $_SERVER{'PHP_SELF'} : "AddPerf.php"); // TODO
@@ -956,25 +950,28 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
   }
 
   // Dance Invites and States
-  if ($Side['IsASide']) {    
-    echo "<tr><td class=NotSide>Dancing Invite:<td class=NotSide>" . fm_select($Invite_States,$Sidey,'Invite');
-      echo fm_text('Invited',$Sidey,'Invited',1,'class=NotSide');
-
+  if ($Side['IsASide']) {
+    if ($Mode) {
+      echo "<tr><td class=NotSide>Dancing Invite:<td class=NotSide>" . fm_select($Invite_States,$Sidey,'Invite');
+        echo fm_text('Invited',$Sidey,'Invited',1,'class=NotSide');
+    }
     echo "<tr>";
       echo fm_radio('Status',$Coming_States ,$Sidey,'Coming','',1,'colspan=3 id=Coming_states','',$Coming_Colours); 
   }
 
   // Performers booking states
-  if ($NotD) {
-    echo "<tr>";
-  } else { 
-    echo "<tr class=ContractShow hidden>";
-  }
-  if (1 || Access('SysAdmin')) {
-    echo fm_radio("Booking State",$Book_States,$Sidey,'YearState','class=NotSide',1,'colspan=3 class=NotSide','',$Book_Colours);
-  } else {
-    echo "<td class=NotSide>Booking State:" . help('YearState') . "<td class=NotSide>" . $Book_States[$Sidey['YearState']];
-    echo fm_hidden('YearState',$Sidey['YearState']);
+  if ($Mode) {
+    if ($NotD) {
+      echo "<tr>";
+    } else { 
+      echo "<tr class=ContractShow hidden>";
+    }
+    if ($Mode || Access('SysAdmin')) {
+      echo fm_radio("Booking State",$Book_States,$Sidey,'YearState','class=NotSide',1,'colspan=3 class=NotSide','',$Book_Colours);
+    } else {
+      echo "<td class=NotSide>Booking State:" . help('YearState') . "<td class=NotSide>" . $Book_States[$Sidey['YearState']];
+      echo fm_hidden('YearState',$Sidey['YearState']);
+    }
   }
 
   // Dance Spots
