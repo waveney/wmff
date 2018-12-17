@@ -10,28 +10,33 @@ function Upload_Init($Dir='') {
 // NEED TO MAKE THIS WORK FOR TRADE
 
 // echo "Upload Init $Dir<p>";
-  if ($Dir == '' || $Dir == 'Side' || $Dir == 'Act' || $Dir == 'Other' || $Dir == 'Sides' || $Dir == 'Acts' || $Dir == 'Others') {
+  if ($Dir == '' || $Dir == 'Side' || $Dir == 'Act' || $Dir == 'Other' || $Dir == 'Sides' || $Dir == 'Acts' || $Dir == 'Others' || $Dir == 'Perf') {
     $snum = $_POST{'Id'};
     $Side = Get_Side($snum);
     $Put = "Put_Side";
-//var_dump($Side);
-    $type = ($Side['IsASide'] ? 'Side' : ($Side['IsAnAct'] ? 'Act' : 'Other'));
-//echo "type:$type<p>";
-    switch ($type) {
-    case 'Side':
+    if (Feature('NewPERF')) {
       $Sidey = Get_SideYear($snum);
       $Puty = 'Put_SideYear';
-      break;
+    } else {    
+//var_dump($Side);
+      $type = ($Side['IsASide'] ? 'Side' : ($Side['IsAnAct'] ? 'Act' : 'Other'));
+//echo "type:$type<p>";
+      switch ($type) {
+      case 'Side':
+        $Sidey = Get_SideYear($snum);
+        $Puty = 'Put_SideYear';
+        break;
 
-    case 'Act':
-      $Sidey = Get_SideYear($snum);
-      $Puty = 'Put_ActYear';
-      break;
+      case 'Act':
+        $Sidey = Get_ActYear($snum);
+        $Puty = 'Put_ActYear';
+        break;
 
-    case 'Other':
-      $Sidey = Get_SideYear($snum);
-      $Puty = 'Put_ActYear';
-      break;
+      case 'Other':
+        $Sidey = Get_ActYear($snum);
+        $Puty = 'Put_ActYear';
+        break;
+      }
     }
   } else if ($Dir == 'Trade') {
     $snum = $_POST{'Tid'};

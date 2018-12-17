@@ -7,6 +7,8 @@
   global $YEAR,$PLANYEAR,$Book_Colours,$Book_States,$Book_Actions,$Book_ActionExtras,$Importance,$InsuranceStates;
   include_once("DanceLib.php"); 
   include_once("MusicLib.php"); 
+  
+  $YearTab = (Feature('NewPERF')?'SideYear':'ActYear');
 
   if (isset($_GET['t']) && $_GET['t'] == 'O') {
     $TypeSel = ' s.IsOther=1';
@@ -25,31 +27,30 @@
   if (isset($_GET['ACTION'])) {
     $sid = $_GET['SideId'];
     $side = Get_Side($sid);
-    $sidey = Get_ActYear($sid);
+    $sidey = (Feature('NewPERF') ? Get_SideYear($sid) : Get_ActYear($sid));
     Music_Actions($_GET{'ACTION'},$side,$sidey);
   }
 
   if ($_GET{'SEL'} == 'ALL') {
     $flds = "y.*, s.*";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN ActYear as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE $TypeSel ORDER BY SN");
+    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN $YearTab as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE $TypeSel ORDER BY SN");
     $col5 = "Book State";
     $col6 = "Actions";
   } else if ($_GET{'SEL'} == 'INV') {
     $LastYear = $PLANYEAR-1;
     $flds = "s.*, ly.YearState, y.YearState, y.ContractConfirm";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN ActYear as y ON s.SideId=y.SideId AND y.year=$PLANYEAR " .
-                        "LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE $TypeSel AND s.SideStatus=0 ORDER BY SN");
+    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN $YearTab as y ON s.SideId=y.SideId AND y.year=$PLANYEAR WHERE $TypeSel AND s.SideStatus=0 ORDER BY SN");
     $col5 = "Invited $LastYear";
     $col6 = "Coming $LastYear";
     $col7 = "Invite $PLANYEAR";
     $col8 = "Invited $PLANYEAR";
     $col9 = "Coming $PLANYEAR";
   } else if ($_GET{'SEL'} == 'Coming') {
-    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
+    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, $YearTab as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
                 $Book_State['Contract Signed'] . " ORDER BY Importance DESC, SN");
     $col5 = "Complete?";
   } else if ($_GET{'SEL'} == 'Booking') {
-    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>0" . 
+    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, $YearTab as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>0" . 
                 " ORDER BY SN");
     $col5 = "Book State";
     $col6 = "Actions";
@@ -60,7 +61,7 @@
     
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s, ActYear as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
+    $SideQ = $db->query("SELECT $flds FROM Sides AS s, $YearTab as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
                 $Book_State['Contract Signed'] . " ORDER BY Importance DESC SN");
   }
 
@@ -88,11 +89,11 @@
 
     echo "</thead><tbody>";
     while ($fetch = $SideQ->fetch_assoc()) {
-      echo "<tr><td><a href=AddMusic.php?sidenum=" . $fetch['SideId'] . "&Y=$YEAR>" . $fetch['SN'] . "</a>";
+      echo "<tr><td><a href=" . (Feature('NewPERF')?'AddPerf':'AddMusic') . ".php?sidenum=" . $fetch['SideId'] . "&Y=$YEAR>" . $fetch['SN'] . "</a>";
       if ($fetch['SideStatus']) {
         echo "<td>DEAD";
       } else {
-        echo "<td>" . $fetch['Type'];
+        echo "<td>" . $fetch['Type'];// . $fetch['syId'];
       }
       if ($_GET{'SEL'}) {
         echo "<td>" . ($fetch['HasAgent']?$fetch['AgentName']:$fetch['Contact']);

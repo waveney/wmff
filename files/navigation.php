@@ -121,17 +121,17 @@
     echo "<div class=Staff><div class=navigation>";
     switch ($USER{'Subtype'}) {
     case 'Side':
-      echo "<a href=$host/int/DanceEdit.php?sidenum=$USERID onmouseover=NoHoverSticky()>Edit Side</a>";
+      echo "<a href=$host/int/AddPerf.php?sidenum=$USERID onmouseover=NoHoverSticky()>Edit Side</a>";
       echo "<a href=$host/int/ShowDance.php?sidenum=$USERID onmouseover=NoHoverSticky()>Public view of Side</a>";
       echo "<a href=$host/int/DanceFAQ.php onmouseover=NoHoverSticky()>Dance FAQ</a>";
       break;
     case 'Act':
-      echo "<a href=$host/int/MusicEdit.php?sidenum=$USERID onmouseover=NoHoverSticky()>Edit Act</a>";
+      echo "<a href=$host/int/AddPerf.php?sidenum=$USERID onmouseover=NoHoverSticky()>Edit Act</a>";
       echo "<a href=$host/int/ShowMusic.php?sidenum=$USERID onmouseover=NoHoverSticky()>Public view of Act</a>";
       echo "<a href=$host/int/MusicFAQ.php onmouseover=NoHoverSticky()>Music FAQ</a>";
       break;
     case 'Other':
-      echo "<a href=$host/int/MusicEdit.php?sidenum=$USERID&t=O onmouseover=NoHoverSticky()>Edit Act</a>";
+      echo "<a href=$host/int/AddPerf.php?sidenum=$USERID&t=O onmouseover=NoHoverSticky()>Edit Act</a>";
       echo "<a href=$host/int/ShowMusic.php?sidenum=$USERID&t=O onmouseover=NoHoverSticky()>Public view of Act</a>";
       break;
     case 'Trader':

@@ -11,7 +11,6 @@ function Prog_Headers($Public='',$headers =1,$What='Dance') {
   include_once("DanceLib.php");
   include_once("MusicLib.php");
   include_once("ProgLib.php");
-  include_once("int/analyticstracking.php");
   if ($Public && $headers) include_once("files/navigation.php");
   ini_set('display_errors', '0');
 }

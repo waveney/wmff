@@ -1,18 +1,45 @@
 <?php
   include_once("fest.php");
-
-// TODO change for all access types inc participant
-
-  if (!Access('Staff','Dance')) {
-    A_Check('Staff');
-    fm_addall('disabled readonly');
-  }
-
-  dostaffhead("Add/Change Performer", "/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js");
   include_once("DanceLib.php");
   include_once("MusicLib.php"); // TODO Merge two libs
   include_once("DateTime.php");
+  include_once("ProgLib.php");
   include_once("PLib.php");
+
+// TODO change for all access types inc participant
+  global $USER,$Access_Type;
+  
+  // 2D Access check hard coded here -- if needed anywhere else move to fest
+  
+  if (isset($_REQUEST['SideId'])) { $snum = $_REQUEST['SideId']; }
+  elseif (isset($_REQUEST['sidenum'])) { $snum = $_REQUEST['sidenum']; }
+  elseif (isset($_REQUEST['id'])) { $snum = $_REQUEST['id'];} 
+  else { $snum = 0; }
+  
+  switch ($USER['AccessLevel']) {
+  case $Access_Type['Participant'] : 
+    if ($USER['Subtype'] != 'Perf' || $USER['Subtype'] != 'Side'  || $USER['Subtype'] != 'Act'  || $USER['Subtype'] != 'Other') return 0;  // TODO Side-Other can be deleted in time
+    if ($snum != $USERID) Error_Page("Not accessable to you");
+    break;
+
+  case $Access_Type['Upload'] :
+  case $Access_Type['Steward'] :
+    Error_Page("Not accessable to you");
+
+  case $Access_Type['Staff'] :
+  case $Access_Type['Committee'] :
+    $capmatch = 0;
+    $Side = Get_Side($snum);
+    foreach ($FestTypes as $p=>$d) if ($Side[$d[0]] && $USER[$d[2]]) $capmatch = 1;
+    if (!$capmatch) fm_addall('disabled readonly');    
+    break;
+
+  case $Access_Type['Internal'] : 
+  case $Access_Type['SysAdmin'] : 
+    break;
+  }  
+
+  dostaffhead("Add/Change Performer", "/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js");
 
   global $YEAR,$PLANYEAR,$Mess,$BUTTON;  // TODO Take Mess local
 
@@ -24,7 +51,6 @@
 // TODO Change this to not do changes at a distance and needing global things
   $Action = ''; 
   $Mess = '';
-  $snum = -1;
   if (isset($_POST{'Action'})) {
     include_once("Uploading.php");
     $Action = $_POST{'Action'};
@@ -44,8 +70,7 @@
   }
 
 //  echo "<!-- " . var_dump($_POST) . " -->\n";
-  if (isset($_POST{'SideId'})) { /* Response to update button */
-    $snum = $_POST{'SideId'};
+  if (isset($_POST{'SideId'})) { // Response to update button 
     
     Clean_Email($_POST{'Email'});
     Clean_Email($_POST{'AltEmail'});
@@ -87,7 +112,7 @@
       }
       UpdateBand($snum);
       UpdateOverlaps($snum);
-    } else { /* New Side */
+    } else { //New Side
       $proc = 1;
       $Side = array();
       if (!isset($_POST['SN'])) {
@@ -101,9 +126,7 @@
     UpdateBand($snum);
     UpdateOverlaps($snum);
 
-
-  } elseif (isset($_GET{'sidenum'})) { /* Link from elsewhere */
-    $snum = $_GET{'sidenum'};
+  } elseif (isset($_GET{'sidenum'})) { //Link from elsewhere 
     $Side = Get_Side($snum);
     if ($Side) {
       $Sideyrs = Get_Sideyears($snum);
@@ -117,7 +140,7 @@
     }
   } else {
     $Sidey = Default_SY();
-    $Side = ['SideId'=>$snum,'IsASide'=>1,'IsAnAct'=>0,'IsOther'=>0];
+    $Side = ['SideId'=>$snum]; 
   }
 
   Show_Part($Side,'Side',1,'AddPerf.php');
@@ -129,9 +152,9 @@
     if (Access('Staff','Dance')) {
       if (!isset($Sidey['Coming']) || $Sidey['Coming'] == 0) {
         if (!isset($Sidey['Invited']) || $Sidey['Invited'] == '') {
-          echo " <input type=submit name=InviteAct value=Invite  class=Button$BUTTON > ";
+//          echo " <input type=submit name=InviteAct value=Invite  class=Button$BUTTON > ";
         } else {
-          echo " <input type=submit name=ReminderAct value=Reminder class=Button$BUTTON > ";
+//          echo " <input type=submit name=ReminderAct value=Reminder class=Button$BUTTON > ";
         }
       }
     } 

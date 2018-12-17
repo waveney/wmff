@@ -51,6 +51,9 @@
     $USER{'AccessLevel'} = $Access_Type['Participant'];
     $USER{'Subtype'} = $Type;
     $USER{'UserId'} = $USERID = $SideId;
+    
+    if (Feature('NewPERF')) include_once("AddPerf.php");
+    
     switch ($Type) {
     case 'Side':
       include_once("DanceEdit.php");

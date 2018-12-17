@@ -46,7 +46,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
           if (($Sides[$s][$DayList[$e['Day']]])) {
                 // No Action
           } else if ($Sides[$s]['IsASide']) { 
-            echo "<a href=AddDance.php?sidenum=$s>" . $sidenames[$s] . "</a>: ";
+            echo "<a href=AddPerf.php?sidenum=$s>" . $sidenames[$s] . "</a>: ";
             echo "<span class=red>Is listed doing an <a href=EventAdd.php?e=" . $e['EventId'] . ">event</a> at " . $e['Start'] . " in " . SName($Venues[$e['Venue']]) .
               " on " . $DayList[$e['Day']] . ", but is <b>NOT</b> there that day</span><br>\n";
             $sideercount++;
@@ -56,7 +56,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
           if (isset($Sides[$s])) {
             $dancing[$s][] = $eid;
           } else if ($Sides[$s]['IsASide']) { // Should never get here, wont work anyway
-            echo "<a href=AddDance.php?sidenum=$s>" . $sidenames[$s] . "</a>: ";
+            echo "<a href=AddPerf.php?sidenum=$s>" . $sidenames[$s] . "</a>: ";
             echo "<span class=red>Is listed doing an event at " . $e['Start'] . " in " . SName($Venues[$e['Venue']]) .
                 " on " . $DayList[$e['Day']] . ", but is <b>NOT</b> there that day</span><br>\n";
             $sideercount++;
@@ -66,7 +66,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
           if (isset($Sides[$s])) {
             $dancing[$s][] = $eid;
           } else if ($Sides[$s]['IsASide']) {
-            echo "<a href=AddDance.php?sidenum=$s>" . $sidenames[$s] . "</a>: ";
+            echo "<a href=AddPerf.php?sidenum=$s>" . $sidenames[$s] . "</a>: ";
             echo "<span class=red>Is listed doing an event at " . $e['Start'] . " in " . SName($Venues[$e['Venue']]) .
                  " on " . $DayList[$e['Day']] . ", but is <b>NOT</b> there that day</span><br>\n";
             $sideercount++;
@@ -85,7 +85,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
             if (isset($Sides[$s])) {
               $dancing[$s][] = $eid;
             } else {
-              echo "<a href=AddDance.php?sidenum=$s>" . $sidenames[$s] . "</a>: ";
+              echo "<a href=AddPerf.php?sidenum=$s>" . $sidenames[$s] . "</a>: ";
               echo "<span class=red>Is listed doing an event at " . $e['Start'] . " in " . SName($Venues[$e['Venue']]) .
                    " on " . $DayList[$e['Day']] . ", but is <b>NOT</b> there that day</span>";
             }
@@ -341,7 +341,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
 
     // Update error list and dance list cache?
     $needbr=0;
-    $link = ($side['IsASide'])?'AddDance.php':'AddMusic.php';
+    $link = 'AddPerf.php';
     if ($Err) {
       $sideercount++;
       echo "<a href=$link?sidenum=$si>" . $side['SN'] . "</a>: ";
