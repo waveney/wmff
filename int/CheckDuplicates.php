@@ -19,9 +19,11 @@
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Year</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Record 1</a>\n";  
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>R1 Coming State</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>R1 Year State</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Year</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Record 2</a>\n";  
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>R2 Coming State</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>R2 Year State</a>\n";
@@ -37,8 +39,8 @@
     if ($snum == $lastside) {
       $Side = Get_Side($snum);
       echo "<tr><td><a href=AddSide.php?sidenum=$snum>" . $Side['SN'] . "</a>";
-      echo "<td>" . $lastsidey['syId'] . "<td>" . $lastsidey['Coming'] . "<td>" . $lastsidey['YearState'];
-      echo "<td>" . $sidey['syId'] . "<td>" . $sidey['Coming'] . "<td>" . $sidey['YearState'];      
+      echo "<td>" . $lastsidey['Year'] . "<td>" . $lastsidey['syId'] . "<td>" . $lastsidey['Coming'] . "<td>" . $lastsidey['YearState'];
+      echo "<td>" . $sidey['Year'] . "<td>" . $sidey['syId'] . "<td>" . $sidey['Coming'] . "<td>" . $sidey['YearState'];      
       echo "<td><a href=CheckDuplicates.php?DELETE=" . $lastsidey['syId'] . ">Delete R1 ";
       echo "<td><a href=CheckDuplicates.php?DELETE=" . $sidey['syId'] . ">Delete R2 ";
     }
