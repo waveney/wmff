@@ -4,20 +4,19 @@
 
   dostaffhead("List Music", "/js/clipboard.min.js", "/js/emailclick.js");
 
-  global $YEAR,$PLANYEAR,$Book_Colours,$Book_States,$Book_Actions,$Book_ActionExtras,$Importance,$InsuranceStates;
+  global $YEAR,$PLANYEAR,$Book_Colours,$Book_States,$Book_Actions,$Book_ActionExtras,$Importance,$InsuranceStates,$PerfTypes;
   include_once("DanceLib.php"); 
   include_once("MusicLib.php"); 
   
-  $YearTab = (Feature('NewPERF')?'SideYear':'ActYear');
+  $YearTab = 'SideYear';
 
-  if (isset($_GET['t']) && $_GET['t'] == 'O') {
-    $TypeSel = ' s.IsOther=1';
-    echo "<h2>List Other Participants $YEAR</h2>\n";
-  } else {
-    $TypeSel = ' s.IsAnAct=1';
-    echo "<div class=content><h2>List Music Acts $YEAR</h2>\n";
-  }
+  $Type = (isset($_GET['T'])? $_GET['T'] : 'M' );
+  $Perf = 0; 
+  foreach ($PerfTypes as $p=>$d) if ($d[4] == $Type) { $Perf = $p; $PerfD = $d; };
 
+  $TypeSel = $PerfD[0] . "=1 ";
+  echo "<div class=content><h2>List $Perf $YEAR</h2>\n";
+  
   $Ins_colours = ['red','orange','lime'];
   echo "Click on column header to sort by column.  Click on Acts's name for more detail and programme when available,<p>\n";
 
@@ -27,7 +26,7 @@
   if (isset($_GET['ACTION'])) {
     $sid = $_GET['SideId'];
     $side = Get_Side($sid);
-    $sidey = (Feature('NewPERF') ? Get_SideYear($sid) : Get_ActYear($sid));
+    $sidey = Get_SideYear($sid);
     Music_Actions($_GET{'ACTION'},$side,$sidey);
   }
 

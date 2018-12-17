@@ -49,12 +49,12 @@ $Book_ActionExtras = array('Book'=>'', 'Contract'=>'', 'Decline'=>'', 'Cancel'=>
 $EType_States = array('Very Early','Draft','Partial','Provisional','Complete');
 $TicketStates = array('Not Yet','Open','Closed');
 $ArticleFormats = ['Large Image','Small Image','Text','Banner Image','Banner Text','Fixed','Left/Right Pairs'];
-$PerfTypes = ['Dance Side'=>['IsASide','Dance','Dance','Dance'],
-              'Musical Act'=>['IsAnAct','Music','Music','Music'],
-              'Comedy'=>['IsFunny','Comedy','Comedy','Comedy'],
-              'Child Ent'=>['IsFamily','Children','Family','Youth'],
-              'Other'=>['IsOther','Info','Other','']];
-// Perfname => [field to test, email address for,Capability name,budget]
+$PerfTypes = ['Dance Side'=>['IsASide','Dance','Dance','Dance','D'],
+              'Musical Act'=>['IsAnAct','Music','Music','Music','M'],
+              'Comedy'=>['IsFunny','Comedy','Comedy','Comedy','C'],
+              'Child Ent'=>['IsFamily','Children','Family','Youth','Y'],
+              'Other'=>['IsOther','Info','Other','','O']];
+// Perfname => [field to test, email address for,Capability name,budget,shortCode]
 
 
 date_default_timezone_set('GMT');
@@ -203,6 +203,7 @@ function newlinkemailhtml(&$d,$type="Side",$xtr='') { // does notwork yet
 
 function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
   global $YEAR,$USER;
+  if (!Access('Staff')) return 0;
   include_once("DanceLib.php");
   $Label = '';
   if (isset($data['HasAgent']) && ($data['HasAgent'])) {

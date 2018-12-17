@@ -15,10 +15,10 @@
   elseif (isset($_REQUEST['sidenum'])) { $snum = $_REQUEST['sidenum']; }
   elseif (isset($_REQUEST['id'])) { $snum = $_REQUEST['id'];} 
   else { $snum = 0; }
-  
+
   switch ($USER['AccessLevel']) {
   case $Access_Type['Participant'] : 
-    if ($USER['Subtype'] != 'Perf' || $USER['Subtype'] != 'Side'  || $USER['Subtype'] != 'Act'  || $USER['Subtype'] != 'Other') return 0;  // TODO Side-Other can be deleted in time
+    if ($USER['Subtype'] != 'Perf' && $USER['Subtype'] != 'Side'  && $USER['Subtype'] != 'Act' && $USER['Subtype'] != 'Other') Error_Page("Not accessable to you");  // TODO Side-Other can be deleted in time
     if ($snum != $USERID) Error_Page("Not accessable to you");
     break;
 
@@ -126,7 +126,7 @@
     UpdateBand($snum);
     UpdateOverlaps($snum);
 
-  } elseif (isset($_GET{'sidenum'})) { //Link from elsewhere 
+  } elseif ($snum > 0) { //Link from elsewhere 
     $Side = Get_Side($snum);
     if ($Side) {
       $Sideyrs = Get_Sideyears($snum);
@@ -143,7 +143,7 @@
     $Side = ['SideId'=>$snum]; 
   }
 
-  Show_Part($Side,'Side',1,'AddPerf.php');
+  Show_Part($Side,'Side',Access('Staff'),'AddPerf.php');
   Show_Perf_Year($snum,$Sidey,$YEAR,Access('Staff'));
 
   if ($snum > 0) {

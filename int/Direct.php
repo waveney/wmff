@@ -52,8 +52,10 @@
     $USER{'Subtype'} = $Type;
     $USER{'UserId'} = $USERID = $SideId;
     
-    if (Feature('NewPERF')) include_once("AddPerf.php");
+    include_once("AddPerf.php"); // Should not return
     
+    
+    echo "EEP";exit;
     switch ($Type) {
     case 'Side':
       include_once("DanceEdit.php");
