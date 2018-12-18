@@ -36,7 +36,7 @@
     if (isset($_GET{'t'})) {
       $Type = $_GET{'t'};
     } else {
-      $Type = ($Side['IsASide']?'Side': ($Side['IsAnAct'] ? 'Act' : 'Other'));
+      $Type = 'Perf'; //($Side['IsASide']?'Side': ($Side['IsAnAct'] ? 'Act' : 'Other'));
     }
 
     if ($Side['AccessKey'] != $_GET{'key'}) Error_Page("Sorry - This is not the right key");  // No return
@@ -53,21 +53,6 @@
     $USER{'UserId'} = $USERID = $SideId;
     
     include_once("AddPerf.php"); // Should not return
-    
-    
-    echo "EEP";exit;
-    switch ($Type) {
-    case 'Side':
-      include_once("DanceEdit.php");
-      exit;
-    case 'Act':
-    case 'Other':
-      include_once("MusicEdit.php");
-      exit;
-    default:
-      include_once("OtherEdit.php");
-      exit;
-    }
   }
   dotail();
 ?>

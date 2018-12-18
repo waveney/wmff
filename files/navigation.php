@@ -116,10 +116,21 @@
 </div>
 ";
 
-  global $USERID;
+  global $USERID,$PerfTypes;
   if ( isset($USER{'AccessLevel'}) && $USER{'AccessLevel'} == $Access_Type['Participant'] ) {
     echo "<div class=Staff><div class=navigation>";
     switch ($USER{'Subtype'}) {
+    case 'Perf':
+      include_once("DanceLib.php");
+      $Side = Get_Side($USERID);
+      $NotD = 0;
+      foreach ($PerfTypes as $p=>$d) if (($d[0] != 'IsASide') && $Side[$d[0]]) $NotD = 1;
+      echo "<a href=$host/int/AddPerf.php?sidenum=$USERID onmouseover=NoHoverSticky()>Edit Data</a>";
+      echo "<a href=$host/int/ShowDance.php?sidenum=$USERID onmouseover=NoHoverSticky()>Public view</a>";
+      if ($Side['IsASide']) echo "<a href=$host/int/DanceFAQ.php onmouseover=NoHoverSticky()>Dance FAQ</a>";
+      if ($NotD) echo "<a href=$host/int/MusicFAQ.php onmouseover=NoHoverSticky()>Performer T&amp;Cs</a>";
+      break;
+
     case 'Side':
       echo "<a href=$host/int/AddPerf.php?sidenum=$USERID onmouseover=NoHoverSticky()>Edit Side</a>";
       echo "<a href=$host/int/ShowDance.php?sidenum=$USERID onmouseover=NoHoverSticky()>Public view of Side</a>";

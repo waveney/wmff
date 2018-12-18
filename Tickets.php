@@ -111,6 +111,12 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
     echo "<td style='width:50%'>";
       if ($E['Description']) echo $E['Description'] . "<br>";
       echo Get_Event_Participants($E['EventId'],0,1,15);
+      if ($E['ExcludePass']) {
+        echo "<p><b>Note:</b> This is event excluded from the Weekend Pass ";
+        if ($E['ExcludeDay'] && $MASTER[$DayLongList[$E['Day']] . "Pass"]!='') echo " or " . $DayLongList[$Ev['Day']] . " ticket\n";
+      } elseif ($E['ExcludeDay'] && $MASTER[$DayLongList[$E['Day']] . "Pass"]!='') {
+        echo "<p><b>Note:</b> This is event excluded from the " . $DayLongList[$E['Day']] . " ticket\n";
+      } 
     if (($MASTER['TicketControl'] == 1) && ($E['TicketCode'] || $E['SpecPriceLink'])) echo "<td><strong>$bl Buy Now</a></strong>\n";
   }
   
