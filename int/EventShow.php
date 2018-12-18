@@ -138,7 +138,10 @@ function Print_Participants($e,$when=0,$thresh=0) {
     if ($Ev['SpecPrice']) {
       echo $Ev['SpecPrice'];
     } else {
-      echo Price_Show($Ev) . ", or by Weekend ticket or " . $DayLongList[$Ev['Day']] . " ticket\n";
+      echo Price_Show($Ev);
+      if (!$Ev['ExcludePass']) { echo ", or by Weekend ticket";
+        if (!$Ev['ExcludeDay'] && $MASTER[$DayLongList[$Ev['Day']] . "Pass"]) echo " or " . $DayLongList[$Ev['Day']] . " ticket\n";
+      }
     }
     if ($Ev['TicketCode']) {
       $bl = "<a href=https://www.ticketsource.co.uk/date/" . $Ev['TicketCode'] . " target=_blank>" ;
