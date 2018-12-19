@@ -10,16 +10,19 @@
   include_once("DanceLib.php");
   include_once("MusicLib.php");
   include_once("EventCheck.php");
-  global $MASTER,$YEAR,$USERID,$Importance;
+  global $MASTER,$YEAR,$USERID,$Importance,$PerfTypes;
 
   Set_Event_Help();
 
   $EventTimeFields = array('Start','End','SlotEnd','DoorsOpen');
   $EventTimeMinFields = array('Setup','Duration');
 
-  $SideList=Select_Come();
-  $ActList=Select_Act_Come(0);
-  $OtherList=Select_Other_Come(0);
+function Parse_Perf_Selection() {
+  for($i=1; $i<5; $i++) {
+    $_POST["Side$i"] = $_POST["Perf" . $_POST["PerfType$i"] . "_Side$i"];
+  }  
+}
+
   $Venues = Get_Real_Venues(0);
   $Skip = 0;
 
@@ -179,6 +182,8 @@ A similar feature will appear eventually for music.<p>
     } elseif ($eid > 0) {         // existing Event
       $CurEvent=$Event;
       Parse_TimeInputs($EventTimeFields,$EventTimeMinFields);
+      Parse_Perf_Selection();
+//      var_dump($_POST);
       Update_db_post('Events',$Event);
       Check_4Changes($CurEvent,$Event);
       $OtherValid = 1;
@@ -224,6 +229,8 @@ A similar feature will appear eventually for music.<p>
       }
       if ($_POST['Owner'] == 0) $_POST['Owner'] = $USERID;
       Parse_TimeInputs($EventTimeFields,$EventTimeMinFields);
+      
+      Parse_Perf_Selection();
       $_POST{'Year'} = $YEAR;
       $eid = Insert_db_post('Events',$Event,$proc); //
       $empty = array();
@@ -262,6 +269,14 @@ A similar feature will appear eventually for music.<p>
   $AllA = Get_AllUsers(1);
   $AllActive = array();
   foreach ($AllU as $id=>$name) if ($AllA[$id] >= 2 && $AllA[$id] <= 6) $AllActive[$id]=$name;
+  if (isset($Event['Year'])) $YEAR = $Event['Year'];
+  if (Feature('NewPERF2')) {
+    foreach ($PerfTypes as $p=>$d) $SelectPerf[$p] = ($d[0] == 'IsASide'? Select_Come(): Select_Perf_Come($d[0]));
+  } else {
+    $ActList=Select_Act_Come(0);
+    $OtherList=Select_Other_Come(0);
+  }
+
 
 //var_dump($Event);
   if (isset($Err)) echo "<h2 class=ERR>$Err</h2>\n";
@@ -276,17 +291,19 @@ A similar feature will appear eventually for music.<p>
         if (!isset($_GET['COPY'])) $Event['Day'] = 1;
       }
 //      echo fm_text('SE',$Event,'SubEvent');
-      echo "<td class=NotSide>" . fm_checkbox('Exclude From Spot Counts',$Event,'ExcludeCount');
       echo "<td class=NotSide>Public:" . fm_select($Public_Event_Types,$Event,'Public');
 //      echo "<td class=NotSide>Participant Visibility:" . fm_select($VisParts,$Event,'InvisiblePart');
       echo "<td class=NotSide>Originator:" . fm_select($AllActive,$Event,'Owner',1);
+      echo "<tr>";
+      echo "<td class=NotSide>" . fm_checkbox('Exclude From Spot Counts',$Event,'ExcludeCount');
+      echo "<td class=NotSide>" . fm_checkbox('Ignore Clashes',$Event,'IgnoreClash');
+
       echo "<td class=NotSide>" .fm_checkbox('Exclude from Weekend Pass',$Event,'ExcludePass');
       echo "<td class=NotSide>" .fm_checkbox('Exclude from Day Tickets',$Event,'ExcludeDay');
 
       echo "<tr><td class=NotSide>" . fm_checkbox('Multiday Event',$Event,'LongEvent','onchange=$(".mday").show()');
       $hidemday =  (isset($Event['LongEvent']) && $Event['LongEvent'])?'':'hidden ';
       echo "<td class=NotSide>" . fm_checkbox('Big Event',$Event,'BigEvent');
-      echo "<td class=NotSide>" . fm_checkbox('Ignore Clashes',$Event,'IgnoreClash');
       echo "<td class=NotSide>" . fm_checkbox('Also Dance',$Event,'ListDance') . " ". fm_checkbox('Also Music',$Event,'ListMusic');
       echo "<td class=NotSide>" . fm_checkbox('No Part',$Event,'NoPart');
         
@@ -337,6 +354,27 @@ A similar feature will appear eventually for music.<p>
                     fm_text1('Special Price Link',$Event,'SpecPriceLink',1,'class=NotSide','class=NotSide') ;
       echo "<td class=NotSide>" . fm_checkbox('Cancelled',$Event,'Status');
       if (!((isset($Event['BigEvent']) && $Event['BigEvent']))) {
+        if (Feature('NewPERF2')) {
+          $PTypes = [];
+          foreach ($PerfTypes as $p=>$d) $PTypes[] = $p;
+          for ($i=1; $i<5; $i++) {
+            if (!isset($Event["PerfType$i"])) $Event["PerfType$i"]=0;
+            echo "<tr><td colspan=2>";
+            echo fm_radio('',$PTypes,$Event,"PerfType$i","onchange=EventPerfSel(event,###F,###V)",0) . "<td colspan=2>";
+
+            $sid = $Event["Side$i"];
+            $pi = 0;
+            foreach ($PerfTypes as $p=>$d) {
+              echo ($SelectPerf[$p]?fm_select($SelectPerf[$p],$Event,"Side$i",1,"id=EvPerf$pi" . "_Side$i " . ($Event["PerfType$i"]==$pi?'':'hidden'),"Perf$pi" . "_Side$i") :"");
+              if ($sid && ($Event["PerfType$i"] == $pi) && !isset($SelectPerf[$p][$sid])) {
+                $Side = Get_Side($sid);
+                echo "<del><a href=AddPerf.php?id=$sid>" . $Side['SN'] . "</a></del> ";               
+              }
+              $pi++;
+            }
+
+          }
+        } else {
 //        if ($et == 'Dance' || $et == 'Workshop' || $et == 'Mixed' || $et == 'Other') {
           echo "<tr><td rowspan=2>Sides:" . Help('Sides');
           for ($i=1; $i<5; $i++) {
@@ -357,7 +395,7 @@ A similar feature will appear eventually for music.<p>
             if ($i==3) echo "<tr>"; 
             echo "<td colspan=2>" .fm_select($OtherList,$Event,'Other' . $i,1);
           }
-//        }
+        }
       } else {
         $ovc=0;
         echo "<tr><td>Other Venues:";

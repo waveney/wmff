@@ -253,6 +253,26 @@ function Select_Other_Come($type=0,$extra='') {
   return $Coming;
 }
 
+// New code
+
+function Select_Perf_Come($Perf,$type=0,$extra='') {
+  global $db,$YEAR;
+  static $Coming;
+  if (isset($Coming[$Perf])) return $Coming[$Perf];
+  $qry = "SELECT s.SideId, s.SN, s.Type FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
+        " AND s.$Perf=1 AND y.YearState>=2 " . $extra . " ORDER BY s.SN";
+  $res = $db->query($qry);
+  if ($res) {
+    while ($row = $res->fetch_assoc()) {
+      $x = ($type && $row['Type'])?( " (" . trim($row['Type']) . ") ") : "";
+      $Coming[$Perf][$row['SideId']] = $row['SN'] . $x;
+    }
+  }
+  if (!isset($Coming[$Perf])) $Coming[$Perf]=[''];
+  return $Coming[$Perf];
+}
+
+
 // TODO Generalise these as well
 
 function &Select_Act_Full() {

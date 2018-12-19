@@ -333,13 +333,26 @@ function Event_Has_Parts($e) {
 }
 
 function ListLinks(&$ev,$type,$single,$plural,$size,$mult) {
+  global $PerfTypes,$PerfIdx;
   $things = 0;
-  $imps = array();
-  for($i=1;$i<5;$i++) {
-    if (isset($ev["$type$i"])) if ($ee = $ev["$type$i"])  { 
-      $s = Get_Side($ee);  
-      if ($s) $imps[$s['Importance']][] = $s; 
-      $things++;
+  if (Feature('NewPERF2')) {
+    $imps = [];
+    for($i=1;$i<5;$i++) {
+      if (isset($ev["PerfType$i"]) && ($ev["PerfType$i"]==$PerfIdx[$type])) if ($ee = $ev["Side$i"])  { 
+        $s = Get_Side($ee);  
+        if ($s) $imps[$s['Importance']][] = $s; 
+        $things++;
+      }
+    }
+  
+  } else {
+    $imps = array();
+    for($i=1;$i<5;$i++) {
+      if (isset($ev["$type$i"])) if ($ee = $ev["$type$i"])  { 
+        $s = Get_Side($ee);  
+        if ($s) $imps[$s['Importance']][] = $s; 
+        $things++;
+      }
     }
   }
 
@@ -355,7 +368,7 @@ function ListLinks(&$ev,$type,$single,$plural,$size,$mult) {
     if ($imp) $ans .= "<span style='font-size:" . ($size+$imp*$mult) . "px'>";
     foreach ($imps[$imp] as $thing) {
       $things++;
-      if ($thing['IsASide']) {
+      if (Feature('NewPERF2') || $thing['IsASide']) {
         $ttxt = "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
       } else if ($thing['IsAnAct']) {
         $ttxt = "<a href='/int/ShowMusic.php?sidenum=" . $thing['SideId'] . "'>";
@@ -382,7 +395,7 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
   include_once "MusicLib.php";
   $ans = "";
   $now = time();
-  $flds = array('Side','Act','Other');
+  $flds = (Feature('NewPERF2')? ['Side'] : ['Side','Act','Other']);
   $MainEv = 0;
   $res = $db->query("SELECT * FROM Events WHERE EventId='$Ev' OR SubEvent='$Ev' ORDER BY Day, Start DESC");
   $found = array();
@@ -414,7 +427,7 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
                       $s['NotComing'] = ($s['YearState'] < 2);
                     } else $s['NotComing'] = 1;
                   }  
-                  if ($s && ($s['ReleaseDate'] < $now) || ( Access('Committee') && $Mode)) $imps[$s['Importance']][] = $s; 
+                  if ($s && ($sy['ReleaseDate'] < $now) || ( Access('Committee') && $Mode)) $imps[$s['Importance']][] = $s; 
                   $found[$ee]=1;
                 }
               }
@@ -483,7 +496,7 @@ function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='
   $something = 0;
   $ans = '';
   foreach ($Others as $oi=>$o) {
-    if ($o['Type'] == 'Side' || $o['Type'] == 'Act' || $o['Type'] == 'Other') {
+    if ($o['Type'] == 'Side' || $o['Type'] == 'Act' || $o['Type'] == 'Other' || $o['Type'] == 'Perf') {
       $si = $o['Identifier'];  
       if (!isset($found[$si])) {
         $s = Get_Side($si);

@@ -174,6 +174,20 @@ function OlapCatChange(e,l,v) {
   if (v == 2) $('#OlapOther' + olapn).show();
 }
 
+function EventPerfSel(e,l,v) {
+//  debugger;
+  var lmtch = l.match(/PerfType(\d*)/);
+  var i = lmtch[1];
+  
+  for (var p=0;p<5;p++) { // 5 needs to be number of perftypes
+    if (p == v) { 
+      $('#EvPerf' + p + '_Side' + i).show();
+    } else {
+      $('#EvPerf' + p + '_Side' + i).hide();    
+    }
+  }
+}
+
 function AutoInput(f) {
 //  debugger;
   var newval = document.getElementById(f).value;

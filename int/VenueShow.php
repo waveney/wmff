@@ -189,6 +189,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
           case 'Venue':
             if (in_array($thing['Identifier'],$VenList)) $found = 1; 
             break;
+          case 'Perf':
           case 'Side':
             if ($thing['Identifier'] && ($Mode || $thing['ReleaseDate']<$now)) $e['With'][($Poster?$sides[$thing['Identifier']]['Importance']:0)][] = $sides[$thing['Identifier']];
             $WithC++;
