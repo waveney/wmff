@@ -273,6 +273,7 @@ A similar feature will appear eventually for music.<p>
   if (Feature('NewPERF2')) {
     foreach ($PerfTypes as $p=>$d) $SelectPerf[$p] = ($d[0] == 'IsASide'? Select_Come(): Select_Perf_Come($d[0]));
   } else {
+    $SideList=Select_Come();
     $ActList=Select_Act_Come(0);
     $OtherList=Select_Other_Come(0);
   }
