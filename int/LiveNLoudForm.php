@@ -2,7 +2,7 @@
   include_once("fest.php");
 
   dostaffhead("Live and Loud Application", "/js/Participants.js");
-  A_Check('SysAdmin'); // lock out for this year
+//  A_Check('SysAdmin'); // lock out for this year
   include_once("SignupLib.php");
   global $USER,$USERID,$db,$PLANYEAR;
 
