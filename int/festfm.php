@@ -161,9 +161,9 @@ function fm_checkbox($Desc,&$data,$field,$extra='',$field2='',$split=0,$extra2='
 function fm_select2(&$Options,$Curr,$field,$blank=0,$selopt='',$field2='') {
   global $ADDALL,$AutoADD;
   if ($field2 == '') $field2=$field;
-  $str = "<select name=$field2 id=$field2 $ADDALL ";
+  $str = "<select name=$field2 $selopt id=$field2 $ADDALL ";
   if ($AutoADD) $str .= " oninput=AutoInput('$field2') ";
-  $str .= "$selopt>";
+  $str .= ">";
   if ($blank) {
     $str .= "<option value=''";
     if ($Curr == 0) $str .= " selected";
@@ -202,14 +202,14 @@ function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field
     $ex = preg_replace('/###F/',("'" . $field2 . "'"),$ex);
     $ex = preg_replace('/###V/',("'" . $i . "'"),$ex);
     if ($multi) {
-      $str .= "<input type=checkbox name=$field2$i id=$field2$i $ADDALL ";
+      $str .= "<input type=checkbox name=$field2$i $ex id=$field2$i $ADDALL ";
       if ($AutoADD) $str .= " oninput=AutoInput('$field2$i',$i) ";    
-      $str .= " $ex value='$i'";
+      $str .= " value='$i'";
       if (isset($data["$field$i"]) && ($data["$field$i"] == $i)) $str .= " checked";
     } else {
-      $str .= "<input type=radio name=$field2 id=$field2$i $ADDALL ";
+      $str .= "<input type=radio name=$field2 $ex id=$field2$i $ADDALL ";
       if ($AutoADD) $str .= " oninput=AutoRadioInput('$field2',$i) ";
-      $str .= " $ex value='$i'";
+      $str .= " value='$i'";
       if (isset($data[$field]) && ($data[$field] == $i)) $str .= " checked";
     }
     $str .= ">\n";

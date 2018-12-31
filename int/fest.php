@@ -54,6 +54,7 @@ $PerfTypes = ['Dance Side'=>['IsASide','Dance','Dance','Dance','D'],
               'Comedy'=>['IsFunny','Comedy','Comedy','Comedy','C'],
               'Child Ent'=>['IsFamily','Children','Family','Youth','Y'],
               'Other'=>['IsOther','Info','Other','','O']];
+$PerfIdx = ['Side'=>0,'Act'=>1,'Comic'=>2,'ChEnt'=>3,'Other'=>4];
 // Perfname => [field to test, email address for,Capability name,budget,shortCode]
 
 

@@ -498,13 +498,21 @@ function Put_Overlaps(&$Ovs) {
 }
   
 function UpdateOverlaps($snum) {
+  global $PerfTypes;
   $Exist = Get_Overlaps_For($snum);
 //var_dump($Exist);echo "<p>";
 //var_dump($_POST);echo "<p>";
 
+  for($i=1; $i<5; $i++) {
+    $_POST["Side$i"] = $_POST["Perf" . $_POST["PerfType$i"] . "_Side$i"];
+  }  
+/*
 // Scan each existing and any added rules
   $Rule = 0;
-  while ((isset($_POST["OlapSide$Rule"]) || isset($_POST["OlapAct$Rule"]) || isset($_POST["OlapOther$Rule"])) || 
+  while (1) {
+    $sid = $_POST["Perf" . $_POST["OlapCat$rule"] 
+  
+  ((isset($_POST["OlapSide$Rule"]) || isset($_POST["OlapAct$Rule"]) || isset($_POST["OlapOther$Rule"])) || 
          isset($_POST["OlapActive$Rule"]) || isset($_POST["OlapMajor$Rule"])) {
     $O = $StO = (isset($Exist[$Rule]) ? $Exist[$Rule] : ['Sid1'=>$snum,'Cat2'=>0]);
     $Other = ($O['Sid1'] == $snum)?'Sid2':'Sid1'; //???????
@@ -533,6 +541,7 @@ function UpdateOverlaps($snum) {
 
     $Rule++;
   }
+*/
 }
       
 function Side_ShortName($si) {

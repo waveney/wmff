@@ -37,27 +37,29 @@ function Get_Imps(&$e,&$imps,$clear=1,$all=0) {
   $now=time();
   if ($clear) $imps = array();
   for($i=1;$i<5;$i++) {
-    if (isset($e["Side$i"])) { if ($ee = $e["Side$i"])  { 
+    if (isset($e["Side$i"]) && $e["Side$i"]) { if ($ee = $e["Side$i"])  { 
         $si = Get_Side($ee);
         if ($si) {
           $y = Get_SideYear($ee,$YEAR);
           $s = array_merge($si, munge_array($y)); 
-          if ($s && ($all || (( $s['Coming'] == 2) && ($ets >1 || ($ets==1 && Access('Participant','Side',$s))) && $s['ReleaseDate'] < $now))) 
+          if ($s && ($all || ((( $s['Coming'] == 2) || ($s['YearState'] >= 2)) && ($ets >1 || ($ets==1 && Access('Participant','Side',$s))) && $s['ReleaseDate'] < $now))) 
              $imps[$useimp?$s['Importance']:0][] = $s; }; }; };
-    if (isset($e["Act$i"]))  { if ($ee = $e["Act$i"])   { 
+    if (!Feature('NewPERF2')) { 
+      if (isset($e["Act$i"]))  { if ($ee = $e["Act$i"])   { 
         $si = Get_Side($ee);
         if ($si) {
           $y = ($newf?Get_SideYear($ee,$YEAR):Get_ActYear($ee,$YEAR));
           $s = array_merge($si, munge_array($y)); 
           if ($s && ($all || (( $s['YearState'] >= 2) && ($ets >1 || ($ets==1 && Access('Participant','Act',$s))) && $s['ReleaseDate'] < $now))) 
             $imps[$useimp?$s['Importance']:0][] = $s; }; }; };
-    if (isset($e["Other$i"])){ if ($ee = $e["Other$i"]) { 
+      if (isset($e["Other$i"])){ if ($ee = $e["Other$i"]) { 
         $si = Get_Side($ee);
         if ($si) {
           $y = ($newf?Get_SideYear($ee,$YEAR):Get_ActYear($ee,$YEAR));
           $s = array_merge($si, munge_array($y)); 
           if ($s && ($all || (( $s['YearState'] >= 2) && ($ets >1 || ($ets==1 && Access('Participant','Other',$s))) && $s['ReleaseDate'] < $now))) 
             $imps[$useimp?$s['Importance']:0][] = $s; }; }; };
+    }
   }
 }
 
@@ -155,6 +157,21 @@ function Gallery($id,$embed=0) {
 
   if (!$embed) dotail();
 }
+
+function Count_Perf_Type($type,$Year=0) {
+  global $YEAR,$db,$Coming_Type;
+  $now = time();
+  if ($Year == 0) $Year=$YEAR;
+  $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$Year AND s.$type=1 AND ( y.Coming=" . $Coming_Type['Y'] . 
+                    " OR y.YearState>2 ) AND y.ReleaseDate<$now");
+  $Dsc = 0;
+  if ($ans) {
+    $res = $ans->fetch_assoc();
+    $Dsc = $res['Total'];
+  }
+  return $Dsc;
+}
+
 
 function Expand_Special(&$Art) {
   global $db,$YEAR,$Coming_Type;

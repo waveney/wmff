@@ -1,6 +1,6 @@
 <?php
 
-$lnlclasses = array('','Live and Louder (under 16s)','Live and Loud (17-44)','Still Alive and Loud (45+)');
+$lnlclasses = array('','Live and Louder (under 16s)','Live and Loud (17+)');
 $Colours = array('white','lime','orange','grey');
 $yesno = array('','Yes','No');
 $States = array('Submitted','Paid','Cancelled');
@@ -29,15 +29,21 @@ function Get_lnl_Details(&$lnl) {
   $Body .= "\n\n";
 
   $Body .= "Members:\n";
-  for ($i=1;$i<7;$i++) if ($lnl["SN$i"]) $Body .= "$i: " . $lnl["SN$i"] . " - " . $lnl["Instr$i"] . "\n";
+  for ($i=1;$i<7;$i++) if (isset($lnl["SN$i"])) $Body .= "$i: " . $lnl["SN$i"] . " - " . $lnl["Instr$i"] . "\n";
   if ($lnl['TotalSize']) $Body .= "Total Size: " . $lnl['TotalSize'] . "\n";
 
   $Body .= "\nSongs: " . $lnl['Songs'] . "\n";
   $Body .= "Equipment: " . $lnl['Equipment'] . "\n";
-  $Body .= "Can Play for 30 mins? " . $yesno[$lnl['FolkFest']] . "\n";
-  $Body .= "Available on Friday? " . $yesno[$lnl['FFFri']] . "\n";
-  $Body .= "Available on Saturday? " . $yesno[$lnl['FFSat']] . "\n";
-  $Body .= "Available on Sunday? " . $yesno[$lnl['FFSun']] . "\n";
+  $Body .= "Available for both Audition and Final " . $yesno[$lnl['FolkFest']] . "\n";
+//  $Body .= "Available on Friday? " . $yesno[$lnl['FFFri']] . "\n";
+  $Body .= "Available on Saturday of Folk Festival? " . $yesno[$lnl['FFSat']] . "\n";
+//  $Body .= "Available on Sunday? " . $yesno[$lnl['FFSun']] . "\n";
+
+  if (isset($lnl['Bio'])) $Body .= "Bio:" . $lnl['Bio'] . "\n";
+  if (isset($lnl['Social'])) $Body .= "Social:" . $lnl['Bio'] . "\n";
+  if (isset($lnl['Example'])) $Body .= "Video: <a href='" . $lnl['Example'] . "'>" .$lnl['Example'] . "</a>\n";
+  
+  $Body = preg_replace('/\n/',"<br>",$Body);
   return $Body;
 }
 
@@ -86,22 +92,37 @@ function Email_lol_Signup(&$lol,$messcat,$whoto) {
   Email_Proforma($whoto,$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $lol['SN'],'lol_Details',$lnl,'LaughOutLog.txt');
 }
 
-function Get_BB_Details(&$bb) {
-  $Body .= "\nBand: " . $bb['SN'] . "\n";
-  $Body .= "Contact: " . $bb['Contact'] . "\n";
-  if ($bb['Phone']) $Body .= "Phone: " . $bb['Phone'] . "\n";
-  $Body .= "Email: <a href=mailto:" . $bb['Email'] . ">" . $bb['Email'] . "</a>\n";
-//  $Body .= "Address: " . $bb['Address'] . "\n";
-//  $Body .= "PostCode: " . $bb['PostCode'] . "\n\n";
+function Get_BB_Details(&$lnl) {
+  global $lnlclasses,$yesno;
+  $Body = "\nBand: " . $lnl['SN'] . "\n";
+  $Body .= "Style: " . $lnl['Style'] . "\n\n";
+  $Body .= "Contact: " . $lnl['Contact'] . "\n";
+  if ($lnl['Phone']) $Body .= "Phone: " . $lnl['Phone'] . "\n";
+  $Body .= "Email: <a href=mailto:" . $lnl['Email'] . ">" . $lnl['Email'] . "</a>\n";
+  $Body .= "Address: " . $lnl['Address'] . "\n";
+  $Body .= "PostCode: " . $lnl['PostCode'] . "\n\n";
   $Body .= "\n\n";
 
-  $Body .= "Example:" . $bb['Example'];
+  $Body .= "Members:\n";
+  for ($i=1;$i<7;$i++) if (isset($lnl["SN$i"])) $Body .= "$i: " . $lnl["SN$i"] . " - " . $lnl["Instr$i"] . "\n";
+  if ($lnl['TotalSize']) $Body .= "Total Size: " . $lnl['TotalSize'] . "\n";
+
+  $Body .= "Available for Buskers Bash " . $yesno[$lnl['FolkFest']] . "\n";
+//  $Body .= "Available on Friday? " . $yesno[$lnl['FFFri']] . "\n";
+  $Body .= "Available on Saturday of Folk Festival? " . $yesno[$lnl['FFSat']] . "\n";
+  $Body .= "Available on Sunday of Folk Festival? " . $yesno[$lnl['FFSun']] . "\n";
+
+  if (isset($lnl['Bio'])) $Body .= "Bio:" . $lnl['Bio'] . "\n";
+  if (isset($lnl['Social'])) $Body .= "Social:" . $lnl['Bio'] . "\n";
+  if (isset($lnl['Example'])) $Body .= "Video: <a href='" . $lnl['Example'] . "'>" .$lnl['Example'] . "</a>\n";
+  
+  $Body = preg_replace('/\n/',"<br>",$Body);
   return $Body;
 }
 
 function BB_Details($key,&$bb) {
   switch ($key) {
-  case 'WHO': return $lnl['Contact']? firstword($bb['Contact']) : $bb['SN'];
+  case 'WHO': return $bb['Contact']? firstword($bb['Contact']) : $bb['SN'];
   case 'DETAILS': return Get_BB_Details($bb);
   }
 }

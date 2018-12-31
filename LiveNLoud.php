@@ -12,8 +12,91 @@
 </div>
 
 
-<h2 class=subtitle>Wimborne Live &amp; Loud 2018</h2>
+<h2 class=subtitle>Wimborne Live &amp; Loud 2019</h2>
 
+<h3>APPLICATIONS</h3>
+Applications are now open for this year’s Live and Loud Competition!
+To register your interest, please click the link below and fill in an
+application form today.<p>
+
+Applicants should fill in the <a href=int/LiveNLoudForm.php><b>Application Form</b></a> in by
+no later than Monday 5th March 2019.<p>
+
+<h3>APPLICATION PROCESS</h3>
+
+1. <a href=int/LiveNLoudForm.php><b>APLICATION FROM</b></a>: Please begin by registering your interest and
+filling out the application form. Applications will
+close on Tuesday 5th March.<p>
+
+2. VIDEO LINK: All applicants will be asked to provide a video link that
+will be reviewed following the application deadline. You will not be
+judged on the quality of your videography/sound but on your talent. Aim
+to provide us with something that shows you in the best possible light.<p>
+
+3. SELECTION PROCESS: We will select up to 15 acts from each category
+to invite to our audition day.<p>
+
+4. DEPOSIT PAYMENT: Successful applicants will receive an email by
+Tuesday 12th March requesting a deposit of &pound;5 to secure their
+opportunity to audition. PLEASE NOTE: This will be returned upon
+booking in at the audition day. All deposit payments must be received by
+Tuesday 26th March or your place will be offered to another applicant.<p>
+
+5. AUDITIONS: Successful applicants will need to be available on Sunday
+14th April to attend a live audition at The Allendale Community Centre.
+Please prepare 1 song and a back up that shows us what you can do.<p>
+
+<ul>
+<li>11am – 2pm - Live and Louder – Under 16s Auditions
+<li>2:30pm – 5:30pm – Live and Loud – 17+ Auditions
+</ul><p>
+
+6. LIVE FINAL: 6 performers will be selected to represent each category
+in the evening at the Live Final - Sunday 14th April. They will each
+perform 2 songs for our panel of judges and live audience.<p>
+
+
+<h3>COMPETITON DETAILS</h3>
+Auditions:<br>
+Sunday 14th April<br>
+1. 11am – 2pm - Live and Louder – Under 16s Auditions<br>
+2. 2:30pm – 5:30pm – Live and Loud – 17+ Auditions<p>
+
+Live Final:<br>
+Sunday 14th April<br>
+Doors: 7pm Event: 7:30pm<p>
+
+This year, the competition will be divided into 2 categories:<p>
+
+Live and Louder – For performers aged 16 and under<br>
+Live and Loud – For performers aged 17 and over<br>
+
+A winner and runner up will be selected from each category by our panel
+of judges and each will receive a cash prize (&pound;100 Winner and &pound;50
+Runner Up) along with a performance slot at this year’s festival on the
+Willow Walk stage!<p>
+
+You can support all of our performers on Sunday 14th April at the Live
+Final. Doors will open at 7pm and battle commences at 7.30pm. Tickets
+will be available on the door at a cost of just &pound;3 from The Allendale
+Centre, Wimborne.<p>
+
+<h3>HISTORY</h3>
+
+Live and Loud has been a part of the festival for several years now and
+runs with the intention of discovering and promoting local talent and
+providing a forum in which to showcase their work.<p>
+
+We continue to support our previous winners and contestants to ensure
+that their voices are heard and their talent is nurtured.<p>
+
+Last years winners included Stratus, Bowen and Pounds and The
+Darwins. We are delighted to be welcoming them back to perform at the
+festival this year.<p>
+
+
+<?php
+/*
 Live and Loud has been running for several years now with the intention of finding local talent from 
 within the community to showcase their work during the festival. <p>
 
