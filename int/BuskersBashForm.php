@@ -9,14 +9,17 @@
   /* In the longer term this will be based on participants, but I want to do this quickly for 2018 so it is stand alone for now */
 
   if (isset($_POST['submit'])) {
+    $err=0;
     if (strlen($_POST['SN']) < 2) { echo "<p class=Err>Please give your band's name\n"; $err=1; };
     if (strlen($_POST['Example'])< 12) { echo "<p class=Err>Please give a link to an example of you performing - Youtube or equivalent\n"; $err=1; };
     if (strlen($_POST['Contact']) < 6) { echo "<p class=Err>Please give the contact name\n"; $err=1; };
     Clean_Email($_POST{'Email'});
     if (strlen($_POST['Email']) < 6) { echo "<p class=Err>Please give the contacts Email\n"; $err=1; };
     if (strlen($_POST['Phone']) < 6) { echo "<p class=Err>Please give the contacts Phone number\n"; $err=1; };
-//    if (strlen($_POST['Address']) < 20) { echo "<p class=Err>Please give the contacts Address\n"; $err=1; };
-    if (!$_POST['TickBox']) { echo "<p class=Err>Please Tick the Box to show you have read the guidelines\n"; $err=1; };
+    if (strlen($_POST['Address']) < 20) { echo "<p class=Err>Please give the contacts Address\n"; $err=1; };
+    if (!isset($_POST['FFSat'])) { echo "<p class=Err>Please indicate if you could do a 30 minute set on Saturday 8th of June at the festival\n"; $err=1; };
+    if (!isset($_POST['FFSun'])) { echo "<p class=Err>Please indicate if you could do a 30 minute set on Sunday 9th of June at the festival\n"; $err=1; };
+    if (strlen($_POST['Bio']) < 20) { echo "<p class=Err>Please give a Bio\n"; $err=1; };
     if (!$err) {
 //      echo "<P>VALID...<P>";
       $_POST['AccessKey'] = rand_string(40);
@@ -25,7 +28,7 @@
       $id = Insert_db_post('SignUp',$bb);
     
       Email_BB_Signup($bb,'BB_Application',$bb['Email']);
-      Email_BB_Signup($bb,'BB_karen','festikaz@hotmail.co.uk');
+      Email_BB_Signup($bb,'BB_Nathan','nathanpotter89@hotmail.co.uk');
       
       echo "<h2 class=bigtitle>Thankyou for submitting your application</h2>";
       dotail();
@@ -33,77 +36,44 @@
     }
   }
 
-  
-  echo "<h2 class=subtitle>Buskers Bash 2018 Application Form</h2>\n";
+  echo "<h2 class=subtitle>Buskers Bash $PLANYEAR Application Form</h2>\n";
   echo "<form method=post action=BuskersBashForm.php>";
   echo "<table border>\n";
   echo "<tr>" . fm_text1("Band/Group/Act Name",$_POST,'SN',2);
+  echo fm_text1('Style of Music',$_POST,'Style');
+  echo "<tr><td colspan=2>Band/Act Members, or significant members of large groups\n";
+  echo fm_text1("Total Size of Band/Act if more than 6",$_POST,'TotalSize',2);
+  echo "<tr><td>Name<td>Instrument<td>Name<td>Instrument\n";
+  for ($i=1;$i<=6;$i++) {
+    echo (($i&1)?"<tr>":""); 
+    echo fm_text1($i,$_POST,"Name$i") . fm_text1('',$_POST,"Instr$i");
+  }
   echo "<tr><td colspan=4>Main Contact:\n";
-  echo "<tr>" . fm_text('Contact',$_POST,'SN');
+  echo "<tr>" . fm_text('Name',$_POST,'Contact');
   echo "<tr>" . fm_text('Email',$_POST,'Email');
   echo "<tr>" . fm_text('Phone',$_POST,'Phone');
-//  echo "<tr>" . fm_text('Address',$_POST,'Address',4);
-//  echo "<tr>" . fm_text('Postcode',$_POST,'PostCode');
-  echo "<tr>" . fm_text('Example of you playing - YouTube or equivalent',$_POST,'Example');
-  echo "<tr><td>" . fm_checkbox("I have read the guidelines",$_POST,'TickBox');
+  echo "<tr>" . fm_text('Address',$_POST,'Address',4);
+  echo "<tr>" . fm_text('Postcode',$_POST,'PostCode');
+  echo "<tr><td colspan=2>Are you available to attend and perform Buskers Bash between 10:30am and 4pm??<td>" . fm_radio('',$yesno,$_POST,'FolkFest','',0);
+//  echo "<tr><td colspan=2>Are you available on Friday 8th June, during the Folk Festival?<td>" . fm_radio('',$yesno,$_POST,'FFFri','',0);
+  echo "<tr><td colspan=2>Are you available to perform a 30 minute set on Saturday 8th June, during the Folk Festival?<td>" . fm_radio('',$yesno,$_POST,'FFSat','',0);
+  echo "<tr><td colspan=2>Are you available to perform a 30 minute set on Sunday 9th June, during the Folk Festival?<td>" . fm_radio('',$yesno,$_POST,'FFSun','',0);
+  echo "<tr><td colspan=4><b>Bio</b><br>
+Please compose up to 150 words to describe what you do. This information will be
+used to introduce you to the audience. You may wish to include:<br>
+<ul><li>A description of the style of music that you play
+<li>References to musicians who inspire you
+<li>Whether your songs are originals or covers
+<li>Age of the performers in your act and how long you’ve been working together
+<li>How regularly you gig and any notable places you’re performed
+<li>What you hope to achieve with your music</ul>";
+  echo fm_basictextarea($_POST,'Bio',4,4);
+  echo "<tr>" . fm_text("Social Media link(s)",$_POST,'Social');
+  echo "<tr>" . fm_text("Video link(s)",$_POST,'Example') . "<td colspan=2>(This is what we will use to decide your suitability for the event)";
   echo "</table><p>";
   echo "<input type=submit name=submit value='Submit Application' onclick=$('#Patience').show()><p>\n";   
   echo "<h2 hidden class=Err id=Patience>This takes a few moments, please be patient</h2>";
-
-?>
-<h2 class=subtitle>Guildlines</h2>
-Please register at the Info Point on The Square between 10.30 - 11.30<p>
-
-<ul>
-<li>The busking programme will run from 11.30 - 5.00 (approx), with each busker
-having a 20 min performance time at various locations around town.
-
-<li>Each busker will have an ID badge, to be worn at all times. You will also be
-responsible for a festival collecting bucket.
-
-<li>Please return your badge &amp; festival bucket after your final performance.
-
-<li>Voting for the buskers will be by tokens available at the Info Point from 11.30, &amp;
-from Stewards at each busking location, &amp; around town. Tokens cost &pound;1 for 10.
-
-<li>Stewards will exchange your bucket for an empty one at each location, or you can
-return it to the Info Point yourself. Counting of tokens will take place throughout the
-day by a Festival Committee member.
-
-<li>You can also put out your own cash collection container in an equal position to that of
-the festival. The public can then choose where to donate - hopefully both!
-
-<li>You can only use the festival approved times &amp; performance areas, as indicated by
-our 'Busk Stop' signs.
-
-
-
-<li>All performance areas are completely acoustic as there is no power available for you
-to use. You may bring your own battery powered amp if you wish, but volume must
-be kept at a low level &amp; with a consideration to members of the public.
-
-<li>This is not an open invitation for any busker to just turn up &amp; play. Unapproved
-performers will be removed.
-
-<li>Please remember that this is a family friendly event, &amp; as such your performances
-must be suitable for all ages.
-
-<li>Following the end of busking programme, the five buskers with the most votes will be
-invited to perform on the stage in The Square. Approx time 5.15 - 7.0.
-
-<li>Judges appointed by the festival will decide the winners, but audience participation is
-incouraged!
-
-<li>The overall winner will receive a prize of &pound;100 &amp; an invitation to be part of the
-Buskers Programme at Wimborne Minster Folk Festival in June. The runner-up will
-receive a prize of &pound;50
-
-<li>Thank you for joining us, &amp; helping to make Buskers Bash an ongoing success.
-</ul>
-
-We hope that you enjoy your day with us in Wimborne.
-<?php
-
+  
   dotail();
 
 ?>

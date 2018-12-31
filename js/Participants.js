@@ -73,7 +73,7 @@ function AgentChange(ev) {
 }
 
 function CheckContract() {
-  debugger;
+//  debugger;
   if((document.getElementById('TotalFee').value > 0 ) || 
      (document.getElementById('OtherPayment').value !='' )) { $('.ContractShow').show() }
   else { $('.ContractShow').hide() }
@@ -161,6 +161,7 @@ function PowerChange(t,i) {
   }
 }
 
+// Old code for deleteion
 function OlapCatChange(e,l,v) {
 //  debugger;
   var lmtch = l.match(/(\d*$)/);
@@ -174,6 +175,7 @@ function OlapCatChange(e,l,v) {
   if (v == 2) $('#OlapOther' + olapn).show();
 }
 
+// Now used for Events and Overlaps
 function EventPerfSel(e,l,v) {
 //  debugger;
   var lmtch = l.match(/PerfType(\d*)/);

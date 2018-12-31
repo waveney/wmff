@@ -47,13 +47,13 @@
   global $Mess,$Action,$Dance_TimeFeilds;
   $DateFlds = ['ReleaseDate'];
 
-//var_dump($_POST);
+// var_dump($_POST);
 // TODO Change this to not do changes at a distance and needing global things
   $Action = ''; 
   $Mess = '';
-  if (isset($_POST{'Action'})) {
+  if (isset($_POST['Action'])) {
     include_once("Uploading.php");
-    $Action = $_POST{'Action'};
+    $Action = $_POST['Action'];
     switch ($Action) {
     case 'PASpecUpload':
       $Mess = Upload_PASpec();
@@ -64,6 +64,16 @@
     case 'Photo':
       $Mess = Upload_Photo();
       break;
+    case (preg_match('/DeleteOlap(\d*)/',$Action,$mtch)?true:false):
+      // Delete Olap
+      $snum=$_POST['SideId'];
+      $olaps = Get_Overlaps_For($snum);
+//      echo "<br>"; var_dump($olaps);
+      if (isset($olaps[$mtch[1]])) {
+        db_delete("Overlaps",$olaps[$mtch[1]]['id']);
+      } 
+      break;
+    
     default:
       $Mess = "!!!";
     }

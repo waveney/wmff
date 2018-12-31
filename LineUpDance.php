@@ -15,8 +15,11 @@
     echo "In $YEAR, These Dance teams were in Wimborne.  Click on the name or photograph to find out more and where they were dancing.<p>\n";
     echo "<b><a href=/int/ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR>Dance Programme for $YEAR</a></b><p>\n";
   } else {
-    echo "In $YEAR, it's going to be another fun filled weekend of colourful dance displays through the streets of Wimborne.<p>\n";
-    echo "Dance teams already confirmed for $YEAR include:<p>\n";
+    echo "In " . ($YEAR-1) . " we had over " . Count_Perf_Type('IsASide',$YEAR-1) . " teams performing, for $YEAR we already have " .
+         Count_Perf_Type('IsASide',$YEAR) . " confirmed and lots more to come.<p>";
+  
+    if (Feature('DanceComp')) echo "We willl also be having a <a href=int/ShowArticles.php?w=NWDanceComp>Competiton for the best North West Morris Team</a>.<p>";
+  
     echo "Click on the name of a team, or their photograph to find out more about them and where they are dancing.<p>\n";
     if ($ET['State'] >=3 ) echo "<b><a href=/int/ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR>" . $EType_States[$ET['State']] . " Dance Programme for $YEAR</a></b><p>\n";
   }

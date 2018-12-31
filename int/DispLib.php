@@ -158,6 +158,21 @@ function Gallery($id,$embed=0) {
   if (!$embed) dotail();
 }
 
+function Count_Perf_Type($type,$Year=0) {
+  global $YEAR,$db,$Coming_Type;
+  $now = time();
+  if ($Year == 0) $Year=$YEAR;
+  $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$Year AND s.$type=1 AND ( y.Coming=" . $Coming_Type['Y'] . 
+                    " OR y.YearState>2 ) AND y.ReleaseDate<$now");
+  $Dsc = 0;
+  if ($ans) {
+    $res = $ans->fetch_assoc();
+    $Dsc = $res['Total'];
+  }
+  return $Dsc;
+}
+
+
 function Expand_Special(&$Art) {
   global $db,$YEAR,$Coming_Type;
   static $Shown = [];

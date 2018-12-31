@@ -215,6 +215,14 @@ function Other_Name_List() {
   return $Sides;
 }
 
+function Perf_Name_List($isa) {
+  global $db;
+  $Sides = [];
+  $res = $db->query("SELECT SideId, SN FROM Sides WHERE SideStatus=0 AND $isa=1 ORDER BY SN");
+  if ($res) while ($row = $res->fetch_assoc()) $Sides[$row['SideId']] = $row['SN'];
+  return $Sides;
+}
+
 // TODO generalise these Name_List funcs to take para for perf type wanted
 
 function Select_Act_Come($type=0,$extra='') {

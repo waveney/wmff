@@ -8,78 +8,62 @@
 <img src="/images/Stratus5.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
 <p>Stratus - Buskers Bash winners 2017
 </div>
-<h2 class=subtitle>Wimborne Buskers Bash 2018</h2>
+<h2 class=subtitle>Wimborne Buskers Bash 2019</h2>
 
-On Saturday 14th April, Wimborne will come alive to the sound of traditional street entertainment from a
-range of buskers. Organised for the second year by the committee of Wimborne Minster Folk Festival,
-you can find music at various venues throughout the town, including The Square. Voting for the finalists
-is by members of the public using tokens purchased on the day. The grand finals will be in the early
-evening decided by a group of experienced judges, &amp; encouraged by public participation!<p>
+<h3>APPLICATIONS</h3>
+Applications are now open for this year’s Buskers Bash Competition!
+To register your interest, please click the link below and fill in an
+application form today.<p>
 
-Events start in the square at 10:30 with Polly Morris and Buskers around town from 11:30.<p>
-
-Calling all those of you who would like to take part in this year's Busker's Bash, on Saturday 14th
-April.<p>
-
-There will be performance spots around town, including The Square. This year, as well as the public
-using voting tokens to select the finalists, you can also collect cash for yourself.
-Check out more information - Buskers Bash Guidelines. Applications are closed.<p>
-
-Please send any queries or questions to <a href=mailto:BuskersBash@wimbornefolk.co.uk>BuskersBash@wimbornefolk.co.uk</a>.<p>
-
-<h2 class=subtitle>Guildlines</h2>
-Please register at the Info Point on The Square between 10.30 - 11.30<p>
-
-<ul>
-<li>The busking programme will run from 11.30 - 5.00 (approx), with each busker
-having a 20 min performance time at various locations around town.
-
-<li>Each busker will have an ID badge, to be worn at all times. You will also be
-responsible for a festival collecting bucket.
-
-<li>Please return your badge &amp; festival bucket after your final performance.
-
-<li>Voting for the buskers will be by tokens available at the Info Point from 11.30, &amp;
-from Stewards at each busking location, &amp; around town. Tokens cost &pound;1 for 10.
-
-<li>Stewards will exchange your bucket for an empty one at each location, or you can
-return it to the Info Point yourself. Counting of tokens will take place throughout the
-day by a Festival Committee member.
-
-<li>You can also put out your own cash collection container in an equal position to that of
-the festival. The public can then choose where to donate - hopefully both!
-
-<li>You can only use the festival approved times &amp; performance areas, as indicated by
-our 'Busk Stop' signs.
+Applicants should fill in the <a href=int/BuskersBashForm.php><b>Application Form</b></a> in by
+no later than Monday 5th March 2019.<p>
 
 
+<h3>APPLICATION PROCESS</h3>
 
-<li>All performance areas are completely acoustic as there is no power available for you
-to use. You may bring your own battery powered amp if you wish, but volume must
-be kept at a low level &amp; with a consideration to members of the public.
+1. <a href=int/BuskersBashForm.php><b>APPLICATION FORM</b></a>: Please begin by registering your interest and
+filling out the application form. Applications will
+close on Tuesday 5th March.<p>
 
-<li>This is not an open invitation for any busker to just turn up &amp; play. Unapproved
-performers will be removed.
+2. VIDEO LINK: All applicants will be asked to provide a video link that
+will be reviewed following the application deadline. You will not be
+judged on the quality of your videography/sound but on your talent. Aim
+to provide us with something that shows you in the best possible light.<p>
 
-<li>Please remember that this is a family friendly event, &amp; as such your performances
-must be suitable for all ages.
+3. SELECTION PROCESS: We will watch through all of the video sent to us
+and select up to 14 acts play at this years Buskers Bash.<p>
 
-<li>Following the end of busking programme, the five buskers with the most votes will be
-invited to perform on the stage in The Square. Approx time 5.15 - 7.0.
+4. NOTIFICATION: Successful applicants will receive an email by Tuesday
+12th March inviting them to perform at this year’s event. Confirmation of
+your attendance must be received by Tuesday 26 th March or your place
+will be offered to another applicant.<p>
 
-<li>Judges appointed by the festival will decide the winners, but audience participation is
-incouraged!
+5. EVENT: Performers will play at various locations around Wimborne on
+Saturday 13th April. Audience members will vote for their favourites
+using tokens and each act will perform for our judging panel in the
+Square.<p>
 
-<li>The overall winner will receive a prize of &pound;100 &amp; an invitation to be part of the
-Buskers Programme at Wimborne Minster Folk Festival in June. The runner-up will
-receive a prize of &pound;50
 
-<li>Thank you for joining us, &amp; helping to make Buskers Bash an ongoing success.
-</ul>
+<h3>COMPETITION DETAILS</h3>
+Saturday 13th April 2019<br>
+10:30am - 4pm<p>
 
-We hope that you enjoy your day with us in Wimborne.<p>
+Each year, buskers from around the country travel to Wimborne to
+compete in the annual Buskers Bash. Organised by the committee of
+Wimborne Minster Folk Festival, you can find the sound of traditional
+street entertainment at various venues throughout the town including
+The Square, The Library and The Oddfellows Arms.<p>
 
-Applications are closed.<p>
+Members of the public can purchase tokens on the day (at a cost of &pound;1
+for 10) to show their support for their favourite artists and all of these
+votes will be counted and combined with a judges’ total to decide the
+winner.<p>
+
+Participants will compete this year for a cash prize (&pound;100 Winner and
+&pound;50 to the Runner Up) and the winner will be invited to perform on the
+Willow Walk Stage during the 2019 Folk Festival. It promises to be a
+thrilling competition.<p>
+
 <?php 
   dotail();
 ?>

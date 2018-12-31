@@ -165,8 +165,6 @@
       echo "<li class=smalltext><a href=CheckDuplicates.php?Y=$YEAR>Check for Duplicate Year Tables Entries</a>";      
 //      echo "<li class=smalltext><a href=ImportDance2.php>Import Appalachian List</a>"; // Should never be needed again
       echo "</table>\n";
-    } else if (Access('Staff','Dance')) {
-      echo "<li class=smalltext><a href=LineUpDance.php?MIN&Y=$YEAR>Picture free List of Dance Sides Coming</a>\n";
     }
     echo "</ul>\n";
 // *********************** Comedy, Childrens Ent, Other Perf
@@ -187,7 +185,7 @@
       echo "<li><a href=ListMusic.php?SEL=ALL&Y=$YEAR&T=Y>List All Children's Entertainers in Database</a>\n";
       echo "<li><a href=ListMusic.php?SEL=Booking&Y=$YEAR&T=Y>List Children's Entertainers Booking</a>\n";
     }
-    if (Access('Staff','Comedy')) {
+    if (Access('Staff','Family')) {
       echo "<li><a href=CreatePerf.php?T=Y&Y=$YEAR>Add Children's Entertainers to Database</a>";
     }
     echo "</ul>\n";
@@ -197,7 +195,7 @@
       echo "<li><a href=ListMusic.php?SEL=ALL&Y=$YEAR&T=O>List All Other Performers in Database</a>\n";
       echo "<li><a href=ListMusic.php?SEL=Booking&Y=$YEAR&T=O>List Other Performers Booking</a>\n";
     }
-    if (Access('Staff','Comedy')) {
+    if (Access('Staff','Other')) {
       echo "<li><a href=CreatePerf.php?T=O&Y=$YEAR>Add Other Performer to Database</a>";
     }
     echo "</ul>\n";
