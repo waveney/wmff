@@ -14,7 +14,7 @@
   if (isset($_GET['T'])) $T = $_GET['T'];
   if (isset($_POST['T'])) $T = $_POST['T'];
   $Perf = 0; 
-  foreach ($PerfTypes as $p=>$d) if ($d[4] == $T) { $Perf = $p; $Type = $d[2]; };
+  foreach ($PerfTypes as $p=>$d) if ($d[3] == $T) { $Perf = $p; $Type = $d[2]; };
 //var_dump($Type);
   A_Check('Staff',$Type);
 
