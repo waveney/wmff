@@ -74,13 +74,13 @@ function Select_Come_Day($Day,$xtr='') {
   }
 }
 
-function &Select_Come_All() {
+function &Select_Come_All($extra='') {
   global $db,$YEAR,$Coming_Type;
   static $Come_Loaded = 0;
   static $Coming;
   if ($Coming) return $Coming;
   $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] .
-        " ORDER BY s.SN";
+        " $extra ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
 
@@ -500,48 +500,36 @@ function Put_Overlaps(&$Ovs) {
 function UpdateOverlaps($snum) {
   global $PerfTypes;
   $Exist = Get_Overlaps_For($snum);
-//var_dump($Exist);echo "<p>";
-//var_dump($_POST);echo "<p>";
 
-  for($i=1; $i<5; $i++) {
-    $_POST["Side$i"] = $_POST["Perf" . $_POST["PerfType$i"] . "_Side$i"];
-  }  
-/*
+//  for($i=1; $i<5; $i++) {
+//    $_POST["Side$i"] = $_POST["Perf" . $_POST["PerfType$i"] . "_Side$i"];
+//  }  
+
 // Scan each existing and any added rules
   $Rule = 0;
   while (1) {
-    $sid = $_POST["Perf" . $_POST["OlapCat$rule"] 
+    $r = $Rule++;
+    if (!isset($_POST["Olap$r" . "Cat"])) break;
+    $cat = $_POST["Olap$r" . "Cat"];
+    $sid = $_POST["Perf$cat" . "_Side$r"];
   
-  ((isset($_POST["OlapSide$Rule"]) || isset($_POST["OlapAct$Rule"]) || isset($_POST["OlapOther$Rule"])) || 
-         isset($_POST["OlapActive$Rule"]) || isset($_POST["OlapMajor$Rule"])) {
-    $O = $StO = (isset($Exist[$Rule]) ? $Exist[$Rule] : ['Sid1'=>$snum,'Cat2'=>0]);
-    $Other = ($O['Sid1'] == $snum)?'Sid2':'Sid1'; //???????
-    $OtherCat = ($O['Sid1'] == $snum)?'Cat2':'Cat1'; //???????
-    $O['OType'] = $_POST["OlapType$Rule"];
-    $O['Major'] = (isset($_POST["OlapMajor$Rule"]) ? $_POST["OlapMajor$Rule"] :0);
-    $O['Days'] = $_POST["OlapDays$Rule"];
-    $O['Active'] = (isset($_POST["OlapActive$Rule"]) ? $_POST["OlapActive$Rule"] :0);
-    $Cat = $O[$OtherCat] = $_POST["OlapCat$Rule"];
-    switch ($Cat) {
-    case 0: //Side
-      $O[$Other] = $_POST["OlapSide$Rule"];
-      break;
-    case 1: //Act
-      $O[$Other] = $_POST["OlapAct$Rule"];
-      break;
-    case 2: //Other
-      $O[$Other] = $_POST["OlapOther$Rule"];
-      break;
-    }    
+    if (!$sid || !isset($_POST["OlapActive$r"]) || !isset($_POST["OlapMajor$r"])) continue;
+    $O = $StO = (isset($Exist[$r]) ? $Exist[$r] : ['Sid1'=>$snum,'Cat2'=>0]);
+    $Other = ($O['Sid1'] == $snum)?'Sid2':'Sid1'; 
+    $OtherCat = ($O['Sid1'] == $snum)?'Cat2':'Cat1';
+    $O['OType'] = $_POST["OlapType$r"];
+    $O['Major'] = (isset($_POST["OlapMajor$r"]) ? $_POST["OlapMajor$r"] :0);
+    $O['Days'] = $_POST["OlapDays$r"];
+    $O['Active'] = (isset($_POST["OlapActive$r"]) ? $_POST["OlapActive$r"] :0);
+    $O[$OtherCat] = $cat;
+    $O[$Other] = $sid;
+
     if ((isset($O['id'])) && $O['id']) {
       Update_db('Overlaps',$StO,$O); 
     } else if ($O[$Other]) {
       Insert_db('Overlaps',$O); 
     }
-
-    $Rule++;
   }
-*/
 }
       
 function Side_ShortName($si) {

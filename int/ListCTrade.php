@@ -100,7 +100,8 @@
         $Act = $TS_Actions[$stat];
         if ($ActsEnable && $Act ) {
           $Acts = preg_split('/,/',$Act); 
-          $str .= "<form>" . fm_Hidden('id',$Tid);
+          $str .= "<div class=floatright style='max-width:250'><form>" . fm_Hidden('id',$Tid);
+          $butcount = 0;
           foreach($Acts as $ac) {
             switch ($ac) {
               case 'Quote':
@@ -114,9 +115,10 @@
                 break;
               default:
               }
-            $str .= "<button class=floatright name=ACTION value='$ac' type=submit " . (isset($ButExtra[$ac])?$ButExtra[$ac]:"") . " >$ac</button>";
+            if ($butcount++ == 4) $str .= "<br>";
+            $str .= "<button name=ACTION value='$ac' type=submit " . (isset($ButExtra[$ac])?$ButExtra[$ac]:"") . " >$ac</button>";
           }
-          $str .= "</form>";
+          $str .= "</form></div>";
         }
         if ($stat == $Trade_State['Fully Paid'] && ($fetch['Insurance'] == 0 || $fetch['RiskAssessment'] == 0)) {
           $str .= "Paid";

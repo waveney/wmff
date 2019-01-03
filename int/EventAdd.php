@@ -19,7 +19,7 @@
 
 function Parse_Perf_Selection() {
   for($i=1; $i<5; $i++) {
-    $_POST["Side$i"] = $_POST["Perf" . $_POST["PerfType$i"] . "_Side$i"];
+    if (isset($_POST["PerfType$i"])) $_POST["Side$i"] = $_POST["Perf" . $_POST["PerfType$i"] . "_Side$i"];
   }  
 }
 
@@ -363,10 +363,10 @@ A similar feature will appear eventually for music.<p>
             echo "<tr><td colspan=2>";
             echo fm_radio('',$PTypes,$Event,"PerfType$i","onchange=EventPerfSel(event,###F,###V)",0) . "<td colspan=2>";
 
-            $sid = $Event["Side$i"];
+            $sid = (isset($Event["Side$i"])?$Event["Side$i"] : 0);
             $pi = 0;
             foreach ($PerfTypes as $p=>$d) {
-              echo ($SelectPerf[$p]?fm_select($SelectPerf[$p],$Event,"Side$i",1,"id=EvPerf$pi" . "_Side$i " . ($Event["PerfType$i"]==$pi?'':'hidden'),"Perf$pi" . "_Side$i") :"");
+              echo ($SelectPerf[$p]?fm_select($SelectPerf[$p],$Event,"Side$i",1,"id=Perf$pi" . "_Side$i " . ($Event["PerfType$i"]==$pi?'':'hidden'),"Perf$pi" . "_Side$i") :"");
               if ($sid && ($Event["PerfType$i"] == $pi) && !isset($SelectPerf[$p][$sid])) {
                 $Side = Get_Side($sid);
                 echo "<del><a href=AddPerf.php?id=$sid>" . $Side['SN'] . "</a></del> ";               
