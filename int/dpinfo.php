@@ -47,7 +47,7 @@
   }
   if ($data['StagePA'] && $data['StagePA'] != 'None') echo "<tr><td>PA:<td class=smalltext>" . $data['StagePA'];
   if ($data['Likes']) echo "<tr><td>Rqst:<td class=smalltext>" . $data['Likes'];
-  if ($data['Notes']) echo "<tr><td>notes<td class=smalltext>" . $data['notes'];
+  if (isset($data['Notes']) && $data['Notes']) echo "<tr><td>notes<td class=smalltext>" . $data['Notes'];
   if ($data['Location']) echo "<tr><td>Loc:<td class=smalltext>" . $data['Location'];
 
   if ($data['Share']) echo "<tr><td>Shared:<td>" . $Share_Spots[$data['Share']];
@@ -81,10 +81,10 @@
   $Olaps = Get_Overlaps_For($s);
   if ($Olaps) foreach ($Olaps as $oi=>$O) {
     $Other =  ($O['Sid1'] == $s)?'Sid2':'Sid1';
-    $OtherCat =  ($O['Sid1'] == $s)?'Cat2':'Cat1';
-    
-    echo "<tr><td>Olap " . substr($OlapTypes[$O['Type']],0,1) . ($O['Major']?' M ':' m ');
-    echo "<td>" . ($O['Days']?$OlapDays[$O['Days']]:'') . " " . $OlapCat[$O[$OtherCat]] . " " . Get_Side_Name($O[$Other]);
+//    $OtherCat =  ($O['Sid1'] == $s)?'Cat2':'Cat1';
+//var_dump($O);    
+    echo "<tr><td>Olap " . substr($OlapTypes[$O['OType']],0,1) . ($O['Major']?' M ':' m ');
+    echo "<td>" . ($O['Days']?$OlapDays[$O['Days']]:'') . " " . /* $OlapCat[$O[$OtherCat]] . " " .*/ Get_Side_Name($O[$Other]);
   } 
 
   if ($data['NoiseLevel']) echo "<tr><td>Noise:<td>" . $Noise_Levels[$data['NoiseLevel']];

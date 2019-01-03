@@ -28,9 +28,18 @@
       $memb = Add_BandMember($id,$Value);
       echo "@BandMember" . $match[1] . ":$memb@";
       exit;
-    } else if (preg_match('/(Olap\D*)(\d*)/',$field,$match)) { // Overlaps are a special case
+    } else if (preg_match('/^Olap.*/',$field)) { // Overlaps are a special case
       $Exist = Get_Overlaps_For($id);
-      $O = $StO = (isset($Exist[$match[2]]) ? $Exist[$match[2]] : ['Sid1'=>$id,'Cat2'=>0]);
+      if (preg_match('/(Olap\D+)(\d+)/',$field,$match)) {
+        $OFld = $match[1];
+        $ORule = $match[2];
+      } elseif (preg_match('/Olap(\d+)(\D*)/',$field,$match)) {
+        $OFld = $match[2];
+        $ORule = $match[1];
+      } else { echo "Undefined Olap format"; exit();
+      }
+      
+      $O = $StO = (isset($Exist[$ORule]) ? $Exist[$ORule] : ['Sid1'=>$id,'Cat2'=>0]);
       $Other = ($O['Sid1'] == $id)?'Sid2':'Sid1'; 
       $OtherCat =  ($O['Sid1'] == $id)?'Cat2':'Cat1';
       $O[ ['OlapType' => 'OType', 
@@ -40,7 +49,20 @@
            'OlapSide' => $Other, 
            'OlapAct' => $Other, 
            'OlapOther' => $Other,
-           'OlapCat' => $OtherCat][$match[1]] ] = $Value;
+           'OlapCat' => $OtherCat,
+           'Cat' => $OtherCat][$OFld] ] = $Value;
+
+      if ((isset($O['id'])) && $O['id']) {
+        Update_db('Overlaps',$StO,$O); 
+      } else {
+        Insert_db('Overlaps',$O); 
+      }
+    } else if (preg_match('/^Perf(\d+)_Side(\d+)/',$field,$match)) { // Overlaps are a special case
+      $Exist = Get_Overlaps_For($id);
+      $ORule = $match[2];
+      $O = $StO = (isset($Exist[$ORule]) ? $Exist[$ORule] : ['Sid1'=>$id,'Cat2'=>0]);
+      $Other = ($O['Sid1'] == $id)?'Sid2':'Sid1'; 
+      $O[$Other] = $Value;
       if ((isset($O['id'])) && $O['id']) {
         Update_db('Overlaps',$StO,$O); 
       } else {

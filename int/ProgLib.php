@@ -226,14 +226,21 @@ function Get_Events_For($what,$Day) {
   }
 }
 
-function Get_All_Events_For($what,$wnum,$All=0) {
+function Get_All_Events_For($what,$wnum,$All=0) {// what is not used
   global $db,$YEAR;
-  $qry="SELECT DISTINCT e.* FROM Events e, BigEvent b WHERE Year=$YEAR " . ($All?'':"AND Public<2") . " AND ( " .
+  if (Feature('NewPERF2')) {
+    $qry="SELECT DISTINCT e.* FROM Events e, BigEvent b WHERE Year=$YEAR " . ($All?'':"AND Public<2") . " AND ( " .
+                "Side1=$wnum OR Side2=$wnum OR Side3=$wnum OR Side4=$wnum" .
+                " OR ( BigEvent=1 AND e.EventId=b.Event AND ( b.Type='Side' OR b.Type='Perf') AND b.Identifier=$wnum ) ) " .
+                " ORDER BY Day,Start";
+  } else {
+    $qry="SELECT DISTINCT e.* FROM Events e, BigEvent b WHERE Year=$YEAR " . ($All?'':"AND Public<2") . " AND ( " .
                 "Side1=$wnum OR Side2=$wnum OR Side3=$wnum OR Side4=$wnum OR " .
                 "Act1=$wnum OR Act2=$wnum OR Act3=$wnum OR Act4=$wnum OR " .
                 "Other1=$wnum OR Other2=$wnum OR Other3=$wnum OR Other4=$wnum " .
                 " OR ( BigEvent=1 AND e.EventId=b.Event AND b.Type='$what' AND b.Identifier=$wnum ) ) " .
                 " ORDER BY Day,Start";
+  } 
   $res = $db->query($qry);
   if ($res) {
     while($ev = $res->fetch_assoc()) $evs[$ev['EventId']] = $ev;

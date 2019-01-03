@@ -280,6 +280,23 @@ function Select_Perf_Come($Perf,$type=0,$extra='') {
   return $Coming[$Perf];
 }
 
+function Select_Perf_Come_All($Perf,$extra='') {
+  global $db,$YEAR;
+  static $Coming;
+  if (isset($Coming[$Perf])) return $Coming[$Perf];
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
+        " AND s.$Perf=1 AND y.YearState>=2 " . $extra . " ORDER BY s.SN";
+  $res = $db->query($qry);
+  if ($res) {
+    while ($row = $res->fetch_assoc()) {
+      $Coming[$Perf][$row['SideId']] = $row;
+    }
+  }
+  if (!isset($Coming[$Perf])) $Coming[$Perf]=[''];
+  return $Coming[$Perf];
+}
+
+
 
 // TODO Generalise these as well
 
@@ -301,6 +318,15 @@ function &Select_Other_Full() {
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
   return $Coming;
+}
+
+function &Select_Perf_Full() {
+  global $db,$YEAR;
+  $Perfs = [];
+  $qry = "SELECT * FROM Sides s";
+  $res = $db->query($qry);
+  if ($res) while ($row = $res->fetch_assoc()) $Perfs[$row['SideId']] = $row;
+  return $Perfs;
 }
 
 function Select_Act_Come_Day($Day,$xtr='') { // This wont work - currently unused (I hope)

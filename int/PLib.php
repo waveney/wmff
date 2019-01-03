@@ -271,7 +271,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
         if ($i) echo "<tr id=OverlapRow$i class=NotSide>";
         echo "<td colspan=7 class=NotSide>Type: " . fm_select($OlapTypes,$O,'OType',0,'',"OlapType$i") . 
                 fm_checkbox("Major",$O,'Major','',"OlapMajor$i") . 
-                fm_radio('',$PTypes,$O,$OtherCat,"onchange=EventPerfSel(event,###F,###V)",0,'',"OlapCat$i");
+                fm_radio('',$PTypes,$O,$OtherCat,"onchange=EventPerfSel(event,###F,###V)",0,'',"Olap$i" . "Cat");
  
         $sid = $O[$Other];
         $pi = 0;

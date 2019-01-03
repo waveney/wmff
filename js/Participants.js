@@ -73,11 +73,11 @@ function AgentChange(ev) {
 }
 
 function CheckContract() {
-//  debugger;
-  if((document.getElementById('TotalFee').value > 0 ) || 
-     (document.getElementById('OtherPayment').value !='' )) { $('.ContractShow').show() }
-  else { $('.ContractShow').hide() }
-  
+  if(document.getElementById('TotalFee'))  {
+    if((document.getElementById('TotalFee').value > 0 ) || 
+       (document.getElementById('OtherPayment').value !='' )) { $('.ContractShow').show() }
+    else { $('.ContractShow').hide() }
+  }
   updateimps();
 }
 
@@ -178,14 +178,14 @@ function OlapCatChange(e,l,v) {
 // Now used for Events and Overlaps
 function EventPerfSel(e,l,v) {
 //  debugger;
-  var lmtch = l.match(/PerfType(\d*)/);
+  var lmtch = l.match(/.*(\d+)/);
   var i = lmtch[1];
   
   for (var p=0;p<5;p++) { // 5 needs to be number of perftypes
     if (p == v) { 
-      $('#EvPerf' + p + '_Side' + i).show();
+      $('#Perf' + p + '_Side' + i).show();
     } else {
-      $('#EvPerf' + p + '_Side' + i).hide();    
+      $('#Perf' + p + '_Side' + i).hide();    
     }
   }
 }

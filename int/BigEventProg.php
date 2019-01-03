@@ -2,13 +2,13 @@
   include_once("fest.php");
   A_Check('Committee','Dance');
 
-  dominimalhead("Big Event Programming", "js/tableHeadFixer.js", "js/BigE.js");
+  dominimalhead("Big Event Programming", "js/tableHeadFixer.js", "js/Participants.js", "js/BigE.js", "files/festconstyle.css" );
 
   include_once("DanceLib.php");
   include_once("MusicLib.php");
   include_once("ProgLib.php");
 //  include_once("PartLib.php");
-  global $YEAR;
+  global $YEAR,$SelectPerf,$Sides,$Order,$things;
 
   if (isset($_GET{'e'})) { $Eid = $_GET{'e'}; } else { Error_Page('Big Event without Event'); };
   $Event = Get_Event($Eid);
@@ -18,18 +18,26 @@
   $YEAR = $Event['Year'];
 
   if (!isset($_GET{'EInfo'})) $_GET{'EInfo'} = 0;
+  $extra = $extra2 = '';
+  if (preg_match('/Procession/',$Event['SN'])) {
+    $extra = " AND y.Procession=1 AND y.$Day=1";
+  }
 
-  $Sides = Select_Come_Day($Day,' AND y.Procession=1 ');
+  foreach ($PerfTypes as $p=>$d) $SelectPerf[$p] = ($d[0] == 'IsASide'? Select_Come_All($extra): Select_Perf_Come_All($d[0],$extra2)); 
+  
+  $Sides = Select_Perf_Full();
 
-  $Acts = Select_Act_Come(1);
-  $Others = Select_Other_Come(1);
+  $things = Get_Other_Things_For($Eid);
+  foreach ($things as $t) if (preg_match('/Side|Act|Other|Perf/',$t['Type'])) $Order[$t['Identifier']] = $t['EventOrder'];
+//  $Acts = Select_Act_Come(1);
+//  $Others = Select_Other_Come(1);
 
 //var_dump($Acts); exit;
 
 // Displays Grid
 function Prog_Grid() {
-  global $Event,$DAY,$Sides,$Acts,$Others,$Eid,$ActsD,$OthersD;
-  $things = Get_Other_Things_For($Eid);
+  global $Event,$DAY,$Sides,$Acts,$Others,$Eid,$ActsD,$OthersD,$things;
+
 
   echo "<div class=BEGridWrapper><div class=BEGridContainer>";
   echo "<table border id=Grid><thead><tr><th>Order<th>What<th>Notes if any";
@@ -37,10 +45,13 @@ function Prog_Grid() {
 
   $CurOrder=1;
   if ($things) {
+//  var_dump($things);
     foreach ($things as $i=>$t) {
       $id = $t['Identifier'];
       $tt = $t['Type'];
-      if ($tt == 'Venue') Continue;
+      if ($tt == 'Venue') continue;
+      if (preg_match('/Side|Act|Other/',$tt)) $tt = "Perf";
+
       while ($CurOrder < $t['EventOrder']) {
         echo "<tr><td>$CurOrder<td id=E$CurOrder:: draggable=true class=DPGridDisp ondragstart=drag(event) ";
         echo "ondrop=dropgrid(event) ondragover=allow(event)>";
@@ -49,29 +60,12 @@ function Prog_Grid() {
       }
       echo "<tr><td>$CurOrder<td id=S$CurOrder:$tt:$id draggable=true class=DPGridDisp ";
       echo "ondragstart=drag(event) ondrop=dropgrid(event) ondragover=allow(event)>";
-      switch ($tt) {
-        case 'Side':
-          echo SName($Sides[$id]);
-          if ($Sides[$id]['Type']) echo " (" . trim($Sides[$id]['Type']) . ")";
-          if (isset($Sides[$id]['EventOrder'])) { $Sides[$id]['EventOrder'] = '!!'; }
-          else $Sides[$id]['EventOrder'] = $CurOrder;
-          break;
-        case 'Act':
-          echo $Acts[$id];
-//          if ($Acts[$id]['Type']) echo " (" . trim($Acts[$id]['Type']) . ")";
-          if (isset($ActsD[$id]['EventOrder'])) { $ActsD[$id]['EventOrder'] = '!!'; }
-          else $ActsD[$id]['EventOrder'] = $CurOrder;
-          break;
-        case 'Other':
-          echo $Others[$id];
-//          if ($Others[$id]['Type']) echo " (" . trim($Others[$id]['Type']) . ")";
-          if (isset($OthersD[$id]['EventOrder'])) { $OthersD[$id]['EventOrder'] = '!!'; }
-          else $OthersD[$id]['EventOrder'] = $CurOrder;
-          break;
-        case 'Note':
-          break;
-        default: // inc Venues
-          break;
+      if ($tt=='Perf') {
+ //       var_dump($id,$Sides[$id]);
+        echo SName($Sides[$id]);
+        if ($Sides[$id]['Type']) echo " (" . trim($Sides[$id]['Type']) . ")";
+        if (isset($Sides[$id]['EventOrder'])) { $Sides[$id]['EventOrder'] = '!!'; }
+        else $Sides[$id]['EventOrder'] = $CurOrder;
       }
       echo "<td id=M$CurOrder:$tt:$id ondragover=allow(event)><input type=text size=30 id=J$CurOrder:$tt:$id oninput=newnote(event) value='" . 
         htmlspec($t['Notes']) ."' ondragover=allow(event)>\n";
@@ -91,56 +85,39 @@ function Prog_Grid() {
 
 }
 
-function Side_List() {
-  global $Event,$DAY,$Sides,$Acts,$Others,$Thing_Types,$ActsD,$OthersD;
+function Side_List($extra='',$extra2='') {
+  global $Event,$DAY,$Sides,$Thing_Types,$ActsD,$OthersD,$PerfTypes,$SelectPerf,$Order;
   $Show['ShowThings'] = 'Sides';
   echo "<div class=SideListWrapper>";
-  echo fm_radio("Show",$Thing_Types,$Show,'ShowThings','onchange=ShowThing()',0);
+  
+  $PTypes = [];
+  foreach ($PerfTypes as $p=>$d) $PTypes[] = $p;
+  $stuff["PerfType0"] = 0;
+  echo fm_radio('',$PTypes,$stuff,"PerfType0","onchange=EventPerfSel(event,###F,###V)",0);
+
   echo "<div class=SideListContainer>";
-  echo "<table border id=SideSide>";
-  echo "<tr><th>Side<th>i";
-  if (!$Event['ExcludeCount']) echo "<th>W<th>H";
-  echo "<th>P\n";
-  foreach ($Sides as $iid=>$side) {
-    $id = $side['SideId'];
-    echo "<tr><td draggable=true class='SideName' id=Z0:Side:$id ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event)>";
-    echo SName($side);
-    if ($side['Type']) echo " (" . trim($side['Type']) . ")";
-    echo "<td><img src=/images/icons/information.png onclick=dispinfo('Side',$id)>";
-    if (!$Event['ExcludeCount']) {
-      echo "<td id=SideW$id align=right>" . $side[$DAY . "Dance"] . "<td id=SideH$id align=right>" . $SideCounts[$id];
+  foreach ($PTypes as $pi=>$p) {
+    echo "<table border id=Perf$pi" . "_Side0 " . ($pi?"hidden":"") . ">";
+    echo "<tr><th>" . $PTypes[$pi] . "<th>i";
+//    if (!$Event['ExcludeCount']) echo "<th>W<th>H";
+    echo "<th>P\n";
+    foreach ($SelectPerf[$p] as $id=>$side) {
+//      $id = $side['SideId'];
+      if (!$id) continue;
+      echo "<tr><td draggable=true class='SideName' id=Z0:Perf:$id ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event)>";
+      echo SName($side);
+      if (isset($side['Type']) && $side['Type']) echo " (" . trim($side['Type']) . ")";
+      echo "<td><img src=/images/icons/information.png onclick=dispinfo('Side',$id)>";
+//      if (!$Event['ExcludeCount']) {
+//        echo "<td id=SideW$id align=right>" . $side[$DAY . "Dance"] . "<td id=SideH$id align=right>" . $SideCounts[$id];
+//      }
+      echo "<td id=PerfP$id>";
+      if (isset($Order[$id])) echo $Order[$id];
+      echo "\n";
     }
-    echo "<td id=SideP$id>";
-    if (isset($side['EventOrder'])) echo $side['EventOrder'];
-    echo "\n";
+    echo "</table>";
   }
-  echo "</table><br><table border id=ActSide >";
-  echo "<tr><th>Act<th>i";
-  echo "<th>P\n";
-  if ($Acts) foreach ($Acts as $id=>$act) {
-    if (!$act) continue;
-    echo "<tr><td draggable=true class='SideName' id=Z0:Act:$id ondragstart=drag(event) ondragover=allow(event) ondrop=dropside(event)>";
-    echo $act;
-//    if ($act['Type']) echo " (" . trim($act['Type']) . ")";
-    echo "<td><img src=/images/icons/information.png onclick=dispinfo('Act',$id)>";
-    echo "<td id=ActP$id>";
-    if (isset($ActsD[$id]['EventOrder'])) echo $ActsD[$id]['EventOrder'];
-    echo "\n";
-  }
-  echo "</table><br><table border id=OtherSide >";
-  echo "<tr><th>Other<th>i";
-  echo "<th>P\n";
-  if ($Others) foreach ($Others as $id=>$Other) {
-    if (!$Other) continue;
-    echo "<tr><td draggable=true class='SideName' id=Z0:Other:$id ondragstart=drag(event) ondragover=allow(event) ondrop=dropside(event)>";
-    echo $Other;
-//    if ($Other['Type']) echo " (" . trim($Other['Type']) . ")";
-    echo "<td><img src=/images/icons/information.png onclick=dispinfo('Other',$id)>";
-    echo "<td id=OtherP$id>";
-    if (isset($OthersD[$id]['EventOrder'])) echo $OthersD[$id]['EventOrder'];
-    echo "\n";
-  }
-  echo "</table></div></div>\n";
+  echo "</div></div>\n";
 }
 
 function Controls() {
