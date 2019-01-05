@@ -19,9 +19,14 @@ function Date_BestGuess($txt) {
     $mnth = $mtch[2];
     if (isset($mtch[3]) && $mtch[3])$yr = $mtch[3];
   } else if (preg_match('/(\d+)-(\d+)-(\d+)/',$txt,$mtch)) {
+//  var_dump($mtch);
     $day = $mtch[3];
     $mnth = $mtch[2];
     $yr = $mtch[1];
+  } else if (preg_match('/(\d+) +(\a+) +(\d+)/',$txt,$mtch)) {
+    $day = $mtch[1];
+    $mnth = array_search(substr(strtolower($mtch[2]),0,3),$Months)+1;
+    $yr = $mtch[3];
   } else {
     $day = -1;
     if (preg_match('/(\d+)/',$txt,$mtch)) $day = $mtch[1];

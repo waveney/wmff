@@ -411,8 +411,11 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
     while ($e = $res->fetch_assoc()) {
       if ($e['EventId'] == $Ev) $MainEv = $e;
       if ($e['BigEvent']) {
-
+// TODO
       } else {
+      
+      
+// need perfs[type][imp] and then condense to perf[type] in imporder - will be needed for Big Es as well in time
         foreach ($flds as $f) {
           for($i=1;$i<5;$i++) {
             if (isset($e["$f$i"])) { 
@@ -446,6 +449,7 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
 
     switch ($Event_Types_Full[$MainEv['Type']]['SN']) {
     case 'Ceildih':
+      
       $ans .= ListLinks($MainEv,'Act','Music by','Music by',$size,$mult);
       if ($MainEv['Other1']) $ans .= "; " . ListLinks($MainEv,'Other','Caller','Callers',$size,$mult);
       if ($MainEv['Side1']) $ans .= "<br>" . ListLinks($MainEv,'Side','Dance spot by','Dance spots by',$size,$mult);

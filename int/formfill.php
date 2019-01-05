@@ -87,6 +87,11 @@
       };
       echo "1, Not a recognisable image";
       exit;
+    } else if ($field == 'ReleaseDate') {
+      include_once("DateTime.php");
+      $Value = Date_BestGuess($Value);
+    } else if (preg_match('/(Sat|Sun)(Arrive|Depart)/',$field)) {
+      $Value = Time_BestGuess($Value);
     }
     
     // else general cases
