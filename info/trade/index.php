@@ -5,7 +5,7 @@
 
   global $PLANYEAR;
   echo "<div class=biodiv>
-<img src=/images/Chutney-trader-2016.jpg alt='Wimborne Minster Folk Festival' class=bioimg>
+<img src=/images/Chutney-Trader-2016.jpg alt='Wimborne Minster Folk Festival' class=bioimg>
 <p>One of our traders.</p>
 </div>
 
