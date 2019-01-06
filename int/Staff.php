@@ -81,7 +81,6 @@
     if (Access('Staff','Music')) {
 //      echo "<li>Invite Music Acts\n";
       echo "<li><a href=CreatePerf.php?T=Music&Y=$YEAR>Add Music Act to Database</a>";
-//      echo "<li>Find Act"; // <a href=AddDance.php>Add Dance Side</a>"; 
 /*
 //      if ($YEAR == $PLANYEAR) echo "<li><a href=MusicProg.php?>Edit Music Programming</a>";
 */

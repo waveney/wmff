@@ -493,16 +493,8 @@ function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='
         if ($link) {
           if ($link ==1) {
             $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
-          } else {
-            if (Feature('NewPERF')) {
-               $ans .= "<a href='/int/AddPerf.php?sidenum=" . $thing['SideId'] . "'>";           
-            } else if ($thing['IsASide']) {
-              $ans .= "<a href='/int/AddDance.php?sidenum=" . $thing['SideId'] . "'>";
-            } else if ($thing['IsAnAct']) {
-              $ans .= "<a href='/int/AddMusic.php?sidenum=" . $thing['SideId'] . "'>";
-            } else {
-              $ans .= "<a href='/int/AddMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
-            }
+          } else if ($Mode)  {
+            $ans .= "<a href='/int/AddPerf.php?sidenum=" . $thing['SideId'] . "'>";           
           }
         }
         $ans .= NoBreak($thing['SN']);

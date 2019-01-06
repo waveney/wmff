@@ -121,12 +121,7 @@ function Show_Side($snum,$Message='') {
     $syear = Get_SideYear($snum,$YEAR);
     if ($Message) echo "<h2 class=ERR>$Message</h2>"; 
 
-    if (Feature('NewPERF')) { 
-      $ed = "AddPerf";
-    } else {
-      $ed = 'DanceEdit';
-      if (!$side['IsASide']) $ed = 'MusicEdit';
-    }
+    $ed = "AddPerf";
     
     if (Access('Participant','Side',$snum)) {
       echo "<h2><a href=$ed.php?sidenum=$snum>Click here to edit Details, Contacts, Days, Times, Requests, Upload Photos and Insurance</a></h2>";

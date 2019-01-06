@@ -358,7 +358,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
       echo " <button type=submit formaction='PerformerData.php?id=$snum&ACTION=LIST'>Manage Files</button>" . help('ManageFiles');
       
     }
-  if (Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=6 class=NotSide><textarea id=Debug></textarea>";
+  if (Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=7 class=NotSide><textarea id=Debug></textarea>";
 
   echo "</table>\n";
 }
@@ -611,7 +611,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
         if ($Sidey['Contracts'] >= 1) $old = $Sidey['Contracts'];
         break;
       case $Book_State['Booking']:
-        echo "<tr class=ContractShow hidden><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR>>View DRAFT Contract</a>";
+        echo "<tr class=ContractShow hidden><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR>View DRAFT Contract</a>";
         if ($Sidey['Contracts'] >= 1) $old = $Sidey['Contracts'];
         break;
       default:
