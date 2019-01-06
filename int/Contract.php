@@ -30,7 +30,7 @@ function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-2 dummy-1 Draft,0 prop
               'ReportTo' => 0, 'GreenRoom'=> 1,
              ];
     $Booked = Get_User(4);
-    $kwd = 'Dummy Music';
+    $kwd = 'Dummy ';
     foreach($Venues as $i=>$v) { $Ven = $i; break;};
     $Evs = [['SN' => 'Concert','Type' => 5, 'Day'=> 1, 'Start'=>1900, 'End'=>2000, 'Setup' => 10, 'Venue'=>$Ven, 'SubEvent' => 0, 'Duration'=>60]];
   }
@@ -67,7 +67,7 @@ services, under the following terms and conditions:<p>\n";
   $pkvens = array();
   $pking = "";
   if (!$Evs) {
-    return "";  // With no events there is no conract, not even a draft
+    return "No Contract Yet";  // With no events there is no conract, not even a draft
   } else {
 
     $str .= "<table border>";
@@ -229,7 +229,7 @@ services, under the following terms and conditions:<p>\n";
   }
 
   if ($mode < -1) {
-    $str .= "<p><span class=NotSide>NOTE: A parking statement inserted prior to the camping to say there is free parking near the venue(s), if appropriate.</span><p>";
+    $str .= "<p><span class=NotSide>NOTE: A parking statement inserted prior to the changes statement to say there is free parking near the venue(s), if appropriate.</span><p>";
     $str .= "<p><span class=NotSide>NOTE2: Additional clause(s) can be added for a particular venue, if appropriate.</span><p>";
   }
 
