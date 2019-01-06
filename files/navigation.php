@@ -21,9 +21,11 @@
 <div class=dropdown onmouseover=NoHoverSticky(event)>
   <a onclick=NavStick(event)>Line-up</a>
   <div class=dropdown-content>
-     <a href=$host/LineUpDance.php>Dance</a>
-     <a href=$host/LineUpMusic.php>Music</a>
-     <a href=$host/LineUpOther.php>Family/Comedy/Other</a>
+     <a href=$host/LineUp.php?T=Dance>Dance</a>
+     <a href=$host/LineUp.php?T=Music>Music</a>
+     <a href=$host/LineUp.php?T=Comedy>Comedy</a>
+     <a href=$host/LineUp.php?T=Family>Family</a>
+     <a href=$host/LineUp.php?T=Other>Other</a>
   </div>
 </div>
 <div class=dropdown onmouseover=NoHoverSticky(event)>
