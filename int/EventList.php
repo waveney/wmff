@@ -68,6 +68,7 @@
   $coln = 1;  // Start at 1 because of select all
   echo "<form method=post action=EventList.php>";
   echo "Click on Id/Name to edit, on Show for public page.<p>\n";
+  echo "If the Stewards column has 'Stew' or 'Set' then there are more elaborate Stewarding/Setup Requirements - see the event for more detail.<p>";
   if ($se) echo fm_hidden('se',$se);
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
@@ -118,6 +119,8 @@
         }
       }
       echo "<td>" .($evnt['NeedSteward'] ? "Y" : "" );
+        if ($evnt['StewardTasks']) echo " Stew";
+        if ($evnt['SetupTasks']) echo " Set";        
       if ($se == 0) {
         if ($evnt['SubEvent'] == 0) { echo "<td>No\n"; }
         else { echo "<td><a href=EventList.php?se=$i>Yes</a>\n"; }

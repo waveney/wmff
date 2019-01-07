@@ -110,7 +110,12 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
       echo "From: " . timecolon($E['Start']) . " to " . timecolon($E['End']);
     echo "<td style='width:50%'>";
       if ($E['Description']) echo $E['Description'] . "<br>";
-      echo Get_Event_Participants($E['EventId'],0,1,15);
+      if ($E['BigEvent']) {
+        $Others = Get_Other_Things_For($E['EventId']);
+        echo Get_Other_Participants($Others,0,1,15,1,'',$E);
+      } else {
+        echo Get_Event_Participants($E['EventId'],0,1,15);
+      }
       if ($E['ExcludePass']) {
         echo "<p><b>Note:</b> This is event excluded from the Weekend Pass ";
         if ($E['ExcludeDay'] && $MASTER[$DayLongList[$E['Day']] . "Pass"]!='') echo " or " . $DayLongList[$Ev['Day']] . " ticket\n";

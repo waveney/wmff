@@ -349,7 +349,6 @@ function Error_Page ($message) {
   default:
     include_once("index.php"); 
   }
-
 }
 
 function Get_General($y=0) {
@@ -401,8 +400,6 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
       foreach ($Evs as $e) {
         if ($e["BigEvent"]) { $With = 1; break; }
         for ($i = 1; $i<5;$i++) if ($e["Side$i"] && $e["Side$i"] != $id) { $With = 1; break 2; }
-        for ($i = 1; $i<5;$i++) if ($e["Act$i"] && $e["Act$i"] != $id) { $With = 1; break 2; }
-        for ($i = 1; $i<5;$i++) if ($e["Other$i"] && $e["Other$i"] != $id) { $With = 1; break 2; }
       }
         
       $UsedNotPub = 0;
@@ -425,6 +422,7 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
               case 'Side':
               case 'Act':
               case 'Other':
+              case 'Perf':
                 if ($O['Identifier'] == $id && $O['Type'] == $type) { 
                   $Found = 1; 
                 } else {
@@ -443,9 +441,11 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
             if ($VenC) $str .= " starting from ";
             $str .= "<a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) ;
             $str .= "</a><td $cls>";
-            if ($PrevI || $NextI) $str .= "In position $Position";
-            if ($PrevI) { $str .= ", After " . SAO_Report($PrevI); };
-            if ($NextI) { $str .= ", Before " . SAO_Report($NextI); };
+            if ($e['NoOrder']==0) {
+              if ( $PrevI || $NextI) $str .= "In position $Position";
+              if ($PrevI) { $str .= ", After " . SAO_Report($PrevI); };
+              if ($NextI) { $str .= ", Before " . SAO_Report($NextI); };
+            }
             $str .= "\n";
           } else { // Normal Event
             $str .= "<tr><td $cls>" . FestDate($e['Day'],'M') . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .

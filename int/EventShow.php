@@ -87,7 +87,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
   $YEAR = $Ev['Year'];
   $Ven = Get_Venue($Ev['Venue']);
   $ETs = Get_Event_Types(1);
-  $OtherPart = $OtherVenues = array();
+  $OtherPart = $OtherVenues = $OtherNotes = [];
 
   $Se = $Ev['SubEvent'];
   $Subs = array();
@@ -107,16 +107,20 @@ function Print_Participants($e,$when=0,$thresh=0) {
           $OtherVenues[] = $o; 
           break;
         case 'Act':
+        case 'Perf':
         case 'Side':
         case 'Other':
           $OtherPart[] = $o;
           break;
+        case 'Note':
+          $OtherNotes[count($OtherPart)] = $o['Notes'];
         default:
           break;
       }
     }
   }
 
+  $xtra = '';
   if (($ETs[$Ev['Type']]['IncType']) && !strpos(strtolower($Ev['SN']),strtolower($ETs[$Ev['Type']]['SN']))) $xtra = " (" . $ETs[$Ev['Type']]['SN'] . ")";
   echo "<h2 class=subtitle>" . $Ev['SN'] . "$xtra</h2>\n";
 
@@ -228,10 +232,14 @@ function Print_Participants($e,$when=0,$thresh=0) {
 
   if (!$Se) { // Single Event Big Events not done yet
     if ($Ev['BigEvent']) {
-      if ($OtherPart[1]) echo "Participants in order:<p>\n";
+      if ($OtherPart[1]) echo "Participants" . ($Ev['NoOrder']?'':" in order") . ":<p>\n";
       echo "<div class=mini style='width:480;'>\n";
-      foreach ($OtherPart as $O) {
-        Print_Thing(Get_Side($O['Identifier']));
+      foreach ($OtherPart as $oi=>$O) {
+        if ($Ev['UseBEnotes'] && isset($OtherNotes[$oi])) echo "<b>" . $OtherNotes[$oi] . ":</b> ";
+        $id = $O['Identifier'];
+        $side = Get_Side($id);
+        $side = array_merge($side,array_munge(Get_SideYear($id)));
+        Print_Thing($side);
       }
       echo "</div><br clear=all>\n";
     } else {

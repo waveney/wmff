@@ -304,10 +304,9 @@ A similar feature will appear eventually for music.<p>
 
       echo "<tr><td class=NotSide>" . fm_checkbox('Multiday Event',$Event,'LongEvent','onchange=$(".mday").show()');
       $hidemday =  (isset($Event['LongEvent']) && $Event['LongEvent'])?'':'hidden ';
-      echo "<td class=NotSide>" . fm_checkbox('Big Event',$Event,'BigEvent');
+      echo "<td class=NotSide>" . fm_checkbox('Big Event',$Event,'BigEvent') . " " . fm_checkbox('No Order',$Event,'NoOrder') . fm_checkbox('Use Notes to fmt',$Event,'UseBEnotes');
       echo "<td class=NotSide>" . fm_checkbox('Also Dance',$Event,'ListDance') . " ". fm_checkbox('Also Music',$Event,'ListMusic');
       echo "<td class=NotSide>" . fm_checkbox('No Part',$Event,'NoPart');
-        
       echo "<tr><td>" . fm_checkbox('Special Event',$Event,'Special');
       echo "<td>" . fm_checkbox('Family Event',$Event,'Family');
       echo "<td>" . fm_checkbox('Non Fest',$Event,'NonFest');
@@ -322,6 +321,7 @@ A similar feature will appear eventually for music.<p>
         else { echo "<td><a href=EventList.php?se=$se>Is a Sub Event</a>"; };
         echo "<td>" .fm_checkbox('Needs Stewards',$Event,'NeedSteward');
 
+      echo "<tr>" . fm_textarea("Stewarding Detail",$Event,'StewardTasks',1,2) . fm_textarea("Setup Detail",$Event,'SetupTasks',2,2);
       if ($se <= 0) {
         echo "<tr class=NotSide>";
         echo "<td  class=NotSide>" . fm_simpletext('Price &pound;',$Event,'Price1');

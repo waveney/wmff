@@ -95,7 +95,7 @@
       echo "<td>";
         if ($E['Description']) echo $E['Description'] . "<p>";
         if ($E['BigEvent']) {
-          echo Get_Other_Participants($Others,0,1,15,1, 'With: ');
+          echo Get_Other_Participants($Others,0,1,15,1, 'With: ',$E);
         } else {
           echo Get_Event_Participants($eid,0,1,15,1, 'With: ');
         }
