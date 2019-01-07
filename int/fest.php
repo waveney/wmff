@@ -337,7 +337,7 @@ function Error_Page ($message) {
   case $Access_Type['Staff'] :
   case $Access_Type['Upload'] :
 //    $ErrorMessage = $message;
-    var_dump($message);
+//    var_dump($message);
     include_once('int/Staff.php');  // Should be good
     exit;                        // Just in case
   case $Access_Type['SysAdmin'] :
