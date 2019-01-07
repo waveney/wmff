@@ -66,7 +66,7 @@
 // 
 
   if ($Mess) echo "<div class=Err>$Mess</div><p>";
-  echo "<form method=post>" . fm_hidden('T',$Type);
+  echo "<form method=post>" . fm_hidden('T',$T);
   echo fm_text('Name',$_POST,'SN',2);
   echo "<input type=submit name=Create value=Create>";
   echo "</form>";
