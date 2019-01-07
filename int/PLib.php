@@ -123,13 +123,8 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
         echo " " . fm_text0("Rel Order",$Side,'RelOrder',1,'class=NotSide','class=NotSide size=4'); 
         echo fm_text1('Where found',$Side,'Pre2017',1,'class=NotSide','class=NotSide'); 
         echo "<td class=NotSide colspan=3>";
-        if (Feature('NewPERF') || Access('SysAdmin')) {
-          echo Help('PerfTypes') . " ";
-          foreach ($PerfTypes as $t=>$p) echo fm_checkbox($t,$Side,$p[0]) . " ";
-        } else { // Old code
-          echo fm_checkbox('Dance Side',$Side,'IsASide');
-          echo fm_checkbox('Music Act',$Side,'IsAnAct') . fm_checkbox('Other',$Side,'IsOther');
-        }
+        echo Help('PerfTypes') . " ";
+        foreach ($PerfTypes as $t=>$p) echo fm_checkbox($t,$Side,$p[0]) . " ";
         echo "<td class=NotSide>State:" . fm_select($Side_Statuses,$Side,'SideStatus') . "\n";
     } else {
       echo fm_hidden('SideId',$snum);
@@ -172,25 +167,16 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
         echo "<td colspan=2 $Adv>" . fm_radio("Music Volume",$Noise_Levels,$Side,'NoiseLevel','',0,'','',$Noise_Colours);
       echo "<tr $Adv>";
         echo fm_textarea('Workshops',$Side,'Workshops',3,1);
-      if ($Mode && !Feature('NewPERF')) echo "<td class=NotSide>" . fm_checkbox("Need Bank",$Side,'NeedBank');
+//      if ($Mode && !Feature('NewPERF')) echo "<td class=NotSide>" . fm_checkbox("Need Bank",$Side,'NeedBank');
     };
 
 // TODO if (isset($Side['SortCode']) && $Side['SortCode'] replace needbank with js test of fee/op
-    if (Feature('NewPERF')) {
-      echo "<tr class='ContractShow' hidden id=BankDetail><td>Bank Details:" . help('Bank');
-        echo fm_text('Sort Code',$Side,'SortCode');
-        echo fm_text('Bank Account Number',$Side,'Account');
-        echo fm_text('Account Name',$Side,'AccountName');
-        echo "<td>" . fm_checkbox('Are you VAT registered',$Side,'VATreg');
-    } else {
-      if (!$Side['IsASide'] || (isset($Side['NeedBank']) && $Side['NeedBank'])) { 
-        echo "<tr><td>Bank Details:" . help('Bank');
-          echo fm_text('Sort Code',$Side,'SortCode');
-          echo fm_text('Bank Account Number',$Side,'Account');
-          echo fm_text('Account Name',$Side,'AccountName');
-          echo "<td>" . fm_checkbox('Are you VAT registered',$Side,'VATreg');
-        }
-    }
+
+    echo "<tr class='ContractShow' hidden id=BankDetail><td>Bank Details:" . help('Bank');
+      echo fm_text('Sort Code',$Side,'SortCode');
+      echo fm_text('Bank Account Number',$Side,'Account');
+      echo fm_text('Account Name',$Side,'AccountName');
+      echo "<td>" . fm_checkbox('Are you VAT registered',$Side,'VATreg');
 
 // PA 
     echo "<tr " . (($Side['IsASide'] && !$Side['IsAnAct'] && !$Side['IsOther'])?$Adv:"") . ">";
@@ -258,7 +244,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
       $OtherList=Other_All();
       $row = 0;
       echo "<tr id=OverlapRow$row class=NotSide><td rowspan=$rows class=NotSide>Overlap Rules: \n" . help('OverlapRules'); //<button type=button onclick=AddOverlapRow()>+</button>\n";
-      if (Feature('NewPERF2')) { // New
+
       foreach ($PerfTypes as $p=>$d) $SelectPerf[$p] = ($d[0] == 'IsASide'? Sides_All($snum,1): Perf_Name_List(($d[0])));
 
       $PTypes = [];
@@ -293,46 +279,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
         if ($i != ($rows-1)) echo " <button name=Action value=DeleteOlap$i type=submit>Del</a>"; 
       } 
 
-      } else { // old
-      for ($i = 0; $i < $rows; $i++) {
-        $O = (isset($olaps[$i]) ? $olaps[$i] : ['Sid1'=>$snum,'Cat2'=>0]);
-        $Other =  ($O['Sid1'] == $snum)?'Sid2':'Sid1';
-        $OtherCat =  ($O['Sid1'] == $snum)?'Cat2':'Cat1';
-        if ($i) echo "<tr id=OverlapRow$i class=NotSide>";
-        echo "<td colspan=7 class=NotSide>Type: " . fm_select($OlapTypes,$O,'OType',0,'',"OlapType$i") . 
-                fm_checkbox("Major",$O,'Major','',"OlapMajor$i") . 
-                fm_radio(" With",$OlapCats,$O,$OtherCat,'onchange=OlapCatChange(event,###F,###V)',0,'',"OlapCat$i") . 
-                fm_select($SideList,$O,$Other,1,"id=OlapSide$i " .($O[$OtherCat]>0?'hidden':''),"OlapSide$i") . 
-                fm_select($ActList,$O,$Other,1,"id=OlapAct$i " .($O[$OtherCat]!=1?'hidden':''),"OlapAct$i") . 
-                fm_select($OtherList,$O,$Other,1,"id=OlapOther$i " .($O[$OtherCat]!=2?'hidden':''),"OlapOther$i") .
-                " On Days: " . fm_select($OlapDays,$O,'Days',0,'',"OlapDays$i") . 
-                fm_checkbox("Rule Active",$O,'Active','',"OlapActive$i") . "\n";
-      } 
     }
-    }
-
-/*
-
-          $PTypes = [];
-          foreach ($PerfTypes as $p=>$d) $PTypes[] = $p;
-          for ($i=1; $i<5; $i++) {
-            if (!isset($Event["PerfType$i"])) $Event["PerfType$i"]=0;
-            echo "<tr><td colspan=2>";
-            echo fm_radio('',$PTypes,$Event,"PerfType$i","onchange=EventPerfSel(event,###F,###V)",0) . "<td colspan=2>";
-
-            $sid = $Event["Side$i"];
-            $pi = 0;
-            foreach ($PerfTypes as $p=>$d) {
-              echo ($SelectPerf[$p]?fm_select($SelectPerf[$p],$Event,"Side$i",1,"id=EvPerf$pi" . "_Side$i " . ($Event["PerfType$i"]==$pi?'':'hidden'),"Perf$pi" . "_Side$i") :"");
-              if ($sid && ($Event["PerfType$i"] == $pi) && !isset($SelectPerf[$p][$sid])) {
-                $Side = Get_Side($sid);
-                echo "<del><a href=AddPerf.php?id=$sid>" . $Side['SN'] . "</a></del> ";               
-              }
-              $pi++;
-            }
-*/
-
-
 
     if ($Mode) {
       echo "<tr>" . fm_text('Location',$Side,'Location',2,'class=NotSide');
