@@ -253,7 +253,7 @@
     echo "<li><a href=$host/Map.php>Map</a>\n";
     echo "<li><a href=EventSummary.php?Y=$YEAR>Event Summary</a>\n";
 //    if (Access('SysAdmin')) echo "<li><a href=BusTimes.php>Fetch and Cache Bus Times</a>\n";
-    if (Access('SysAdmin')) echo "<li><a href=ConvertEvents.php>Convert Old Format Events to New Format Events</a>\n";
+//    if (Access('SysAdmin')) echo "<li><a href=ConvertEvents.php>Convert Old Format Events to New Format Events</a>\n";
     echo "</ul>\n";
 
 // *********************** Misc *****************************************************************
