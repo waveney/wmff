@@ -561,6 +561,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
     $Evs = Get_Events4Act($snum,$year);
     $HasPark = '';
     $ParkedLocs = array();
+//var_dump($Evs);
     if ($Evs) {
       $Venues = Get_Real_Venues(1);
       $ETs = Get_Event_Types();

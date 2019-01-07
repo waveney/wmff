@@ -21,8 +21,8 @@
   */
   $More = 0; 
   foreach ($Event_Types_Full as $et) if ($et['State'] != 4) $More++;
-  if ($MASTER['FamilyComplete'] != 4) $More++;
-  if ($MASTER['SpecialComplete'] != 4) $More++;
+  if ($MASTER['FamilyState'] != 4) $More++;
+  if ($MASTER['SpecialState'] != 4) $More++;
   if ($YEAR < $PLANYEAR) $More = 0;
 
   echo "<h2 class=subtitle>What is on When in $YEAR?</h2>";
@@ -62,7 +62,7 @@
           if ($o['Type'] == 'Venue') echo ", <a href=/int/VenueShow.php?v=" . $o['Identifier'] . ">" . $Vens[$o['Identifier']]['SN'] . "</a>";
         }
       }
-      echo "<td>" . ($e['BigEvent'] ? Get_Other_Participants($Others,0,1,15,1) : Get_Event_Participants($eid,0,1,15));
+      echo "<td>" . ($e['BigEvent'] ? Get_Other_Participants($Others,0,1,15,1,'',$e) : Get_Event_Participants($eid,0,1,15));
       echo "<td>" . Price_Show($e);
     }
     echo "</table>\n";

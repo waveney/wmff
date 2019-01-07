@@ -139,7 +139,9 @@ function Set_Event_Help() {
         'Blurb'=>'Longer blurb if wanted, that will follow the description when this particular events is being looked at online',
         'Setup'=>'IF the event has setup prior to the start time, set it here in minutes to block out the venue',
         'Duration'=>'Duration in minutes of the event, this will normally be calculated from the End time',
-        'BigEvent'=>'For large events needing more than 4 participants of each type eg the procession and/or use more than one venue',
+        'BigEvent'=>'For large events needing more than 4 participants of each type eg the procession and/or use more than one venue
+Set No Order to prevent the order in the event being meaningful.
+Set Use Notes to fmt to use the Big Event programming Notes to describe types of performers',
         'IgnoreClash'=>'Ignore two events at same time and surpress gap checking',
         'Public'=>'Controls public visibility of Event, "Not Yet" and "Never" are handled the same',
         'ExcludeCount'=>'For Big Events - if set exclude this event from Dance Spot counts - eg Procession',
@@ -163,6 +165,8 @@ function Set_Event_Help() {
         'Bar'=>'Does the venue have a bar?',
         'Food'=>'Does the venue serve food?',
         'BarFoodText'=>'Any text that expands on the food and drink available',
+        'StewardTasks'=>'Use this to elaborate on the Stewarding requirements for the event',
+        'SetupTasks'=>'Use this to elaborate the Setup requirements for the event',
         
   );
   Set_Help_Table($t);
@@ -458,7 +462,7 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
   return "";
 }
 
-function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
+function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='',&$Event=0) {
   global $db;
   include_once "DanceLib.php";
   $now = time();
@@ -466,17 +470,21 @@ function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='
   $found = array();
   $something = 0;
   $ans = '';
+  $pfx = '';
   foreach ($Others as $oi=>$o) {
     if ($o['Type'] == 'Side' || $o['Type'] == 'Act' || $o['Type'] == 'Other' || $o['Type'] == 'Perf') {
       $si = $o['Identifier'];  
       if (!isset($found[$si])) {
         $s = Get_Side($si);
-        $sy = Get_SideYear($si);
-        if ($s && ($sy['ReleaseDate'] < $now) || ( Access('Committee') && $Mode)) $imps[$s['Importance']][] = $s; 
+        $sy = Get_SideYear($si); // TODO munge/merge?
+        if ($pfx) { $s['ZZZZZpfx'] = $pfx; $pfx = ''; };
+        $iimp = ((isset($Event['UseBEnotes']) && $Event['UseBEnotes'])?0:$s['Importance']);
+        if ($s && ($sy['ReleaseDate'] < $now) || ( Access('Committee') && $Mode)) $imps[$iimp][] = $s; 
         $something = 1;
         $found[$si] = 1;
       }
     }
+    if ($o['Type'] == 'Note' && $Event['UseBEnotes']) $pfx = "<b>" . $o['Notes'] . "</b>: ";
   }
     
 //var_dump($imps);
@@ -489,6 +497,7 @@ function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='
       foreach ($imps[$imp] as $thing) {
         if ($things++) $ans .= ", ";
         $link=0;
+        if (isset($thing['ZZZZZpfx'])) $ans .= $thing['ZZZZZpfx'];
         if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
         if ($link) {
           if ($link ==1) {

@@ -37,29 +37,14 @@ function Get_Imps(&$e,&$imps,$clear=1,$all=0) {
   $now=time();
   if ($clear) $imps = array();
   for($i=1;$i<5;$i++) {
-    if (isset($e["Side$i"]) && $e["Side$i"]) { if ($ee = $e["Side$i"])  { 
+    if (isset($e["Side$i"]) && $e["Side$i"]) { 
+      if ($ee = $e["Side$i"])  { 
         $si = Get_Side($ee);
         if ($si) {
           $y = Get_SideYear($ee,$YEAR);
           $s = array_merge($si, munge_array($y)); 
           if ($s && ($all || ((( $s['Coming'] == 2) || ($s['YearState'] >= 2)) && ($ets >1 || ($ets==1 && Access('Participant','Side',$s))) && $s['ReleaseDate'] < $now))) 
              $imps[$useimp?$s['Importance']:0][] = $s; }; }; };
-    if (!Feature('NewPERF2')) { 
-      if (isset($e["Act$i"]))  { if ($ee = $e["Act$i"])   { 
-        $si = Get_Side($ee);
-        if ($si) {
-          $y = ($newf?Get_SideYear($ee,$YEAR):Get_ActYear($ee,$YEAR));
-          $s = array_merge($si, munge_array($y)); 
-          if ($s && ($all || (( $s['YearState'] >= 2) && ($ets >1 || ($ets==1 && Access('Participant','Act',$s))) && $s['ReleaseDate'] < $now))) 
-            $imps[$useimp?$s['Importance']:0][] = $s; }; }; };
-      if (isset($e["Other$i"])){ if ($ee = $e["Other$i"]) { 
-        $si = Get_Side($ee);
-        if ($si) {
-          $y = ($newf?Get_SideYear($ee,$YEAR):Get_ActYear($ee,$YEAR));
-          $s = array_merge($si, munge_array($y)); 
-          if ($s && ($all || (( $s['YearState'] >= 2) && ($ets >1 || ($ets==1 && Access('Participant','Other',$s))) && $s['ReleaseDate'] < $now))) 
-            $imps[$useimp?$s['Importance']:0][] = $s; }; }; };
-    }
   }
 }
 
