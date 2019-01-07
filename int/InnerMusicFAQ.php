@@ -1,9 +1,7 @@
 <?php
 global $YEAR;
 return <<<XXXXXX
-<h2 class=MusicFAQ>Terms and Conditions for Music Acts at Wimborne in $YEAR</h2>
-<h2 class=OtherFAQ>Terms and Conditions for Other Participants at Wimborne in $YEAR</h2>
-
+<h2 class=MusicFAQ>Terms and Conditions for Performers at Wimborne in $YEAR</h2>
 
 <dl class=WMFF_FAQ>
 <dt>Promotion and Production<dd>
@@ -42,16 +40,12 @@ Cash will not be used for payments. Any queries should be submitted through the 
 
 <PARKING>
 
-<CAMPCLAUSE>
-<dt>Camping<dd>Our official campsite is <a href=/InfoCamping.php>Meadows Camping</a>, a picturesque, local, secure, 
-well managed temporary campsite for the 
-folk festival weekend. The site is just a 10 minute walk from the town centre over Julian's bridge.
-</CAMPCLAUSE>
-
 <dt>Changes<dd>Any Change, other than to sound check times, will require the contract to be confirmed again.<P>
 
 This contract and any attachments or riders incorporated herein, shall be governed by the UK Music
 Performance law, and is binding and valid only when confirmed by both parties.
+
+
 
 </dl>
 

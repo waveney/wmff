@@ -16,7 +16,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   if ($ImpC) {
     $ks = array_keys($imps);
     sort($ks);        
-    if ($ImpC > $maxwith) echo "With $ImpC participants including: ";
+    if ($ImpC > $maxwith) echo " With $ImpC participants including: ";
     foreach ( array_reverse($ks) as $imp) {
       if ($imp) echo "<span style='font-size:" . (15+$imp*1) . "'>";
         foreach ($imps[$imp] as $thing) {
@@ -142,9 +142,9 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
 
   $ETs = Get_Event_Types(1);
 
-  $sides=&Select_Come_All();
-  $Acts=&Select_Act_Full();
-  $Others=&Select_Other_Full();
+  $sides=&Select_Perf_Full();
+//  $Acts=&Select_Act_Full();
+//  $Others=&Select_Other_Full();
 
   $xtr = $Mode?'':"AND (e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 )) AND t.Public=1 ";
   if ($Poster) {

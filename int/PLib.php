@@ -358,7 +358,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
       echo " <button type=submit formaction='PerformerData.php?id=$snum&ACTION=LIST'>Manage Files</button>" . help('ManageFiles');
       
     }
-  if (Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=6 class=NotSide><textarea id=Debug></textarea>";
+  if (Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=7 class=NotSide><textarea id=Debug></textarea>";
 
   echo "</table>\n";
 }
@@ -603,15 +603,15 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
     if (!isset($Sidey['Contracts'])) $Sidey['Contracts']=0;
     switch ($Sidey['YearState']) {
       case $Book_State['Contract Signed']:
-        echo "<tr class=ContractShow hidden><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR&ctype=0>View Contract</a>";
+        echo "<tr class=ContractShow hidden><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR>View Contract</a>";
         if ($Sidey['Contracts'] >= 1) $old = $Sidey['Contracts'];
         break;
       case $Book_State['Contract Ready']:
-        echo "<tr class=ContractShow hidden><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR&ctype=0>View Proposed Contract</a>";
+        echo "<tr class=ContractShow hidden><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR>View Proposed Contract</a>";
         if ($Sidey['Contracts'] >= 1) $old = $Sidey['Contracts'];
         break;
       case $Book_State['Booking']:
-        echo "<tr class=ContractShow hidden><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR&ctype=0>View DRAFT Contract</a>";
+        echo "<tr class=ContractShow hidden><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR>View DRAFT Contract</a>";
         if ($Sidey['Contracts'] >= 1) $old = $Sidey['Contracts'];
         break;
       default:
@@ -620,7 +620,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
     if ($old) {
       echo "<td colspan=2>View earlier contract" . ($old>1?'s':'') . ": ";
       for ($i=1;$i<=$old;$i++) {
-        echo "<a href=ViewContract.php?sidenum=$snum&I=$i&ctype=0>#$i</a> ";
+        echo "<a href=ViewContract.php?sidenum=$snum&I=$i>#$i</a> ";
       } 
     }
     switch ($Sidey['YearState']) {

@@ -7,30 +7,13 @@
   $t = $_GET['T'];
   $s = $_GET['S'];
 
-  switch ($t) {
-  case 'Perf':
-    $data = Get_Side($s);
-    $datay = Get_SideYear($s,$YEAR);
-    $link = "AddPerf.php?sidenum=$s";
-    break;
-
-  case 'Side':
-    $data = Get_Side($s);
-    $datay = Get_SideYear($s,$YEAR);
-    $link = "AddDance.php?sidenum=$s";
-    break;
-
-  case 'Act':
-  case 'Other':
-    $data = Get_Side($s);
-    $datay = Get_ActYear($s,$YEAR);
-    $link = "AddMusic.php?othernum=$s";
-    break;
-  }
+  $data = Get_Side($s);
+  $datay = Get_SideYear($s,$YEAR);
+  $link = "AddPerf.php?sidenum=$s";
 
   $AllSides = Sides_all();
 
-  echo "<html> <body>";
+  echo "<html><body>";
 
   echo "<table><tr><td>";
   echo "<h2>" . SName($data) . "</h2>\n";

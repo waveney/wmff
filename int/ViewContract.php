@@ -8,14 +8,10 @@
   global $YEAR;
 
   $snum=0;
-  $ctype = 1;
   if (isset($_GET{'sidenum'})) $snum = $_GET{'sidenum'};
-  if (isset($_GET{'ctype'})) $ctype = $_GET{'ctype'};
 
   $Side = Get_Side($snum);
-  if     ($Side['IsAnAct']) { $ctype = 1; }
-  elseif ($Side['IsOther']) { $ctype = 2; }
-  elseif ($Side['IsASide']) { $ctype = 0; }
+  $ctype = ($Side['IsAnAct']?1:0);
   
   $Sidey = ((Feature('NewPERF') || $ctype==0) ? Get_SideYear($snum) : Get_ActYear($snum));
   $Opt = 0;

@@ -339,49 +339,21 @@ function Event_Has_Parts($e) {
   return 0;
 }
 
-function ListLinks(&$ev,$type,$single,$plural,$size,$mult) {
+function ListLinksNew(&$Perfs,$idx,$single,$plural,$size,$mult) {
   global $PerfTypes,$PerfIdx;
-  $things = 0;
-  if (Feature('NewPERF2')) {
-    $imps = [];
-    for($i=1;$i<5;$i++) {
-      if (isset($ev["PerfType$i"]) && ($ev["PerfType$i"]==$PerfIdx[$type])) if ($ee = $ev["Side$i"])  { 
-        $s = Get_Side($ee);  
-        if ($s) $imps[$s['Importance']][] = $s; 
-        $things++;
-      }
-    }
   
-  } else {
-    $imps = array();
-    for($i=1;$i<5;$i++) {
-      if (isset($ev["$type$i"])) if ($ee = $ev["$type$i"])  { 
-        $s = Get_Side($ee);  
-        if ($s) $imps[$s['Importance']][] = $s; 
-        $things++;
-      }
-    }
-  }
-
-//echo "LL $type $things<br>";
-//var_dump($ev);
-  if ($things == 0) return '';
-  $ks = array_keys($imps);
+  if (!isset($Perfs[$idx])) return "";  
+//  var_dump($Perfs);
+  $ks = array_keys($Perfs[$idx]);
   $think = array();
   sort($ks);        
   $things = 0;
   $ans = '';
   foreach ( array_reverse($ks) as $imp) {
     if ($imp) $ans .= "<span style='font-size:" . ($size+$imp*$mult) . "px'>";
-    foreach ($imps[$imp] as $thing) {
+    foreach ($Perfs[$idx][$imp] as $thing) {
       $things++;
-      if (Feature('NewPERF2') || $thing['IsASide']) {
-        $ttxt = "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
-      } else if ($thing['IsAnAct']) {
-        $ttxt = "<a href='/int/ShowMusic.php?sidenum=" . $thing['SideId'] . "'>";
-      } else {
-        $ttxt = "<a href='/int/ShowMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
-      }
+      $ttxt = "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
       $ttxt .= NoBreak($thing['SN']);
       if (isset($thing['Type']) && $thing['Type']) $ttxt .= NoBreak(" (" . $thing['Type'] . ")");
       $ttxt .= "</a>";
@@ -407,7 +379,8 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
   $res = $db->query("SELECT * FROM Events WHERE EventId='$Ev' OR SubEvent='$Ev' ORDER BY Day, Start DESC");
   $found = array();
   if ($res) {
-    $imps=array();
+    $imps=[];
+    $Perfs=[];
     while ($e = $res->fetch_assoc()) {
       if ($e['EventId'] == $Ev) $MainEv = $e;
       if ($e['BigEvent']) {
@@ -421,23 +394,19 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
             if (isset($e["$f$i"])) { 
               $ee = $e["$f$i"];
               if ($ee) {
+
                 if (!isset($found[$ee]) || !$found[$ee]) {
                   $s = Get_Side($ee);
-                  if (Feature('NewPERF') || ($f == 'Side')) {
-                    $sy = Get_SideYear($ee,$YEAR);
+                  $sy = Get_SideYear($ee,$YEAR);
 //var_dump($sy); echo "<P>";
-                    if ($sy) {
-                      $s = array_merge($s, $sy);  
-                      $s['NotComing'] = (($s['Coming'] != 2) && ($s['YearState'] < 2));
-                    } else $s['NotComing'] = 1;
-                  } else {
-                    $sy = Get_ActYear($ee,$YEAR);
-                    if ($sy) {
-                      $s = array_merge($s, $sy);  
-                      $s['NotComing'] = ($s['YearState'] < 2);
-                    } else $s['NotComing'] = 1;
-                  }  
-                  if ($s && ($sy['ReleaseDate'] < $now) || ( Access('Committee') && $Mode)) $imps[$s['Importance']][] = $s; 
+                  if ($sy) {
+                    $s = array_merge($s, $sy);  
+                    $s['NotComing'] = (($s['Coming'] != 2) && ($s['YearState'] < 2));
+                  } else $s['NotComing'] = 1;
+                  if ($s && ($sy['ReleaseDate'] < $now) || ( Access('Committee') && $Mode)) {
+                    $imps[$s['Importance']][] = $s; 
+                    $Perfs[$e["PerfType$i"]][$s['Importance']][] = $s; 
+                  }
                   $found[$ee]=1;
                 }
               }
@@ -449,10 +418,12 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
 
     switch ($Event_Types_Full[$MainEv['Type']]['SN']) {
     case 'Ceildih':
-      
-      $ans .= ListLinks($MainEv,'Act','Music by','Music by',$size,$mult);
-      if ($MainEv['Other1']) $ans .= "; " . ListLinks($MainEv,'Other','Caller','Callers',$size,$mult);
-      if ($MainEv['Side1']) $ans .= "<br>" . ListLinks($MainEv,'Side','Dance spot by','Dance spots by',$size,$mult);
+      $ans .= (isset($Perfs[1])?ListLinksNew($Perfs,1,'Music by','Music by',$size,$mult):"Music to be announced");
+//echo "ans= $ans</br>";
+      if (isset($Perfs[4])) $ans .= "; " . ListLinksNew($Perfs,4,'Caller','Callers',$size,$mult);
+      if (isset($Perfs[0])) $ans .= "<br>" . ListLinksNew($Perfs,0,'Dance spot by','Dance spots by',$size,$mult);
+      if (isset($Perfs[2])) $ans .= "<br>" . ListLinksNew($Perfs,2,'Comedy spot by','Comedy spots by',$size,$mult);
+      if (isset($Perfs[3])) $ans .= "<br>" . ListLinksNew($Perfs,3,'Entertainment spot by','Entertainment spots by',$size,$mult); 
       if ($ans) $ans .= "<p>";
       break;
 
@@ -466,22 +437,11 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
           if ($things++) $ans .= ", ";
           $link=0;
           if ($thing['NotComing']) {
-// var_dump($thing);exit;
             $ans .= "<del>" . NoBreak($thing['SN']) . "</del>";
           } else {
             if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
             if ($link) {
-              if ($link ==1) {
-                $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
-              } else {
-                if ($thing['IsASide']) {
-                  $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
-                } else if ($thing['IsAnAct']) {
-                  $ans .= "<a href='/int/ShowMusic.php?sidenum=" . $thing['SideId'] . "'>";
-                } else {
-                  $ans .= "<a href='/int/ShowMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
-                }
-              }
+              $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
             }
             $ans .= NoBreak($thing['SN']);
             if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
@@ -533,16 +493,8 @@ function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='
         if ($link) {
           if ($link ==1) {
             $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
-          } else {
-            if (Feature('NewPERF')) {
-               $ans .= "<a href='/int/AddPerf.php?sidenum=" . $thing['SideId'] . "'>";           
-            } else if ($thing['IsASide']) {
-              $ans .= "<a href='/int/AddDance.php?sidenum=" . $thing['SideId'] . "'>";
-            } else if ($thing['IsAnAct']) {
-              $ans .= "<a href='/int/AddMusic.php?sidenum=" . $thing['SideId'] . "'>";
-            } else {
-              $ans .= "<a href='/int/AddMusic.php?t=O&sidenum=" . $thing['SideId'] . "'>";
-            }
+          } else if ($Mode)  {
+            $ans .= "<a href='/int/AddPerf.php?sidenum=" . $thing['SideId'] . "'>";           
           }
         }
         $ans .= NoBreak($thing['SN']);
