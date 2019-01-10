@@ -4,7 +4,7 @@
   dostaffhead("Buskers Bash Application", "/js/Participants.js");
 
   include_once("SignupLib.php");
-  global $USER,$USERID,$db,$PLANYEAR;
+  global $USER,$USERID,$db,$PLANYEAR,$SignupStates,$SignupStateColours;
 
   /* In the longer term this will be based on participants, but I want to do this quickly for 2018 so it is stand alone for now */
 
@@ -34,10 +34,26 @@
       dotail();
       exit();
     }
+  } else if (isset($_POST['update'])) {
+    $id = $_POST['id'];
+    $data = Get_Signup($id);
+    Update_db_post('SignUp',$data);
+    $_POST = $data;
+  } else if (isset($_POST['ACTION'])) {
+    $id = $_POST['id'];
+    $action = $_POST['ACTION'];
+    BB_Action($action,$id);
+    $_POST = Get_Signup($id);
+  } else if (isset($_GET['i'])) {
+    $id = $_GET['i'];
+    $_POST = Get_Signup($id);
+//var_dump($_POST);
   }
 
   echo "<h2 class=subtitle>Buskers Bash $PLANYEAR Application Form</h2>\n";
   echo "<form method=post action=BuskersBashForm.php>";
+
+  if (isset($id)) echo fm_hidden('id',$id);
   echo "<table border>\n";
   echo "<tr>" . fm_text1("Band/Group/Act Name",$_POST,'SN',2);
   echo fm_text1('Style of Music',$_POST,'Style');
@@ -48,6 +64,8 @@
     echo (($i&1)?"<tr>":""); 
     echo fm_text1($i,$_POST,"Name$i") . fm_text1('',$_POST,"Instr$i");
   }
+  if (isset($_POST['State'])) echo "<tr>" . fm_radio("Booking State",$SignupStates,$_POST,'State','',1,'','',$SignupStateColours);
+
   echo "<tr><td colspan=4>Main Contact:\n";
   echo "<tr>" . fm_text('Name',$_POST,'Contact');
   echo "<tr>" . fm_text('Email',$_POST,'Email');
@@ -71,8 +89,13 @@ used to introduce you to the audience. You may wish to include:<br>
   echo "<tr>" . fm_text("Social Media link(s)",$_POST,'Social');
   echo "<tr>" . fm_text("Video link(s)",$_POST,'Example') . "<td colspan=2>(This is what we will use to decide your suitability for the event)";
   echo "</table><p>";
-  echo "<input type=submit name=submit value='Submit Application' onclick=$('#Patience').show()><p>\n";   
-  echo "<h2 hidden class=Err id=Patience>This takes a few moments, please be patient</h2>";
+  if (!Access('Staff')) {
+    echo "<input type=submit name=submit value='Submit Application' onclick=$('#Patience').show()><p>\n";   
+    echo "<h2 hidden class=Err id=Patience>This takes a few moments, please be patient</h2>";
+  } else {
+    echo "<input type=submit name=update value='Update Application'>" . SignupActions('BB',$_POST['State']);
+  }
+  echo "</form>";
   
   dotail();
 

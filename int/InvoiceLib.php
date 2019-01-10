@@ -1,21 +1,18 @@
 <?php
 
 $Invoice_Sources = ['','Trade','Sponsor/Adverts','Other'];
-$Org_Cats = ['Trade','Sponsor/Adverts'];
+$Org_Cats = ['Trade','Sponsor/Adverts','Buskers Bash','Live and Loud'];
+$Reserved_Codes = ['BB','LNL'];
+$OpayStates = ['Open','Paid','Cancelled'];
 
 /* Invoice Notes 
   A credit note has a negative total and paydate set to issue date
   An invoice that has been credit noted will have its paydate set to negative
 
 
-
-
-
-
-
 */
 
-
+include_once("SignupLib.php");
 
 // Get all invoices for YEAR that meet cond
 function Get_Invoices($cond = '',$order='id') {
@@ -37,6 +34,27 @@ function Put_Invoice(&$now) {
   $e=$now['id'];
   $Cur = Get_Invoice($e);
   return Update_db('Invoices',$Cur,$now);
+}
+
+function Get_PayCodes($cond = '',$order='id') {
+  global $YEAR,$db;  
+  $full = [];
+  $res = $db->query("SELECT * FROM OtherPayments WHERE Year=$YEAR " . ($cond ? " AND ( $cond )" : "" ) . " ORDER BY $order ");
+  if ($res) while ($inv = $res->fetch_assoc()) $full[] = $inv;
+  return $full;  
+}
+
+function Get_PayCode($id) {
+  global $db;
+  $res=$db->query("SELECT * FROM OtherPayments WHERE id=$id");
+  if ($res) return $res->fetch_assoc();
+  return 0;   
+}
+
+function Put_PayCode(&$now) {
+  $e=$now['id'];
+  $Cur = Get_PayCode($e);
+  return Update_db('OtherPayments',$Cur,$now);
 }
 
 function Inv_Amt($amt) {
@@ -223,6 +241,8 @@ function Sage_Code(&$Whose) { // May only work for trade at the moment
   $Nam = preg_replace('/ and /i','',$Nam);
   $Nam = preg_replace('/ /','',$Nam);
   $Nam = preg_replace('/\W/','',$Nam);
+  $Nam = strtoupper($Nam);
+  foreach ($Reserved_Codes as $CC) if (preg_match("/^$CC/",$Nam)) { $Nam = "X$Nam"; break; }
   
   for ($len = 5; $len<10; $len++) {
     $cod = strtoupper(substr($Nam,0,$len));
@@ -439,5 +459,34 @@ function Put_InvoiceCode(&$now) {
   return Update_db('InvoiceCodes',$Cur,$now);
 }
 
+function Invoice_AssignCode($Code,$Val,$Src=0) {
+  global $db,$PLANYEAR;
+  $ent = ['Year'=>$PLANYEAR,'Code'=>$Code,'Amount'=>$Val,'Source'=>$Src,'State'=>0,'IssueDate'=>time()];
+  Insert_db('OtherPayments', $ent);
+}
 
+function Invoice_RemoveCode($Code) {
+  db_update('OtherPayments',"State=2","Code='$Code'");
+}
+
+function Call_Invoice_User($user,$uid=0,$action,$val=0) {
+  switch ($user) {
+  case 0: // Trade
+    return Trade_F_Action($uid,$action,$val);
+
+  case 1: // Sponsorship / adverts
+    return; // TODO
+    
+  case 2: // BB
+    preg_match('/(\d+)/',$uid,$data);
+    $id = $data[1];
+    return BB_Action($action,$id,$val);
+    
+  case 3: //LNL
+    preg_match('/(\d+)/',$uid,$data);
+    $id = $data[1];
+    return LNL_Action($action,$id,$val);
+  }
+}  
+    
 ?>

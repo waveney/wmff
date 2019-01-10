@@ -1076,7 +1076,7 @@ function Trade_Deposit_Invoice(&$Trad,&$Trady,$Full='Full',$extra='') {
 }
 
 // Highly recursive set of actions - some trigger others amt = paid amount (0 = all)
-function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
+function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0) {
   global $Trade_State,$TradeTypeData,$USER,$TradeLocData,$PLANYEAR;
   include_once("InvoiceLib.php");
   $Tchng = $Ychng = 0;
@@ -1217,7 +1217,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='') {
     }
     $xtra = $data;
     if ($Trady['TotalPaid'] >= $fee) { 
-      $NewState = $Trade_State['Fully Paid'];
+      $NewState = $Trade_State['Fully Paid'];  // if paid > invoiced amend invoice to full 
     } else if ($Trady['TotalPaid'] >= $Dep && $CurState == $Trade_State['Accepted']) {
       $NewState = $Trade_State['Deposit Paid'];
       $Action = "Deposit Paid";
@@ -1432,9 +1432,9 @@ function Put_OtherLink($now) {
   return Update_db('OtherLinks',$Cur,$now);
 }
 
-function Trade_F_Action($Tid,$Action,$xtra='') { // Call from Invoicing 
+function Trade_F_Action($Tid,$Action,$xtra='',$invid=0) { // Call from Invoicing 
   $Trad = Get_Trader($Tid);
   $Trady = Get_Trade_Year($Tid);
-  Trade_Action($Action,$Trad,$Trady,1,'', $xtra);
+  Trade_Action($Action,$Trad,$Trady,1,'', $xtra,$invid);
 }
 ?>

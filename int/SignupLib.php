@@ -3,7 +3,8 @@
 $lnlclasses = array('','Live and Louder (under 16s)','Live and Loud (17+)');
 $Colours = array('white','lime','orange','grey');
 $yesno = array('','Yes','No');
-$States = array('Submitted','Paid','Cancelled');
+$SignupStates = array('Submitted','Invited not paid','Paid','Cancelled');
+$SignupStateColours = ['Yellow','Orange','Lime','lightgrey'];
 $StewClasses = array('Stewarding'=> ['Info Points, Concerts, Road Closures, Street Collecting etc',[0,1,2],'stewards'],
                 'Setup' => ['Banners, Bunting, Posters, Stages, Marquees, Venues, Furniture etc',['Before',-1,0,1,2,3],'setup'],
                 'Artistic' => ['Setting up art displays, town decorations etc',['Before',-1,0,1,2,3],'Art'],
@@ -11,10 +12,44 @@ $StewClasses = array('Stewarding'=> ['Info Points, Concerts, Road Closures, Stre
 $Days = array('Wed'=>'Wednesday','Thu'=>'Thursday','Fri'=>'Friday','Sat'=>'Saturday','Sun'=>'Sunday','Mon'=>'Monday','Tue'=>'Tuesday');
 $Relations = array('','Husband','Wife','Partner','Son','Daughter','Mother','Father','Brother','Sister','Grandchild','Grandparent','Guardian','Uncle','Aunty',
                 'Son/Daughter in law', 'Friend','Other');
+$SignupActions = [
+  'BB' => [
+          ],
+  'LNL'=> ['Submitted'=>['Invite','Cancel'],
+           'Invited not paid' => ['Paid','Resend','Cancel'],
+           'Paid'=>['Cancel'],
+           'Cancelled'=>[],
+          ],
+  ];
 
 $SignUpActivities = array_merge($lnlclasses,['Buskers Bash','Laugh Out Loud']);
+$BBDepositValue = 5;
+$LNLDepositValue = 5;
 
 include_once("Email.php");
+
+function Get_Signup($id) {
+  global $db;
+  $res=$db->query("SELECT * FROM SignUp WHERE id=$id");
+  if ($res) return $res->fetch_assoc();
+  return 0; 
+}
+
+function Put_Signup(&$now) {
+  $e=$now['id'];
+  $Cur = Get_Signup($e);
+  return Update_db('SignUp',$Cur,$now);
+}
+
+function SignupActions($name,$state) {
+  global $SignupActions,$SignupStates;
+  $txt = '';
+  foreach($SignupActions[$name][$SignupStates[$state]] as $ac) {
+//    $txt .= "<input type=submit name=ACTION value='$ac'>";
+    $txt .= "<button type=submit name=ACTION value='$ac'>$ac</button>";
+  }
+  return $txt;
+}
 
 function Get_lnl_Details(&$lnl) {
   global $lnlclasses,$yesno;
@@ -30,10 +65,10 @@ function Get_lnl_Details(&$lnl) {
 
   $Body .= "Members:\n";
   for ($i=1;$i<7;$i++) if (isset($lnl["SN$i"])) $Body .= "$i: " . $lnl["SN$i"] . " - " . $lnl["Instr$i"] . "\n";
-  if ($lnl['TotalSize']) $Body .= "Total Size: " . $lnl['TotalSize'] . "\n";
+  if (isset($lnl['TotalSize']) && $lnl['TotalSize']) $Body .= "Total Size: " . $lnl['TotalSize'] . "\n";
 
   $Body .= "\nSongs: " . $lnl['Songs'] . "\n";
-  $Body .= "Equipment: " . $lnl['Equipment'] . "\n";
+  $Body .= "Equipment: " . ((isset($lnl['TotalSize']) && $lnl['TotalSize'])?$lnl['Equipment']:"None") . "\n";
   $Body .= "Available for both Audition and Final " . $yesno[$lnl['FolkFest']] . "\n";
 //  $Body .= "Available on Friday? " . $yesno[$lnl['FFFri']] . "\n";
   $Body .= "Available on Saturday of Folk Festival? " . $yesno[$lnl['FFSat']] . "\n";
@@ -48,9 +83,12 @@ function Get_lnl_Details(&$lnl) {
 }
 
 function Lnl_Details($key,&$lnl) {
+  global $LNLDepositValue;
   switch ($key) {
   case 'WHO': return firstword(($lnl['Contact']? $lnl['Contact'] : $lnl['SN']));
   case 'DETAILS': return Get_lnl_Details($lnl);
+  case 'LNLREF': return "LNL" . $lnl['id'];
+  case 'DEPOSIT': return "&pound;$LNLDepositValue";
   }
 }
 
@@ -58,6 +96,40 @@ function Email_Signup(&$lnl,$messcat,$whoto) {
   global $PLANYEAR,$USER,$MASTER_DATA;
   Email_Proforma($whoto,$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $lnl['SN'],'lnl_Details',$lnl,'LiveNLoudLog.txt');
 }
+
+function LNL_Action($action,$id) {
+  global $LNLDepositValue,$SignupStates;
+  $StatesSignup = array_flip($SignupStates);
+//var_dump($id);
+  $lnl = Get_Signup($id);
+
+  switch ($action) {
+  case 'Invite':
+    // Raise Invoice id
+    // send invite email with BACS info and code
+    // InvoiceLib needs list of reserved codes
+    Invoice_AssignCode("LNL$id",$LNLDepositValue*100,3);
+    Email_Signup($lnl,'LNL_Invite',$lnl['Email']);
+    $lnl['State'] = $StatesSignup['Invited not paid'];
+    break;
+    
+  case 'Resend':
+    Email_Signup($lnl,'LNL_Invite',$lnl['Email']);
+    break;
+  
+  case 'Paid':
+    $lnl['State'] = $StatesSignup['Paid'];
+    break;
+      
+  case 'Cancel':
+    $lnl['State'] = $StatesSignup['Cancelled'];
+    Invoice_RemoveCode("LNL$id");
+    break;
+  
+  } 
+  Put_Signup($lnl);
+}
+
 
 function Get_lol_Details(&$lol) {
   global $yesno;
@@ -121,15 +193,47 @@ function Get_BB_Details(&$lnl) {
 }
 
 function BB_Details($key,&$bb) {
+  global $BBDepositValue;
   switch ($key) {
   case 'WHO': return $bb['Contact']? firstword($bb['Contact']) : $bb['SN'];
   case 'DETAILS': return Get_BB_Details($bb);
+  case 'BBREF': return "BB" . $bb['id'];
+  case 'DEPOSIT': return "&pound;$BBDepositValue";
   }
 }
 
 function Email_BB_Signup(&$bb,$messcat,$whoto) {
   global $PLANYEAR,$USER,$MASTER_DATA;
   Email_Proforma($whoto,$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $bb['SN'],'BB_Details',$bb,'BuskersBashLog.txt');
+}
+
+function BB_Action($action,$id) {
+  global $BBDepositValue;
+  $bb = Get_Signup($id);
+  switch ($action) {
+  case 'Invite':
+    // Raise Invoice id
+    // send invite email with BACS info and code
+    // InvoiceLib needs list of reserved codes
+    Invoice_AssignCode("BB$id",$BBDepositValue*100,2);
+    Email_BB_Signup($bb,'BB_Invite',$bb['Email']);    
+    break;
+    
+  case 'Resend':
+    Email_BB_Signup($bb,'BB_Invite',$bb['Email']);
+    break;
+  
+  case 'Paid':
+    $bb['State'] = array_flip($SignupStates)['Paid'];
+    break;
+      
+  case 'Cancel':
+    $bb['State'] = array_flip($SignupStates)['Cancelled'];
+    Invoice_RemoveCode("BB$id");
+    break;
+  
+  } 
+  Put_Signup($bb);
 }
 
 function Get_SVol_Details(&$vol) {

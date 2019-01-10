@@ -16,7 +16,7 @@
 
 
 <h2 class=subtitle>Festival Parking</h2>
-<strong>Allenbourn School</strong> will have daytime parking on their school fields <!--for <strong>&pound;5.00</strong> per vehicle --> on Saturday &amp; Sunday only, 
+<strong>Allenbourne School</strong> will have daytime parking on their school fields <!--for <strong>&pound;5.00</strong> per vehicle --> on Saturday &amp; Sunday only, 
 with no overnight parking. Access is from East Borough, just off the B3078, Cranborne Road. <button onclick=ShowDirect(1000009)>Directions</button><p>
 
 
@@ -26,8 +26,8 @@ Vehicles left on site overnight will not be subsequently charged unless taken of
 <h2 class=subtitle>Long Term Car Parks</h2>
 The principle long term car parks are:
 <ul>
-<li>Allenview West (behind the Allenborne Centre)
-<li>Allenview North (behind the Allenborne Centre)
+<li>Allenview West (behind the Allendale Centre)
+<li>Allenview North (behind the Allendale Centre)
 <li>Westfield Close (Near Green Man/Minster Arms)
 <li>Pye Corner Carpark (Near Green Man/Minster Arms)
 <li>Walford Mill
@@ -40,7 +40,7 @@ The principle short term car parks are:
 <ul>
 <li>King Street (Near the Minster)
 <li>Waitrose
-<li>Allenview South (Beside the Allenborne Centre)
+<li>Allenview South (Beside the Allendale Centre)
 <li>Crownmead (Co Op)
 
 

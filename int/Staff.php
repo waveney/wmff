@@ -285,6 +285,7 @@
       echo "<li><a href=InvoiceManage.php>Invoice Management</a>\n";
       echo "<li><a href=InvoiceCodes.php>Invoice Codes</a>\n";   
       echo "<li><a href=InvoiceSummary.php>Invoice Summary</a>\n";   
+      echo "<li><a href=OtherPaymentSummary.php>Other Payment Summary</a>\n";   
 
     } elseif (Access('Committee')) {
       echo "<li><a href=BudgetManage.php>Budget View</a>\n";

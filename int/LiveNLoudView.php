@@ -6,8 +6,9 @@
   global $db,$PLANYEAR;
   include_once("SignupLib.php");
 
+  echo "Click on Band Name for more info.<p>";
   $coln = 0;  
-  echo "<form method=post action=LiveNLoudView.php>";
+//  echo "<form method=post action=LiveNLoudView.php>";
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
 
@@ -21,26 +22,27 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>State/Actions</a>\n";
   echo "</thead><tbody>";
 
-  $res=$db->query("SELECT * FROM SignUp WHERE Year=$PLANYEAR AND State<2 AND Activity<4 ORDER BY SN");
+  $res=$db->query("SELECT * FROM SignUp WHERE Year=$PLANYEAR AND State<3 AND Activity<4 ORDER BY SN");
   
   if ($res) {
     while ($lnl = $res->fetch_assoc()) {
       $id = $lnl['id'];
       echo "<tr><td>$id";
 //      echo "<td><a href=lnledit.php?id=$id>" . $lnl['SN'] . "</a>";
-      echo "<td>" . $lnl['SN'];
+      echo "<td><a href=LiveNLoudForm.php?i=$id>" . $lnl['SN'] . "</a>";
       echo "<td>" . $lnl['Style'];
       echo "<td style='background:" . $Colours[$lnl['Activity']] . ";'>" . $lnlclasses[$lnl['Activity']];
       if ($lnl['TotalSize']) {
         $siz = $lnl['TotalSize'];
       } else {
         $siz = 0;
-        for ($i=1;$i<7;$i++) if ($lnl["SN$i"]) $siz++;
+        for ($i=1;$i<7;$i++) if (isset($lnl["SN$i"]) && ($lnl["SN$i"])) $siz++;
       }
       echo "<td>$siz";
       echo "<td>" . $lnl['Contact'];
       echo "<td>" . $lnl['Email'];
-      echo "<td>" . $States[$lnl['State']];
+      echo "<td style='background:" . $SignupStateColours[$lnl['State']] . "'><form method=post action=LiveNLoudForm.php>" . 
+           fm_hidden('id',$id) . $SignupStates[$lnl['State']] . " " . SignupActions('LNL',$lnl['State']) . "</form>";
 
     }
   }

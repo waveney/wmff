@@ -22,7 +22,7 @@
   include_once("InvoiceLib.php");
   include_once("TradeLib.php");
 
-  global $YEAR,$PLANYEAR,$BUDGET,$USER;
+  global $YEAR,$PLANYEAR,$BUDGET,$USER,$OpayStates;
 
 //var_dump($_REQUEST);
 
@@ -55,13 +55,21 @@
     
     case 'DIFF': // Need to find out ammount 
       $amt = $_REQUEST["amt$id"]*100;
-      if ($amt >= $inv['Total']) {
+      $inv['PaidTotal'] += $amt;
+      if ($amt == $inv['Total']) {
         $inv['PayDate'] = time();
         $inv['History'] .= "Fully Paid on " . date('j/n/Y') . " by " . $USER['Login'] . "\n";
+      } else  if ($amt > $inv['Total']) {
+        if ($inv['Source'] == 1) {
+          Put_Invoice($inv);
+          Trade_F_Action($inv['SourceId'],'Paid',$amt/100,$id); // Will cause update to invoice - hance saved before call
+          break;
+        }
+        // TODO Overpayment non trade Invoices
       } else {
         $inv['History'] .= "Partially Paid " . Print_Pence($amt) . " on " . date('j/n/Y') . " by " . $USER['Login'] . "\n";
       }
-      $inv['PaidTotal'] += $amt;
+
       Put_Invoice($inv);
       if ($inv['Source'] == 1) Trade_F_Action($inv['SourceId'],'Paid',$amt/100); 
       break;
@@ -93,6 +101,22 @@
     case 'PRINTPDF':
       Invoice_Print($inv);
       break;
+      
+      
+    case 'PDEL' :
+      db_delete('OtherPayments',$id);
+      break;
+
+    case 'PPAID' :
+      $pay = Get_PayCode($id);
+      $pay['State'] = array_flip($OpayStates)['Paid'];
+      $pay['PayDate'] = time();
+      Put_PayCode($pay);
+      Call_Invoice_User($pay['Source'],$pay['Code'],'Paid');
+      break;
+    
+      break;
+      
     }
 
   
@@ -104,9 +128,11 @@
   }
   
   $NewXtra = $NewXtraTxt = '';
+  $Pays = [];
   if (isset($_REQUEST['ALL'])) {
     echo "<h2>Manage Invoices - $YEAR</h2>\n";
     $Invs = Get_Invoices();
+    $Pays = Get_PayCodes("");
     echo "<h2><a href=InvoiceManage.php?Y=$YEAR>Show Outstanding Only</a></h2>\n";
     $All = 1;
   } elseif (isset($_REQUEST['FOR'])) {
@@ -119,6 +145,7 @@
     $NewXtraTxt = " For $Tname";
   } else {
     echo "<h2>Manage Invoices - $YEAR</h2>\n";
+    $Pays = Get_PayCodes("State=0");
     $Invs = Get_Invoices('PayDate=0 AND Total>0');  
     echo "<h2><a href=InvoiceManage.php?Y=$YEAR&ALL>Show All Invoices and Credit notes</a></h2>\n";
     $All = 0;
@@ -176,6 +203,38 @@
     if ($All && $inv['PayDate']<0) echo ", <a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'CN') . ">Credit Note</a>";
     echo "\n";
   }
+  
+  
+// PayCodes  
+
+
+  foreach($Pays as $i=>$pay) {
+    $id = $pay['id'];
+    echo "<tr><td><a href=InvoiceManage.php?PShow=$id>$id</a>";
+    if ($All) echo "<td>Payment"; 
+    echo "<td>"; // . $pay['BZ']; // Make link soon TODO
+    echo "<td>" . $pay['Code'];
+    echo "<td>" . date('j/n/Y',$pay['IssueDate']);
+    echo "<td>"; // Due Date
+    if ($All) echo "<td>" . ($pay['State']==1? date('j/n/Y',abs($inv['PayDate'])) : ($inv['PayDate']<0? "NA": ""));
+    echo "<td>" . Print_Pence($pay['Amount']);
+    if ($All) echo "<td>";
+    echo "<td>";
+    if (!$ViewOnly) { 
+      echo "<td>"; 
+      echo "<form method=post>" . fm_hidden('i',$id) . fm_hidden("amt$id",0) . fm_hidden("reason$id",'');
+        if ($pay['PayDate'] == 0 && $pay['Amount']>0) {// Pay, pay diff, cancel/credit, change
+          echo "<button name=ACTION value=PPAID>Paid</button> "; 
+        }
+      if (Access('SysAdmin')) echo "<button name=ACTION value=PDEL>Del</button> ";
+//        echo "<button name=ACTION value=DIFF onclick=diffprompt($id) >Paid Different</button> ";
+//        echo "<button name=ACTION value=CREDIT onclick=reasonprompt($id) >Cancel/credit</button> ";
+      echo "</form>";
+    }
+    echo "<td>";
+    echo "\n";
+  }
+  
   echo "</table>\n";
   
   echo "<h2><a href=InvoiceManage.php?ACTION=NEW$NewXtra>New Invoice $NewXtraTxt</a>";  

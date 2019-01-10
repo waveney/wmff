@@ -3,11 +3,12 @@
   A_Check('Staff');
 
   dostaffhead("List Buskers Bash Applications");
-  global $db,$PLANYEAR;
+  global $db,$PLANYEAR,$SignupStates,$SignupStateColours;
   include_once("SignupLib.php");
 
+  echo "Click on Band Name for more info.<p>";
   $coln = 0;  
-  echo "<form method=post action=BuskersBashView.php>";
+//  echo "<form method=post action=BuskersBashView.php>";
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
 
@@ -25,11 +26,12 @@
     while ($bb = $res->fetch_assoc()) {
       $id = $bb['id'];
       echo "<tr><td>$id";
-      echo "<td>" . $bb['SN'];
+      echo "<td><a href=BuskersBashForm.php?i=$id>" . $bb['SN'] . "</a>";
       echo "<td>" . $bb['Contact'];
       echo "<td>" . $bb['Email'];
       echo "<td>" . weblink( $bb['Example'] , "Example");
-      echo "<td>" . $States[$bb['State']];
+      echo "<td style='background:" . $SignupStateColours[$bb['State']] . "'><form method=post action=BuskersBashForm.php>" . 
+           fm_hidden('id',$id) . $SignupStates[$bb['State']] . " " . SignupActions('BB',$bb['State']) . "</form>";
 
     }
   }
