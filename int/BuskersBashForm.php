@@ -96,7 +96,8 @@ used to introduce you to the audience. You may wish to include:<br>
     echo "<input type=submit name=update value='Update Application'>" . SignupActions('BB',$_POST['State']);
   }
   echo "</form>";
-  
+
+  echo "<h2><a href=BuskersBashView.php>Back to List of applications</a></h2>";  
   dotail();
 
 ?>

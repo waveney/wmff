@@ -13,22 +13,22 @@ function Pretty_Print_To($to) {
     if (is_array($to[0])) {
       foreach ($to as $i=>$too) {
         $a = $too[1];
-        $n = (isset($too[2])?$too[2]:'');
+        $n = ((isset($too[2]) && $too[2])?("&lt;" . $too[2] . "&gt;"):'');
         switch ($too[0]) {
           case 'to':
-            $str .= " to: $a &lt;$n&gt;, ";
+            $str .= " to: $a $n, ";
             break;
           case 'cc':
-            $str .= " cc: $a &lt;$n&gt;, ";
+            $str .= " cc: $a $n, ";
             break;
           case 'bcc':
-            $str .= " bcc: $a &lt;$n&gt;, ";
+            $str .= " bcc: $a $n, ";
             break;
           case 'replyto':
-            $str .= " replyto: $a &lt;$n&gt;, ";
+            $str .= " replyto: $a $n, ";
             break;
           case 'from':
-            $str .= " from: $a &lt;$n&gt;, ";
+            $str .= " from: $a $n, ";
             break;
         } 
       }
