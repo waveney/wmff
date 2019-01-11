@@ -3,8 +3,9 @@
 $lnlclasses = array('','Live and Louder (under 16s)','Live and Loud (17+)');
 $Colours = array('white','lime','orange','grey');
 $yesno = array('','Yes','No');
-$SignupStates = array('Submitted','Invited not paid','Paid','Cancelled');
-$SignupStateColours = ['Yellow','Orange','Lime','lightgrey'];
+$SignupStates = array('Submitted','Invited not paid','Paid','Cancelled','Invited');
+$StatesSignup = array_flip($SignupStates);
+$SignupStateColours = ['Yellow','Orange','Lime','lightgrey','lime'];
 $StewClasses = array('Stewarding'=> ['Info Points, Concerts, Road Closures, Street Collecting etc',[0,1,2],'stewards'],
                 'Setup' => ['Banners, Bunting, Posters, Stages, Marquees, Venues, Furniture etc',['Before',-1,0,1,2,3],'setup'],
                 'Artistic' => ['Setting up art displays, town decorations etc',['Before',-1,0,1,2,3],'Art'],
@@ -13,7 +14,8 @@ $Days = array('Wed'=>'Wednesday','Thu'=>'Thursday','Fri'=>'Friday','Sat'=>'Satur
 $Relations = array('','Husband','Wife','Partner','Son','Daughter','Mother','Father','Brother','Sister','Grandchild','Grandparent','Guardian','Uncle','Aunty',
                 'Son/Daughter in law', 'Friend','Other');
 $SignupActions = [
-  'BB' => [
+  'BB' => ['Submitted'=>['Invite','Cancel'],
+           'Invited' => ['Resend','Cancel'],
           ],
   'LNL'=> ['Submitted'=>['Invite','Cancel'],
            'Invited not paid' => ['Paid','Resend','Cancel'],
@@ -23,7 +25,7 @@ $SignupActions = [
   ];
 
 $SignUpActivities = array_merge($lnlclasses,['Buskers Bash','Laugh Out Loud']);
-$BBDepositValue = 5;
+$BBDepositValue = 0;
 $LNLDepositValue = 5;
 
 include_once("Email.php");
@@ -45,7 +47,6 @@ function SignupActions($name,$state) {
   global $SignupActions,$SignupStates;
   $txt = '';
   foreach($SignupActions[$name][$SignupStates[$state]] as $ac) {
-//    $txt .= "<input type=submit name=ACTION value='$ac'>";
     $txt .= "<button type=submit name=ACTION value='$ac'>$ac</button>";
   }
   return $txt;
@@ -98,8 +99,7 @@ function Email_Signup(&$lnl,$messcat,$whoto) {
 }
 
 function LNL_Action($action,$id) {
-  global $LNLDepositValue,$SignupStates;
-  $StatesSignup = array_flip($SignupStates);
+  global $LNLDepositValue,$SignupStates,$StatesSignup;
 //var_dump($id);
   $lnl = Get_Signup($id);
 
@@ -108,7 +108,7 @@ function LNL_Action($action,$id) {
     // Raise Invoice id
     // send invite email with BACS info and code
     // InvoiceLib needs list of reserved codes
-    Invoice_AssignCode("LNL$id",$LNLDepositValue*100,3);
+    if ($LNLDepositValue) Invoice_AssignCode("LNL$id",$LNLDepositValue*100,3);
     Email_Signup($lnl,'LNL_Invite',$lnl['Email']);
     $lnl['State'] = $StatesSignup['Invited not paid'];
     break;
@@ -123,7 +123,7 @@ function LNL_Action($action,$id) {
       
   case 'Cancel':
     $lnl['State'] = $StatesSignup['Cancelled'];
-    Invoice_RemoveCode("LNL$id");
+    if ($LNLDepositValue) Invoice_RemoveCode("LNL$id");
     break;
   
   } 
@@ -208,15 +208,16 @@ function Email_BB_Signup(&$bb,$messcat,$whoto) {
 }
 
 function BB_Action($action,$id) {
-  global $BBDepositValue;
+  global $BBDepositValue,$StatesSignup;
   $bb = Get_Signup($id);
   switch ($action) {
   case 'Invite':
     // Raise Invoice id
     // send invite email with BACS info and code
     // InvoiceLib needs list of reserved codes
-    Invoice_AssignCode("BB$id",$BBDepositValue*100,2);
-    Email_BB_Signup($bb,'BB_Invite',$bb['Email']);    
+    $bb['State'] = $StatesSignup['Invited'];
+    if ($BBDepositValue) Invoice_AssignCode("BB$id",$BBDepositValue*100,2); 
+    Email_BB_Signup($bb,'BB_Invite',[['to',$bb['Email']],['replyto','BuskersBash@wimbornefolk.co.uk']]);
     break;
     
   case 'Resend':
@@ -224,12 +225,12 @@ function BB_Action($action,$id) {
     break;
   
   case 'Paid':
-    $bb['State'] = array_flip($SignupStates)['Paid'];
+    $bb['State'] = $StatesSignup['Paid'];
     break;
       
   case 'Cancel':
-    $bb['State'] = array_flip($SignupStates)['Cancelled'];
-    Invoice_RemoveCode("BB$id");
+    $bb['State'] = $StatesSignup['Cancelled'];
+    if ($BBDepositValue) Invoice_RemoveCode("BB$id");
     break;
   
   } 
