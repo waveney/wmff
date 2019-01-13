@@ -947,7 +947,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
     }
   } else {
     $Tid = -1;
-    $Trad['TradeType'] = 1;
+    $Trad = ['TradeType' => 1, 'IsTrader' => 1];
   }
   if (!isset($Trady)) $Trady = Default_Trade($Tid);
 

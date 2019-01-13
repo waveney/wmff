@@ -167,6 +167,7 @@ Set Use Notes to fmt to use the Big Event programming Notes to describe types of
         'BarFoodText'=>'Any text that expands on the food and drink available',
         'StewardTasks'=>'Use this to elaborate on the Stewarding requirements for the event',
         'SetupTasks'=>'Use this to elaborate the Setup requirements for the event',
+        'StagePA'=>'IF this event needs extra PA other than identified by the performers, list it here',
         
   );
   Set_Help_Table($t);

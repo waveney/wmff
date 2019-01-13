@@ -1,7 +1,7 @@
 <?php
 
-$Invoice_Sources = ['','Trade','Sponsor/Adverts','Other'];
-$Org_Cats = ['Trade','Sponsor/Adverts','Buskers Bash','Live and Loud'];
+$Invoice_Sources = ['Other','Trade','Sponsor/Adverts','Buskers Bash','Live and Loud'];
+$Org_Cats = ['Trade','Sponsor/Adverts'];
 $Reserved_Codes = ['BB','LNL'];
 $OpayStates = ['Open','Paid','Cancelled'];
 
@@ -369,7 +369,7 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade/sponsers/ad
   echo "<tr>" . fm_text("Reason (this appears in local lists)",$inv,'Reason',2);
   if (Access('SysAdmin')) {
     if (!isset($inv['Source'])) $inv['Source'] = 3;
-    echo "<tr><td>Source:" . fm_select($Invoice_Sources,$inv,'Source');
+    echo "<tr><td>Source:" . fm_select($Invoice_Sources,$inv,'Source') . fm_text("Source Id",$inv,'SourceId');
   } else {
     fm_hidden('Source',3);
   }
@@ -498,9 +498,9 @@ function Put_InvoiceCode(&$now) {
   return Update_db('InvoiceCodes',$Cur,$now);
 }
 
-function Invoice_AssignCode($Code,$Val,$Src=0) {
+function Invoice_AssignCode($Code,$Val,$Src=0,$SrcId=0) {
   global $db,$PLANYEAR;
-  $ent = ['Year'=>$PLANYEAR,'Code'=>$Code,'Amount'=>$Val,'Source'=>$Src,'State'=>0,'IssueDate'=>time()];
+  $ent = ['Year'=>$PLANYEAR,'Code'=>$Code,'Amount'=>$Val,'Source'=>$Src,'SourceId'=>$SrcId,'State'=>0,'IssueDate'=>time()];
   Insert_db('OtherPayments', $ent);
 }
 
@@ -509,19 +509,25 @@ function Invoice_RemoveCode($Code) {
 }
 
 function Call_Invoice_User($user,$uid=0,$action,$val=0) {
+  global $Invoice_Sources;
+  
+// ['Other','Trade','Sponsor/Adverts','Buskers Bash','Live and Loud'];
   switch ($user) {
-  case 0: // Trade
-    return Trade_F_Action($uid,$action,$val);
-
-  case 1: // Sponsorship / adverts
+  case 0: // Other
     return; // TODO
     
-  case 2: // BB
+  case 1: // Trade
+    return Trade_F_Action($uid,$action,$val);
+
+  case 2: // Sponsorship / adverts
+    return; // TODO
+    
+  case 3: // BB
     preg_match('/(\d+)/',$uid,$data);
     $id = $data[1];
     return BB_Action($action,$id,$val);
     
-  case 3: //LNL
+  case 4: // LNL
     preg_match('/(\d+)/',$uid,$data);
     $id = $data[1];
     return LNL_Action($action,$id,$val);
