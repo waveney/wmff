@@ -42,8 +42,8 @@ You do not normally need to set Duration, Bar/Food, Special, Alt Edit, Prices, P
 Then click on <b>Create</b>.<p>
 See if any errors are reported at the top of the event - they currently are a bit cryptic but any event clashes involving this event will be listed 
 - resolve them please.<p>
-If it a simple event, with one particpant do the following (this can be done later if you have not yet decided): 
-<ul><li>Select the Side, Act or Other participant from the drop down lists.
+If it a simple event, with up to 4 particpants do the following (this can be done later if you have not yet decided): 
+<ul><li>Select the Side, Act or Other participants from the drop down lists.
 <li>Click on <b>Update</b></ul><p>
 <h3>Concerts and similar events</h3>
 Each act in the concert needs a sub event.<p>

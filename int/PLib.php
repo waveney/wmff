@@ -495,7 +495,30 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
       echo "<td colspan=2 class=NotCSide>On arrival report to: " . fm_select(Report_To(),$Sidey,'ReportTo') .
            "<td class=NotCSide colspan=2 >" . fm_checkbox('Tell about Green Room',$Sidey,'GreenRoom');
 
-  } else if ($Sidey['TotalFee'] || $Sidey['OtherPayment']) {
+    if (Feature('CampControl')) {
+      $campxtr =  ((Feature('CampControl') ==2 )? " class=NotCSide":'');          
+      if ($campxtr) {
+        echo "<tr><td $campxtr>Camping numbers:" . fm_number1('Fri',$Sidey,'CampFri',$campxtr) . 
+                  fm_number1('Sat',$Sidey,'CampSat',$campxtr) . fm_number1('Sun',$Sidey,'CampSun',$campxtr);
+      } else {
+        echo "<tr><td class=NotSide>" . fm_checkbox("Allow Camping",$Sidey,'EnableCamp','onchange="($(\'.CampDay\').toggle())"'); 
+        $pcamp = " Class=CampDay " . ((isset($Sidey['EnableCamp']) && $Sidey['EnableCamp'])? '' : ' hidden');         
+        echo "<td $pcamp>Camping numbers:" . fm_number1('Fri',$Sidey,'CampFri',$pcamp) . 
+              fm_number1('Sat',$Sidey,'CampSat',$pcamp) . fm_number1('Sun',$Sidey,'CampSun',$pcamp);
+      }
+    }
+  } else if ($Sidey['TotalFee'] || $Sidey['OtherPayment'] || ($Sidey['EnableCamp'] && Feature('CampControl'))) {
+    if ($Sidey['EnableCamp'] && Feature('CampControl')) { 
+      echo fm_hidden('EnableCamp',$Sidey['EnableCamp']);
+      if (Feature('CampControl') == 2 ) {
+        echo "<tr><td>Camping numbers:" . fm_number1('Fri',$Sidey,'CampFri') . fm_number1('Sat',$Sidey,'CampSat') . fm_number1('Sun',$Sidey,'CampSun');
+      } else if ($Sidey['CampFri'] || $Sidey['CampSat'] || $Sidey['CampSun'])  {
+        echo "<tr><td>Camping numbers:";
+        if ($Sidey['CampFri']) echo "<td>Friday: " . $Sidey['CampFri'];
+        if ($Sidey['CampSat']) echo "<td>Saturday: " . $Sidey['CampSat'];
+        if ($Sidey['CampSun']) echo "<td>Sunday: " . $Sidey['CampSun'];
+      }
+    }
     echo "<tr><td>Fee:<td>&pound;" . $Sidey['TotalFee'];
     if ($Sidey['OtherPayment']) echo fm_text('Other payments',$Sidey,'OtherPayment',1,'disabled readonly');
     if (isset($Sidey['Rider']) && strlen($Sidey['Rider']) > 5)  echo "<tr>" . fm_textarea('Additional Riders',$Sidey,'Rider',2,1,'','disabled') ."\n";

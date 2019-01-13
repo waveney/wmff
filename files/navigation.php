@@ -42,6 +42,7 @@
      <a href=$host/Sherlock.php?t=Workshop >Workshops</a>
      <a href=$host/Sherlock.php?t=Comedy >Comedy</a>
      <a href=$host/Sherlock.php?t=Session >Sessions</a>
+     <a href=$host/Sherlock.php?t=Talk>Talks</a>
      <a href=$host/Sherlock.php?t=Craft>Craft</a>
      <a href=$host/Sherlock.php?t=Other>Other</a>
      <a href=$host/TraderList.php>Traders</a>
