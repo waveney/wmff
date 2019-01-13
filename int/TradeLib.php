@@ -947,7 +947,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
     }
   } else {
     $Tid = -1;
-    $Trad['TradeType'] = 1;
+    $Trad = ['TradeType' => 1, 'IsTrader' => 1];
   }
   if (!isset($Trady)) $Trady = Default_Trade($Tid);
 
@@ -1218,6 +1218,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     $xtra = $data;
     if ($Trady['TotalPaid'] >= $fee) { 
       $NewState = $Trade_State['Fully Paid'];  // if paid > invoiced amend invoice to full 
+      if ($invid) Update_Invoice($invid,["Fees for trade stand at the $PLANYEAR festival",$fee*100],1);
     } else if ($Trady['TotalPaid'] >= $Dep && $CurState == $Trade_State['Accepted']) {
       $NewState = $Trade_State['Deposit Paid'];
       $Action = "Deposit Paid";

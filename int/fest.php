@@ -493,6 +493,12 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
   return $str;
 }
 
+function Send_SysAdmin_Email($Subject,&$data=0) {
+  include_once("Email.php");
+  $dat = json_encode($data);
+  NewSendEmail('richard@wavwebs.com',$Subject,$dat);  
+}
+
 $head_done = 0;
 
 function doextras($extra1,$extra2,$extra3,$extra4,$extra5) {

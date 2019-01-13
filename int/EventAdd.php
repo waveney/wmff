@@ -38,12 +38,12 @@ If you need to block off the venue before the event, give a setup time in minute
 If you would like to give a small description, this will appear in the programme book and in lists of events.<p>
 You may if you wish have a longer blurb, this will only appear on the webpage for this event.<p>
 If it should be listed as a Family event, click the relevant box.  A children's Workshop would be type workshop and have Family selected.<p>
-You do not normally need to set Duration, Bar/Food, Special, Alt Edit, Prices and Non Fest.  For all complex cases contact Richard (07718 511432)<p>
+You do not normally need to set Duration, Bar/Food, Special, Alt Edit, Prices, PA Requirements and Non Fest.  For all complex cases contact Richard (07718 511432)<p>
 Then click on <b>Create</b>.<p>
 See if any errors are reported at the top of the event - they currently are a bit cryptic but any event clashes involving this event will be listed 
 - resolve them please.<p>
-If it a simple event, with one particpant do the following (this can be done later if you have not yet decided): 
-<ul><li>Select the Side, Act or Other participant from the drop down lists.
+If it a simple event, with up to 4 particpants do the following (this can be done later if you have not yet decided): 
+<ul><li>Select the Side, Act or Other participants from the drop down lists.
 <li>Click on <b>Update</b></ul><p>
 <h3>Concerts and similar events</h3>
 Each act in the concert needs a sub event.<p>
@@ -354,6 +354,10 @@ A similar feature will appear eventually for music.<p>
       echo          fm_text1('Special Price Text',$Event,'SpecPrice',1,'class=NotSide','class=NotSide') .
                     fm_text1('Special Price Link',$Event,'SpecPriceLink',1,'class=NotSide','class=NotSide') ;
       echo "<td class=NotSide>" . fm_checkbox('Cancelled',$Event,'Status');
+      echo "<tr>" . fm_textarea('Extra PA Requirements',$Event,'StagePA',5,1);
+
+
+
       if (!((isset($Event['BigEvent']) && $Event['BigEvent']))) {
         if (Feature('NewPERF2')) {
           $PTypes = [];

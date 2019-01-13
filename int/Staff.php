@@ -104,7 +104,7 @@
     echo "<li><a href=ContractView.php?t=1>Dummy Music Contract</a>";
     echo "<li><a href=LiveNLoudView.php?Y=$YEAR>Show Live N Loud applications</a>";
     echo "<li><a href=BuskersBashView.php?Y=$YEAR>Show Buskers Bash applications</a>";
-    if (Access('SysAdmin')) echo "<li class=smalltext><a href=LiveNLoudEmail.php>Send LNL bulk email</a>";
+//    if (Access('SysAdmin')) echo "<li class=smalltext><a href=LiveNLoudEmail.php>Send LNL bulk email</a>";
     echo "</ul>\n";
 
 // *********************** DANCE ****************************************************
@@ -235,23 +235,29 @@
     echo "<ul>\n";
     echo "<li><a href=VenueList.php?Y=$YEAR>List Venues</a>\n";
     echo "<li><a href=EventList.php?Y=$YEAR>List Events</a>\n";
-    if (Access('Staff','Venues')) echo "<li><a href=EventTypes.php>Event Types</a>\n";
+    if (Access('Staff','Venues') && $YEAR==$PLANYEAR) echo "<li><a href=EventAdd.php>Create Event(s)</a>";
+    
     echo "<li><form method=Post action=VenueShow.php?Mode=1 class=staffform>";
       echo "<input type=submit name=a value='Show Events at' id=staffformid>" . 
                 fm_hidden('Y',$YEAR) .
-                fm_select($Vens,0,'v',0," onchange=this.form.submit()") . "</form>\n";
+                fm_select($Vens,0,'v',0," onchange=this.form.submit()") . " - A public view of events even if they are not public</form>\n";
     echo "<li><form method=Post action=VenueShow.php?Poster=1 class=staffform>";
       echo "<input type=submit name=a value='Poster For' id=Posterid>" . 
                 fm_hidden('Y',$YEAR) .
                 fm_select($Vens,0,'v',0," onchange=this.form.submit()") . 
                 fm_radio('',$Days,$_POST,'DAYS','',0) . fm_checkbox('Pics',$_POST,'Pics') .
                 "</form>\n";
-    if (Access('Staff','Venues') && $YEAR==$PLANYEAR) echo "<li><a href=EventAdd.php>Create Event(s)</a>";
+
+    if (Access('Staff','Venues')) echo "<li><a href=EventTypes.php>Event Types</a>\n";
     if (Access('SysAdmin')) echo "<li><a href=TicketEvents.php?Y=$YEAR>List Ticketed Events</a>\n";
     if (Access('Committee','Venues')) echo "<li><a href=MapPoints.php>Additional Map Points</a>\n";
     if (Access('SysAdmin')) echo "<li><a href=MapPTypes.php>Map Point Types</a>\n";
-    echo "<li><a href=$host/Map.php>Map</a>\n";
     echo "<li><a href=EventSummary.php?Y=$YEAR>Event Summary</a>\n";
+    echo "<li><form method=Post action=PAShow.php?Mode=1 class=staffform>";
+      echo "<input type=submit name=a value='PA Requirements for' id=staffformid>" . 
+                fm_hidden('Y',$YEAR) .
+                fm_select($Vens,0,'pa4v',0," onchange=this.form.submit()") . "</form>\n";
+
 //    if (Access('SysAdmin')) echo "<li><a href=BusTimes.php>Fetch and Cache Bus Times</a>\n";
 //    if (Access('SysAdmin')) echo "<li><a href=ConvertEvents.php>Convert Old Format Events to New Format Events</a>\n";
     echo "</ul>\n";

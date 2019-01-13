@@ -62,7 +62,7 @@
       } else  if ($amt > $inv['Total']) {
         if ($inv['Source'] == 1) {
           Put_Invoice($inv);
-          Trade_F_Action($inv['SourceId'],'Paid',$amt/100,$id); // Will cause update to invoice - hance saved before call
+          Trade_F_Action($inv['SourceId'],'Paid',$amt/100,$id); // Will cause update to invoice - hence saved before call
           break;
         }
         // TODO Overpayment non trade Invoices
@@ -199,8 +199,10 @@
         echo "</form>";
       }
     }
-    echo "<td><a href=ShowFile.php?l=" . Get_Invoice_Pdf($id) . ">View</a>";
-    if ($All && $inv['PayDate']<0) echo ", <a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'CN') . ">Credit Note</a>";
+    
+    $Rev = ($inv['Revision']?"R" .$inv['Revision']:"");
+    echo "<td><a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'',$Rev) . ">View</a>";
+    if ($All && $inv['PayDate']<0) echo ", <a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'CN',$Rev) . ">Credit Note</a>";
     echo "\n";
   }
   

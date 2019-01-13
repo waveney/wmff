@@ -42,6 +42,7 @@
      <a href=$host/Sherlock.php?t=Workshop >Workshops</a>
      <a href=$host/Sherlock.php?t=Comedy >Comedy</a>
      <a href=$host/Sherlock.php?t=Session >Sessions</a>
+     <a href=$host/Sherlock.php?t=Talk>Talks</a>
      <a href=$host/Sherlock.php?t=Craft>Craft</a>
      <a href=$host/Sherlock.php?t=Other>Other</a>
      <a href=$host/TraderList.php>Traders</a>
@@ -55,13 +56,14 @@
      <a href=$host/InfoCamping.php>Camping</a>
      <a href=$host/InfoParking.php>Parking</a>
      <a href=$host/InfoGettingHere.php>Travel - Trains, Buses and Taxis</a>
-     <a href=$host/InfoMailingList.php >Mailing List</a>
+     <a href=$host/InfoMailingList.php>Mailing List</a>
+     <a href=$host/contact.php>Contact Us</a>
      
      <a href=$host/InfoWater.php>Water Bottle Refills</a>
      <a href=$host/InfoSponsors.php>Sponsorship</a>
      <a href=$host/InfoStewards.php>Volunteers</a>
      <a href=$host/info/trade>Trade Stands</a>
-     <a href=$host/contact.php>Contact</a>
+
      <a href=$host/RoadClosure.php >Road Closures</a>
      <a href=$host/info/thanks>With Thanks</a>
 
