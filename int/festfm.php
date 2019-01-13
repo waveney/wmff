@@ -294,6 +294,7 @@ function embedvideo($dest) {
   if (preg_match("/<iframe.*src/i",$dest)) return $dest;
   if (preg_match('/.*watch\?v=(.*)/',$dest,$mtch)) {
     $dest = $mtch[1];
+    $dest = preg_replace('/&.*/','',$dest);
   } else {
     $dest = preg_replace("/.*tu.be/i",'',$dest);
   }

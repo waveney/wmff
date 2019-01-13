@@ -69,6 +69,7 @@ function Invoice_Print(&$inv) {
   global $MASTER_DATA,$PLANYEAR;
   
   $CN = ((isset($inv['PayDate']) && $inv['PayDate']<0)?'CN':'');
+  $Rev = ((isset($inv['Revision']) && $inv['Revision'])?("R" . $inv['Revision'] ):'');
   
   // File for printings dddDDD is Invoices/ddd/dddDDD.pdf
   // Credit notes Invoices/ddd/DDDCN.pdf
@@ -95,7 +96,7 @@ function Invoice_Print(&$inv) {
   
   if (!$CN) {
     $pdf->Text($padx+37*$cw,$pady+7*$ch,"Invoice No:");
-    $pdf->Text($padx+48*$cw,$pady+7*$ch,$inv['id']);
+    $pdf->Text($padx+48*$cw,$pady+7*$ch,$inv['id'] . " $Rev");
   }
   
   $pdf->Text($padx+37*$cw,$pady+8*$ch,"Date:");
@@ -219,21 +220,21 @@ function Invoice_Print(&$inv) {
   $id = $inv['id'];
   $dir = "Invoices/" . substr($id,0,-3 ) . "000";
   if (!file_exists($dir)) mkdir($dir,0777,1);
-  $pdf->Output('F',"$dir/$id$CN.pdf");
+  $pdf->Output('F',"$dir/$id$CN$Rev.pdf");
 
 //  $pdf->Output('F',"Temp/Invoice.pdf");
 //  echo "<h2>pdf outputed</h2>";
-  return "$dir/$id$CN.pdf";
+  return "$dir/$id$CN$Rev.pdf";
 }  
 
 // Returns the file name of Pdf of a previously printed invoice
-function Get_Invoice_Pdf($id,$CN='') {
-  return "Invoices/" . substr($id,0,-3) . "000/$id$CN.pdf"; 
+function Get_Invoice_Pdf($id,$CN='',$Rev='') {
+  return "Invoices/" . substr($id,0,-3) . "000/$id$CN$Rev.pdf"; 
 }
 
 function Sage_Code(&$Whose) { // May only work for trade at the moment
   include_once("TradeLib.php");
-  global $db;
+  global $db,$Reserved_Codes;
   if (isset($Whose['SageCode']) && $Whose['SageCode']) return $Whose['SageCode'];
   // New code needed  
   $Nam = $Whose['SN'];
@@ -373,17 +374,55 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade/sponsers/ad
     fm_hidden('Source',3);
   }
   echo "</table><p><input type=submit name=ACTION value=" . ($Dat? "UPDATE":"CREATE") . "></form>\n";
+}
 
+
+// Add Details (see above to invoice, up issue and save the revised pdf, return error message if any
+function Update_Invoice($id,$Details,$AddReplace=0) { // AR=1 to replace data
+  global $USER;
+  $inv = Get_Invoice($id);
+  
+  $LastUsed = 0;
+  if ($AddReplace==0) {
+    for ($i = 1; $i<4;$i++) if ($inv["Amount$i"]) $lastUsed = $i;
+  }
+
+  foreach ((is_array($Details[0])?$Details: [$Details]) as $D) {
+    if ($LastUsed++ >=3) return "No Space left to expand invoice";
+    $inv["Desc$LastUsed"]   = $D[0];
+    $inv["Amount$LastUsed"] = $D[1];
+  }
+
+// Redo total
+  $total = 0;
+  for ($i = 1; $i<4;$i++) $total += $inv["Amount$i"];
+  $inv['Total'] = $total;
+
+// Is it paid if so mark paid
+  if ($inv['PaidTotal'] >= $inv['Total']) {
+    $inv['PayDate'] = time();
+    $inv['History'] .= "Fully Paid on " . date('j/n/Y') . " by " . $USER['Login'] . "\n";
+    if ($inv['PaidTotal'] > $inv['Total']) {
+      Send_SysAdmin_Email("Problem with Invoice " . $inv['id'] . " Paid Total > invoice Total",$inv);
+    }
+  }
+// save and print revision
+
+  $inv['Revision'] ++;
+  Put_Invoice($inv);
+  Invoice_Print($inv);
+  return "";
 }
 
 function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   global $Invoice_Sources,$Org_Cats,$YEAR;
   $inv = Get_Invoice($id);
   $InvCodes = Get_InvoiceCodes(0);
+  $Rev = $inv['Revision'];
 
   if ($ViewOnly) fm_addall('disabled readonly');
   $RO = (Access('SysAdmin')?'': ' READONLY ');
-  echo "<h2>Details of " . ($inv['Total'] < 0 ? "Credit Note ": "Invoice ") . $id . "</h2>\n";
+  echo "<h2>Details of " . ($inv['Total'] < 0 ? "Credit Note ": "Invoice ") . $id . ($Rev?" Revision $Rev":"") . "</h2>\n";
   echo "<form method=post action=InvoiceManage.php>";  
   echo "<table border>";
   echo fm_hidden('i',$id);
