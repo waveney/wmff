@@ -253,7 +253,7 @@
     if (Access('Committee','Venues')) echo "<li><a href=MapPoints.php>Additional Map Points</a>\n";
     if (Access('SysAdmin')) echo "<li><a href=MapPTypes.php>Map Point Types</a>\n";
     echo "<li><a href=EventSummary.php?Y=$YEAR>Event Summary</a>\n";
-    echo "<li><form method=Post action=PAShow.php?Mode=1 class=staffform>";
+    echo "<li><form method=Post action=PAShow.php class=staffform>";
       echo "<input type=submit name=a value='PA Requirements for' id=staffformid>" . 
                 fm_hidden('Y',$YEAR) .
                 fm_select($Vens,0,'pa4v',0," onchange=this.form.submit()") . "</form>\n";
