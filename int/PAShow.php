@@ -61,6 +61,7 @@
         $e['With'][] = $e["Side$i"];
       }
     }
+    if ($e['ExcludePA']) $e['With'] = [];
     $EVs[$e['EventId']] = $e;
   }
 
@@ -85,7 +86,7 @@
     if ($e['StagePA']) $rows++;
     
     if ($rows) {
-      echo "<tr><td rowspan=$rows>" . $e['SN'] . "<td rowspan=$rows>" . timecolon($e['Start'] - $e['Setup']) . "-" . timecolon($e['End']);
+      echo "<tr><td rowspan=$rows>". timecolon($e['Start'] - $e['Setup']) . "-" . timecolon($e['End']) . "<td rowspan=$rows>" . $e['SN'] ;
       $tr = 0;
       if ($e['StagePA']) { echo "<td><td>" . $e['StagePA']; $tr=1;}
       foreach ($e['With'] as $snum) {
@@ -110,7 +111,7 @@
         } else echo "None";
       }
     } else {
-      echo "<tr><td>" . $e['SN'] . "<td>" . timecolon($e['Start'] - $e['Setup']) . "-" . timecolon($e['End']) . "<td><td>None";
+      echo "<tr><td>" . timecolon($e['Start'] - $e['Setup']) . "-" . timecolon($e['End']) . "<td>" .  $e['SN'] . "<td><td>None";
     }
   }
   echo "</table>\n";
