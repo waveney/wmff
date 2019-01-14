@@ -472,6 +472,8 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
       }
   }
 
+
+
   // Fees etc  TODO Need to make fee/otherpayment open stuff up and then Important - fee drives bank stuff, either for budget and contracts
   if ($Mode) {
     include_once("BudgetLib.php");
@@ -481,7 +483,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
     if (!isset($Sidey['BudgetArea']) || $Sidey['BudgetArea']==0) {
       $area = 0;
       foreach ($PerfTypes as $t=>$d) {
-        if ($Side[$d[0]] && $d[3]) $area = ($area? -1 : FindBudget($d[3]));
+        if ($Side[$d[0]] && $d[3] && $area==0) $area = FindBudget($d[3]);
       }
       if ($area > 0) $Side['BudgetArea'] = $area;
     }
