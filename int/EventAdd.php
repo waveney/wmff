@@ -354,7 +354,8 @@ A similar feature will appear eventually for music.<p>
       echo          fm_text1('Special Price Text',$Event,'SpecPrice',1,'class=NotSide','class=NotSide') .
                     fm_text1('Special Price Link',$Event,'SpecPriceLink',1,'class=NotSide','class=NotSide') ;
       echo "<td class=NotSide>" . fm_checkbox('Cancelled',$Event,'Status');
-      echo "<tr>" . fm_textarea('Extra PA Requirements',$Event,'StagePA',5,1);
+      echo "<tr>" . fm_textarea('Extra PA Requirements',$Event,'StagePA',3,1);
+      echo "<td>" . fm_checkbox('Exclude from PA Reqs',$Event,'ExcludePA');
 
 
 
