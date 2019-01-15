@@ -384,7 +384,7 @@ function Update_Invoice($id,$Details,$AddReplace=0) { // AR=1 to replace data
   
   $LastUsed = 0;
   if ($AddReplace==0) {
-    for ($i = 1; $i<4;$i++) if ($inv["Amount$i"]) $lastUsed = $i;
+    for ($i = 1; $i<4;$i++) if ($inv["Amount$i"]) $LastUsed = $i;
   }
 
   foreach ((is_array($Details[0])?$Details: [$Details]) as $D) {
