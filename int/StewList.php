@@ -29,7 +29,7 @@
 
   echo "</thead><tbody>";
 
-  $res=$db->query("SELECT * FROM Events WHERE NeedSteward=1 OR StewardTasks!='' OR SetupTasks!='' ORDER BY Day, Start, Type");
+  $res=$db->query("SELECT * FROM Events WHERE (NeedSteward=1 OR StewardTasks!='' OR SetupTasks!='') AND SubEvent=0 ORDER BY Day, Start, Type");
   
 
   if ($res) {
