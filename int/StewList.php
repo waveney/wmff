@@ -42,6 +42,7 @@
       echo "<td>" . (isset($Venues[$evnt['Venue']]) ? $Venues[$evnt['Venue']] : "Unknown");
       echo "<td>" .($evnt['NeedSteward'] ? "Y" : "" );
       echo "<td>" . $evnt['StewardTasks'];
+      echo "<td>" . $evnt['SetupTasks'];
     }
   }
   echo "</tbody></table>\n";
