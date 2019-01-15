@@ -250,6 +250,7 @@
 
     if (Access('Staff','Venues')) echo "<li><a href=EventTypes.php>Event Types</a>\n";
     if (Access('SysAdmin')) echo "<li><a href=TicketEvents.php?Y=$YEAR>List Ticketed Events</a>\n";
+    if (Access('Staff')) echo "<li><a href=StewList.php?Y=$YEAR>List Stewarding Events</a>\n";
     if (Access('Committee','Venues')) echo "<li><a href=MapPoints.php>Additional Map Points</a>\n";
     if (Access('SysAdmin')) echo "<li><a href=MapPTypes.php>Map Point Types</a>\n";
     echo "<li><a href=EventSummary.php?Y=$YEAR>Event Summary</a>\n";
