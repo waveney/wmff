@@ -74,7 +74,8 @@ function AgentChange(ev) {
 
 function CheckContract() {
   if(document.getElementById('TotalFee'))  {
-    if((document.getElementById('TotalFee').value > 0 ) || (document.getElementById('EnableCamp').value > 0 ) ||
+    if((document.getElementById('TotalFee').value > 0 ) || // (document.getElementById('EnableCamp').value > 0 ) ||
+       (document.getElementById('CampFri').value > 0 ) || (document.getElementById('CampSat').value > 0 ) || (document.getElementById('CampSun').value > 0 ) ||
        (document.getElementById('OtherPayment').value !='' )) { $('.ContractShow').show() }
     else { $('.ContractShow').hide() }
   }

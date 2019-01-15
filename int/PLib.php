@@ -500,13 +500,13 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
     if (Feature('CampControl')) {
       $campxtr =  ((Feature('CampControl') ==2 )? " class=NotCSide":'');          
       if ($campxtr) {
-        echo "<tr><td $campxtr>Camping numbers:" . fm_number1('Fri',$Sidey,'CampFri',$campxtr) . 
-                  fm_number1('Sat',$Sidey,'CampSat',$campxtr) . fm_number1('Sun',$Sidey,'CampSun',$campxtr);
+        echo "<tr><td $campxtr>Camping numbers:" . fm_number1('Fri',$Sidey,'CampFri',$campxtr," onchange=CheckContract()") . 
+                  fm_number1('Sat',$Sidey,'CampSat',$campxtr," onchange=CheckContract()") . fm_number1('Sun',$Sidey,'CampSun',$campxtr," onchange=CheckContract()");
       } else {
         echo "<tr><td class=NotSide>" . fm_checkbox("Allow Camping",$Sidey,'EnableCamp','onchange="($(\'.CampDay\').toggle())"'); 
         $pcamp = " Class=CampDay " . ((isset($Sidey['EnableCamp']) && $Sidey['EnableCamp'])? '' : ' hidden');         
-        echo "<td $pcamp>Camping numbers:" . fm_number1('Fri',$Sidey,'CampFri',$pcamp) . 
-              fm_number1('Sat',$Sidey,'CampSat',$pcamp) . fm_number1('Sun',$Sidey,'CampSun',$pcamp);
+        echo "<td $pcamp>Camping numbers:" . fm_number1('Fri',$Sidey,'CampFri',$pcamp," onchange=CheckContract()") . 
+              fm_number1('Sat',$Sidey,'CampSat',$pcamp," onchange=CheckContract()") . fm_number1('Sun',$Sidey,'CampSun',$pcamp," onchange=CheckContract()");
       }
     }
   } else if ($Sidey['TotalFee'] || $Sidey['OtherPayment'] || ($Sidey['EnableCamp'] && Feature('CampControl'))) {
