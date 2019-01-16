@@ -56,13 +56,17 @@
     case 'DIFF': // Need to find out ammount 
       $amt = $_REQUEST["amt$id"]*100;
       $inv['PaidTotal'] += $amt;
-      if ($amt == $inv['Total']) {
+      if ($inv['PaidTotal'] == $inv['Total']) {
         $inv['PayDate'] = time();
         $inv['History'] .= "Fully Paid on " . date('j/n/Y') . " by " . $USER['Login'] . "\n";
-      } else  if ($amt > $inv['Total']) {
+      } else  if ($inv['PaidTotal'] > $inv['Total']) {
+
         if ($inv['Source'] == 1) {
+          $inv['History'] .= "Overpaid Paid total of " . $amt/100 . " on " . date('j/n/Y') . " by " . $USER['Login'] . "\n";
           Put_Invoice($inv);
           Trade_F_Action($inv['SourceId'],'Paid',$amt/100,$id); // Will cause update to invoice - hence saved before call
+
+
           break;
         }
         // TODO Overpayment non trade Invoices
@@ -135,6 +139,7 @@
     $Pays = Get_PayCodes("");
     echo "<h2><a href=InvoiceManage.php?Y=$YEAR>Show Outstanding Only</a></h2>\n";
     $All = 1;
+    if ($All && Access('SysAdmin')) echo "The Paid Special is to re-trigger Paid analysis - input 0 in most cases";
   } elseif (isset($_REQUEST['FOR'])) {
     $Trad = Get_Trader($_REQUEST['FOR']);
     $Tname = $Trad['SN'];
@@ -191,13 +196,14 @@
     echo "<td>" . $inv['Reason'];
     if (!$ViewOnly) { 
       echo "<td>"; 
+      echo "<form method=post>" . fm_hidden('i',$id) . fm_hidden("amt$id",0) . fm_hidden("reason$id",'');
       if ($inv['PayDate'] == 0 && $inv['Total']>0) {// Pay, pay diff, cancel/credit, change
-        echo "<form method=post>" . fm_hidden('i',$id) . fm_hidden("amt$id",0) . fm_hidden("reason$id",'');
         echo "<button name=ACTION value=PAID>Paid</button> ";
         echo "<button name=ACTION value=DIFF onclick=diffprompt($id) >Paid Different</button> ";
         echo "<button name=ACTION value=CREDIT onclick=reasonprompt($id) >Cancel/credit</button> ";
-        echo "</form>";
       }
+      if ($All && Access('SysAdmin')) echo "<button name=ACTION value=DIFF onclick=diffprompt($id) >Paid Special</button> ";
+      echo "</form>";
     }
     
     $Rev = ($inv['Revision']?"R" .$inv['Revision']:"");

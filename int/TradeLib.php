@@ -1218,7 +1218,12 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     $xtra = $data;
     if ($Trady['TotalPaid'] >= $fee) { 
       $NewState = $Trade_State['Fully Paid'];  // if paid > invoiced amend invoice to full 
-      if ($invid) Update_Invoice($invid,["Balance of Fees for trade stand at the $PLANYEAR festival",($fee-$Dep)*100],0);
+      if ($invid) {
+        Update_Invoice($invid,["Balance of Fees for trade stand at the $PLANYEAR festival",($fee-$Dep)*100],0);
+        $inv = Get_Invoice($invid);
+        $att = Get_Invoice_Pdf($invid,'',$inv['Revision']);
+        Send_Trader_Email($Trad,$Trady,'Trade_Statement',$att);
+      }
     } else if ($Trady['TotalPaid'] >= $Dep && $CurState == $Trade_State['Accepted']) {
       $NewState = $Trade_State['Deposit Paid'];
       $Action = "Deposit Paid";
@@ -1364,7 +1369,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     if ($Invs) $att = Get_Invoice_Pdf($Invs[0]['id']);
 
     Send_Trader_Email($Trad,$Trady,'Trade_Statement',$att); 
-    echo "<h3>An Email has been sent to you with a statement of where your booking is</h3>";
+    echo "<h3>An Email has been sent " . (Access('Staff')?'':'to you') . " with a statement of where your booking is</h3>";
     break;
     
   case 'UnQuote' :

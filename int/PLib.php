@@ -422,20 +422,20 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
 
   // Dance Spots
   if ($Side['IsASide']) {
-    echo "<tr><td rowspan=5>" . ((isset($Sidey['Invited']) && $Sidey['Invited']) ? "Coming on:" : "Would like to come on:" );
+    echo "<tr><td rowspan=5>" . ((isset($Sidey['Invited']) && $Sidey['Invited']) ? "Dancing on:" : "Would like to dance on:" );
       echo "<td>" . fm_checkbox('Friday',$Sidey,'Fri','onchange=ComeSwitch(event)');
 //      echo fm_text1('Daytime Spots',$Sidey,'FriDance',1,'class=ComeFri');
       echo "<td class=ComeFri>" . fm_checkbox('Dance Friday Eve?',$Sidey,'FriEve');
     echo "<tr>";
       echo "<td rowspan=2>" . fm_checkbox('Saturday',$Sidey,'Sat','onchange=ComeSwitch(event)');
-      echo fm_text1('Daytime Spots',$Sidey,'SatDance',0.5,'class=ComeSat');
+      echo fm_text1('Daytime &half; hr Spots',$Sidey,'SatDance',0.5,'class=ComeSat');
       echo "<td class=ComeSat>" . fm_checkbox('Plus the Procession',$Sidey,'Procession');
       echo "<td class=ComeSat>" . fm_checkbox('Dance Saturday Eve?',$Sidey,'SatEve');
       echo "<tr>" .fm_text1('Earliest Spot',$Sidey,'SatArrive',0.5,'class=ComeSat');
       echo fm_text1('End of latest Spot',$Sidey,'SatDepart',0.5,'class=ComeSat');  
     echo "<tr>";
       echo "<td rowspan=2>" . fm_checkbox('Sunday',$Sidey,'Sun','onchange=ComeSwitch(event)');
-      echo fm_text1('Daytime Spots',$Sidey,'SunDance',0.5,'class=ComeSun');
+      echo fm_text1('Daytimee &half; hr Spots',$Sidey,'SunDance',0.5,'class=ComeSun');
       echo "<tr>" .fm_text1('Earliest Spot',$Sidey,'SunArrive',0.5,'class=ComeSun');
       echo fm_text1('End of latest Spot',$Sidey,'SunDepart',0.5,'class=ComeSun');  
     if ($Mode) {
