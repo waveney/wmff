@@ -229,6 +229,7 @@ function Invoice_Print(&$inv) {
 
 // Returns the file name of Pdf of a previously printed invoice
 function Get_Invoice_Pdf($id,$CN='',$Rev='') {
+  if ($Rev && substr($Rev,0,1) != 'R') $Rev = "R$Rev";
   return "Invoices/" . substr($id,0,-3) . "000/$id$CN$Rev.pdf"; 
 }
 
@@ -409,6 +410,7 @@ function Update_Invoice($id,$Details,$AddReplace=0) { // AR=1 to replace data
 // save and print revision
 
   $inv['Revision'] ++;
+  $inv['IssueDate'] = time();
   Put_Invoice($inv);
   Invoice_Print($inv);
   return "";
