@@ -133,7 +133,7 @@
         if ($Dep == 0) {
           if ($fee < 0) { $str .= "Free"; }
           else if ($fee == 0) { $str .= "?"; }
-          else { $str .= $fee; };
+          else { $str .= "0:$fee:$fee"; };
         } else {
           if ($fee < 0) { $str .= "D:$Dep<br>B:0<br>T:0"; }
           else if ($fee == 0) { $str .= "D:$Dep<br>B:?<br>T:?"; }
