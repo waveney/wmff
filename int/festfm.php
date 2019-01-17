@@ -366,6 +366,11 @@ function AlphaNumeric($txt) {
   return preg_replace('/[^a-zA-Z0-9]/','',$txt);
 }
 
+
+function Print_Pound($amt) {
+  return ($amt<0?"-":"") . sprintf((is_int($amt)?"&pound;%d":"&pound;%0.2f"),abs($amt));
+}
+
 function Print_Pence($amt) {
   return ($amt<0?"-":"") . sprintf("&pound;%0.2f",abs($amt)/100);
 }
