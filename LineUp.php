@@ -15,6 +15,7 @@
   
   $now = time();
   $FSwitch = 1;
+  $ShortDesc = 1;
   switch ($T) {
   case 'Dance':
     $ET = Get_Event_Type_For("Dancing");
@@ -47,6 +48,7 @@
            "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>=" . $Book_State['Booking'] . 
            " AND s.IsAnAct=1 AND y.ReleaseDate<$now ORDER BY s.Importance DESC, s.RelOrder DESC, s.SN");
 
+    $ShortDesc = 0;
     break;
 
   case 'Comedy':
@@ -94,7 +96,7 @@
     break;
   }
   
-  while($side = $SideQ->fetch_assoc()) formatminimax($side,'ShowDance.php',$FSwitch);
+  while($side = $SideQ->fetch_assoc()) formatminimax($side,'ShowDance.php',$FSwitch,$ShortDesc);
 
   echo "<div style='clear:both;'>";
   $Prev = $YEAR-1;
