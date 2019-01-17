@@ -23,8 +23,8 @@ function formatminimax(&$side,$link,$mnat=2,$sdisp=1) {
   if ($mnmx != 'maxi' && $side['Photo']) echo "<div class=mnmximgwrap><img class=mnmximg src='" . $side['Photo'] ."'></div>";
   echo "<div class=mnmxttl style='font-size:" . (24+$side['Importance']*3) . "px'>" . $side['SN'] . "</div>";
   if ($mnmx == 'maxi' && $side['Photo']) echo "<div class=mnmximgwrap><img class=mnmximg src='" . $side['Photo'] ."'></div>";
-  echo "</a><";
-  if ($sdisp) echo "div class=mnmxtxt>" . $side['Description'] . "</div>";
+  echo "</a>";
+  if ($sdisp) echo "<div class=mnmxtxt>" . $side['Description'] . "</div>";
   echo "</div></div>\n";
 }
 

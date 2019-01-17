@@ -33,7 +33,8 @@
     }
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, SideYear AS y WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . 
              " AND s.IsASide=1 AND y.ReleaseDate<$now ORDER BY s.Importance DESC, s.RelOrder DESC, s.SN");
-    $FSwitch = 99;
+    $FSwitch = -1;
+    $ShortDesc = 0;
     break;
     
   case 'Music':
