@@ -238,24 +238,24 @@
   foreach ($Trade_Types as $t) {
     if (isset($TrMon[$t['id']]) && $TrMon[$t['id']]) {
       echo "<tr><td style='background:" . $t['Colour'] . ";'>" . $t['SN'] ;
-      echo "<td>&pound;" . $TrRec[$t['id']] . "<td>&pound;" . $TrSub[$t['id']] . "<td>&pound;" . $TrMon[$t['id']];
+      echo "<td>" . Print_Pound($TrRec[$t['id']]) . "<td>" . Print_Pound($TrSub[$t['id']]) . "<td>" . Print_Pound($TrMon[$t['id']]);
       echo "<td><a href=ListDTrade.php?t=" . $t['id'] . ">Details</a>\n";
     }
   }
-  echo "<tr><td>Total Fees<td>&pound;$totrec<td>&pound;$totsub<td>&pound;$totfee<td>\n";
+  echo "<tr><td>Total Fees<td>" . Print_Pound($totrec) . "<td>" . Print_Pound($totsub) . "<td>" . Print_Pound($totfee) . "<td>\n";
   echo "</table>";
   echo "<table border id=narrowtable><tr><td>Location<td>Received<td>Total Accept<td>Total inc Quoted<td>Details\n";
   foreach ($TradeLocData as $TLoc) {
     if (!isset($TLoc['QuoteTot']) || $TLoc['QuoteTot'] == 0) continue;
     echo "<tr><td>" . $TLoc['SN'];
-    echo "<td>&pound;" . $TLoc['ReceiveTot'] . "<td>&pound;" . round($TLoc['AcceptTot']) . "<td>&pound;" . round($TLoc['QuoteTot']);
+    echo "<td>" . Print_Pound($TLoc['ReceiveTot']) . "<td>" . Print_Pound($TLoc['AcceptTot']) . "<td>" . Print_Pound($TLoc['QuoteTot']);
     echo "<td><a href=ListDTrade.php?l=" . $TLoc['TLocId'] . ">Details</a>\n";
     $TotLRec += $TLoc['ReceiveTot'];
     $TotLAcc += $TLoc['AcceptTot'];
     $TotLQut += $TLoc['QuoteTot'];
     }
     
-  echo "<tr><td>Total Fees<td>&pound;$TotLRec<td>&pound;$TotLAcc<td>&pound;$TotLQut<td>\n";
+  echo "<tr><td>Total Fees<td>" . Print_Pound($TotLRec) . "<td>" . Print_Pound($TotLAcc) . "<td>" . Print_Pound($TotLQut) . "<td>\n";
 
   echo "</table>\n";
   echo "<table border id=narrowtable><tr><td>State<td>Number\n";
