@@ -250,10 +250,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
          "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SN']) . "'";
   $direct = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=$type&id=$id&key=$key&Y=$YEAR>this link</a>  " ;
 
-// ONLY DANCE AT THE MOMENT...
-  switch ($type) {
-    case 'Side':
-    case 'Dance':
+  if ($data['IsASide']) {
       $ProgInfo = Show_Prog($type,$id,1);
       $Content = urlencode("$name,<p>" .
                  "<div id=SideLink$id>" .
@@ -263,21 +260,9 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
                 "(You'll also be able to view your programme times, once we've done the programme)<p>" .
                 "<div id=SideProg$id>$ProgInfo</div><p>" .
                  "Regards " . $USER['SN'] . "<p>"); 
-      break;
-
-    case 'Act':
-    case 'Music':
-    case 'Other':
-    
-      include_once("MusicLib.php");
-      $Content = MusicMail($data,$name,$id,$direct);
-      break;
-
-// For OTHER at present
-    default:
-      $Content = urlencode("$name,<p>" .
-                 "Regards " . $USER['SN'] . "<p>"); 
-      break;
+  } else {
+    include_once("MusicLib.php");
+    $Content = MusicMail($data,$name,$id,$direct);
   }
 
   $lnk = "<button onclick=\"emailclk($link,'Email$id'); $ButtonExtra\" id=Em$id target='_blank' type=button>$Label Email</button>" .
