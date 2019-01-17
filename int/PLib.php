@@ -487,7 +487,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
       foreach ($PerfTypes as $t=>$d) {
         if ($Side[$d[0]] && $d[3] && $area==0) $area = FindBudget($d[3]);
       }
-      if ($area > 0) $Side['BudgetArea'] = $area;
+      if ($area > 0) $Sidey['BudgetArea'] = $area;
     }
     $Bud = Budget_List();
     if ($Bud) {

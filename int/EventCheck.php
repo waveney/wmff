@@ -33,7 +33,7 @@ function EventCheck($checkid=0) {
         if ($end <= timeadd($ev['Start'],-$ev['Setup'])) { // No error
         } else {
           if ($Venues[$ev['Venue']]['SetupOverlap']) {
-            if ($end <= timeadd($ev['Start'] && $EVENT_Types[$LastEvent['Type']]['HasDance'] )) { // No error
+            if ($end <= $ev['Start'] && $EVENT_Types[$LastEvent['Type']]['HasDance'] ) { // No error
             } else if ($checkid==0 || $checkid==$ev['EventId'] || $checkid==$LastEvent['EventId']) {
               echo "The <a href=EventAdd.php?e=" . $ev['EventId'] . ">Event</a> at " . SName($Venues[$ev['Venue']]) . " starting at " .
                    $ev['Start'] . " on " . $DayList[$ev['Day']] . " clashes with <a href=EventAdd.php?e=" . 
