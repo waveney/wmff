@@ -150,7 +150,7 @@
           $keys = '';
           if (!$fetch['Phone'] && !$fetch['Mobile']) $keys .= 'P';
           if (!$fetch['Email'] && !$fetch['AgentEmail']) $keys .= 'E';
-          if ($fetch['StagePA'] != 'None') $keys .= 'T';
+          if ($fetch['StagePA'] == 'None') $keys .= 'T';
           if ($fetch['TotalFee']  && ( !$fetch['SortCode'] || !$fetch['Account'] || !$fetch['AccountName'])) $keys .= 'B';
           echo "<td>$keys";
           break;
