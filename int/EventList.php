@@ -38,6 +38,10 @@
         case 'Move to':
           if ($v = $_POST{'v'}) $Event['Venue'] = $v;
           break;
+          
+        case 'Chown to':
+          $Event['Owner'] = $_POST['W'];
+          break;
         }
         Put_Event($Event);
       }
@@ -64,6 +68,9 @@
   }
 
   $AllUsers = Get_AllUsers(0);
+  $AllA = Get_AllUsers(1);
+  $AllActive = array();
+  foreach ($AllUsers as $id=>$name) if ($id > 10 && $AllA[$id] >= 2 && $AllA[$id] <= 6) $AllActive[$id]=$name;
 
   $coln = 1;  // Start at 1 because of select all
   echo "<form method=post action=EventList.php>";
@@ -149,6 +156,7 @@
     echo "<input type=text name=NewName>, <input type=Submit name=ACTION value='Move by'> ";
     echo "<input type=text name=Minutes size=4> Minutes, ";
     echo "<input type=Submit name=ACTION value='Move to'> " . fm_select($realvens,0,'v') . ",";
+    if (Access('SysAdmin')) echo "<input type=Submit name=ACTION value='Chown to'> " . fm_select($AllActive,0,'W') . ",";
     echo "<input type=Submit name=LIST value='Show All'><br>\n";
   }
   echo "</form>\n";
