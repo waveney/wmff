@@ -55,8 +55,9 @@
     $col6 = "Actions";
     $col7 = "Importance";
     $col8 = "Insurance";
-    
+    $col9 = "Missing";
     echo "Under <b>Actions</b> various errors are reported, the most significant error is indicated.  Please fix these before issuing the contracts.<p>\n";
+    echo "Missing: P - Needs Phone, E Needs Email, T Needs Tech Spec, B Needs Bank (Only if fees).<p>";
     
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
@@ -144,6 +145,14 @@
         case 'Insurance':
           $ins = (isset($fetch['Insurance']) ? $fetch['Insurance'] : 0);
           echo "<td style=background:" . $Ins_colours[$ins] . ">" . $InsuranceStates[$ins];
+          break;
+        case 'Missing':
+          $keys = '';
+          if (!$fetch['Phone'] && !$fetch['Mobile']) $keys .= 'P';
+          if (!$fetch['Email'] && !$fetch['AgentEmail']) $keys .= 'E';
+          if ($fetch['StagePA'] != 'None') $keys .= 'T';
+          if ($fetch['TotalFee']  && ( !$fetch['SortCode'] || !$fetch['Account'] || !$fetch['AccountName'])) $keys .= 'B';
+          echo "<td>$keys";
           break;
         default:
           break;
