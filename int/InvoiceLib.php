@@ -23,6 +23,14 @@ function Get_Invoices($cond = '',$order='id') {
   return $full;  
 }
 
+function Get_InvoicesFor($id) {
+  global $db;  
+  $full = [];
+  $res = $db->query("SELECT * FROM Invoices WHERE SourceId=$id ORDER BY id DESC");
+  if ($res) while ($inv = $res->fetch_assoc()) $full[] = $inv;
+  return $full;  
+}
+
 function Get_Invoice($id) {
   global $db;
   $res=$db->query("SELECT * FROM Invoices WHERE id=$id");

@@ -7,7 +7,7 @@
   include_once("TradeLib.php");
   include_once("DateTime.php"); 
 
-  Trade_Main(1,'Trade.php');
+  Trade_Main((isset($_REQUEST['ORGS'])?2:1),'Trade.php');
 
   dotail();
 ?>

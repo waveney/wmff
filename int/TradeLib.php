@@ -254,7 +254,7 @@ function Default_Trade($id) {
 
 }
 
-function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
+function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte, 2=Finance
   global $YEAR,$ADDALL,$Mess,$Action,$Trader_Status,$TradeTypeData,$TradeLocData;
   Set_Trade_Help();
 
@@ -268,7 +268,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
 
   $Adv = '';
   $Imp = '';
-  if ($Mode) {
+  if ($Mode ==1) {
     echo "<span class=NotSide>Fields marked are not visible to Trader.</span>";
     echo "  <span class=NotCSide>Marked are visible if set, but not changeable by Trader.</span>";
   } else {
@@ -290,7 +290,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
       } else {
         echo fm_text('Website',$Trad,'Website');
       };
-      echo "<td colspan=1>" . fm_checkbox('Do you want to appear on<br>the Folk Festival Website?',$Trad,'ListMe');
+      if ($Mode != 2) echo "<td colspan=1>" . fm_checkbox('Do you want to appear on<br>the Folk Festival Website?',$Trad,'ListMe');
       echo fm_text('Image',$Trad,'Photo',1,'style="min-width:145;"'); 
       if ($Tid >0) {
         echo "<td colspan=3>Select file to upload:";
@@ -300,39 +300,43 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
       } else {
         echo "<td colspan=3>You can upload a photo once you have created your record\n";
       }
-    echo "<tr>" . fm_textarea('Products Sold <span id=DescSize></span>',$Trad,'GoodsDesc',7,1,
+    if ($Mode != 2) echo "<tr>" . fm_textarea('Products Sold <span id=DescSize></span>',$Trad,'GoodsDesc',7,1,
                         'maxlength=500 oninput=SetDSize("DescSize",500,"GoodsDesc")');     
 
 //********* PRIVATE
 
     echo "<tr><th colspan=8><b>Private Information</b>" . Help('PrivateInfo');
-    echo "<tr>";
-      echo "<td>Trade Type:" . help('TradeType') . "<td colspan=7>";
-      foreach ($TradeTypeData as $i=>$d) {
-        if ($d['Addition']) continue;
-        echo " <div class=KeepTogether style='background:" . $d['Colour'] . ";'>" . $d['SN'] . ": ";
-        echo " <input type=radio name=TradeType $ADDALL value=$i ";
-        if ($Trad['TradeType'] == $i) echo " checked";
-        echo " onclick='SetTradeType(" . $d['NeedPublicHealth'] . "," . $d['NeedCharityNum'] . "," .
-                                        $d['NeedInsurance'] . "," . $d['NeedRiskAssess'] . ',"' . $d['Description'] . '","' . 
-                                        $d['Colour'] . "\")'"; // not fm-Radio because of this line
-        echo " id=TradeType$i oninput=AutoRadioInput('TradeType',$i) ";
-        echo ">&nbsp;</div>\n ";
+    if ($Mode < 2) {
+      echo "<tr>";
+        echo "<td>Trade Type:" . help('TradeType') . "<td colspan=7>";
+        foreach ($TradeTypeData as $i=>$d) {
+          if ($d['Addition']) continue;
+          echo " <div class=KeepTogether style='background:" . $d['Colour'] . ";'>" . $d['SN'] . ": ";
+          echo " <input type=radio name=TradeType $ADDALL value=$i ";
+          if ($Trad['TradeType'] == $i) echo " checked";
+          echo " onclick='SetTradeType(" . $d['NeedPublicHealth'] . "," . $d['NeedCharityNum'] . "," .
+                                          $d['NeedInsurance'] . "," . $d['NeedRiskAssess'] . ',"' . $d['Description'] . '","' . 
+                                          $d['Colour'] . "\")'"; // not fm-Radio because of this line
+          echo " id=TradeType$i oninput=AutoRadioInput('TradeType',$i) ";
+          echo ">&nbsp;</div>\n ";
+        }
+        echo "<br clear=all><div id=TTDescription style='background:" . $TradeTypeData[$Trad['TradeType']]['Colour'] . ";'>" . 
+          $TradeTypeData[$Trad['TradeType']]['Description'] . "</div>\n";
       }
-      echo "<br clear=all><div id=TTDescription style='background:" . $TradeTypeData[$Trad['TradeType']]['Colour'] . ";'>" . 
-        $TradeTypeData[$Trad['TradeType']]['Description'] . "</div>\n";
     echo "<tr>" . fm_text('<span id=ContactLabel>Contact</span>',$Trad,'Contact');
       echo fm_text1('Email',$Trad,'Email',2);
       echo fm_text('Phone',$Trad,'Phone');
       echo fm_text('Mobile',$Trad,'Mobile',1,$Imp,'onchange=updateimps()') . "\n";
     echo "<tr>" . fm_text('Address',$Trad,'Address',5,$Imp,'onchange=updateimps()');
       echo fm_text('Post Code',$Trad,'PostCode')."\n";
-    echo "<tr class=PublicHealth " . ($TradeTypeData[$Trad['TradeType']]['NeedPublicHealth']?'':'hidden') . ">" ;
-      echo fm_text("Registered with which Local Authority ",$Trad,'PublicHealth',2,'colspan=2');
-    echo "<tr><td>Are you a Wimborne<td>" . fm_checkbox('BID Levy Payer',$Trad,'BID') . "<td>" . fm_checkbox('Chamber of Commerce Member',$Trad,'ChamberTrade');
-    if ($Mode) echo "<td>" . fm_checkbox('Previous Festival Trader',$Trad,'Previous');
-      echo fm_text('Charity Number',$Trad,'Charity',1,'class=Charity ' . ($TradeTypeData[$Trad['TradeType']]['NeedCharityNum']?'':'hidden'));
-      if ($Mode) echo "<td class=NotSide colspan=2>" . fm_radio("",$Trader_Status,$Trad,'Status','',0);
+    if ($Mode < 2) {
+      echo "<tr class=PublicHealth " . ($TradeTypeData[$Trad['TradeType']]['NeedPublicHealth']?'':'hidden') . ">" ;
+        echo fm_text("Registered with which Local Authority ",$Trad,'PublicHealth',2,'colspan=2');
+      echo "<tr><td>Are you a Wimborne<td>" . fm_checkbox('BID Levy Payer',$Trad,'BID') . "<td>" . fm_checkbox('Chamber of Commerce Member',$Trad,'ChamberTrade');
+      if ($Mode) echo "<td>" . fm_checkbox('Previous Festival Trader',$Trad,'Previous');
+        echo fm_text('Charity Number',$Trad,'Charity',1,'class=Charity ' . ($TradeTypeData[$Trad['TradeType']]['NeedCharityNum']?'':'hidden'));
+        if ($Mode) echo "<td class=NotSide colspan=2>" . fm_radio("",$Trader_Status,$Trad,'Status','',0);
+      }
     if (Access('SysAdmin') && isset($Trad['AccessKey'])) {
       echo "<tr>";
         if ($Tid > 0) echo "<td class=NotSide>Id: $Tid";
@@ -340,9 +344,14 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte
         if (isset($Trad['AccessKey'])) {
           echo "<td class=NotSide><a href=Direct.php?id=$Tid&t=trade&key=" . $Trad['AccessKey'] . ">Use</a>" . help('Testing');
         }
-      echo "  <button name=Action value=Delete onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</button>\n";
-    } 
-    if (Access('Committee',"Finance")) {
+      echo "  <td class=NotSide><button name=Action value=Delete onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</button>\n";
+    }
+    if ($Mode) {
+      echo "<tr><td class=NotSide>" . fm_checkbox("Is a Trader",$Trad,'IsTrader');
+    } else { 
+      echo fm_hidden('IsTrader',$Trad['IsTrader']);
+    }
+    if ($Tid > 0 && Access('Committee',"Finance")) {
       include_once("InvoiceLib.php");
       if (isset($Trad['SN'])) $Scode = Sage_Code($Trad);
       echo fm_text("Sage Code",$Trad,'SageCode',1,'class=NotSide','class=NotSide');
@@ -809,12 +818,12 @@ function Validate_Pitches(&$CurDat) {
 }
 
 function Trade_Main($Mode,$Program,$iddd=0) {
-// Mode 0 = Traders, 1 = ctte, Program = Trade/Trader$iddd if set starts it up, with that Tid
+// Mode 0 = Traders, 1 = ctte, 2 = Finance (for other invoices) Program = Trade/Trader $iddd if set starts it up, with that Tid
 
   global $YEAR,$PLANYEAR,$Mess,$Action,$Trade_State,$Trade_States,$USER,$TS_Actions,$ButExtra,$ButTrader,$RestrictButs;
   global $TradeTypeData,$TradeLocData;
   include_once("DateTime.php"); 
-  echo '<div class="content"><h2>Add/Edit Trade Stall Booking</h2>';
+  echo "<div class=content><h2>Add/Edit " . ($Mode<2?'Trade Stall Booking':'Buisness or Organisation') . "</h2>";
 
   $Action = 0; 
   $Mess = '';
@@ -875,99 +884,112 @@ function Trade_Main($Mode,$Program,$iddd=0) {
       if (isset($_POST{'NewAccessKey'})) $_POST{'AccessKey'} = rand_string(40);
 
       Update_db_post('Trade',$Trad);
-      if ($_POST{'Year'} == $PLANYEAR) {
-        $same = 1;
-        if (isset($Trady) && $Trady) {
-          $OldFee = $Trady['Fee'];
-          if ($Mode && isset($Trady['BookingState'])) {
-            if ($Trady['BookingState'] != $_POST['BookingState']) {
-              $_POST['History'] .= "Action: " . $Trade_States[$_POST['BookingState']] . " on " . date('j M Y H:i') . " by " . $USER['Login'] . ".\n";
-            }
-            if ($_POST['Fee'] < 0 && $_POST['BookingState'] == $Trade_State['Deposit Paid']) {
-              $_POST['BookingState'] = $Trade_State['Fully Paid'];
-              $_POST['History'] .= "Action: " . $Trade_States[$_POST['BookingState']] . " on " . date('j M Y H:i') . " by " . $USER['Login'] . ".\n";
+      if ($Mode < 2) {
+        if ($_POST{'Year'} == $PLANYEAR) {
+          $same = 1;
+          if (isset($Trady) && $Trady) {
+            $OldFee = $Trady['Fee'];
+            if ($Mode && isset($Trady['BookingState'])) {
+              if ($Trady['BookingState'] != $_POST['BookingState']) {
+                $_POST['History'] .= "Action: " . $Trade_States[$_POST['BookingState']] . " on " . date('j M Y H:i') . " by " . $USER['Login'] . ".\n";
+              }
+              if ($_POST['Fee'] < 0 && $_POST['BookingState'] == $Trade_State['Deposit Paid']) {
+                $_POST['BookingState'] = $Trade_State['Fully Paid'];
+                $_POST['History'] .= "Action: " . $Trade_States[$_POST['BookingState']] . " on " . date('j M Y H:i') . " by " . $USER['Login'] . ".\n";
+              } 
+              if ($_POST['PitchLoc0'] != $Trady['PitchLoc0'] || $_POST['PitchLoc1'] != $Trady['PitchLoc1'] || $_POST['PitchLoc2'] != $Trady['PitchLoc2'] ||
+                  $_POST['PitchNum0'] != $Trady['PitchNum0'] || $_POST['PitchNum1'] != $Trady['PitchNum1'] || $_POST['PitchNum2'] != $Trady['PitchNum2'] ) {
+                $Mess = Validate_Pitches($Trady);
+                if ($Mess) echo "<h2 class=Err>$Mess</h2>";
+              };
             } 
-            if ($_POST['PitchLoc0'] != $Trady['PitchLoc0'] || $_POST['PitchLoc1'] != $Trady['PitchLoc1'] || $_POST['PitchLoc2'] != $Trady['PitchLoc2'] ||
-                $_POST['PitchNum0'] != $Trady['PitchNum0'] || $_POST['PitchNum1'] != $Trady['PitchNum1'] || $_POST['PitchNum2'] != $Trady['PitchNum2'] ) {
-              $Mess = Validate_Pitches($Trady);
-              if ($Mess) echo "<h2 class=Err>$Mess</h2>";
-            };
-          } 
           
-          $same=1;
-          foreach(["PitchSize0","PitchSize1","PitchSize2","Days"] as $cc) if ($Trady[$cc] != $_POST[$cc]) $same = 0; 
-          if ($Trad['TradeType'] != $_POST['TradeType']) $same = 0; 
-          foreach(["Power0","Power1","Power2"] as $cc) if ($Trady[$cc] && $_POST[$cc] && $Trady[$cc] != $_POST[$cc]) $same = 0;
+            $same=1;
+            foreach(["PitchSize0","PitchSize1","PitchSize2","Days"] as $cc) if ($Trady[$cc] != $_POST[$cc]) $same = 0; 
+            if ($Trad['TradeType'] != $_POST['TradeType']) $same = 0; 
+            foreach(["Power0","Power1","Power2"] as $cc) if ($Trady[$cc] && $_POST[$cc] && $Trady[$cc] != $_POST[$cc]) $same = 0;
 
-          if (!$Mess) Update_db_post('TradeYear',$Trady);
-          if (!$Mess && $same == 0 && $Trady['BookingState'] > $Trade_State['Submitted']) {
-            Send_Trade_Admin_Email($Trad,$Trady,'Trade_Changes');
-            $Trady['BookingState'] = $Trade_State['Requote'];
-            Put_Trade_Year($Trady);
-          }
-          if (!Feature('AutoInvoices') && $Trady['Fee'] >=0 && $OldFee != $Trady['Fee'] && $Trady['BookingState'] >= $Trade_State['Accepted']) 
-                Send_Trade_Finance_Email($Trad,$Trady,'Trade_UpdateBalance');
-        } else {
-          $chks = ['Insurance','RiskAssessment','PitchSize0','PitchSize1','PitchSize2','Power0','Power1','Power2','YNotes','BookingState','Submit','Days','Fee','PitchLoc0','PitchLoc1',
-                    'PitchLoc2','ACTION'];
-          foreach($chks as $c) if (isset($_POST[$c]) && $_POST[$c]) {
-            if ($c == 'PitchSize0' && $_POST[$c] == "3Mx3M") continue; // This is the only non blank default
-            if (isset($_POST['Fee']) && ($_POST['Fee'] < 0) && ($_POST['BookingState'] >= $Trade_State['Accepted'])) $_POST['BookingState'] = $Trade_State['Fully Paid'];
-            $_POST['Year'] = $PLANYEAR;
-            $TYid = Insert_db_post('TradeYear',$Trady);
-            $Trady = Get_Trade_Year($Trad['Tid']);
-            break;
+            if (!$Mess) Update_db_post('TradeYear',$Trady);
+            if (!$Mess && $same == 0 && $Trady['BookingState'] > $Trade_State['Submitted']) {
+              Send_Trade_Admin_Email($Trad,$Trady,'Trade_Changes');
+              $Trady['BookingState'] = $Trade_State['Requote'];
+              Put_Trade_Year($Trady);
+            }
+            if (!Feature('AutoInvoices') && $Trady['Fee'] >=0 && $OldFee != $Trady['Fee'] && $Trady['BookingState'] >= $Trade_State['Accepted']) 
+                  Send_Trade_Finance_Email($Trad,$Trady,'Trade_UpdateBalance');
+          } else {
+            $chks = ['Insurance','RiskAssessment','PitchSize0','PitchSize1','PitchSize2','Power0','Power1','Power2','YNotes','BookingState','Submit','Days','Fee','PitchLoc0','PitchLoc1',
+                      'PitchLoc2','ACTION'];
+            foreach($chks as $c) if (isset($_POST[$c]) && $_POST[$c]) {
+              if ($c == 'PitchSize0' && $_POST[$c] == "3Mx3M") continue; // This is the only non blank default
+              if (isset($_POST['Fee']) && ($_POST['Fee'] < 0) && ($_POST['BookingState'] >= $Trade_State['Accepted'])) $_POST['BookingState'] = $Trade_State['Fully Paid'];
+              $_POST['Year'] = $PLANYEAR;
+              $TYid = Insert_db_post('TradeYear',$Trady);
+              $Trady = Get_Trade_Year($Trad['Tid']);
+              break;
+            }
           }
         }
+        if ($proc && isset($_POST['ACTION'])) Trade_Action($_POST['ACTION'],$Trad,$Trady,$Mode);
+      } else { // Mode ==2
+        if (isset($_POST['ACTION'])) Invoice_Action($_POST['ACTION'],$Trad);
       }
-      if ($proc && isset($_POST['ACTION'])) Trade_Action($_POST['ACTION'],$Trad,$Trady,$Mode);
     } else { // New trader 
       $_POST['AccessKey'] = rand_string(40);
       $Tid = Insert_db_post('Trade',$Trad,$proc);
-      if ($Tid) {
+      if ($Tid && $Trad['IsTrader']) {
         Insert_db_post('TradeYear',$Trady,$proc);
         $Trady = Get_Trade_Year($Trad['Tid']);
       }
-      if ($proc && isset($_POST['ACTION'])) Trade_Action($_POST['ACTION'],$Trad,$Trady,$Mode);
+      if ($Mode == 2) {
+        if (isset($_POST['ACTION'])) Invoice_Action($_POST['ACTION'],$Trad);
+      } else {
+        if ($proc && isset($_POST['ACTION'])) Trade_Action($_POST['ACTION'],$Trad,$Trady,$Mode);
+      }
     }
-    if ($proc && isset($_POST['Submit'])) Submit_Application($Trad,$Trady,$Mode);
+    if ($Mode !== 2 && $proc && isset($_POST['Submit'])) Submit_Application($Trad,$Trady,$Mode);
 
   } elseif (isset($_GET{'id'})) { // Link from elsewhere 
     $Tid = $_GET{'id'};
     $Trad = Get_Trader($Tid);
-    if ($Trad) {
+    if ($Trad && $Trad['IsTrader']) {
       $Tradyrs = Get_Trade_Years($Tid);
       if (isset($Tradyrs[$YEAR])) {
         $Trady = $Tradyrs[$YEAR];
       } else {
         $Trady = Default_Trade($Tid);
       }
-    } else {
+    } elseif (!$Trad) {
       echo "<h2 class=ERR>Could not find Trader $Tid</h2>\n";
     }
-  } else {
+  } elseif ($Mode != 2) {
     $Tid = -1;
     $Trad = ['TradeType' => 1, 'IsTrader' => 1];
+  } else {
+    $Tid = -1;
+    $Trad = ['TradeType' => 1, 'IsTrader' => 0];  
   }
   if (!isset($Trady)) $Trady = Default_Trade($Tid);
 
   Show_Trader($Tid,$Trad,$Program,$Mode);
-  Show_Trade_Year($Tid,$Trady,$YEAR,$Mode);
+  if ($Mode < 2) Show_Trade_Year($Tid,$Trady,$YEAR,$Mode);
 
   if ($Mode == 0) Trade_TandC();
   if ($Tid > 0) {
-    if (!isset($Trady['BookingState'])) { $Trady['BookingState'] = 0; $Trady['Fee'] = 0; }
-    if (Access('SysAdmin')) {
-      echo "<div class=floatright>";
-      echo "<input type=Submit id=smallsubmit name='NewAccessKey' value='New Access Key'>";
-      if (!Feature("AutoInvoices") && $Trady['BookingState'] >= $Trade_State['Accepted']) echo "<input type=Submit id=smallsubmit name='ACTION' value='Resend Finance'>";
-      echo "</div>\n";
+    if ($Mode < 2) {
+      if (!isset($Trady['BookingState'])) { $Trady['BookingState'] = 0; $Trady['Fee'] = 0; }
+      if (Access('SysAdmin')) {
+        echo "<div class=floatright>";
+        echo "<input type=Submit id=smallsubmit name='NewAccessKey' value='New Access Key'>";
+        if (!Feature("AutoInvoices") && $Trady['BookingState'] >= $Trade_State['Accepted']) echo "<input type=Submit id=smallsubmit name='ACTION' value='Resend Finance'>";
+        echo "</div>\n";
+      }
     }
     echo "<Center>";
     echo "<input type=Submit name='Update' value='Save Changes'>\n";
 //    if (!isset($Trady['BookingState']) || $Trady['BookingState']== 0) echo "<input type=Submit name=Submit value='Save Changes and Submit Application'>";
 
-    $Act = $TS_Actions[$Trady['BookingState']];
+    $Act = ($Mode < 2? $TS_Actions[$Trady['BookingState']] :"");
     if ($Act ) {
       $Acts = preg_split('/,/',$Act); 
 //      if ($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs']) {
@@ -1009,16 +1031,20 @@ function Trade_Main($Mode,$Program,$iddd=0) {
         echo "<input type=submit name=ACTION value='$ac' " . $ButExtra[$ac] . " >";
       }
     }
+/*    
+    $Invs = Get_InvoicesFor($Tid);
+    if ($Invs) echo "<input type=submit name=ACTION value='Invoices'>";
+*/    
     echo "</center>\n";
   } else { 
     echo "<Center>";
     echo "<input type=Submit name=ACTION value='Create'>\n";
-    echo "<input type=Submit name=ACTION value='Create and Submit Application'>";
+    if ($Mode < 2) echo "<input type=Submit name=ACTION value='Create and Submit Application'>";
     echo "</center>\n";
   }
   echo "</form>\n";
 
-  if ($Mode && $Tid>0) {
+  if ($Mode==1 && $Tid>0) {
     $Invs = Get_Invoices(" OurRef='" . Sage_Code($Trad) . "'"," IssueDate DESC ");
     echo "<h2><a href=ListCTrade.php>List Traders Coming</a> ";
 //    var_dump($Invs);
@@ -1376,6 +1402,48 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     $NewState = $Trade_State['Declined'];
     Send_Trader_Email($Trad,$Trady,'Trade_UnQuote');
     break;  
+  
+  case 'Invoices' :
+    $Invs = Get_InvoicesFor($Trad['Tid']);
+    if ($Invs) {
+      $Now = time();
+      $coln = 0;
+      echo "<table id=indextable border>\n";
+      echo "<thead><tr>";
+      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Our Ref</a>\n";
+      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D')>Date Raised</a>\n";
+      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D')>Date Due</a>\n";
+      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D')>Date Paid</a>\n";
+      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Amount (left)</a>\n";
+      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>View</a>\n";
+      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Download</a>\n";
+      echo "</thead><tbody>";
+      foreach($Invs as $i=>$inv) {
+        $id = $inv['id'];
+        echo "<td>" . $inv['OurRef'] . '/' . $inv['id'];
+        echo "<td>" . date('j/n/Y',$inv['IssueDate']);
+        echo "<td>";
+        if ($inv['Total'] > 0) {
+          if  ($inv['DueDate'] < $Now && $inv['PaidTotal']<$inv['Total']) {
+            echo "<span class=red>" . date('j/n/Y',$inv['DueDate']) . "</span>";
+          } else {
+            echo date('j/n/Y',$inv['DueDate'] );
+          }
+        }
+        echo "<td>" . ($inv['PayDate']>0? date('j/n/Y',abs($inv['PayDate'])) : ($inv['PayDate']<0? "NA": ""));
+        echo "<td>" . Print_Pence($inv['Total']);
+        if ($inv['PaidTotal'] > 0 && $inv['PaidTotal'] != $inv['Total']) echo " (" . Print_Pence($inv['Total'] - $inv['PaidTotal']) . ")";
+        $Rev = ($inv['Revision']?"R" .$inv['Revision']:"");
+        echo "<td><a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'',$Rev) . ">View</a>";
+        echo "<td><a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'',$Rev) . ">Download</a>";
+        echo "\n";
+      }
+      echo "</table><p>";
+    } else {
+      echo "<h3>No Invoices Found</h3>";
+    }
+    break;
+  
   
   default:
     break;
