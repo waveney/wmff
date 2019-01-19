@@ -40,6 +40,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>State</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Inc Type</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>No Part</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Dont List</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>First Year</a>\n";
   echo "</thead><tbody>";
   foreach($Types as $t) {
@@ -56,6 +57,7 @@
     echo "<td>" . fm_select($EType_States,$t,'State',0,'',"State$i");
     echo "<td>" . fm_checkbox('',$t,'IncType','',"IncType$i");
     echo "<td>" . fm_checkbox('',$t,'NoPart','',"NoPart$i");
+    echo "<td>" . fm_checkbox('',$t,'DontList','',"DontList$i");
     echo fm_number1('',$t,'FirstYear','','',"FirstYear$i");
     echo "\n";
   }
@@ -71,6 +73,7 @@
   echo "<td>" . fm_select($EType_States,$t,"State0");
   echo "<td><input type=checkbox name=IncType0>";
   echo "<td><input type=checkbox name=NoPart0>";
+  echo "<td><input type=checkbox name=DontList0>";
   echo "<td><input type=number name=FirstYear0 value=$PLANYEAR>";
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";
