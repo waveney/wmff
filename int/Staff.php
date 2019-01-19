@@ -295,7 +295,7 @@
       echo "<li><a href=InvoiceSummary.php>Invoice Summary</a>\n";   
       echo "<li><a href=OtherPaymentSummary.php>Other Payment Summary</a>\n";   
       if (Access('SysAdmin')) echo "<li><a href=ListTrade.php?ORGS>Businesses and Organistaions List</a>\n"; 
-      if (Access('SysAdmin')) echo "<li><a href=ListTrade.php?ORGS>New Business or Organistaion</a>\n";  
+      if (Access('SysAdmin')) echo "<li><a href=Trade.php?ORGS>New Business or Organistaion</a>\n";  
     } elseif (Access('Committee')) {
       echo "<li><a href=BudgetManage.php>Budget View</a>\n";
       echo "<li><a href=InvoiceManage.php>Invoice Management</a>\n";

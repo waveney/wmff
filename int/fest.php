@@ -250,19 +250,23 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
          "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SN']) . "'";
   $direct = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=$type&id=$id&key=$key&Y=$YEAR>this link</a>  " ;
 
-  if ($data['IsASide']) {
+  if (isset($data['SideId'])) {
+    if ($data['IsASide']) {
       $ProgInfo = Show_Prog($type,$id,1);
       $Content = urlencode("$name,<p>" .
-                 "<div id=SideLink$id>" .
-                "Please add/correct details about your side's contact information and your preferences in " .
-                "terms of days coming, number of dance spots, etc. by visiting $direct.</div><p>" .
-                "You can update information at any time, until the programme goes to print. " .
-                "(You'll also be able to view your programme times, once we've done the programme)<p>" .
-                "<div id=SideProg$id>$ProgInfo</div><p>" .
-                 "Regards " . $USER['SN'] . "<p>"); 
-  } else {
-    include_once("MusicLib.php");
-    $Content = MusicMail($data,$name,$id,$direct);
+              "<div id=SideLink$id>" .
+              "Please add/correct details about your side's contact information and your preferences in " .
+              "terms of days coming, number of dance spots, etc. by visiting $direct.</div><p>" .
+              "You can update information at any time, until the programme goes to print. " .
+              "(You'll also be able to view your programme times, once we've done the programme)<p>" .
+              "<div id=SideProg$id>$ProgInfo</div><p>" .
+              "Regards " . $USER['SN'] . "<p>"); 
+    } else {
+      include_once("MusicLib.php");
+      $Content = MusicMail($data,$name,$id,$direct);
+    }
+  } else { // Trade/Invoicing (I think gets here)
+    $Content = urlencode("$name,<p>" . "Regards " . $USER['SN'] . "<p>"); 
   }
 
   $lnk = "<button onclick=\"emailclk($link,'Email$id'); $ButtonExtra\" id=Em$id target='_blank' type=button>$Label Email</button>" .
