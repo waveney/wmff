@@ -1,10 +1,12 @@
 <?php
 
-function ViewFile($file,$read=1) {
+function ViewFile($file,$read=1,$targetname='') {
 global $USERID;
 
 $sfx = pathinfo($file,PATHINFO_EXTENSION );
 $base = basename($file);
+
+
 
 if (!file_exists($file)) Error_Page("Could not find file $file");
   Set_User();
@@ -81,6 +83,9 @@ if ($read) { // Attempt to read rather than download
   default : // Drop through to download
   }
 } 
+
+if ($targetname) $base=$targetname;
+
 //  down load if not read or no handler available
   header('Content-Description: File Transfer');
   header('Content-Type: application/octet-stream');

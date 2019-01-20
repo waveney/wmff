@@ -13,10 +13,12 @@ if (isset($_GET{'f'})) {
 } else if (isset($_GET{'l64'})) {
   ViewFile(base64_decode($_GET['l64']));
 } else if (isset($_GET{'d'})) {
-  ViewFile("Store" . File_FullPName($_GET['d']),0);
+  $tar = (isset($_GET['N'])? $_GET['N'] :'');
+  ViewFile("Store" . File_FullPName($_GET['d']),0,$tar);
   exit;
 } else if (isset($_GET{'D'})) {
-  ViewFile($_GET['D'],0);
+  $tar = (isset($_GET['N'])? $_GET['N'] :'');
+  ViewFile($_GET['D'],0,$tar);
   exit;
 }
   dotail();

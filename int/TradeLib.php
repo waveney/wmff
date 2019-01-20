@@ -1031,10 +1031,12 @@ function Trade_Main($Mode,$Program,$iddd=0) {
         echo "<input type=submit name=ACTION value='$ac' " . $ButExtra[$ac] . " >";
       }
     }
-/*    
-    $Invs = Get_InvoicesFor($Tid);
-    if ($Invs) echo "<input type=submit name=ACTION value='Invoices'>";
-*/    
+    if ($Mode == 0) { 
+      include_once("InvoiceLib.php");   
+      $Invs = Get_InvoicesFor($Tid);
+      if ($Invs) echo "<input type=submit name=ACTION value='Invoices'>";
+    }
+    
     echo "</center>\n";
   } else { 
     echo "<Center>";
@@ -1404,7 +1406,9 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     break;  
   
   case 'Invoices' :
-    $Invs = Get_InvoicesFor($Trad['Tid']);
+    $Tid = $Trad['Tid'];
+    $Invs = Get_InvoicesFor($Tid);
+
     if ($Invs) {
       $Now = time();
       $coln = 0;
@@ -1435,10 +1439,12 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
         if ($inv['PaidTotal'] > 0 && $inv['PaidTotal'] != $inv['Total']) echo " (" . Print_Pence($inv['Total'] - $inv['PaidTotal']) . ")";
         $Rev = ($inv['Revision']?"R" .$inv['Revision']:"");
         echo "<td><a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'',$Rev) . ">View</a>";
-        echo "<td><a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'',$Rev) . ">Download</a>";
+        echo "<td><a href=ShowFile.php?D=" . Get_Invoice_Pdf($id,'',$Rev) . ">Download</a>";
         echo "\n";
       }
       echo "</table><p>";
+      echo "<h2><a href=TraderPage.php?id=$Tid>Back to Trade Details</a></h2>";
+      dotail();
     } else {
       echo "<h3>No Invoices Found</h3>";
     }
