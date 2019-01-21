@@ -32,7 +32,7 @@
   echo "<tr><td>*WMFFLINK*<td>Link for Committee members direct to that trader<td>Trade, Volunteers\n";
   echo "<tr><td>*DEPOSIT*<td>Deposit Required<td>Trade, LNL, BB\n";
   echo "<tr><td>*BALANCE*<td>Balance Required<td>Trade\n";
-  echo "<tr><td>*DETAILS*<td>Full details of booking<td>Trade, BB, LOL, LNL, Volunteers\n";
+  echo "<tr><td>*DETAILS*<td>Full details of booking<td>Trade, BB, LOL, LNL, Volunteers, Invoices\n";
   echo "<tr><td>*FINANCIAL*<td>Trade financial statement<td>Trade\n";
   echo "<tr><td>*STATE*<td>Decsription of application state<td>Trade\n";
   echo "<tr><td>*PAIDSOFAR*<td>Total payments so far<td>Trade\n";

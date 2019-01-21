@@ -186,7 +186,7 @@ function Get_Traders_Coming($type=0) { // 0=names, 1=all
 function Get_All_Traders($type=0) { // 0=names, 1=all
   global $db,$YEAR,$Trade_State;
   $data = array();
-  $qry = "SELECT * FROM Trade WHERE Status=0 ORDER BY SN";
+  $qry = "SELECT * FROM Trade WHERE Status=0 AND IsTrader=1 ORDER BY SN";
   $res = $db->query($qry);
   if (!$res || $res->num_rows == 0) return 0;
   while ($tr=$res->fetch_assoc()) {
@@ -194,6 +194,19 @@ function Get_All_Traders($type=0) { // 0=names, 1=all
   }
   return $data;
 }
+
+function Get_All_Businesses($type=0) { // 0=names, 1=all
+  global $db,$YEAR,$Trade_State;
+  $data = array();
+  $qry = "SELECT * FROM Trade WHERE Status=0 AND IsTrader=0 ORDER BY SN";
+  $res = $db->query($qry);
+  if (!$res || $res->num_rows == 0) return 0;
+  while ($tr=$res->fetch_assoc()) {
+    $data[$tr['Tid']] = ($type?$tr:$tr['SN']);
+  }
+  return $data;
+}
+
 
 function Put_Trader(&$now) {
   $e=$now['Tid'];
@@ -280,7 +293,8 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte, 
   if (!isset($Trad['TradeType']) || ($Trad['TradeType'] == 0)) $Trad['TradeType'] = 1;
 
   echo "<form method=post id=mainform enctype='multipart/form-data' action=$Form>";
-  Register_AutoUpdate('Trader',$Tid);  
+  Register_AutoUpdate('Trader',$Tid);
+  if (isset($_REQUEST['ORGS'])) echo fm_hidden('ORGS',1);
   echo "<table width=90% border class=SideTable>\n";
     echo "<tr><th colspan=8><b>Public Information</b>" . Help('PublicInfo');
     echo "<tr>" . fm_text('Business Name', $Trad,'SN',2,'','autocomplete=off id=SN');
@@ -736,13 +750,14 @@ function Submit_Application(&$Trad,&$Trady,$Mode=0) {
 
 function Validate_Trade($Mode=0) { // Mode 1 for Staff Submit, less stringent
   global $TradeTypeData;
+  $Orgs = isset($_REQUEST['ORGS']);
       $proc = 1;
       if (!isset($_POST['SN']) || strlen($_POST['SN']) < 3 ) {
         echo "<h2 class=ERR>No Business Name Given</h2>\n";
         $proc = 0;
       }
       
-      if ($Mode == 0 && ($TradeTypeData[$_POST['TradeType']]['TOpen'] == 0)) {
+      if ($Orgs==0 && $Mode == 0 && ($TradeTypeData[$_POST['TradeType']]['TOpen'] == 0)) {
         echo "<h2 class=ERR>Sorry that category is full for this year</h2>\n";
         $proc = 0;
       }
@@ -751,7 +766,7 @@ function Validate_Trade($Mode=0) { // Mode 1 for Staff Submit, less stringent
         echo "<h2 class=ERR>No Contact Name Given</h2>\n";
         $proc = 0;
       }
-      if ((!isset($_POST['Phone']) && !isset($_POST['Mobile'])) || (strlen($_POST['Phone']) < 6 && strlen($_POST['Mobile']) < 6)) {
+      if ($Orgs==0 && (!isset($_POST['Phone']) && !isset($_POST['Mobile'])) || (strlen($_POST['Phone']) < 6 && strlen($_POST['Mobile']) < 6)) {
         echo "<h2 class=MERR>No Phone/Mobile Numbers Given</h2>\n";
         if (!$Mode) $proc = 0;
       }
@@ -759,18 +774,19 @@ function Validate_Trade($Mode=0) { // Mode 1 for Staff Submit, less stringent
         echo "<h2 class=MERR>No Email Given</h2>\n";
         if (!$Mode) $proc = 0;
       }
-      if (!isset($_POST['Address']) || strlen($_POST['Address']) < 10) {
+      if ($Orgs==0 && !isset($_POST['Address']) || strlen($_POST['Address']) < 10) {
         echo "<h2 class=MERR>No Address Given</h2>\n";
         if (!$Mode) $proc = 0;
       }
-      if (!isset($_POST['GoodsDesc'])) {
+      if ($Orgs==0 ) {
+      } else if (!isset($_POST['GoodsDesc'])) {
         echo "<h2 class=ERR>No Products Description Given</h2>\n";
         $proc = 0;
       } else if ((strlen($_POST['GoodsDesc']) < 30) && ($Mode == 0)){
         echo "<h2 class=ERR>The Product Description is too short</h2>\n";
         $proc = 0;
       }
-      if ((!isset($_POST['PublicHealth']) || strlen($_POST['PublicHealth']) < 5) && ($TradeTypeData[$_POST['TradeType']]['NeedPublicHealth']) && ($Mode == 0)) {
+      if ($Orgs==0 && (!isset($_POST['PublicHealth']) || strlen($_POST['PublicHealth']) < 5) && ($TradeTypeData[$_POST['TradeType']]['NeedPublicHealth']) && ($Mode == 0)) {
         echo "<h2 class=ERR>No Public Health Authority Given</h2>\n";
         $proc = 0;
       }
@@ -825,6 +841,8 @@ function Trade_Main($Mode,$Program,$iddd=0) {
   include_once("DateTime.php"); 
   echo "<div class=content><h2>Add/Edit " . ($Mode<2?'Trade Stall Booking':'Buisness or Organisation') . "</h2>";
 
+  $Orgs = isset($_REQUEST['ORGS']);
+  
   $Action = 0; 
   $Mess = '';
   if (isset($_POST{'Action'})) {
@@ -866,17 +884,21 @@ function Trade_Main($Mode,$Program,$iddd=0) {
 
 //    A_Check('Participant','Trader',$Tid); // Check Surpressed until access resolved
 
-    for ($i=0;$i<3;$i++) if ($_POST["PowerType$i"]==1) $_POST["Power$i"] = -1;
-    Clean_Email($_POST{'Email'});
-    Clean_Email($_POST{'AltEmail'});
-    $proc = Validate_Trade($Mode);
+    if (!$Orgs) {
+      for ($i=0;$i<3;$i++) if ($_POST["PowerType$i"]==1) $_POST["Power$i"] = -1;
+      Clean_Email($_POST{'Email'});
+//    Clean_Email($_POST{'AltEmail'});
+      $proc = Validate_Trade($Mode);
+    }
 
 //echo "Trade Validation: $proc <br>;
     if ($Tid > 0) {                                 // existing Trader 
       $Trad = Get_Trader($Tid);
       if ($Trad) {
-        $Tradyrs = Get_Trade_Years($Tid);
-        if (isset($Tradyrs[$PLANYEAR])) $Trady = $Tradyrs[$PLANYEAR];
+        if (!$Orgs) {
+          $Tradyrs = Get_Trade_Years($Tid);
+          if (isset($Tradyrs[$PLANYEAR])) $Trady = $Tradyrs[$PLANYEAR];
+        }
       } else {
         echo "<h2 class=ERR>Could not find Trader $Tid</h2>\n";
       }
@@ -884,7 +906,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
       if (isset($_POST{'NewAccessKey'})) $_POST{'AccessKey'} = rand_string(40);
 
       Update_db_post('Trade',$Trad);
-      if ($Mode < 2) {
+      if ($Mode < 2 && !$Orgs) {
         if ($_POST{'Year'} == $PLANYEAR) {
           $same = 1;
           if (isset($Trady) && $Trady) {
@@ -931,17 +953,17 @@ function Trade_Main($Mode,$Program,$iddd=0) {
           }
         }
         if ($proc && isset($_POST['ACTION'])) Trade_Action($_POST['ACTION'],$Trad,$Trady,$Mode);
-      } else { // Mode ==2
+      } else { // Mode ==2 || Orgs
         if (isset($_POST['ACTION'])) Invoice_Action($_POST['ACTION'],$Trad);
       }
     } else { // New trader 
       $_POST['AccessKey'] = rand_string(40);
       $Tid = Insert_db_post('Trade',$Trad,$proc);
-      if ($Tid && $Trad['IsTrader']) {
+      if ($Tid && $Trad['IsTrader'] && !$Orgs) {
         Insert_db_post('TradeYear',$Trady,$proc);
         $Trady = Get_Trade_Year($Trad['Tid']);
       }
-      if ($Mode == 2) {
+      if ($Mode == 2 || $Orgs) {
         if (isset($_POST['ACTION'])) Invoice_Action($_POST['ACTION'],$Trad);
       } else {
         if ($proc && isset($_POST['ACTION'])) Trade_Action($_POST['ACTION'],$Trad,$Trady,$Mode);
@@ -952,7 +974,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
   } elseif (isset($_GET{'id'})) { // Link from elsewhere 
     $Tid = $_GET{'id'};
     $Trad = Get_Trader($Tid);
-    if ($Trad && $Trad['IsTrader']) {
+    if ($Trad && $Trad['IsTrader'] && !$Orgs) {
       $Tradyrs = Get_Trade_Years($Tid);
       if (isset($Tradyrs[$YEAR])) {
         $Trady = $Tradyrs[$YEAR];
@@ -962,7 +984,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
     } elseif (!$Trad) {
       echo "<h2 class=ERR>Could not find Trader $Tid</h2>\n";
     }
-  } elseif ($Mode != 2) {
+  } elseif ($Mode != 2 && !$Orgs) {
     $Tid = -1;
     $Trad = ['TradeType' => 1, 'IsTrader' => 1];
   } else {
@@ -972,11 +994,11 @@ function Trade_Main($Mode,$Program,$iddd=0) {
   if (!isset($Trady)) $Trady = Default_Trade($Tid);
 
   Show_Trader($Tid,$Trad,$Program,$Mode);
-  if ($Mode < 2) Show_Trade_Year($Tid,$Trady,$YEAR,$Mode);
+  if ($Mode < 2 && !$Orgs) Show_Trade_Year($Tid,$Trady,$YEAR,$Mode);
 
-  if ($Mode == 0) Trade_TandC();
+  if ($Mode == 0 && !$Orgs) Trade_TandC();
   if ($Tid > 0) {
-    if ($Mode < 2) {
+    if ($Mode < 2 && !$Orgs) {
       if (!isset($Trady['BookingState'])) { $Trady['BookingState'] = 0; $Trady['Fee'] = 0; }
       if (Access('SysAdmin')) {
         echo "<div class=floatright>";
@@ -989,7 +1011,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
     echo "<input type=Submit name='Update' value='Save Changes'>\n";
 //    if (!isset($Trady['BookingState']) || $Trady['BookingState']== 0) echo "<input type=Submit name=Submit value='Save Changes and Submit Application'>";
 
-    $Act = ($Mode < 2? $TS_Actions[$Trady['BookingState']] :"");
+    $Act = (($Mode < 2 && !$Orgs)? $TS_Actions[$Trady['BookingState']] :"");
     if ($Act ) {
       $Acts = preg_split('/,/',$Act); 
 //      if ($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs']) {
@@ -1031,10 +1053,12 @@ function Trade_Main($Mode,$Program,$iddd=0) {
         echo "<input type=submit name=ACTION value='$ac' " . $ButExtra[$ac] . " >";
       }
     }
-/*    
-    $Invs = Get_InvoicesFor($Tid);
-    if ($Invs) echo "<input type=submit name=ACTION value='Invoices'>";
-*/    
+    if ($Mode == 0) { 
+      include_once("InvoiceLib.php");   
+      $Invs = Get_InvoicesFor($Tid);
+      if ($Invs) echo "<input type=submit name=ACTION value='Invoices'>";
+    }
+    
     echo "</center>\n";
   } else { 
     echo "<Center>";
@@ -1404,7 +1428,9 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     break;  
   
   case 'Invoices' :
-    $Invs = Get_InvoicesFor($Trad['Tid']);
+    $Tid = $Trad['Tid'];
+    $Invs = Get_InvoicesFor($Tid);
+
     if ($Invs) {
       $Now = time();
       $coln = 0;
@@ -1435,10 +1461,12 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
         if ($inv['PaidTotal'] > 0 && $inv['PaidTotal'] != $inv['Total']) echo " (" . Print_Pence($inv['Total'] - $inv['PaidTotal']) . ")";
         $Rev = ($inv['Revision']?"R" .$inv['Revision']:"");
         echo "<td><a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'',$Rev) . ">View</a>";
-        echo "<td><a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'',$Rev) . ">Download</a>";
+        echo "<td><a href=ShowFile.php?D=" . Get_Invoice_Pdf($id,'',$Rev) . ">Download</a>";
         echo "\n";
       }
       echo "</table><p>";
+      echo "<h2><a href=TraderPage.php?id=$Tid>Back to Trade Details</a></h2>";
+      dotail();
     } else {
       echo "<h3>No Invoices Found</h3>";
     }

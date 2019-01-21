@@ -159,16 +159,7 @@ function Put_Email_Proforma(&$now) {
   return Update_db('EmailProformas',$Cur,$now);
 }
 
-// helper is a function that takes (THING,helperdata,atts) to return THING - not needed for generic fields typical THINGs are DETAILS, DEPOSIT...
-// if mescat > 30 chars it is assumed to be the proforma itself
-function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='',&$attachments=0) {
-  global $PLANYEAR,$MASTER,$MASTER_DATA;
-  if (strlen($mescat) < 30) {
-    $Prof = Get_Email_Proforma($mescat);
-    $Mess = ($Prof? $Prof['Body'] : "Unknown message $mescat");
-  } else {
-    $Mess = $mescat;
-  }
+function Parse_Proforma(&$Mess,$helper='',$helperdata=0,&$attachments=0) {
   $Reps = [];
 
   while (preg_match('/\*(\w*)\*/',$Mess)) {
@@ -202,6 +193,21 @@ function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='
       foreach ($Reps as $k=>$v) $Mess = preg_replace("/\*$k\*/",$v,$Mess);
     }
   }
+}
+
+
+// helper is a function that takes (THING,helperdata,atts) to return THING - not needed for generic fields typical THINGs are DETAILS, DEPOSIT...
+// if mescat > 30 chars it is assumed to be the proforma itself
+function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='',&$attachments=0) {
+  global $PLANYEAR,$MASTER,$MASTER_DATA;
+  if (strlen($mescat) < 30) {
+    $Prof = Get_Email_Proforma($mescat);
+    $Mess = ($Prof? $Prof['Body'] : "Unknown message $mescat");
+  } else {
+    $Mess = $mescat;
+  }
+  Parse_Proforma($Mess,$helper,$helperdata,$attachments);
+  
   NewSendEmail($to,$subject,$Mess,$attachments);
   
   if ($logfile) {

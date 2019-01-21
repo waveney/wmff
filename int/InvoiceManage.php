@@ -98,7 +98,8 @@
 //    var_dump($_REQUEST);
       $Details = [];
       for ($i = 1;$i<=3; $i++) if (isset($_REQUEST["Amount$i"]) && $_REQUEST["Amount$i"]) $Details[] = [$_REQUEST["Desc$i"], round($_REQUEST["Amount$i"]*100)];
-      $Who = ($_REQUEST['OrgType'] ? Get_Organisation($_POST['Oid']) : Get_Trader($_REQUEST['Tid'])); 
+      $Who = ($_REQUEST['OrgType'] ? Get_Trader($_REQUEST['Oid']) : Get_Trader($_REQUEST['Tid'])); 
+      
       New_Invoice($Who,$Details,$_REQUEST['Reason'],$_REQUEST['InvoiceCode'],$_REQUEST['Source']);
       break;
 
@@ -143,11 +144,16 @@
   } elseif (isset($_REQUEST['FOR'])) {
     $Trad = Get_Trader($_REQUEST['FOR']);
     $Tname = $Trad['SN'];
-    echo "<h2>Manage Invoices - $YEAR - $Tname</h2>\n";
+
     $Invs = Get_Invoices(" OurRef='" . Sage_Code($Trad) . "'"," IssueDate DESC ");
     $All = 1;
     $NewXtra = "&Tid=" . $Trad['Tid'];
     $NewXtraTxt = " For $Tname";
+    if ($Invs) {
+      echo "<h2>Manage Invoices - $YEAR - $Tname</h2>\n";
+    } else {
+      echo "<h2>There are no Invoices currently for " . $Trad['SN'] . "</h2>";
+    } 
   } else {
     echo "<h2>Manage Invoices - $YEAR</h2>\n";
     $Pays = Get_PayCodes("State=0");
@@ -156,7 +162,8 @@
     $All = 0;
   }
 
-  
+
+  if ($Invs) {  
   $Now = time();
   $coln = 0;
   echo "<table id=indextable border>\n";
@@ -244,6 +251,7 @@
   }
   
   echo "</table>\n";
+  }
   
   echo "<h2><a href=InvoiceManage.php?ACTION=NEW$NewXtra>New Invoice $NewXtraTxt</a>";  
   if (isset($Tname)) echo ", <a href=Trade.php?id=" . $_REQUEST['FOR'] . "&Y=$YEAR>Back to $Tname</a>";

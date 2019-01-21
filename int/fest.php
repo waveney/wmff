@@ -251,7 +251,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
   $direct = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=$type&id=$id&key=$key&Y=$YEAR>this link</a>  " ;
 
   if (isset($data['SideId'])) {
-    if ($data['IsASide']) {
+    if ($data['IsASide'] && !$data['TotalFee']) {
       $ProgInfo = Show_Prog($type,$id,1);
       $Content = urlencode("$name,<p>" .
               "<div id=SideLink$id>" .

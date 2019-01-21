@@ -49,7 +49,14 @@
   }
 
   $Venues = Get_Real_Venues();
-  if (isset($_POST{'LIST'})) {
+  if (isset($_POST{'V'})) {
+    $se = 0;
+    $V = $_POST['V'];
+    $Ven = Get_Venue($V);
+    $SubE = " SubEvent<=0 AND Year=$YEAR AND Venue=$V";
+    echo "<h2>List Events at " . $Ven['SN'] . "</h2>";
+
+  } else if (isset($_POST{'LIST'})) {
     $se = 0;
     $SubE = " Year=$YEAR ";
     echo "<h2>List All Events</h2>";

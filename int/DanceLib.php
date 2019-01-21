@@ -360,7 +360,8 @@ function Set_Side_Help() {
         'RelOrder'=>'To give finer control than Importance, can be negative',
         'ManageFiles'=>'Use this to upload, download, view and delete as manay files as you wish about this performer',
         'Testing'=>'Testing Only',
-        'PerfTypes'=>'You MUST Save changes after any changes to Performer Types, to refresh the page',
+        'PerfTypes'=>'You MUST Save changes after any changes to Performer Types, to refresh the page.
+IF you wish to remove a performer type tell Richard - there are many small changes that may be needed that are not yet automated',
         'OneBlurb'=>'Select this to surpress showing the Short Blurb and the Long Blurb at the same time',
   );
   Set_Help_Table($t);
@@ -404,13 +405,6 @@ Contract Signed - Enables listing to public.',
 function Default_SY($id=0) { 
   global $YEAR,$USERID;
   $ans = array('SatDance'=>3,'SunDance'=>4,'Year'=>$YEAR,'Procession'=>1,'Invited'=>'','BookedBy'=>$USERID);
-  if ($id) $ans['SideId'] = $id;
-  return $ans;
-}
-
-function Default_AY($id=0) { //TODO delete
-  global $YEAR,$USERID;
-  $ans = array('Year'=>$YEAR,'BookedBy'=>$USERID,'RadioWimborne'=>1);
   if ($id) $ans['SideId'] = $id;
   return $ans;
 }

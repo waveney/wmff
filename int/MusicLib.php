@@ -135,7 +135,7 @@ function Put_ActYear(&$data) {
   global $Save_ActYears,$YEAR;
   if (!isset($Save_ActYears[$data['SideId']][$data['Year']])) {
     $Save = &$Save_ActYears[$data['SideId']][$YEAR];
-    $Save = Default_AY();
+//    $Save = Default_AY();
     $data = array_merge($Save,$data);
     $rec = "INSERT INTO ActYear SET ";
     $Up = 0;

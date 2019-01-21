@@ -234,9 +234,14 @@
     $Vens = Get_AVenues();
     echo "<ul>\n";
     echo "<li><a href=VenueList.php?Y=$YEAR>List Venues</a>\n";
-    echo "<li><a href=EventList.php?Y=$YEAR>List Events</a>\n";
+    echo "<li><a href=EventList.php?Y=$YEAR>List All Events</a>\n";
     if (Access('Staff','Venues') && $YEAR==$PLANYEAR) echo "<li><a href=EventAdd.php>Create Event(s)</a>";
     
+    echo "<li><form method=Post action=EventList.php class=staffform>";
+      echo "<input type=submit name=a value='List Events at' id=staffformid>" . 
+                fm_hidden('Y',$YEAR) .
+                fm_select($Vens,0,'V',0," onchange=this.form.submit()") . "</form>\n";
+
     echo "<li><form method=Post action=VenueShow.php?Mode=1 class=staffform>";
       echo "<input type=submit name=a value='Show Events at' id=staffformid>" . 
                 fm_hidden('Y',$YEAR) .
