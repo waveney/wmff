@@ -42,26 +42,32 @@
     if (!$Orgs) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Goods</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Contact</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Email</a>\n";
-    echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Web</a>\n";
     if (!$Orgs) {
+      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Web</a>\n";
       echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Status</a>\n";
       echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Booking State</a>\n";
       echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>BID</a>\n";
       echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>CC</a>\n";
       echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Before</a>\n";
     }
+    if ($Orgs) {
+      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Invoices</a>\n";   
+      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Actions</a>\n";   
+    }
     echo "</thead><tbody>";
     while ($fetch = $res->fetch_assoc()) {
       $tt = $fetch['TradeType'];
+      $Tid = $fetch['Tid'];
       if ($tt == 0) $tt=1;
-      echo "<tr><td width=300><a href=Trade.php?id=" . $fetch['Tid'] . ($Orgs?" &ORGS":"") . ">" . ($fetch['SN']?$fetch['SN']:'No Name Given') . "</a>";
+      echo "<tr><td width=300><a href=Trade.php?id=$Tid" . ($Orgs?"&ORGS":"") . ">" . ($fetch['SN']?$fetch['SN']:'No Name Given') . "</a>";
       if (!$Orgs) echo "<td style='background:" . $Trade_Types[$tt]['Colour'] . ";'>" . $Trade_Types[$tt]['SN'];
       if (!$Orgs) echo "<td width=400>" . $fetch['GoodsDesc'];
       echo "<td>" . $fetch['Contact'];
       echo "<td>" . linkemailhtml($fetch,'Trade');
-      echo "<td>";
-        if (strlen($fetch['Website'])>6) echo weblink($fetch['Website'],'Web','target=_blank');
       if (!$Orgs) {
+        echo "<td>";
+        if (strlen($fetch['Website'])>6) echo weblink($fetch['Website'],'Web','target=_blank');
+
         echo "<td>" . ($fetch['Status']?$Trader_Status[$fetch['Status']]:'');
         echo "<td id=TR" . $fetch['Tid'];
           $stat = $fetch['BookingState'];
@@ -76,6 +82,10 @@
         echo Disp_CB($fetch['BID']);
         echo Disp_CB($fetch['ChamberTrade']);
         echo Disp_CB($fetch['Previous']);
+      } else {
+        echo "<td><a href=InvoiceManage.php?FOR=$Tid>Invoices</a>";
+        echo "<td><a href=InvoiceManage.php?ACTION=NEW&Tid=$Tid>New Invoice</a>";
+      
       }
     }
     echo "</tbody></table>\n";

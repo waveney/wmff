@@ -102,7 +102,7 @@
       echo Put_Side($Perf);
       exit;
     }
-    if (Feature('NewPERF') || $Perf['IsASide']) {
+
     $Perfy = Get_SideYear($id);
       if (!$Perfy) {
         $flds = table_fields('SideYear');
@@ -119,24 +119,6 @@
         echo Put_SideYear($Perfy);
         exit;
       }
-    }
-    include_once("MusicLib.php");
-    $Perfy = Get_ActYear($id);
-    if (isset($Perfy[$field])) {
-      $Perfy[$field] = $Value;
-      echo Put_ActYear($Perfy);
-      exit;
-    }
-    if (!$Perfy) {
-      $flds = table_fields('ActYear');
-      if (isset($flds[$field])) {
-        $Perfy = Default_AY($id);
-        $Perfy[$field] = $Value;
-        echo Put_ActYear($Perfy);
-        exit;
-      }
-    }
-
     // SHOULD never get here...
 
         

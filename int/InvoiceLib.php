@@ -1,7 +1,7 @@
 <?php
 
-$Invoice_Sources = ['Other','Trade','Sponsor/Adverts','Buskers Bash','Live and Loud'];
-$Org_Cats = ['Trade','Sponsor/Adverts'];
+$Invoice_Sources = ['Other','Trade','Other Finance','Buskers Bash','Live and Loud'];
+$Org_Cats = ['Trader','Business or Organistaion'];
 $Reserved_Codes = ['BB','LNL'];
 $OpayStates = ['Open','Paid','Cancelled'];
 
@@ -294,6 +294,7 @@ function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=-1
   $inv['Address'] = $Whose['Address'];
   $inv['PostCode'] = $Whose['PostCode'];
   $inv['IssueDate'] = time();
+  if ($Source == 1) $inv['EmailDate'] = $inv['IssueDate'];
   $inv['DueDate'] = ($DueDate < 365? time() + $DueDate*24*60*60 : $DueDate);
   $inv['OurRef'] = Sage_Code($Whose);
   $inv['InvoiceCode'] = $InvCode;
@@ -348,7 +349,7 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade/sponsers/ad
     $inv = [];
     if (isset($_REQUEST['Tid'])) {
       $inv['OrgType']=0;
-      $inv['Tid'] = $_REQUEST['Tid'];
+      $inv['SourceId'] = $inv['Tid'] = $inv['Oid'] = $_REQUEST['Tid'];
       $hide1 = '';
     }
   } else {
@@ -356,31 +357,31 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade/sponsers/ad
   }
   
   $Traders = Get_All_Traders();
-  $Orgs = ["These are not yet in the system"];  // TODO may be part of same table
+  $Orgs = Get_All_Businesses();
   $Budgets = Budget_List();
   $InvCodes = Get_InvoiceCodes(0);
 
-  echo "This page is ONLY to be used to create invoices for things other than Trade, Sponsors and adverts.<p>";
+  echo "This page is ONLY to be used to create invoices for things other than Trade.<p>";
   echo "<form method=post action=InvoiceManage.php>";
   if ($Dat) echo fm_hidden('i',$dat);
   echo "<table border>";
   echo "<tr>" . fm_radio("Organisation",$Org_Cats,$inv,'OrgType','onchange=InvoiceCatChange(event,###V)');
   echo "<td class=InvOrg1 $hide1 >" . fm_select($Traders,$inv,'Tid') . "<td class=InvOrg1 $hide1 >If the trader, is not in list, then <a href=Trade.php><b>Create them</b></a> first"; 
-  echo "<td class=InvOrg2 hidden >" . fm_select($Orgs,$inv,'Oid') . "<td class=InvOrg2 hidden >If the organisation, is not in list, then <a href=Org.php?NEW><b>Create them</b></a> first";
+  echo "<td class=InvOrg2 hidden >" . fm_select($Orgs,$inv,'Oid') . "<td class=InvOrg2 hidden >If the organisation, is not in list, then <a href=Trade.php?ORGS><b>Create them</b></a> first";
 
   echo "<tr><td colspan=5>Include UPTO 3 items, if the first is positive, and the others negative, the negative ones will be in red";
   echo "<tr><td colspan=2>Description<td>Amount";
   for ($i=1;$i<=3;$i++) {
-    echo "<tr>" . fm_text1("",$inv,"Desc$i",2) . fm_text1("",$inv,"Amount$i") ;
+    echo "<tr><td colspan=2>" . fm_basictextarea($inv,"Desc$i",3,1) . fm_text1("",$inv,"Amount$i") ;
   }
   
   echo "<tr><td>Invoice Code:" . fm_select($InvCodes,$inv,'InvoiceCode');  
   echo "<tr>" . fm_text("Reason (this appears in local lists)",$inv,'Reason',2);
   if (Access('SysAdmin')) {
-    if (!isset($inv['Source'])) $inv['Source'] = 3;
+    if (!isset($inv['Source'])) $inv['Source'] = 2;  // Other finance
     echo "<tr><td>Source:" . fm_select($Invoice_Sources,$inv,'Source') . fm_text("Source Id",$inv,'SourceId');
   } else {
-    fm_hidden('Source',3);
+    fm_hidden('Source',2); 
   }
   echo "</table><p><input type=submit name=ACTION value=" . ($Dat? "UPDATE":"CREATE") . "></form>\n";
 }
@@ -446,10 +447,15 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   echo "<tr><td>Invoice Code:<td>" . fm_select($InvCodes,$inv,'InvoiceCode',1,$RO);
   echo "<tr><td colspan=3>What<td>Amount";
   for ($i=1;$i<4;$i++) {
-    echo "<tr>" . fm_text1("",$inv,"Desc$i",3,$RO) . "<td>" . Print_Pence($inv["Amount$i"]);
+    echo "<tr><td colspan=3>" . fm_basictextarea($inv,"Desc$i",4,1,$RO) . "<td>" . Print_Pence($inv["Amount$i"]);
   }
   echo "<tr><td colspan=3>Total<td>" . Print_Pence($inv['Total']);
   echo "<tr><td>Issued on:<td>" . date('d/m/y H:i:s',$inv['IssueDate']);
+  if ($inv['EmailDate']) {
+    echo "<td>Email Sent:<td>" . date('d/m/y H:i:s',$inv['EmailDate']);
+  } else {
+    echo "<td><b>Email Not Sent</b>";
+  }
   echo "<td>Dute Date:<td>" . date('d/m/y H:i:s',$inv['DueDate']);
   
 // Status
@@ -465,8 +471,12 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
 // Other - History, Source, SourceId
   echo "<tr><td>Source:<td>" . fm_select($Invoice_Sources,$inv,'Source',0,$RO) . fm_number("SourceId", $inv,'SourceId','',$RO); 
   echo "<tr>" . fm_textarea('History',$inv,'History',5,2,'','maxlength=2000');
+  if ($inv['Source'] != 1) echo "<tr>" . fm_textarea('Cover Note',$inv,'CoverNote',5,4);
   echo "</table>";
   echo "<input type=submit name=ACTION value=UPDATE>";
+  echo "<input type=submit name=ACTION value=" . ($inv['EmailDate']?"RESEND":"SEND") . ">";
+  if (!$inv['EmailDate']) echo "<input type=submit name=ACTION value=SENT>";
+  echo "<input type=submit name=ACTION value=DOWNLOAD>";
   if (Access('SysAdmin')) echo "<input type=submit name=ACTION value=PRINTPDF>";
   echo "</form>";
   echo "<h2><a href=InvoiceManage.php?Y=$YEAR>Back to Invoices</a> ";
@@ -542,6 +552,37 @@ function Call_Invoice_User($user,$uid=0,$action,$val=0) {
     $id = $data[1];
     return LNL_Action($action,$id,$val);
   }
-}  
+}
+
+function Invoice_Email_Details($key,&$inv,$att=0) {
+  switch ($key) {
+  case 'WHO':  return $inv['Contact']? firstword($inv['Contact']) : $inv['SN'];
+  case 'DETAILS': 
+    $det = "";
+    $and = 0;
+    for ($i=3;$i--;$i>0) 
+      if ($inv["Desc$i"]) {
+        if ($det) { 
+          if ($and) { 
+            $det = $inv["Desc$i"] . ", " . $det;
+          } else {
+            $det = $inv["Desc$i"] . " and " . $det;
+            $and = 1;
+          }
+        } else $det = $inv["Desc$i"];
+      }
+    return $det; 
+    
+  }
+}
+
+function Invoice_Cover_Note(&$inv) { // Returns Default cover note for invoice
+  $Mess = Get_Email_Proforma($mescat);
+  Parse_Proforma($Mess,'Invoice_Email_Details',$inv);
+  return $Mess;
+}
+
+
+
     
 ?>

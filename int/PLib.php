@@ -15,6 +15,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
 //  if ($Side['IsAnAct'] || $Side['IsOther']) Add_Act_Help();
   $Sidey = Get_SideYear($snum);
 
+  $Side['TotalFee'] = (isset($Sidey['TotalFee'])?isset($Sidey['TotalFee']):0); // This is to make linkemail do the right thing 
   $NotD = 0;
   foreach ($PerfTypes as $p=>$d) if (($d[0] != 'IsASide') && $Side[$d[0]]) $NotD = 1;
 
