@@ -263,7 +263,11 @@ A similar feature will appear eventually for music.<p>
 // Music                        Y        Y                        Y        Y
 // Other                                Y                Y        Y        Y
 
-  if ($eid > 0) EventCheck($eid);
+  if ($eid > 0) {
+    echo "<div class=Err>";  
+    EventCheck($eid);
+    echo "</div>";
+  }
 
   $AllU = Get_AllUsers(0);
   $AllA = Get_AllUsers(1);

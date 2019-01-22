@@ -688,4 +688,16 @@ function Extended_Prog($type,$id,$all=0) {
 
   return $str;
 }
+
+
+function Dance_Email_Details($key,&$data,$att=0) {
+  global $Trade_Days,$TradeLocData,$TradeTypeData;
+  $Side = &$data[0];
+  if (isset($data[1])) $Sidey = &$data[1];
+  $snum = $Side['SideId'];
+  switch ($key) {
+  case 'WHO':  return $Side['Contact']? firstword($Side['Contact']) : $Side['SN'];
+  }
+}
+
 ?>

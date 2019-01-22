@@ -76,7 +76,7 @@
   $lastevent = -99;
   foreach ($EVs as $ei=>$e) {
     $eid = $e['EventId'];
-    if (DayTable($e['Day'],"PA Requirements",'','style=font-size:24;')) {
+    if (DayTable($e['Day'],"PA Requirements for " . $Ven['SN'] ,'','style=font-size:24;')) {
       echo "<tr><td>Time<td >What<td>Who<td>PA Reqs";
       $lastevent = -99;
     }

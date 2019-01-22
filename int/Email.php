@@ -160,6 +160,7 @@ function Put_Email_Proforma(&$now) {
 }
 
 function Parse_Proforma(&$Mess,$helper='',$helperdata=0,&$attachments=0) {
+  global $PLANYEAR,$MASTER,$MASTER_DATA;
   $Reps = [];
 
   while (preg_match('/\*(\w*)\*/',$Mess)) {
@@ -170,6 +171,9 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,&$attachments=0) {
           case 'PLANYEAR': 
           case 'THISYEAR': // For historic proformas should be removed in time
             $rep = $PLANYEAR;
+            break;
+          case 'NEXTYEAR': 
+            $rep = $PLANYEAR+1;
             break;
           case 'DATES':
             $rep = FestDate($MASTER['FirstDay']) . " to " . FestDate($MASTER['LastDay'],'M') ;

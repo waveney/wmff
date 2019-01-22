@@ -23,7 +23,7 @@
   echo "<table border>\n";
   echo "<tr><td>Code<td>What it does<td>Areas \n";
   echo "<tr><td>*WHO*<td>First name of contact<td>All\n";
-  echo "<tr><td>*PLANYEAR*<td>Year for the booking<td>All\n";
+  echo "<tr><td>*PLANYEAR*/*NEXTYEAR*<td>Year for the booking, Planyear+1<td>All\n";
   echo "<tr><td>*DATES*<td>Dates of Saturday and Sunday<td>All\n";
   echo "<tr><td>*LOCATION*<td>Location(s) of Pitches<td>Trade\n";
   echo "<tr><Td>*PRICE*<td>Total Price quoted<td>Trade\n";
