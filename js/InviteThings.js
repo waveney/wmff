@@ -4,7 +4,7 @@
 // InviteDance
 
 function ChangeInvite(ev) {
-  debugger;
+
 //  if (DoingTableSort) return;
   var id=ev.target.id;
   var snumm = id.match(/Invite(\d*)/);
@@ -15,7 +15,7 @@ function ChangeInvite(ev) {
 }
 
 function ReportTed(ev) {
-  debugger;
+
 //  if (DoingTableSort) return;
   var id=ev.target.id;
   var snumm = id.match(/(\d+)/);
@@ -24,3 +24,9 @@ function ReportTed(ev) {
   $("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=I&Y=" + year);
 }
 
+function ProformaSend(name,snum) {
+  var year = $("#Year").val();
+  $("#DebugPane").load("sendproforma.php", "I=" + snum + "&N=" + name);
+  $("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=I&Y=" + year);  
+
+}

@@ -6,7 +6,7 @@
 
   include_once("files/navigation.php"); 
   include_once("DanceLib.php"); 
-  global $YEAR,$PLANYEAR,$Coming_Colours;
+  global $YEAR,$PLANYEAR,$Coming_Colours,$Coming_idx;
   echo "<h2>Invite Dance Sides $YEAR</h2>\n";
 
   echo "Click on column header to sort by column.  Click on Side's name for more detail and programme when available,<p>";
@@ -28,7 +28,7 @@
   echo "</h2>";
 
   $LastYear = $YEAR-1;
-  $flds = "s.*, ly.Invite AS LyInvite, ly.Coming AS LyComing, y.Invite, y.Invited, y.Coming";
+  $flds = "s.*, ly.Invite AS LyInvite, ly.Coming AS LyComing, y.*";
   $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR " .
                         "LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE s.IsASide=1 AND s.SideStatus=0 ORDER BY SN");
   $col5 = "Invited $LastYear";
@@ -36,6 +36,11 @@
   $col7 = "Invite $YEAR";
   $col8 = "Invited $YEAR";
   $col9 = "Coming $YEAR";
+  $col10 = "Actions";
+
+  if (Access('SysAdmin')) {
+    echo "Debug: <span id=DebugPane></span><p>"; 
+  }
 
   if (!$SideQ || $SideQ->num_rows==0) {
     echo "<h2>No Sides Found</h2>\n";
@@ -52,8 +57,9 @@
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col5</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col6</a>\n";
     if ($col7) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'O')>$col7</a>\n";
-    if ($col8) echo "<th width=200><a href=javascript:SortTable(" . $coln++ . ",'T')>$col8</a>\n";
+    if ($col8) echo "<th style='max-width:200'><a href=javascript:SortTable(" . $coln++ . ",'T')>$col8</a>\n";
     if ($col9) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col9</a>\n";
+    if ($col10) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col10</a>\n";
 //    for($i=1;$i<5;$i++) {
 //      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>EM$i</a>\n";
 //    }
@@ -98,7 +104,7 @@
       }
       echo "<td>" . fm_select2($Invite_States,$fetch['Invite'],"Invite$snum",0,"id=Invite$snum onchange=ChangeInvite(event)");
 
-      echo "<td>";
+      echo "<td style='max-width:200'>";
       echo "<button type=button id=Ted$snum onclick=ReportTed(event)>Y</button><span id=Vited$snum>";
       if (isset($fetch['Invited'])) echo $fetch['Invited'];
       echo "</span>";
@@ -110,6 +116,29 @@
         echo "<td>";
       }
 
+      echo "<td>";
+      if (isset($fetch['Coming'])) {
+//        echo $Coming_idx[$fetch['Coming']];
+        switch ($Coming_idx[$fetch['Coming']]) {
+        case 'R':
+        case '':
+        default:
+        case 'P':
+          // if less than a month to mid feb show remind 1 month, else remind - not written
+          echo "<button type=button id=Remind$snum onclick=ProformaSend('Dance_Reminder_Month',$snum)>Remind</button>";         
+        
+          break;
+        
+        case 'Y':
+          // Actions to be added
+        
+          break;
+          
+        case 'N':
+        case 'NY':
+          break;
+        }        
+      }
 
 //      for($i=1;$i<5;$i++) {
 //        echo "<td>" . ($fetch["SentEmail$i"]?"Y":"");
