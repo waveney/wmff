@@ -691,12 +691,13 @@ function Extended_Prog($type,$id,$all=0) {
 
 
 function Dance_Email_Details($key,&$data,$att=0) {
-  global $Trade_Days,$TradeLocData,$TradeTypeData;
+  global $Trade_Days,$TradeLocData,$TradeTypeData,$YEAR,$MASTER_DATA;
   $Side = &$data[0];
   if (isset($data[1])) $Sidey = &$data[1];
   $snum = $Side['SideId'];
   switch ($key) {
   case 'WHO':  return $Side['Contact']? firstword($Side['Contact']) : $Side['SN'];
+  case 'LINK': return "<a href=https://" . $MASTER_DATA['HostURL'] . "/int/Direct.php?t=Perf&id=$snum&key=" . $Side['AccessKey'] . "&Y=$YEAR><b>this link</b></a>  " ;
   }
 }
 
