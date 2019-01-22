@@ -174,7 +174,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
 // TODO if (isset($Side['SortCode']) && $Side['SortCode'] replace needbank with js test of fee/op
 
     $bankhide = 1;
-    if ($snum > 0 && ( $Side['SortCode'] || $Side['Account'] || $Side['AccountName'])) $bankhide = 0;
+    if ($snum > 0 && ( $Side['SortCode'] || $Side['Account'] || $Side['AccountName'] || $Side['TotalFee'])) $bankhide = 0;
     echo "<tr" . ($bankhide?" class='ContractShow' hidden":'') . " id=BankDetail><td>Bank Details:" . help('Bank');
       echo fm_text('Sort Code',$Side,'SortCode');
       echo fm_text('Bank Account Number',$Side,'Account');
