@@ -36,7 +36,7 @@
   $col7 = "Invite $YEAR";
   $col8 = "Invited $YEAR";
   $col9 = "Coming $YEAR";
-  $col10 = "Actions";
+  $col10 = "Proforma Emails";
 
   if (Access('SysAdmin')) {
     echo "Debug: <span id=DebugPane></span><p>"; 
@@ -121,12 +121,15 @@
 //        echo $Coming_idx[$fetch['Coming']];
         switch ($Coming_idx[$fetch['Coming']]) {
         case 'R':
+        case 'P':
+          // if invited & less than a month to mid feb show remind 1 month, else remind - not written
+          echo "<button type=button id=Remind$snum onclick=ProformaSend('Dance_Decide_Month',$snum)>Decide</button>";         
+        
+          break;
+          
         case '':
         default:
-        case 'P':
-          // if less than a month to mid feb show remind 1 month, else remind - not written
-          echo "<button type=button id=Remind$snum onclick=ProformaSend('Dance_Reminder_Month',$snum)>Remind</button>";         
-        
+          if ($fetch['Invited']) echo "<button type=button id=Remind$snum onclick=ProformaSend('Dance_Decide_Month',$snum)>Decide</button>";         
           break;
         
         case 'Y':

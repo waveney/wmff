@@ -14,7 +14,9 @@ $proforma = $_GET['N'];
 $Side = Get_Side($id);
 $Sidey = Get_SideYear($id);
 $subject = $MASTER_DATA['FestName'] . " $PLANYEAR and " . $Side['SN'];
-$to = $Side['Email']; // Temp value
-echo Email_Proforma($to,$proforma,$subject,'Dance_Email_Details',[$Side,$Sidey],$logfile='Dance');
+
+$too = [['to',$Side['Contact'],$Side['Email']],['from','Wimborne Dance','Dance@' . $MASTER_DATA['HostURL']],['replyto','Wimborne Dance','Dance@' . $MASTER_DATA['HostURL']]];
+//$to = $Side['Email']; // Temp value
+echo Email_Proforma($too,$proforma,$subject,'Dance_Email_Details',[$Side,$Sidey],$logfile='Dance');
 
 ?>
