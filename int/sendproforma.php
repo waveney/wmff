@@ -8,14 +8,11 @@ global $MASTER_DATA,$PLANYEAR;
 $id = $_GET['I'];
 $proforma = $_GET['N'];
 
-//echo "In Setfields";
-//var_dump($_GET);
-
 $Side = Get_Side($id);
 $Sidey = Get_SideYear($id);
 $subject = $MASTER_DATA['FestName'] . " $PLANYEAR and " . $Side['SN'];
 
-$too = [['to',$Side['Contact'],$Side['Email']],['from','Wimborne Dance','Dance@' . $MASTER_DATA['HostURL']],['replyto','Wimborne Dance','Dance@' . $MASTER_DATA['HostURL']]];
+$too = [['to',$Side['Email'],$Side['Contact']],['from','Dance@' . $MASTER_DATA['HostURL'],'Wimborne Dance'],['replyto','Dance@' . $MASTER_DATA['HostURL'],'Wimborne Dance']];
 //$to = $Side['Email']; // Temp value
 echo Email_Proforma($too,$proforma,$subject,'Dance_Email_Details',[$Side,$Sidey],$logfile='Dance');
 

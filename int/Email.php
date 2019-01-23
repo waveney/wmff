@@ -69,7 +69,7 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0) {
   
   $email = new PhpMailer(true);
   try {
-    $email->SMTPDebug = 0;  // 2 general testing, 4 problems...
+    $email->SMTPDebug = (Access('SysAdmin')?2:0);  // 2 general testing, 4 problems...
     $email->isSMTP();
     $email->Host = $MASTER_DATA['HostURL'];
     $email->SMTPAuth = true;
