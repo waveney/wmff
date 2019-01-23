@@ -21,6 +21,8 @@
   global $YEAR,$PLANYEAR,$BUDGET;
 
   echo "<h2>Manage Budget - $YEAR</h2>\n";
+  $_POST['Year0'] = $PLANYEAR;
+  
   if (UpdateMany('BudgetAreas','Put_BudgetItem',$BUDGET)) $BUDGET = Get_Budget();
 
   Budget_Scan();
@@ -38,8 +40,10 @@
   echo "<thead><tr>";
   if ($Manage) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Id</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Year</a>\n";
   if ($Manage) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Detail</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Budget</a>\n";
+
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Used So Far</a>\n";
   /*
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Who</a>\n";
@@ -53,6 +57,7 @@
       if ($Manage) {
         echo "<tr><td>$i";
         echo fm_text1("",$b,'SN',1,'','',"SN$i") . "</a>";
+        echo "<td>" . $b['Year'] . fm_hidden("Year$i", $b['Year']);
         echo "<td><a href=BudgetDetail.php?b=$i>Detail</a>";
         echo fm_text1("",$b,'Budget',1,'','',"Budget$i") . "</a>";
         echo "<td>" . $b['CommittedSoFar'];
@@ -61,15 +66,15 @@
       }
     } else {
       if ($Manage) {
-        echo "<tr><td>-1<td>HOMELESS PERFORMERS<td><a href=BudgetDetail.php?b=0>Detail</a><td><td>" . $b['CommittedSoFar'];
+        echo "<tr><td>-1<td>HOMELESS PERFORMERS<td><td><a href=BudgetDetail.php?b=0>Detail</a><td><td>" . $b['CommittedSoFar'];
       } else {
-        echo "<tr><td>HOMELESS PERFORMERS<td><td>" . $b['CommittedSoFar'];        
+        echo "<tr><td>HOMELESS PERFORMERS<td><td><td>" . $b['CommittedSoFar'];        
       }
     }
     echo "\n";
   }
   if (($YEAR == $PLANYEAR) && $Manage) {
-    echo "<tr><td><td><input type=text name=SN0 >";
+    echo "<tr><td><td><input type=text name=SN0 ><td><input type=number value=$PLANYEAR name=Year0>";
     echo "<td><td><input type=number name=Budget0 >";
   }
   echo "</table>\n";
