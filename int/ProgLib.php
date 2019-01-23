@@ -583,7 +583,7 @@ function DayTable($d,$Types,$xtr='',$xtra2='') {
 function &Get_Active_Venues($All=0) {
   global $db,$YEAR;
   $res = $db->query("SELECT DISTINCT v.* FROM Venues v, Events e, EventTypes t WHERE ( v.VenueId=e.Venue AND e.Public=0 AND e.Type=t.ETypeNo AND t.State>1 AND " .
-                    " e.Year=$YEAR AND v.PartVirt=0) OR (v.IsVirtual AND e.Year=$YEAR e.Venue ORDER BY v.SN");
+                    " e.Year=$YEAR AND v.PartVirt=0) ORDER BY v.SN"); // v.IsVirtual needs to work for virt venues TODO
   if ($res) while($ven = $res->fetch_assoc()) $ans[] = $ven;
   return $ans;
 }
