@@ -1,5 +1,8 @@
 <?php
+
+function Contract_TandCs() {
 global $YEAR;
+
 return <<<XXXXXX
 <h2 class=MusicFAQ>Terms and Conditions for Performers at Wimborne in $YEAR</h2>
 
@@ -51,5 +54,7 @@ Performance law, and is binding and valid only when confirmed by both parties.
 
 </div>
 XXXXXX
+;
+};
 ?>
 

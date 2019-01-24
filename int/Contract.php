@@ -2,7 +2,8 @@
   include_once("DanceLib.php"); 
   include_once("MusicLib.php"); 
   include_once("ProgLib.php"); 
-  include_once("PLib.php"); 
+  include_once("PLib.php");
+  include_once("InnerMusicFAQ.php"); 
 
 function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-2 dummy-1 Draft,0 proposed, 1 freeze reason - see contractConfirm, ctype 0=Side,1=act,2=other
   global $Mess,$Action,$MASTER,$Cat_Type,$YEAR,$PLANYEAR,$DayList,$DayLongList, $Event_Types,$ContractMethods,$USERID,$ReportTo;
@@ -184,13 +185,13 @@ services, under the following terms and conditions:<p>\n";
     break;
   
   case 1:
-    $faq = include_once("InnerMusicFAQ.php");
+    $faq = Contract_TandCs();
     $faq = preg_replace("/<h2 class=OtherFAQ.*?<\/h2>/",'',$faq);
     if (!$camp) $faq = preg_replace("/<CAMPCLAUSE>.*<\/CAMPCLAUSE>/",'',$faq);
     break;
       
   case 2:
-    $faq = include_once("InnerMusicFAQ.php");  
+    $faq = Contract_TandCs();  
     $faq = preg_replace("/<h2 class=MusicFAQ.*?<\/h2>/",'',$faq);  
     $faq = preg_replace("/<dt class=MusicFAQ.*?<dt>/s",'<dt>',$faq);
     $faq = preg_replace("/class=OtherFAQ/",'',$faq);

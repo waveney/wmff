@@ -24,10 +24,10 @@
   case 0:
   case 1:
   case 2:
-    echo Show_Contract($snum,0,$ctype);
+    echo Show_Contract($snum,0);
     break;
   case 3:
-    echo Show_Contract($snum,1,$ctype);
+    echo Show_Contract($snum,1);
     break;
   default:
     ViewFile("Contracts/$YEAR/$snum.$IssNum.html");
