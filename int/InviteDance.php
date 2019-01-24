@@ -36,7 +36,7 @@
   $col7 = "Invite $YEAR";
   $col8 = "Invited $YEAR";
   $col9 = "Coming $YEAR";
-  $col10 = "Proforma Emails";
+  if (Access('Staff','Dance')) $col10 = "Proforma Emails";
 
   if (Access('SysAdmin')) {
     echo "Debug: <span id=DebugPane></span><p>"; 
@@ -45,9 +45,10 @@
   if (!$SideQ || $SideQ->num_rows==0) {
     echo "<h2>No Sides Found</h2>\n";
   } else {
-    $coln = 0;
+    $coln = 1; // Start at 1 for select col
     echo "<table id=indextable border width=100%>\n";
     echo "<thead><tr>";
+    echo "<th><input type=checkbox name=SelectAll id=SelectAll onchange=ToolSelectAll(event)>\n";
     echo "<th width=200><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Type</a>\n";
     if ($Contact) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Contact</a>\n";
@@ -67,7 +68,9 @@
     echo "</thead><tbody>";
     while ($fetch = $SideQ->fetch_assoc()) {
       $snum = $fetch['SideId'];
-      echo "<tr><td><a href=AddPerf.php?sidenum=$snum&Y=$YEAR>" . $fetch['SN'] . "</a>";
+      echo "<tr>";
+      echo "<td><input type=checkbox name=E$i class=SelectAllAble>";
+      echo "<td><a href=AddPerf.php?sidenum=$snum&Y=$YEAR>" . $fetch['SN'] . "</a>";
       if ($fetch['SideStatus']) {
         echo "<td>DEAD";
       } else {
@@ -148,6 +151,15 @@
 //      }
     }
     echo "</tbody></table>\n";
+    
+      $Dtypes = Get_Dance_Types(0);
+      echo "<b>Select: Type=" . fm_select($Dtypes,$_POST,'Tool_Type',1,' oninput=ToolSelect(event)') ;
+      echo " Invite=" . fm_select($Invite_States,$_POST,'Tool_Invite',1,' oninput=ToolSelect(event)') ;    
+      echo " Coming=" . fm_select($Coming_States,$_POST,'Tool_Coming',1,' oninput=ToolSelect(event)') . "</b><p>";    
+    
+    
+    
+    
   }
   dotail();
 ?>

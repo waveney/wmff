@@ -6,6 +6,11 @@ function ToolSelectAll(e) {
   $(".SelectAllAble").prop("checked",$("#SelectAll").prop("checked"));
 }
 
+function ToolSelect(e) {
+
+
+}
+
 // Sticky menus for mobiles
 
 function NoHoverSticky(e) {
