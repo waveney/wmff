@@ -14,30 +14,8 @@ function Upload_Init($Dir='') {
     $snum = $_POST{'Id'};
     $Side = Get_Side($snum);
     $Put = "Put_Side";
-    if (Feature('NewPERF')) {
-      $Sidey = Get_SideYear($snum);
-      $Puty = 'Put_SideYear';
-    } else {    
-//var_dump($Side);
-      $type = ($Side['IsASide'] ? 'Side' : ($Side['IsAnAct'] ? 'Act' : 'Other'));
-//echo "type:$type<p>";
-      switch ($type) {
-      case 'Side':
-        $Sidey = Get_SideYear($snum);
-        $Puty = 'Put_SideYear';
-        break;
-
-      case 'Act':
-        $Sidey = Get_ActYear($snum);
-        $Puty = 'Put_ActYear';
-        break;
-
-      case 'Other':
-        $Sidey = Get_ActYear($snum);
-        $Puty = 'Put_ActYear';
-        break;
-      }
-    }
+    $Sidey = Get_SideYear($snum);
+    $Puty = 'Put_SideYear';
   } else if ($Dir == 'Trade') {
     $snum = $_POST{'Tid'};
     $type = 'Trade';
