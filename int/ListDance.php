@@ -15,6 +15,7 @@
   foreach ($Types as $i=>$ty) $Colour[strtolower($ty['SN'])] = $ty['Colour'];
   
   $link = (Access('Staff')?'AddPerf.php':'AddPerf.php');
+  $LastYear = $PLANYEAR-1;
 
   if ($_GET{'SEL'} == 'ALL') {
     $SideQ = $db->query("SELECT s.*, y.*, s.SideId FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE s.IsASide=1 ORDER BY SN");
@@ -23,7 +24,7 @@
     $col7 = "Wshp";
     if (Feature('DanceComp')) $col9 = "Dance Comp";
   } else if ($_GET{'SEL'} == 'INV') {
-    $LastYear = $PLANYEAR-1;
+
     $flds = "s.*, ly.Invite, ly.Coming, y.Invite, y.Invited, y.Coming";
     $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$PLANYEAR " .
                         "LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE s.IsASide=1 AND s.SideStatus=0 ORDER BY SN");
@@ -164,7 +165,8 @@
       $Dtypes = Get_Dance_Types(0);
       echo "<b>Select: Type=" . fm_select($Dtypes,$_POST,'Tool_Type',1,' oninput=ToolSelect(event)') ;
       echo " Invite=" . fm_select($Invite_States,$_POST,'Tool_Invite',1,' oninput=ToolSelect(event)') ;    
-      echo " Coming=" . fm_select($Coming_States,$_POST,'Tool_Coming',1,' oninput=ToolSelect(event)') . "</b><p>";    
+      echo " Coming $PLANYEAR=" . fm_select($Coming_States,$_POST,'Tool_Coming',1,' oninput=ToolSelect(event)') . "</b><p>";    
+      echo " Coming $LastYear=" . fm_select($Coming_States,$_POST,'Tool_Coming',1,' oninput=ToolSelect(event)') . "</b><p>";    
 //      echo " Day=" . fm_select($Coming_States,$_POST,'Tool_Coming',1,' oninput=ToolSelect(event)') . "</b><p>";    
     }
     

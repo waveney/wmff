@@ -132,8 +132,11 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
       echo fm_hidden('Id',$snum);
     }
     if ($Mode == 0 || !Access('SysAdmin')) {
+      // TODO Perf types loop
       echo fm_hidden('IsASide',$Side['IsASide']);
       echo fm_hidden('IsAnAct',$Side['IsAnAct']);
+      echo fm_hidden('IsFunny',$Side['IsFunny']);
+      echo fm_hidden('IsFamily',$Side['IsFamily']);
       echo fm_hidden('IsOther',$Side['IsOther']);
     }
 
@@ -419,8 +422,9 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
       echo fm_radio("Booking State",$Book_States,$Sidey,'YearState','class=NotSide',1,'colspan=3 class=NotSide','',$Book_Colours);
     } else {
       echo "<td class=NotSide>Booking State:" . help('YearState') . "<td class=NotSide>" . $Book_States[$Sidey['YearState']];
-      echo fm_hidden('YearState',$Sidey['YearState']);
     }
+  } else {
+    echo fm_hidden('YearState',$Sidey['YearState']);  
   }
 
   // Dance Spots

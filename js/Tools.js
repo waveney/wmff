@@ -6,8 +6,19 @@ function ToolSelectAll(e) {
   $(".SelectAllAble").prop("checked",$("#SelectAll").prop("checked"));
 }
 
-function ToolSelect(e) {
+var SelTools;
 
+function ToolSelect(e,c) { // e= event, c = colnum
+  debugger;
+// 1 Parse SelTools if not already parsed
+// 2 Find each check value
+// 3 Go through each thing that is Selectable (see above) set if appropriate, clear otherwise
+
+  if (!SelTools) {
+    SelTools = [];
+ //   $("#SelTools");// TODO
+  }
+  
 
 }
 
