@@ -10,7 +10,7 @@
   include_once("UserLib.php");
     
 function Logon(&$use=0) {
-  global $YEAR,$USER,$USERID;
+  global $YEAR,$USER,$USERID,$CALYEAR;
   $Rem = 0;
   if (!$use) {
     $user = $_POST{'UserName'};
@@ -30,7 +30,7 @@ function Logon(&$use=0) {
     }
     if ($ans['AccessLevel']) {
       $ans['Yale'] = rand_string(40);
-      setcookie('WMFF2',$ans['Yale'],($Rem ? mktime(0,0,0,1,1,$YEAR+1) : 0),'/' );
+      setcookie('WMFF2',$ans['Yale'],($Rem ? mktime(0,0,0,1,1,$CALYEAR+1) : 0),'/' );
       $_COOKIE{'WMFF2'} = $ans['Yale'];
       Put_User($ans);
       $USER=$ans;
@@ -150,7 +150,7 @@ function Login($errmsg='', $message='') {
 }
 
 function NewPasswd() {
-  global $YEAR,$USER,$USERID;
+  global $YEAR,$USER,$USERID,$CALYEAR;
   $user = $_POST{'UserId'}; 
   if (!$user) $user = $USERID;
   if ($ans = Get_User($user) ) {
@@ -163,7 +163,7 @@ function NewPasswd() {
             $ans['Yale'] = rand_string(40);
             $USER = $ans;
             $USERID = $user;
-            setcookie('WMFF2',$ans['Yale'],($_POST{'RememberMe'} ? mktime(0,0,0,1,1,$YEAR+1) : 0 ),'/');
+            setcookie('WMFF2',$ans['Yale'],($_POST{'RememberMe'} ? mktime(0,0,0,1,1,$CALYEAR+1) : 0 ),'/');
                   Put_User($ans);
                  include ("Staff.php"); // no return wanted
             exit;
