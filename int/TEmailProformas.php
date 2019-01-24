@@ -27,7 +27,7 @@
   echo "<tr><td>*DATES*<td>Dates of Saturday and Sunday<td>All\n";
   echo "<tr><td>*LOCATION*<td>Location(s) of Pitches<td>Trade\n";
   echo "<tr><Td>*PRICE*<td>Total Price quoted<td>Trade\n";
-  echo "<tr><td>*LINK*<td>Personal Link for trader<td>Trade, Volunteers\n";
+  echo "<tr><td>*LINK*<td>Personal Link for Participants<td>Trade, Volunteers, Performers\n";
   echo "<tr><td>*REMOVE*<td>Remove Request<td>Trade\n";
   echo "<tr><td>*WMFFLINK*<td>Link for Committee members direct to that trader<td>Trade, Volunteers\n";
   echo "<tr><td>*DEPOSIT*<td>Deposit Required<td>Trade, LNL, BB\n";
@@ -40,6 +40,7 @@
   echo "<tr><td>*HOST*<td>Host URL for festival<td>All\n";
   echo "<tr><td>*MAILTO_name*<td>Inserts a mailto link to name@festival.org<td>All\n";
   echo "<tr><td>*BBREF*/*LNLREF*<td>Unique reference for payments<td>BB, LNL\n";
+  echo "<tr><td>*PROG*<td>Programme for performer<td>Dance (will be all performers)\n";
   echo "</table><p>\n";
 
   $coln = 0;

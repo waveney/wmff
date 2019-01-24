@@ -40,6 +40,7 @@
     $col7 = "Sun";
     $col8 = "Complete?";
     if (Feature('DanceComp')) $col9 = "Dance Comp";
+    if (Access('Staff','Dance')) $col10 = "Proforma Emails";
     $Comp = $stot = 0;
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
@@ -53,9 +54,10 @@
   if (!$SideQ || $SideQ->num_rows==0) {
     echo "<h2>No Sides Found</h2>\n";
   } else {
-    $coln = 0;
-    echo "<table id=indextable border>\n";
+    $coln = ($col10?1:0); // Start at 1 for select col
+    echo "<table id=indextable border width=100%>\n";
     echo "<thead><tr>";
+    if ($col10) echo "<th><input type=checkbox name=SelectAll id=SelectAll onchange=ToolSelectAll(event)>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Type</a>\n";
     if ($_GET{'SEL'}) {
@@ -68,6 +70,7 @@
     if ($col7) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col7</a>\n";
     if ($col8) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col8</a>\n";
     if ($col9) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col9</a>\n";
+    if ($col10) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col10</a>\n";
 //    for($i=1;$i<5;$i++) {
 //      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>EM$i</a>\n";
 //    }
@@ -76,7 +79,9 @@
 
     $Dance_Comp[0] = '';
     while ($fetch = $SideQ->fetch_assoc()) {
-      echo "<tr><td><a href=$link?sidenum=" . $fetch['SideId'] . "&Y=$YEAR>" . $fetch['SN'] . "</a>";
+      echo "<tr>";
+      echo "<td><input type=checkbox name=E$i class=SelectAllAble>";
+      echo "<td><a href=$link?sidenum=" . $fetch['SideId'] . "&Y=$YEAR>" . $fetch['SN'] . "</a>";
       if ($fetch['SideStatus']) {
         echo "<td>DEAD";
       } else {
@@ -98,7 +103,6 @@
       }
       if ($_GET{'SEL'}) {
         echo "<td>" . $fetch['Contact'];
-//        echo "<td><a href=mailto:" . Clean_Email($fetch['Email']) . ">" . $fetch['Email'] . "</a>";
         echo "<td>" . linkemailhtml($fetch,'Side',(!$fetch['Email'] && $fetch['AltEmail']? 'Alt' : '' ));
       } 
       if ($col5 == "Invite") {
@@ -145,11 +149,25 @@
         echo "<td style='background:" . $Dance_Comp_Colours[$fetch['DanceComp']] . "'>" . $Dance_Comp[$fetch['DanceComp']] ;
       }
 
+      if ($col10 == "Proforma Emails") {
+        echo "<td>"; // None YET
+      }
+
+      
 //      for($i=1;$i<5;$i++) {
 //        echo "<td>" . ($fetch["SentEmail$i"]?"Y":"");
 //      }
     }
     echo "</tbody></table>\n";
+    
+    if ($col10) {
+      $Dtypes = Get_Dance_Types(0);
+      echo "<b>Select: Type=" . fm_select($Dtypes,$_POST,'Tool_Type',1,' oninput=ToolSelect(event)') ;
+      echo " Invite=" . fm_select($Invite_States,$_POST,'Tool_Invite',1,' oninput=ToolSelect(event)') ;    
+      echo " Coming=" . fm_select($Coming_States,$_POST,'Tool_Coming',1,' oninput=ToolSelect(event)') . "</b><p>";    
+//      echo " Day=" . fm_select($Coming_States,$_POST,'Tool_Coming',1,' oninput=ToolSelect(event)') . "</b><p>";    
+    }
+    
     if ($col8 == "Complete?") {
       echo "Complete: $Comp / $stot<br>\n";
     }

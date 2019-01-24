@@ -591,7 +591,7 @@ function MusicMail($data,$name,$id,$direct) {
       switch ($ConAns) {
         case 0: // Ready
           // Please Sign msg
-          $Msg = 'Please confirm your contract by following the link and clicking on the "Confirm" button on the page.<p>';
+          $Msg = '<b>Please confirm your contract by following the link and clicking on the "Confirm" button on the page.</b><p>';
           $p = 0;
           $AddC = 1;
           break;
