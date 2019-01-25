@@ -5,6 +5,12 @@ $Dance_TimeFeilds = array('SatArrive','SatDepart','SunArrive','SunDepart');
 $OlapTypes = array('Dancer','Musician');
 $OlapDays = array('All','Sat Only','Sun Only','None');
 $OlapCats = array('Side','Act','Other');
+$Proforma_Colours = ['Decide'=>'DarkOrange'];
+
+function Proforma_Background($name) {
+  global $Proforma_Colours;
+  return " Style=Background:" . $Proforma_Colours[$name] . " ";
+}
 
 function Sides_Name_List() {
   global $db;

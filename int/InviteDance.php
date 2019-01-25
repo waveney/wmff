@@ -126,13 +126,13 @@
         case 'R':
         case 'P':
           // if invited & less than a month to mid feb show remind 1 month, else remind - not written
-          echo "<button type=button id=Remind$snum onclick=ProformaSend('Dance_Decide_Month',$snum,'Decide')>Decide</button>";         
+          echo "<button type=button id=Remind$snum onclick=ProformaSend('Dance_Decide_Month',$snum,'Decide')" . Proforma_Background('Decide') . ">Decide</button>";         
         
           break;
           
         case '':
         default:
-          if ($fetch['Invited']) echo "<button type=button id=Remind$snum onclick=ProformaSend('Dance_Decide_Month',$snum,'Decide')>Decide</button>";         
+          if ($fetch['Invited']) echo "<button type=button id=Remind$snum onclick=ProformaSend('Dance_Decide_Month',$snum,'Decide')" . Proforma_Background('Decide') . ">Decide</button>";         
           break;
         
         case 'Y':
