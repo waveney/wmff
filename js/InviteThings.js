@@ -24,9 +24,9 @@ function ReportTed(ev) {
   $("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=I&Y=" + year);
 }
 
-function ProformaSend(name,snum) {
+function ProformaSend(name,snum,label) {
   var year = $("#Year").val();
   $("#DebugPane").load("sendproforma.php", "I=" + snum + "&N=" + name);
-  $("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=I&Y=" + year);  
+  $("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=I&Y=" + year + "&L=" + label);
 
 }
