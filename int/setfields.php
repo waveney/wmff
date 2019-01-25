@@ -15,8 +15,9 @@ case 'I':
   if (!$Sidey) $Sidey = Default_SY($id);
   date_default_timezone_set('GMT');
   if (strlen($Sidey['Invited'])) $Sidey['Invited'] .= ", ";
-  if (isset($_GET['L'])) $Sidey['Invited'] .= $_GET['L'] . ":";
+  if (isset($_GET['L'])) $Sidey['Invited'] .= "<span " . Proforma_Background($_GET['L']) . ">"  . $_GET['L'] . ":";
   $Sidey['Invited'] .= date('j/n/y');
+   if (isset($_GET['L'])) $Sidey['Invited'] .= "</span>";
   Put_SideYear($Sidey);
   echo $Sidey['Invited'];
   break;
