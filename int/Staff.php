@@ -112,9 +112,10 @@
     echo "<ul>\n";
     if (Access('Staff','Dance')) {
       echo "<li><a href=InviteDance.php?Y=$YEAR>Invite Dance Sides</a>\n";
+      echo "<li><a href=InviteDance.php?Y=$YEAR&INVITED>List Ongoing Dance Sides</a>\n";
     }
     if (Access('Staff')) {
-      echo "<li><a href=ListDance.php?SEL=ALL&Y=$YEAR>List All Dance Sides in Database</a>\n";
+
       echo "<li><a href=ListDance.php?SEL=Coming&Y=$YEAR>List Dance Sides Coming</a>\n";
       echo "<li><a href=DanceSummary.php?Y=$YEAR>Dance Sides Summary</a>\n";
     }
@@ -134,6 +135,7 @@
 //         echo "<li><input class=typeahead type=text placeholder='Find a Side'>\n";
     }
 
+    if (Access('Staff'))  echo "<li><a href=ListDance.php?SEL=ALL&Y=$YEAR>List All Dance Sides in Database</a>\n";
     echo "<li><a href=DanceFAQ.php>Dance FAQ</a>\n";
     if (Access('Staff','Dance')) {
       if ($YEAR == $PLANYEAR) {
