@@ -24,9 +24,24 @@ function ReportTed(ev) {
   $("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=I&Y=" + year);
 }
 
-function ProformaSend(name,snum,label) {
+function ProformaSend(name,snum,label,link) {
   var year = $("#Year").val();
-  $("#DebugPane").load("sendproforma.php", "I=" + snum + "&N=" + name);
-  $("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=I&Y=" + year + "&L=" + label);
+  if ($('#BespokeM').is(':visible')) {
+    $("#DebugPane").load("sendproforma.php", "I=" + snum + "&N=" + name);
+    $("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=I&Y=" + year + "&L=" + label);
+  } else {
+//    var sname = $("#SideName" + snum).value;
+    window.open((link + "?id=" + snum + "&N=" + name + "&L=" + label),"Bespoke Message " + snum);
+    $("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=J&Y=" + year + "&L=" + label);
+  }
+}
 
+function Add_Bespoke() {
+  $('.ProfButton').addClass('BespokeBorder');
+  $('.Bespoke').toggle();
+}
+
+function Remove_Bespoke() {
+  $('.BespokeBorder').removeClass('BespokeBorder');
+  $('.Bespoke').toggle();
 }

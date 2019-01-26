@@ -183,7 +183,7 @@ function fm_select(&$Options,$data,$field,$blank=0,$selopt='',$field2='') {
   return fm_select2($Options,'@@@@@@',$field,$blank,$selopt,$field2);
 }
 
-function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field2='',$colours=0,$multi=0) {
+function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field2='',$colours=0,$multi=0,$extra3='') {
   global $ADDALL,$AutoADD;
   if ($field2 == '') $field2=$field;
   $str = "";
@@ -197,7 +197,7 @@ function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field
     $str.= (($done && $tabs == 2) ? "<br>" : " ");
     $done = 1;
     if ($colours) $str .= "<span style='background:" . $colours[$i] . ";padding:4; white-space: nowrap;'>";
-    $str .= "<label for=$field2$i>$d:</label>";
+    $str .= "<label for=$field2$i $extra3>$d:</label>";
     $ex = $extra;
     $ex = preg_replace('/###F/',("'" . $field2 . "'"),$ex);
     $ex = preg_replace('/###V/',("'" . $i . "'"),$ex);

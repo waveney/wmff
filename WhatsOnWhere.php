@@ -18,7 +18,7 @@
   }
 
   if ($Vens) {
-    echo "<ul>";
+    echo "<ul style='font-size:20'>";
     foreach ($Vens as $ven) echo "<li><a href=/int/VenueShow.php?v=" . $ven['VenueId'] . "&Y=$YEAR>" . $ven['SN'] . "</a><br>";
     echo "</ul>";
   } else {

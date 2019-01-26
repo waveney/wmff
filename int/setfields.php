@@ -11,6 +11,7 @@ $Opt = $_GET['O'];
 
 switch ($Opt) {
 case 'I':
+case 'J': // Dont Save
   $Sidey = Get_SideYear($id);
   if (!$Sidey) $Sidey = Default_SY($id);
   date_default_timezone_set('GMT');
@@ -18,7 +19,7 @@ case 'I':
   if (isset($_GET['L'])) $Sidey['Invited'] .= "<span " . Proforma_Background($_GET['L']) . ">"  . $_GET['L'] . ":";
   $Sidey['Invited'] .= date('j/n/y');
    if (isset($_GET['L'])) $Sidey['Invited'] .= "</span>";
-  Put_SideYear($Sidey);
+  if ($Opt == 'I') Put_SideYear($Sidey);
   echo $Sidey['Invited'];
   break;
 

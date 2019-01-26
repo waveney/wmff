@@ -845,4 +845,24 @@ input[type='file'] {
 }
 .slider.ui-widget-content .ui-state-default { background: Blue; }
 
+.BigSwitch {
+  font-size:30;
+  background:lightgreen;
+  color:Black;
+  min-width:400;
+}
 
+.BigSwitchSelected {
+  font-size:30;
+  background:OrangeRed;
+  color:Black;
+  min-width:400;
+}
+
+.ProfButton {
+  border-width:4;
+}
+
+.BespokeBorder {
+  border-color:red;
+}

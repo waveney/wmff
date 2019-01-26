@@ -6,9 +6,19 @@
 
   include_once("files/navigation.php"); 
   include_once("DanceLib.php"); 
-  global $YEAR,$PLANYEAR,$Coming_Colours,$Coming_idx;
-  echo "<h2>Invite Dance Sides $YEAR</h2>\n";
+  global $YEAR,$PLANYEAR,$Coming_Colours,$Coming_idx,$Bespoke;
+  $Invited = (isset($_REQUEST['INVITED'])? "&INVITED" :"");
 
+  echo "<h2>" . ($Invited?"Ongoing":"Invite") . " Dance Sides $YEAR</h2>\n";
+
+  if (Access('Staff','Dance')) echo "<div class=floatright style=text-align:right><div class=Bespoke>" .
+       "Sending:<button class=BigSwitchSelected id=BespokeM onclick=Add_Bespoke()>Generic Messages</button><br>" .  
+       "Switch to: <button class=BigSwitch id=GenericM onclick=Add_Bespoke()>Bespoke Messages</button></div>" .
+       "<div class=Bespoke hidden id=BespokeMess>" .
+       "Sending:<button class=BigSwitchSelected id=GenericM1 onclick=Remove_Bespoke()>Bespoke Messages</button><br>" .  
+       "Switch to: <button class=BigSwitch id=BespokeM1 onclick=Remove_Bespoke()>Generic Messages</button></div>" .
+       "</div>";
+       
   echo "Click on column header to sort by column.  Click on Side's name for more detail and programme when available,<p>";
 
   echo "If you click on the email link, press control-V afterwards to paste the standard link into message.<p>";
@@ -18,22 +28,27 @@
   $Types = Get_Dance_Types(1);
   foreach ($Types as $i=>$ty) $Colour[strtolower($ty['SN'])] = $ty['Colour'];
 
+
   echo "<h2>";
   $Loc = 0;
   if (isset($_GET{'LOC'})) $Loc = $_GET{'LOC'};
   $Contact =0;
   if (isset($_GET{'CONT'})) $Contact = $_GET{'CONT'};
-  if ($Loc == 0) echo "<a href=InviteDance.php?LOC=1" . ($Contact?"&CONT=1":"") . "&Y=$YEAR>Show Location</a> &nbsp; &nbsp; &nbsp; &nbsp;\n";
-  if ($Contact == 0) echo "<a href=InviteDance.php?CONT=1" .($Loc?"&LOC=1":"") . "&Y=$YEAR>Show Contact</a>\n";
+  if ($Loc == 0) echo "<a href=InviteDance.php?LOC=1" . ($Contact?"&CONT=1":"") . "&Y=$YEAR$Invited>Show Location</a> &nbsp; &nbsp; &nbsp; &nbsp;\n";
+  if ($Contact == 0) echo "<a href=InviteDance.php?CONT=1" .($Loc?"&LOC=1":"") . "&Y=$YEAR$Invited>Show Contact</a>\n";
   echo "</h2>";
 
   $LastYear = $YEAR-1;
   $flds = "s.*, ly.Invite AS LyInvite, ly.Coming AS LyComing, y.*";
   $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR " .
                         "LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE s.IsASide=1 AND s.SideStatus=0 ORDER BY SN");
-  $col5 = "Invited $LastYear";
-  $col6 = "Coming $LastYear";
-  $col7 = "Invite $YEAR";
+  if ($Invited) {
+    $col5 = $col6 = $col7 = '';
+  } else {
+    $col5 = "Invited $LastYear";
+    $col6 = "Coming $LastYear";
+    $col7 = "Invite $YEAR";
+  }
   $col8 = "Invited $YEAR";
   $col9 = "Coming $YEAR";
   if (Access('Staff','Dance')) $col10 = "Proforma Emails";
@@ -55,8 +70,8 @@
     if ($Loc) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Location</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Web</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Email</a>\n";
-    echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col5</a>\n";
-    echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col6</a>\n";
+    if ($col5) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col5</a>\n";
+    if ($col6) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col6</a>\n";
     if ($col7) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'O')>$col7</a>\n";
     if ($col8) echo "<th style='max-width:200'><a href=javascript:SortTable(" . $coln++ . ",'T')>$col8</a>\n";
     if ($col9) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col9</a>\n";
@@ -67,10 +82,16 @@
 
     echo "</thead><tbody>";
     while ($fetch = $SideQ->fetch_assoc()) {
+      $ComeIdx = (isset($fetch['Coming'])?$Coming_idx[$fetch['Coming']]:'');
+      if ($Invited) {
+        if (strstr($ComeIdx,'N')) continue;
+        if (!isset($fetch['Invited'])) continue;
+        if ($fetch['Invited'] == '' && $ComeIdx == '') continue;
+      }
       $snum = $fetch['SideId'];
       echo "<tr>";
       echo "<td><input type=checkbox name=E$i class=SelectAllAble>";
-      echo "<td><a href=AddPerf.php?sidenum=$snum&Y=$YEAR>" . $fetch['SN'] . "</a>";
+      echo "<td><a href=AddPerf.php?sidenum=$snum&Y=$YEAR id=SideName$snum>" . $fetch['SN'] . "</a>";
       if ($fetch['SideStatus']) {
         echo "<td>DEAD";
       } else {
@@ -96,17 +117,18 @@
       echo "<td>";
         if (strlen($fetch['Website'])>6) echo weblink($fetch['Website'],'Web','target=_blank');
       echo "<td>" . linkemailhtml($fetch,'Side',(!$fetch['Email'] && $fetch['AltEmail']? 'Alt' : '' ),'ReportTed(event)');
-      echo "<td>";
-      if (isset($fetch['LyInvite'])) echo $Invite_States[$fetch['LyInvite']];
-
-      if (isset($fetch['LyComing'])) {
-        echo "<td style='background:" . $Coming_Colours[$fetch['LyComing']] . "'>";
-        echo $Coming_States[$fetch['LyComing']] . "\n";
-      } else {
+      if (!$Invited) {
         echo "<td>";
-      }
-      echo "<td>" . fm_select2($Invite_States,$fetch['Invite'],"Invite$snum",0,"id=Invite$snum onchange=ChangeInvite(event)");
+        if (isset($fetch['LyInvite'])) echo $Invite_States[$fetch['LyInvite']];
 
+        if (isset($fetch['LyComing'])) {
+          echo "<td style='background:" . $Coming_Colours[$fetch['LyComing']] . "'>";
+          echo $Coming_States[$fetch['LyComing']] . "\n";
+        } else {
+          echo "<td>";
+        }
+        echo "<td>" . fm_select2($Invite_States,$fetch['Invite'],"Invite$snum",0,"id=Invite$snum onchange=ChangeInvite(event)");
+      }
       echo "<td style='max-width:200'>";
       echo "<button type=button id=Ted$snum onclick=ReportTed(event)>Y</button><span id=Vited$snum>";
       if (isset($fetch['Invited'])) echo $fetch['Invited'];
@@ -126,13 +148,15 @@
         case 'R':
         case 'P':
           // if invited & less than a month to mid feb show remind 1 month, else remind - not written
-          echo "<button type=button id=Remind$snum onclick=ProformaSend('Dance_Decide_Month',$snum,'Decide')" . Proforma_Background('Decide') . ">Decide</button>";         
+          echo "<button type=button id=Remind$snum class=ProfButton onclick=ProformaSend('Dance_Decide_Month',$snum,'Decide','SendProfEmail.php')" . 
+                Proforma_Background('Decide') . ">Decide</button>";         
         
           break;
           
         case '':
         default:
-          if ($fetch['Invited']) echo "<button type=button id=Remind$snum onclick=ProformaSend('Dance_Decide_Month',$snum,'Decide')" . Proforma_Background('Decide') . ">Decide</button>";         
+          if ($fetch['Invited']) echo "<button type=button id=Remind$snum  class=ProfButton onclick=ProformaSend('Dance_Decide_Month',$snum,'Decide','SendProfEmail.php')" .
+                                      Proforma_Background('Decide') . ">Decide</button>";         
           break;
         
         case 'Y':
