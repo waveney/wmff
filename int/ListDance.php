@@ -7,6 +7,7 @@
   include_once("DanceLib.php"); 
   echo "<h2>List Dance Sides $YEAR</h2>\n";
 
+  $col5 = $col6 = $col7 = $col7 = $col8 = $col9 =$col10 = '';
   echo "Click on column header to sort by column.  Click on Side's name for more detail and programme when available,<p>\n";
 
   echo "If you click on the email link, press control-V afterwards to paste the standard link into message.<p>";
@@ -81,7 +82,7 @@
     $Dance_Comp[0] = '';
     while ($fetch = $SideQ->fetch_assoc()) {
       echo "<tr>";
-      echo "<td><input type=checkbox name=E$i class=SelectAllAble>";
+      if ($col10) echo "<td><input type=checkbox name=E$i class=SelectAllAble>";
       echo "<td><a href=$link?sidenum=" . $fetch['SideId'] . "&Y=$YEAR>" . $fetch['SN'] . "</a>";
       if ($fetch['SideStatus']) {
         echo "<td>DEAD";

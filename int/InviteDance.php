@@ -155,7 +155,7 @@
           
         case '':
         default:
-          if ($fetch['Invited']) echo "<button type=button id=Remind$snum  class=ProfButton onclick=ProformaSend('Dance_Decide_Month',$snum,'Decide','SendProfEmail.php')" .
+          if ($fetch['Invited']) echo "<button type=button id=Remind$snum class=ProfButton onclick=ProformaSend('Dance_Decide_Month',$snum,'Decide','SendProfEmail.php')" .
                                       Proforma_Background('Decide') . ">Decide</button>";         
           break;
         
