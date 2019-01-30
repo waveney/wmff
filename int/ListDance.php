@@ -65,6 +65,7 @@
     if ($_GET{'SEL'}) {
       echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Contact</a>\n";
       echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Email</a>\n";
+      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Notes</a>\n";
 //      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Link</a>\n";
     }
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col5</a>\n";
@@ -106,6 +107,12 @@
       if ($_GET{'SEL'}) {
         echo "<td>" . $fetch['Contact'];
         echo "<td>" . linkemailhtml($fetch,'Side',(!$fetch['Email'] && $fetch['AltEmail']? 'Alt' : '' ));
+        echo "<td>";
+        if ($fetch['Notes'] || $fetch['YNotes'] || $fetch['PrivNotes']) {
+          $Htext = htmlspecialchars($fetch['Notes'] . "\n" . $fetch['YNotes'] . "\n" . $fetch['PrivNotes']);
+          echo "<img src=images/icons/LetterN.jpeg width=20 title='$Htext'>";
+        }
+
       } 
       if ($col5 == "Invite") {
         echo "<td>";

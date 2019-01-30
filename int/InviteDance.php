@@ -70,6 +70,7 @@
     if ($Loc) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Location</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Web</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Email</a>\n";
+    echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Notes</a>\n";
     if ($col5) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col5</a>\n";
     if ($col6) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col6</a>\n";
     if ($col7) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'O')>$col7</a>\n";
@@ -117,6 +118,12 @@
       echo "<td>";
         if (strlen($fetch['Website'])>6) echo weblink($fetch['Website'],'Web','target=_blank');
       echo "<td>" . linkemailhtml($fetch,'Side',(!$fetch['Email'] && $fetch['AltEmail']? 'Alt' : '' ),'ReportTed(event)');
+      
+      echo "<td>";
+      if ($fetch['Notes'] || $fetch['YNotes'] || $fetch['PrivNotes']) {
+        $Htext = htmlspecialchars($fetch['Notes'] . "\n" . $fetch['YNotes'] . "\n" . $fetch['PrivNotes']);
+        echo "<img src=images/icons/LetterN.jpeg width=20 title='$Htext'>";
+      }
       if (!$Invited) {
         echo "<td>";
         if (isset($fetch['LyInvite'])) echo $Invite_States[$fetch['LyInvite']];
