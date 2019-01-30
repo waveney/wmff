@@ -442,7 +442,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
       echo fm_text1('End of latest Spot',$Sidey,'SatDepart',0.5,'class=ComeSat');  
     echo "<tr>";
       echo "<td rowspan=2>" . fm_checkbox('Sunday',$Sidey,'Sun','onchange=ComeSwitch(event)');
-      echo fm_text1('Daytimee &half; hr Spots',$Sidey,'SunDance',0.5,'class=ComeSun');
+      echo fm_text1('Daytime &half; hr Spots',$Sidey,'SunDance',0.5,'class=ComeSun');
       echo "<tr>" .fm_text1('Earliest Spot',$Sidey,'SunArrive',0.5,'class=ComeSun');
       echo fm_text1('End of latest Spot',$Sidey,'SunDepart',0.5,'class=ComeSun');  
     if ($Mode) {
