@@ -215,7 +215,7 @@
         if ($pitches) {
           for ($i = 0; $i < 3; $i++) {
             if ($fetch["PitchLoc$i"]) {
-              if ($stat >= $Trade_State['Submitted'] && $stat != $Trade_State['Quoted'] && $stat != $Trade_State['Wait List']) {
+              if ($stat >= $Trade_State['Submitted'] && $stat != $Trade_State['Quoted'] && $stat != $Trade_State['Wait List']  && $stat != $Trade_State['Requote']) {
                 $TradeLocData[$fetch["PitchLoc$i"]]['AcceptTot'] += $fee/$pitches;
               }
               $TradeLocData[$fetch["PitchLoc$i"]]['QuoteTot'] += $fee/$pitches;
