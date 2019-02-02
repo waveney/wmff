@@ -13,6 +13,7 @@
   $TrRec = array();
   $TrSub = array();
   $TrState = array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+  $div = 0;
 
   if (isset($_REQUEST['t'])) {
     $Type = $_REQUEST['t'];
@@ -22,18 +23,21 @@
                 " OR y.BookingState=" . $Trade_State['Fully Paid'] . " OR y.BookingState=" . $Trade_State['Accepted'] . ") AND t.TradeType=$Type ORDER BY SN";
   } else if (isset($_REQUEST['l']))  {
     $Loc = $_REQUEST['l'];
-
+    $div = 1;
+    
     if ($Loc) {
       $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND (y.BookingState=" . $Trade_State['Deposit Paid'] .
                 " OR y.BookingState=" . $Trade_State['Invoiced'] . 
                 " OR y.BookingState=" . $Trade_State['Quoted'] . 
-                " OR y.BookingState=" . $Trade_State['Fully Paid'] . " OR y.BookingState=" . $Trade_State['Accepted'] . ") AND " .
+                " OR y.BookingState=" . $Trade_State['Fully Paid'] . 
+                " OR y.BookingState=" . $Trade_State['Accepted'] . ") AND " .
                 "(y.PitchLoc0=$Loc OR y.PitchLoc1=$Loc OR y.PitchLoc2=$Loc ) ORDER BY SN";
     } else {
       $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND (y.BookingState=" . $Trade_State['Deposit Paid'] .
                 " OR y.BookingState=" . $Trade_State['Invoiced'] . 
                 " OR y.BookingState=" . $Trade_State['Quoted'] . 
-                " OR y.BookingState=" . $Trade_State['Fully Paid'] . " OR y.BookingState=" . $Trade_State['Accepted'] . ") AND " .
+                " OR y.BookingState=" . $Trade_State['Fully Paid'] .
+                " OR y.BookingState=" . $Trade_State['Accepted'] . ") AND " .
                 "(y.PitchLoc0=0 AND y.PitchLoc1=0 AND y.PitchLoc2=0 ) ORDER BY SN";    
     }
   
@@ -122,16 +126,25 @@
         $BalDet = '';
       }
 
-      $str .= "<td>$fee";
-      $str .= "<td>$Dep";
-      $str .= "<td>" . (($Dep <= $tot)?$Dep:$tot);
-      
-      $str .= "<td>$DepDet";
-      $str .= "<td>$Bal";
-      $str .= "<td>" . (($tot >= $Dep)?($tot-$Dep):0);
-      $str .= "<td>$BalDet";
+      $pitches = 0;
+      for ($i = 0; $i<3; $i++) if ($fetch["PitchLoc$i"]) $pitches++;
 
-      $str .= "<td>$tot";
+      if ($div && $pitches>1) {
+        $Dep /= $pitches;
+        $fee /= $pitches;
+        $tot /= $pitches;
+      }
+
+      $str .= "<td>" . Print_Pound($fee);
+      $str .= "<td>" . Print_Pound($Dep);
+      $str .= "<td>" . Print_Pound(($Dep <= $tot)?$Dep:$tot);
+      
+      $str .= "<td>" . Print_Pound($DepDet);
+      $str .= "<td>" . Print_Pound($Bal);
+      $str .= "<td>" . Print_Pound(($tot >= $Dep)?($tot-$Dep):0);
+      $str .= "<td>" . Print_Pound($BalDet);
+
+      $str .= "<td>" . Print_Pound($tot);
 
       $totfee += $fee;
       $totdep += (($Dep <= $tot)?$Dep:$tot);
@@ -139,7 +152,7 @@
       $totrec += $tot;
     }
     echo "$str\n";
-    echo "<tr><td>Totals:<td><td><td>$totfee<td><td>$totdep<td><td><td>$totbal<td><td>$totrec\n";
+    echo "<tr><td>Totals:<td><td><td>" . Print_Pound($totfee) . "<td><td>" . Print_Pound($totdep) .  "<td><td><td>" . Print_Pound($totbal) . "<td><td>" . Print_Pound($totrec) . "\n";
     echo "</table><p>";
   }
   dotail();
