@@ -135,16 +135,16 @@
         $tot /= $pitches;
       }
 
-      $str .= "<td>$fee";
-      $str .= "<td>$Dep";
-      $str .= "<td>" . (($Dep <= $tot)?$Dep:$tot);
+      $str .= "<td>" . Print_Pound($fee);
+      $str .= "<td>" . Print_Pound($Dep);
+      $str .= "<td>" . Print_Pound(($Dep <= $tot)?$Dep:$tot);
       
-      $str .= "<td>$DepDet";
-      $str .= "<td>$Bal";
-      $str .= "<td>" . (($tot >= $Dep)?($tot-$Dep):0);
-      $str .= "<td>$BalDet";
+      $str .= "<td>" . Print_Pound($DepDet);
+      $str .= "<td>" . Print_Pound($Bal);
+      $str .= "<td>" . Print_Pound(($tot >= $Dep)?($tot-$Dep):0);
+      $str .= "<td>" . Print_Pound($BalDet);
 
-      $str .= "<td>$tot";
+      $str .= "<td>" . Print_Pound($tot);
 
       $totfee += $fee;
       $totdep += (($Dep <= $tot)?$Dep:$tot);
@@ -152,7 +152,7 @@
       $totrec += $tot;
     }
     echo "$str\n";
-    echo "<tr><td>Totals:<td><td><td>$totfee<td><td>$totdep<td><td><td>$totbal<td><td>$totrec\n";
+    echo "<tr><td>Totals:<td><td><td>" . Print_Pound($totfee) . "<td><td>" . Print_Pound($totdep) .  "<td><td><td>" . Print_Pound($totbal) . "<td><td>" . Print_Pound($totrec) . "\n";
     echo "</table><p>";
   }
   dotail();
