@@ -2,10 +2,22 @@
   include_once("fest.php");
   A_Check('Steward');
 
-  dostaffhead("List Dance", "/js/clipboard.min.js","/js/emailclick.js" );
+  dostaffhead("List Dance", "/js/clipboard.min.js","/js/emailclick.js", "/js/InviteThings.js" );
   global $YEAR,$PLANYEAR,$Dance_Comp,$Dance_Comp_Colours;
   include_once("DanceLib.php"); 
   echo "<h2>List Dance Sides $YEAR</h2>\n";
+  echo fm_hidden('Year',$YEAR);
+  if (Access('Staff','Dance')) echo "<div class=floatright style=text-align:right><div class=Bespoke>" .
+       "Sending:<button class=BigSwitchSelected id=BespokeM onclick=Add_Bespoke()>Generic Messages</button><br>" .  
+       "Switch to: <button class=BigSwitch id=GenericM onclick=Add_Bespoke()>Bespoke Messages</button></div>" .
+       "<div class=Bespoke hidden id=BespokeMess>" .
+       "Sending:<button class=BigSwitchSelected id=GenericM1 onclick=Remove_Bespoke()>Bespoke Messages</button><br>" .  
+       "Switch to: <button class=BigSwitch id=BespokeM1 onclick=Remove_Bespoke()>Generic Messages</button></div>" .
+       "</div>";
+       
+  if (Access('SysAdmin')) {
+    echo "Debug: <span id=DebugPane></span><p>"; 
+  }
 
   $col5 = $col6 = $col7 = $col7 = $col8 = $col9 =$col10 = '';
   echo "Click on column header to sort by column.  Click on Side's name for more detail and programme when available,<p>\n";
@@ -42,6 +54,7 @@
     $col7 = "Sun";
     $col8 = "Complete?";
     if (Feature('DanceComp')) $col9 = "Dance Comp";
+    $col9a = "Messages";
     if (Access('Staff','Dance')) $col10 = "Proforma Emails";
     $Comp = $stot = 0;
   } else { // general public list
@@ -73,6 +86,7 @@
     if ($col7) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col7</a>\n";
     if ($col8) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col8</a>\n";
     if ($col9) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col9</a>\n";
+    if ($col9a) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col9a</a>\n";
     if ($col10) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col10</a>\n";
 //    for($i=1;$i<5;$i++) {
 //      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>EM$i</a>\n";
@@ -82,9 +96,11 @@
 
     $Dance_Comp[0] = '';
     while ($fetch = $SideQ->fetch_assoc()) {
+      $IsComp = 0;
+      $snum = $fetch['SideId'];
       echo "<tr>";
       if ($col10) echo "<td><input type=checkbox name=E$i class=SelectAllAble>";
-      echo "<td><a href=$link?sidenum=" . $fetch['SideId'] . "&Y=$YEAR>" . $fetch['SN'] . "</a>";
+      echo "<td><a href=$link?sidenum=$snum&Y=$YEAR>" . $fetch['SN'] . "</a>";
       if ($fetch['SideStatus']) {
         echo "<td>DEAD";
       } else {
@@ -144,6 +160,7 @@
                 ($fetch['Sat'] || $fetch['Sun'])) { 
           echo "Yes"; 
           $Comp++;
+          $IsComp = 1;
         } else {
           if ($fetch['Insurance']) echo "I"; 
           if ($fetch['Performers'] != 0) echo "P"; 
@@ -158,8 +175,20 @@
         echo "<td style='background:" . $Dance_Comp_Colours[$fetch['DanceComp']] . "'>" . $Dance_Comp[$fetch['DanceComp']] ;
       }
 
+      if ($col9a == 'Messages') {
+        echo "<td style='max-width:200'>";
+        echo "<span id=Vited$snum>";
+        if (isset($fetch['Invited'])) echo $fetch['Invited'];
+        echo "</span>";
+      }
+
       if ($col10 == "Proforma Emails") {
-        echo "<td>"; // None YET
+        echo "<td>"; 
+        if (!$IsComp && ($_GET['SEL'] == 'Coming')) {
+          echo "<button type=button id=Detail$snum class=ProfButton onclick=ProformaSend('Dance_Details',$snum,'Details','SendProfEmail.php')" . 
+               Proforma_Background('Details') . ">Details!</button>"; 
+        }
+          
       }
 
       
