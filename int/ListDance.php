@@ -22,6 +22,8 @@
   $col5 = $col6 = $col7 = $col7 = $col8 = $col9 =$col10 = '';
   echo "Click on column header to sort by column.  Click on Side's name for more detail and programme when available,<p>\n";
 
+
+
   echo "If you click on the email link, press control-V afterwards to paste the standard link into message.<p>";
   $col9 = $col8 = $col7 = '';
   $Types = Get_Dance_Types(1);
@@ -47,12 +49,14 @@
     $col8 = "Invited $PLANYEAR";
     $col9 = "Coming $PLANYEAR";
   } else if ($_GET{'SEL'} == 'Coming') {
+    echo "In the Missing Col: A=Address, D=Days, I=Insurance, M=Mobile, P=Performers Nos<p>\n";
+  
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, SideYear as y WHERE s.IsASide=1 AND s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . 
                 $Coming_Type['Y'] . " ORDER BY SN");
     $col5 = "Fri";
     $col6 = "Sat";
     $col7 = "Sun";
-    $col8 = "Complete?";
+    $col8 = "Missing";
     if (Feature('DanceComp')) $col9 = "Dance Comp";
     $col9a = "Messages";
     if (Access('Staff','Dance')) $col10 = "Proforma Emails";
@@ -152,21 +156,21 @@
         echo "<td>";
         if ($fetch['Workshops']) echo "Y";
       }
-      if ($col8 == "Complete?") {
+      if ($col8 == "Missing") {
         $stot++;
         echo "<td>";
         if ($fetch['Insurance'] && $fetch['Mobile'] &&
                 ((($fetch['Performers'] > 0) && $fetch['Address']) || ($fetch['Performers'] < 0)) && 
                 ($fetch['Sat'] || $fetch['Sun'])) { 
-          echo "Yes"; 
+          echo "Comp"; 
           $Comp++;
           $IsComp = 1;
         } else {
-          if ($fetch['Insurance']) echo "I"; 
-          if ($fetch['Performers'] != 0) echo "P"; 
-          if ($fetch['Address']) echo "A"; 
-          if ($fetch['Mobile']) echo "M"; 
-          if (!$fetch['Sat'] && !$fetch['Sun'] ) echo "?"; 
+          if (!$fetch['Insurance']) echo "I"; 
+          if ($fetch['Performers'] == 0) echo "P"; 
+          if ($fetch['Address'] == '' && $fetch['Performers'] >= 0) echo "A"; 
+          if (!$fetch['Mobile']) echo "M"; 
+          if (!$fetch['Sat'] && !$fetch['Sun'] ) echo "D"; 
         }
         if ($fetch['Insurance'] == 1) echo " (Check)";
       }
