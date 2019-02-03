@@ -49,7 +49,7 @@
     $col6 = "Coming $LastYear";
     $col7 = "Invite $YEAR";
   }
-  $col8 = "Invited $YEAR";
+  $col8 = "Messages Sent $YEAR";
   $col9 = "Coming $YEAR";
   if (Access('Staff','Dance')) $col10 = "Proforma Emails";
 
@@ -168,7 +168,14 @@
         
         case 'Y':
           // Actions to be added
-        
+//          var_dump($fetch);
+          if ($fetch['Insurance'] && $fetch['Mobile'] &&
+                ((($fetch['Performers'] > 0) && $fetch['Address']) || ($fetch['Performers'] < 0)) && 
+                ($fetch['Sat'] || $fetch['Sun'])) {
+          } else {
+            echo "<button type=button id=Detail$snum class=ProfButton onclick=ProformaSend('Dance_Details',$snum,'Details','SendProfEmail.php')" . 
+                 Proforma_Background('Details') . ">Details!</button>"; 
+          }
           break;
           
         case 'N':
