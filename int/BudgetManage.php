@@ -62,7 +62,7 @@
         echo fm_text1("",$b,'Budget',1,'','',"Budget$i") . "</a>";
         echo "<td>" . $b['CommittedSoFar'];
       } else {
-        echo "<tr><td>" . $b['SN'] . "<td>" . $b['Budget'] . "<td>" . $b['CommittedSoFar']; 
+        echo "<tr><td>" . $b['SN'] . "<td>" . $b['Year'] . "<td>" . $b['Budget'] . "<td>" . $b['CommittedSoFar']; 
       }
     } else {
       if ($Manage) {

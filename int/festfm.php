@@ -372,6 +372,7 @@ function Print_Pound($amt) {
 }
 
 function Print_Pence($amt) {
+  if ($amt%100 == 0)   return ($amt<0?"-":"") . sprintf("&pound;%0.0f",abs($amt)/100);
   return ($amt<0?"-":"") . sprintf("&pound;%0.2f",abs($amt)/100);
 }
 

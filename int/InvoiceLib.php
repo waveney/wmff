@@ -1,6 +1,6 @@
 <?php
 
-$Invoice_Sources = ['Other','Trade','Other Finance','Buskers Bash','Live and Loud'];
+$Invoice_Sources = ['','Trade','Other Finance','Buskers Bash','Live and Loud'];
 $Org_Cats = ['Trader','Business or Organistaion'];
 $Reserved_Codes = ['BB','LNL'];
 $OpayStates = ['Open','Paid','Cancelled'];
@@ -237,6 +237,7 @@ function Invoice_Print(&$inv) {
 
 // Returns the file name of Pdf of a previously printed invoice
 function Get_Invoice_Pdf($id,$CN='',$Rev='') {
+  if ($Rev == 0) $Rev = '';
   if ($Rev && substr($Rev,0,1) != 'R') $Rev = "R$Rev";
   return "Invoices/" . substr($id,0,-3) . "000/$id$CN$Rev.pdf"; 
 }
@@ -282,7 +283,7 @@ function Sage_Code(&$Whose) { // May only work for trade at the moment
 // Source 1=Trade, 2 = Sponsor/Adverts, 3= Other) returns incoice number - for WMFF I will start invoices at 2000
 // Due date < 365 = days, > 365 taken as actual date
 function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=-1) {
-  global $db,$YEAR;
+  global $db,$YEAR,$NewInvoiceId,$NewInv;
   if ($DueDate < 0) $DueDate=Feature('PaymentTerms',30);
   $inv['Source'] = $Source;
   $inv['Year'] = $YEAR;
@@ -328,7 +329,7 @@ function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=-1
     $inv['Total'] = $inv['Amount1'] = $Details[1];
   }
   
-  Insert_db("Invoices",$inv);
+  $NewInvoiceId = Insert_db("Invoices",$inv,$NewInv);
   
   return Invoice_Print($inv);
 }
@@ -341,7 +342,7 @@ function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=-1
 */
 
 
-function Create_Invoice($Dat=0) { // form to fill in - not for trade/sponsers/adverts
+function Create_Invoice($Dat=0) { // form to fill in - not for trade
   global $Invoice_Sources,$Org_Cats;
   
   $hide1 = 'hidden';
@@ -366,8 +367,8 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade/sponsers/ad
   if ($Dat) echo fm_hidden('i',$dat);
   echo "<table border>";
   echo "<tr>" . fm_radio("Organisation",$Org_Cats,$inv,'OrgType','onchange=InvoiceCatChange(event,###V)');
-  echo "<td class=InvOrg1 $hide1 >" . fm_select($Traders,$inv,'Tid') . "<td class=InvOrg1 $hide1 >If the trader, is not in list, then <a href=Trade.php><b>Create them</b></a> first"; 
-  echo "<td class=InvOrg2 hidden >" . fm_select($Orgs,$inv,'Oid') . "<td class=InvOrg2 hidden >If the organisation, is not in list, then <a href=Trade.php?ORGS><b>Create them</b></a> first";
+  echo "<td class=InvOrg1 hidden >" . fm_select($Traders,$inv,'Tid') . "<td class=InvOrg1 hidden>If the trader, is not in list, then <a href=Trade.php><b>Create them</b></a> first"; 
+  echo "<td class=InvOrg2 $hide1 >" . fm_select($Orgs,$inv,'Oid') . "<td class=InvOrg2  $hide1 >If the organisation, is not in list, then <a href=Trade.php?ORGS><b>Create them</b></a> first";
 
   echo "<tr><td colspan=5>Include UPTO 3 items, if the first is positive, and the others negative, the negative ones will be in red";
   echo "<tr><td colspan=2>Description<td>Amount";
@@ -376,6 +377,8 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade/sponsers/ad
   }
   
   echo "<tr><td>Invoice Code:" . fm_select($InvCodes,$inv,'InvoiceCode');  
+  if (!isset($inv['DueDays'])) $inv['DueDays'] = Feature('PaymentTerms',30);
+  echo fm_text('Payment Term (days)',$inv,'DueDays');
   echo "<tr>" . fm_text("Reason (this appears in local lists)",$inv,'Reason',2);
   if (Access('SysAdmin')) {
     if (!isset($inv['Source'])) $inv['Source'] = 2;  // Other finance
@@ -438,7 +441,7 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   echo "<table border>";
   echo fm_hidden('i',$id);
 // Who
-  echo "<tr>" . fm_text("Oranisation",$inv,'BZ',1,$RO);
+  echo "<tr>" . fm_text("Organisation",$inv,'BZ',1,$RO);
   echo "<tr>" . fm_text("Address",$inv,'Address',4,$RO) . fm_text('Post Code',$inv,'PostCode',1,$RO);
   echo "<tr>" . fm_text("Contact",$inv,'Contact',2,$RO) . fm_text('Phone',$inv,'Phone',1,$RO) . fm_text('Mobile',$inv,'Mobile',1,$RO); 
   
@@ -456,8 +459,7 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   } else {
     echo "<td><b>Email Not Sent</b>";
   }
-  echo "<td>Dute Date:<td>" . date('d/m/y H:i:s',$inv['DueDate']);
-  
+  echo fm_date('Due Date',$inv,'DueDate');       
 // Status
   if ($inv['PayDate'] < 0) { 
      echo "<tr><td>Credited: <td>" . Print_Pence($inv['Total']);
@@ -474,11 +476,23 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   if ($inv['Source'] != 1) echo "<tr>" . fm_textarea('Cover Note',$inv,'CoverNote',5,4);
   echo "</table>";
   echo "<input type=submit name=ACTION value=UPDATE>";
-  echo "<input type=submit name=ACTION value=" . ($inv['EmailDate']?"RESEND":"SEND") . ">";
-  if (!$inv['EmailDate']) echo "<input type=submit name=ACTION value=SENT>";
-  echo "<input type=submit name=ACTION value=DOWNLOAD>";
-  if (Access('SysAdmin')) echo "<input type=submit name=ACTION value=PRINTPDF>";
+  if ($inv['Email']) {
+    echo "<input type=submit name=ACTION value=" . ($inv['EmailDate']?"RESEND":"SEND") . ">";
+    if (!$inv['EmailDate']) {
+      echo "<input type=submit name=ACTION value=BESPOKE>";// formtarget=_blank formaction=SendFinanceProfEmail.php?id=$id>";
+      echo "<input type=submit name=ACTION value=SENT>";
+    }
+  } else {
+    echo "<input type=submit name=ACTION value=SENT>"; 
+  }
+
+  echo "<input type=submit name=ACTION value=DOWNLOAD formaction='ShowFile.php?D=" . Get_Invoice_Pdf($id,'',$inv['Revision']) . "'>";
+
+  if (0 && Access('SysAdmin')) echo "<input type=submit name=ACTION value=PRINTPDF>";
   echo "</form>";
+  echo "Click UPDATE to save changes, SEND to send with standard cover note, BESPOKE to have a bespoke cover note, RESEND to re-email the invoice and cover note, " .
+       "SENT to record it has been sent by other means, DOWNLOAD to download the invoice to store/send by other means.<p>";
+  
   echo "<h2><a href=InvoiceManage.php?Y=$YEAR>Back to Invoices</a> ";
   if ($inv['Source'] == 1) echo ", <a href=Trade.php?id=" . $inv['SourceId'] . "&Y=$YEAR>Back to Trader</a>";
   echo "</h2>";
@@ -518,9 +532,9 @@ function Put_InvoiceCode(&$now) {
   return Update_db('InvoiceCodes',$Cur,$now);
 }
 
-function Invoice_AssignCode($Code,$Val,$Src=0,$SrcId=0) {
+function Invoice_AssignCode($Code,$Val,$Src=0,$SrcId=0,$Name='') {
   global $db,$PLANYEAR;
-  $ent = ['Year'=>$PLANYEAR,'Code'=>$Code,'Amount'=>$Val,'Source'=>$Src,'SourceId'=>$SrcId,'State'=>0,'IssueDate'=>time()];
+  $ent = ['Year'=>$PLANYEAR,'Code'=>$Code,'Amount'=>$Val,'Source'=>$Src,'SourceId'=>$SrcId,'State'=>0,'IssueDate'=>time(),'SN'=>$Name];
   Insert_db('OtherPayments', $ent);
 }
 
@@ -556,20 +570,25 @@ function Call_Invoice_User($user,$uid=0,$action,$val=0) {
 
 function Invoice_Email_Details($key,&$inv,$att=0) {
   switch ($key) {
-  case 'WHO':  return $inv['Contact']? firstword($inv['Contact']) : $inv['SN'];
+  case 'WHO':  return $inv['Contact']? firstword($inv['Contact']) : $inv['BZ'];
   case 'DETAILS': 
     $det = "";
     $and = 0;
-    for ($i=3;$i--;$i>0) 
+    for ($i=3;$i>0;$i--) 
       if ($inv["Desc$i"]) {
+        $dtxt = $inv["Desc$i"];
+        if ($damt = $inv["Amount$i"]) {
+          if ($damt > 0) { $dtxt .= " at " . Print_Pence($damt); }
+          elseif ($damt < 0) { $dtxt = "Less " . Print_Pence(abs($damt)) . " for $dtxt"; };
+        }
         if ($det) { 
           if ($and) { 
-            $det = $inv["Desc$i"] . ", " . $det;
+            $det = "$dtxt, $det";
           } else {
-            $det = $inv["Desc$i"] . " and " . $det;
+            $det = $dtxt . " and " . $det;
             $and = 1;
           }
-        } else $det = $inv["Desc$i"];
+        } else $det = $dtxt;
       }
     return $det; 
     
@@ -582,7 +601,75 @@ function Invoice_Cover_Note(&$inv) { // Returns Default cover note for invoice
   return $Mess;
 }
 
+function Set_Invoice_Help() {
+  static $t = array(
+        'BZ'=>'Name of Business or Organisation',
+        'Contact'=>'Name of the person to get the invoice',
+        'Reason'=>'Appears in lists of invoices for festival use - not sent out',
+        'CoverNote'=>'Click on Bespoke to edit this',
+//        'InvoiceCode'=>'',
+        
+  );
+  Set_Help_Table($t);
+}
 
+function Bespoke_Inv_CoverNote($id,&$inv) {
+  global $MASTER_DATA,$PLANYEAR;
+  dostaffhead("Cover Note for" . $inv['BZ']);
+   
+  $subject = $MASTER_DATA['FestName'] . " $PLANYEAR and " . $inv['BZ'];
+  $inv['CoverNote'] = $Mess = (isset($_POST['Message'])?$_POST['Message']:$inv['CoverNote']);
 
-    
+  if (isset($_POST['SEND'])) {
+    $too = [['to',$inv['Email'],$inv['Contact']],['from','treasurer@' . $MASTER_DATA['HostURL'],'Wimborne Treasurer'],['replyto','treasurer@' . $MASTER_DATA['HostURL'],'Wimborne Treasurer']];
+    $pdf = Get_Invoice_Pdf($id,'',$inv['Revision']);
+    echo Email_Proforma($too,$Mess,$subject,'Invoice_Email_Details',$inv,$logfile='Invoices',$pdf);
+  
+    $inv['EmailDate'] = time();
+    Put_Invoice($inv);
+    return;
+  }
+
+  echo "<h2>Email for " . $inv['BZ'] . " - " . $inv['Contact'] . "</h2>";
+  if (isset($_POST['PREVIEW'])) {
+    echo "<p><h3>Preview...</h2>";
+    $MessP = $Mess;
+    Parse_Proforma($MessP,$helper='Invoice_Email_Details',$inv);
+    echo "<div style='background:white;border:2;border-color:blue;padding:20;margin:20;width:90%;height:30%;overflow:scroll' >$MessP</div>";
+  }
+  echo "<h3>Edit the message below, then click Preview or Send</h3>";
+  echo "Put &lt;p&gt; for paras, &lt;br&gt; for line break, &lt;b&gt;<b>Bold</b>&lt;/b&gt;, &amp;amp; for &amp;, &amp;pound; for &pound; <p> ";
+
+  echo "<form method=post>" . fm_hidden('i',$id) . fm_hidden('ACTION','BESPOKE');// . fm_hidden('L',$label);
+  echo "<div style='width:90%;height:30%'><textarea name=Message id=OrigMsg style='background:white;border:2;border-color:blue;padding:20;margin:20'> " .
+          htmlspec($Mess) . "</textarea></div><p><br><p>\n";
+
+  echo " <input type=submit name=PREVIEW value=Preview> <input type=submit name=SEND value=Send><p>\n";
+
+  echo "</form><p>";
+
+  dotail();
+}
+
+function Pay_Show($id) {
+  global $OpayStates,$Invoice_Sources;
+  $pay = Get_PayCode($id);
+  dostaffhead("Payment for other things");
+  echo "<h2>Payment for Other things</h2>";
+  echo "Currently just Live N Loud<p>";
+  
+  echo "<form method=post><table border>";
+  echo "<tr><td>Id:<td>$id" . fm_text("Code",$pay,"Code") . fm_hidden('PAYCODES',1) .fm_text('Name',$pay,'SN');
+  echo "<tr>" . fm_number("Amount (pence)",$pay,"Amount") . "<td>issued on:<td>" . date('j/n/y',$pay['IssueDate']);
+  echo "<tr><td>State:<td>" . fm_select($OpayStates,$pay,'State') . "<td>Source:" . fm_select($Invoice_Sources,$pay,'Source',0);
+  echo "<tr>" . fm_textarea("Notes", $pay,'Notes',5,1);
+  echo "</table>";
+  echo "<input type=submit name=ACTION value=UPDATE>";
+  dotail();
+}
+
+function Pay_Update($id) {
+
+}
+
 ?>

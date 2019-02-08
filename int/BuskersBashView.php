@@ -3,7 +3,7 @@
   A_Check('Staff');
 
   dostaffhead("List Buskers Bash Applications");
-  global $db,$PLANYEAR,$SignupStates,$SignupStateColours;
+  global $db,$PLANYEAR,$SignupStates,$SignupStateColours,$YEAR;
   include_once("SignupLib.php");
 
   echo "Click on Band Name for more info.<p>";
@@ -20,7 +20,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>State/Actions</a>\n";
   echo "</thead><tbody>";
 
-  $res=$db->query("SELECT * FROM SignUp WHERE Year=$PLANYEAR AND State!=3 AND Activity=4 ORDER BY SN");
+  $res=$db->query("SELECT * FROM SignUp WHERE Year=$PLANYEAR AND " . ($PLANYEAR==$YEAR?"State!=3 AND":"") . " Activity=4 ORDER BY SN");
   
   if ($res) {
     while ($bb = $res->fetch_assoc()) {

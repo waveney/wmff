@@ -39,7 +39,7 @@
   echo "</h2>";
 
   $LastYear = $YEAR-1;
-  $flds = "s.*, ly.Invite AS LyInvite, ly.Coming AS LyComing, y.*";
+  $flds = "ly.Invite AS LyInvite, ly.Coming AS LyComing, y.*, s.*";
   $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR " .
                         "LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE s.IsASide=1 AND s.SideStatus=0 ORDER BY SN");
   if ($Invited) {
