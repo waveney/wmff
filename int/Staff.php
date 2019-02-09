@@ -313,7 +313,7 @@
       echo "<p>";
       echo "<li><a href=Sponsors.php>Sponsors</a>\n";
       echo "<li><a href=WaterManage.php>Water Refills</a>\n";
-
+      echo "<li><a href=InportOldInvoice.php>Import Old Invoices</a>\n";  
     }
     echo "</ul>\n";
     

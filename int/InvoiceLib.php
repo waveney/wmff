@@ -308,25 +308,29 @@ function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=-1
     $inv['SourceId'] = $Whose['id'];
   }
   for ($i = 1; $i<4;$i++) { $inv["Desc$i"] = ''; $inv["Amount$i"] = 0; }; 
-  if (is_array($Details[0])) { // If set multi details
-    $D = $Details[0];
-    $inv['Desc1']   = $D[0];
-    $inv['Total'] = $inv['Amount1'] = $D[1];
+  if (isset($Details[0])) {
+    if (is_array($Details[0])) { // If set multi details
+      $D = $Details[0];
+      $inv['Desc1']   = $D[0];
+      $inv['Total'] = $inv['Amount1'] = $D[1];
 
-    if (isset($Details[1])) {   
-      $D = $Details[1];
-      $inv['Desc2']   = $D[0];
-      $inv['Total'] += $inv['Amount2'] = $D[1];
-    }
+      if (isset($Details[1])) {   
+        $D = $Details[1];
+        $inv['Desc2']   = $D[0];
+        $inv['Total'] += $inv['Amount2'] = $D[1];
+      }
     
-    if (isset($Details[2])) {   
-      $D = $Details[2];
-      $inv['Desc3']   = $D[0];
-      $inv['Total'] += $inv['Amount3'] = $D[1];
+      if (isset($Details[2])) {   
+        $D = $Details[2];
+        $inv['Desc3']   = $D[0];
+        $inv['Total'] += $inv['Amount3'] = $D[1];
+      }
+    } else {
+      $inv['Desc1'] = $Details[0];
+      $inv['Total'] = $inv['Amount1'] = $Details[1];
     }
   } else {
-    $inv['Desc1'] = $Details[0];
-    $inv['Total'] = $inv['Amount1'] = $Details[1];
+    $inv['Total'] = 0;
   }
   
   $NewInvoiceId = Insert_db("Invoices",$inv,$NewInv);
@@ -428,15 +432,23 @@ function Update_Invoice($id,$Details,$AddReplace=0) { // AR=1 to replace data
   return "";
 }
 
+function Validate_Invoice(&$inv) {
+  if (!isset($inv['Email']) || !filter_var($inv['Email'], FILTER_VALIDATE_EMAIL)) return "Invalid Email Address";
+  if ($inv['Desc1'] == '' && $inv['Desc2'] == '' && $inv['Desc3'] == '') return "Nothing to Invoice For";
+  if ($inv['Amount1'] == 0 && $inv['Amount2'] == 0 && $inv['Amount3'] == 0) return "Nothing to Invoice For";
+}
+
 function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   global $Invoice_Sources,$Org_Cats,$YEAR;
   $inv = Get_Invoice($id);
   $InvCodes = Get_InvoiceCodes(0);
   $Rev = $inv['Revision'];
+  $InValid =  Validate_Invoice($inv);
 
   if ($ViewOnly) fm_addall('disabled readonly');
   $RO = (Access('SysAdmin')?'': ' READONLY ');
   echo "<h2>Details of " . ($inv['Total'] < 0 ? "Credit Note ": "Invoice ") . $id . ($Rev?" Revision $Rev":"") . "</h2>\n";
+  if ($InValid) echo "<span class=Err>$InValid</span\n";
   echo "<form method=post action=InvoiceManage.php>";  
   echo "<table border>";
   echo fm_hidden('i',$id);
@@ -476,7 +488,7 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   if ($inv['Source'] != 1) echo "<tr>" . fm_textarea('Cover Note',$inv,'CoverNote',5,4);
   echo "</table>";
   echo "<input type=submit name=ACTION value=UPDATE>";
-  if ($inv['Email']) {
+  if ($inv['Email'] && !$InValid) {
     echo "<input type=submit name=ACTION value=" . ($inv['EmailDate']?"RESEND":"SEND") . ">";
     if (!$inv['EmailDate']) {
       echo "<input type=submit name=ACTION value=BESPOKE>";// formtarget=_blank formaction=SendFinanceProfEmail.php?id=$id>";
@@ -489,7 +501,7 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   echo "<input type=submit name=ACTION value=DOWNLOAD formaction='ShowFile.php?D=" . Get_Invoice_Pdf($id,'',$inv['Revision']) . "'>";
 
   if (0 && Access('SysAdmin')) echo "<input type=submit name=ACTION value=PRINTPDF>";
-  echo "</form>";
+  echo "</form><p>";
   echo "Click UPDATE to save changes, SEND to send with standard cover note, BESPOKE to have a bespoke cover note, RESEND to re-email the invoice and cover note, " .
        "SENT to record it has been sent by other means, DOWNLOAD to download the invoice to store/send by other means.<p>";
   
@@ -532,9 +544,9 @@ function Put_InvoiceCode(&$now) {
   return Update_db('InvoiceCodes',$Cur,$now);
 }
 
-function Invoice_AssignCode($Code,$Val,$Src=0,$SrcId=0,$Name='') {
+function Invoice_AssignCode($Code,$Val,$Src=0,$SrcId=0,$Name='',$Reason='') {
   global $db,$PLANYEAR;
-  $ent = ['Year'=>$PLANYEAR,'Code'=>$Code,'Amount'=>$Val,'Source'=>$Src,'SourceId'=>$SrcId,'State'=>0,'IssueDate'=>time(),'SN'=>$Name];
+  $ent = ['Year'=>$PLANYEAR,'Code'=>$Code,'Amount'=>$Val,'Source'=>$Src,'SourceId'=>$SrcId,'State'=>0,'IssueDate'=>time(),'SN'=>$Name, 'Reason'=>$Reason];
   Insert_db('OtherPayments', $ent);
 }
 
@@ -659,9 +671,10 @@ function Pay_Show($id) {
   echo "Currently just Live N Loud<p>";
   
   echo "<form method=post><table border>";
-  echo "<tr><td>Id:<td>$id" . fm_text("Code",$pay,"Code") . fm_hidden('PAYCODES',1) .fm_text('Name',$pay,'SN');
+  echo "<tr><td>Id:<td>$id" . fm_text("Code",$pay,"Code") . fm_hidden('PAYCODES',1) .fm_text('Name',$pay,'SN') .fm_hidden('id',$id);
   echo "<tr>" . fm_number("Amount (pence)",$pay,"Amount") . "<td>issued on:<td>" . date('j/n/y',$pay['IssueDate']);
   echo "<tr><td>State:<td>" . fm_select($OpayStates,$pay,'State') . "<td>Source:" . fm_select($Invoice_Sources,$pay,'Source',0);
+  echo "<tr>" . fm_text('Reason',$pay,'Reason');
   echo "<tr>" . fm_textarea("Notes", $pay,'Notes',5,1);
   echo "</table>";
   echo "<input type=submit name=ACTION value=UPDATE>";
@@ -669,7 +682,10 @@ function Pay_Show($id) {
 }
 
 function Pay_Update($id) {
-
+  $pay = Get_PayCode($id);
+  $Dateflds = ['IssueDate','PayDate'];
+  Parse_DateInputs($Dateflds);
+  Update_db_post('OtherPayments',$pay);
 }
 
 ?>

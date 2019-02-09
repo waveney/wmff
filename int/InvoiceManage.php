@@ -43,6 +43,9 @@
     if (isset($_REQUEST['i'])) {
       $id = $_REQUEST['i'];
       $inv = Get_Invoice($id);  
+    } elseif (isset($_REQUEST['id'])) {
+      $id = $_REQUEST['id'];
+      $inv = Get_Invoice($id);  
     } else {
       $id = -1;
     }
@@ -95,6 +98,7 @@
     case 'UPDATE' :
       if (isset($_REQUEST['PAYCODES'])) {
         Pay_Update($id);
+        break;
       }
       $Dateflds = ['DueDate'];
       Parse_DateInputs($Dateflds);
@@ -313,7 +317,7 @@
     if ($All) echo "<td>" . ($pay['State']==1? date('j/n/Y',abs($inv['PayDate'])) : ($inv['PayDate']<0? "NA": ""));
     echo "<td>" . Print_Pence($pay['Amount']);
     if ($All) echo "<td>";
-    echo "<td><td>";
+    echo "<td>" . $pay['Reason'] . "<td>";
     if (!$ViewOnly) { 
       echo "<td>"; 
       echo "<form method=post>" . fm_hidden('i',$id) . fm_hidden("amt$id",0) . fm_hidden("reason$id",'');
