@@ -103,6 +103,8 @@
       $Dateflds = ['DueDate'];
       Parse_DateInputs($Dateflds);
       Update_db_post('Invoices',$inv);
+      Show_Invoice($_REQUEST['i'],$ViewOnly);
+      dotail();      
       break;
       
     case 'CREATE' : 
