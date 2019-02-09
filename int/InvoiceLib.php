@@ -1,5 +1,7 @@
 <?php
 
+global $Reserved_Codes,$Invoice_Sources,$Org_Cats,$OpayStates;
+
 $Invoice_Sources = ['','Trade','Other Finance','Buskers Bash','Live and Loud'];
 $Org_Cats = ['Trader','Business or Organistaion'];
 $Reserved_Codes = ['BB','LNL'];
@@ -245,6 +247,7 @@ function Get_Invoice_Pdf($id,$CN='',$Rev='') {
 function Sage_Code(&$Whose) { // May only work for trade at the moment
   include_once("TradeLib.php");
   global $db,$Reserved_Codes;
+
   if (isset($Whose['SageCode']) && $Whose['SageCode']) return $Whose['SageCode'];
   // New code needed  
   $Nam = $Whose['SN'];
@@ -448,7 +451,7 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   if ($ViewOnly) fm_addall('disabled readonly');
   $RO = (Access('SysAdmin')?'': ' READONLY ');
   echo "<h2>Details of " . ($inv['Total'] < 0 ? "Credit Note ": "Invoice ") . $id . ($Rev?" Revision $Rev":"") . "</h2>\n";
-  if ($InValid) echo "<span class=Err>$InValid</span\n";
+  if ($InValid) echo "<span class=Err>$InValid</span>\n";
   echo "<form method=post action=InvoiceManage.php>";  
   echo "<table border>";
   echo fm_hidden('i',$id);

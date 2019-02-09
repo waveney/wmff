@@ -336,7 +336,9 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte, 
         }
         echo "<br clear=all><div id=TTDescription style='background:" . $TradeTypeData[$Trad['TradeType']]['Colour'] . ";'>" . 
           $TradeTypeData[$Trad['TradeType']]['Description'] . "</div>\n";
-      }
+    } else {
+      fm_hidden('TradType',$Trad['TradeType']);
+    }
     echo "<tr>" . fm_text('<span id=ContactLabel>Contact</span>',$Trad,'Contact');
       echo fm_text1('Email',$Trad,'Email',2);
       echo fm_text('Phone',$Trad,'Phone');
@@ -477,7 +479,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
       echo fm_number1("",$Trady,"PitchNum$i",'class=NotCSide','class=NotCSide');
     } else {
       echo "<td>";
-      if ($Trady["PitchLoc$i"]) {
+      if (isset($Trady["PitchLoc$i"])  && $Trady["PitchLoc$i"]) {
         echo $TradeLocs[$Trady["PitchLoc$i"]];
         echo fm_hidden("PitchLoc$i",$Trady["PitchLoc$i"]);
         echo "<td>";
@@ -493,11 +495,11 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
       echo fm_text("Paid so far",$Trady,'TotalPaid',1,'class=NotCSide','class=NotCSide');
     } else {
       echo "<td>Total Fee:<td>";
-      if ($Trady['Fee']<0) {
-        echo "Free";
-      } else if ($Trady['Fee'] == 0 ) {
+      if (!isset($Trady['Fee']) || $Trady['Fee'] == 0 ) {
         echo "To be set";
-      } else {
+      } else if ($Trady['Fee']<0) {
+        echo "Free";
+      } else  {
         echo "&pound;" . $Trady['Fee'];
         echo "<td>Paid so far: &pound;" . $Trady['TotalPaid'];
       }
@@ -958,9 +960,9 @@ function Trade_Main($Mode,$Program,$iddd=0) {
       }
     } else { // New trader 
       $_POST['AccessKey'] = rand_string(40);
-      $Tid = Insert_db_post('Trade',$Trad,$proc);
-      if ($Tid && $Trad['IsTrader'] && !$Orgs) {
-        Insert_db_post('TradeYear',$Trady,$proc);
+      $Tid = Insert_db_post('Trade',$Trad);
+      if ($Tid && !$Orgs && $Trad['IsTrader'] ) {
+        Insert_db_post('TradeYear',$Trady);
         $Trady = Get_Trade_Year($Trad['Tid']);
       }
       if ($Mode == 2 || $Orgs) {
