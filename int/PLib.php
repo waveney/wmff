@@ -647,7 +647,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
   foreach ($PerfTypes as $p=>$d) if (($d[0] != 'IsASide') && $Side[$d[0]]) $NotD = 1;
   
   echo "<tr>";
-    if ($NotD || $Mstate) {
+    if ($NotD || $Mstate || $Mode) {
       echo "<td colspan=2 $Imp>Select insurance file to upload:";
 /*
       echo "<input type=file $ADDALL name=InsuranceForm id=InsuranceForm onchange=document.getElementById('InsuranceButton').click() hidden>";

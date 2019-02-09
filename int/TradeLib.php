@@ -1144,7 +1144,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
       Trade_Action('Accept',$Trad,$Trady,$Mode,"$Hist $Action");
       return;
     } else {
-      if ($CurState >= 'Submitted') {
+      if ($CurState >= $Trade_State['Submitted']) {
         echo "<h3>This has already been Submitted</h3>";
         return;
       }
@@ -1156,7 +1156,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     break;
 
   case 'Accept' :
-    if ($CurState >= 'Accepted') {
+    if ($CurState >= $Trade_State['Accepted'] && $CurState < $Trade_State['Wait List']) {
       echo "<h3>This has already been accepted</h3>";
       return;
     }
@@ -1181,7 +1181,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     break;
     
   case 'Invoice':
-    if ($CurState >= 'Invoiced') {
+    if ($CurState >= $Trade_State['Invoiced']) {
       echo "<h3>This has already been Invoiced</h3>";
       return;
     }
@@ -1211,7 +1211,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     break;
 
   case 'Decline' :
-    if ($CurState == 'Declined') {
+    if ($CurState == $Trade_State['Declined']) {
       echo "<h3>This has already been Declined</h3>";
       return;
     }
@@ -1227,7 +1227,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     break;
 
   case 'Hold' :
-    if ($CurState == 'Wait List') {
+    if ($CurState == $Trade_State['Wait List']) {
       echo "<h3>This has already been Wait Listed</h3>";
       return;
     }
@@ -1296,7 +1296,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     break;
 
   case 'Cancel' : // If invoiced - credit note, free up fee and locations if set email moe need a reason field
-    if ($CurState == 'Cancelled') {
+    if ($CurState == $Trade_State['Cancelled']) {
       echo "<h3>This has already been Cancelled</h3>";
       return;
     }

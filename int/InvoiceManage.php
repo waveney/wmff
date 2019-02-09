@@ -1,5 +1,6 @@
 <?php
   include_once("fest.php");
+  include_once("DateTime.php");
   
   $ViewOnly = 0;
   if (!Access('Committee', 'Finance')) {
@@ -8,6 +9,7 @@
   }
 
   dostaffhead("Invoice Management");
+  
 
 /* List all budget areas for year, if current allow edits, if historical not.
    Add Items, change items etc 
@@ -22,8 +24,9 @@
   include_once("InvoiceLib.php");
   include_once("TradeLib.php");
 
-  global $YEAR,$PLANYEAR,$BUDGET,$USER,$OpayStates;
+  global $YEAR,$PLANYEAR,$BUDGET,$USER,$OpayStates,$NewInvoiceId,$NewInv;
 
+  Set_Invoice_Help();
 //var_dump($_REQUEST);
 
   echo "<script>
@@ -39,6 +42,9 @@
   if (isset($_REQUEST['ACTION'])) {
     if (isset($_REQUEST['i'])) {
       $id = $_REQUEST['i'];
+      $inv = Get_Invoice($id);  
+    } elseif (isset($_REQUEST['id'])) {
+      $id = $_REQUEST['id'];
       $inv = Get_Invoice($id);  
     } else {
       $id = -1;
@@ -90,7 +96,12 @@
       break;
       
     case 'UPDATE' :
-      echo "HERE<p>";
+      if (isset($_REQUEST['PAYCODES'])) {
+        Pay_Update($id);
+        break;
+      }
+      $Dateflds = ['DueDate'];
+      Parse_DateInputs($Dateflds);
       Update_db_post('Invoices',$inv);
       break;
       
@@ -100,7 +111,12 @@
       for ($i = 1;$i<=3; $i++) if (isset($_REQUEST["Amount$i"]) && $_REQUEST["Amount$i"]) $Details[] = [$_REQUEST["Desc$i"], round($_REQUEST["Amount$i"]*100)];
       $Who = ($_REQUEST['OrgType'] ? Get_Trader($_REQUEST['Oid']) : Get_Trader($_REQUEST['Tid'])); 
       
-      New_Invoice($Who,$Details,$_REQUEST['Reason'],$_REQUEST['InvoiceCode'],$_REQUEST['Source']);
+      New_Invoice($Who,$Details,$_REQUEST['Reason'],$_REQUEST['InvoiceCode'],$_REQUEST['Source'],$_REQUEST['DueDays']);
+      $NewInv['CoverNote'] = Get_Email_Proforma('Finance_Default_Cover')['Body'];
+      $NewInv['id'] = $NewInvoiceId;
+      Put_Invoice($NewInv);
+      Show_Invoice($NewInvoiceId,$ViewOnly);
+      dotail();      
       break;
 
     case 'PRINTPDF':
@@ -108,8 +124,10 @@
       break;
       
       
-    case 'PDEL' :
-      db_delete('OtherPayments',$id);
+    case 'PCLOSE' :
+      $pay = Get_PayCode($id);
+      $pay['Year'] = - $pay['Year'];
+      Put_PayCode($pay);
       break;
 
     case 'PPAID' :
@@ -120,6 +138,50 @@
       Call_Invoice_User($pay['Source'],$pay['Code'],'Paid');
       break;
     
+    case 'PSHOW' :
+      Pay_Show($_REQUEST['PShow']);
+      break;
+      
+    case 'SEND' :
+      // Get cover note and send out and record
+      $subject = $MASTER_DATA['FestName'] . " $PLANYEAR and " . $inv['BZ'];
+      $too = [['to',$inv['Email'],$inv['Contact']],['from','Finance@' . $MASTER_DATA['HostURL'],'Wimborne Finance'],['replyto','Finance@' . $MASTER_DATA['HostURL'],'Wimborne Finance']];
+      $pdf = Get_Invoice_Pdf($id,'',$inv['Revision']);
+      echo Email_Proforma($too,$inv['CoverNote'],$subject,'Invoice_Email_Details',$inv,$logfile='Invoices',$pdf);
+      $inv['EmailDate'] = time();
+      echo "Invoice " . $id . " sent to " . $inv['Contact'] . " at " . $inv['BZ'] . "<p>";
+      Put_Invoice($inv);
+      break;
+      
+    case 'BESPOKE' :
+      // Get cover note and use SendFinanceProfEmail and record
+
+      Bespoke_Inv_CoverNote($id,$inv);
+      break;
+    
+    case 'RESEND' :
+      // Resend current cover note
+      $subject = $MASTER_DATA['FestName'] . " $PLANYEAR and " . $inv['BZ'];
+      $too = [['to',$inv['Email'],$inv['Contact']],['from','Finance@' . $MASTER_DATA['HostURL'],'Wimborne Finance'],['replyto','Finance@' . $MASTER_DATA['HostURL'],'Wimborne Finance']];
+      $pdf = Get_Invoice_Pdf($id,'',$inv['Revision']);
+      echo Email_Proforma($too,$inv['CoverNote'],$subject,'Invoice_Email_Details',$inv,$logfile='Invoices',$pdf);
+
+      echo "Invoice " . $id . " resent to " . $inv['Contact'] . " at " . $inv['BZ'] . "<p>";
+      Put_Invoice($inv);
+      break;
+          
+    case 'SENT' :
+      // Just record it has been sent (not using system)
+      $inv['EmailDate'] = time();
+      $inv['History'] .= "Recorded as sent: " . date('j/n/d') . "\n";
+      echo "Invoice " . $id . " recorded as sent to " . $inv['Contact'] . " at " . $inv['BZ'] . "<p>";
+      Put_Invoice($inv);
+      break;
+
+    
+    case 'DOWNLOAD' :
+      // Download pdf of invoice - no actions to be taken
+      
       break;
       
     }
@@ -178,6 +240,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Amount (left)</a>\n";
   if ($All) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Paid Amount</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Reason</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>State</a>\n";
   if (!$ViewOnly) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Actions</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>View</a>\n";
   echo "</thead><tbody>";
@@ -201,6 +264,26 @@
     if ($inv['PaidTotal'] > 0 && $inv['PaidTotal'] != $inv['Total']) echo " (" . Print_Pence($inv['Total'] - $inv['PaidTotal']) . ")";
     if ($All) echo "<td>" . Print_Pence($inv['PaidTotal']);
     echo "<td>" . $inv['Reason'];
+    echo "<td>" ; // Status
+      $stat = 0;
+      if (($inv['Source'] == 2) && ($inv['EmailDate'] == 0)) {
+        if ($stat++) echo ", ";
+        echo "Not Sent Yet";
+      } else {
+      if ($inv['PaidTotal'] == 0) {
+        if ($stat++) echo ", ";
+        echo "Not Paid";               
+        }
+      elseif ($inv['PaidTotal'] < $inv['Total']) {
+        if ($stat++) echo ", ";
+        echo "Part Paid";
+        }
+      if (($inv['PaidTotal'] < $inv['Total']) && ($inv['DueDate'] < $Now)) {
+        if ($stat++) echo ", ";     
+        echo "<span class=Err>Overdue</span>";
+        }
+      }
+    
     if (!$ViewOnly) { 
       echo "<td>"; 
       echo "<form method=post>" . fm_hidden('i',$id) . fm_hidden("amt$id",0) . fm_hidden("reason$id",'');
@@ -215,7 +298,7 @@
     
     $Rev = ($inv['Revision']?"R" .$inv['Revision']:"");
     echo "<td><a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'',$Rev) . ">View</a>";
-    if ($All && $inv['PayDate']<0) echo ", <a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'CN',$Rev) . ">Credit Note</a>";
+    if ($All && $inv['PayDate']<0) echo ", <a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'CN',$Rev) . ">Credit&nbsp;Note</a>";
     echo "\n";
   }
   
@@ -225,23 +308,23 @@
 
   foreach($Pays as $i=>$pay) {
     $id = $pay['id'];
-    echo "<tr><td><a href=InvoiceManage.php?PShow=$id>$id</a>";
+    echo "<tr><td><a href=InvoiceManage.php?ACTION=PSHOW&PShow=$id>$id</a>";
     if ($All) echo "<td>Payment"; 
-    echo "<td>"; // . $pay['BZ']; // Make link soon TODO
+    echo "<td>" .$pay['SN']; // . $pay['BZ']; // Make link soon TODO
     echo "<td>" . $pay['Code'];
     echo "<td>" . date('j/n/Y',$pay['IssueDate']);
     echo "<td>"; // Due Date
     if ($All) echo "<td>" . ($pay['State']==1? date('j/n/Y',abs($inv['PayDate'])) : ($inv['PayDate']<0? "NA": ""));
     echo "<td>" . Print_Pence($pay['Amount']);
     if ($All) echo "<td>";
-    echo "<td>";
+    echo "<td>" . $pay['Reason'] . "<td>";
     if (!$ViewOnly) { 
       echo "<td>"; 
       echo "<form method=post>" . fm_hidden('i',$id) . fm_hidden("amt$id",0) . fm_hidden("reason$id",'');
         if ($pay['PayDate'] == 0 && $pay['Amount']>0) {// Pay, pay diff, cancel/credit, change
           echo "<button name=ACTION value=PPAID>Paid</button> "; 
         }
-      if (Access('SysAdmin')) echo "<button name=ACTION value=PDEL>Del</button> ";
+      if (Access('SysAdmin')) echo "<button name=ACTION value=PCLOSE>Close</button> ";
 //        echo "<button name=ACTION value=DIFF onclick=diffprompt($id) >Paid Different</button> ";
 //        echo "<button name=ACTION value=CREDIT onclick=reasonprompt($id) >Cancel/credit</button> ";
       echo "</form>";

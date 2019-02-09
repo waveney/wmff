@@ -68,7 +68,7 @@ function Get_lnl_Details(&$lnl) {
   for ($i=1;$i<7;$i++) if (isset($lnl["SN$i"])) $Body .= "$i: " . $lnl["SN$i"] . " - " . $lnl["Instr$i"] . "\n";
   if (isset($lnl['TotalSize']) && $lnl['TotalSize']) $Body .= "Total Size: " . $lnl['TotalSize'] . "\n";
 
-  $Body .= "\nSongs: " . $lnl['Songs'] . "\n";
+  if (isset($lnl['Songs'])) $Body .= "\nSongs: " . $lnl['Songs'] . "\n";
   $Body .= "Equipment: " . ((isset($lnl['TotalSize']) && $lnl['TotalSize'])?$lnl['Equipment']:"None") . "\n";
   $Body .= "Available for both Audition and Final " . $yesno[$lnl['FolkFest']] . "\n";
 //  $Body .= "Available on Friday? " . $yesno[$lnl['FFFri']] . "\n";
@@ -108,7 +108,7 @@ function LNL_Action($action,$id) {
     // Raise Invoice id
     // send invite email with BACS info and code
     // InvoiceLib needs list of reserved codes
-    if ($LNLDepositValue) Invoice_AssignCode("LNL$id",$LNLDepositValue*100,3);
+    if ($LNLDepositValue) Invoice_AssignCode("LNL$id",$LNLDepositValue*100,4,$id,$lnl['SN'],"Live and Loud");
     Email_Signup($lnl,'LNL_Invite',$lnl['Email']);
     $lnl['State'] = $StatesSignup['Invited not paid'];
     break;
@@ -216,7 +216,7 @@ function BB_Action($action,$id) {
     // send invite email with BACS info and code
     // InvoiceLib needs list of reserved codes
     $bb['State'] = $StatesSignup['Invited'];
-    if ($BBDepositValue) Invoice_AssignCode("BB$id",$BBDepositValue*100,2); 
+    if ($BBDepositValue) Invoice_AssignCode("BB$id",$BBDepositValue*100,3,$id,$bb['SN'],"Buskers Bash"); 
     Email_BB_Signup($bb,'BB_Invite',[['to',$bb['Email']],['replyto','BuskersBash@wimbornefolk.co.uk']]);
     break;
     

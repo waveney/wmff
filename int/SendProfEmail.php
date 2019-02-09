@@ -1,5 +1,5 @@
 <?php 
-// Send Bespoke emeial bassed on a proforma emeil initially Dance only
+// Send Bespoke email bassed on a proforma email initially Dance only
 include_once("fest.php");
 include_once("DanceLib.php");
 include_once("Email.php");
