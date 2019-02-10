@@ -104,6 +104,7 @@
       $Dateflds = ['DueDate'];
       Parse_DateInputs($Dateflds);
       Update_db_post('Invoices',$inv);
+      if (!isset($inv['EmailDate']) || $inv['EmailDate']==0) Invoice_Print($inv);
       Show_Invoice($_REQUEST['i'],$ViewOnly);
       dotail();      
       break;

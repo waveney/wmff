@@ -30,6 +30,7 @@ int/Archive
 int/Contracts
 int/testing
 int/Invoices/*/*.pdf
+int/Invoices/OldInvoices
 devtools
 cache
 files/TitlePrefix
