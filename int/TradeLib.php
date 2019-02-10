@@ -252,7 +252,7 @@ There will be an additional fee for power from &pound;10-20, that will be added 
 Any generator must meet the Euro 4 silent generator standard.',
         'Photo'=>'Give URL of Image to use or upload one',
         'TradeType'=>'Fees depend on trade type, pitch size and location',
-        'BookingState'=>'ONLY change this if you are fixing a problem, use the state change buttons',
+//        'BookingState'=>'ONLY change this if you are fixing a problem, use the state change buttons',
         'PublicInfo'=>'Information in this section may be used on the public website if you tick the "Do you want to appear on the Folk Festival Website?" box', 
         'PrivateInfo'=>'Information in this section is only visible to you and the revelent members of the festival, you can amend this at any time',
         'PublicHealth'=>'Please give the NAME of the local authority your registered with',
@@ -956,7 +956,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
         }
         if ($proc && isset($_POST['ACTION'])) Trade_Action($_POST['ACTION'],$Trad,$Trady,$Mode);
       } else { // Mode ==2 || Orgs
-        if (isset($_POST['ACTION'])) Invoice_Action($_POST['ACTION'],$Trad);
+//        if (isset($_POST['ACTION'])) Invoice_Action($_POST['ACTION'],$Trad);
       }
     } else { // New trader 
       $_POST['AccessKey'] = rand_string(40);
@@ -966,7 +966,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
         $Trady = Get_Trade_Year($Trad['Tid']);
       }
       if ($Mode == 2 || $Orgs) {
-        if (isset($_POST['ACTION'])) Invoice_Action($_POST['ACTION'],$Trad);
+//        if (isset($_POST['ACTION'])) Invoice_Action($_POST['ACTION'],$Trad);
       } else {
         if ($proc && isset($_POST['ACTION'])) Trade_Action($_POST['ACTION'],$Trad,$Trady,$Mode);
       }
@@ -1010,7 +1010,8 @@ function Trade_Main($Mode,$Program,$iddd=0) {
       }
     }
     echo "<Center>";
-    echo "<input type=Submit name='Update' value='Save Changes'>\n";
+    echo "<input type=Submit name='Update' value='Save Changes'>";
+    if (Access('Committee','Finance')) echo "<input type=Submit name='NewInvoice' value='New Invoice' formaction='InvoiceManage.php?ACTION=NEWFOR&Tid=$Tid'>\n";
 //    if (!isset($Trady['BookingState']) || $Trady['BookingState']== 0) echo "<input type=Submit name=Submit value='Save Changes and Submit Application'>";
 
     $Act = (($Mode < 2 && !$Orgs)? $TS_Actions[$Trady['BookingState']] :"");
