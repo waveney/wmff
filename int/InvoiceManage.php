@@ -111,7 +111,13 @@
     case 'CREATE' : 
 //    var_dump($_REQUEST);
       $Details = [];
-      for ($i = 1;$i<=3; $i++) if (isset($_REQUEST["Amount$i"]) && $_REQUEST["Amount$i"]) $Details[] = [$_REQUEST["Desc$i"], round($_REQUEST["Amount$i"]*100)];
+      for ($i = 1;$i<=3; $i++) {
+        if (isset($_REQUEST["Amount$i"]) && $_REQUEST["Amount$i"]) {
+          $Details[] = [$_REQUEST["Desc$i"], round($_REQUEST["Amount$i"]*100)];
+        } elseif (isset($_REQUEST["Desc$i"])) {
+          $Details[] = [$_REQUEST["Desc$i"], 0)];
+        }
+      }
       $Who = ($_REQUEST['OrgType'] ? Get_Trader($_REQUEST['Oid']) : Get_Trader($_REQUEST['Tid'])); 
       
       New_Invoice($Who,$Details,$_REQUEST['Reason'],$_REQUEST['InvoiceCode'],$_REQUEST['Source'],$_REQUEST['DueDays']);
