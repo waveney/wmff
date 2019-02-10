@@ -253,8 +253,8 @@ function Sage_Code(&$Whose) { // May only work for trade at the moment
   $Nam = $Whose['SN'];
   $Nam = preg_replace('/The /i','',$Nam);
   $Nam = preg_replace('/ and /i','',$Nam);
-  $Nam = preg_replace('/ /','',$Nam);
-  $Nam = preg_replace('/\W/','',$Nam);
+  $Nam = preg_replace('/ /g','',$Nam);
+  $Nam = preg_replace('/\W/g','',$Nam);
   $Nam = strtoupper($Nam);
   foreach ($Reserved_Codes as $CC) if (preg_match("/^$CC/",$Nam)) { $Nam = "X$Nam"; break; }
   
@@ -467,13 +467,14 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   echo "<table border>";
   echo fm_hidden('i',$id);
 // Who
-  echo "<tr>" . fm_text("Organisation",$inv,'BZ',1,$RO);
+  echo "<tr>" . fm_text("Organisation",$inv,'BZ',1,$RO) . fm_text('Revision',$inv,'Revision',1,$RO);
   echo "<tr>" . fm_text("Address",$inv,'Address',4,$RO) . fm_text('Post Code',$inv,'PostCode',1,$RO);
   echo "<tr>" . fm_text("Contact",$inv,'Contact',2,$RO) . fm_text('Phone',$inv,'Phone',1,$RO) . fm_text('Mobile',$inv,'Mobile',1,$RO); 
   
 // What
   echo "<tr>" . fm_text("Reason",$inv,'Reason',2,$RO) . fm_text('Email',$inv,'Email',1,$RO);
   echo "<tr><td>Invoice Code:<td>" . fm_select($InvCodes,$inv,'InvoiceCode',1,$RO);
+  echo fm_text('Sage Code',$inv,'OurRef',1,$RO);
   echo "<tr><td colspan=3>What<td>Amount";
   for ($i=1;$i<4;$i++) {
     echo "<tr><td colspan=3>" . fm_basictextarea($inv,"Desc$i",4,1,$RO) . "<td>" . Print_Pence($inv["Amount$i"]);
@@ -514,7 +515,7 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
 
   echo "<input type=submit name=ACTION value=DOWNLOAD formaction='ShowFile.php?D=" . Get_Invoice_Pdf($id,'',$inv['Revision']) . "'>";
 
-  if (0 && Access('SysAdmin')) echo "<input type=submit name=ACTION value=PRINTPDF>";
+  if ( Access('SysAdmin')) echo "<input type=submit name=ACTION value=PRINTPDF>";
   echo "</form><p>";
   echo "Click UPDATE to save changes, SEND to send with standard cover note, BESPOKE to have a bespoke cover note, RESEND to re-email the invoice and cover note, " .
        "SENT to record it has been sent by other means, DOWNLOAD to download the invoice to store/send by other means.<p>";
