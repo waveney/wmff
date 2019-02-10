@@ -10,6 +10,7 @@
   
   require 'vendor/autoload.php';
 
+
   use PhpOffice\PhpSpreadsheet\Spreadsheet;
   /* 
     Walk OldInvoices - find first xls for each company
@@ -27,7 +28,42 @@
       Create BZ with details above, report, end for company
       
    */
-  $Base = "Invoices/OldInvoices";
+   
+  $Fixes = [
+'Somerset And Dorset Hog Roast'=>112,
+'Brewers Folly Brewery Ltd'=>392,
+"The Butcher's Dog"=>370,
+'P Keating Butchers'=>4,
+'Starfish Luncheonette'=>82,
+'Kirsty Hearne t/a'=>78,
+'Southbourne Ales Ltd'=>424,
+'Ancient Pathways'=>52,
+"Off the Beach 'n Track"=>127,
+'The Gin House'=>432,
+'Leathercrafts (Poole) & Maitland Gifts'=>315,
+'Bradley Leatherwork'=>393,
+"Emily's Fudge Kitchen"=>403,
+'Mark Parham t/a Captain Pop Pops'=>457,
+'Bangers And Co'=>70,
+'Tattiebogle Vegan Food'=>95,
+'Boo & Doo'=>60,
+'Top Gun Catering Ltd'=>74,
+'Tuk-tuk Café'=>45,
+"Barbara's Kitchen"=>107,
+'Dragons Art Studio'=>372,
+'The Owls Nest Pie & Ale House'=>417,
+'The Wood Fired Pizza Company'=>5,
+'Sixpenny Brewery Ltd'=>423,
+"Jackie's Leathercraft"=>124,
+'Glitterati (Glitterfreaks)'=>306,
+'Uber Tuber'=>390,
+"Rosie's Dreams"=>142,
+"Marshwood Vale Cider Company"=>303,
+'The Dressing Room'=>103,
+];
+
+
+  $Base = "Invoices/OldInvoices/SALES INVOICES";
   $OldInv = opendir($Base);
   if (!$OldInv) echo "OldInv wont open<p>";
   while (($old2 = readdir($OldInv)) !== false) {
@@ -60,8 +96,13 @@
       
 //      echo "BZ Name = $BZname - $sageCode - $contact - ";
       echo "$BZname - ";
-            
-      $Trad = Get_TraderByName(trim($BZname));
+      
+      
+      if (isset($Fixes[$BZname])) {
+        $Trad = Get_Trader($Fixes[$BZname]);
+      } else {
+        $Trad = Get_TraderByName(trim($BZname));
+      }
 //var_dump($Trad);
       $change = 0;
       if ($Trad && isset($Trad['SN'])) {
