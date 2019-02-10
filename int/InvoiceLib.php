@@ -352,16 +352,27 @@ function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=-1
 function Create_Invoice($Dat=0) { // form to fill in - not for trade
   global $Invoice_Sources,$Org_Cats;
   
-  $hide1 = 'hidden';
+  $hide1 = $hide2 = 'hidden';
   if ($Dat == 0) {
     $inv = [];
     if (isset($_REQUEST['Tid'])) {
-      $inv['OrgType']=0;
-      $inv['SourceId'] = $inv['Tid'] = $inv['Oid'] = $_REQUEST['Tid'];
-      $hide1 = '';
+      $tid = $inv['SourceId'] = $inv['Tid'] = $inv['Oid'] = $_REQUEST['Tid'];
+      $Trad = Get_Trader($tid);
+      if ($Trad['IsTrader']) {
+        $inv['OrgType']= 0;
+        $hide1 = '';
+      } else {
+        $inv['OrgType']= 1;
+        $hide2 = '';
+      }
     }
   } else {
     $inv = Get_Invoice($Dat);
+    if ($inv['OrgType'] == 0) {
+      $hide1 = '';
+    } else {
+      $hide2 = '';
+    }   
   }
   
   $Traders = Get_All_Traders();
@@ -374,8 +385,8 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade
   if ($Dat) echo fm_hidden('i',$dat);
   echo "<table border>";
   echo "<tr>" . fm_radio("Organisation",$Org_Cats,$inv,'OrgType','onchange=InvoiceCatChange(event,###V)');
-  echo "<td class=InvOrg1 hidden >" . fm_select($Traders,$inv,'Tid') . "<td class=InvOrg1 hidden>If the trader, is not in list, then <a href=Trade.php><b>Create them</b></a> first"; 
-  echo "<td class=InvOrg2 $hide1 >" . fm_select($Orgs,$inv,'Oid') . "<td class=InvOrg2  $hide1 >If the organisation, is not in list, then <a href=Trade.php?ORGS><b>Create them</b></a> first";
+  echo "<td class=InvOrg1 $hide1 >" . fm_select($Traders,$inv,'Tid') . "<td class=InvOrg1  $hide1>If the trader, is not in list, then <a href=Trade.php><b>Create them</b></a> first"; 
+  echo "<td class=InvOrg2 $hide2 >" . fm_select($Orgs,$inv,'Oid') . "<td class=InvOrg2  $hide2 >If the organisation, is not in list, then <a href=Trade.php?ORGS><b>Create them</b></a> first";
 
   echo "<tr><td colspan=5>Include UPTO 3 items, if the first is positive, and the others negative, the negative ones will be in red";
   echo "<tr><td colspan=2>Description<td>Amount";

@@ -91,6 +91,7 @@
       break;
       
     case 'NEW' :
+    case 'NEWFOR' :
       Create_Invoice();
       dotail();
       break;
