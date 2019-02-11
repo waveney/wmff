@@ -206,7 +206,7 @@
           $TrMon[$fetch['TradeType']] += $fee;
         }
         $TrRec[$fetch['TradeType']] += $fetch['TotalPaid'];
-        if ($stat >= $Trade_State['Submitted'] && $stat != $Trade_State['Quoted'] && $stat != $Trade_State['Wait List']) {
+        if ($stat >= $Trade_State['Submitted'] && $stat != $Trade_State['Quoted'] && $stat != $Trade_State['Wait List'] && $stat != $Trade_State['Requote']) {
           $TrSub[$fetch['TradeType']] += $fee;
           $totsub += $fee;
         }

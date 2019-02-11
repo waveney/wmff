@@ -170,6 +170,14 @@ function Get_Trader($who) {
   return $data;
 }
 
+function Get_TraderByName($who) {
+  global $db;
+  $res = $db->query("SELECT * FROM Trade WHERE SN LIKE '$who'");
+  if (!$res || $res->num_rows == 0) return 0;
+  $data = $res->fetch_assoc();
+  return $data;
+}
+
 function Get_Traders_Coming($type=0) { // 0=names, 1=all
   global $db,$YEAR,$Trade_State;
   $data = array();
