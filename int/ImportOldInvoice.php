@@ -122,13 +122,16 @@
         if ($Trad['Address'] == '') { $Trad['Address'] = $address; $change = 1; }
         if ($Trad['Contact'] == '') { $Trad['Contact'] = $contact; $change = 1; }
         else if (strtolower(trim($Trad['Contact'])) != $lccont) echo "Contacts different '" . $Trad['Contact'] . "' - '$contact' ";        
-//          if ($change) Put_Trader($Trad); // commented to check workings        
+        if ($change) {
+          Put_Trader($Trad); // commented to check workings
+          echo "Updated";
+        }
         echo "<p>";        
       } else {
-        echo "NOT IN SYSTEM YET<p>";
+//        echo "NOT IN SYSTEM YET<p>";
+        echo "Added<p>";
         $NewTrad = ['SN'=>$BZname, 'Contact'=>$contact, 'SageCode'=>$sageCode];
-//        Insert_db("Trade",$NewTrad);
-        
+        Insert_db("Trade",$NewTrad);        
       }
 
       break 1;
