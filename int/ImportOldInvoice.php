@@ -40,10 +40,11 @@
 'Ancient Pathways'=>52,
 "Off the Beach 'n Track"=>127,
 'The Gin House'=>432,
-'Leathercrafts (Poole) & Maitland Gifts'=>315,
+'Leathercrafts (Poole) & Maitland Gifts'=>117,
 'Bradley Leatherwork'=>393,
 "Emily's Fudge Kitchen"=>403,
 'Mark Parham t/a Captain Pop Pops'=>457,
+"Priest's House Museum"=>131,
 'Bangers And Co'=>70,
 'Tattiebogle Vegan Food'=>95,
 'Boo & Doo'=>60,
@@ -120,7 +121,7 @@
         }
         if ($Trad['Address'] == '') { $Trad['Address'] = $address; $change = 1; }
         if ($Trad['Contact'] == '') { $Trad['Contact'] = $contact; $change = 1; }
-        else if (strtolower($Trad['Contact']) != $lccont) echo "Contacts different '" . $Trad['Contact'] . "' - '$contact' ";        
+        else if (strtolower(trim($Trad['Contact'])) != $lccont) echo "Contacts different '" . $Trad['Contact'] . "' - '$contact' ";        
 //          if ($change) Put_Trader($Trad); // commented to check workings        
         echo "<p>";        
       } else {
