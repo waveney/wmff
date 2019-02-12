@@ -11,16 +11,20 @@
   if (UpdateMany('InvoiceCodes','Put_InvoiceCode',$Codes,1)) $Codes=Get_InvoiceCodes(1);
 
   $invs = Get_Invoices(' PayDate>=0 ');
+  $GTotInv = $GTotPaid = 0;
   foreach ($invs as $inv) {
     if (!isset($TotInv[$inv['InvoiceCode']])) $TotInv[$inv['InvoiceCode']] = $TotPaid[$inv['InvoiceCode']] = 0;
     $TotInv[$inv['InvoiceCode']] += $inv['Total'];
     $TotPaid[$inv['InvoiceCode']] += $inv['PaidTotal'];
+    $GTotInv += $inv['Total'];
+    $GTotPaid += $inv['PaidTotal'];
   }
   
 
   echo "This is for the Invoice Codes, also shows total Invoiced and total Paid.<p>\n";
 
   $coln = 0;
+
   echo "<form method=post>";
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
@@ -45,6 +49,7 @@
       echo "<td>0<td>0<td>None Yet";    
     }
   }
+  echo "<tr><td><td>Grand Totals<td colspan=3><td colspan=3><td>" . Print_Pence($GTotInv) . "<td>" . Print_Pence($GTotPaid) . "<td>\n";
   echo "<tr><td><td><input type=number name=Code0><td colspan=3><input type=text size=48 name=SN0 >";
   echo "<td colspan=3><input type=text  size=48 name=Notes0><td><td><td>";
    echo "</table>\n";
