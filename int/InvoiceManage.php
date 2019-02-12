@@ -236,7 +236,7 @@
     $Code = $_REQUEST['SHOWCODE'];
     $Iname = $ICodes[$Code];
 
-    $Invs = Get_Invoices(" InvoiceCode='$Code' ");
+    $Invs = Get_Invoices(" InvoiceCode='$Code' AND PayDate>=0 ");
     if ($Invs) {
       echo "<h2>Manage Invoices - $YEAR - $Iname</h2>\n";
     } else {
