@@ -24,7 +24,8 @@ $volClasses = [ 'Stew' => ['Stewarding', 'Info Points, Concerts, Road Closures, 
 
                 'Media' => ['Media', 'Photography, Videography etc',[0,1,2],'media',0,0,
                             [['Media_Like','Prefered Media Areas',"What events would you like to cover"],
-                             ['Media_Dislike', 'Disliked Media Areas',"What events would you not want to cover"]]],
+                             ['Media_Dislike', 'Disliked Media Areas',"What events would you not want to cover"],
+                             ['Examples','Links to examples of your work','Separate examples by spaces']]],
 
                 'Other' => ['Other', '',['Before',-1,0,1,2,3],'webmaster',0,0,
                             [['OtherText','Please elaborate','']]],

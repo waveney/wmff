@@ -81,9 +81,11 @@ Stewarding & Volunteer roles available:<p>
 <h3><a href=int/Volunteers.php?A=New>Please Volunteer for the Artistic Team</a></h3>
 
 <h2 class="maintitle">Media Team</h2>
-<ul><li>Photographers (all abilities)
-<li>Videographers (previous experience preferred)
+<ul><li>Photographers
+<li>Videographers
 </ul>
+
+Applications for this team close on 14th of April.<p>
 
 <h3><a href=int/Volunteers.php?A=New>Please Volunteer for Media</a></h3>
 
