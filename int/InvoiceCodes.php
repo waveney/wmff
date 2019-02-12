@@ -37,9 +37,13 @@
     echo "<tr><td>$i" . fm_number1("",$C,'Code','','',"Code$i");
     echo fm_text1("",$C,'SN',3,'','',"SN$i");
     echo fm_text1("",$C,'Notes',3,'','',"Notes$i");
-    echo "<td>" . Print_Pence($TotInv[$C['Code']]);
-    echo "<td>" . Print_Pence($TotPaid[$C['Code']]);
-    echo "<td>Not Yet";
+    if (isset($TotInv[$C['Code']])) {
+      echo "<td>" . Print_Pence($TotInv[$C['Code']]);
+      echo "<td>" . Print_Pence($TotPaid[$C['Code']]);
+      echo "<td>" . ($TotInv[$C['Code']]?"<a href=InvoiceManage.php?SHOWCODE=" . $C['Code'] . ">Show</a>" :"None Yet");
+    } else {
+      echo "<td>0<td>0<td>None Yet";    
+    }
   }
   echo "<tr><td><td><input type=number name=Code0><td colspan=3><input type=text size=48 name=SN0 >";
   echo "<td colspan=3><input type=text  size=48 name=Notes0><td><td><td>";

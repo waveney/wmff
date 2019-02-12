@@ -193,7 +193,11 @@
       // Download pdf of invoice - no actions to be taken
       
       break;
-      
+    
+    case 'SHOWCODE' :
+    
+      break;
+    
     }
 
   
@@ -206,6 +210,7 @@
   
   $NewXtra = $NewXtraTxt = '';
   $Pays = [];
+  $Tots = 0;
   if (isset($_REQUEST['ALL'])) {
     echo "<h2>Manage Invoices - $YEAR</h2>\n";
     $Invs = Get_Invoices();
@@ -226,6 +231,19 @@
     } else {
       echo "<h2>There are no Invoices currently for " . $Trad['SN'] . "</h2>";
     } 
+  } elseif (isset($_REQUEST['SHOWCODE'])) {
+    $ICodes = Get_InvoiceCodes();
+    $Code = $_REQUEST['SHOWCODE'];
+    $Iname = $ICodes[$Code];
+
+    $Invs = Get_Invoices(" InvoiceCode='$Code' ");
+    if ($Invs) {
+      echo "<h2>Manage Invoices - $YEAR - $Iname</h2>\n";
+    } else {
+      echo "<h2>There are no Invoices currently for " . $Iname . "</h2>";
+    }
+    $All = 0;
+    $Tots = 1;
   } else {
     echo "<h2>Manage Invoices - $YEAR</h2>\n";
     $Pays = Get_PayCodes("State=0");
@@ -237,6 +255,7 @@
 
   if ($Invs) {  
   $Now = time();
+  $TotInv = $TotPaid = 0;
   $coln = 0;
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
@@ -248,10 +267,10 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D')>Date Due</a>\n";
   if ($All) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D')>Date Paid</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Amount (left)</a>\n";
-  if ($All) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Paid Amount</a>\n";
+  if ($Tots || $All) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Paid Amount</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Reason</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>State</a>\n";
-  if (!$ViewOnly) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Actions</a>\n";
+  if (!$Tots && !$ViewOnly) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Actions</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>View</a>\n";
   echo "</thead><tbody>";
   foreach($Invs as $i=>$inv) {
@@ -272,7 +291,7 @@
     if ($All) echo "<td>" . ($inv['PayDate']>0? date('j/n/Y',abs($inv['PayDate'])) : ($inv['PayDate']<0? "NA": ""));
     echo "<td>" . Print_Pence($inv['Total']);
     if ($inv['PaidTotal'] > 0 && $inv['PaidTotal'] != $inv['Total']) echo " (" . Print_Pence($inv['Total'] - $inv['PaidTotal']) . ")";
-    if ($All) echo "<td>" . Print_Pence($inv['PaidTotal']);
+    if ($Tots || $All) echo "<td>" . Print_Pence($inv['PaidTotal']);
     echo "<td>" . $inv['Reason'];
     echo "<td>" ; // Status
       $stat = 0;
@@ -293,8 +312,12 @@
         echo "<span class=Err>Overdue</span>";
         }
       }
+    if ($Tots) {
+      $TotInv += $inv['Total'];
+      $TotPaid += $inv['PaidTotal'];
+    }
     
-    if (!$ViewOnly) { 
+    if (!$ViewOnly && !$Tots) { 
       echo "<td>"; 
       echo "<form method=post>" . fm_hidden('i',$id) . fm_hidden("amt$id",0) . fm_hidden("reason$id",'');
       if ($inv['PayDate'] == 0 && $inv['Total']>0) {// Pay, pay diff, cancel/credit, change
@@ -338,12 +361,15 @@
 //        echo "<button name=ACTION value=DIFF onclick=diffprompt($id) >Paid Different</button> ";
 //        echo "<button name=ACTION value=CREDIT onclick=reasonprompt($id) >Cancel/credit</button> ";
       echo "</form>";
-    }
+      }
     echo "<td>";
     echo "\n";
-  }
+    }
   
-  echo "</table>\n";
+    echo "</table>\n";
+  }
+  if ($Tots) {
+    echo "<h3>Total Invoiced: " . Print_Pence($TotInv) . "<br>Total Paid: " . Print_Pence($TotPaid) . "</h3>";
   }
   
   echo "<h2><a href=InvoiceManage.php?ACTION=NEW$NewXtra>New Invoice $NewXtraTxt</a>";  
