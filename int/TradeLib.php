@@ -23,19 +23,19 @@ $Trader_Status = array('Alive','Banned','Not trading');
 $Trader_State = array_flip($Trader_Status);
 $ButExtra = array(
         'Accept'=>'',
-        'Decline'=>'',
-        'Submit'=>'',
+        'Decline'=>'title="Decline this trader, if in doubt Hold Them"',
+        'Submit'=>'title="Submit application"',
         'Hold'=>'title="Hold for space available"',
         'Dep Paid'=>'title="Deposit Paid"',
-        'Invoice'=>'',
+        'Invoice'=>'title="Send Main Invoice"',
         'Paid'=>'title=Full Fees Paid"',
         'Quote'=>'title="Send or repeat Quote email"',
         'Invite'=>'title="Send or repeat the Invitation Email"',
-        'Invoiced'=>'Final Invoice Sent',
+        'Invoiced'=>'title="Final Invoice Sent"',
         'Cancel'=>'onClick="javascript:return confirm(\'are you sure you want to cancel this?\');"',
-        'Resend'=>'Resend last email to trader',
-        'Invite Better'=>'',
-        'Artisan Invite'=>'',
+        'Resend'=>'title="Resend last email to trader"',
+        'Invite Better'=>'title="Send an Invitation to a better location"',
+        'Artisan Invite'=>'title="Send an Artisan Invite"',
         'UnQuote'=>'title="Remove Quote or Invitation"',
         ); 
 $ButTrader = array('Submit','Accept','Decline','Cancel','Resend'); // Actions Traders can do
@@ -556,10 +556,10 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
       echo "<tr><td class=NotSide>History:<td colspan=8 class=NotSide>";
       if ($hist) {
         $hist = preg_replace('/\n/','<br>\n"',$hist);
-        echo $hist;
+        echo $hist . fm_hidden("History",$hist);
       }
     }
-  }
+  } 
   if ($Mode) {
     if (isset($Trady['SentInvite']) && $Trady['SentInvite']) {
       echo "<tr>"; 
@@ -1019,7 +1019,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
     }
     echo "<Center>";
     echo "<input type=Submit name='Update' value='Save Changes'>";
-    if (Access('Committee','Finance')) echo "<input type=Submit name='NewInvoice' value='New Invoice' formaction='InvoiceManage.php?ACTION=NEWFOR&Tid=$Tid'>\n";
+    if (Access('Committee','Finance')) echo "<input type=Submit name='NewInvoice' title='Send a NON TRADE Invoice to this trader' value='New Invoice' formaction='InvoiceManage.php?ACTION=NEWFOR&Tid=$Tid'>\n";
 //    if (!isset($Trady['BookingState']) || $Trady['BookingState']== 0) echo "<input type=Submit name=Submit value='Save Changes and Submit Application'>";
 
     $Act = (($Mode < 2 && !$Orgs)? $TS_Actions[$Trady['BookingState']] :"");
