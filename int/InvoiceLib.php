@@ -492,7 +492,7 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
      echo "<tr><td>Credited: <td>" . Print_Pence($inv['Total']);
      echo "<td>On " . date('j/n/Y',-$inv['PayDate']);
      echo  fm_text("CN Reason",$inv,'CNReason',2,$RO);
-  } elseif ($inv['PaidTotal']) {
+  } elseif ($inv['PaidTotal'] || $inv['PayDate']) {
      echo "<tr><td>Paid Total: <td>" . Print_Pence($inv['PaidTotal']);
      if ($inv['PayDate']) echo "<td>On " . date('j/n/Y',$inv['PayDate']);
   }
