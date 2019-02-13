@@ -253,8 +253,8 @@ function Sage_Code(&$Whose) { // May only work for trade at the moment
   $Nam = $Whose['SN'];
   $Nam = preg_replace('/The /i','',$Nam);
   $Nam = preg_replace('/ and /i','',$Nam);
-  $Nam = preg_replace('/ /g','',$Nam);
-  $Nam = preg_replace('/\W/g','',$Nam);
+  $Nam = preg_replace('/ /','',$Nam);
+  $Nam = preg_replace('/\W/','',$Nam);
   $Nam = strtoupper($Nam);
   foreach ($Reserved_Codes as $CC) if (preg_match("/^$CC/",$Nam)) { $Nam = "X$Nam"; break; }
   
