@@ -350,7 +350,9 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
   $Self = ($Mode ? $_SERVER{'PHP_SELF'} : "AddPerf.php"); // TODO
   echo "<div class=floatright><h2>";
   $OList = [];
-  if (isknown($snum,$year-1)) $OList[] = $year-1;
+  for ($y = 5;$y>0; $y--) {
+    if (isknown($snum,$year-$y)) $OList[] = $year-$y;
+  }
   if (Get_General($year+1) && (isknown($snum,$year+1) || (($year+1) >= $PLANYEAR))) $OList[] = $year+1;
   if ($year != $PLANYEAR) $OList[] = $PLANYEAR;
     
@@ -408,7 +410,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
         echo fm_text('Invited',$Sidey,'Invited',1,'class=NotSide');
     }
     echo "<tr>";
-      echo fm_radio('Status',$Coming_States ,$Sidey,'Coming','',1,'colspan=3 id=Coming_states','',$Coming_Colours); 
+      echo fm_radio('Status',$Coming_States ,$Sidey,'Coming','',1,'colspan=3 id=Coming_states','',$Coming_Colours,0,'',' onchange=ComeAnyWarning()'); 
   }
 
   // Performers booking states
@@ -477,6 +479,8 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
       } else {
         echo fm_text('How Many Performers Wristbands',$Sidey,'Performers',1,'class=NotCSide','class=NotCSide');
       }
+    echo "<td id=ComeAny hidden colspan=2><span class=Err>Don't forget to click Coming above?</span>";
+    echo "<td id=WhatDays hidden colspan=2><span class=Err>What Days?</span>";
   }
 
 

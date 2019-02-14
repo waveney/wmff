@@ -83,6 +83,13 @@ function CheckContract() {
   updateimps();
 }
 
+function ComeAnyWarning() {
+  var Come = $("input[name='Coming']:checked");
+  if (Come && Come.val() != 2 && ($("[Name=Fri]").is(":checked") || $("[Name=Sat]").is(":checked") || $("[Name=Sun]").is(":checked"))) { $('#ComeAny').show(); $('#WhatDays').hide() } 
+  else if (Come && Come.val() == 2 && (!$("[Name=Fri]").is(":checked") && !$("[Name=Sat]").is(":checked") && !$("[Name=Sun]").is(":checked"))) { $('#ComeAny').hide(); $('#WhatDays').show() } 
+  else { $('#ComeAny').hide(); ; $('#WhatDays').hide() }
+} 
+
 $(document).ready(function() {
   $(".Adv").hide();
 
@@ -92,7 +99,7 @@ $(document).ready(function() {
 
   AgentChange();
   CheckContract();
-
+  ComeAnyWarning();
 } );
 
 function ComeSwitch(ev) {
@@ -104,6 +111,7 @@ function ComeSwitch(ev) {
   } else {
     $(".Come" + day).hide();
   }
+  ComeAnyWarning();  
 }
 
 function CopyAndSubmit(name) {
