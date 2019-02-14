@@ -255,7 +255,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
       }
 
       foreach ($Olaps as $Rule) {
-        if ($Rule['OType'] == 1) { // Musician Olap
+        if ($Rule['OType'] >= 1) { // Musician Olap(1) | Avoid(2)
           $Other = ($Rule['Sid1'] == $side['SideId'])?'Sid2':'Sid1';
             $o = $Rule[$Other];
         // Musician Overlaps - can do same spot multi sides and 2 consecutive spots, not 3+ - 
@@ -279,37 +279,42 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
           } // Playing now has events in order
 //var_dump($Playing);
           if ($otherplaying) {
-            $LastVen = 0;
-            $Consec = 0;
-            $LastD = -1;
-            $LastET = 0;
-            foreach ($Playing as $pd=>$e) {
-              $Ev = $Events[$e];
-              $start = timereal($Ev['Start']);
-              if ($Ev['SubEvent'] < 0) { $End = timereal($Ev['SlotEnd']); } else { $End = timereal($Ev['End']); }
-              if ($Ev['BigEvent'] && ($Ev['OtherPos'][$si] <= $Ev['OtherCount']/2)) $End = timeadd($End, -30);
-              $Ven = $Ev['Venue'];
-              if ($LastD == $Ev['Day'] && $start < ($LastET + 20) && $side[$DayList[$Ev['Day']]]) {
-                $daynam = $DayList[$LastD];
-                if ($Ven == $LastVen) {
-                  $Consec += ($End - $LastET);
-                  if ($Consec > 65) $Merr .= "Performing for $Consec minutes on $daynam at " . $Ev['Start'] . ", ";
-                } else {
-                  if ($Rule['Major']) {
-                    $Err .= "Playing at the same time in two locations: " . SName($Venues[$LastVen]) . " at $LastST-" . timeformat($LastET) .
-                                " on $daynam and at " . SName($Venues[$Ven]) . " at " . $Ev['Start'] . ", ";
+            if ($Rule['OType'] == 1) { // Musician
+              $LastVen = 0;
+              $Consec = 0;
+              $LastD = -1;
+              $LastET = 0;
+              foreach ($Playing as $pd=>$e) {
+                $Ev = $Events[$e];
+                $start = timereal($Ev['Start']);
+                if ($Ev['SubEvent'] < 0) { $End = timereal($Ev['SlotEnd']); } else { $End = timereal($Ev['End']); }
+                if ($Ev['BigEvent'] && ($Ev['OtherPos'][$si] <= $Ev['OtherCount']/2)) $End = timeadd($End, -30);
+                $Ven = $Ev['Venue'];
+              
+                if ($LastD == $Ev['Day'] && $start < ($LastET + 20) && $side[$DayList[$Ev['Day']]]) {
+                  $daynam = $DayList[$LastD];
+                  if ($Ven == $LastVen) {
+                    $Consec += ($End - $LastET);
+                    if ($Consec > 65) $Merr .= "Performing for $Consec minutes on $daynam at " . $Ev['Start'] . ", ";
                   } else {
-                    $Merr .= "Playing at the same time in two locations: " . SName($Venues[$LastVen]) . " at $LastST-" . timeformat($LastET) .
+                    if ($Rule['Major']) {
+                      $Err .= "Playing at the same time in two locations: " . SName($Venues[$LastVen]) . " at $LastST-" . timeformat($LastET) .
                                 " on $daynam and at " . SName($Venues[$Ven]) . " at " . $Ev['Start'] . ", ";
+                    } else {
+                      $Merr .= "Playing at the same time in two locations: " . SName($Venues[$LastVen]) . " at $LastST-" . timeformat($LastET) .
+                                " on $daynam and at " . SName($Venues[$Ven]) . " at " . $Ev['Start'] . ", ";
+                    }
                   }
+                } else {
+                  $Consec = 0;
                 }
-              } else {
-                $Consec = 0;
+                $LastVen = $Ven;
+                $LastET = $End;
+                $LastST = timeformat($start);
+                $LastD = $Ev['Day'];
               }
-              $LastVen = $Ven;
-              $LastET = $End;
-              $LastST = timeformat($start);
-              $LastD = $Ev['Day'];
+            } else { // Avoids
+            
             }
           }
         }  

@@ -2,9 +2,9 @@
 // Common Dance Library
 
 $Dance_TimeFeilds = array('SatArrive','SatDepart','SunArrive','SunDepart');
-$OlapTypes = array('Dancer','Musician');
+$OlapTypes = array('Dancer','Musician','Avoid');
 $OlapDays = array('All','Sat Only','Sun Only','None');
-$OlapCats = array('Side','Act','Other');
+$OlapCats = array('Side','Act','Comedy','Family','Other');
 $Proforma_Colours = ['Decide'=>'DarkOrange','Details'=>'Magenta'];
 
 function Proforma_Background($name) {
@@ -352,7 +352,8 @@ function Set_Side_Help() {
         'MorrisAnimal'=>'If the side has a morris animal - what kind is it',
         'Workshops'=>'That the side could run',
         'Overlaps'=>'Do you overlap with any dance sides or other performers who might be at Wimborne, if so please describe in detail and we will try and prevent clashes',
-        'OverlapRules'=>'Dancer - must have break between spots, musician allowed to play at same spot for two periods - then must break.  Major - major error, minor avoid if you can',
+        'OverlapRules'=>'Dancer - must have break between spots, Musician allowed to play at same spot for two periods - then must break, Avoid - Dont put these together.
+Major - major error, minor avoid if you can',
         'Contact'=>'Main Contact',
         'AgentName'=>'Main Contact',
         'DirContact'=>'Direct Performer Contact',

@@ -183,7 +183,7 @@ function fm_select(&$Options,$data,$field,$blank=0,$selopt='',$field2='') {
   return fm_select2($Options,'@@@@@@',$field,$blank,$selopt,$field2);
 }
 
-function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field2='',$colours=0,$multi=0,$extra3='') {
+function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field2='',$colours=0,$multi=0,$extra3='',$extra4='') {
   global $ADDALL,$AutoADD;
   if ($field2 == '') $field2=$field;
   $str = "";
@@ -209,7 +209,7 @@ function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field
     } else {
       $str .= "<input type=radio name=$field2 $ex id=$field2$i $ADDALL ";
       if ($AutoADD) $str .= " oninput=AutoRadioInput('$field2',$i) ";
-      $str .= " value='$i'";
+      $str .= " value='$i' $extra4";
       if (isset($data[$field]) && ($data[$field] == $i)) $str .= " checked";
     }
     $str .= ">\n";

@@ -23,8 +23,9 @@
       echo "In $YEAR, These Dance teams were in Wimborne.  Click on the name or photograph to find out more and where they were dancing.<p>\n" .
                           "<b><a href=/int/ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR>Dance Programme for $YEAR</a></b><p>\n";
     } else {
-      echo "In " . ($YEAR-1) . " we had over " . Count_Perf_Type('IsASide',$YEAR-1) . " teams performing, for $YEAR we already have " .
-             Count_Perf_Type('IsASide',$YEAR) . " confirmed and lots more to come.<p>";
+//      echo "In " . ($YEAR-1) . " we had over " . Count_Perf_Type('IsASide',$YEAR-1) . " teams performing, for $YEAR we already have " .
+//             Count_Perf_Type('IsASide',$YEAR) . " confirmed and lots more to come.<p>";
+      echo "This year we have " . Count_Perf_Type('IsASide',$YEAR) . " great folk dance teams for you to enjoy.<p>";
   
       if (Feature('DanceComp')) echo "We will also be having a <a href=int/ShowArticles.php?w=NWDanceComp>Competiton for the best North West Morris Team</a>.<p>";
   
