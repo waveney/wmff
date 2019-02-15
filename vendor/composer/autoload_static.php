@@ -78,6 +78,10 @@ class ComposerStaticInite1a46f6f5207d2fb25a70846c610822a
         array (
             'Matrix\\' => 7,
         ),
+        'H' => 
+        array (
+            'Html2Text\\' => 10,
+        ),
         'C' => 
         array (
             'Complex\\' => 8,
@@ -100,6 +104,11 @@ class ComposerStaticInite1a46f6f5207d2fb25a70846c610822a
         'Matrix\\' => 
         array (
             0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
+        ),
+        'Html2Text\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/html2text/html2text/src',
+            1 => __DIR__ . '/..' . '/html2text/html2text/test',
         ),
         'Complex\\' => 
         array (
