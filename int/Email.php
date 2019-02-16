@@ -175,7 +175,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,&$attachments=0) {
   $Reps = [];
 
   while (preg_match('/\*(\w*)\*/',$Mess)) {
-    if (preg_match_all('/\*(\w*)\*/',$Mess,$Matches)) {
+    if (preg_match_all('/\*(\S*)\*/',$Mess,$Matches)) {
       foreach($Matches[1] as $key) {
         if (!isset($Reps[$key])) {
           switch ($key) {
@@ -198,6 +198,14 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,&$attachments=0) {
           case (preg_match('/MAILTO_(.*)/',$key,$mtch)?true:false):
             $rep = "<a href='mailto:" . $mtch[1] . "@" . $MASTER_DATA['HostURL'] . "'>" . $mtch[1] . "@" . $MASTER_DATA['HostURL'] . "</a>";
             break;
+          case (preg_match('/WEB(.*)/',$key,$mtch)?true:false):
+            $bits = preg_split('/:/',$mtch[1],3);
+            $url = '';
+            $txt = 'Festival Website';
+            if (isset($bits[1])) $url = $bits[1];
+            if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
+            $rep = "<a href='https://" . $MASTER_DATA['HostURL'] . ($url? "/$url" : "") . "'>$txt</a>";
+            break;
           default:
             $rep = ($helper?$helper($key,$helperdata,$attachments):"*$key*");
             break;
@@ -205,7 +213,11 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,&$attachments=0) {
         $Reps[$key] =$rep;
         }
       }
-      foreach ($Reps as $k=>$v) $Mess = preg_replace("/\*$k\*/",$v,$Mess);
+      foreach ($Reps as $k=>$v) {
+        $qk = preg_quote($k,'/');
+//var_dump($qk,$v);
+        $Mess = preg_replace("/\*$qk\*/",$v,$Mess);
+      }
     }
   }
 }

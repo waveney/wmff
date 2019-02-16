@@ -41,6 +41,7 @@
   echo "<tr><td>*MAILTO_name*<td>Inserts a mailto link to name@festival.org<td>All\n";
   echo "<tr><td>*BBREF*/*LNLREF*<td>Unique reference for payments<td>BB, LNL\n";
   echo "<tr><td>*PROG*<td>Programme for performer<td>Dance (will be all performers)\n";
+  echo "<tr><td>*WEB*/*WEB:URL:TEXT<td>Website for Festival, URL - to follow website, TEXT - To be displayed (any '_' will appear as spaces)<td>All\n";
   echo "</table><p>\n";
 
   $coln = 0;
