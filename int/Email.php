@@ -41,6 +41,16 @@ function Pretty_Print_To($to) {
   return $str;
 }
 
+  require 'vendor/autoload.php';
+
+
+  use Html2Text\Html2Text;
+
+function ConvertHtmlToText(&$body) {
+  $html = new \Html2Text\Html2Text($body,['do_links' => 'inline']);
+  return $html->getText();
+}
+
 //$to can be single address, a [address, name] or [[to,address,name],[cc,addr,name],bcc,addr,name],replyto,addr,name]...]
 //$atts can be simple fie or [[file, name],[file,name]...]
 
@@ -52,6 +62,7 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0) {
     } else {    
       echo "<p>Would send email to " . Pretty_Print_To($to) . " with subject: $sub<p>Content:<p>$letter<p>\n";
     
+      echo "Text: " . ConvertHtmlToText($letter);
       if ($attachments) {
         if (is_array($attachments)) {
           foreach ($attachments as $i=>$att) {
@@ -112,8 +123,8 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0) {
     }
     $email->Subject = $sub;
     $email->isHTML(true);
-    $email->Body = $letter;
-//    $email->AltBody = 
+    $email->Body = $letter; // HTML format
+    $email->AltBody = ConvertHtmlToText($letter); // Text format
 
     if ($attachments) {
       if (is_array($attachments)) {
@@ -185,7 +196,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,&$attachments=0) {
             $rep = $MASTER_DATA['HostURL'];
             break;
           case (preg_match('/MAILTO_(.*)/',$key,$mtch)?true:false):
-            $rep = "<a href='mailto:'" . $mtch[1] . "@" . $MASTER_DATA['HostURL'] . ">" . $mtch[1] . "@" . $MASTER_DATA['HostURL'] . "</a>";
+            $rep = "<a href='mailto:" . $mtch[1] . "@" . $MASTER_DATA['HostURL'] . "'>" . $mtch[1] . "@" . $MASTER_DATA['HostURL'] . "</a>";
             break;
           default:
             $rep = ($helper?$helper($key,$helperdata,$attachments):"*$key*");

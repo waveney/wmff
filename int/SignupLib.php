@@ -267,7 +267,7 @@ function Vol_SDetails($key,&$vol) {
   switch ($key) {
   case 'WHO': return firstword($vol['SN']);
   case 'DETAILS': return Get_SVol_Details($stwe);
-  case 'LINK' :return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Access.php?t=w&id=" . $vol['id'] . "&k=" . $vol['AccessKey'] . "><b>link</b></a>";
+  case 'LINK' :return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Access.php?t=w&id=" . $vol['id'] . "&k=" . $vol['AccessKey'] . "'><b>link</b></a>";
   }
 }
 

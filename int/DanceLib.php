@@ -704,7 +704,7 @@ function Dance_Email_Details($key,&$data,$att=0) {
   $snum = $Side['SideId'];
   switch ($key) {
   case 'WHO':  return $Side['Contact']? firstword($Side['Contact']) : $Side['SN'];
-  case 'LINK': return "<a href=https://" . $MASTER_DATA['HostURL'] . "/int/Direct.php?t=Perf&id=$snum&key=" . $Side['AccessKey'] . "&Y=$YEAR><b>this link</b></a>  " ;
+  case 'LINK': return "<a href='https://" . $MASTER_DATA['HostURL'] . "/int/Direct.php?t=Perf&id=$snum&key=" . $Side['AccessKey'] . "&Y=$YEAR'><b>this link</b></a>  " ;
   case 'PROG': return Show_Prog('Perf',$snum,1);
   case 'MISSING': $str = "<ol>\n";
     if ($Sidey['Sat'] == 0 && $Sidey['Sun'] == 0) $str .= '<li><b>Days</b> What days you will be dancing.  It is also very helpful if you tell us: ' .

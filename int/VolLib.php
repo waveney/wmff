@@ -80,8 +80,8 @@ function Vol_Details($key,&$vol) {
   switch ($key) {
   case 'WHO': return firstword($vol['SN']);
   case 'DETAILS': return Get_Vol_Details($vol);
-  case 'LINK' : return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Access.php?t=v&i=" . $vol['id'] . "&k=" . $vol['AccessKey'] . "><b>link</b></a>";
-  case 'WMFFLINK' : return "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Volunteers.php?A=View&id=" . $vol['id'] . "><b>link</b></a>";
+  case 'LINK' : return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Access.php?t=v&i=" . $vol['id'] . "&k=" . $vol['AccessKey'] . "'><b>link</b></a>";
+  case 'WMFFLINK' : return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Volunteers.php?A=View&id=" . $vol['id'] . "'><b>link</b></a>";
   }
 }
 

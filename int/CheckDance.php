@@ -52,6 +52,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
             $sideercount++;
           }
         }
+/*
         if ($s = $e["Act$i"]) {
           if (isset($Sides[$s])) {
             $dancing[$s][] = $eid;
@@ -72,6 +73,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
             $sideercount++;
           }
         }
+*/
       }
       if ($e['BigEvent']) {
         if ($e['SN'] == 'Procession') $Procession = $eid;
@@ -111,7 +113,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
     $Merr = '';
     $LastDay = -99;
     $LastT = 0;
-    $FirstTime = $LastTime = $DayCounts = array(-3=>0,-2=>0,-1=>0,0=>0,1=>0,2=>0,3=>0);
+    $FirstTime = $LastTime = $DayCounts = array(-3=>0,-2=>0,-1=>0,0=>0,1=>0,2=>0,3=>0); // Needs changing for longer festivals TODO
     $VenuesUsed = $Complained = array();
     $surfs = 0;
     $last_e = 0;
@@ -174,8 +176,8 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
         }
         if ($side['IsASide'] && $surfs) {
 //if (!$Surfaces[$Venues[$Ven]['SurfaceType1']]) { echo "Surface - $Ven ..."; }
-          if (($side["Surface_" . $Surfaces[$Venues[$Ven]['SurfaceType1']]]) || 
-              ($side["Surface_" . $Surfaces[$Venues[$Ven]['SurfaceType2']]])) { // Good
+          if (($Surfaces[$Venues[$Ven]['SurfaceType1']] != '' && $side["Surface_" . $Surfaces[$Venues[$Ven]['SurfaceType1']]]) || 
+              ($Surfaces[$Venues[$Ven]['SurfaceType2']] != '' && $side["Surface_" . $Surfaces[$Venues[$Ven]['SurfaceType2']]])) { // Good
           } else if ($last_e != $Procession) {
             if(!isset($badvens[$Ven])) {
               $Err .= "Do not like dancing on the surfaces at " . SName($Venues[$Ven]) . ", ";
@@ -255,7 +257,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
       }
 
       foreach ($Olaps as $Rule) {
-        if ($Rule['OType'] >= 1) { // Musician Olap(1) | Avoid(2)
+        if ($Rule['OType'] == 1) {  // Musician Olap(1) | Avoid(2)
           $Other = ($Rule['Sid1'] == $side['SideId'])?'Sid2':'Sid1';
             $o = $Rule[$Other];
         // Musician Overlaps - can do same spot multi sides and 2 consecutive spots, not 3+ - 
@@ -314,10 +316,20 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
                 $LastD = $Ev['Day'];
               }
             } else { // Avoids
-            
+
             }
           }
-        }  
+        } else if ($Rule['OType'] == 2) { // Avoids
+          $Other = ($Rule['Sid1'] == $side['SideId'])?'Sid2':'Sid1';                     
+          $o = $Rule[$Other];
+          $res = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND (Side1=$si OR Side2=$si OR Side3=$si OR Side4=$si) AND (Side1=$o OR Side2=$o OR Side3=$o OR Side4=$o)");
+           
+          if ($res) {
+            while ($e = $res->fetch_assoc()) {
+              $Err .= "Want to avoid dancing with " . $sidenames[$o] . " both are at " . SName($Venues[$e['Venue']]) . " at " . $e['Start'] . " on " . $DayList[$e['Day']] . ", ";
+            }
+          }
+        }
       }
 
       if ($side['IsASide']) {
