@@ -48,7 +48,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
   } else {
     $Adv = ''; // 'class=Adv'; // NEEDS MODING FOR NON DANCE
     if ($Mstate && $Side['IsASide'] && isset($Sidey['Coming']) && $Sidey['Coming']==2 ) {
-      echo "<h2 class=floatright>You have <span id=ImpC>0</span> of <span id=ImpT>4</span> <span class=red>Most Important</span> /88things filled in </h2>";
+      echo "<h2 class=floatright id=AllImpsDone>You have <span id=ImpC>0</span> of <span id=ImpT>4</span> <span class=red>Most Important</span> things filled in </h2>";
       $Imp = 'class=imp';
     }
     echo "Please keep this information up to date, even if you are not coming so we can invite you in the future.";

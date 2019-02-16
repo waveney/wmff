@@ -55,6 +55,7 @@ function updateimps() {
 
   document.getElementById('ImpC').innerHTML = imps;
   document.getElementById('ImpT').innerHTML = impt;
+  if (imps == impt) { $('#AllImpsDone').hide() } else {  $('#AllImpsDone').show() };
 }
 
 function AgentChange(ev) {
@@ -77,7 +78,7 @@ function CheckContract() {
        (document.getElementById('CampFri') && document.getElementById('CampFri').value > 0 ) || 
        (document.getElementById('CampSat') && document.getElementById('CampSat').value > 0 ) || 
        (document.getElementById('CampSun') && document.getElementById('CampSun').value > 0 ) ||
-       (document.getElementById('OtherPayment').value !='' )) { $('.ContractShow').show() }
+       (document.getElementById('OtherPayment') && document.getElementById('OtherPayment').value !='' )) { $('.ContractShow').show() }
   else { $('.ContractShow').hide() }
 
   updateimps();
