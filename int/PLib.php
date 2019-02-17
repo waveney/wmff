@@ -15,7 +15,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
 //  if ($Side['IsAnAct'] || $Side['IsOther']) Add_Act_Help();
   $Sidey = Get_SideYear($snum);
 
-  $Side['TotalFee'] = (isset($Sidey['TotalFee'])?isset($Sidey['TotalFee']):0); // This is to make linkemail do the right thing 
+  $Side['TotalFee'] = (isset($Sidey['TotalFee'])?$Sidey['TotalFee']:0); // This is to make linkemail do the right thing 
   $NotD = 0;
   foreach ($PerfTypes as $p=>$d) if (($d[0] != 'IsASide') && $Side[$d[0]]) $NotD = 1;
 
@@ -178,6 +178,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
 
     $bankhide = 1;
     if ($snum > 0 && ( $Side['SortCode'] || $Side['Account'] || $Side['AccountName'] || $Side['TotalFee'])) $bankhide = 0;
+//    echo $bankhide . "sc:" . $Side['SortCode'] . "ac:" .$Side['Account']. "an:" .$Side['AccountName'] . "tf" . $Side['TotalFee'];
     echo "<tr" . ($bankhide?" class='ContractShow' hidden":'') . " id=BankDetail><td>Bank Details:" . help('Bank');
       echo fm_text('Sort Code',$Side,'SortCode');
       echo fm_text('Bank Account Number',$Side,'Account');
