@@ -55,6 +55,13 @@ function updateimps() {
 
   document.getElementById('ImpC').innerHTML = imps;
   document.getElementById('ImpT').innerHTML = impt;
+  if (imps == impt) { 
+    $('#AllImpsDone').hide();
+    $('.Imp').css('color','Black');
+  } else {
+    $('#AllImpsDone').show()
+    $('.Imp').css('color','red');
+  };
 }
 
 function AgentChange(ev) {
@@ -73,12 +80,16 @@ function AgentChange(ev) {
 }
 
 function CheckContract() {
+//  debugger;
   if ((document.getElementById('TotalFee') && document.getElementById('TotalFee').value > 0 ) || 
        (document.getElementById('CampFri') && document.getElementById('CampFri').value > 0 ) || 
        (document.getElementById('CampSat') && document.getElementById('CampSat').value > 0 ) || 
        (document.getElementById('CampSun') && document.getElementById('CampSun').value > 0 ) ||
-       (document.getElementById('OtherPayment').value !='' )) { $('.ContractShow').show() }
-  else { $('.ContractShow').hide() }
+       (document.getElementById('OtherPayment') && document.getElementById('OtherPayment').value !='' )) { 
+//    if ((document.getElementById('OtherPayment') && document.getElementById('OtherPayment').value !='' )) 
+
+    $('.ContractShow').show()
+  } else { $('.ContractShow').hide() }
 
   updateimps();
 }
