@@ -47,7 +47,8 @@ function Pretty_Print_To($to) {
   use Html2Text\Html2Text;
 
 function ConvertHtmlToText(&$body) {
-  $html = new \Html2Text\Html2Text($body,['do_links' => 'inline']);
+  $body2 = preg_replace('/<p>/i',"</p>\n<p>",$body);
+  $html = new \Html2Text\Html2Text($body2,['do_links' => 'inline']);
   return $html->getText();
 }
 
