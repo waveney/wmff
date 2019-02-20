@@ -21,6 +21,7 @@
         echo "<h2 class=ERR>NO NAME GIVEN</h2>\n";
         $proc = 0;
       }
+      $_POST['AccessKey'] = rand_string(40);
       $vid = Insert_db_post('Venues',$Venue,$proc);
     }
     Update_MapPoints(); 
@@ -31,6 +32,15 @@
     $cvid = $_GET['Copy'];
     $Venue = Get_Venue($cvid);
     $vid = -1;
+  } elseif (isset($_REQUEST['NEWACCESS'])) {
+    $Vens = Get_Venues(1);
+    foreach ($Vens as $Ven) {
+      $Ven['AccessKey'] = rand_string(40);
+      Put_Venue($Ven);
+    }
+    echo "All Access Keys Now changed";
+    dotail();
+    
   } else {
     $Venue = array();
     $vid = -1;
@@ -83,6 +93,7 @@
     echo fm_checkbox('Craft',$Venue,'Craft');
     echo fm_checkbox('Other',$Venue,'Other');
     echo "<td colspan=2>" . fm_checkbox('Ignore Multiple Use Warning',$Venue,'AllowMult');
+    echo "<td>" . fm_checkbox("Parking",$Venue,'Parking');
     echo "<tr><td>" . fm_simpletext("Dance Importance",$Venue,'DanceImportance','size=4');
     echo "<td>" . fm_simpletext("Music Importance",$Venue,'MusicImportance','size=4');
     echo "<td>" . fm_simpletext("Other Importance",$Venue,'OtherImportance','size=4');
@@ -93,7 +104,8 @@
     echo "<tr>" . fm_text('Dance Rider',$Venue,'DanceRider',5);
     echo "<tr>" . fm_text('Music Rider',$Venue,'MusicRider',5);
     echo "<tr>" . fm_text('Other Rider',$Venue,'OtherRider',5);
-    echo "<tr><td>" . fm_checkbox("Parking",$Venue,'Parking');
+    echo "<tr>" . fm_text('Disability Statement',$Venue,'DisabilityStat',5);
+    echo "<tr><td>Access Key:<td colspan=5>" . $Venue['AccessKey'];
     echo "</table>\n";
 
   if ($vid > 0) {

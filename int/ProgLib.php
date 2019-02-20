@@ -37,6 +37,8 @@ function Set_Venue_Help() {
         'PartVirt'=>'What virtual site this is part of (if any)',
         'SupressFree'=>'If the venue has an entry change set this',
         'Minor'=>'Treatment of venue in final dance grid',
+        'DisabilityStat'=>'A Statement about disabled access for the venue',
+        
   );
   Set_Help_Table($t);
 }
