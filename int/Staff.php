@@ -268,6 +268,7 @@
 
 //    if (Access('SysAdmin')) echo "<li><a href=BusTimes.php>Fetch and Cache Bus Times</a>\n";
 //    if (Access('SysAdmin')) echo "<li><a href=ConvertEvents.php>Convert Old Format Events to New Format Events</a>\n";
+    if (Access('SysAdmin')) echo "<li><a href=AddVenue.php?NEWACCESS onClick=\"javascript:return confirm('are you sure you update these?');\">Generate New Access Keys for Venues</a>\n";
     echo "</ul>\n";
 
 // *********************** Misc *****************************************************************

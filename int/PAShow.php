@@ -1,9 +1,9 @@
 <?php
   include_once("fest.php");
   
-  A_Check('Steward');
-  
   $V = $_REQUEST['pa4v'];
+  A_Check('Participant','Venue',$V);
+  
   include_once("ProgLib.php");
   include_once("DanceLib.php");
     
@@ -116,6 +116,11 @@
   }
   echo "</table>\n";
   
+  if (Access('Staff')) {
+    echo "<h3>Link to send to Engineer: https://" . $MASTER_DATA['HostURL'] . "/int/Access.php?t=p&i=$V&k=" . $Ven['AccessKey'];
+    if (Access('SysAdmin')) echo "<a href='Access.php?t=p&i=$V&k=" . $Ven['AccessKey'] . "'> Use\n";
+    echo "</h3>\n";
+  }
   dotail();
   
 /* Need to see PA on venue list 
