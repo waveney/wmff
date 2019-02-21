@@ -119,6 +119,7 @@
           echo "No Sagecode yet.<p>";
           $Trad['SageCode'] = $sageCode;
         }
+// echo "Stored Adr:" . $Trad['Address'] . " from Invoice: $address<br>";
         if ($Trad['Address'] == '') { $Trad['Address'] = $address; $change = 1; }
         if ($Trad['Contact'] == '') { $Trad['Contact'] = $contact; $change = 1; }
         else if (strtolower(trim($Trad['Contact'])) != $lccont) echo "Contacts different '" . $Trad['Contact'] . "' - '$contact' ";        
@@ -130,8 +131,8 @@
       } else {
 //        echo "NOT IN SYSTEM YET<p>";
         echo "Added<p>";
-        $NewTrad = ['SN'=>$BZname, 'Contact'=>$contact, 'SageCode'=>$sageCode];
-        Insert_db("Trade",$NewTrad);        
+        $NewTrad = ['SN'=>$BZname, 'Contact'=>$contact, 'SageCode'=>$sageCode, 'Address'=> $address];
+//        Insert_db("Trade",$NewTrad);        
       }
 
       break 1;
