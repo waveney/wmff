@@ -132,7 +132,7 @@
 //        echo "NOT IN SYSTEM YET<p>";
         echo "Added<p>";
         $NewTrad = ['SN'=>$BZname, 'Contact'=>$contact, 'SageCode'=>$sageCode, 'Address'=> $address];
-//        Insert_db("Trade",$NewTrad);        
+        Insert_db("Trade",$NewTrad);        
       }
 
       break 1;

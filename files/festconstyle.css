@@ -291,19 +291,21 @@ input[type=password] {
 */
 
 .SideListWrapper {
-  width: 570px
-  height: 460px; 
+  width: 370px
+  height: 360px; 
   overflow: hidden;
   position: fixed;
   top:0;
   right:0;
   border: 1px solid #000;
+  font-size:12px;
 }
 
 .SideListContainer {
   overflow-y: auto;
   height: 70vh; /* 440px; */
-  width: 570px; 
+  width: 370px; 
+  font-size:12px;
 }
 
 .SideListContainer td, .SideListContainer th, .SideListContainer table {
@@ -380,6 +382,7 @@ tr:nth-child(8n+4) .DPGridDisp {
 
 .SideName {
   cursor: pointer;
+  font-size:12px;
 }
 
 div.whileDragging {
