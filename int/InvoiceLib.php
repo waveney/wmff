@@ -643,6 +643,7 @@ function Set_Invoice_Help() {
 function Bespoke_Inv_CoverNote($id,&$inv) {
   global $MASTER_DATA,$PLANYEAR;
   dostaffhead("Cover Note for" . $inv['BZ']);
+
    
   $subject = $MASTER_DATA['FestName'] . " $PLANYEAR and " . $inv['BZ'];
   $inv['CoverNote'] = $Mess = (isset($_POST['Message'])?$_POST['Message']:$inv['CoverNote']);
@@ -656,7 +657,7 @@ function Bespoke_Inv_CoverNote($id,&$inv) {
     Put_Invoice($inv);
     return;
   }
-
+  Replace_Help('Invoices',1);
   echo "<h2>Email for " . $inv['BZ'] . " - " . $inv['Contact'] . "</h2>";
   if (isset($_POST['PREVIEW'])) {
     echo "<p><h3>Preview...</h2>";

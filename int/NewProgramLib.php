@@ -34,7 +34,7 @@ function Grab_Data($day='',$Media='Dance') {
   } else if (isset($_GET{'d'})) { $DAY = $_GET{'d'}; } else { $DAY='Sat'; }
 
   if (!isset($_GET{'EInfo'})) $_GET{'EInfo'} = 0;
-  for ($t=10;$t<($Media=='Dance'?18:24);$t++) { // TODO fix for non 30 minute slots
+  for ($t=9;$t<($Media=='Dance'?18:24);$t++) { // TODO fix for non 30 minute slots
     $Times[] = $t*100;
     if ($Media != 'Dance') $Times[] = $t*100+15;
     $Times[] = $t*100+30;
@@ -522,7 +522,8 @@ function Notes_Pane() {
 
 function InfoPane() {
   echo "<div class=InfoWrapper><div class=InfoContainer id=InfoPane>";
-  echo "If you click on a <img src=/images/icons/information.png> icon by a side, information about them will be displayed here";
+  echo "If you click on a <img src=/images/icons/information.png width=20> icon by a side, information about them will be displayed here.<p>";
+  echo "<img src=/images/icons/redinformation.png width=20> Means Important Info";
   echo "</div></div>\n";
 }
 
