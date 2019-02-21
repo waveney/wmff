@@ -18,7 +18,7 @@ function Prog_Headers($Public='',$headers =1,$What='Dance') {
 function Grab_Data($day='',$Media='Dance') {
   global $DAY,$Times,$Back_Times,$lineLimit,$Sides,$SideCounts,$EV,$VenueUse,$evs,$Sand,$Earliest,$Latest;
 
-  $cats = array('Side','Act','Other');
+  $cats = ['Side','Act','Comedy','Ch Ent','Other'];
   $Times = array();
   $lineLimit = array();
   $SideCounts = array();
@@ -453,6 +453,7 @@ function Side_List() {
 //  echo "<thead><tr><th>Side<th>i<th>W<th>H</thead><tbody>\n";
   echo "<thead><tr><th>Side<th>H<th>i<th>W<th>H</thead><tbody>\n";
   foreach ($Sides as $id=>$side) {
+    if (!isset($side['SN']) || $side['SN'] == '') continue;
     $data_w =  ($side['Share'] == 2)?"data-w=1":"";
     echo "<tr><td draggable=true class='SideName Side$id' $data_w id=SideN$id ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event,$Sand)>";
     echo SName($side);

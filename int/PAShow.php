@@ -6,6 +6,7 @@
   
   include_once("ProgLib.php");
   include_once("DanceLib.php");
+  global $YEAR,$MASTER_DATA;
     
   $Ven = Get_Venue($V);
 
@@ -117,8 +118,8 @@
   echo "</table>\n";
   
   if (Access('Staff')) {
-    echo "<h3>Link to send to Engineer: https://" . $MASTER_DATA['HostURL'] . "/int/Access.php?t=p&i=$V&k=" . $Ven['AccessKey'];
-    if (Access('SysAdmin')) echo "<a href='Access.php?t=p&i=$V&k=" . $Ven['AccessKey'] . "'> Use\n";
+    echo "<h3>Link to send to Engineer: https://" . $MASTER_DATA['HostURL'] . "/int/Access.php?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'];
+    if (Access('SysAdmin')) echo "<a href='Access.php?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'] . "'> Use\n";
     echo "</h3>\n";
   }
   dotail();
