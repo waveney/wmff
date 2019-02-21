@@ -26,7 +26,7 @@ function Parse_Perf_Selection() {
   $Venues = Get_Real_Venues(0);
   $Skip = 0;
 
-  echo "<span class=floatright id=largeredsubmit onclick=($('.HelpDiv').toggle()) >HELP</span>";
+  echo "<span class=floatright id=largeredsubmit onclick=($('.HelpDiv').toggle()) >Click to toggle HELP</span>";
   echo "<div class=content>";
   echo "<div class=HelpDiv hidden>";
 ?>

@@ -34,6 +34,9 @@ if (isset($_POST['SEND'])) {
 
 
 dominimalhead("Email for " . $Side['SN'],"files/festconstyle.css");
+
+Replace_Help('Dance',1);
+
 echo "<h2>Email for " . $Side['SN'] . " - " . $Side['Contact'] . "</h2>";
 if (isset($_POST['PREVIEW'])) {
   echo "<p><h3>Preview...</h2>";

@@ -253,4 +253,41 @@ function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='
   return $Mess;
 }
 
+function Replace_Help($Area='',$Right=0) {
+  $Reps = [
+  ['*WHO*','First name of contact','All'],
+  ['*PLANYEAR*/*NEXTYEAR*','Year for the booking, Planyear+1','All'],
+  ['*DATES*','Dates of Saturday and Sunday','All'],
+  ['*LOCATION*','Location(s) of Pitches','Trade'],
+  ['*PRICE*','Total Price quoted','Trade'],
+  ['*LINK*','Personal Link for Participants','Trade, Volunteers, Performers'],
+  ['*REMOVE*','Remove Request','Trade'],
+  ['*WMFFLINK*','Link for Committee members direct to that Trader/Volunteer/Performer etc','Trade, Volunteers'],
+  ['*DEPOSIT*','Deposit Required','Trade, LNL, BB'],
+  ['*BALANCE*','Balance Required','Trade'],
+  ['*DETAILS*','Full details of booking etc','Trade, BB, LOL, LNL, Volunteers, Invoices'],
+  ['*FINANCIAL*','Trade financial statement','Trade'],
+  ['*STATE*','Decsription of application state','Trade'],
+  ['*PAIDSOFAR*','Total payments so far','Trade'],
+  ['*FESTIVAL*','Name of Festival','All'],
+  ['*HOST*','Host URL for festival','All'],
+  ['*MAILTO_name*','Inserts a mailto link to name@festival.org','All'],
+  ['*BBREF*/*LNLREF*','Unique reference for payments','BB, LNL'],
+  ['*PROG*','Programme for performer','Dance (will be all performers)'],
+  ['*WEB*/*WEB:URL:TEXT','Website for Festival, URL - to follow website, TEXT - To be displayed (NO SPACES - any _ will appear as spaces)','All'],
+  ['*MISSING*','Important information missing from a dance side','Dance'],
+  ];
+
+  echo "<span " . ($Right?' class=floatright':'') . " id=largeredsubmit onclick=($('.HelpDiv').toggle()) >Click to toggle Standard Replacements Help</span>";
+  echo "<div class=HelpDiv hidden>";
+
+  echo "<table border>\n";
+  echo "<tr><td>Code<td>What it does<td>Areas \n";
+
+  foreach($Reps as $r) {
+    if ($Area =='' || preg_match("/(All)|($Area)/",$r[2])) echo "<tr><td>" . $r[0] . "<td>" . $r[1] . "<td>" . $r[2] . "\n";
+  }
+  echo "</table></div>\n";
+}
+
 ?>
