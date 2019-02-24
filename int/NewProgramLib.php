@@ -324,7 +324,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
   $WDRAG = ($drag)?"ondrop=drop(event,$Sand) ondragover=allow(event)":"";
   foreach ($Times as $t) {
     if ($condense && ($t < $Earliest || $t >= $Latest)) continue;
-    echo "<tr><th rowspan=4 width=60 valign=top id=RowTime$t>$t";
+    echo "<tr><th rowspan=4 width=60 valign=top id=RowTime$t>" . sprintf('%04d',$t);
     if ($drag && $lineLimit[$t]<4) {
       echo "<button class=botx onclick=UnhideARow($t) id=AddRow$t>+</button>";
     }
@@ -394,7 +394,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
               if ($links) echo "</a>";
               echo "<br>";
             }
-            echo "<span class=DPETimes>$t - " . timeadd($t,$G['d']) . "<br></span>";
+            echo "<span class=DPETimes>" . sprintf('%04d',$t) . " - " . timeadd($t,$G['d']) . "<br></span>";
             for($i=1; $i<5;$i++) {
               if ($G["S$i"]) {
                 $si = $G["S$i"];

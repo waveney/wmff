@@ -1,6 +1,6 @@
 <?php
   include_once("fest.php");
-  A_Check('Committee','Dance');
+  A_Check('Staff','Dance');
 
   include_once("NewProgramLib.php");
 

@@ -144,9 +144,9 @@
       } else {
         echo "<li><a href=NewDanceProg.php?Y=$YEAR&SAND>Edit $YEAR Dance Programme in Sandbox</a>";
       }
-    } else {
-      echo "<li><a href=ShowDanceProg.php?Y=$YEAR>View Dance Programme</a>";
     }
+    echo "<li><a href=ShowDanceProg.php?Y=$YEAR>View Dance Programme</a>";
+
     if (Access('SysAdmin')) {
       echo "<li><a href=ShowDanceProg.php?Y=$YEAR>View Dance Programme</a>";
       echo "<p><table><tr><td>";

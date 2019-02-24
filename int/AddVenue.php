@@ -87,7 +87,7 @@
     echo "<td>" . fm_checkbox('Dance Setup Overlap',$Venue,'SetupOverlap');
     echo "<td>" . fm_checkbox('Is Virtual',$Venue,'IsVirtual');
     echo "<td colspan=2>Part of:" . fm_select($VirtSites,$Venue,'PartVirt',1);
-    echo "<tr><td>Venue For:<td colspan=2>" . fm_checkbox('Dance',$Venue,'Dance');
+    echo "<tr><td>Venue For:<td colspan=3>" . fm_checkbox('Dance',$Venue,'Dance');
     echo fm_checkbox('Music',$Venue,'Music');
     echo fm_checkbox('Children',$Venue,'Child');
     echo fm_checkbox('Craft',$Venue,'Craft');
@@ -99,8 +99,8 @@
     echo "<td>" . fm_simpletext("Other Importance",$Venue,'OtherImportance','size=4');
     echo "<tr><td colspan=2>Treat as Minor for Dance on:" . help('Minor') . "<td>" . fm_checkbox('Sat',$Venue,'MinorSat') ;
     echo "<td>" . fm_checkbox('Sun',$Venue,'MinorSun');
-    echo "<tr><td>Surfaces:<td>" . fm_select($Surfaces,$Venue,'SurfaceType1',1);
-    echo "<td>" . fm_select($Surfaces,$Venue,'SurfaceType2',1) . "\n";
+    echo "<tr><td>Surfaces:<td>" . fm_select($Surfaces,$Venue,'SurfaceType1',0);
+    echo "<td>" . fm_select($Surfaces,$Venue,'SurfaceType2',0) . "\n";
     echo "<tr>" . fm_text('Dance Rider',$Venue,'DanceRider',5);
     echo "<tr>" . fm_text('Music Rider',$Venue,'MusicRider',5);
     echo "<tr>" . fm_text('Other Rider',$Venue,'OtherRider',5);
