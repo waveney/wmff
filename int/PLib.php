@@ -162,10 +162,12 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
       echo "<tr $Adv>" . fm_textarea('Requests',$Side,'Likes',3,1);
         echo fm_text('Animal',$Side,'MorrisAnimal');
       echo "<tr><td>Surfaces:" . help('Surfaces') . "<td colspan=3>";
-        for($st=1;$st<=5;$st++) {
+        for($st=1;$st<=8;$st++) {
+          if ($st == 6) if (Access('SysAdmin')) {echo " ... ";} else break; // TODO fix this fudge
           $surf = $Surfaces[$st];
           echo "<span style='Background:" . $Surface_Colours[$st] . ";padding:4; white-space: nowrap;'>" .fm_checkbox($surf,$Side,"Surface_$surf") . "</span>";
         };
+
         echo "<td>Shared Spots:<td>" . fm_select($Share_Spots,$Side,'Share');
         if (!isset($Side['NoiseLevel'])) $Side['NoiseLevel']=0;
         echo "<td colspan=2 $Adv>" . fm_radio("Music Volume",$Noise_Levels,$Side,'NoiseLevel','',0,'','',$Noise_Colours);

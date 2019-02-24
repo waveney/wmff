@@ -61,11 +61,12 @@
   if ($datay['YNotes']) echo "<tr><td>notes<td class=smalltext>" . $datay['YNotes'];
   if ($datay['PrivNotes']) echo "<tr><td>notes<td class=smalltext>" . $datay['PrivNotes'];
 
-  $Olaps = Get_Overlaps_For($s);
+  $Olaps = Get_Overlaps_For($s,1);
   if ($Olaps) foreach ($Olaps as $oi=>$O) {
     $Other =  ($O['Sid1'] == $s)?'Sid2':'Sid1';
 //    $OtherCat =  ($O['Sid1'] == $s)?'Cat2':'Cat1';
-//var_dump($O);    
+//var_dump($O);
+
     echo "<tr><td>Olap " . substr($OlapTypes[$O['OType']],0,1) . ($O['Major']?' M ':' m ');
     echo "<td>" . ($O['Days']?$OlapDays[$O['Days']]:'') . " " . /* $OlapCat[$O[$OtherCat]] . " " .*/ Get_Side_Name($O[$Other]);
   } 
