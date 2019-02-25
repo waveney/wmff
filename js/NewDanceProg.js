@@ -93,6 +93,7 @@ var InfoPaneDefault = '';
 // Working on New
   $(document).ready(function() {
     $("#Grid").tableHeadFixer({'left':1});
+    UpdateInfo();
   } );
 
 // Prob ok - changed ?? .id

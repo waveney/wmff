@@ -148,7 +148,7 @@
     echo "<li><a href=ShowDanceProg.php?Y=$YEAR>View Dance Programme</a>";
 
     if (Access('SysAdmin')) {
-      echo "<li><a href=ShowDanceProg.php?Y=$YEAR>View Dance Programme</a>";
+//      echo "<li><a href=ShowDanceProg.php?Y=$YEAR>View Dance Programme</a>";
       echo "<p><table><tr><td>";
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=1&Y=$YEAR>Condensed Dance Programme</a>";
       echo "<li class=smalltext><a href=DanceCheck.php?Y=$YEAR>Dance Checking</a>";
