@@ -209,7 +209,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
                   $gap = ($starttime < $OStart)? $OStart - $endtime : $OEnd - $starttime;
                   if ($gap <= -20) {
                   } else if ($gap <= 0) {
-                    if ($Rule['Major']) {
+                    if ($Rule['Major'] && ( $gap <0 || $Events[$e]['Venue'] != $Events[$oe]['Venue'] ) ) { // Minor if gap ==0 && Same venue
 //                      echo "Major Dancer Overlap on $daynam $start with $oname, ";
                       $Err .= "Dancer Overlap on $daynam $start with $oname, ";
                     } else {
@@ -326,7 +326,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
         }
         if ($side['Sun']) {
           if ($DayCounts[2] != $side['SunDance']) {
-            if ($DayCounts[1] > $side['SunDance']) { $Err .= "Have " . $DayCounts[2] . " spots on Sun and wanted " . $side['SunDance'] . ", "; }
+            if ($DayCounts[2] > $side['SunDance']) { $Err .= "Have " . $DayCounts[2] . " spots on Sun and wanted " . $side['SunDance'] . ", "; }
             else $Merr .= "Have " . $DayCounts[2] . " spots on Sun and wanted " . $side['SunDance'] . ", ";
           }
           if ($side['SunArrive'] && $FirstTime[2] && ($side['SunArrive'] > $FirstTime[2])) { $Err .= "Dancing on Sun before arriving, "; };
