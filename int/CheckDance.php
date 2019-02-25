@@ -122,6 +122,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
     $badvens = array();
     foreach ($Surfaces as $ss=>$s) if ($ss < 5 && $s && $side["Surface_$s"]) $surfs++;
     $lastVen = -1;
+    $lastStart = 0;
     $InProcession = 0;
     if (isset($dancing[$si])) {
       foreach ($dancing[$si] as $dd=>$e) { // Checking for ~30 minute gaps
@@ -134,28 +135,21 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
         }
         if ($Events[$e]['SubEvent'] < 0) { $End = $Events[$e]['SlotEnd']; } else { $End = $Events[$e]['End']; };
         if ($Events[$e]['BigEvent'] && ($Events[$e]['OtherPos'][$si] <= $Events[$e]['OtherCount']/2)) $End = timeadd($End, -30);
-//if ($si == 301) echo "$start - " . $LastTime[$daynum]. " $daynum - $LastDay<p>";
         if ($side['IsASide']) {
-//if ($si == 301) echo "Here 1<br>";
           if (!isset($side[$daynam])) { 
-//if ($si == 301) echo "Here 2<br>";
             $Err .= "Event Issue: Dances not allowed for on $daynam (yet), ";
           } elseif (!$side[$daynam]) { 
-//if ($si == 301) echo "Here 3<br>";
             $Err .= "Not at Festival on $daynam, ";
           } elseif ($daynum != $LastDay) {
-//if ($si == 301) echo "Here 4<br>";
             $VenuesUsed = array();
             $LastDay = $daynum;
             $LastTime[$daynum] = $End;
             $minorspots = 0;
           } elseif (timereal($start) - timereal($LastTime[$daynum]) < 20) { // Min 20 mins to allow for odd timing of some events
-//if ($si == 301) echo "Here 5<br>";
             if (!$Events[$e]['IgnoreClash'] && !$Events[$last_e]['IgnoreClash'] ) {
-                $Err .= "Too close on $daynam $start to " . $LastTime[$daynum] . " at " . SName($Venues[$lastVen]) . ", ";
+                $Err .= "Too close on $daynam $start at " . SName($Venues[$Ven]) . " to event from " . $lastStart . " ending at " . $LastTime[$daynum] . " at " . SName($Venues[$lastVen]) . ", ";
             }
           } else {
-//if ($si == 301) echo "Here 6<br>";
             $LastTime[$daynum] = $End;
           }
         }
@@ -191,9 +185,9 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
           for ($j=1; $j<5; $j++) if ($Events[$e]["Side$j"]>0) $ns++;
           if ($ns == 1) {
             if ($side['Share'] == $Share_Type['Always']) $Err .= "Do not like being alone ( $daynam " . $Events[$e]['Start'] . 
-                                " at " . SName($Venues[$Events[$e]['Venue']]) . ", ";
+                                " at " . SName($Venues[$Events[$e]['Venue']]) . "), ";
           } else if ($side['Share'] == $Share_Type['Never']) $Err .= "Do not like sharing ( $daynam " . $Events[$e]['Start'] . 
-                                " at " . SName($Venues[$Events[$e]['Venue']]) . ", ";
+                                " at " . SName($Venues[$Events[$e]['Venue']]) . "), ";
         }
 
         if (!$Events[$e]['ExcludeCount']) $DayCounts[$daynum]++;
@@ -202,37 +196,23 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
           if ($Rule['OType'] == 0) { // Dancer Olap
             $Other = ($Rule['Sid1'] == $side['SideId'])?'Sid2':'Sid1';
               $o = $Rule[$Other];
-//if ($side['SideId']==290) { var_dump($Rule); echo "Rule: $Other $o<p>\n"; var_dump($e); };
-//if ($side['SideId']==356) { var_dump($Rule); echo "Rule: $Other $o<p>\n"; var_dump($e); };
             if (isset($dancing[$o])) {
 
-//if ($side['SideId']==290) echo "X1 " . $e['EventId'] . " - ";
-//if ($side['SideId']==356) echo "X1 " . $e['EventId'] . " - ";
               $oside = $Sides[$o];
               $oname = $oside['SN'];
               $starttime = timereal($start = $Events[$e]['Start']);
               $endtime = timereal($Events[$e]['SubEvent'] < 0 ? $Events[$e]['SlotEnd']: $Events[$e]['End']); 
               foreach ($dancing[$o] as $od=>$oe) {
-//if ($side['SideId']==290) { echo "X2 "; var_dump($dancing[$o]); }
-//if ($side['SideId']==356) { echo "X2 "; var_dump($dancing[$o]); }
                 if ($Events[$oe]['Day'] == $daynum) {
-//if ($side['SideId']==290) echo "X3 " . $oe . " yy ";
-//if ($side['SideId']==356) echo "X3 " . $oe . " yy ";
                   $OStart = timereal($Events[$oe]['Start']);
                   $OEnd = timereal( ($Events[$oe]['SubEvent'] < 0) ? $Events[$oe]['SlotEnd'] : $Events[$oe]['End']);
                   $gap = ($starttime < $OStart)? $OStart - $endtime : $OEnd - $starttime;
-//                  $gap = $starttime - timereal($OEnd);
-//if ($side['SideId']==290) echo "X4 $gap $oname $starttime<p>";
-//if ($side['SideId']==290) echo "Events are " . $Events[$e]['EventId'] . " and " . $Events[$oe]['EventId'] . "<p>";
-//if ($side['SideId']==356) echo "X4 $gap $oname $starttime<p> ";
                   if ($gap <= -20) {
                   } else if ($gap <= 0) {
                     if ($Rule['Major']) {
 //                      echo "Major Dancer Overlap on $daynam $start with $oname, ";
                       $Err .= "Dancer Overlap on $daynam $start with $oname, ";
                     } else {
-//echo "Events are " . $Events[$e]['EventId'] . " and " . $Events[$oe]['EventId'] . "<p>";
-//echo "Minor Dancer Overlap on $daynam $start with $oname, ";
                       $Merr .= "Dancer Overlap on $daynam $start with $oname, ";
                     }
                   } elseif ($gap < 5) { // 
@@ -252,6 +232,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
         $Ev = $Events[$e];
         $lastVen = $Ven;
         $LastTime[$Ev['Day']] = $End;
+        $lastStart = $start;
         if ($FirstTime[$Ev['Day']] == 0) $FirstTime[$Ev['Day']] = $Ev['Start'];
         $LastDay = $Ev['Day'];
       }
@@ -336,12 +317,18 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
         // First/Last Check and number of spots
 
         if ($side['Sat']) {
-          if ($DayCounts[1] != $side['SatDance']) $Merr .= "Have " . $DayCounts[1] . " spots on Sat and wanted " . $side['SatDance'] . ", ";
+          if ($DayCounts[1] != $side['SatDance']) {
+            if ($DayCounts[1] > $side['SatDance']) { $Err .= "Have " . $DayCounts[1] . " spots on Sat and wanted " . $side['SatDance'] . ", ";  }
+            else $Merr .= "Have " . $DayCounts[1] . " spots on Sat and wanted " . $side['SatDance'] . ", ";
+          }
           if ($side['SatArrive'] && $FirstTime[1] && ($side['SatArrive'] > $FirstTime[1])) { $Err .= "Dancing on Sat before arriving, "; };
           if ($side['SatDepart'] && (timeadd2($side['SatDepart'],30) < $LastTime[1])) { $Err .= "Dancing on Sat after depature, "; };
         }
         if ($side['Sun']) {
-          if ($DayCounts[2] != $side['SunDance']) $Merr .= "Have " . $DayCounts[2] . " spots on Sun and wanted " . $side['SunDance'] . ", ";
+          if ($DayCounts[2] != $side['SunDance']) {
+            if ($DayCounts[1] > $side['SunDance']) { $Err .= "Have " . $DayCounts[2] . " spots on Sun and wanted " . $side['SunDance'] . ", "; }
+            else $Merr .= "Have " . $DayCounts[2] . " spots on Sun and wanted " . $side['SunDance'] . ", ";
+          }
           if ($side['SunArrive'] && $FirstTime[2] && ($side['SunArrive'] > $FirstTime[2])) { $Err .= "Dancing on Sun before arriving, "; };
           if ($side['SunDepart'] && (timeadd2($side['SunDepart'],30) < $LastTime[2])) { $Err .= "Dancing on Sun after depature, "; };
         }

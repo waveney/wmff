@@ -375,7 +375,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
           if ($v > 0 && $condense==0) $class = "DPGridGrey";
           if ($line >= $lineLimit[$t]) {
             echo "$OtherLoc<td id=$id class=$class hidden $DRAG data-d=X>&nbsp;";
-          } else if (!$OtherInUse[-$v]) {
+          } else if (!isset($OtherInUse[-$v])) {
             echo "$OtherLoc<td id=$id class=$class $DRAG data-d=X>&nbsp;";
           }
         } else if ($line >= $lineLimit[$t]) {
@@ -485,7 +485,9 @@ function Controls($level=0,$condense=0) {
   echo "<input type=submit name=d value=Fri $classFri> ";
   echo "<input type=submit name=d value=Sat $classSat> ";
   echo "<input type=submit name=d value=Sun $classSun>\n";
-  echo "<tr>" . fm_radio("Info",$InfoLevels,$_GET,'EInfo',"onchange=UpdateInfo()");
+  $_GET['EInfo'] = UserGetPref('ProgErr');
+  
+  echo "<tr>" . fm_radio("Errors",$InfoLevels,$_GET,'EInfo',"onchange=SaveAndUpdateInfo()");
   echo "</table>";
   echo "<button onclick=clearHL()>Clear Highlights</button><br>";
 //  echo "<input type=submit id=smallsubmit value=Refresh>";

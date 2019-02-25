@@ -89,10 +89,15 @@ var InfoPaneDefault = '';
   function UpdateInfo(cond) {
     $("#InformationPane").load("dpupdate.php", "E=" + $("input[type='radio'][name='EInfo']:checked").val() );
   }
+  
+  function SaveAndUpdateInfo() {
+    $("#InformationPane").load("dpupdate.php", "P=S&E=" + $("input[type='radio'][name='EInfo']:checked").val() );
+  }
 
 // Working on New
   $(document).ready(function() {
     $("#Grid").tableHeadFixer({'left':1});
+    UpdateInfo();
   } );
 
 // Prob ok - changed ?? .id

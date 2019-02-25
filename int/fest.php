@@ -163,6 +163,24 @@ function A_Check($level,$subtype=0,$thing=0) {
   Error_Page("Insufficient Privilages");
 }
 
+function UserSetPref($pref,$val) {
+  global $USER,$USERID;
+  Set_User();
+  if (!$USERID) return; // No user
+  $Prefs = $USER['Prefs'];
+  if (!($NewPrefs = preg_replace("/$pref\:.*\n/","$pref:$val\n",$Prefs))) $NewPrefs = $Prefs .  "$pref:$val\n";
+  $USER['Prefs'] = $NewPrefs;
+  Put_User($USER);
+}
+
+function UserGetPref($pref) {
+  global $USER,$USERID;
+  if (!$USER) return 0;
+  if (preg_match("/$pref\:(.*)\n/",$USER['Prefs'],$rslt)) return $rslt[1];
+  return 0;
+}
+
+
 function rand_string($len) {
   $ans= '';
   while($len--) $ans .= chr(rand(65,90));
