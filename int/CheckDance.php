@@ -209,7 +209,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
                   $gap = ($starttime < $OStart)? $OStart - $endtime : $OEnd - $starttime;
                   if ($gap <= -20) {
                   } else if ($gap <= 0) {
-                    if ($Rule['Major'] && ( $gap <0 || $Event[$e]['Venue'] != $Events[$oe]['Venue'] ) ) { // Minor if gap ==0 && Same venue
+                    if ($Rule['Major'] && ( $gap <0 || $Events[$e]['Venue'] != $Events[$oe]['Venue'] ) ) { // Minor if gap ==0 && Same venue
 //                      echo "Major Dancer Overlap on $daynam $start with $oname, ";
                       $Err .= "Dancer Overlap on $daynam $start with $oname, ";
                     } else {
