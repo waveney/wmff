@@ -163,9 +163,14 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
         echo fm_text('Animal',$Side,'MorrisAnimal');
       echo "<tr><td>Surfaces:" . help('Surfaces') . "<td colspan=3>";
         for($st=1;$st<=8;$st++) {
-          if ($st == 6) if (Access('SysAdmin')) {echo " ... ";} else break; // TODO fix this fudge
           $surf = $Surfaces[$st];
-          echo "<span style='Background:" . $Surface_Colours[$st] . ";padding:4; white-space: nowrap;'>" .fm_checkbox($surf,$Side,"Surface_$surf") . "</span>";
+          if (!Access('SysAdmin') && $st >= 6) {
+            echo fm_hidden("Surface_$surf",$Side["Surface_$surf"]);  // Surfaces 6-8 only for Richard at the moment
+          } else {
+            if ($st == 6) echo " ... ";          
+
+            echo "<span style='Background:" . $Surface_Colours[$st] . ";padding:4; white-space: nowrap;'>" .fm_checkbox($surf,$Side,"Surface_$surf") . "</span>";
+          }
         };
 
         echo "<td>Shared Spots:<td>" . fm_select($Share_Spots,$Side,'Share');

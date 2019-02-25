@@ -53,8 +53,10 @@
 
   }
  // Return setup
-   
+ 
+//var_dump($_GET);
   $Ei    = $_GET['E'];  // Used for return info
+  if (isset($_GET['P'])) UserSetPref('ProgErr',$Ei);
   CheckDance($Ei);
   
 ?>
