@@ -287,7 +287,7 @@
     
 //    echo "<li><a href=LaughView.php?Y=$YEAR>Show Laugh Out Loud applications</a>";
     if (Access('Committee')) echo "<li><a href=Campsite.php?Y=$YEAR>Manage Campsite Use</a>\n"; 
-    if (Access('Committee')) echo "<li><a href=CarerTickets.php?Y=$YEAR>Manage Carer Tickets</a>\n"; 
+    if (Access('Staff')) echo "<li><a href=CarerTickets.php?Y=$YEAR>Manage Carer / Partner Tickets</a>\n"; 
     if (Access('Staff','Sponsors')) echo "<li><a href=TaxiCompanies.php>Manage Taxi Company List</a>\n"; 
 //    echo "<li><a href=ContractView.php>Dummy Music Contract</a>";
     echo "</ul>\n";

@@ -34,7 +34,7 @@ function Grab_Data($day='',$Media='Dance') {
   } else if (isset($_GET{'d'})) { $DAY = $_GET{'d'}; } else { $DAY='Sat'; }
 
   if (!isset($_GET{'EInfo'})) $_GET{'EInfo'} = 0;
-  for ($t=9;$t<($Media=='Dance'?18:24);$t++) { // TODO fix for non 30 minute slots
+  for ($t=9;$t<($Media=='Dance'?18:24);$t++) { // TODO fix for non 30 minute slots TODO Start and end from Master
     $Times[] = $t*100;
     if ($Media != 'Dance') $Times[] = $t*100+15;
     $Times[] = $t*100+30;
