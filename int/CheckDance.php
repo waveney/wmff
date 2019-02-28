@@ -211,7 +211,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
         foreach ($Olaps as $Rule) {
           if ($Rule['OType'] == 0) { // Dancer Olap
             $Other = ($Rule['Sid1'] == $side['SideId'])?'Sid2':'Sid1';
-              $o = $Rule[$Other];
+            $o = $Rule[$Other];
             if (isset($dancing[$o])) {
 
               $oside = $Sides[$o];
@@ -220,6 +220,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
               $endtime = timereal($Events[$e]['SubEvent'] < 0 ? $Events[$e]['SlotEnd']: $Events[$e]['End']); 
               foreach ($dancing[$o] as $od=>$oe) {
                 if ($Events[$oe]['Day'] == $daynum) {
+                  if ($o['Days'] > 0 && $daynum != $o['Days'] ) continue;
                   $OStart = timereal($Events[$oe]['Start']);
                   $OEnd = timereal( ($Events[$oe]['SubEvent'] < 0) ? $Events[$oe]['SlotEnd'] : $Events[$oe]['End']);
                   $gap = ($starttime < $OStart)? $OStart - $endtime : $OEnd - $starttime;
@@ -261,7 +262,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
       foreach ($Olaps as $Rule) {
         if ($Rule['OType'] == 1) {  // Musician Olap(1) | Avoid(2)
           $Other = ($Rule['Sid1'] == $side['SideId'])?'Sid2':'Sid1';
-            $o = $Rule[$Other];
+          $o = $Rule[$Other];
         // Musician Overlaps - can do same spot multi sides and 2 consecutive spots, not 3+ - 
           $Playing = $dancing[$side['SideId']];
           $otherplaying = 0;
@@ -269,6 +270,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
             foreach ($dancing[$o] as $oei) {
               $pos = -1;
               $oe = $Events[$oei];
+              if ($o['Days'] > 0 && $oe['Day'] != $o['Days'] ) continue;
               foreach ($Playing as $p=>$sei) {
                 $se = $Events[$sei];
                 if ($pos < 0 && ($oe['Day'] < $se['Day'] || ($oe['Day'] == $se['Day'] && $oe['Start'] < $se['Start']))) $pos = $p;
@@ -305,11 +307,11 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
                     }
                   } else {
                     if ($Rule['Major']) {
-                      $Err .= "Playing at the same time in two locations: " . SName($Venues[$LastVen]) . " at $LastST-" . timeformat($LastET) .
+                      $Err .= "/ " . $Other['SN'] . "Playing at the same time in two locations: " . SName($Venues[$LastVen]) . " at $LastST-" . timeformat($LastET) .
                                 " on $daynam and at " . SName($Venues[$Ven]) . " at " . $Ev['Start'] . ", ";
                       $ErrC++;
                     } else {
-                      $Merr .= "Playing at the same time in two locations: " . SName($Venues[$LastVen]) . " at $LastST-" . timeformat($LastET) .
+                      $Merr .= "/ " . $Other['SN'] . "Playing at the same time in two locations: " . SName($Venues[$LastVen]) . " at $LastST-" . timeformat($LastET) .
                                 " on $daynam and at " . SName($Venues[$Ven]) . " at " . $Ev['Start'] . ", ";
                       $MerrC++;
                     }
@@ -333,6 +335,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
            
           if ($res) {
             while ($e = $res->fetch_assoc()) {
+              if ($o['Days'] > 0 && $e['Day'] != $o['Days'] ) continue;
               $Err .= "Want to avoid dancing with " . $sidenames[$o] . " both are at " . SName($Venues[$e['Venue']]) . " at " . $e['Start'] . " on " . $DayList[$e['Day']] . ", ";
               $ErrC++;
             }
