@@ -42,7 +42,7 @@ D=Z0:Side:32&S=S10:Side:32&EV=167&E=
       break;
 
     case 'ES':
-      db_delete_cond('BigEvent',"Event=$Ev AND Type='$dtt' AND Identifier=$did");
+      db_delete_cond('BigEvent',"Event=$Ev AND ( Type='$dtt' OR Type='Perf' ) AND Identifier=$did");
       break;
 
     case 'EZ': // No Action
@@ -53,12 +53,12 @@ D=Z0:Side:32&S=S10:Side:32&EV=167&E=
       break;
 
     case 'SS': // Move and replace
-      db_delete_cond('BigEvent',"Event=$Ev AND Type='$dtt' AND Identifier=$did");
+      db_delete_cond('BigEvent',"Event=$Ev AND ( Type='$dtt' OR Type='Perf' )  AND Identifier=$did");
       db_update('BigEvent','EventOrder=' . $dstmtch[2],"Event=$Ev AND Type='$stt' AND Identifier=$sid");
       break;
 
     case 'SZ': // Remove
-      db_delete_cond('BigEvent',"Event=$Ev AND Type='$stt' AND Identifier=$sid");
+      db_delete_cond('BigEvent',"Event=$Ev AND ( Type='$stt' OR Type='Perf' )  AND Identifier=$sid");
       break;
 
     case 'ZE': // New
