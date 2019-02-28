@@ -68,6 +68,14 @@ var InfoPaneDefault = '';
     }
   }
 
+  function CopyErrorCount() {
+    var src = $("#DanceErrsSrc");
+    var dst = $("#DanceErrsDest")
+    
+    dst.html(src.html());
+  }
+
+
 // Big Change needed
   function SetGrid(src,dst,sand) {
     var dstmtch = dst.id.match(/G:(\d*):(\d*):(\d*)/);
@@ -82,16 +90,16 @@ var InfoPaneDefault = '';
     } 
     if (dstmtch) UpdateGrid(dst,SideNum,Txt);
     if (!sand) $("#InformationPane").load("dpupdate.php", "D=" + dst.id + "&S=" + src.id + "&I=" + SideNum + "&A=" + $("#DayId").text() + "&E=" + 
-                        $("input[type='radio'][name='EInfo']:checked").val()        );
+                        $("input[type='radio'][name='EInfo']:checked").val(), CopyErrorCount       );
   }
-
+  
 // Prob working new
   function UpdateInfo(cond) {
-    $("#InformationPane").load("dpupdate.php", "E=" + $("input[type='radio'][name='EInfo']:checked").val() );
+    $("#InformationPane").load("dpupdate.php", "E=" + $("input[type='radio'][name='EInfo']:checked").val(),CopyErrorCount );
   }
   
   function SaveAndUpdateInfo() {
-    $("#InformationPane").load("dpupdate.php", "P=S&E=" + $("input[type='radio'][name='EInfo']:checked").val() );
+    $("#InformationPane").load("dpupdate.php", "P=S&E=" + $("input[type='radio'][name='EInfo']:checked").val(),CopyErrorCount );
   }
 
 // Working on New
