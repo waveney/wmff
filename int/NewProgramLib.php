@@ -489,6 +489,7 @@ function Controls($level=0,$condense=0) {
   
   echo "<tr>" . fm_radio("Errors",$InfoLevels,$_GET,'EInfo',"onchange=SaveAndUpdateInfo()");
   echo "</table>";
+  echo "<div id=DanceErrsDest> </div>";
   echo "<button onclick=clearHL()>Clear Highlights</button><br>";
 //  echo "<input type=submit id=smallsubmit value=Refresh>";
   echo "</form>\n";

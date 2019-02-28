@@ -379,8 +379,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
           if ($InProcession) { 
             $Err .= "In the Procession, but don't want to be.  ";
             $ErrC++;
-          }
-        else if ($Procession) { 
+          } else if (!$Procession) { 
             $Merr .= "Not yet in the procession.";
             $MerrC++;
           }
@@ -417,7 +416,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
   }  
 
   if ($sideercount == 0) echo "No Errors!\n";
-  echo "Major: $ErrC Minor: $MerrC<p>";
+  echo "<div id=DanceErrsSrc>Major: $ErrC Minor: $MerrC</div>";
   echo "</div>\n"; 
 }
 ?>
