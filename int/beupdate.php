@@ -23,7 +23,7 @@ D=Z0:Side:32&S=S10:Side:32&EV=167&E=
   include_once("ProgLib.php");
   include_once("CheckDance.php");
 
-var_dump($_GET);
+//var_dump($_GET);
   if (isset($_GET['D'])) {
     $dstId = $_GET['D'];  
     $srcId = $_GET['S'];  
@@ -44,6 +44,7 @@ var_dump($_GET);
 
     case 'ES':
       db_delete_cond('BigEvent',"Event=$Ev AND ( Type='$dtt' OR Type='Perf' OR Type='Act' OR Type='Other') AND Identifier=$did"); // Fudge for old data 
+
       break;
 
     case 'EZ': // No Action
