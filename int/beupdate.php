@@ -23,6 +23,7 @@ D=Z0:Side:32&S=S10:Side:32&EV=167&E=
   include_once("ProgLib.php");
   include_once("CheckDance.php");
 
+//var_dump($_GET);
   if (isset($_GET['D'])) {
     $dstId = $_GET['D'];  
     $srcId = $_GET['S'];  
@@ -42,7 +43,8 @@ D=Z0:Side:32&S=S10:Side:32&EV=167&E=
       break;
 
     case 'ES':
-      db_delete_cond('BigEvent',"Event=$Ev AND Type='$dtt' AND Identifier=$did");
+      db_delete_cond('BigEvent',"Event=$Ev AND ( Type='$dtt' OR Type='Perf' OR Type='Act' OR Type='Other') AND Identifier=$did"); // Fudge for old data 
+
       break;
 
     case 'EZ': // No Action
@@ -53,12 +55,12 @@ D=Z0:Side:32&S=S10:Side:32&EV=167&E=
       break;
 
     case 'SS': // Move and replace
-      db_delete_cond('BigEvent',"Event=$Ev AND Type='$dtt' AND Identifier=$did");
+      db_delete_cond('BigEvent',"Event=$Ev AND ( Type='$dtt' OR Type='Perf' OR Type='Act' OR Type='Other' )  AND Identifier=$did");
       db_update('BigEvent','EventOrder=' . $dstmtch[2],"Event=$Ev AND Type='$stt' AND Identifier=$sid");
       break;
 
     case 'SZ': // Remove
-      db_delete_cond('BigEvent',"Event=$Ev AND Type='$stt' AND Identifier=$sid");
+      db_delete_cond('BigEvent',"Event=$Ev AND ( Type='$stt' OR Type='Perf' OR Type='Act' OR Type='Other' )  AND Identifier=$sid");
       break;
 
     case 'ZE': // New

@@ -61,26 +61,27 @@
         echo fm_hidden('UserId',-1);
         $User['AccessLevel'] = $Access_Type['Committee'];
       }
-    echo "<tr>" . fm_text('Name', $User,'SN',1,'','autocomplete=off');
+    echo "<tr>" . fm_text('Name', $User,'SN',3,'','autocomplete=off');
     echo "<tr>" . fm_text('Abrev', $User,'Abrev',1,'','autocomplete=off');
-    echo "<tr>" . fm_text('Email',$User,'Email',1,'','autocomplete=off');
+    echo "<tr>" . fm_text('Email',$User,'Email',3,'','autocomplete=off');
     echo "<tr>" . fm_text('Phone',$User,'Phone',1,'','autocomplete=off');
     echo "<tr>" . fm_text($MASTER_DATA['ShortName'] . " Email",$User,'WMFFemail',1,'','autocomplete=off');
     echo "<tr>" . fm_text('Login',$User,'Login');
-    echo "<tr>" . fm_text('Roll',$User,'Roll');
-    echo "<tr><td>No Tasks (test usrs only) " . fm_checkbox('',$User,'NoTasks');
+    echo "<tr>" . fm_text('Roll',$User,'Roll',3);
+    echo "<tr><td>No Tasks (test users only) " . fm_checkbox('',$User,'NoTasks');
     echo "<tr><td>Access Level<td>" . fm_select($Access_Levels,$User,'AccessLevel');
-    echo "<tr>" . fm_text('Image', $User,'Image');
+    echo "<tr>" . fm_text('Image', $User,'Image',3);
     echo "<tr>" . fm_radio('Show on Contacts Page',$User_Public_Vis,$User,'Contacts');
     $r = 0;
     foreach($Sections as $sec) {
       if ((($r++)&1) == 0) echo "<tr>";
-      echo "<td>Change " . $sec . ":" . fm_select($Area_Levels,$User,$sec);
+      echo fm_radio("Change " . $sec ,$Area_Levels,$User,$sec,0);
     }
     if (isset($User['LastAccess'])) echo "<tr><td>Last Login:<td>" . date('d/m/y H:i:s',$User['LastAccess']);
     if (Access('SysAdmin')) {
       echo "<tr>" . fm_text('Change Sent',$User,'ChangeSent',1,'','readonly');
       echo "<tr>" . fm_text('Access Key',$User,'AccessKey',1,'','readonly');
+      echo "<tr>" . fm_textarea('Prefs',$User,'Prefs',6,2);
     }
     echo "</table>\n";
 

@@ -14,9 +14,9 @@
 
   dostaffhead("Big Event Display");
 
-  $Sides = Select_Come_All();
-  $Acts = Select_Act_Come_Full();
-  $Others = Select_Other_Come_Full();
+  $Sides = Part_Come_All();
+//  $Acts = Select_Act_Come_Full();
+//  $Others = Select_Other_Come_Full();
 
   $things = Get_Other_Things_For($Eid);
 
@@ -29,20 +29,15 @@
       $tt = $t['Type'];
       if ($tt == 'Venue') Continue;
       switch ($tt) {
+        case 'Perf':
         case 'Side':
-          echo "<tr><td>" . ($Posn++) . "<td>" . SName($Sides[$id]) . " (" . trim($Sides[$id]['Type']) . ")";
-          if ($t['Notes']) echo "<td>" . $t['Notes'];
-          break;
         case 'Act':
-          echo "<tr><td>" . ($Posn++) . "<td>" . SName($Acts[$id]);
-          if ($Acts[$id]['Type']) echo " (" . trim($Acts[$id]['Type']) . ")";
-          if ($t['Notes']) echo "<td>" . $t['Notes'];
-          break;
         case 'Other':
-          echo "<tr><td>" . ($Posn++) . "<td>" . SName($Others[$id]);
-          if ($Others[$id]['Type']) echo " (" . trim($Others[$id]['Type']) . ")";
+          echo "<tr><td>" . ($Posn++) . "<td>" . SName($Sides[$id]);
+          if ($Sides[$id]['Type']) echo " (" . trim($Sides[$id]['Type']) . ")";
           if ($t['Notes']) echo "<td>" . $t['Notes'];
           break;
+
         case 'Note':
           echo "<tr><td><td>";
           if ($t['Notes']) echo "<td>" . $t['Notes'];

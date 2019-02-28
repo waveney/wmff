@@ -97,7 +97,7 @@ var InfoPaneDefault = '';
   function UpdateInfo(cond) {
     $("#InformationPane").load("dpupdate.php", "E=" + $("input[type='radio'][name='EInfo']:checked").val(),CopyErrorCount );
   }
-  
+
   function SaveAndUpdateInfo() {
     $("#InformationPane").load("dpupdate.php", "P=S&E=" + $("input[type='radio'][name='EInfo']:checked").val(),CopyErrorCount );
   }

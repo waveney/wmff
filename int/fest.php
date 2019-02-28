@@ -430,7 +430,7 @@ function Show_Prog($type,$id,$all=0) { //mode 0 = html, 1 = text for email
               case 'Act':
               case 'Other':
               case 'Perf':
-                if ($O['Identifier'] == $id && $O['Type'] == $type) { 
+                if ($O['Identifier'] == $id) {
                   $Found = 1; 
                 } else {
                   if ($Found && $NextI==0) { $NextI=$O['Identifier']; $NextT=$O['Type']; }
