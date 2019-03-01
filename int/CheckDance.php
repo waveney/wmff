@@ -21,7 +21,7 @@
 include_once("DanceLib.php");
 
 function CheckDance($level) { // 0 = None, 1 =Major, 2= All
-  global $db,$YEAR, $DayList, $Surfaces, $Share_Type,$Procession;
+  global $db,$YEAR, $DayList, $Surfaces, $Share_Type,$Procession,$Event_Types_Full;
 
 // GRAB LOTS OF DATA
   echo "<div id=ChechedDance>";
@@ -165,11 +165,14 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
         if ($last_e == $Procession) $InProcession = 1;
 
         if (isset($VenuesUsed[$Ven])) {
-          if ($side['IsASide'] && !$Venues[$Ven]['AllowMult'] && !isset($Complained[$Ven])) {
-            $Merr .= "Performing multiple times at " . SName($Venues[$Ven]) . " on $daynam, ";
-            $MerrC++;
+          $VenuesUsed[$Ven]++;
+          if ($VenuesUsed[$Ven] > Feature("MultiLim$daynam")) {
+            if ($side['IsASide'] && !$Venues[$Ven]['AllowMult'] && !isset($Complained[$Ven])) {
+              $Merr .= "Performing multiple times at " . SName($Venues[$Ven]) . " on $daynam, ";
+              $MerrC++;
+              $Complained[$Ven]=1;
+            } 
           }
-          $Complained[$Ven]=1;
         } else {
           $VenuesUsed[$Ven] = 1;
         }
@@ -179,7 +182,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
             $MerrC++;
           }
         }
-        if ($side['IsASide'] && $surfs) {
+        if ($side['IsASide'] && $surfs && $Event_Types_Full[$Events[$e]['Type']]['SN'] == 'Dancing') {
 //if (!$Surfaces[$Venues[$Ven]['SurfaceType1']]) { echo "Surface - $Ven ..."; }
           if (($Surfaces[$Venues[$Ven]['SurfaceType1']] != '' && $side["Surface_" . $Surfaces[$Venues[$Ven]['SurfaceType1']]]) || 
               ($Surfaces[$Venues[$Ven]['SurfaceType2']] != '' && $side["Surface_" . $Surfaces[$Venues[$Ven]['SurfaceType2']]])) { // Good
@@ -192,7 +195,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
           }
         }
 
-        if ($side['IsASide'] && !$Events[$e]['BigEvent']) { // Sharing Checks
+        if ($side['IsASide'] && !$Events[$e]['BigEvent'] && $Event_Types_Full[$Events[$e]['Type']]['SN'] == 'Dancing') { // Sharing Checks
           $ns = 0;
           for ($j=1; $j<5; $j++) if ($Events[$e]["Side$j"]>0) $ns++;
           if ($ns == 1) {
