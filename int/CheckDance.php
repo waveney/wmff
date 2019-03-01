@@ -177,7 +177,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
           $VenuesUsed[$Ven] = 1;
         }
         if (isset($Venues[$Ven]["Minor$daynam"]) && ($Venues[$Ven]["Minor$daynam"])) {
-          if ($minorspots++ && $side['IsASide']) {
+          if ($minorspots++ && $side['IsASide'] && $Event_Types_Full[$Events[$e]['Type']]['SN'] == 'Dancing') {
             $Merr .= "Performing $minorspots times at minor spots on $daynam, ";
             $MerrC++;
           }
@@ -227,9 +227,11 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
                   $OStart = timereal($Events[$oe]['Start']);
                   $OEnd = timereal( ($Events[$oe]['SubEvent'] < 0) ? $Events[$oe]['SlotEnd'] : $Events[$oe]['End']);
                   $gap = ($starttime < $OStart)? $OStart - $endtime : $OEnd - $starttime;
-                  if ($gap <= -20) {
+// if ($si==107 && $e == 1546 && $oe == $e) echo "Checking $o $e $oe $gap $starttime $endtime $OStart $OStart $OEnd <p>";
+
+                  if ($gap <= -50) {
                   } else if ($gap <= 0) {
-                    if ($Rule['Major'] && ( $gap <0 || $Events[$e]['Venue'] != $Events[$oe]['Venue'] ) ) { // Minor if gap ==0 && Same venue
+                    if ($Rule['Major'] && ( $gap <0 || $e==$oe || $Events[$e]['Venue'] != $Events[$oe]['Venue'] ) ) { // Minor if gap ==0 && Same venue
 //                      echo "Major Dancer Overlap on $daynam $start with $oname, ";
                       $Err .= "Dancer Overlap on $daynam $start with $oname, ";
                       $ErrC++;
@@ -309,12 +311,15 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
                       $MerrC++;
                     }
                   } else {
+                    $txt = " Playing at the same time in two locations: ";
+                    if ($LastET == $Ev['Start']) $txt = " No gap between playing at two locations: ";
+                    if (
                     if ($Rule['Major']) {
-                      $Err .= "/ " . $Sides[$o]['SN'] . " Playing at the same time in two locations: " . SName($Venues[$LastVen]) . " at $LastST-" . timeformat($LastET) .
+                      $Err .= "/ " . $Sides[$o]['SN'] . $txt . SName($Venues[$LastVen]) . " at $LastST-" . timeformat($LastET) .
                                 " on $daynam and at " . SName($Venues[$Ven]) . " at " . $Ev['Start'] . ", ";
                       $ErrC++;
                     } else {
-                      $Merr .= "/ " . $Sides[$o]['SN'] . " Playing at the same time in two locations: " . SName($Venues[$LastVen]) . " at $LastST-" . timeformat($LastET) .
+                      $Merr .= "/ " . $Sides[$o]['SN'] . $txt . SName($Venues[$LastVen]) . " at $LastST-" . timeformat($LastET) .
                                 " on $daynam and at " . SName($Venues[$Ven]) . " at " . $Ev['Start'] . ", ";
                       $MerrC++;
                     }
