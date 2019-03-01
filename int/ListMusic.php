@@ -57,7 +57,7 @@
     $col8 = "Insurance";
     $col9 = "Missing";
     echo "Under <b>Actions</b> various errors are reported, the most significant error is indicated.  Please fix these before issuing the contracts.<p>\n";
-    echo "Missing: P - Needs Phone, E Needs Email, T Needs Tech Spec, B Needs Bank (Only if fees).<p>";
+    echo "Missing: P - Needs Phone, E Needs Email, T Needs Tech Spec, B Needs Bank (Only if fees), I Insurance.<p>";
     
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
@@ -152,6 +152,7 @@
           if (!$fetch['Email'] && !$fetch['AgentEmail']) $keys .= 'E';
           if ($fetch['StagePA'] == 'None') $keys .= 'T';
           if ($fetch['TotalFee']  && ( !$fetch['SortCode'] || !$fetch['Account'] || !$fetch['AccountName'])) $keys .= 'B';
+          if ($fetch['Insurance'] == 0) $keys .= 'I';
           echo "<td>$keys";
           break;
         default:
