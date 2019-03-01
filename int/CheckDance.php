@@ -249,25 +249,25 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
                   if ($gap > 20) { // No problem
                   } else if ($Events[$e]['Venue'] == $Events[$oe]['Venue']) { // Same Venue
                     if ($gap < 0) {
-                      $msg = "Dancer overlap with $oname - Doing two different events at the same time at " . SName($Events[$e]['Venue']) . " on $dayname $start, ";
+                      $msg = "Dancer overlap with $oname - Doing two different events at the same time at " . SName($Venues[$Events[$e]['Venue']]) . " on $dayname $start, ";
                     } else if ($gap < 5) {
-                      $msg = "Dancer overlap with $oname - Doing two different events at " . SName($Events[$e]['Venue']) . " on $dayname $start and " . timeformat($OStart) . " with no gap, ";          
+                      $msg = "Dancer overlap with $oname - Doing two different events at " . SName($Venues[$Events[$e]['Venue']]) . " on $dayname $start and " . timeformat($OStart) . " with no gap, ";          
                       $serv = 1;
                     } else {
-                      $msg = "Dancer overlap with $oname - Doing two different events at " . SName($Events[$e]['Venue']) . " on $dayname $start and " . timeformat($OStart) . " with little gap, ";
+                      $msg = "Dancer overlap with $oname - Doing two different events at " . SName($Venues[$Events[$e]['Venue']]) . " on $dayname $start and " . timeformat($OStart) . " with little gap, ";
                       $serv = 1;
                     }
                   } else { // Diff Venues
                     if ($gap < 0) {
-                      $msg = "Dancer overlap with $oname - Doing two different events at the same time at " . SName($Events[$e]['Venue']) . " on $dayname $start and at " . 
-                              SName($Events[$oe]['Venue']) . " at " . timeformat($OStart) . ", ";
+                      $msg = "Dancer overlap with $oname - Doing two different events at the same time at " . SName($Venues[$Events[$e]['Venue']) . " on $dayname $start and at " . 
+                              SName($Venues[$Events[$oe]['Venue']]) . " at " . timeformat($OStart) . ", ";
                     } else if ($gap < 5) {
-                      $msg = "Dancer overlap with $oname - Doing two different events at " . SName($Events[$e]['Venue']) . " on $dayname $start and at " . 
-                              SName($Events[$oe]['Venue']) . " at " . timeformat($OStart) . " with no gap, ";                           
+                      $msg = "Dancer overlap with $oname - Doing two different events at " . SName($Venues[$Events[$e]['Venue']) . " on $dayname $start and at " . 
+                              SName($Venues[$Events[$oe]['Venue']]) . " at " . timeformat($OStart) . " with no gap, ";                           
                       $serv = 1;
                     } else {
-                      $msg = "Dancer overlap with $oname - Doing two different events at " . SName($Events[$e]['Venue']) . " on $dayname $start and at " . 
-                              SName($Events[$oe]['Venue']) . " at " . timeformat($OStart) . " with little gap, ";
+                      $msg = "Dancer overlap with $oname - Doing two different events at " . SName($Venues[$Events[$e]['Venue']) . " on $dayname $start and at " . 
+                              SName($Venues[$Events[$oe]['Venue']]) . " at " . timeformat($OStart) . " with little gap, ";
                       $serv = 1;
                     }
                   }
