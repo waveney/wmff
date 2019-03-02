@@ -453,7 +453,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
       if (!$needbr) {
         $sideercount++;
         echo "<a href=$link?sidenum=$si>" . $side['SN'] . "</a>:<ul>";
-      } else echo "<li>";
+      }
       foreach ($Merr as $er) echo "<li class=brown>$er";
       $needbr=1;
     }
@@ -462,7 +462,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
       if (!$needbr) {
         $sideercount++;
         echo "<a href=$link?sidenum=$si>" . $side['SN'] . "</a>:<ul>";
-      } else echo "<li>";
+      }
       foreach ($Uerr as $er) echo "<li>$er";
       $needbr=1;
     }
