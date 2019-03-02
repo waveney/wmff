@@ -178,9 +178,11 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
           $VenuesUsed[$Ven] = 1;
         }
         if (isset($Venues[$Ven]["Minor$daynam"]) && ($Venues[$Ven]["Minor$daynam"])) {
-          if ($minorspots++ && $side['IsASide'] && $Event_Types_Full[$Events[$e]['Type']]['SN'] == 'Dancing') {
-            $Merr[] = "Performing $minorspots times at minor spots on $daynam";
-            $MerrC++;
+          if ($side['IsASide'] && $Event_Types_Full[$Events[$e]['Type']]['SN'] == 'Dancing') {
+            if( $minorspots++) {
+              $Merr[] = "Performing $minorspots times at minor spots on $daynam";
+              $MerrC++;
+            }
           }
         }
         if ($side['IsASide'] && $surfs && $Event_Types_Full[$Events[$e]['Type']]['SN'] == 'Dancing') {
@@ -225,7 +227,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
               $endtime = timereal($Events[$e]['SubEvent'] < 0 ? $Events[$e]['SlotEnd']: $Events[$e]['End']); 
               foreach ($dancing[$o] as $od=>$oe) {
                 if ($oe == $e) { // Same event - minor
-                  $Merr[] = "Dancer Overlaping with $oname in the same event at $daynam $Start";
+                  $Merr[] = "Dancer Overlaping with $oname in the same event at $daynam $start";
                   $Merr++;
                 } else if ($Events[$oe]['Day'] == $daynum) {
                   if ($Rule['Days'] > 0 && $daynum != $Rule['Days'] ) continue;
