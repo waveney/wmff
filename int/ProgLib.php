@@ -5,7 +5,7 @@ global $Venue_Status,$DayList,$InfoLevels,$VisParts,$Thing_Types,$Public_Event_T
 $Venue_Status = array('In Use','Not in Use');
 $DayList = array(-3=>'Tue',-2=>'Wed',-1=>'Thur',0=>'Fri',1=>'Sat',2=>'Sun',3=>'Mon');
 $DayLongList = array(-3=>'Tuesday',-2=>'Wednesday',-1=>'Thursday',0=>'Friday',1=>'Saturday',2=>'Sunday',3=>'Monday');
-$InfoLevels = array('None','Major','All');
+$InfoLevels = array('None','Major','Minor','All');
 $VisParts = array('All','None'); // Add subcats when needed
 $Thing_Types = array('Sides','Acts','Others');
 $Public_Event_Types = array('As Master','Yes', 'Not yet','Never');
