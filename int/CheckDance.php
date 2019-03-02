@@ -440,17 +440,17 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
     $link = 'AddPerf.php';
     if ($Err) {
       $sideercount++;
-      echo "<a href=$link?sidenum=$si>" . $side['SN'] . "</a>:<ul><li>";
-      echo "<span class=red>" . implode('<li>',$Err) . "</span>";
+      echo "<a href=$link?sidenum=$si>" . $side['SN'] . "</a>:<ul>";
+      foreach ($Err as $er) echo "<li class=red>$er";
       $needbr=1;
     }
     if ($Merr && $level==2) {
 //var_dump($side);
       if (!$Err) {
         $sideercount++;
-        echo "<a href=$link?sidenum=$si>" . $side['SN'] . "</a>:<ul><li>";
+        echo "<a href=$link?sidenum=$si>" . $side['SN'] . "</a>:<ul>";
       } else echo "<li>";
-      echo "<span class=brown>" . implode('<li>',$Merr) . "</span>\n";
+      foreach ($Merr as $er) echo "<li class=brown>$er";
       $needbr=1;
     }
     if ($needbr) echo "</ul>";
