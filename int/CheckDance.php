@@ -34,7 +34,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
   $Sides = &Part_Come_All();
   $sidenames = Sides_Name_List();
   $sideercount = 0;
-  $ErrC = $MerrC = 0;
+  $ErrC = $MerrC = $UerrC = 0;
 
   $res = $db->query("SELECT e.* FROM Events e WHERE Year=$YEAR AND Status=0 ORDER BY Day, Start" );
   if ($res) {
@@ -114,6 +114,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
   foreach ($Sides as $si=>$side) {
     $Err = [];
     $Merr = [];
+    $Uerr = [];
     $LastDay = -99;
     $LastT = 0;
     $FirstTime = $LastTime = $DayCounts = array(-3=>0,-2=>0,-1=>0,0=>0,1=>0,2=>0,3=>0); // Needs changing for longer festivals TODO
@@ -252,10 +253,10 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
                       $msg = "Dancer overlap with $oname - Doing two different events at the same time at " . SName($Venues[$Events[$e]['Venue']]) . " on $daynam $start";
                     } else if ($gap < 5) {
                       $msg = "Dancer overlap with $oname - Doing two different events at " . SName($Venues[$Events[$e]['Venue']]) . " on $daynam $start and " . timeformat($OStart) . " with no gap";
-                      $serv = 1;
+                      $serv = 2;
                     } else {
                       $msg = "Dancer overlap with $oname - Doing two different events at " . SName($Venues[$Events[$e]['Venue']]) . " on $daynam $start and " . timeformat($OStart) . " with little gap";
-                      $serv = 1;
+                      $serv = 2;
                     }
                   } else { // Diff Venues
                     if ($gap < 0) {
@@ -276,9 +277,12 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
                     if ($Rule['Major'] && $serv==0) {
                       $Err[] = $msg;
                       $ErrC++;
-                    } else {
+                    } elseif ($serv==1) {
                       $Merr[] = $msg;
                       $MerrC++;                    
+                    } else {
+                      $Uerr[] = $msg;
+                      $UerrC++;                                        
                     }
                   }
                 }
@@ -444,20 +448,30 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
       foreach ($Err as $er) echo "<li class=red>$er";
       $needbr=1;
     }
-    if ($Merr && $level==2) {
+    if ($Merr && $level>=2) {
 //var_dump($side);
-      if (!$Err) {
+      if (!$needbr) {
         $sideercount++;
         echo "<a href=$link?sidenum=$si>" . $side['SN'] . "</a>:<ul>";
       } else echo "<li>";
       foreach ($Merr as $er) echo "<li class=brown>$er";
       $needbr=1;
     }
+    if ($Uerr && $level>=3) {
+//var_dump($side);
+      if (!$needbr) {
+        $sideercount++;
+        echo "<a href=$link?sidenum=$si>" . $side['SN'] . "</a>:<ul>";
+      } else echo "<li>";
+      foreach ($Uerr as $er) echo "<li>$er";
+      $needbr=1;
+    }
+
     if ($needbr) echo "</ul>";
   }  
 
   if ($sideercount == 0) echo "No Errors!\n";
-  echo "<div id=DanceErrsSrc>Major: $ErrC Minor: $MerrC</div>";
+  echo "<div id=DanceErrsSrc>Major: $ErrC Minor: $MerrC Micro: $UerrC</div>";
   echo "</div>\n"; 
 }
 ?>
