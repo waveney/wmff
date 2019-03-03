@@ -5,7 +5,7 @@ $Dance_TimeFeilds = array('SatArrive','SatDepart','SunArrive','SunDepart');
 $OlapTypes = array('Dancer','Musician','Avoid');
 $OlapDays = array('All','Sat Only','Sun Only','None');
 $OlapCats = array('Side','Act','Comedy','Family','Other');
-$Proforma_Colours = ['Decide'=>'DarkOrange','Details'=>'Magenta'];
+$Proforma_Colours = ['Decide'=>'DarkOrange','Details'=>'Magenta','Program'=>'Yellow'];
 
 function Proforma_Background($name) {
   global $Proforma_Colours;
@@ -702,20 +702,38 @@ function Dance_Email_Details($key,&$data,$att=0) {
   $Side = &$data[0];
   if (isset($data[1])) $Sidey = &$data[1];
   $snum = $Side['SideId'];
+  $str = '';
   switch ($key) {
   case 'WHO':  return $Side['Contact']? firstword($Side['Contact']) : $Side['SN'];
   case 'LINK': return "<a href='https://" . $MASTER_DATA['HostURL'] . "/int/Direct.php?t=Perf&id=$snum&key=" . $Side['AccessKey'] . "&Y=$YEAR'><b>this link</b></a>  " ;
   case 'PROG': return Show_Prog('Perf',$snum,1);
-  case 'MISSING': $str = "<ol>\n";
-    if ($Sidey['Sat'] == 0 && $Sidey['Sun'] == 0) $str .= '<li><b>Days</b> What days you will be dancing.  It is also very helpful if you tell us: ' .
-      'your earliest start and latest finish times, the deafults are 10am to 5pm.<p>';
-    if (!$Side['Mobile']) $str .= '<li><b>Mobile phone number</b> so we can contact you in an emergency.<p>';
-        
-    if (!$Sidey['Insurance']) $str .= '<Li>Upload your <b>insurance</b> for *PLANYEAR*.<p>';
-    if ($Sidey['Performers'] == 0) $str .= '<li><b>Performer Numbers</b> which is the number of performers wristbands you require, if none of your team want to go to any of the paid events, ' .
-      'then put -1 (which means none are required).  You can edit this number at any time until the wristbands are mailed, which is about 2 weeks before the festival.<p>';
-    if ($Sidey['Performers']>=0 && !$Side['Address']) $str .= '<li>An <b>Address</b> so we can post your performer wristbands - not needed if you do not require any wristbands.<p>';
-    return $str . "</ol><p>\n";
+  case 'MISSING': $str = "Please could you click on the *LINK* and add the following:<ol>\n"; 
+    $count = 0;
+    if ($Sidey['Sat'] == 0 && $Sidey['Sun'] == 0) {
+      $str .= '<li><b>Days</b> What days you will be dancing.  It is also very helpful if you tell us: ' .
+              'your earliest start and latest finish times, the deafults are 10am to 5pm.<p>';
+      $count++;
+      }
+    if (!$Side['Mobile']) {
+      $str .= '<li><b>Mobile phone number</b> so we can contact you in an emergency.<p>';
+      $count++;
+      }        
+    if (!$Sidey['Insurance']) {
+      $str .= '<Li>Upload your <b>insurance</b> for *PLANYEAR*.<p>';
+      $count++;
+      }
+    if ($Sidey['Performers'] == 0) {
+      $str .= '<li><b>Performer Numbers</b> which is the number of performers wristbands you require, if none of your team want to go to any of the paid events, ' .
+              'then put -1 (which means none are required).  You can edit this number at any time until the wristbands are mailed, which is about 2 weeks before the festival.<p>';
+      $count++;
+      }
+    if ($Sidey['Performers']>=0 && !$Side['Address']) {
+      $str .= '<li>An <b>Address</b> so we can post your performer wristbands - not needed if you do not require any wristbands.<p>';
+      $count++;
+      }
+
+    return ($count? "$str</ol><p>\n" : "");
+  case 'SIDE': return $Side['SN'];
   }
 }
 

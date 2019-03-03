@@ -3,8 +3,10 @@
   A_Check('Steward');
 
   dostaffhead("List Dance", "/js/clipboard.min.js","/js/emailclick.js", "/js/InviteThings.js" );
-  global $YEAR,$PLANYEAR,$Dance_Comp,$Dance_Comp_Colours;
+  global $YEAR,$PLANYEAR,$Dance_Comp,$Dance_Comp_Colours,$Event_Types_Full;
   include_once("DanceLib.php"); 
+  include_once("ProgLib.php");
+  
   echo "<h2>List Dance Sides $YEAR</h2>\n";
   echo fm_hidden('Year',$YEAR);
   if (Access('Staff','Dance')) echo "<div class=floatright style=text-align:right><div class=Bespoke>" .
@@ -22,7 +24,8 @@
   $col5 = $col6 = $col7 = $col7 = $col8 = $col9 =$col10 = '';
   echo "Click on column header to sort by column.  Click on Side's name for more detail and programme when available,<p>\n";
 
-
+  $DanceState = 0;
+  foreach( $Event_Types_Full  as $ET) if ($ET['SN'] == 'Dancing') $DanceState = $ET['State'];
 
   echo "If you click on the email link, press control-V afterwards to paste the standard link into message.<p>";
   $col9 = $col8 = $col7 = '';
@@ -192,7 +195,10 @@
           echo "<button type=button id=Detail$snum class=ProfButton onclick=ProformaSend('Dance_Details',$snum,'Details','SendProfEmail.php')" . 
                Proforma_Background('Details') . ">Details!</button>"; 
         }
-          
+        
+        if ($DanceState >= 1) echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Program',$snum,'Program','SendProfEmail.php')" . 
+               Proforma_Background('Program') . ">Program</button>";
+       
       }
 
       
