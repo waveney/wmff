@@ -276,6 +276,7 @@ function Replace_Help($Area='',$Right=0) {
   ['*PROG*','Programme for performer','Dance (will be all performers)'],
   ['*WEB*/*WEB:URL:TEXT','Website for Festival, URL - to follow website, TEXT - To be displayed (NO SPACES - any _ will appear as spaces)','All'],
   ['*MISSING*','Important information missing from a dance side','Dance'],
+  ['*SIDE*','Name of side','Dance'],
   ];
 
   echo "<span " . ($Right?' class=floatright':'') . " id=largeredsubmit onclick=($('.HelpDiv').toggle()) >Click to toggle Standard Replacements Help</span>";
