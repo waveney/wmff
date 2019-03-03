@@ -285,7 +285,7 @@ function Sage_Code(&$Whose) { // May only work for trade at the moment
 // Create an invoice for whose, details covers the amount(s) note details can be negative
 // Source 1=Trade, 2 = Sponsor/Adverts, 3= Other) returns incoice number - for WMFF I will start invoices at 2000
 // Due date < 365 = days, > 365 taken as actual date
-function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=-1) {
+function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=-1,$InvCode2=0,$InvCode3=0) {
   global $db,$YEAR,$NewInvoiceId,$NewInv;
   if ($DueDate < 0) $DueDate=Feature('PaymentTerms',30);
   $inv['Source'] = $Source;
@@ -302,6 +302,8 @@ function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=-1
   $inv['DueDate'] = ($DueDate < 365? time() + $DueDate*24*60*60 : $DueDate);
   $inv['OurRef'] = Sage_Code($Whose);
   $inv['InvoiceCode'] = $InvCode;
+  $inv['InvoiceCode2'] = $InvCode2;
+  $inv['InvoiceCode3'] = $InvCode3;
   $inv['Reason'] = $Reason;
   $inv['History'] = '';
   $inv['YourRef'] = '';
@@ -392,9 +394,14 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade
   echo "<tr><td colspan=2>Description<td>Amount";
   for ($i=1;$i<=3;$i++) {
     echo "<tr><td colspan=2>" . fm_basictextarea($inv,"Desc$i",3,1) . fm_text1("",$inv,"Amount$i") ;
+    if ($i ==1) {
+      echo "<td>Invoice Code:" . fm_select($InvCodes,$inv,'InvoiceCode'); 
+    } else {
+      echo "<td>Invoice Code (if diff):" . fm_select($InvCodes,$inv,"InvoiceCode$i",1);    
+    }
   }
   
-  echo "<tr><td>Invoice Code:" . fm_select($InvCodes,$inv,'InvoiceCode');  
+//  echo "<tr><td>Invoice Code:" . fm_select($InvCodes,$inv,'InvoiceCode');  
   if (!isset($inv['DueDays'])) $inv['DueDays'] = Feature('PaymentTerms',30);
   echo fm_text('Payment Term (days)',$inv,'DueDays');
   echo "<tr>" . fm_text("Reason (this appears in local lists)",$inv,'Reason',2);
@@ -478,6 +485,11 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   echo "<tr><td colspan=3>What<td>Amount";
   for ($i=1;$i<4;$i++) {
     echo "<tr><td colspan=3>" . fm_basictextarea($inv,"Desc$i",4,1,$RO) . "<td>" . Print_Pence($inv["Amount$i"]);
+    if ($i==1) {
+      echo "<td>Invoice Code:<td>" . fm_select($InvCodes,$inv,'InvoiceCode',1,$RO);
+    } else {
+      echo "<td>Invoice Code (if diff):<td>" . fm_select($InvCodes,$inv,"InvoiceCode$i",1,$RO);
+    } 
   }
   echo "<tr><td colspan=3>Total<td>" . Print_Pence($inv['Total']);
   echo "<tr><td>Issued on:<td>" . date('d/m/y H:i:s',$inv['IssueDate']);
