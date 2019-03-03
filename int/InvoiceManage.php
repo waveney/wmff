@@ -103,6 +103,10 @@
       }
       $Dateflds = ['DueDate'];
       Parse_DateInputs($Dateflds);
+      $Moneyflds = ['Amount1','Amount2','Amount3','PaidTotal'];
+      Parse_MoneyInputs($Moneyflds);
+      $_POST['Total'] = 0;
+      for ($i=1; $i<4; $i++) if (isset($_POST["Amount$i"])) $_POST['Total'] += $_POST["Amount$i"];
       Update_db_post('Invoices',$inv);
       if (!isset($inv['EmailDate']) || $inv['EmailDate']==0) Invoice_Print($inv);
       Show_Invoice($_REQUEST['i'],$ViewOnly);

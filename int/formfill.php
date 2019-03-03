@@ -91,6 +91,7 @@
       include_once("DateTime.php");
       $Value = Date_BestGuess($Value);
     } else if (preg_match('/(Sat|Sun)(Arrive|Depart)/',$field)) {
+      include_once("DateTime.php");
       $Value = Time_BestGuess($Value);
     }
     

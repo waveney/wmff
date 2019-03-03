@@ -245,6 +245,24 @@ function fm_date0($Name,&$data,$field,$extra1='',$extra2='',$field2='') {
   return $str . " $ADDALL>";
 }
 
+function fm_pence($desc,&$data,$field,$extra1='',$extra2='',$field2='') {
+  global $ADDALL,$AutoADD;
+  if ($field2 == '') $field2=$field;
+  $str = "<td $extra1>$desc" . ($desc?':':'') . help($field) . "<td $extra1>&pound;<input type=text name=$field2 id=$field2 $extra2 "; 
+  if (isset($data[$field])) $str .= " value=\"" . $data[$field]/100 ."\"";
+  if ($AutoADD) $str .=  " oninput=AutoInput('$field2') ";
+  return $str . " $ADDALL>";
+}
+
+function fm_pence1($desc,&$data,$field,$extra1='',$extra2='',$field2='') {
+  global $ADDALL,$AutoADD;
+  if ($field2 == '') $field2=$field;
+  $str = "<td $extra1>$desc" . ($desc?':':'') . help($field) . "&pound;<input type=text name=$field2 id=$field2 $extra2 "; 
+  if (isset($data[$field])) $str .= " value=\"" . $data[$field]/100 ."\"";
+  if ($AutoADD) $str .=  " oninput=AutoInput('$field2') ";
+  return $str . " $ADDALL>";
+}
+
 function Disp_CB($what) {
   echo "<td>" . ($what?'Y':'');
 }
