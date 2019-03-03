@@ -14,10 +14,35 @@
   $GTotInv = $GTotPaid = 0;
   foreach ($invs as $inv) {
     if (!isset($TotInv[$inv['InvoiceCode']])) $TotInv[$inv['InvoiceCode']] = $TotPaid[$inv['InvoiceCode']] = 0;
-    $TotInv[$inv['InvoiceCode']] += $inv['Total'];
-    $TotPaid[$inv['InvoiceCode']] += $inv['PaidTotal'];
+    if ($inv['InvoiceCode2'] || $inv['InvoiceCode3']) {
+      $TotInv[$inv['InvoiceCode']] += $inv['Amount1'];
+      $TotPaid[$inv['InvoiceCode']] += $inv['PaidTotal'] * $inv['Amount1']/$inv['Total'];
+     
+      if ($inv['InvoiceCode2']) {
+        if (!isset($TotInv[$inv['InvoiceCode2']])) $TotInv[$inv['InvoiceCode2']] = $TotPaid[$inv['InvoiceCode2']] = 0;    
+        $TotInv[$inv['InvoiceCode2']] += $inv['Amount2'];
+        $TotPaid[$inv['InvoiceCode2']] += $inv['PaidTotal'] * $inv['Amount2']/$inv['Total']; 
+      } else {
+        $TotInv[$inv['InvoiceCode']] += $inv['Amount2'];
+        $TotPaid[$inv['InvoiceCode']] += $inv['PaidTotal'] * $inv['Amount2']/$inv['Total'];      
+      }
+     
+      if ($inv['InvoiceCode3']) {
+        if (!isset($TotInv[$inv['InvoiceCode3']])) $TotInv[$inv['InvoiceCode3']] = $TotPaid[$inv['InvoiceCode3']] = 0;    
+        $TotInv[$inv['InvoiceCode3']] += $inv['Amount3'];
+        $TotPaid[$inv['InvoiceCode3']] += $inv['PaidTotal'] * $inv['Amount3']/$inv['Total']; 
+      } else {
+        $TotInv[$inv['InvoiceCode']] += $inv['Amount3'];
+        $TotPaid[$inv['InvoiceCode']] += $inv['PaidTotal'] * $inv['Amount2']/$inv['Total'];      
+      } 
+
+    } else { // Simle case
+      $TotInv[$inv['InvoiceCode']] += $inv['Total'];
+      $TotPaid[$inv['InvoiceCode']] += $inv['PaidTotal'];
+    }
+
     $GTotInv += $inv['Total'];
-    $GTotPaid += $inv['PaidTotal'];
+    $GTotPaid += $inv['PaidTotal'];   
   }
   
 

@@ -121,7 +121,7 @@
       }
       $Who = ($_REQUEST['OrgType'] ? Get_Trader($_REQUEST['Oid']) : Get_Trader($_REQUEST['Tid'])); 
       
-      New_Invoice($Who,$Details,$_REQUEST['Reason'],$_REQUEST['InvoiceCode'],$_REQUEST['Source'],$_REQUEST['DueDays']);
+      New_Invoice($Who,$Details,$_REQUEST['Reason'],$_REQUEST['InvoiceCode'],$_REQUEST['Source'],$_REQUEST['DueDays'],$_REQUEST['InvoiceCode2'],$_REQUEST['InvoiceCode3']);
       $NewInv['CoverNote'] = Get_Email_Proforma('Finance_Default_Cover')['Body'];
       $NewInv['id'] = $NewInvoiceId;
       Put_Invoice($NewInv);
@@ -236,7 +236,7 @@
     $Code = $_REQUEST['SHOWCODE'];
     $Iname = $ICodes[$Code];
 
-    $Invs = Get_Invoices(" InvoiceCode='$Code' AND PayDate>=0 ");
+    $Invs = Get_Invoices(" (InvoiceCode='$Code' OR InvoiceCode2='$Code' OR InvoiceCode3='$Code') AND PayDate>=0 ");
     if ($Invs) {
       echo "<h2>Manage Invoices - $YEAR - $Iname</h2>\n";
     } else {
@@ -275,6 +275,27 @@
   echo "</thead><tbody>";
   foreach($Invs as $i=>$inv) {
     $id = $inv['id'];
+    
+    // Sort out code usage 
+    $InvA = $PaidA = 0;
+      if (isset($Code) && ( $inv['InvoiceCode2'] || $inv['InvoiceCode3'])) { // Complex case
+        if ($inv['InvoiceCode'] == $Code) {
+          $InvA += $inv['Amount1'];
+          $PaidA += $inv['PaidTotal']*$inv['Amount1']/$inv['Total'];
+        }
+        if ($inv['InvoiceCode2'] == $Code || ($inv['InvoiceCode'] == $Code && $inv['InvoiceCode2'] == 0) ) {
+          $InvA += $inv['Amount2'];
+          $PaidA += $inv['PaidTotal']*$inv['Amount2']/$inv['Total'];
+        }
+        if ($inv['InvoiceCode3'] == $Code || ($inv['InvoiceCode'] == $Code && $inv['InvoiceCode3'] == 0) ) {
+          $InvA += $inv['Amount3'];
+          $PaidA += $inv['PaidTotal']*$inv['Amount3']/$inv['Total'];
+        }
+      } else { // Simple
+        $InvA += $inv['Total'];
+        $PaidA += $inv['PaidTotal'];
+      }
+
     echo "<tr><td><a href=InvoiceManage.php?Show=$id>$id</a>";
     if ($All) echo "<td>" . ($inv['PayDate']>=0 ? 'Invoice' : 'Credit Note') ; 
     echo "<td>" . $inv['BZ']; // Make link soon
@@ -289,9 +310,9 @@
       }
     }
     if ($All) echo "<td>" . ($inv['PayDate']>0? date('j/n/Y',abs($inv['PayDate'])) : ($inv['PayDate']<0? "NA": ""));
-    echo "<td>" . Print_Pence($inv['Total']);
-    if ($inv['PaidTotal'] > 0 && $inv['PaidTotal'] != $inv['Total']) echo " (" . Print_Pence($inv['Total'] - $inv['PaidTotal']) . ")";
-    if ($Tots || $All) echo "<td>" . Print_Pence($inv['PaidTotal']);
+    echo "<td>" . Print_Pence($InvA);
+    if ($InvA > 0 && $InvA != $PaidA) echo " (" . Print_Pence($InvA - $PaidA) . ")";
+    if ($Tots || $All) echo "<td>" . Print_Pence($PaidA);
     echo "<td>" . $inv['Reason'];
     echo "<td>" ; // Status
       $stat = 0;
@@ -313,8 +334,8 @@
         }
       }
     if ($Tots) {
-      $TotInv += $inv['Total'];
-      $TotPaid += $inv['PaidTotal'];
+      $TotInv += $InvA;
+      $TotPaid += $PaidA;
     }
     
     if (!$ViewOnly && !$Tots) { 
