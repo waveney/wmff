@@ -196,7 +196,7 @@
                Proforma_Background('Details') . ">Details!</button>"; 
         }
         
-        if ($DanceState >= 1) echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Program',$snum,'Program','SendProfEmail.php')" . 
+        if ($DanceState >= 1 && !$fetch['TotalFee']) echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Program',$snum,'Program','SendProfEmail.php')" . 
                Proforma_Background('Program') . ">Program</button>";
        
       }

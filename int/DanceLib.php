@@ -707,7 +707,7 @@ function Dance_Email_Details($key,&$data,$att=0) {
   case 'WHO':  return $Side['Contact']? firstword($Side['Contact']) : $Side['SN'];
   case 'LINK': return "<a href='https://" . $MASTER_DATA['HostURL'] . "/int/Direct.php?t=Perf&id=$snum&key=" . $Side['AccessKey'] . "&Y=$YEAR'><b>this link</b></a>  " ;
   case 'PROG': return Show_Prog('Perf',$snum,1);
-  case 'MISSING': $str = "Please could you click on the *LINK* and add the following:<ol>\n"; 
+  case 'MISSING': $str = "Please could you <span style='background:pink'><B>click</B> on the *LINK*</span> and add the following:<ol>\n"; 
     $count = 0;
     if ($Sidey['Sat'] == 0 && $Sidey['Sun'] == 0) {
       $str .= '<li><b>Days</b> What days you will be dancing.  It is also very helpful if you tell us: ' .
@@ -723,7 +723,7 @@ function Dance_Email_Details($key,&$data,$att=0) {
       $count++;
       }
     if ($Sidey['Performers'] == 0) {
-      $str .= '<li><b>Performer Numbers</b> which is the number of performers wristbands you require, if none of your team want to go to any of the paid events, ' .
+      $str .= '<li><b>Performer Numbers</b> which is the number of performers wristbands you require.  If none of your team want to go to any of the paid events, ' .
               'then put -1 (which means none are required).  You can edit this number at any time until the wristbands are mailed, which is about 2 weeks before the festival.<p>';
       $count++;
       }

@@ -172,7 +172,8 @@ var InfoPaneDefault = '';
     }
     for (var v in vens) {
       var id = "G:" + vens[v] + ":" + t + ":";
-      if (!document.getElementById(id + 0).hasAttribute("rowspan")) document.getElementById(id + unhide).removeAttribute("hidden");
+        if (!document.getElementById(id + (unhide-1)).hasAttribute("hidden")) document.getElementById(id + unhide).removeAttribute("hidden");
+//      if (!document.getElementById(id + 0).hasAttribute("rowspan")) document.getElementById(id + unhide).removeAttribute("hidden");  // Duff
     };
     if (unhide == 3) {
       $('#AddRow' + t).hide();
