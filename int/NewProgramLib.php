@@ -398,6 +398,9 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
             for($i=1; $i<5;$i++) {
               if ($G["S$i"]) {
                 $si = $G["S$i"];
+                if (isset($Sides[$si])) {
+                  $Sides[$si] = Get_Side($si);
+                }
                 $s = &$Sides[$si];
                 $txt = SName($s) . (($types && $s['Type'])?(" (" . trim($s['Type']) . ") "):"");
                 echo "<span data-d=$si class='DPESide Side$si'>";
@@ -422,6 +425,11 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
           echo $G['n'];
         } else if ($G["S" . ($line+($G['n']?0:1))]) {
           $si = $G["S" . ($line + ($G['n']?0:1))];
+          if (isset($Sides[$si])) {
+            $Sidessi = Get_Side($si);
+            if ($Sidesi['IsASide'] == 0 ) $Sides[$si] = $Sidessi;
+          }
+
           $s = &$Sides[$si];
           $txt = SName($s) . (($types && $s['Type'])?(" (" . trim($s['Type']) . ") "):"");
           if (!$txt) {
@@ -453,7 +461,7 @@ function Side_List() {
 //  echo "<thead><tr><th>Side<th>i<th>W<th>H</thead><tbody>\n";
   echo "<thead><tr><th>Side<th>H<th>i<th>W<th>H</thead><tbody>\n";
   foreach ($Sides as $id=>$side) {
-    if (!isset($side['SN']) || $side['SN'] == '') continue;
+    if (!isset($side['SN']) || $side['SN'] == '' || $side['IsASide'] == 0) continue;
     $data_w =  ($side['Share'] == 2)?"data-w=1":"";
     echo "<tr><td draggable=true class='SideName Side$id' $data_w id=SideN$id ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event,$Sand)>";
     echo SName($side);
