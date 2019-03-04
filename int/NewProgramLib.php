@@ -18,7 +18,7 @@ function Prog_Headers($Public='',$headers =1,$What='Dance') {
 function Grab_Data($day='',$Media='Dance') {
   global $DAY,$Times,$Back_Times,$lineLimit,$Sides,$SideCounts,$EV,$VenueUse,$evs,$Sand,$Earliest,$Latest;
 
-  $cats = ['Side','Act','Comedy','Ch Ent','Other'];
+//  $cats = ['Side','Act','Comedy','Ch Ent','Other'];
   $Times = array();
   $lineLimit = array();
   $SideCounts = array();
@@ -80,18 +80,18 @@ function Grab_Data($day='',$Media='Dance') {
 
 /* This condenses sides and acts and others into grid - when you want to handle non-sides dpupdate only works for sides now */
       $parts=0;
-      foreach ($cats as $kit) {
+//      foreach ($cats as $kit) {
         for($i=1;$i<5;$i++) {
-          if ($ev[$kit . $i]) {
+          if ($ev["Side$i"]) {
             if ($parts++ <= $plim) {
-              $lineLimit[$t] = max($lineLimit[$t],$parts + ((isset($EV[$v][$t]['n']) && !isset($EV[$v][$t]['d'])) ?1:0));
-              $EV[$v][$t]["S$parts"] = $ev[$kit . $i];
+              $lineLimit[$t] = max($lineLimit[$t],$parts + (isset($EV[$v][$t]['n']) ?1:0));
+              $EV[$v][$t]["S$parts"] = $ev["Side$i"];
             } else {
               $EV[$v][$t]["S4"] = -1;
             }
           }
         }
-      }
+//      }
       if ($parts) {
 //        if ($Latest < $et) echo "Found latest as $eid at $et in $v<p>";
         $Earliest = min($ev['Start'],$Earliest);
