@@ -243,7 +243,7 @@ function Feature($Name,$default='') {  // Return value of feature if set from Ma
     $Features = [];
     foreach (explode("\n",$MASTER_DATA['Features']) as $i=>$feat) {
       $Dat = explode(":",$feat,3);
-      if ($Dat[0])$Features[$Dat[0]] = $Dat[1];
+      if ($Dat[0])$Features[$Dat[0]] = trim($Dat[1]);
     }
   }
   if (isset($Features[$Name])) return $Features[$Name];
