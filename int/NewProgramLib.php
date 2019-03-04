@@ -84,7 +84,7 @@ function Grab_Data($day='',$Media='Dance') {
         for($i=1;$i<5;$i++) {
           if ($ev[$kit . $i]) {
             if ($parts++ <= $plim) {
-              $lineLimit[$t] = max($lineLimit[$t],$parts);
+              $lineLimit[$t] = max($lineLimit[$t],$parts + (isset($EV[$v][$t]['n'])?1:0));
               $EV[$v][$t]["S$parts"] = $ev[$kit . $i];
             } else {
               $EV[$v][$t]["S4"] = -1;
@@ -367,7 +367,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
             }
           } 
         }
-        $id = "G:$v:$t:$line"; // Note the ids will be meaningless in condensed mode, but thay will should not be used so not a problem
+        $id = "G:$v:$t:$line"; // Note the ids will be meaningless in condensed mode, but as they will should not be used, so not a problem
         $class = 'DPGridDisp';
         $dev = '';
         if ($line == 0 && $G) $dev = 'data-e=' . $G['e']. ':' . $G['d'];
