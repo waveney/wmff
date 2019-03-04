@@ -84,7 +84,7 @@ function Grab_Data($day='',$Media='Dance') {
         for($i=1;$i<5;$i++) {
           if ($ev[$kit . $i]) {
             if ($parts++ <= $plim) {
-              $lineLimit[$t] = max($lineLimit[$t],$parts + (isset($EV[$v][$t]['n'])?1:0));
+              $lineLimit[$t] = max($lineLimit[$t],$parts + ((isset($EV[$v][$t]['n']) && !isset($EV[$v][$t]['d'])) ?1:0));
               $EV[$v][$t]["S$parts"] = $ev[$kit . $i];
             } else {
               $EV[$v][$t]["S4"] = -1;
@@ -398,7 +398,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
             for($i=1; $i<5;$i++) {
               if ($G["S$i"]) {
                 $si = $G["S$i"];
-                if (isset($Sides[$si])) {
+                if (!isset($Sides[$si])) {
                   $Sides[$si] = Get_Side($si);
                 }
                 $s = &$Sides[$si];
@@ -425,7 +425,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
           echo $G['n'];
         } else if ($G["S" . ($line+($G['n']?0:1))]) {
           $si = $G["S" . ($line + ($G['n']?0:1))];
-          if (isset($Sides[$si])) {
+          if (!isset($Sides[$si])) {
             $Sidessi = Get_Side($si);
             if ($Sidesi['IsASide'] == 0 ) $Sides[$si] = $Sidessi;
           }
