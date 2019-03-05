@@ -92,7 +92,7 @@ A similar feature will appear eventually for music.<p>
             while ($Timeleft > 0) {
               $SubEvent['Start'] = timeadd($SubEvent['Start'],$slotsize);
               $SubEvent['End'] = min($Event['End'],timeadd($SubEvent['Start'],$slotsize-$slotsetup));
-              $SubEvent['Duration'] = $SubEvent['End'] - $SubEvent['Start'];
+              $SubEvent['Duration'] = 0;
               $Timeleft -= $slotsize;
               Insert_db('Events',$SubEvent);
             }
@@ -109,7 +109,7 @@ A similar feature will appear eventually for music.<p>
             while ($Timeleft > 0) {
               $SubEvent['Start'] = timeadd($SubEvent['Start'],$slotsize);
               $SubEvent['End'] = min($oldEnd,timeadd($SubEvent['Start'],$slotsize-$slotsetup));
-              $SubEvent['Duration'] = $SubEvent['End'] - $SubEvent['Start'];
+              $SubEvent['Duration'] = 0;
               $Timeleft -= $slotsize;
               Insert_db('Events',$SubEvent);
             }
@@ -125,7 +125,7 @@ A similar feature will appear eventually for music.<p>
             while ($Timeleft > 0) {
               $SubEvent['Start'] = timeadd($SubEvent['Start'],$slotsize);
               $SubEvent['End'] = min($oldEnd,timeadd($SubEvent['Start'],$slotsize-$slotsetup));
-              $SubEvent['Duration'] = $SubEvent['End'] - $SubEvent['Start'];
+              $SubEvent['Duration'] = 0;
               $Timeleft -= $slotsize;
               Insert_db('Events',$SubEvent);
             }

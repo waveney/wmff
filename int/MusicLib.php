@@ -422,6 +422,7 @@ function Contract_Check($snum,$chkba=1,$ret=0) { // if ret=1 returns result numb
     if ($LastEv) {
       if (($e['Day'] == $LastEv['Day']) && ($e['Start'] > 0) && ($e['Venue'] >0)) {
         if ($LastEv['SubEvent'] < 0) { $End = $LastEv['SlotEnd']; } else { $End = $LastEv['End']; };
+        if ($LastEv['BigEvent']) $End -=30; // Fudge for procession
         if (($End > 0) && !$LastEv['IgnoreClash'] && !$e['IgnoreClash']) {
           if ($End > $e['Start']) $InValid = 6;
           if ($InValid < 5 && $End == $e['Start'] && $LastEv['Venue'] != $e['Venue']) $InValid = 6;
