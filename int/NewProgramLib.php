@@ -427,12 +427,13 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
           $si = $G["S" . ($line + ($G['n']?0:1))];
           if (!isset($Sides[$si])) {
             $Sidessi = Get_Side($si);
+            $Sidessi['ERROR'] = 1;
             if ($Sidesi['IsASide'] == 0 ) $Sides[$si] = $Sidessi;
           }
 
           $s = &$Sides[$si];
           $txt = SName($s) . (($types && $s['Type'])?(" (" . trim($s['Type']) . ") "):"");
-          if (!$txt) {
+          if (!$txt || isset($s['ERROR'])) {
             if (!$condense) $txt = "<span class=Cancel>ERR (" . Side_ShortName($si) . ")</span>";
           }
           $class .= " Side$si";

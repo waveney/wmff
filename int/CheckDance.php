@@ -33,8 +33,11 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
   $Venues = Get_Real_Venues(1);
   $Sides = &Part_Come_All();
   $sidenames = Sides_Name_List();
-  $sideercount = 0;
   $ErrC = $MerrC = $UerrC = 0;
+  
+/* foreach ($Sides as $s=>$sid) {
+  if (!isset($sidenames[$s])) echo "Side $s <a href=AddPerf.php?sidenum=$s>" . $Sides['SN'] . "</a> not in names<br>";
+} */
 
   $res = $db->query("SELECT e.* FROM Events e WHERE Year=$YEAR AND Status=0 ORDER BY Day, Start" );
   if ($res) {
@@ -44,13 +47,19 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
       for($i=1;$i<5;$i++) {
         if ($s = $e["Side$i"]) {
           $dancing[$s][] = $eid;
-          if (($Sides[$s][$DayList[$e['Day']]])) {
+          if (isset($Sides[$s]) && ($Sides[$s][$DayList[$e['Day']]])) {
                 // No Action
+          } else if (!isset($Sides[$s])) {
+            $NotSide = Get_Side($s);
+// var_dump($NotSide);
+            echo "<a href=AddPerf.php?sidenum=$s>" . $NotSide['SN'] . "</a>: ";
+            echo "<span class=red>Is listed doing an <a href=EventAdd.php?e=" . $e['EventId'] . ">event</a> at " . $e['Start'] . " in " . SName($Venues[$e['Venue']]) .
+              " on " . $DayList[$e['Day']] . ", but is <b>NOT</b> there that day</span><br>\n";
+            $ErrC++;            
           } else if ($Sides[$s]['IsASide']) { 
             echo "<a href=AddPerf.php?sidenum=$s>" . $sidenames[$s] . "</a>: ";
             echo "<span class=red>Is listed doing an <a href=EventAdd.php?e=" . $e['EventId'] . ">event</a> at " . $e['Start'] . " in " . SName($Venues[$e['Venue']]) .
               " on " . $DayList[$e['Day']] . ", but is <b>NOT</b> there that day</span><br>\n";
-            $sideercount++;
             $ErrC++;
           }
         }
@@ -62,7 +71,6 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
             echo "<a href=AddPerf.php?sidenum=$s>" . $sidenames[$s] . "</a>: ";
             echo "<span class=red>Is listed doing an event at " . $e['Start'] . " in " . SName($Venues[$e['Venue']]) .
                 " on " . $DayList[$e['Day']] . ", but is <b>NOT</b> there that day</span><br>\n";
-            $sideercount++;
           }
         }
         if ($s = $e["Other$i"]) {
@@ -72,7 +80,6 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
             echo "<a href=AddPerf.php?sidenum=$s>" . $sidenames[$s] . "</a>: ";
             echo "<span class=red>Is listed doing an event at " . $e['Start'] . " in " . SName($Venues[$e['Venue']]) .
                  " on " . $DayList[$e['Day']] . ", but is <b>NOT</b> there that day</span><br>\n";
-            $sideercount++;
           }
         }
 */
@@ -100,11 +107,11 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
       }
     }
   } else {
-    $sideercount = 1;
+    $ErrC ++;
     echo "<h2 class=Err>No Events Found</h2>";
   }
   if ($Procession == 0) {
-    $sideercount = 1;
+    $ErrC ++;
     echo "<span class=Err>No Procession Yet</span>";
   }
 
@@ -445,24 +452,19 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
     $needbr=0;
     $link = 'AddPerf.php';
     if ($Err) {
-      $sideercount++;
       echo "<a href=$link?sidenum=$si>" . $side['SN'] . "</a>:<ul>";
       foreach ($Err as $er) echo "<li class=red>$er";
       $needbr=1;
     }
     if ($Merr && $level>=2) {
-//var_dump($side);
       if (!$needbr) {
-        $sideercount++;
         echo "<a href=$link?sidenum=$si>" . $side['SN'] . "</a>:<ul>";
       }
       foreach ($Merr as $er) echo "<li class=brown>$er";
       $needbr=1;
     }
     if ($Uerr && $level>=3) {
-//var_dump($side);
       if (!$needbr) {
-        $sideercount++;
         echo "<a href=$link?sidenum=$si>" . $side['SN'] . "</a>:<ul>";
       }
       foreach ($Uerr as $er) echo "<li>$er";
@@ -472,7 +474,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
     if ($needbr) echo "</ul>";
   }  
 
-  if ($sideercount == 0) echo "No Errors!\n";
+  if ($ErrC == 0 && $MerrC ==0 && $UerrC == 0) echo "No Errors!\n";
   echo "<div id=DanceErrsSrc>Major: $ErrC Minor: $MerrC Micro: $UerrC</div>";
   echo "</div>\n"; 
 }

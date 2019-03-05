@@ -15,7 +15,7 @@ function Proforma_Background($name) {
 function Sides_Name_List() {
   global $db;
   $Sides = array();
-  $res = $db->query("SELECT SideId, SN FROM Sides WHERE SideStatus=0 AND IsASide=1 ORDER BY SN");
+  $res = $db->query("SELECT SideId, SN FROM Sides WHERE SideStatus=0 ORDER BY SN");
   if ($res) while ($row = $res->fetch_assoc()) $Sides[$row['SideId']] = $row['SN'];
   return $Sides;
 }
@@ -96,29 +96,11 @@ function &Select_Come_All($extra='') {
 function &Part_Come_All() {
   global $db,$YEAR,$Coming_Type;
   $Coming = [];
-  if (Feature('NewPERF')) {
-    $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND ( y.Coming=" . $Coming_Type['Y'] . " OR y.YearState>1 ) ORDER BY s.SN" ;
-    $res = $db->query($qry);
-    if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row; // All Sides, now acts
-    return $Coming;  
-  }
-  // TODO Delete rest of this when new perf in usse
-  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] ;
+
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideStatus=0 AND s.SideId=y.SideId AND y.Year=$YEAR AND ( y.Coming=" . $Coming_Type['Y'] . " OR y.YearState>1 ) ORDER BY s.SN" ;
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row; // All Sides, now acts
-
-  $qry = "SELECT s.*, a.* FROM Sides s, ActYear a WHERE s.SideId=a.SideId AND a.Year=$YEAR AND a.YearState>1 ";
-  $res = $db->query($qry);
-  if ($res) while ($row = $res->fetch_assoc()) {
-    if ($Coming[$row['SideId']]) {
-      $Coming[$row['SideId']] = array_merge($Coming[$row['SideId']],$row);
-    } else {
-      $Coming[$row['SideId']] = $row;
-    }
-  }
-
-//var_dump($Coming);exit;
-  return $Coming;
+  return $Coming;  
 }
 
 function Show_Side($snum,$Message='') {
