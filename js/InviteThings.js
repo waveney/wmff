@@ -45,3 +45,8 @@ function Remove_Bespoke() {
   $('.BespokeBorder').removeClass('BespokeBorder');
   $('.Bespoke').toggle();
 }
+
+  $(document).ready(function() {
+    Add_Bespoke();
+  } );
+
