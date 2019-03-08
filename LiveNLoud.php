@@ -19,12 +19,12 @@ Applications are now open for this year’s Live and Loud Competition!
 To register your interest, please click the link below and fill in an
 application form today.<p>
 
-Applicants should fill in the <a href=int/LiveNLoudForm.php><b>Application Form</b></a> in by
+Applicants should fill in the <!--<a href=int/LiveNLoudForm.php>--><b>Application Form</b></a> in by
 no later than Monday 5th March 2019.<p>
 
 <h3>APPLICATION PROCESS</h3>
 
-1. <a href=int/LiveNLoudForm.php><b>APLICATION FROM</b></a>: Please begin by registering your interest and
+1. <!--<a href=int/LiveNLoudForm.php>--><b>APLICATION FROM CLOSED</b></a>: Please begin by registering your interest and
 filling out the application form. Applications will
 close on Tuesday 5th March.<p>
 

@@ -15,13 +15,13 @@ Applications are now open for this year’s Buskers Bash Competition!
 To register your interest, please click the link below and fill in an
 application form today.<p>
 
-Applicants should fill in the <a href=int/BuskersBashForm.php><b>Application Form</b></a> in by
+Applicants should fill in the <!--<a href=int/BuskersBashForm.php>--><b>Application Form</b></a> in by
 no later than Monday 5th March 2019.<p>
 
 
 <h3>APPLICATION PROCESS</h3>
 
-1. <a href=int/BuskersBashForm.php><b>APPLICATION FORM</b></a>: Please begin by registering your interest and
+1. <!-- <a href=int/BuskersBashForm.php>--><b>APPLICATION FORM CLOSED</b></a>: Please begin by registering your interest and
 filling out the application form. Applications will
 close on Tuesday 5th March.<p>
 
