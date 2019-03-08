@@ -3,9 +3,9 @@
 $lnlclasses = array('','Live and Louder (under 16s)','Live and Loud (17+)');
 $Colours = array('white','lime','orange','grey');
 $yesno = array('','Yes','No');
-$SignupStates = array('Submitted','Invited not paid','Paid','Cancelled','Invited');
+$SignupStates = array('Submitted','Invited not paid','Paid','Cancelled','Invited','Declined');
 $StatesSignup = array_flip($SignupStates);
-$SignupStateColours = ['Yellow','Orange','Lime','lightgrey','lime'];
+$SignupStateColours = ['Yellow','Orange','Lime','lightgrey','lime','Grey'];
 $StewClasses = array('Stewarding'=> ['Info Points, Concerts, Road Closures, Street Collecting etc',[0,1,2],'stewards'],
                 'Setup' => ['Banners, Bunting, Posters, Stages, Marquees, Venues, Furniture etc',['Before',-1,0,1,2,3],'setup'],
                 'Artistic' => ['Setting up art displays, town decorations etc',['Before',-1,0,1,2,3],'Art'],
@@ -14,13 +14,15 @@ $Days = array('Wed'=>'Wednesday','Thu'=>'Thursday','Fri'=>'Friday','Sat'=>'Satur
 $Relations = array('','Husband','Wife','Partner','Son','Daughter','Mother','Father','Brother','Sister','Grandchild','Grandparent','Guardian','Uncle','Aunty',
                 'Son/Daughter in law', 'Friend','Other');
 $SignupActions = [
-  'BB' => ['Submitted'=>['Invite','Cancel'],
+  'BB' => ['Submitted'=>['Invite','Decline','Cancel'],
            'Invited' => ['Resend','Cancel'],
+           'Declined'=>[],
           ],
-  'LNL'=> ['Submitted'=>['Invite','Cancel'],
+  'LNL'=> ['Submitted'=>['Invite','Decline','Cancel'],
            'Invited not paid' => ['Paid','Resend','Cancel'],
            'Paid'=>['Cancel'],
            'Cancelled'=>[],
+           'Declined'=>[],
           ],
   ];
 
@@ -46,8 +48,10 @@ function Put_Signup(&$now) {
 function SignupActions($name,$state) {
   global $SignupActions,$SignupStates;
   $txt = '';
-  foreach($SignupActions[$name][$SignupStates[$state]] as $ac) {
-    $txt .= "<button type=submit name=ACTION value='$ac'>$ac</button>";
+  if (isset($SignupActions[$name][$SignupStates[$state]])) {
+    foreach($SignupActions[$name][$SignupStates[$state]] as $ac) {
+      $txt .= "<button type=submit name=ACTION value='$ac'>$ac</button>";
+    }
   }
   return $txt;
 }
@@ -125,7 +129,12 @@ function LNL_Action($action,$id) {
     $lnl['State'] = $StatesSignup['Cancelled'];
     if ($LNLDepositValue) Invoice_RemoveCode("LNL$id");
     break;
-  
+    
+  case 'Decline':
+    Email_Signup($lnl,'LNL_Decline',$lnl['Email']);
+    $lnl['State'] = $StatesSignup['Declined'];
+    break;
+ 
   } 
   Put_Signup($lnl);
 }
@@ -231,6 +240,12 @@ function BB_Action($action,$id) {
   case 'Cancel':
     $bb['State'] = $StatesSignup['Cancelled'];
     if ($BBDepositValue) Invoice_RemoveCode("BB$id");
+    break;
+
+    
+  case 'Decline':
+    Email_Signup($lnl,'BB_Decline',$bb['Email']);
+    $bb['State'] = $StatesSignup['Declined'];
     break;
   
   } 
