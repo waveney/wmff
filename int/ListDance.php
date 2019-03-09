@@ -190,10 +190,10 @@
       }
 
       if ($col9c == 'Messages') {
-        echo "<td style='max-width:200'>";
-        echo "<span id=Vited$snum>";
+        echo "<td width=250 height=38 style='max-width:200;max-height:38;'>";
+        echo "<div id=Vited$snum class=scrollableY>";
         if (isset($fetch['Invited'])) echo $fetch['Invited'];
-        echo "</span>";
+        echo "</div>";
       }
 
       if ($col10 == "Proforma Emails") {
