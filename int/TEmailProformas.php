@@ -26,17 +26,17 @@
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Index</a>\n";
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
+  echo "<th colspan=2><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Body of Message</a>\n";
   echo "</thead><tbody>";
   foreach($Pros as $t) {
     $i = $t['id'];
-    echo "<tr><td>$i" . fm_text1("",$t,'SN',1,'','',"SN$i");
+    echo "<tr><td>$i" . fm_text1("",$t,'SN',2,'','',"SN$i");
     echo "<td>" . fm_basictextarea($t,'Body',6,8,'',"Body$i");
     echo "\n";
   }
   if ($Edit) {
-    echo "<tr><td><td><input type=text name=SN0 >";
+    echo "<tr><td><td colspan=2><input type=text name=SN0 size=32>";
     echo "<td><textarea name=Body0 rows=6 cols=120></textarea>";
   }
   echo "</table>\n";

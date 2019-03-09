@@ -207,6 +207,9 @@
           if (strstr($fetch['Invited'],'Program:')) {
             if (!$fetch['TickBox1']) echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Program_Check',$snum,'Program','SendProfEmail.php')" . 
                                            Proforma_Background('ProgChk') . ">Prog Check</button>";
+            echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Program_Revised',$snum,'NewProg','SendProfEmail.php')" . 
+                 Proforma_Background('NewProg') . ">New Prog</button>";
+          
           } else {
             echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Program',$snum,'Program','SendProfEmail.php')" . 
                  Proforma_Background('Program') . ">Program</button>";

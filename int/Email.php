@@ -277,7 +277,7 @@ function Replace_Help($Area='',$Right=0) {
   ['*WEB*/*WEB:URL:TEXT','Website for Festival, URL - to follow website, TEXT - To be displayed (NO SPACES - any _ will appear as spaces)','All'],
   ['*MISSING*','Important information missing from a dance side','Dance'],
   ['*SIDE*','Name of side','Dance'],
-  ['*TICKBOX:b:TEXT*','Direct link to click a box, b=box num(1-4), TEXT to e displayed (NO SPACES - any _ will appear as spaces)','Dance']
+  ['*TICKBOX:b:TEXT*','Direct link to click a box, b=box num(1-4), TEXT to be displayed (NO SPACES - any _ will appear as spaces)','Dance']
   ];
 
   echo "<span " . ($Right?' class=floatright':'') . " id=largeredsubmit onclick=($('.HelpDiv').toggle()) >Click to toggle Standard Replacements Help</span>";
