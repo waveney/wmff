@@ -329,7 +329,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
 
 
 function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
-  global $YEAR,$CALYEAR,$PLANYEAR,$MASTER,$Invite_States,$Coming_States,$Coming_Colours, $Mess,$Action,$ADDALL,$Invite_Type;
+  global $YEAR,$CALYEAR,$PLANYEAR,$MASTER,$Invite_States,$Coming_States,$Coming_Colours, $Mess,$Action,$ADDALL,$Invite_Type,$TickBoxes;
   global $InsuranceStates,$Book_State,$Book_States,$Book_Colours,$ContractMethods,$Dance_Comp,$Dance_Comp_Colours,$PerfTypes;
   
   if ($year==0) $year=$YEAR;
@@ -470,6 +470,25 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
     }
   }
 
+  // Tickboxes 
+  if ($Side['IsASide']) { // Tickboxes only dance currently
+    $str = '';
+    foreach ($TickBoxes as $bi=>$box) {
+      $bxtxt = $box[0];
+      $bxfld = $box[1];
+      $bxtst = $box[2];
+      $bxval = $box[3];
+      $show = 0;
+      switch ($bxtst) {
+      case 'YHAS':
+        if (strstr($Sidey[$bxfld],$bxval)) $show =1;
+        break;
+      }
+      if ($show || Access('Staff','Dance')) $str .= "<td>" . fm_checkbox($bxtxt,$Sidey,"TickBox" . ($bi+1));
+    }
+    if ($str) echo "<tr>$str\n";
+  }
+      
   // Wristbands
   if (! $Side['IsAnAct']) {
     echo "<tr>";    

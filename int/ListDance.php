@@ -21,7 +21,7 @@
     echo "Debug: <span id=DebugPane></span><p>"; 
   }
 
-  $col5 = $col6 = $col7 = $col7 = $col8 = $col9 =$col10 = '';
+  $col5 = $col6 = $col7 = $col7 = $col8 = $col9 = $col9a = $col9b = $col9c = $col10 = '';
   echo "Click on column header to sort by column.  Click on Side's name for more detail and programme when available,<p>\n";
 
   $DanceState = 0;
@@ -61,7 +61,8 @@
     $col7 = "Sun";
     $col8 = "Missing";
     if (Feature('DanceComp')) $col9 = "Dance Comp";
-    $col9a = "Messages";
+    if ($DanceState >= 1) $col9b = "Seen";
+    $col9c = "Messages";
     if (Access('Staff','Dance')) $col10 = "Proforma Emails";
     $Comp = $stot = 0;
   } else { // general public list
@@ -94,6 +95,8 @@
     if ($col8) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col8</a>\n";
     if ($col9) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col9</a>\n";
     if ($col9a) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col9a</a>\n";
+    if ($col9b) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col9b</a>\n";
+    if ($col9c) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col9c</a>\n";
     if ($col10) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col10</a>\n";
 //    for($i=1;$i<5;$i++) {
 //      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>EM$i</a>\n";
@@ -182,7 +185,11 @@
         echo "<td style='background:" . $Dance_Comp_Colours[$fetch['DanceComp']] . "'>" . $Dance_Comp[$fetch['DanceComp']] ;
       }
 
-      if ($col9a == 'Messages') {
+      if ($col9b == 'Seen') {
+        echo "<td>" . ($fetch['TickBox1']?'y':'');
+      }
+
+      if ($col9c == 'Messages') {
         echo "<td style='max-width:200'>";
         echo "<span id=Vited$snum>";
         if (isset($fetch['Invited'])) echo $fetch['Invited'];
@@ -196,9 +203,15 @@
                Proforma_Background('Details') . ">Details!</button>"; 
         }
         
-        if ($DanceState >= 1 && !$fetch['TotalFee']) echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Program',$snum,'Program','SendProfEmail.php')" . 
-               Proforma_Background('Program') . ">Program</button>";
-       
+        if ($DanceState >= 1 && !$fetch['TotalFee']) {
+          if (strstr($fetch['Invited'],'Program:')) {
+            if (!$fetch['TickBox1']) echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Program_Check',$snum,'Program','SendProfEmail.php')" . 
+                                           Proforma_Background('ProgChk') . ">Prog Check</button>";
+          } else {
+            echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Program',$snum,'Program','SendProfEmail.php')" . 
+                 Proforma_Background('Program') . ">Program</button>";
+          }
+        }
       }
 
       
