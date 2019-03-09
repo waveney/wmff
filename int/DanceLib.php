@@ -5,7 +5,8 @@ $Dance_TimeFeilds = array('SatArrive','SatDepart','SunArrive','SunDepart');
 $OlapTypes = array('Dancer','Musician','Avoid');
 $OlapDays = array('All','Sat Only','Sun Only','None');
 $OlapCats = array('Side','Act','Comedy','Family','Other');
-$Proforma_Colours = ['Decide'=>'DarkOrange','Details'=>'Magenta','Program'=>'Yellow'];
+$Proforma_Colours = ['Decide'=>'DarkOrange','Details'=>'Magenta','Program'=>'Yellow','ProgChk'=>'lightsalmon'];
+$TickBoxes = [['Seen Programme','Invited','YHAS','Program:']]; // Year -> Name',Criteria, test , value
 
 function Proforma_Background($name) {
   global $Proforma_Colours;
@@ -716,6 +717,14 @@ function Dance_Email_Details($key,&$data,$att=0) {
 
     return ($count? "$str</ol><p>\n" : "");
   case 'SIDE': return $Side['SN'];
+  case (preg_match('/TICKBOX(.*)/',$key,$mtch)?true:false):
+    $bits = preg_split('/:/',$mtch[1],3);
+    $box = 1;
+    $txt = 'Click This';
+    if (isset($bits[1])) $box = $bits[1];
+    if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
+    return "<a href='https://" . $MASTER_DATA['HostURL'] . "/int/Access.php?t=s&i=$snum&B=$box&k=" . $Side['AccessKey'] . "&Y=$YEAR'><b>$txt</b></a>\n";
+
   }
 }
 

@@ -24,6 +24,7 @@
     case 'a' : // Act
     case 'o' : // Other
       $Data = Get_Side($id);
+      if (isset($_REQUEST['B'])) $_POST['TICKBOX'] = $_REQUEST['B'];
       break;
 
     case 't' : // Trader

@@ -10,12 +10,12 @@
   global $USER,$Access_Type;
   
   // 2D Access check hard coded here -- if needed anywhere else move to fest
-  
+
   if (isset($_REQUEST['SideId'])) { $snum = $_REQUEST['SideId']; }
   elseif (isset($_REQUEST['sidenum'])) { $snum = $_REQUEST['sidenum']; }
   elseif (isset($_REQUEST['id'])) { $snum = $_REQUEST['id'];} 
+  elseif (isset($_GET['id'])) { $snum = $_GET['id'];} 
   else { $snum = 0; }
-
   switch ($USER['AccessLevel']) {
   case $Access_Type['Participant'] : 
     if ($USER['Subtype'] != 'Perf' && $USER['Subtype'] != 'Side'  && $USER['Subtype'] != 'Act' && $USER['Subtype'] != 'Other') Error_Page("Not accessable to you");  // TODO Side-Other can be deleted in time
@@ -40,7 +40,6 @@
   }  
 
   dostaffhead("Add/Change Performer", "/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js");
-
   global $YEAR,$PLANYEAR,$Mess,$BUTTON;  // TODO Take Mess local
 
   echo '<h2>Add/Edit Performer</h2>'; // TODO CHANGE
@@ -73,12 +72,13 @@
         db_delete("Overlaps",$olaps[$mtch[1]]['id']);
       } 
       break;
+    case 'TICKBOX':
+      break; // Action is taken later after loading
     
     default:
       $Mess = "!!!";
     }
   }
-
 //  echo "<!-- " . var_dump($_POST) . " -->\n";
   if (isset($_POST{'SideId'})) { // Response to update button 
     
@@ -146,6 +146,13 @@
       } else {
         $Sidey = Default_SY();
       }
+      
+      if (isset($_POST['TICKBOX'])) {
+        $Sidey["TickBox" . $_POST['TICKBOX']] = 1;
+        Put_SideYear($Sidey);
+        echo "<h2>Thankyou for recording that, your other records are below</h2>";
+      }
+      
     } else {
       echo "<h2 class=ERR>Could not find Performer $snum</h2>\n";
     }
