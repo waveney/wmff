@@ -64,7 +64,7 @@
     if ($DanceState >= 1) $col9b = "Seen";
     $col9c = "Messages";
     if (Access('Staff','Dance')) $col10 = "Proforma Emails";
-    $Comp = $stot = 0;
+    $Comp = $stot = $Seen = 0;
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
     $SideQ = $db->query("SELECT $flds FROM Sides AS s, SideYear as y WHERE s.IsASide=1 AND s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . 
@@ -187,6 +187,7 @@
 
       if ($col9b == 'Seen') {
         echo "<td>" . ($fetch['TickBox1']?'y':'');
+        if ($fetch['TickBox1']) $Seen++;
       }
 
       if ($col9c == 'Messages') {
@@ -234,8 +235,8 @@
 //      echo " Day=" . fm_select($Coming_States,$_POST,'Tool_Coming',1,' oninput=ToolSelect(event)') . "</b><p>";    
     }
     
-    if ($col8 == "Complete?") {
-      echo "Complete: $Comp / $stot<br>\n";
+    if ($col8 == "Missing") {
+      echo "Complete: $Comp / $stot, Seen: $Seen / $stot<br>\n";
     }
   }
   
