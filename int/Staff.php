@@ -314,6 +314,7 @@
       echo "<p>";
       echo "<li><a href=Sponsors.php>Sponsors</a>\n";
       echo "<li><a href=WaterManage.php>Water Refills</a>\n";
+      echo "<li><a href=ImportProgAds.php>Import Programme ads</a>\n";  
 //      echo "<li><a href=ImportOldInvoice.php>Import Old Invoices</a>\n";  
     }
     echo "</ul>\n";

@@ -113,8 +113,7 @@
       dotail();      
       break;
       
-    case 'CREATE' : 
-//    var_dump($_REQUEST);
+    case 'CREATE' :
       $Details = [];
       for ($i = 1;$i<=3; $i++) {
         if (isset($_REQUEST["Amount$i"]) && $_REQUEST["Amount$i"]) {

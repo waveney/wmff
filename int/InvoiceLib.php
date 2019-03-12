@@ -400,7 +400,7 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade
   echo "<tr><td colspan=5>Include UPTO 3 items, if the first is positive, and the others negative, the negative ones will be in red";
   echo "<tr><td colspan=2>Description<td>Amount";
   for ($i=1;$i<=3;$i++) {
-    echo "<tr><td colspan=2>" . fm_basictextarea($inv,"Desc$i",3,1) . fm_pence1('',$inv,"Amount$i") ; //fm_text1("",$inv,"Amount$i") ;
+    echo "<tr><td colspan=2>" . fm_text0("",$inv,"Desc$i",3) . fm_pence1('',$inv,"Amount$i") ; //fm_text1("",$inv,"Amount$i") ;
     if ($i ==1) {
       echo "<td>Invoice Code:" . fm_select($InvCodes,$inv,'InvoiceCode'); 
     } else {
@@ -411,7 +411,7 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade
 //  echo "<tr><td>Invoice Code:" . fm_select($InvCodes,$inv,'InvoiceCode');  
   echo "<tr>" . fm_text("Reason (this appears in local lists)",$inv,'Reason',2);
   if (!isset($inv['DueDays'])) $inv['DueDays'] = Feature('PaymentTerms',30);
-  echo fm_text('Payment Term (days)',$inv,'DueDays');
+  echo "<tr>" . fm_text('Payment Term (days)',$inv,'DueDays');
 
   if (Access('SysAdmin')) {
     if (!isset($inv['Source'])) $inv['Source'] = 2;  // Other finance
@@ -465,6 +465,7 @@ function Validate_Invoice(&$inv) {
   if (!isset($inv['Email']) || !filter_var($inv['Email'], FILTER_VALIDATE_EMAIL)) return "Invalid Email Address";
   if ($inv['Desc1'] == '' && $inv['Desc2'] == '' && $inv['Desc3'] == '') return "Nothing to Invoice For";
   if ($inv['Amount1'] == 0 && $inv['Amount2'] == 0 && $inv['Amount3'] == 0) return "Nothing to Invoice For";
+  if ($inv['Reason'] == '') return "No reason given";
 }
 
 function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
@@ -492,7 +493,7 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   echo fm_text('Sage Code',$inv,'OurRef',1,$RO);
   echo "<tr><td colspan=3>What<td>Amount";
   for ($i=1;$i<4;$i++) {
-    echo "<tr><td colspan=3>" . fm_basictextarea($inv,"Desc$i",4,1,$RO) . fm_pence1("",$inv, "Amount$i");// "<td>" . Print_Pence($inv["Amount$i"]);
+    echo "<tr><td colspan=3>" . fm_text0("",$inv,"Desc$i",4,$RO) . fm_pence1("",$inv, "Amount$i");// "<td>" . Print_Pence($inv["Amount$i"]);
     if ($i==1) {
       echo "<td>Invoice Code:<td>" . fm_select($InvCodes,$inv,'InvoiceCode',1,$RO);
     } else {

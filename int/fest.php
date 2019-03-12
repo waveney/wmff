@@ -176,7 +176,7 @@ function UserSetPref($pref,$val) {
 function UserGetPref($pref) {
   global $USER,$USERID;
   if (!$USER) return 0;
-  if (preg_match("/$pref\:(.*)\n/",$USER['Prefs'],$rslt)) return $rslt[1];
+  if (preg_match("/$pref\:(.*)\n/",$USER['Prefs'],$rslt)) return trim($rslt[1]);
   return 0;
 }
 

@@ -57,6 +57,8 @@ function ConvertHtmlToText(&$body) {
 
 function NewSendEmail($to,$sub,&$letter,&$attachments=0) { 
   global $MASTER_DATA,$CONF;
+  
+//  echo "Debug: " .( UserGetPref('EmailDebug')?2:0) . "<p>";
   if (@ $CONF['testing']){
     if (strstr($CONF['testing'],'@')) { 
       $to = $CONF['testing'];
