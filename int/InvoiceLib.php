@@ -402,7 +402,7 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade
   for ($i=1;$i<=3;$i++) {
     echo "<tr><td colspan=2>" . fm_text0("",$inv,"Desc$i",3) . fm_pence1('',$inv,"Amount$i") ; //fm_text1("",$inv,"Amount$i") ;
     if ($i ==1) {
-      echo "<td>Invoice Code:" . fm_select($InvCodes,$inv,'InvoiceCode'); 
+      echo "<td>Invoice Code:" . fm_select($InvCodes,$inv,'InvoiceCode',1); 
     } else {
       echo "<td>Invoice Code (if diff):" . fm_select($InvCodes,$inv,"InvoiceCode$i",1);    
     }
@@ -466,6 +466,7 @@ function Validate_Invoice(&$inv) {
   if ($inv['Desc1'] == '' && $inv['Desc2'] == '' && $inv['Desc3'] == '') return "Nothing to Invoice For";
   if ($inv['Amount1'] == 0 && $inv['Amount2'] == 0 && $inv['Amount3'] == 0) return "Nothing to Invoice For";
   if ($inv['Reason'] == '') return "No reason given";
+  if ($inv['InvoiceCode'] == 0) return "No Invoice Code selected";
 }
 
 function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
