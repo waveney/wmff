@@ -6,7 +6,10 @@
   global $db,$PLANYEAR;
   include_once("SignupLib.php");
 
+  $extra = '';
+  if (!isset($_REQUEST['ALL'])) $extra = "AND State<3 ";
   echo "Click on Band Name for more info.<p>";
+  if ($extra) echo "<h2><a href=LiveNLoudView.php?ALL>Show All including canceled and Declined</a></h2>";
   $coln = 0;  
 //  echo "<form method=post action=LiveNLoudView.php>";
   echo "<table id=indextable border>\n";
@@ -22,7 +25,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>State/Actions</a>\n";
   echo "</thead><tbody>";
 
-  $res=$db->query("SELECT * FROM SignUp WHERE Year=$PLANYEAR AND State<3 AND Activity<4 ORDER BY SN");
+  $res=$db->query("SELECT * FROM SignUp WHERE Year=$PLANYEAR $extra AND Activity<4 ORDER BY SN");
   
   if ($res) {
     while ($lnl = $res->fetch_assoc()) {
