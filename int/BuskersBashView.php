@@ -6,7 +6,11 @@
   global $db,$PLANYEAR,$SignupStates,$SignupStateColours,$YEAR;
   include_once("SignupLib.php");
 
+  $extra = '';
+  if (!isset($_REQUEST['ALL'])) $extra = "(State!=3 AND State !=5) AND ";
   echo "Click on Band Name for more info.<p>";
+  if ($extra) echo "<h2><a href=BuskersBashView.php?ALL>Show All including canceled and Declined</a></h2>";
+  
   $coln = 0;  
 //  echo "<form method=post action=BuskersBashView.php>";
   echo "<table id=indextable border>\n";
@@ -20,7 +24,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>State/Actions</a>\n";
   echo "</thead><tbody>";
 
-  $res=$db->query("SELECT * FROM SignUp WHERE Year=$PLANYEAR AND " . ($PLANYEAR==$YEAR?"State!=3 AND":"") . " Activity=4 ORDER BY SN");
+  $res=$db->query("SELECT * FROM SignUp WHERE Year=$PLANYEAR AND " . ($PLANYEAR==$YEAR?$extra:"") . " Activity=4 ORDER BY SN");
   
   if ($res) {
     while ($bb = $res->fetch_assoc()) {
