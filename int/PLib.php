@@ -130,8 +130,8 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
     } else {
       echo fm_hidden('SideId',$snum);
       echo fm_hidden('Id',$snum);
-    }
-    if ($Mode == 0 || !Access('SysAdmin')) {
+//    }
+//    if ($Mode == 0) { //  || !Access('SysAdmin')) {
       // TODO Perf types loop
       echo fm_hidden('IsASide',$Side['IsASide']);
       echo fm_hidden('IsAnAct',$Side['IsAnAct']);

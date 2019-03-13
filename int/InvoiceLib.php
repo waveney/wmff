@@ -531,7 +531,7 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   echo "<input type=submit name=ACTION value=UPDATE>";
   if ($inv['Email'] && !$InValid) {
     echo "<input type=submit name=ACTION value=" . ($inv['EmailDate']?"RESEND":"SEND") . ">";
-    if (!$inv['EmailDate']) {
+    if (!$inv['EmailDate'] || $inv['Revision']) {
       echo "<input type=submit name=ACTION value=BESPOKE>";// formtarget=_blank formaction=SendFinanceProfEmail.php?id=$id>";
       echo "<input type=submit name=ACTION value=SENT>";
     }
