@@ -168,7 +168,7 @@
         if ($fetch['Insurance'] && $fetch['Mobile'] &&
                 ((($fetch['Performers'] > 0) && $fetch['Address']) || ($fetch['Performers'] < 0)) && 
                 ($fetch['Sat'] || $fetch['Sun'])) { 
-          echo "Comp"; 
+          echo "None"; 
           $Comp++;
           $IsComp = 1;
         } else {

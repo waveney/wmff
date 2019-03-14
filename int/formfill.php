@@ -169,7 +169,34 @@
     }
     
     // SHOULD never get here...    
-    exit;   
+    exit;  
+    
+  case 'Event':
+    include_once("ProgLib.php");
+    $Event = Get_Event($id);
+
+    if (preg_match('/^(Start|End|SlotEnd|DoorsOpen)$/',$field)) {
+      include_once("DateTime.php");
+      $Value = Time_BestGuess($Value);
+    } else if (preg_match('/^(Setup|Duration)$/',$field)) {
+      include_once("DateTime.php");
+      $Value = Time_BestGuess($Value,1);
+//    } else if (preg_match('/PerfType\d+/',$field,$res)) {
+//      $field = $res[1];
+    } else if (preg_match('/Perf\d+_(Side\d+)/',$field,$res)) {
+      $field = $res[1];
+    }
+    
+//    echo "Field=$field Val=$Value<br>";
+    if (isset($Event[$field])) { // General case
+      $Event[$field] = $Value;
+      echo Put_Event($Event);
+      exit;
+    }
+
+    // SHOULD never get here...    
+    exit;  
+     
   }
 ?>
 
