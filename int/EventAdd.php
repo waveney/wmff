@@ -43,14 +43,14 @@ Then click on <b>Create</b>.<p>
 See if any errors are reported at the top of the event - they currently are a bit cryptic but any event clashes involving this event will be listed 
 - resolve them please.<p>
 If it a simple event, with up to 4 particpants do the following (this can be done later if you have not yet decided): 
-<ul><li>Select the Side, Act or Other participants from the drop down lists.
-<li>Click on <b>Update</b></ul><p>
+Select the Side, Act or Other participants from the drop down lists.
+
 <h3>Concerts and similar events</h3>
 Each act in the concert needs a sub event.<p>
 On the right near the bottom it will say Add 1 sub events.  Change the 1 to the number of acts and click on <b>Add</b> (further acts can be added later if needed)<p>
 In the body of the event, it will now say <b>Has Sub Events</b>, click on that link.<p>
 You will see a list of sub events - the first is the entire event (Concert), you will need to change each of the others in turn for each act.<p>
-Click on one of them, change the start and end times and select who is performing that spot, then click <b>Update</b>.<p>
+Click on one of them, change the start and end times and select who is performing that spot.<p>
 To go back to the list of sub events click on <b>Is a Sub Event</b>
 <h3>Dancing</h3>
 For example, setting up dancing in the cornmarket, create a single event that runs from 10am to 5pm, then divide it up into 30 minute sub events.<p>
@@ -286,11 +286,13 @@ A similar feature will appear eventually for music.<p>
 //var_dump($Event);
   if (isset($Err)) echo "<h2 class=ERR>$Err</h2>\n";
   echo "<span class=NotSide>Fields marked should be only set by Richard</span>";
+  Register_AutoUpdate('Event',$eid);
   if (!$Skip) {
     $adv = (isset($Event['SubEvent']) ?(($Event['SubEvent']>0?"class=Adv":"")) : ""); 
     echo "<table width=90% border>\n";
       if (isset($eid) && $eid > 0) {
         echo "<tr><td>Event Id:" . $eid . fm_hidden('EventId',$eid);
+        Register_AutoUpdate('Event',$eid);
       } else {
         echo fm_hidden('EventId',-1);
         if (!isset($_GET['COPY'])) $Event['Day'] = 1;
@@ -364,51 +366,27 @@ A similar feature will appear eventually for music.<p>
 
 
       if (!((isset($Event['BigEvent']) && $Event['BigEvent']))) {
-        if (Feature('NewPERF2')) {
-          $PTypes = [];
-          foreach ($PerfTypes as $p=>$d) $PTypes[] = $p;
-          for ($i=1; $i<5; $i++) {
-            if (!isset($Event["PerfType$i"])) $Event["PerfType$i"]=0;
-            echo "<tr><td colspan=2>";
-            echo fm_radio('',$PTypes,$Event,"PerfType$i","onchange=EventPerfSel(event,###F,###V)",0) . "<td colspan=2>";
+        $PTypes = [];
+        foreach ($PerfTypes as $p=>$d) $PTypes[] = $p;
+        for ($i=1; $i<5; $i++) {
+          if (!isset($Event["PerfType$i"])) $Event["PerfType$i"]=0;
+          echo "<tr><td colspan=2>";
+          echo fm_radio('',$PTypes,$Event,"PerfType$i","onchange=EventPerfSel(event,###F,###V)",0) . "<td colspan=2>";
 
-            $sid = (isset($Event["Side$i"])?$Event["Side$i"] : 0);
-            $pi = 0;
-            foreach ($PerfTypes as $p=>$d) {
-              echo ($SelectPerf[$p]?fm_select($SelectPerf[$p],$Event,"Side$i",1,"id=Perf$pi" . "_Side$i " . ($Event["PerfType$i"]==$pi?'':'hidden'),"Perf$pi" . "_Side$i") :"");
-              if ($sid && ($Event["PerfType$i"] == $pi) && !isset($SelectPerf[$p][$sid])) {
-                $Side = Get_Side($sid);
-                echo "<del><a href=AddPerf.php?id=$sid>" . $Side['SN'] . "</a></del> ";               
-              }
-              $pi++;
+          $sid = (isset($Event["Side$i"])?$Event["Side$i"] : 0);
+          $pi = 0;
+          foreach ($PerfTypes as $p=>$d) {
+            echo ($SelectPerf[$p]?fm_select($SelectPerf[$p],$Event,"Side$i",1,"id=Perf$pi" . "_Side$i " . ($Event["PerfType$i"]==$pi?'':'hidden'),"Perf$pi" . "_Side$i") :"");
+            if ($sid && ($Event["PerfType$i"] == $pi) && !isset($SelectPerf[$p][$sid])) {
+              $Side = Get_Side($sid);
+              echo "<del><a href=AddPerf.php?id=$sid>" . $Side['SN'] . "</a></del> ";               
             }
-
-          }
-        } else {
-//        if ($et == 'Dance' || $et == 'Workshop' || $et == 'Mixed' || $et == 'Other') {
-          echo "<tr><td rowspan=2>Sides:" . Help('Sides');
-          for ($i=1; $i<5; $i++) {
-            if ($i==3) echo "<tr>"; 
-            echo "<td colspan=2>" . fm_select($SideList,$Event,'Side' . $i);
-          }
-//        }
-//        if ($et == 'Music' || $et == 'Workshop' || $et == 'Mixed' || $et == 'Other') {
-          echo "<tr><td rowspan=2>Music:" . Help('Acts');
-          for ($i=1; $i<5; $i++) {
-            if ($i==3) echo "<tr>"; 
-            echo "<td colspan=2>" .fm_select($ActList,$Event,'Act' . $i,1);
-          }
-//        }
-//        if ($et == 'Craft' || $et == 'Workshop' || $et == 'Mixed' || $et == 'Other') {
-          echo "<tr><td rowspan=2>Other:" . Help('Others');
-          for ($i=1; $i<5; $i++) {
-            if ($i==3) echo "<tr>"; 
-            echo "<td colspan=2>" .fm_select($OtherList,$Event,'Other' . $i,1);
+            $pi++;
           }
         }
       } else {
         $ovc=0;
-        echo "<tr><td>Other Venues:";
+        echo "<tr><td>Other Venues (Click Update after changing):";
         if (!isset($Other)) $Other = Get_Other_Things_For($eid);
          if ($Other) {
           foreach ($Other as $i=>$ov) {
@@ -421,7 +399,8 @@ A similar feature will appear eventually for music.<p>
         }
           echo "<td>" . fm_select2($Venues,0,"NEWVEN",1);
       }
-        
+
+    if (Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=7 class=NotSide><textarea id=Debug></textarea>";        
     echo "</table>\n";
     if (isset($Event['BigEvent']) && $Event['BigEvent']) {
       echo "Use the <a href=BigEventProg.php?e=$eid>Big Event Programming Tool</a> to add sides, musicians and others to this event. ";

@@ -85,7 +85,7 @@ function fm_simpletext($Name,&$data=0,$field,$extra='') {
   global $ADDALL,$AutoADD;
   $str = "$Name: " . help($field) . "<input type=text name=$field  id=$field $extra";
   if ($data) if (isset($data[$field])) $str .= " value=\"" . htmlspec($data[$field]) . "\"";
-  if ($AutoADD) $str .=  " oninput=AutoInput('$field2') ";
+  if ($AutoADD) $str .=  " oninput=AutoInput('$field') ";
   return $str . " $ADDALL>\n";
 }
 
