@@ -30,6 +30,10 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Artisan Msgs</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Invoice Code</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Notes</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Map</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Scale</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Setup</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Assign</a>\n";
   echo "</thead><tbody>";
   foreach($Locs as $t) {
     $i = $t['TLocId'];
@@ -41,7 +45,11 @@
     echo "<td>" . fm_select($Trade_Days,$t,"Days",0,'',"Days$i");
     echo "<td>" . fm_checkbox("",$t,'ArtisanMsgs','',"ArtisanMsgs$i");
     echo "<td>" . fm_select($InvCodes,$t,'InvoiceCode',1,'',"InvoiceCode$i");
-    echo fm_text1('',$t,'Notes',3,'','',"Notes$i");
+    echo fm_text1('',$t,'Notes',1,'','',"Notes$i");
+    echo fm_text1('',$t,'MapImage',1,'','',"MapImage$i");
+    echo fm_text1('',$t,'Mapscale',1,'','',"Mapscale$i");
+    echo "<td><a href=TradeSetup.php?i=$i>Setup</a>";
+    echo "<td><a href=TradeAssign.php?i=$i>Assign</a>";
     echo "\n";
   }
   echo "<tr><td><td><input type=text name=SN0 >";
@@ -52,7 +60,9 @@
   echo "<td>" . fm_select2($Trade_Days,0,'Days0');
   echo "<td><input type=checkbox name=ArtisanMsgs0>";
   echo "<td>" . fm_select($InvCodes,$t,'InvoiceCode',1,'',"InvoiceCode0");
-  echo "<td><input type=text name=Notes0 size=48>";
+  echo "<td><input type=text name=Notes0 >";
+  echo "<td><input type=text name=MapImage0 >";
+  echo fm_text1('',$t,'Mapscale',1,'','',"Mapscale0"); 
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";

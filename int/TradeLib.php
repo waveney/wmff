@@ -73,6 +73,33 @@ function Put_Trade_Loc(&$now) {
   return Update_db('TradeLocs',$Cur,$now);
 }
 
+function Get_Trade_Pitches($loc='') {
+  global $db;
+  $full = [];
+  $res = $db->query("SELECT * FROM TradePitch " . ($loc?"WHERE Loc=$loc ":"") . " ORDER BY Posn ");
+  if ($res) {
+    while ($ptch = $res->fetch_assoc()) {
+      $full[] = $ptch;
+    }
+  }
+  return $full;
+}
+
+function Get_Trade_Pitch($id) {
+  global $db;
+  $res = $db->query("SELECT * FROM TradePitch WHERE id=$id");
+  if ($res) return $res->fetch_assoc();
+  return [];
+}
+
+function Put_Trade_Pitch(&$now) {
+  $e=$now['id'];
+  $Cur = Get_Trade_Pitch($e);
+  return Update_db('TradePitch',$Cur,$now);
+}
+
+
+
 function Get_Trade_Types($tup=0) { // 0 just base names, 1 all data
   global $db,$PLANYEAR;
   $full = array();
@@ -1550,4 +1577,38 @@ function Trade_F_Action($Tid,$Action,$xtra='',$invid=0) { // Call from Invoicing
   $Trady = Get_Trade_Year($Tid);
   Trade_Action($Action,$Trad,$Trady,1,'', $xtra,$invid);
 }
+
+/* Get map size
+   get scale 
+   send the image
+   setup the svg
+   plot the pitches
+   */
+
+function Pitch_Map(&$loc,&$Pitches) {
+  $scale=$loc['Mapscale']; 
+  $sp = $scale*100;
+  $Factor = 16*$scale;
+  echo "<div class=img-overlay-wrap>";
+  echo "<img src=" . $loc['MapImage'] . " width=$sp%>"; //" style='width:$sp%'>";
+  echo "<svg width=1200 height=700>";
+  foreach ($Pitches as $Pitch) {
+    echo "<rect x=" . ($Pitch['X'] * $Factor) . " y=" . ($Pitch['Y'] * $Factor) . " width=" . ($Pitch['Xsize'] * $Factor) . " height=" . ($Pitch['Ysize'] * $Factor);
+    echo " style='fill:yellow;stroke:black;";
+    if ($Pitch['Angle']) echo " transform: rotate(" . $Pitch['Angle'] . "Deg);" ;
+    echo "' />";
+
+    echo "<text x=" . (($Pitch['X']+0.5) * $Factor)  . " y=" . (($Pitch['Y']+1.5) * $Factor);
+    echo " style='";
+    if ($Pitch['Angle']) echo "transform: rotate(" . $Pitch['Angle'] . "Deg);" ;
+    echo "'>";
+    echo "#" . $Pitch['Posn'];
+    echo "</text>";
+
+  }   
+  echo "</svg>";
+  echo "</div>";
+}
+
+
 ?>

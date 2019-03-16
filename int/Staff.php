@@ -215,6 +215,7 @@
     if (Access('Committee','Trade')) {
       echo "<li><a href=Trade.php?Y=$YEAR>Add Trader</a>\n";
       echo "<li><a href=TradeLocs.php>Trade Locations</a>\n";
+//      echo "<li><a href=TradeSetup.php>Trade Pitch Setup</a>\n";
       if (Access('SysAdmin')) echo "<li><a href=TradeTypes.php>Trade Types and base Prices</a>\n";
       if (Access('SysAdmin')) echo "<li><a href=EmailTraders.php>Email Groups of Traders</a>\n"; // Old code needs lots of changes
 //      if (Access('SysAdmin')) echo "<li><a href=TradeImport1.php>Convert old Trade Data</a>\n";
