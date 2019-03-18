@@ -1655,7 +1655,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
     if ($Name) {
     // Divide into Chunks each line has a chunk display Ysize chunks - the posn is a chunk,  chunk length = 3xXsize 
     // Chunking - split to Words then add words to full - if no words split word (hard)
-      $ChSize = floor($Pitch['Xsize']*3.1*$Mapscale);
+      $ChSize = floor($Pitch['Xsize']*3.8*$Mapscale);
       $Ystart = ($Pub?0.6:1.2) *($Pitch['Type']?2:1);
       $MaxCnk = floor(($Pitch['Ysize']*2.5*$Mapscale) - ($Pub?1:2));
       $Chunks = str_split($Name,$ChSize);
