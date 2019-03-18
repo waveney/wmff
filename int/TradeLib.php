@@ -45,9 +45,9 @@ $Prefixes = array ('in','in the','by the');
 $TaxiAuthorities = array('East Dorset','Poole','Bournemouth');
 $TradeMapPoints = ['Trade','Other'];
 
-function Get_Trade_Locs($tup=0) { // 0 just names, 1 all data
+function Get_Trade_Locs($tup=0,$Cond='') { // 0 just names, 1 all data
   global $db;
-  $res = $db->query("SELECT * FROM TradeLocs ORDER BY SN ");
+  $res = $db->query("SELECT * FROM TradeLocs $Cond ORDER BY SN ");
   if ($res) {
     while ($typ = $res->fetch_assoc()) {
       $short[$typ['TLocId']] = $typ['SN'];
