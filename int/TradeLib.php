@@ -43,6 +43,7 @@ $RestrictButs = array('Paid','Dep Paid'); // If !AutoInvoice or SysAdmin
 $Trade_Days = array('Both','Saturday Only','Sunday Only');
 $Prefixes = array ('in','in the','by the');
 $TaxiAuthorities = array('East Dorset','Poole','Bournemouth');
+$TradeMapPoints = ['Trade','Other'];
 
 function Get_Trade_Locs($tup=0) { // 0 just names, 1 all data
   global $db;
@@ -512,7 +513,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
     if ($Mode) {
       echo "<td class=NotCSide>" . fm_select($TradeLocs,$Trady,"PitchLoc$i",1,'class=NotCSide');
       echo fm_text1("",$Trady,"PitchNum$i",1,'class=NotCSide','class=NotCSide');
-      if ($Trady["PitchLoc$i"]) echo $Trady["PitchNum$i"] . " <a href=TradeStandMap.php?l=" . $Trady["PitchLoc$i"] . ">Map</a>";
+      if (isset($Trady["PitchLoc$i"]) && $Trady["PitchLoc$i"]) echo $Trady["PitchNum$i"] . " <a href=TradeStandMap.php?l=" . $Trady["PitchLoc$i"] . ">Map</a>";
     } else {
       echo "<td>";
       if (isset($Trady["PitchLoc$i"])  && $Trady["PitchLoc$i"]) {
@@ -1602,9 +1603,11 @@ function Get_Traders_For($loc) {
 
 function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
   global $TradeTypeData;
-  $scale=($Scale?$loc['Mapscale']:1); 
+  $scale=($Scale?$loc['Showscale']:1); 
+  $Mapscale = $loc['Mapscale'];
   $sp = $scale*100;
-  $Factor = 16*$scale;
+  $Factor = 20*$scale*$Mapscale;
+
   $TLocId = $loc['TLocId'];
   $FSize = 10*$scale;
   
@@ -1636,13 +1639,14 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
     $Posn = $Pitch['Posn'];
     $Name = '';
     if (isset($Usage[$Posn])) $Name = $Usage[$Posn];
+    if ($Pitch['Type']) $Name = $Pitch['SN'];
     echo "<rect x=" . ($Pitch['X'] * $Factor) . " y=" . ($Pitch['Y'] * $Factor) . " width=" . ($Pitch['Xsize'] * $Factor) . " height=" . ($Pitch['Ysize'] * $Factor);
-    echo " style='fill:" . ($Name?$TradeTypeData[$TT[$Posn]]['Colour']  : "yellow") . ";stroke:black;";
+    echo " style='fill:" . ($Pitch['Type']?$Pitch['Colour']:($Name?$TradeTypeData[$TT[$Posn]]['Colour']  : "yellow")) . ";stroke:black;";
     if ($Pitch['Angle']) echo "transform: rotate(" . $Pitch['Angle'] . "Deg);" ;
 
-    echo "' id=Posn$Posn ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event) />";
+    echo "' id=Posn$Posn ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event) />"; // Not used at present
 
-    echo "<text x=" . (($Pitch['X']+0.2) * $Factor)  . " y=" . (($Pitch['Y']+($Name?0.7:1.5)) * $Factor);
+    echo "<text x=" . (($Pitch['X']+0.2) * $Factor)  . " y=" . (($Pitch['Y']+($Name?0.7:1.2)/$Mapscale) * $Factor);
     echo " style='";
     if ($Pitch['Angle']) echo "transform: rotate(" . $Pitch['Angle'] . "Deg);" ;
     if ($Name) echo "font-size:10px;";
@@ -1651,24 +1655,18 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
     if ($Name) {
     // Divide into Chunks each line has a chunk display Ysize chunks - the posn is a chunk,  chunk length = 3xXsize 
     // Chunking - split to Words then add words to full - if no words split word (hard)
-      $ChSize = $Pitch['Xsize']*3;
-      $Chunks = [];
-      $Ystart = ($Pub?0.7:1.5);
-      $MaxCnk = $Pitch['Ysize'] - ($Pub?1:0);
-      $Words = explode(' ',substr($Name,0,$ChSize*$MaxCnk));
-      $CN = 0;
-      $Rem = '';
-/*      foreach ($Words as $Word) {
-        if (strlen($Word) > $ChSize) {
-          if ($Rem)
-        }
+      $ChSize = floor($Pitch['Xsize']*3.1*$Mapscale);
+      $Ystart = ($Pub?0.6:1.2) *($Pitch['Type']?2:1);
+      $MaxCnk = floor(($Pitch['Ysize']*2.5*$Mapscale) - ($Pub?1:2));
+      $Chunks = str_split($Name,$ChSize);
       
       foreach ($Chunks as $i=>$Chunk) {
-        if ($i>=$MaxCnk) break; */
-        $Chunk = substr($Name,0,$ChSize);
-        echo "<tspan x=" . (($Pitch['X']+0.1) * $Factor)  . " y=" . (($Pitch['Y']+$Ystart) * $Factor) . " style='font-size:$FSize" . "px;'>$Chunk</tspan>";
-        $Ystart += 0.5;
-//      }
+        if ($i>=$MaxCnk) break; 
+ //       $Chunk = substr($Name,0,$ChSize);
+        echo "<tspan x=" . (($Pitch['X']+0.2) * $Factor)  . " y=" . (($Pitch['Y']+$Ystart/$Mapscale) * $Factor) . 
+             " style='font-size:" . ($Pitch['Type']?$FSize*2:$FSize) . "px;'>$Chunk</tspan>";
+        $Ystart += 0.6;
+      }
     }
     echo "</text>";
 

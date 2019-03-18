@@ -909,9 +909,10 @@ div.scrollableY {
 }
 
 .PitchCont {
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: none;
   height: 570px; 
-  width: 500px; 
+  width: 530px; 
   font-size:12px;
 }
 
