@@ -43,6 +43,7 @@ $RestrictButs = array('Paid','Dep Paid'); // If !AutoInvoice or SysAdmin
 $Trade_Days = array('Both','Saturday Only','Sunday Only');
 $Prefixes = array ('in','in the','by the');
 $TaxiAuthorities = array('East Dorset','Poole','Bournemouth');
+$TradeMapPoints = ['Trade','Other'];
 
 function Get_Trade_Locs($tup=0) { // 0 just names, 1 all data
   global $db;
@@ -72,6 +73,33 @@ function Put_Trade_Loc(&$now) {
   $Cur = Get_Trade_Loc($e);
   return Update_db('TradeLocs',$Cur,$now);
 }
+
+function Get_Trade_Pitches($loc='') {
+  global $db;
+  $full = [];
+  $res = $db->query("SELECT * FROM TradePitch " . ($loc?"WHERE Loc=$loc ":"") . " ORDER BY Posn ");
+  if ($res) {
+    while ($ptch = $res->fetch_assoc()) {
+      $full[] = $ptch;
+    }
+  }
+  return $full;
+}
+
+function Get_Trade_Pitch($id) {
+  global $db;
+  $res = $db->query("SELECT * FROM TradePitch WHERE id=$id");
+  if ($res) return $res->fetch_assoc();
+  return [];
+}
+
+function Put_Trade_Pitch(&$now) {
+  $e=$now['id'];
+  $Cur = Get_Trade_Pitch($e);
+  return Update_db('TradePitch',$Cur,$now);
+}
+
+
 
 function Get_Trade_Types($tup=0) { // 0 just base names, 1 all data
   global $db,$PLANYEAR;
@@ -405,7 +433,7 @@ function Trade_TandC() {
 }
 
 function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
-  global $YEAR,$PLANYEAR,$MASTER,$Trade_States,$Mess,$Action,$ADDALL,$Trade_State_Colours,$InsuranceStates,$Trade_State,$Trade_Days;
+  global $YEAR,$PLANYEAR,$MASTER,$Trade_States,$Mess,$Action,$ADDALL,$Trade_State_Colours,$InsuranceStates,$Trade_State,$Trade_Days,$EType_States;
   if ($year==0) $year=$YEAR;
   $CurYear = date("Y");
   if ($year < $PLANYEAR) { // Then it is historical - no changes allowed
@@ -484,14 +512,15 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
         ($pwr>0?" value=" . $Trady["Power$i"] : "") . " min=0 max=1000>Amps";
     if ($Mode) {
       echo "<td class=NotCSide>" . fm_select($TradeLocs,$Trady,"PitchLoc$i",1,'class=NotCSide');
-      echo fm_number1("",$Trady,"PitchNum$i",'class=NotCSide','class=NotCSide');
+      echo fm_text1("",$Trady,"PitchNum$i",1,'class=NotCSide','class=NotCSide');
+      if (isset($Trady["PitchLoc$i"]) && $Trady["PitchLoc$i"]) echo $Trady["PitchNum$i"] . " <a href=TradeStandMap.php?l=" . $Trady["PitchLoc$i"] . ">Map</a>";
     } else {
       echo "<td>";
       if (isset($Trady["PitchLoc$i"])  && $Trady["PitchLoc$i"]) {
         echo $TradeLocs[$Trady["PitchLoc$i"]];
         echo fm_hidden("PitchLoc$i",$Trady["PitchLoc$i"]);
         echo "<td>";
-        if ($Trady["PitchNum$i"]) echo $Trady["PitchNum$i"] . " <a href=ShowTradeMap.php?l=" . $Trady["PitchLoc$i"] . ">Map</a>";
+        if ($MASTER['TradeState']>= $EType_States['Partial'] && $Trady["PitchNum$i"]) echo $Trady["PitchNum$i"] . " <a href=TradeStandMap.php?l=" . $Trady["PitchLoc$i"] . ">Map</a>";
       } else {
         echo "<td>";
       }
@@ -595,19 +624,19 @@ function Get_Trade_Details(&$Trad,&$Trady) {
   $Body .= "Days: " . $Trade_Days[$Trady['Days']] . "\n";
   $Body .= "Pitch:" . $Trady['PitchSize0'];
   if ($Trady['PitchLoc0']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc0']]['SN'];
-  if ($Trady['PitchNum0']) $Body .= "Pitch Number "  . $Trady['PitchNum0'];
+  if ($MASTER['TradeState']>= $EType_States['Partial'] && $Trady['PitchNum0']) $Body .= "Pitch Number "  . $Trady['PitchNum0'];
   if ($Trady['Power0']) $Body .= " with " . ($Trady["Power0"]> 0 ? $Trady['Power0'] . " Amps\n" : " own Euro 4 silent generator\n");
 
   if ($Trady['PitchSize1']) {
     $Body .= "\nPitch 2:" . $Trady['PitchSize1'];
     if ($Trady['PitchLoc1']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc1']]['SN'];
-    if ($Trady['PitchNum1']) $Body .= "Pitch Number "  . $Trady['PitchNum1'];
+    if ($MASTER['TradeState']>= $EType_States['Partial'] && $Trady['PitchNum1']) $Body .= "Pitch Number "  . $Trady['PitchNum1'];
     if ($Trady['Power1']) $Body .= " with " . $Trady['Power1'] . " Amps\n";
   }
   if ($Trady['PitchSize2']) {
     $Body .= "\nPitch 3:" . $Trady['PitchSize2'];
     if ($Trady['PitchLoc2']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc2']]['SN'];
-    if ($Trady['PitchNum2']) $Body .= "Pitch Number "  . $Trady['PitchNum2'];
+    if ($MASTER['TradeState']>= $EType_States['Partial'] && $Trady['PitchNum2']) $Body .= "Pitch Number "  . $Trady['PitchNum2'];
     if ($Trady['Power2']) $Body .= " with " . $Trady['Power2'] . " Amps\n";
   }
 
@@ -814,6 +843,8 @@ function T_Deposit(&$Trad) {
 }
 
 function Validate_Pitches(&$CurDat) {
+  return 0; // TODO Completely wrong...
+  
   global $db,$PLANYEAR,$TradeLocData;
   for ($pn=0; $pn<3; $pn++) {
     if ($_POST["PitchLoc$pn"] != $CurDat["PitchLoc$pn"] || $_POST["PitchNum$pn"] != $CurDat["PitchNum$pn"]) {
@@ -1326,7 +1357,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     $xtra .= "Fee was " . $Trady['Fee'] . ", Pitch was " . $Trady['PitchLoc0'] . ", Number was " . $Trady['PitchNum0'] . "\n";
     $Trady['Fee'] = 0;
     $Trady['PitchLoc0'] = $Trady['PitchLoc1'] = $Trady['PitchLoc2'] = '';
-    $Trady['PitchNum0'] = $Trady['PitchNum1'] = $Trady['PitchNum2'] = 0;
+    $Trady['PitchNum0'] = $Trady['PitchNum1'] = $Trady['PitchNum2'] = '';
     $Ychng = 1;
     break;
 
@@ -1550,4 +1581,99 @@ function Trade_F_Action($Tid,$Action,$xtra='',$invid=0) { // Call from Invoicing
   $Trady = Get_Trade_Year($Tid);
   Trade_Action($Action,$Trad,$Trady,1,'', $xtra,$invid);
 }
+
+function Get_Traders_For($loc) {
+  global $db, $Trade_State,$YEAR;
+  $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE (y.BookingState=" . $Trade_State['Deposit Paid'] . " OR y.BookingState=" . $Trade_State['Invoiced'] . 
+         " OR y.BookingState=" . $Trade_State['Fully Paid'] . ") AND t.Tid = y.Tid AND y.Year=$YEAR AND (y.PitchLoc0=$loc OR y.PitchLoc1=$loc OR y.PitchLoc2=$loc ) ORDER BY SN";
+
+  $res = $db->query($qry);
+  $Traders = [];
+  if ($res) while ($trad = $res->fetch_assoc()) $Traders[] = $trad;
+  return $Traders;
+}
+
+
+/* Get map size
+   get scale 
+   send the image
+   setup the svg
+   plot the pitches
+   */
+
+function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
+  global $TradeTypeData;
+  $scale=($Scale?$loc['Showscale']:1); 
+  $Mapscale = $loc['Mapscale'];
+  $sp = $scale*100;
+  $Factor = 20*$scale*$Mapscale;
+
+  $TLocId = $loc['TLocId'];
+  $FSize = 10*$scale;
+  
+  $Usage = [];$TT = [];
+  if ($Traders) {
+    foreach ($Traders as $Trad) 
+      for ($i=0; $i<3; $i++) 
+        if ($Trad["PitchLoc$i"] == $TLocId) {
+          $list = explode(',',$Trad["PitchNum$i"]);
+          foreach ($list as $p) {
+            $Usage[$p] = (isset($Usage[$p])?"CLASH!":$Trad['SN']);
+            $TT[$p] = $Trad['TradeType'];
+          }
+        }
+  }
+  
+  $ImgHt = 1200;
+  $ImgWi = 700;
+  $stuff = getimagesize($loc['MapImage']);
+  if ($stuff) {
+    $ImgHt = $stuff[1];
+    $ImgWi = $stuff[0];
+  }
+  
+  echo "<div class=img-overlay-wrap>";
+  echo "<img src=" . $loc['MapImage'] . " width=$sp%>"; //" style='width:$sp%'>";
+  echo "<svg width=" . ($ImgWi*$scale) . " height=" . ($ImgHt*$scale) . ">";
+  foreach ($Pitches as $Pitch) {
+    $Posn = $Pitch['Posn'];
+    $Name = '';
+    if (isset($Usage[$Posn])) $Name = $Usage[$Posn];
+    if ($Pitch['Type']) $Name = $Pitch['SN'];
+    echo "<rect x=" . ($Pitch['X'] * $Factor) . " y=" . ($Pitch['Y'] * $Factor) . " width=" . ($Pitch['Xsize'] * $Factor) . " height=" . ($Pitch['Ysize'] * $Factor);
+    echo " style='fill:" . ($Pitch['Type']?$Pitch['Colour']:($Name?$TradeTypeData[$TT[$Posn]]['Colour']  : "yellow")) . ";stroke:black;";
+    if ($Pitch['Angle']) echo "transform: rotate(" . $Pitch['Angle'] . "Deg);" ;
+
+    echo "' id=Posn$Posn ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event) />"; // Not used at present
+
+    echo "<text x=" . (($Pitch['X']+0.2) * $Factor)  . " y=" . (($Pitch['Y']+($Name?0.7:1.2)/$Mapscale) * $Factor);
+    echo " style='";
+    if ($Pitch['Angle']) echo "transform: rotate(" . $Pitch['Angle'] . "Deg);" ;
+    if ($Name) echo "font-size:10px;";
+    echo "'>";
+    if (!$Pub) echo "#" . $Posn;
+    if ($Name) {
+    // Divide into Chunks each line has a chunk display Ysize chunks - the posn is a chunk,  chunk length = 3xXsize 
+    // Chunking - split to Words then add words to full - if no words split word (hard)
+      $ChSize = floor($Pitch['Xsize']*3.8*$Mapscale);
+      $Ystart = ($Pub?0.6:1.2) *($Pitch['Type']?2:1);
+      $MaxCnk = floor(($Pitch['Ysize']*2.5*$Mapscale) - ($Pub?1:2));
+      $Chunks = str_split($Name,$ChSize);
+      
+      foreach ($Chunks as $i=>$Chunk) {
+        if ($i>=$MaxCnk) break; 
+ //       $Chunk = substr($Name,0,$ChSize);
+        echo "<tspan x=" . (($Pitch['X']+0.2) * $Factor)  . " y=" . (($Pitch['Y']+$Ystart/$Mapscale) * $Factor) . 
+             " style='font-size:" . ($Pitch['Type']?$FSize*2:$FSize) . "px;'>$Chunk</tspan>";
+        $Ystart += 0.6;
+      }
+    }
+    echo "</text>";
+
+  }   
+  echo "</svg>";
+  echo "</div>";
+}
+
+
 ?>

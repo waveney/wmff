@@ -260,7 +260,7 @@ function set_ShowYear() { // Overrides default above if not set by a Y argument
 
 // Works for simple tables
 // Deletes = 0 none, 1=one, 2=many
-function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$Mstr='SN') {
+function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$Mstr='SN',$MstrNot='') {
   global $TableIndexes;
   include_once("DateTime.php");
   $Flds = table_fields($table);
@@ -272,7 +272,7 @@ function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$M
     if ($data) foreach($data as $t) {
       $i = $t[$indxname];
       if ($i) {
-        if (isset($_POST["$Mstr$i"]) && $_POST["$Mstr$i"] == '') {
+        if (isset($_POST["$Mstr$i"]) && $_POST["$Mstr$i"] == $MstrNot) {
           if ($Deletes) {
               db_delete($table,$t[$indxname]);
             if ($Deletes == 1) return 1;
@@ -295,7 +295,7 @@ function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$M
         }
       }
     }
-    if ($_POST[$Mstr . "0"] != '') {
+    if ($_POST[$Mstr . "0"] != $MstrNot) {
       $t = array();
       foreach ($Flds as $fld=>$ftyp) {
         if ($fld == $indxname) continue;

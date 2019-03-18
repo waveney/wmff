@@ -879,3 +879,47 @@ div.scrollableY {
     overflow-y: auto;
 }
 
+.img-overlay-wrap {
+  position: relative;
+  display: inline-block; /* <= shrinks container to image size */
+  transition: transform 150ms ease-in-out;
+}
+
+.img-overlay-wrap img { /* <= optional, for responsiveness */
+   display: block;
+   max-width: 100%;
+   height: auto;
+}
+
+.img-overlay-wrap svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.PitchWrap {
+  width: 550px;
+  height: 600px; 
+  overflow: hidden;
+  position: absolute;
+  top:100;
+  right:0;
+  border: 1px solid #000;
+  font-size:12px;
+}
+
+.PitchCont {
+  overflow-y: auto;
+  overflow-x: none;
+  height: 570px; 
+  width: 530px; 
+  font-size:12px;
+}
+
+.PitchCont td, .PitchCont th, .PitchCont table {
+  border-radius:0;
+  border-collapse:collapse;
+}
+
+
+

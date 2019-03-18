@@ -12,6 +12,7 @@
 
   global $YEAR,$PLANYEAR;
   include_once("ProgLib.php");
+  include_once("TradeLib.php");
   $Years = Get_Years();
   $Days = array('All','Sat','Sun','&lt;Sat','Sat&amp;Sun');
 
@@ -206,15 +207,28 @@
 // *********************** STALLS   ****************************************************
   echo "<tr>";
   echo "<td class=Stafftd><h2>Trade </h2>\n";
+    $Tlocs = Get_Trade_Locs();
     echo "<ul>\n";
     echo "<li><a href=ListCTrade.php?Y=$YEAR>List Active Traders This Year</a>\n";
     echo "<li><a href=ListTrade.php?Y=$YEAR>List All Traders</a>\n";
     echo "<li><a href=TradeFAQ.php>Trade FAQ</a>\n";
     echo "<li><a href=ListCTrade.php?Y=$YEAR&SUM>Traders Summary</a>\n";
-    
+
+    echo "<li><form method=Post action=TradeStandMap.php class=staffform>";
+      echo "<input type=submit name=l value='Trade Stand Map' id=staffformid>" . 
+                fm_hidden('Y',$YEAR) .
+                fm_select($Tlocs,0,'l',0," onchange=this.form.submit()") . "</form>\n";
+
+
     if (Access('Committee','Trade')) {
       echo "<li><a href=Trade.php?Y=$YEAR>Add Trader</a>\n";
+      echo "<li><form method=Post action=TradeAssign.php class=staffform>";
+      echo "<input type=submit name=l value='Trade Pitch Assign' id=staffformid>" . 
+                fm_hidden('Y',$YEAR) .
+                fm_select($Tlocs,0,'i',0," onchange=this.form.submit()") . "</form>\n";
+
       echo "<li><a href=TradeLocs.php>Trade Locations</a>\n";
+//      echo "<li><a href=TradeSetup.php>Trade Pitch Setup</a>\n";
       if (Access('SysAdmin')) echo "<li><a href=TradeTypes.php>Trade Types and base Prices</a>\n";
       if (Access('SysAdmin')) echo "<li><a href=EmailTraders.php>Email Groups of Traders</a>\n"; // Old code needs lots of changes
 //      if (Access('SysAdmin')) echo "<li><a href=TradeImport1.php>Convert old Trade Data</a>\n";

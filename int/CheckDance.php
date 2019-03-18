@@ -408,7 +408,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
             }
           }
           if ($side['SatArrive'] && $FirstTime[1] && ($side['SatArrive'] > $FirstTime[1])) { $Err[] = "Dancing on Sat before arriving"; $ErrC++; };
-          if ($side['SatDepart'] && (timeadd2($side['SatDepart'],30) < $LastTime[1])) { $Err[] = "Dancing on Sat after depature"; $ErrC++; };
+          if ($side['SatDepart'] && ($side['SatDepart'] < $LastTime[1])) { $Err[] = "Dancing on Sat after depature"; $ErrC++; };
         }
         if ($side['Sun']) {
           if ($DayCounts[2] != $side['SunDance']) {
@@ -424,7 +424,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
             $Err[] = "Dancing on Sun before arriving"; 
             $ErrC++;
           };
-          if ($side['SunDepart'] && (timeadd2($side['SunDepart'],30) < $LastTime[2])) { 
+          if ($side['SunDepart'] && ($side['SunDepart'] < $LastTime[2])) { 
             $Err[] = "Dancing on Sun after depature"; 
             $ErrC++;
           };
