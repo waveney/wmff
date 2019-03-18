@@ -207,7 +207,7 @@
 // *********************** STALLS   ****************************************************
   echo "<tr>";
   echo "<td class=Stafftd><h2>Trade </h2>\n";
-    $Tlocs = Get_Trade_Locs();
+    $Tlocs = Get_Trade_Locs(0,"WHERE InUse=1");
     echo "<ul>\n";
     echo "<li><a href=ListCTrade.php?Y=$YEAR>List Active Traders This Year</a>\n";
     echo "<li><a href=ListTrade.php?Y=$YEAR>List All Traders</a>\n";
