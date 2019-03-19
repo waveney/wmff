@@ -9,13 +9,15 @@ A sophisticated database and website system is being developed for Wimborne Mins
 (Folk Festivals and Science
 Fiction Conventions) over many years.  It is going to be of considerable use to other festivals and events in the future.<p>
 
-Rather than having lots of non-integrated spreadsheets and lists on many peoples computers to be lost when people leave and difficult to maintain, the idea is to keep everything in one place 
-(heavily backed up).  All records are central, with the philosophy that at the committee level, (almost) everything is readable by all, but only limited people can update each type of area.<p>
+Rather than having lots of non-integrated spreadsheets and lists on many peoples computers to be lost when people leave and difficult to maintain, 
+the idea is to keep everything in one place (heavily backed up).  All records are central, with the philosophy that at the committee level, (almost) 
+everything is readable by all, but only limited people can update each type of area.<p>
 
 <h3>FRONT END</h3>
 Most pages are generated on the fly as needed, showing performers (music, dance, other), tickets and prices, events listed by venue, time, type.<p>
 
-Everything that can be a link is a link.  An event links to venues and participants, venues have list of all events at venue, each participant has links to where and when they are on and who they
+Everything that can be a link is a link.  An event links to venues and participants, venues have list of all events at venue, 
+each participant has links to where and when they are on and who they
 are with.  Each performer has their own page with details of their programme, who they are and about them.<p>
 
 This is not yet as sophisticated as the back end yet, but is getting there.<p>
@@ -26,7 +28,8 @@ This is where 90%+ of the system is.  It has support for:
 <li>Common document storage - across the festival committee and staff, with some access control based on function
 <li>Timeline management - who is doing what and when, also recuring tasks from year to year 
 <li>Music management - records of artists, contracts and their programmes.  (Not as full feature as dance at the moment, but will be expanded this year)
-<li>Dance management - many year records of dance sides, their wishes, requests, working out the dance scheduals, ensuring they have breaks, dance when they want and handle performer overlaps
+<li>Dance management - many year records of dance sides, their wishes, requests, working out the dance scheduals, 
+ensuring they have breaks, dance when they want and handle performer overlaps
 <li>Other Performer management (eg Childrens) - Similar to Music
 <li>Trade Stand Management - booking, allocating, charging for
 <li>Event management - details of venues, events, maps and posters for venues
@@ -49,6 +52,8 @@ This is an on going development and some parts are still very Wimborne specific,
 developed so far and would like to be involved, please contact the <a href=mailto:webmaster@wimbornefolk.co.uk>Webmaster</a>.<p>
 
 Note: The intention is to license the system, but (currently) none of the data about individual dance sides, performers etc.<p> 
+
+The raw system is at <a href=https://github.com/waveney/wmff>Github</a>.<p>
 
 
 <?php

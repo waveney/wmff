@@ -47,6 +47,7 @@ The setting up of this forwarding is done outside of the festival system on your
 <tr><td>Change areas<td>For each area what level of access does the person have.  meaningfull for committee, staff and steward level.<br>No - read, but not change<br>Edit - Make changes<br>
 Edit and Report - can make changes, also get an email when others make changes to that area (may no longer work).  See below for list of areas
 <tr><td>Change Sent, Access Key<td>These are for internal workings, dont change
+<tr><td>Prefs<td>This records any user preferences from session to session - it is set normally from elsewhere (use is expanding)
 </table><p>
 
 <h3>Control areas</h3>
