@@ -80,7 +80,7 @@ function Get_Trade_Pitches($loc='') {
   $res = $db->query("SELECT * FROM TradePitch " . ($loc?"WHERE Loc=$loc ":"") . " ORDER BY Posn ");
   if ($res) {
     while ($ptch = $res->fetch_assoc()) {
-      $full[] = $ptch;
+      $full[$ptch['Posn']] = $ptch;
     }
   }
   return $full;
@@ -843,7 +843,10 @@ function T_Deposit(&$Trad) {
 }
 
 function Validate_Pitches(&$CurDat) {
-  return 0; // TODO Completely wrong...
+  return ''; // TODO Completely wrong...
+  
+// Pitches not only trade - 
+// Lists of Pitches
   
   global $db,$PLANYEAR,$TradeLocData;
   for ($pn=0; $pn<3; $pn++) {
@@ -871,7 +874,7 @@ function Validate_Pitches(&$CurDat) {
       }
     }
   }
-  return 0;   
+  return '';   
 }
 
 function Trade_Main($Mode,$Program,$iddd=0) {
@@ -1050,7 +1053,9 @@ function Trade_Main($Mode,$Program,$iddd=0) {
     }
     echo "<Center>";
     echo "<input type=Submit name='Update' value='Save Changes'>";
-    if (Access('Committee','Finance')) echo "<input type=Submit name='NewInvoice' title='Send a NON TRADE Invoice to this trader' value='New Invoice' formaction='InvoiceManage.php?ACTION=NEWFOR&Tid=$Tid'>\n";
+    if (Access('Committee','Finance')) {
+      echo "<input type=Submit name='NewInvoice' title='Send a NON TRADE Invoice to this trader' value='New Invoice' formaction='InvoiceManage.php?ACTION=NEWFOR&Tid=$Tid'>\n";
+    }
 //    if (!isset($Trady['BookingState']) || $Trady['BookingState']== 0) echo "<input type=Submit name=Submit value='Save Changes and Submit Application'>";
 
     $Act = (($Mode < 2 && !$Orgs)? $TS_Actions[$Trady['BookingState']] :"");
@@ -1433,7 +1438,8 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
       } elseif ($DueDate) { // Issue /update final invoice
         $Fee = $Trady['Fee'];
         if (Feature("AutoInvoices")) {
-          $ProformaName = (($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) ? "Trade_Artisan_Final_Invoice" : "Trade_Final_Invoice");
+          $ProformaName = (($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) ? 
+                            "Trade_Artisan_Final_Invoice" : "Trade_Final_Invoice");
           $InvCode = Trade_Invoice_Code($Trad,$Trady);
           $details = [["Full payment to secure your trade stand at the $PLANYEAR festival",$Fee*100]];
           if ($InvoicedTotal) $details[] = ["Less previous invoice(s)",$InvoicedTotal];
@@ -1655,7 +1661,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
     if ($Name) {
     // Divide into Chunks each line has a chunk display Ysize chunks - the posn is a chunk,  chunk length = 3xXsize 
     // Chunking - split to Words then add words to full - if no words split word (hard)
-      $ChSize = floor($Pitch['Xsize']*3.8*$Mapscale);
+      $ChSize = floor($Pitch['Xsize']*3.4*$Mapscale);
       $Ystart = ($Pub?0.6:1.2) *($Pitch['Type']?2:1);
       $MaxCnk = floor(($Pitch['Ysize']*2.5*$Mapscale) - ($Pub?1:2));
       $Chunks = str_split($Name,$ChSize);

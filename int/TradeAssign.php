@@ -9,7 +9,7 @@
   global $Pitches,$tloc,$loc,$Traders,$Trade_State,$db,$Trade_Types,$Trade_Types;
   $Trade_Types = Get_Trade_Types(1);
 
-  function TraderList() {
+  function TraderList($Message='') {
     global $Pitches,$tloc,$loc,$Traders,$Trade_Types;
     echo "<div class=PitchWrap><div class=PitchCont>";
     if (!$Traders) {
@@ -30,7 +30,7 @@
           }
       }
       echo "</table></div>";
-      echo "<input type=submit name=Update value=Update>";
+      echo "<input type=submit name=Update value=Update> <span class=Err>$Message</span>";
     }
 //    echo "<h2><a href=Staff.php>Staff Tools</a>";
     echo "</div>";
@@ -52,11 +52,43 @@
     }
     return $Change;
   }
+  
+  
+  // No pitch used more than once, no invalid pitch #s (not = pitch and pitch for trade)
+  // All traders have a pitch
+  
+  function Validate_Pitches_At($Loc) {
+    global $Traders,$Pitches,$tloc;
+    
+    $Usage = [];$TT = [];
+    $NotAssign = '';
+    $TLocId = $tloc['TLocId'];
+    if ($Traders) {
+      foreach ($Traders as $Trad) 
+        for ($i=0; $i<3; $i++) 
+          if ($Trad["PitchLoc$i"] == $TLocId) {
+            $Found = 0;
+            $list = explode(',',$Trad["PitchNum$i"]);
+            foreach ($list as $p) {
+              if (!$p) continue;
+              if (!isset($Pitches[$p])) return $Trad['SN'] . " assigned to an invalid pitch number $p";
+              if (isset($Usage[$p])) return "Clash on pitch $p - " . $Usage[$p] . " and " . $Trad['SN'];
+              if ($Pitches[$p]['Type']) return $Trad['SN'] . " assigned to a non pitch";
+              $Usage[$p] = $Trad['SN'];
+              $TT[$p] = $Trad['TradeType'];
+              $Found = $p;
+            }
+            if (!$Found) $NotAssign = "No pitch for " . $Trad['SN'];
+          }
+      }
+    return $NotAssign;
+  }
+  
 
   $loc = $_REQUEST['i'];
   if (isset($_POST['Update'])) Update_Pitches(); // Note this can't use Update Many as weird format of ids
   $Pitches = Get_Trade_Pitches($loc);
-
+//var_dump($Pitches);
   $tloc = Get_Trade_Loc($loc);
   
   $Traders = Get_Traders_For($loc);
@@ -65,9 +97,10 @@
   echo fm_hidden('i',$loc);
 
   echo "<h2>Pitch setup for " . $tloc['SN'] . "</h2>";
+  $Message = Validate_Pitches_At($loc);
   
   Pitch_Map($tloc,$Pitches,$Traders);
-  TraderList();
+  TraderList($Message);
   dotail();
  
   

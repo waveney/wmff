@@ -11,7 +11,7 @@ var Dragged ;
 
     var s = src.id.match(/TradeN(\d*)/);
     if (s) {
-      var TradeNum = s[1]; 
+      var TradeNum = s[1]
     } else if (src.id.match(/Posn(\d*)/) {
       var TradeNum = src.getAttribute("data-d");
       RemoveTrade(src);
