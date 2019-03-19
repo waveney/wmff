@@ -92,6 +92,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 
   global $YEAR,$db,$DayList,$MASTER;
 
+  echo "<div class=FullWidth>";
   $Vens = Get_Venues(1);
   $qry = "SELECT * FROM Events WHERE Year='$YEAR' AND ((Price1!=0 AND TicketCode!='') OR SpecPriceLink!='')  AND SubEvent<=0 AND (Public=0 || Public=1) ORDER BY Day,Start";
   $Evs = $db->query($qry);
@@ -128,7 +129,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
   if (!$Evs->num_rows) echo "No Ticketed Events are yet published.<p>";
 ?>
 
-</table></p>
+</table></div></p>
 
 <table cellspacing="5" cellpadding="5" style="background-color:#59B404; border-color:#59B404; max-width:1200;">
 <tr><th colspan=3>Camping Tickets

@@ -6,9 +6,16 @@
   set_ShowYear();
   include_once("int/ProgLib.php");
   include_once("int/DateTime.php");
-  global $db,$YEAR,$PLANYEAR,$MASTER,$DayList,$DayLongList;
+  global $db,$YEAR,$PLANYEAR,$SHOWYEAR,$MASTER,$DayList,$DayLongList;
 
-  $Vens = Get_Active_Venues();
+  if ( $YEAR != $SHOWYEAR) {
+    $Vens = Get_Active_Venues();
+  } else {
+    $Vids = json_decode(file_get_contents("cache/VenueList"));
+    foreach($Vids as $vid) $Vens[] = Get_Venue($vid);
+  }
+
+//var_dump($Vids);
 
   echo "<h2 class=subtitle>Select a Venue</h2>";
   if ($YEAR == $PLANYEAR) {

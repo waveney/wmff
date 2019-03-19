@@ -11,6 +11,7 @@
 
 function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   global $ll,$SpecialImage,$Pictures;
+  
   $things = 0;
 //var_dump($imps);
   if ($ImpC) {
@@ -26,7 +27,8 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
           echo ($ll > 1 && $things == $ImpC && ($ImpC %2) == 1)?"<td colspan=$ll>":"<td>";
           $scale = $thing['Importance'];
 //var_dump($thing);
-          if (( $thing['IsASide'] && $thing['Coming'] != 2) && (($thing['IsAnAct'] || $thing['IsOther']) && $thing['YearState'] < 2)) {
+          if (( $thing['IsASide'] && (!isset($thing['Coming']) || $thing['Coming'] != 2)) && 
+              (($thing['IsAnAct'] || $thing['IsFunny'] || $thing['IsFamily'] || $thing['IsOther']) && (!isset($thing['YearState']) || $thing['YearState'] < 2))) {
             echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
             echo " are no longer coming";
           } else {

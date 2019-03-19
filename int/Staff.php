@@ -283,6 +283,7 @@
 //    if (Access('SysAdmin')) echo "<li><a href=BusTimes.php>Fetch and Cache Bus Times</a>\n";
 //    if (Access('SysAdmin')) echo "<li><a href=ConvertEvents.php>Convert Old Format Events to New Format Events</a>\n";
     if (Access('SysAdmin')) echo "<li><a href=AddVenue.php?NEWACCESS onClick=\"javascript:return confirm('are you sure you update these?');\">Generate New Access Keys for Venues</a>\n";
+    if ($YEAR == $PLANYEAR && Access('Staff')) echo "<li><a href=VenueActive.php>Refresh Active Venue List</a>\n";
     echo "</ul>\n";
 
 // *********************** Misc *****************************************************************
