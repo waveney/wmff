@@ -387,6 +387,7 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
   $MainEv = 0;
   $res = $db->query("SELECT * FROM Events WHERE EventId='$Ev' OR SubEvent='$Ev' ORDER BY Day, Start DESC");
   $found = array();
+  $PerfCount = 0;
   if ($res) {
     $imps=[];
     $Perfs=[];
@@ -415,6 +416,7 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
                   if ($s && ($sy['ReleaseDate'] < $now) || ( Access('Committee') && $Mode)) {
                     $imps[$s['Importance']][] = $s; 
                     $Perfs[$e["PerfType$i"]][$s['Importance']][] = $s; 
+                    $PerfCount++;
                   }
                   $found[$ee]=1;
                 }
@@ -426,14 +428,19 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
     }
 
     switch ($Event_Types_Full[$MainEv['Type']]['SN']) {
-    case 'Ceildih':
-      $ans .= (isset($Perfs[1])?ListLinksNew($Perfs,1,'Music by','Music by',$size,$mult):"Music to be announced");
+    case 'Ceilidh':
+    
+      if ($PerfCount < 2) {
+        $ans .= (isset($Perfs[1])?ListLinksNew($Perfs,1,'With','With',$size,$mult):"To be announced");
+      } else {
+        $ans .= (isset($Perfs[1])?ListLinksNew($Perfs,1,'Music by','Music by',$size,$mult):"Music to be announced");
 //echo "ans= $ans</br>";
-      if (isset($Perfs[4])) $ans .= "; " . ListLinksNew($Perfs,4,'Caller','Callers',$size,$mult);
-      if (isset($Perfs[0])) $ans .= "<br>" . ListLinksNew($Perfs,0,'Dance spot by','Dance spots by',$size,$mult);
-      if (isset($Perfs[2])) $ans .= "<br>" . ListLinksNew($Perfs,2,'Comedy spot by','Comedy spots by',$size,$mult);
-      if (isset($Perfs[3])) $ans .= "<br>" . ListLinksNew($Perfs,3,'Entertainment spot by','Entertainment spots by',$size,$mult); 
-      if ($ans) $ans .= "<p>";
+        if (isset($Perfs[4])) $ans .= "; " . ListLinksNew($Perfs,4,'Caller','Callers',$size,$mult);
+        if (isset($Perfs[0])) $ans .= "<br>" . ListLinksNew($Perfs,0,'Dance spot by','Dance spots by',$size,$mult);
+        if (isset($Perfs[2])) $ans .= "<br>" . ListLinksNew($Perfs,2,'Comedy spot by','Comedy spots by',$size,$mult);
+        if (isset($Perfs[3])) $ans .= "<br>" . ListLinksNew($Perfs,3,'Entertainment spot by','Entertainment spots by',$size,$mult); 
+        if ($ans) $ans .= "<p>";
+      }
       break;
 
     default: // Do default treatment below

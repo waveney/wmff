@@ -150,18 +150,19 @@
 
     if (Access('SysAdmin')) {
 //      echo "<li><a href=ShowDanceProg.php?Y=$YEAR>View Dance Programme</a>";
-      echo "<p><table><tr><td>";
+      echo "<p><table class=FullWidth><tr><td width=300>";
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=1&Y=$YEAR>Condensed Dance Programme</a>";
       echo "<li class=smalltext><a href=DanceCheck.php?Y=$YEAR>Dance Checking</a>";
       echo "<li class=smalltext><a href=DanceTypes.php>Set Dance Types</a>";
       echo "<li class=smalltext><a href=LineUpDance.php?MIN&Y=$YEAR>Picture free List of Dance Sides Coming</a>\n";
 //      echo "<li class=smalltext><a href=ModifyDance2.php>Modify Dance Structure #2</a>\n";
       echo "<li class=smalltext><a href=WhereDance.php?Y=$YEAR>Where did Dance Sides Come from</a>\n";
-      echo "<td>";
+      echo "<td width=300>";
       echo "<li class=smalltext><a href=PrintLabels.php?Y=$YEAR>Print Address Labels</a>";
       echo "<li class=smalltext><a href=CarPark.php?Y=$YEAR>Car Park Tickets</a>";
       if ($YEAR == $PLANYEAR) echo "<li class=smalltext><a href=WristbandsSent.php>Mark Wristbands Sent</a>";
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR>Public Dance Programme</a>";
+      echo "<td>";
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=0&Pub=1&Head=0&Day=Sat&Y=$YEAR>Dance Programme - Sat - no headers</a>";
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=0&Pub=1&Head=0&Day=Sun&Y=$YEAR>Dance Programme - Sun - no headers</a>";
       echo "<li class=smalltext><a href=CheckDuplicates.php?Y=$YEAR>Check for Duplicate Year Tables Entries</a>";      
