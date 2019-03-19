@@ -71,7 +71,7 @@
   foreach($Evs as $e) if ($e['Price1']) $NotAllFree = 1;
 
   if ($Evs && $Complete) {
-    echo "<h2 class=subtitle>" . $Titles[$Complete] . "</h2>";
+    echo "<h2 class=subtitle>" . $Titles[$Complete] . "</h2><div class=FullWidth>";
 
     if ($NotAllFree == 0) echo "All $Types are free.<p>";
 
@@ -102,7 +102,7 @@
       if ($NotAllFree) echo "<td>" . Price_Show($E);
       echo "\n";
     }
-    echo "</table><p>";
+    echo "</table></div><p>";
 
   } else {
     echo "<h3>Sorry there are currently no announced $Types for $YEAR, please check back later</h3>";

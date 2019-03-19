@@ -356,11 +356,15 @@ p {
     max-width:100%;
 }
 table {
-    width:100%;
+/*    width:100%; */
     padding-bottom:5px;
     border: 0, solid 5px, solid 5px, solid 5px;
     border-radius:15px;
     }
+    
+.FullWidth table {
+  width:100%;
+}
 th
     {
     color:#FFFFFF;
