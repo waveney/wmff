@@ -16,7 +16,7 @@
   function PitchList() {
     global $Pitches,$tloc,$loc,$TradeMapPoints;
     echo "<div class=PitchWrap><div class=PitchCont>";
-    echo "<table border><tr><td>#<td>X<td>Y<td>Ang<td>Xsize<td>Ysize<td>Typ<td>Txt<td>Colr";
+    echo "<table border><tr><td>#<td>X<td>Y<td>Ang<td>Xsize<td>Ysize<td>Type<td>Txt<td>Colr";
     $posn = 0;
     foreach ($Pitches as $Pitch) {
       $i = $Pitch['id'];
