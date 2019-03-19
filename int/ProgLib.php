@@ -431,7 +431,7 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
     case 'Ceilidh':
     
       if ($PerfCount < 2) {
-        $ans .= (isset($Perfs[1])?ListLinksNew($Perfs,1,'With','With',$size,$mult):"To be announced");
+        // Drop through
       } else {
         $ans .= (isset($Perfs[1])?ListLinksNew($Perfs,1,'Music by','Music by',$size,$mult):"Music to be announced");
 //echo "ans= $ans</br>";
@@ -440,8 +440,9 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
         if (isset($Perfs[2])) $ans .= "<br>" . ListLinksNew($Perfs,2,'Comedy spot by','Comedy spots by',$size,$mult);
         if (isset($Perfs[3])) $ans .= "<br>" . ListLinksNew($Perfs,3,'Entertainment spot by','Entertainment spots by',$size,$mult); 
         if ($ans) $ans .= "<p>";
+        break;
       }
-      break;
+
 
     default: // Do default treatment below
       $ks = array_keys($imps);
