@@ -37,7 +37,7 @@
     }
     echo "<td>";
     foreach($TTypes as $typ) {
-      if (!$typ['Addition'] && isset($TTUsed[$typ['id']])) echo "<input type=submit name=SEL value='" . $typ['SN'] . "' style='background:" . $typ['Colour'] . ";color:black;'> ";
+      if (!$typ['Addition'] && isset($TTUsed[$typ['id']])) echo '<input type=submit name=SEL value="' . $typ['SN'] . '" style="background:' . $typ['Colour'] . ';color:black;"> ';
     }
     echo "<td>";
       echo "<input type=submit name=SEL value='Show All'> ";
