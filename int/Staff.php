@@ -220,7 +220,7 @@
                 fm_hidden('Y',$YEAR) .
                 fm_select($Tlocs,0,'l',0," onchange=this.form.submit()") . "</form>\n";
 
-
+    echo "<li><a href=TradeShow.php>Trade Show</a> - Will be on public side soon\n";
     if (Access('Committee','Trade')) {
       echo "<li><a href=Trade.php?Y=$YEAR>Add Trader</a>\n";
       echo "<li><form method=Post action=TradeAssign.php class=staffform>";
