@@ -1609,6 +1609,8 @@ function Get_Traders_For($loc) {
 
 function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
   global $TradeTypeData;
+  
+  if (!$loc['MapImage']) return;
   $scale=($Scale?$loc['Showscale']:1); 
   $Mapscale = $loc['Mapscale'];
   $sp = $scale*100;

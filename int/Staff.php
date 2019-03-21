@@ -312,17 +312,17 @@
   echo "<td class=Stafftd><h2>Finance and Sponsors</h2>\n";
     echo "<ul>\n";
     if (Access('Committee','Finance')) {
-      echo "<li><a href=BudgetManage.php>Budget Management</a>\n";
-      echo "<li><a href=InvoiceManage.php>Invoice Management</a>\n";
+      echo "<li><a href=BudgetManage.php?Y=$YEAR>Budget Management</a>\n";
+      echo "<li><a href=InvoiceManage.php?Y=$YEAR>Invoice Management</a>\n";
       echo "<li><a href=InvoiceManage.php?ACTION=NEW>New Invoice</a>\n";   
-      echo "<li><a href=InvoiceCodes.php>Invoice Codes</a>\n";   
-      echo "<li><a href=InvoiceSummary.php>Invoice Summary</a>\n";   
-      echo "<li><a href=OtherPaymentSummary.php>Other Payment Summary</a>\n";   
+      echo "<li><a href=InvoiceCodes.php?Y=$YEAR>Invoice Codes</a>\n";   
+      echo "<li><a href=InvoiceSummary.php?Y=$YEAR>Invoice Summary</a>\n";   
+      echo "<li><a href=OtherPaymentSummary.php?Y=$YEAR>Other Payment Summary</a>\n";   
       echo "<li><a href=ListTrade.php?ORGS>Businesses and Organistaions List</a>\n"; 
       echo "<li><a href=Trade.php?ORGS>New Business or Organistaion</a>\n";  
     } elseif (Access('Committee')) {
-      echo "<li><a href=BudgetManage.php>Budget View</a>\n";
-      echo "<li><a href=InvoiceManage.php>Invoice Management</a>\n";
+      echo "<li><a href=BudgetManage.php?Y=$YEAR>Budget View</a>\n";
+      echo "<li><a href=InvoiceManage.php?Y=$YEAR>Invoice Management</a>\n";
     }
     if (Access('SysAdmin')) {
       echo "<p>";
@@ -352,7 +352,7 @@
     if (Access('Staff')) echo "<li><a href=TEmailProformas.php>EMail Proformas</a>";
     if (Access('Staff')) echo "<li><a href=AdminGuide.php>Admin Guide</a> \n";
     if (Access('SysAdmin')) {
-      echo "<li><a href=General.php>General Year Settings</a> \n";
+      echo "<li><a href=General.php?Y=$YEAR>General Year Settings</a> \n";
       echo "<li><a href=MasterData.php>Master Data Settings</a> \n";
     }
     echo "</ul>\n";
