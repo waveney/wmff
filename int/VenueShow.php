@@ -114,7 +114,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   if (!$Poster) {
     if ($Ven['Description']) echo $Ven['Description'] . "<p>\n";
     if ($Ven['Address']) echo "Address: " . $Ven['Address'] . " " . $Ven['PostCode'] ."<p>\n";
-    echo "<button onclick=ShowDirect($V)>Directions</button>\n";
+
     if ($Ven['Bar'] || $Ven['Food'] || $Ven['BarFoodText']) {
       if ($Ven['Bar']) echo "<img src=/images/icons/baricon.png width=50 title='There is a bar'> ";
       if ($Ven['Food']) echo "<img src=/images/icons/foodicon.jpeg width=50 title='There is Food'> ";
@@ -137,7 +137,8 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
       
       echo "<p><div id=MapWrap>";
       echo "<div id=DirPaneWrap><div id=DirPane><div id=DirPaneTop></div><div id=Directions></div></div></div>";
-      echo "<p><div id=map></div></div>";
+      echo "<p><div id=map></div></div><p>";
+      echo "<button class=PurpButton onclick=ShowDirect($V)>Directions</button> (From the Square if it does not know your location)\n";
       echo "</div>\n";
       Init_Map(0,$V,18);
    }

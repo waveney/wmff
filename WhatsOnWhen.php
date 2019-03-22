@@ -26,6 +26,7 @@
   if ($YEAR < $PLANYEAR) $More = 0;
 
   echo "<h2 class=subtitle>What is on When in $YEAR?</h2>";
+  echo "<div class=FullWidth>";
   echo "<script src=/js/WhatsWhen.js></script>";
   $xtr = (isset($_GET['Mode']) || $YEAR<$PLANYEAR)?'':"AND ( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 ))";
 
@@ -63,13 +64,21 @@
         }
       }
       echo "<td>" . ($e['BigEvent'] ? Get_Other_Participants($Others,0,1,15,1,'',$e) : Get_Event_Participants($eid,0,1,15));
-      echo "<td>" . Price_Show($e);
+      echo "<td>";
+        if ($e['TicketCode']) {
+          echo "<a href=https://www.ticketsource.co.uk/date/" . $e['TicketCode'] . " target=_blank>" . Price_Show($e) . "</a>" ;
+        } else if ($e['SpecPriceLink']) {
+          echo "<a href=" . $e['SpecPriceLink'] . " target=_blank>" . Price_Show($e) . "</a>";
+        } else {
+          echo Price_Show($e);
+        }   
+          
     }
     echo "</table>\n";
   }
   
   if ($YEAR > 2018) {
-    echo "<h3><a href=WhatsOnWhen.php?Y=" . ($YEAR-1) . "> Whats on When from " . ($YEAR-1) . "</h3></a>";
+    echo "</div><h3><a href=WhatsOnWhen.php?Y=" . ($YEAR-1) . "> Whats on When from " . ($YEAR-1) . "</h3></a>";
   }
 
 

@@ -40,7 +40,7 @@ $ButExtra = array(
         ); 
 $ButTrader = array('Submit','Accept','Decline','Cancel','Resend'); // Actions Traders can do
 $RestrictButs = array('Paid','Dep Paid'); // If !AutoInvoice or SysAdmin
-$Trade_Days = array('Both','Saturday Only','Sunday Only');
+$Trade_Days = array('Both','Saturday only','Sunday only');
 $Prefixes = array ('in','in the','by the');
 $TaxiAuthorities = array('East Dorset','Poole','Bournemouth');
 $TradeMapPoints = ['Trade','Other'];

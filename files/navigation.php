@@ -64,7 +64,7 @@
      
 <!--     <a href=$host/InfoWater.php>Water Bottle Refills</a> -->
      <a href=$host/InfoSponsors.php>Sponsorship</a>
-     <a href=$host/info/trade>Trade Stands</a>
+     <a href=$host/info/trade>Trade stand applications</a>
 
      <a href=$host/RoadClosure.php >Road Closures</a>
 <!--
