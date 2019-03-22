@@ -1647,7 +1647,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
     $ImgWi = $stuff[0];
   }
   
-  echo "scale=$scale sp=$sp Ht=$ImgHt Mapscale=$Mapscale <br>";
+//  echo "scale=$scale sp=$sp Ht=$ImgHt Mapscale=$Mapscale <br>";
   echo "<div class=img-overlay-wrap>";
   echo "<img src=" . $loc['MapImage'] . " width=" . ($ImgWi*$scale) . ">";
   echo "<svg width=" . ($ImgWi*$scale) . " height=" . ($ImgHt*$scale) . ">";
