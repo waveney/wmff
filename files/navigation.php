@@ -25,7 +25,7 @@
      <a href=$host/LineUp.php?T=Music>Music</a>
      <a href=$host/LineUp.php?T=Comedy>Comedy</a>
      <a href=$host/LineUp.php?T=Family>Family</a>
-     <a href=$host/LineUp.php?T=Other>Other</a>
+<!--     <a href=$host/LineUp.php?T=Other>Other</a> -->
   </div>
 </div>
 <div class=dropdown onmouseover=NoHoverSticky(event)>
@@ -36,7 +36,7 @@
      <a href=$host/WhatsOnNow.php class=NotNotYet>Now</a>
      <a href=$host/int/ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR>Dancing</a>
      <a href=$host/Sherlock.php?t=Music >Music</a>
-     <a href=$host/Sherlock.php?t=Special>Special Events</a>
+<!--     <a href=$host/Sherlock.php?t=Special>Special Events</a> -->
      <a href=$host/Sherlock.php?t=Family>Family</a>
      <a href=$host/Sherlock.php?t=Ceilidh >Ceilidhs</a>
      <a href=$host/Sherlock.php?t=Workshop >Workshops and Talks</a>
@@ -46,6 +46,8 @@
 <!--     <a href=$host/Sherlock.php?t=Craft>Craft</a> -->
      <a href=$host/Sherlock.php?t=Religion>Religion</a>
 <!--     <a href=$host/Sherlock.php?t=Other>Other</a> -->
+     <a href=$host/LiveNLoud.php >Live and Loud</a>
+     <a href=$host/BuskersBash.php>Buskers Bash</a>
      <a href=$host/TraderList.php>Traders</a>
   </div>
 </div>
@@ -60,18 +62,20 @@
      <a href=$host/InfoMailingList.php>Mailing List</a>
      <a href=$host/contact.php>Contact Us</a>
      
-     <a href=$host/InfoWater.php>Water Bottle Refills</a>
+<!--     <a href=$host/InfoWater.php>Water Bottle Refills</a> -->
      <a href=$host/InfoSponsors.php>Sponsorship</a>
-     <a href=$host/InfoStewards.php>Volunteers</a>
      <a href=$host/info/trade>Trade Stands</a>
 
      <a href=$host/RoadClosure.php >Road Closures</a>
+<!--
      <a href=$host/info/thanks>With Thanks</a>
 
      <a href=$host/InfoData.php>Data Records</a>
      <a href=$host/InfoSoftware.php>Software</a>
+-->
   </div>
 </div>
+<!--
 <div class=dropdown onmouseover=NoHoverSticky(event)>
   <a onclick=NavStick(event)>About</a>
   <div class=dropdown-content>
@@ -83,6 +87,7 @@
      <a href=$host/int/ShowArticles.php?w=EnjoyWimborne class=NotYet>Enjoy Wimborne</a>
   </div>
 </div>
+-->
 <a href=$host/InfoStewards.php onmouseover=NoHoverSticky()>Volunteer</a>
 <div class=dropdown onmouseover=NoHoverSticky(event)>
   <a onclick=NavStick(event)>Gallery</a>
@@ -97,6 +102,7 @@
   </div>
 </div>
 
+<!--
 <div class=dropdown onmouseover=NoHoverSticky(event)>
   <a onclick=NavStick(event )>Also</a>
   <div class=dropdown-content>
@@ -104,7 +110,7 @@
      <a href=$host/BuskersBash.php>Buskers Bash</a>
      <a href=$host/OtherFest.php>Other Festivals</a>
   </div>
-</div>
+</div> -->
 
 <a href=http://facebook.com/WimborneFolk onmouseover=NoHoverSticky() target=_blank>
 <img class=headericon src=/images/icons/Facebook.png alt=Facebook title='Wimborne Minster Folk Festival on Facebook'></a>
