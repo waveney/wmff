@@ -39,12 +39,13 @@
      <a href=$host/Sherlock.php?t=Special>Special Events</a>
      <a href=$host/Sherlock.php?t=Family>Family</a>
      <a href=$host/Sherlock.php?t=Ceilidh >Ceilidhs</a>
-     <a href=$host/Sherlock.php?t=Workshop >Workshops</a>
+     <a href=$host/Sherlock.php?t=Workshop >Workshops and Talks</a>
      <a href=$host/Sherlock.php?t=Comedy >Comedy</a>
      <a href=$host/Sherlock.php?t=Session >Sessions</a>
-     <a href=$host/Sherlock.php?t=Talk>Talks</a>
+<!--     <a href=$host/Sherlock.php?t=Talk>Talks</a> -->
 <!--     <a href=$host/Sherlock.php?t=Craft>Craft</a> -->
-     <a href=$host/Sherlock.php?t=Other>Other</a>
+     <a href=$host/Sherlock.php?t=Religion>Religion</a>
+<!--     <a href=$host/Sherlock.php?t=Other>Other</a> -->
      <a href=$host/TraderList.php>Traders</a>
   </div>
 </div>
