@@ -3,7 +3,7 @@
 
   dohead("Road Closures");
 ?>
-  The following roads will be closed for periods over the festival, more details will be provided nearer the time:<p>
+  The following roads will be closed for periods over the 2018 festival, more details will be provided nearer the time:<p>
 <ul>
 <li><a href=#HighSt>High Street, East Borough, Cornmarket and Church Street</a>
 <li><a href=#EastSt>Park Lane, East Street and King Street</a>

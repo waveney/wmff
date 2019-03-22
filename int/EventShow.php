@@ -212,7 +212,11 @@ function Print_Participants($e,$when=0,$thresh=0) {
           if (isset($imps[$i])) {
             foreach ($imps[$i] as $thing) {
               if ($with++) echo ", ";
-              echo "<a href=#" . AlphaNumeric($thing['SN']) . " style='font-size:" . (17+$i*2) . "'>" . $thing['SN'] . "</a>";
+              if (feature('EventWithDown')) {
+                echo "<a href=#" . AlphaNumeric($thing['SN']) . " style='font-size:" . (17+$i*2) . "'>" . $thing['SN'] . "</a>";
+              } else {
+                echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . " style='font-size:" . (17+$i*2) . "'>" . NoBreak($thing['SN']) . "</a>";              
+              }
             }
           }
         }

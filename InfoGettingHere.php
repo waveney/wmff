@@ -26,7 +26,7 @@ debugger;
 <h2 class="maintitle">Getting Here</h2>
 Wimborne Minster Folk Festival takes place in the historic market town of Wimborne Minster in Dorset.<p>
 
-<a href=#Buses class=PurpButton>Busses</a> <a href=#Taxis class=PurpButton>Taxis</a><p>
+<a href=#Buses class=PurpButton>Buses</a> <a href=#Taxis class=PurpButton>Taxis</a><p>
 
 <h2 class="subtitle">By Road</h2>
 

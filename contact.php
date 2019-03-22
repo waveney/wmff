@@ -12,18 +12,18 @@
 </tr>
 <tr>
 <td>Music</td>
-<td style="font-weight:bold; color:#00cc00;">Open</td>
-<td>Music applications are open for the 2019 festival.</td>
+<td style="font-weight:bold; color:orange;">Closed</td>
+<td>Music applications are closed for the 2019 festival.</td>
 </tr>
 <tr>
 <td>Dance</td>
-<td style="font-weight:bold; color:#00CC00;">Open</td>
-<td>Dance applications are open for the 2019 festival, please email Judith.</td>
+<td style="font-weight:bold; color:orange;">Closed</td>
+<td>Dance applications are closed for the 2019 festival.</td>
 </tr>
 <tr>
 <td>Trade Stands</td>
-<td style="font-weight:bold; color:#00cc00;">Open</td>
-<td><a href="/info/trade"><strong>Trade Stands</strong></a>
+<td style="font-weight:bold; color:orange;">Closed</td>
+<td><a href="/info/trade">Trade Stands</a>
 </tr>
 <tr>
 <td>Volunteers</td>
