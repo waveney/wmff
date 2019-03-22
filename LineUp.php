@@ -29,6 +29,8 @@
   
       if (Feature('DanceComp')) echo "We will also be having a <a href=int/ShowArticles.php?w=NWDanceComp>Competiton for the best North West Morris Team</a>.<p>";
   
+      echo "<a href=/int/ShowArticles.php?w=DanceStyles>Find out more about the Dance Styles</a><p>";
+      
       echo "Click on the name of a team, or their photograph to find out more about them and where they are dancing.<p>\n";
       if ($ET['State'] >=3 ) echo "<b><a href=/int/ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR>" . $EType_States[$ET['State']] . " Dance Programme for $YEAR</a></b><p>\n";
     }
@@ -58,13 +60,15 @@
     if ($YEAR < $PLANYEAR) {
       echo "In $YEAR, These Acts were in Wimborne.  Click on the name or photograph to find out more and where they performed.<p>\n";
     } else {
-      echo "Click on the name of a Act, or their photograph to find out more about them and where they are performing.<p>\n";
+//      echo "Click on the name of a Act, or their photograph to find out more about them and where they are performing.<p>\n";
     }
 
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, SideYear AS y " .
            "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>=" . $Book_State['Booking'] . 
            " AND s.IsFunny=1 AND y.ReleaseDate<$now ORDER BY s.Importance DESC, s.RelOrder DESC, s.SN");
 
+    $ShortDesc = 0;
+    $FSwitch = -1;
     break;
 
   
@@ -79,6 +83,7 @@
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, SideYear AS y " .
            "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>=" . $Book_State['Booking'] . 
            " AND s.IsFamily=1 AND y.ReleaseDate<$now ORDER BY s.Importance DESC, s.RelOrder DESC, s.SN");
+    $FSwitch = -1;
     break;
 
   
