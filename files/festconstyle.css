@@ -921,5 +921,8 @@ div.scrollableY {
   border-collapse:collapse;
 }
 
+table {
+  width:100%;
+}
 
 
