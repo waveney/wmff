@@ -883,11 +883,11 @@ div.scrollableY {
   position: relative;
   display: inline-block; /* <= shrinks container to image size */
   transition: transform 150ms ease-in-out;
+  overflow: hidden;
 }
 
 .img-overlay-wrap img { /* <= optional, for responsiveness */
    display: block;
-   max-width: 100%;
    height: auto;
 }
 

@@ -40,8 +40,8 @@
     echo fm_text1("",$Pitch,'SN',0.15,'','',"SN0") . fm_text1("",$Pitch,'Colour',0.15,'','',"Colour0");
     echo fm_hidden('Loc0',$loc);
     echo "</table></div>";
-    echo "<input type=submit name=Update value=Update>";
-//    echo "<h2><a href=Staff.php>Staff Tools</a>";
+    echo "<input type=submit name=Update value=Update> ";
+    echo "<a href=TradeAssign.php?i=$loc style='font-size:20;'>Assign</a>";
     echo "</div>";
   }
 

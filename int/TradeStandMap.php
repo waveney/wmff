@@ -16,7 +16,7 @@
   $Pitches = Get_Trade_Pitches($loc);  
   $tloc = Get_Trade_Loc($loc);
   
-  Pitch_Map($tloc,$Pitches,$Traders,1,0);
+  Pitch_Map($tloc,$Pitches,$Traders,1,1);
   dotail();
    
 ?>

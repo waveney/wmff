@@ -885,6 +885,13 @@ function Trade_Main($Mode,$Program,$iddd=0) {
   include_once("DateTime.php"); 
   echo "<div class=content><h2>Add/Edit " . ($Mode<2?'Trade Stall Booking':'Buisness or Organisation') . "</h2>";
 
+/*
+  $file = fopen("LogFiles/moeslog",'a+');
+  fwrite($file,json_encode($_REQUEST));
+  fclose($file);
+*/
+
+
   $Orgs = isset($_REQUEST['ORGS']);
   
   $Action = 0; 
@@ -1640,8 +1647,9 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
     $ImgWi = $stuff[0];
   }
   
+  echo "scale=$scale sp=$sp Ht=$ImgHt Mapscale=$Mapscale <br>";
   echo "<div class=img-overlay-wrap>";
-  echo "<img src=" . $loc['MapImage'] . " width=$sp%>"; //" style='width:$sp%'>";
+  echo "<img src=" . $loc['MapImage'] . " width=" . ($ImgWi*$scale) . ">";
   echo "<svg width=" . ($ImgWi*$scale) . " height=" . ($ImgHt*$scale) . ">";
   foreach ($Pitches as $Pitch) {
     $Posn = $Pitch['Posn'];
