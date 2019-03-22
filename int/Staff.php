@@ -25,7 +25,7 @@
   if (isset($Years[$YEAR+1])) echo "<a href=Staff.php?Y=" . ($YEAR+1) .">" . ($YEAR+1) . "</a>\n";
   echo "</h2></div>";
   echo "<h2>Staff Pages - $YEAR</h2>\n";
-  echo "<table border width=90% class=Staff>\n";
+  echo "<table border width=100% class=Staff>\n";
   echo "<tr><td class=Stafftd><h2>Document Storage</h2>\n";
     echo "<ul>\n";
     if (Access('Staff')) {
