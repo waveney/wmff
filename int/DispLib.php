@@ -28,6 +28,35 @@ function formatminimax(&$side,$link,$mnat=2,$sdisp=1) {
   echo "</div></div>\n";
 }
 
+function formatLineups(&$perfs,$link,$mnat=2,$sdisp=1) {
+// Link, if (text) Title, pic, text else Pic Title
+// If size = small then fit 5, else fit 3 - if fit change br
+// Float boxes with min of X and Max of Y
+  global $YEAR;
+  $Size = 'Fit3';
+  
+  echo "<div class=LineupFit3Wrapper>";
+  foreach ($perfs as $perf) {
+    if ($perf['Importance'] < $mnat && $Size == 'Fit3') {
+      $Size = 'Fit5';
+      echo "</div><br clear=all><div class=LineupFit5Wrapper>";
+    }
+    echo "<div class='Lineup$Size'>";
+    echo "<a href=/int/$link?sidenum=" . $perf['SideId'] . "&Y=$YEAR>";  
+    if ($sdisp) {
+      echo "<div class=LineUpFitTitle style='font-size:" . (24+$perf['Importance']*3) . "px'>" . $perf['SN'] . "</div>";
+      if ($perf['Photo']) echo "<img class=LineUpFit src='" . $perf['Photo'] . "'>";
+      echo "<div class=LineUptxt>" . $side['Description'] . "</div>";
+       
+    } else {
+      if ($perf['Photo']) echo "<img class=LineUpFit src='" . $perf['Photo'] . "'>";
+      echo "<br><div class=LineUpFitTitle style='font-size:" . (24+$perf['Importance']*3) . "px'>" . $perf['SN'] . "</div></a>";
+    }
+    echo "</div>";
+  }
+  echo "</div><br clear=all>";
+}
+
 // Check ET to see if imps should be found
 function Get_Imps(&$e,&$imps,$clear=1,$all=0) {
   global $Event_Types_Full,$YEAR;

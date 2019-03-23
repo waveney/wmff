@@ -1087,3 +1087,39 @@ button {
   font-size:16;
   background:#c0c0c0;
 }
+
+.LineupFit3Wrapper, .LineupFit5Wrapper {
+  display: flex;
+  align-items: flex-start;
+  object-fit: contain;
+  align-items: flex-start;
+  justify-content: flex-start; 
+  flex-wrap: wrap;
+}
+
+.LineupFit3 {
+  min-width:300;
+  max-width:550;
+  flex-grow:1;
+  margin:15;
+}
+
+.LineupFit3 img, .LineupFit5 img {
+  width:100%;
+}
+  
+.LineupFit5 {
+  min-width:200;
+  max-width:300;
+  flex-grow:1;
+  margin:10;
+}
+
+.LineUpFitTitle {
+  background:blue;
+  color:white;
+  margin-top:2;
+  padding:5;
+  text-align: center;
+}
+
