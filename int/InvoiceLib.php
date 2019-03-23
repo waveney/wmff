@@ -180,7 +180,7 @@ function Invoice_Print(&$inv) {
     if ($inv['Amount3']) $pdf->Text($padx+56*$cw,$pady+25*$ch,Inv_Amt($inv['Amount3']));
   }
   $pdf->SetTextColor(0,0,0);
-      
+      // TODO put the Bank info into Master_Data
   if (!$CN) {
     $pdf->SetFont('Arial','B',14);
     $pdf->Text($padx+$cw,$pady+29*$ch,"BACS PAYMENTS TO:");  

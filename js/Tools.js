@@ -39,12 +39,20 @@ function PCatSel(e) {
   $('#MPC_' + selectedOption).show();
 }
 
+var StickyTime;
+
+function RemoveSticky() {
+  $('.stick').removeClass('stick');  
+}
+
 function NavStick(e) { // Toggle sticking of menus
   if (e.currentTarget.nextElementSibling.classList.contains('stick')) {
     $('.stick').removeClass('stick');
+    RemoveSticky();
   } else {
     $('.stick').removeClass('stick');
     e.currentTarget.nextElementSibling.className += " stick";
+    StickyTime = setTimeout(RemoveSticky,3000);
   }
 }
 
