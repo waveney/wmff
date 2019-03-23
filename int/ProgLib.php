@@ -129,6 +129,32 @@ function Put_Venue(&$now) {
   Update_db('Venues',$Cur,$now);
 }
 
+function Get_VenueYear($vid,$y=0) {
+  global $db,$YEAR;
+  if (!$y) $y = $YEAR;
+  $res = $db->query("SELECT * FROM VenueYear WHERE VenueId=$vid AND Year=$y");
+  if ($res) {
+    $vy = $res->fetch_assoc();
+    return $vy;
+  }
+}
+
+function Put_VenueYear(&$now) {
+  $Cur = Get_VenueYear($now['VenueId'],$now['Year']);
+  Update_db('VenueYear',$Cur,$now);
+}
+
+function Get_VenueYears($y=0) {
+  global $db,$YEAR;
+  if (!$y) $y = $YEAR;
+  $res = $db->query("SELECT * FROM VenueYear WHERE Year=$y ORDER BY VenueId");
+  $VenY = [];
+  if ($res) {
+    while ($vy = $res->fetch_assoc()) $VenY[$vy['VenueId']] = $vy;
+  }
+  return $VenY;
+}
+
 function Set_Event_Help() {
   static $t = array(
         'Start'=>'Use 24hr clock for all times eg 1030, 1330',

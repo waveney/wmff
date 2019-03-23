@@ -232,10 +232,14 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   }
 
   $AllDone = 1;
-  foreach ($ETs as $ei=>$et) if (isset($ETused[$ei]) && $ETused[$ei] && $et['State'] != 4) $AllDone = 0;
-  $comps = array('Family','Special');
-  foreach($comps as $c) if ($MASTER[$c . "State"] != 4) $AllDone = 0;
-
+  $Vy = Get_VenueYear($V);
+  if ($Vy && $Vy['Complete']) { // No Action
+  } else {
+    foreach ($ETs as $ei=>$et) if (isset($ETused[$ei]) && $ETused[$ei] && $et['State'] != 4) $AllDone = 0;
+    $comps = array('Family','Special');
+    foreach($comps as $c) if ($MASTER[$c . "State"] != 4) $AllDone = 0;
+  }
+  
   if (!$Poster) {
     echo "<h2 class=subtitle>" . ($AllDone?'':" CURRENT ") . "PROGRAMME OF EVENTS" . ($AllDone?'':" (Others may follow)") . "</h2></center>";
     echo "Click on the event name or time to get more detail.<p>";
