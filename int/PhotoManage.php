@@ -15,30 +15,32 @@ function ImgData() {
   switch ($Pcat) {
     case 0: // Sides
     case 1: // Acts
-    case 2: // Others
+    case 2: // Comics
+    case 3: // Family
+    case 4: // Other
       $Data = Get_Side($Who);
       $Field = 'Photo';
       $FinalLoc = "images/Sides/" . $Who;
       $Put_Data = 'Put_Side';
       break;
-    case 3: // Trader
+    case 5: // Trader
       $Data = Get_Trader($Who);
       $Field = 'Photo';
       $FinalLoc = "images/Traders/" . $Who;
       $Put_Data = 'Put_Trader';
       break;
-    case 4: // Sponsor
+    case 6: // Sponsor
       $Data = Get_Sponsor($Who);
       $Field = 'Image';
       $FinalLoc = "images/Sponsors/" . $Who;
       $Put_Data = 'Put_Sponsor';
       break;
-    case 5: // Venue
+    case 7: // Venue
       $Data = Get_Venue($Who);
       $Field = 'Image';
       $FinalLoc = "images/Venues/" . $Who;
       $Put_Data = 'Put_Venue';
-    case 6: // Venue2
+    case 8: // Venue2
       $Data = Get_Venue($Who);
       $Field = 'Image2';
       $FinalLoc = "images/Venues/" . $Who . "I2";
@@ -62,14 +64,20 @@ function ImgData() {
 }
 
 function Change_Rand(&$dat) {
-  $dat['Data']['Field'] .= rand(0,9);
+//echo "In Change Rand -";
+//var_dump($dat);
+  if(isset($dat['Data'][$dat['Field']])) {
+    $dat['Data'][$dat['Field']].= rand(0,9);
+  } else {
+    $dat['Data'][$dat['Field']] = rand(0,9);
+  }
   $dat['Put']($dat['Data']);
 }
 
 function Upload_Image() {
   global $Who,$Pcat,$db;
   include_once("ImageLib.php"); 
-  $dat = &ImgData();
+  $dat = ImgData();
   if (file_exists($dat['FinalLoc'] . "." . $dat['Suf'])) {
     $FinalLoc = $dat['FinalLoc'];
     $ArcLoc = $dat['ArcLoc'];
@@ -122,7 +130,7 @@ function Upload_Image() {
 }
 
 if (isset($_FILES['croppedImage'])) {
-  $dat = &ImgData();
+  $dat = ImgData();
   $PhotoBefore = $_POST['PhotoURL'];
 
   $Cursfx = pathinfo($PhotoBefore,PATHINFO_EXTENSION );
@@ -162,12 +170,15 @@ if (isset($_FILES['croppedImage'])) {
   $aspect = array('4/3','1/1','3/4','7/2','NaN');
   $Shape = 0;
   if (isset($_POST['SHAPE'])) $Shape = $_POST['SHAPE'];
-  $PhotoCats = array('Sides','Acts','Others','Traders','Sponsors','Venues','Venue2');
+  $PhotoCats = array('Sides','Acts','Comics','ChEnt','Other','Traders','Sponsors','Venues','Venue2');
 
   $Lists = array(
         'Sides'=> Sides_Name_List(),
-        'Acts'=>Act_Name_List(),
-        'Others'=>Other_Name_List(),
+        'Acts'=>Perf_Name_List('IsAnAct'),
+        'Comics'=>Perf_Name_List('IsFunny'),
+        'ChEnt'=>Perf_Name_List('IsFamily'),
+        'Other'=>Perf_Name_List('IsOther'),
+
         'Traders'=>Get_All_Traders(0),
         'Sponsors'=>Get_Sponsor_Names(),
         'Venues'=>Get_Venues(0),
@@ -263,7 +274,7 @@ debugger;
     global $Who,$Pcat;
     global $Shapes,$Shape, $Lists,$PhotoCats;
 //var_dump($_POST);
-    $dat = &ImgData();
+    $dat = ImgData();
 
 //var_dump($dat); echo "<p>";
     $Name = $dat['Data']['SN'];
@@ -348,7 +359,7 @@ debugger;
   
 function New_Image() {
   global $Who,$Pcat;
-  $dat = &ImgData();
+  $dat = ImgData();
   $suf = $dat['Suf'];
   if (file_exists($dat['FinalLoc'] . ".$suf")) {
     $FinalLoc = $dat['FinalLoc'] . ".$suf";
@@ -366,7 +377,7 @@ function Rotate_Image() {
   $FinalLoc = $_POST['FinalLoc'];
   $image = imagecreatefromstring(file_get_contents($FinalLoc));
   $newimage = imagerotate($image,90,0);
-  $dat = &ImgData();
+  $dat = ImgData();
   $suf = $dat['Suf'];
   switch ($suf) {
   case 'jpeg':
