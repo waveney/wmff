@@ -67,21 +67,22 @@
       }
   }
   
-  echo "<h2>$Title (who have asked to be listed)</h2>";
+  echo "<h2>$Title</h2>";
   
-  if ($SLoc) Pitch_Map($SLoc,$Pitches,$Traders,1) ;
-  echo "<br clear=all><p>";
+  if ($SLoc) {
+    Pitch_Map($SLoc,$Pitches,$Traders,1) ;
+    echo "<br clear=all><p>";
+  }
     
   if ($YEAR < $PLANYEAR) {
     echo "These traders where at the Folk Festival.<p>";
   } else {
     echo "These traders will be at the Folk Festival.<p>";
   }
-  echo "To become a trader see the <a href=/info/trade>trade info page</a>.  ";
-  echo "Only those traders who have paid their deposits and have asked to be listed are shown here.<p>";
+  echo "To become a trader see the <a href=/info/trade>trade application page</a>.  ";
+  echo "Only those traders who have paid their deposits are shown here.<p>";
 
-  if (Access('SysAdmin')) {
-  
+ 
   echo "<div id=flex>\n";
   foreach($List as $ti) {
     $trad = $Traders[$ti];
@@ -92,8 +93,8 @@
     if ($trad['Photo']) echo "<img src=" . $trad['Photo'] . ">";
     if ($trad['Website']) echo "</a>";
     
-    $txt = $trad['GoodsDesc'];
-    $txt = preg_replace("/\n\n/","<p>\n\n",$txt);
+    $txt = nl2br($trad['GoodsDesc']);
+    
     echo "<div class=Tradetext>$txt</div>"; // TODO Handle non html chars also do double nl to p
     
     if (!$SLoc) {
@@ -113,9 +114,11 @@
   echo "</div>";
 //  dotail();
 //  exit;  
-  
-  echo "<br clear=all>";
+
+/*
+
   echo "<h2>Old Version</h2>";    
+  
   }
   // Old Code
   
@@ -145,6 +148,7 @@
     echo "<p>";
     echo "</div>";
   }
-
+*/
+  echo "<br clear=all>";
   dotail();
 ?>

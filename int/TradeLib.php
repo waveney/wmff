@@ -350,7 +350,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte, 
       } else {
         echo "<td colspan=3>You can upload a photo once you have created your record\n";
       }
-    if ($Mode != 2) echo "<tr>" . fm_textarea('Products Sold <span id=DescSize></span>',$Trad,'GoodsDesc',7,1,
+    if ($Mode != 2) echo "<tr>" . fm_textarea('Products Sold <span id=DescSize></span>',$Trad,'GoodsDesc',7,2,
                         'maxlength=500 oninput=SetDSize("DescSize",500,"GoodsDesc")');     
 
 //********* PRIVATE
