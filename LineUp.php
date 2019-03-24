@@ -103,7 +103,13 @@
     break;
   }
   
-  while($side = $SideQ->fetch_assoc()) formatminimax($side,'ShowDance.php',$FSwitch,$ShortDesc);
+  if (Feature('NewLineUpFormat')) {
+    $Slist = [];
+    while($side = $SideQ->fetch_assoc()) $Slist[] = $side;
+    formatLineups($Slist,'ShowDance.php',$FSwitch,$ShortDesc);
+  } else {
+    while($side = $SideQ->fetch_assoc()) formatminimax($side,'ShowDance.php',$FSwitch,$ShortDesc);
+  }
 
   echo "<div style='clear:both;'>";
   $Prev = $YEAR-1;

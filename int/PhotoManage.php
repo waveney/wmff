@@ -40,11 +40,13 @@ function ImgData() {
       $Field = 'Image';
       $FinalLoc = "images/Venues/" . $Who;
       $Put_Data = 'Put_Venue';
+      break;
     case 8: // Venue2
       $Data = Get_Venue($Who);
       $Field = 'Image2';
       $FinalLoc = "images/Venues/" . $Who . "I2";
       $Put_Data = 'Put_Venue';
+      break;
     }
   $ArcLoc = $FinalLoc;
   $ArcLoc = preg_replace('/images/','ArchiveImages',$ArcLoc);
@@ -170,21 +172,34 @@ if (isset($_FILES['croppedImage'])) {
   $aspect = array('4/3','1/1','3/4','7/2','NaN');
   $Shape = 0;
   if (isset($_POST['SHAPE'])) $Shape = $_POST['SHAPE'];
-  $PhotoCats = array('Sides','Acts','Comics','ChEnt','Other','Traders','Sponsors','Venues','Venue2');
+  $PhotoCats = array('Sides','Acts','Comics','Family','Other','Traders','Sponsors','Venues','Venue2');
 
   $Lists = array(
-        'Sides'=> Sides_Name_List(),
+        'Sides'=> Perf_Name_List('IsASide'),
         'Acts'=>Perf_Name_List('IsAnAct'),
         'Comics'=>Perf_Name_List('IsFunny'),
-        'ChEnt'=>Perf_Name_List('IsFamily'),
+        'Family'=>Perf_Name_List('IsFamily'),
         'Other'=>Perf_Name_List('IsOther'),
 
         'Traders'=>Get_All_Traders(0),
         'Sponsors'=>Get_Sponsor_Names(),
         'Venues'=>Get_Venues(0),
-        'Venues2'=>Get_Venues(0),
+        'Venue2'=>Get_Venues(0),
         );
 
+  $AccessNeeded = [
+        'Sides'=>Access('Staff','Dance'),
+        'Acts'=>Access('Staff','Music'),
+        'Comics'=>Access('Staff','Comedy'),
+        'Family'=>Access('Staff','Family'),
+        'Other'=>Access('Staff','Other'),
+
+        'Traders'=>Access('Staff','Trade'),
+        'Sponsors'=>Access('Staff','Sponsors'),
+        'Venues'=>Access('Staff','Venues'),
+        'Venue2'=>Access('Staff','Venues'),
+        ]
+  
 ?>
 <script language=Javascript defer>
   var CC;
@@ -250,12 +265,18 @@ debugger;
 
   function Select_Photos() {
     global $Who,$Pcat;
-    global $Shapes,$Shape,$PhotoCats,$Lists;
+    global $Shapes,$Shape,$PhotoCats,$Lists,$AccessNeeded;
     $mouse = 0;
     if (isset($_POST['PCAT'])) {
       $mouse = $_POST['PCAT'];
     } else {
       $_POST['PCAT']=0;
+    }
+    
+    $j = 0;
+    foreach ($AccessNeeded as $i=>$showit) {
+      if (!$showit) $PhotoCats[$j] = '';
+      $j++;
     }
     echo "<h2>Select Photo to modify</h2><p>\n";
     echo "<form method=post action=PhotoManage.php>";
@@ -263,7 +284,7 @@ debugger;
     echo fm_radio("Photo For",$PhotoCats,$_POST,'PCAT','onclick=PCatSel(event)',0);
     $i=0;
     foreach($Lists as $cat=>$dog) {
-      echo "<span id=MPC_$i " . ($cat == $PhotoCats[$mouse]?'':'hidden') . "> : " . fm_select($dog,$_POST,"WHO$i") . "</span>";
+      if ($AccessNeeded[$cat]) echo "<span id=MPC_$i " . ($cat == $PhotoCats[$mouse]?'':'hidden') . "> : " . fm_select($dog,$_POST,"WHO$i") . "</span>";
       $i++;
     }
     echo "<input type=submit name=Edit value=Edit><p>\n";
@@ -393,6 +414,7 @@ function Rotate_Image() {
 
 // var_dump($_POST);
   if (isset($_POST['Edit']) || isset($_POST['Current'])) {
+    if (isset($_POST['WHO'])) unset($_POST['WHO']);
     Edit_Photo('Current');
   } else if (isset($_POST['Original'])) {
     Edit_Photo('Original');
