@@ -173,7 +173,7 @@ if (isset($_FILES['croppedImage'])) {
   $PhotoCats = array('Sides','Acts','Comics','ChEnt','Other','Traders','Sponsors','Venues','Venue2');
 
   $Lists = array(
-        'Sides'=> Sides_Name_List(),
+        'Sides'=> Perf_Name_List('IsASide'),
         'Acts'=>Perf_Name_List('IsAnAct'),
         'Comics'=>Perf_Name_List('IsFunny'),
         'ChEnt'=>Perf_Name_List('IsFamily'),
@@ -185,6 +185,19 @@ if (isset($_FILES['croppedImage'])) {
         'Venues2'=>Get_Venues(0),
         );
 
+  $AccessNeeded = [
+        'Sides'=>Access('Staff','Dance'),
+        'Acts'=>Access('Staff','Music'),
+        'Comics'=>Access('Staff','Comedy'),
+        'ChEnt'=>Access('Staff','Family'),
+        'Other'=>Access('Staff','Other'),
+
+        'Traders'=>Access('Staff','Trade'),
+        'Sponsors'=>Access('Staff','Sponsors'),
+        'Venues'=>Access('Staff','Venues'),
+        'Venues2'=>Access('Staff','Venues'),
+        ]
+  
 ?>
 <script language=Javascript defer>
   var CC;
@@ -250,12 +263,16 @@ debugger;
 
   function Select_Photos() {
     global $Who,$Pcat;
-    global $Shapes,$Shape,$PhotoCats,$Lists;
+    global $Shapes,$Shape,$PhotoCats,$Lists,$AccessNeeded;
     $mouse = 0;
     if (isset($_POST['PCAT'])) {
       $mouse = $_POST['PCAT'];
     } else {
       $_POST['PCAT']=0;
+    }
+    
+    foreach ($AccessNeeded as $i=>$showit) {
+      if (!$showit) $PhotoCats[$i] = '';
     }
     echo "<h2>Select Photo to modify</h2><p>\n";
     echo "<form method=post action=PhotoManage.php>";
@@ -263,7 +280,7 @@ debugger;
     echo fm_radio("Photo For",$PhotoCats,$_POST,'PCAT','onclick=PCatSel(event)',0);
     $i=0;
     foreach($Lists as $cat=>$dog) {
-      echo "<span id=MPC_$i " . ($cat == $PhotoCats[$mouse]?'':'hidden') . "> : " . fm_select($dog,$_POST,"WHO$i") . "</span>";
+      if ($AccessNeeded[$cat]) echo "<span id=MPC_$i " . ($cat == $PhotoCats[$mouse]?'':'hidden') . "> : " . fm_select($dog,$_POST,"WHO$i") . "</span>";
       $i++;
     }
     echo "<input type=submit name=Edit value=Edit><p>\n";

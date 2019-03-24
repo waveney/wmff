@@ -1099,7 +1099,7 @@ button {
 
 .LineupFit3 {
   min-width:300;
-  max-width:550;
+  max-width:450;
   flex-grow:1;
   margin:15;
 }
@@ -1110,7 +1110,7 @@ button {
   
 .LineupFit5 {
   min-width:200;
-  max-width:300;
+  max-width:280;
   flex-grow:1;
   margin:10;
 }
@@ -1119,7 +1119,16 @@ button {
   background:blue;
   color:white;
   margin-top:2;
+  margin-bottom:2;
   padding:5;
   text-align: center;
+}
+
+.LineUptxt {
+  font-size:16;
+  color:black;
+  margin-top:5;
+  padding:5;
+  background:white;
 }
 

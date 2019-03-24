@@ -46,7 +46,7 @@ function formatLineups(&$perfs,$link,$mnat=2,$sdisp=1) {
     if ($sdisp) {
       echo "<div class=LineUpFitTitle style='font-size:" . (24+$perf['Importance']*3) . "px'>" . $perf['SN'] . "</div>";
       if ($perf['Photo']) echo "<img class=LineUpFit src='" . $perf['Photo'] . "'>";
-      echo "<div class=LineUptxt>" . $side['Description'] . "</div>";
+      echo "<div class=LineUptxt>" . $perf['Description'] . "</div>";
        
     } else {
       if ($perf['Photo']) echo "<img class=LineUpFit src='" . $perf['Photo'] . "'>";
