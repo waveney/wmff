@@ -170,32 +170,32 @@ if (isset($_FILES['croppedImage'])) {
   $aspect = array('4/3','1/1','3/4','7/2','NaN');
   $Shape = 0;
   if (isset($_POST['SHAPE'])) $Shape = $_POST['SHAPE'];
-  $PhotoCats = array('Sides','Acts','Comics','ChEnt','Other','Traders','Sponsors','Venues','Venue2');
+  $PhotoCats = array('Sides','Acts','Comics','Family','Other','Traders','Sponsors','Venues','Venue2');
 
   $Lists = array(
         'Sides'=> Perf_Name_List('IsASide'),
         'Acts'=>Perf_Name_List('IsAnAct'),
         'Comics'=>Perf_Name_List('IsFunny'),
-        'ChEnt'=>Perf_Name_List('IsFamily'),
+        'Family'=>Perf_Name_List('IsFamily'),
         'Other'=>Perf_Name_List('IsOther'),
 
         'Traders'=>Get_All_Traders(0),
         'Sponsors'=>Get_Sponsor_Names(),
         'Venues'=>Get_Venues(0),
-        'Venues2'=>Get_Venues(0),
+        'Venue2'=>Get_Venues(0),
         );
 
   $AccessNeeded = [
         'Sides'=>Access('Staff','Dance'),
         'Acts'=>Access('Staff','Music'),
         'Comics'=>Access('Staff','Comedy'),
-        'ChEnt'=>Access('Staff','Family'),
+        'Family'=>Access('Staff','Family'),
         'Other'=>Access('Staff','Other'),
 
         'Traders'=>Access('Staff','Trade'),
         'Sponsors'=>Access('Staff','Sponsors'),
         'Venues'=>Access('Staff','Venues'),
-        'Venues2'=>Access('Staff','Venues'),
+        'Venue2'=>Access('Staff','Venues'),
         ]
   
 ?>
@@ -271,8 +271,10 @@ debugger;
       $_POST['PCAT']=0;
     }
     
+    $j = 0;
     foreach ($AccessNeeded as $i=>$showit) {
-      if (!$showit) $PhotoCats[$i] = '';
+      if (!$showit) $PhotoCats[$j] = '';
+      $j++;
     }
     echo "<h2>Select Photo to modify</h2><p>\n";
     echo "<form method=post action=PhotoManage.php>";
@@ -410,6 +412,7 @@ function Rotate_Image() {
 
 // var_dump($_POST);
   if (isset($_POST['Edit']) || isset($_POST['Current'])) {
+    if (isset($_POST['WHO'])) unset($_POST['WHO']);
     Edit_Photo('Current');
   } else if (isset($_POST['Original'])) {
     Edit_Photo('Original');
