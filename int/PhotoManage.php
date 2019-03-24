@@ -26,7 +26,7 @@ function ImgData() {
     case 5: // Trader
       $Data = Get_Trader($Who);
       $Field = 'Photo';
-      $FinalLoc = "images/Traders/" . $Who;
+      $FinalLoc = "images/Trade/" . $Who;
       $Put_Data = 'Put_Trader';
       break;
     case 6: // Sponsor
