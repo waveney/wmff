@@ -40,11 +40,13 @@ function ImgData() {
       $Field = 'Image';
       $FinalLoc = "images/Venues/" . $Who;
       $Put_Data = 'Put_Venue';
+      break;
     case 8: // Venue2
       $Data = Get_Venue($Who);
       $Field = 'Image2';
       $FinalLoc = "images/Venues/" . $Who . "I2";
       $Put_Data = 'Put_Venue';
+      break;
     }
   $ArcLoc = $FinalLoc;
   $ArcLoc = preg_replace('/images/','ArchiveImages',$ArcLoc);
