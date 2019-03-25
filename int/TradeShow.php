@@ -9,7 +9,7 @@
 
   $Locs = Get_Trade_Locs(1);
   $TTypes = Get_Trade_Types(1);
-  $Traders = Get_Traders_Coming(1);
+  $Traders = Get_Traders_Coming(1,"Fee DESC");
   $TTUsed = $LocUsed = $AllList = [];
   
   foreach ($Traders as $ti=>$Trad) {
@@ -89,8 +89,9 @@
  //var_dump($ti,$trad);
     echo "<div class=TradeFlexCont>";
     if ($trad['Website']) echo weblinksimple($trad['Website']);
-    echo "<h2>" . $trad['SN'] . "</h2>";
+
     if ($trad['Photo']) echo "<img src=" . $trad['Photo'] . ">";
+    echo "<h2>" . $trad['SN'] . "</h2>";
     if ($trad['Website']) echo "</a>";
     
     $txt = nl2br($trad['GoodsDesc']);
@@ -107,7 +108,7 @@
       }
       if ($trad['Days']) echo " on " . $Trade_Days[$trad['Days']];
     } else {
-      if ($trad['Days']) echo "On " . $Trade_Days[$trad['Days']];    
+      if ($trad['Days']) echo $Trade_Days[$trad['Days']];    
     }
     echo "</div>";
   }
