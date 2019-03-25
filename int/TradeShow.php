@@ -26,6 +26,9 @@
     }
     $AllList[] = $ti; 
   }
+  
+  $Overview = 0;
+  foreach ($Locs as $loc) if ($loc['SN'] == 'Overview') $Overview = $loc;
 
   
   echo "<form>" . fm_hidden('Y',$YEAR);
@@ -43,37 +46,46 @@
       echo "<input type=submit name=SEL value='Show All'> ";
   echo "</table><p>";
   
-  if (!isset($_REQUEST['SEL'])) dotail();
-  
+
   $List = [];
   $SLoc = 0;
-  $sel = $_REQUEST['SEL'];
-  if ($sel == 'Show All') {
-    $List = $AllList;
-    $Title = 'All Traders';
+
+  if (isset($_REQUEST['SEL'])) {
+    $sel = $_REQUEST['SEL'];
+    if ($sel == 'Show All') {
+      $List = $AllList;
+      $Title = 'All Traders';
+    } else {
+      foreach($Locs as $loc) 
+        if ($sel == $loc['SN']) {
+          $List = $LocUsed[$loc['TLocId']];
+          $SLoc = $loc;
+          $Title = 'All Traders ' . $Prefixes[$loc['prefix']] . ' ' . $loc['SN'];
+          $Pitches = Get_Trade_Pitches($loc['TLocId']);
+          break;
+        }
+      if (!$List) foreach($TTypes as $typ)
+        if ($sel == $typ['SN']) {
+          $List = $TTUsed[$typ['id']];
+          $Title = 'All ' . $typ['SN'] . " Traders";
+        }
+    }
+
+    echo "<h2>$Title</h2>";
   } else {
-    foreach($Locs as $loc) 
-      if ($sel == $loc['SN']) {
-        $List = $LocUsed[$loc['TLocId']];
-        $SLoc = $loc;
-        $Title = 'All Traders ' . $Prefixes[$loc['prefix']] . ' ' . $loc['SN'];
-        $Pitches = Get_Trade_Pitches($loc['TLocId']);
-        break;
-      }
-    if (!$List) foreach($TTypes as $typ)
-      if ($sel == $typ['SN']) {
-        $List = $TTUsed[$typ['id']];
-        $Title = 'All ' . $typ['SN'] . " Traders";
-      }
-  }
   
-  echo "<h2>$Title</h2>";
+  }
   
   if ($SLoc) {
     Pitch_Map($SLoc,$Pitches,$Traders,1) ;
-    echo "<br clear=all><p>";
+  } else if ($Overview) {
+    $Pitches = Get_Trade_Pitches($Overview['TLocId']);
+    Pitch_Map($Overview,$Pitches,0,1) ; 
   }
-    
+  echo "<br clear=all><p>";
+
+  if (!isset($_REQUEST['SEL'])) dotail();  
+   
   if ($YEAR < $PLANYEAR) {
     echo "These traders where at the Folk Festival.<p>";
   } else {

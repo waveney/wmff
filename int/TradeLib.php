@@ -375,7 +375,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte, 
     } else {
       fm_hidden('TradType',$Trad['TradeType']);
     }
-    echo "<tr>" . fm_text('<span id=ContactLabel>Contact</span>',$Trad,'Contact');
+    echo "<tr>" . fm_text('<span id=ContactLabel>Contact Name</span>',$Trad,'Contact');
       echo fm_text1('Email',$Trad,'Email',2);
       echo fm_text('Phone',$Trad,'Phone');
       echo fm_text('Mobile',$Trad,'Mobile',1,$Imp,'onchange=updateimps()') . "\n";
@@ -1674,6 +1674,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
       $ChSize = floor($Pitch['Xsize']*3.4*$Mapscale);
       $Ystart = ($Pub?0.6:1.2) *($Pitch['Type']?2:1);
       $MaxCnk = floor(($Pitch['Ysize']*2.5*$Mapscale) - ($Pub?1:2));
+//      $Name = preg_replace('/.*t\/a (.*)/',
       $Chunks = str_split($Name,$ChSize);
       
       foreach ($Chunks as $i=>$Chunk) {
