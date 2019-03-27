@@ -1671,7 +1671,11 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
     if ($Name) {
     // Divide into Chunks each line has a chunk display Ysize chunks - the posn is a chunk,  chunk length = 3xXsize 
     // Chunking - split to Words then add words to full - if no words split word (hard)
-      $ChSize = floor($Pitch['Xsize']*3.4*$Mapscale);
+    // Remove x t/a 
+    // Lowercase 
+    // Spilt at words of poss, otherwise at length (for now)
+    
+      $ChSize = floor($Pitch['Xsize']*($Pitch['Type']?1.8:3.4)*$Mapscale);
       $Ystart = ($Pub?0.6:1.2) *($Pitch['Type']?2:1);
       $MaxCnk = floor(($Pitch['Ysize']*2.5*$Mapscale) - ($Pub?1:2));
 //      $Name = preg_replace('/.*t\/a (.*)/',
@@ -1682,7 +1686,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
  //       $Chunk = substr($Name,0,$ChSize);
         echo "<tspan x=" . (($Pitch['X']+0.2) * $Factor)  . " y=" . (($Pitch['Y']+$Ystart/$Mapscale) * $Factor) . 
              " style='font-size:" . ($Pitch['Type']?$FSize*2:$FSize) . "px;'>$Chunk</tspan>";
-        $Ystart += 0.6;
+        $Ystart += ($Pitch['Type']?1.2:0.6);
       }
     }
     echo "</text>";

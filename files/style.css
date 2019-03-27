@@ -840,14 +840,20 @@ textarea:Focus
 .sponcontainer {
   position:relative;
   text-align:center;
+  height:150px;
 }
-.sponText {
-  position: absolute;
-  font-size:24;
-  top:10;
-  left:50%;
+.sponContent{
+  position: relative;
+  float: left;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
-}
+} 
+.sponText {
+  font-size:24;
+} 
+.sponImage {
+} 
 .DayExpand {
   color:black;
   font-weight:bold;

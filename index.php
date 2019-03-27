@@ -19,12 +19,12 @@
   $Spons = Get_Sponsors();
   echo "<div hidden>";
   foreach ($Spons as $s) {
-    echo "<li class=SponsorsIds id=" .$s['id'] . "><div class=sponcontainer>";
+    echo "<li class=SponsorsIds id=" .$s['id'] . "><div class=sponcontainer><div class=sponContent>";
     if ($s['Website']) echo weblinksimple($s['Website']);
     if ($s['Image']) echo "<img src='" . $s['Image'] . "' width=150 class=sponImage>";
-    if (!$s['Image'] || $s['IandT']) echo "<h2 class=sponText>" . $s['SN'] . "</h2>";
+    if (!$s['Image'] || $s['IandT']) echo "<div class=sponText>" . $s['SN'] . "</div>";
     if ($s['Website']) echo "</a>";
-    echo "</div>";
+    echo "</div></div>";
   }
   echo "</div>\n";
   echo "<center><table style='table-layout: fixed;'><tr id=SponsorRow></table></center><p>";
