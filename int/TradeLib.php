@@ -206,11 +206,11 @@ function Get_TraderByName($who) {
   return $data;
 }
 
-function Get_Traders_Coming($type=0) { // 0=names, 1=all
+function Get_Traders_Coming($type=0,$SortBy='SN') { // 0=names, 1=all
   global $db,$YEAR,$Trade_State;
   $data = array();
   $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Deposit Paid'] .
-                " ORDER BY SN";
+                " ORDER BY $SortBy";
   $res = $db->query($qry);
   if (!$res || $res->num_rows == 0) return 0;
   while ($tr=$res->fetch_assoc()) {
@@ -350,7 +350,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte, 
       } else {
         echo "<td colspan=3>You can upload a photo once you have created your record\n";
       }
-    if ($Mode != 2) echo "<tr>" . fm_textarea('Products Sold <span id=DescSize></span>',$Trad,'GoodsDesc',7,1,
+    if ($Mode != 2) echo "<tr>" . fm_textarea('Products Sold <span id=DescSize></span>',$Trad,'GoodsDesc',7,2,
                         'maxlength=500 oninput=SetDSize("DescSize",500,"GoodsDesc")');     
 
 //********* PRIVATE
@@ -375,7 +375,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte, 
     } else {
       fm_hidden('TradType',$Trad['TradeType']);
     }
-    echo "<tr>" . fm_text('<span id=ContactLabel>Contact</span>',$Trad,'Contact');
+    echo "<tr>" . fm_text('<span id=ContactLabel>Contact Name</span>',$Trad,'Contact');
       echo fm_text1('Email',$Trad,'Email',2);
       echo fm_text('Phone',$Trad,'Phone');
       echo fm_text('Mobile',$Trad,'Mobile',1,$Imp,'onchange=updateimps()') . "\n";
@@ -1671,9 +1671,14 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
     if ($Name) {
     // Divide into Chunks each line has a chunk display Ysize chunks - the posn is a chunk,  chunk length = 3xXsize 
     // Chunking - split to Words then add words to full - if no words split word (hard)
-      $ChSize = floor($Pitch['Xsize']*3.4*$Mapscale);
+    // Remove x t/a 
+    // Lowercase 
+    // Spilt at words of poss, otherwise at length (for now)
+    
+      $ChSize = floor($Pitch['Xsize']*($Pitch['Type']?1.8:3.4)*$Mapscale);
       $Ystart = ($Pub?0.6:1.2) *($Pitch['Type']?2:1);
       $MaxCnk = floor(($Pitch['Ysize']*2.5*$Mapscale) - ($Pub?1:2));
+//      $Name = preg_replace('/.*t\/a (.*)/',
       $Chunks = str_split($Name,$ChSize);
       
       foreach ($Chunks as $i=>$Chunk) {
@@ -1681,7 +1686,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
  //       $Chunk = substr($Name,0,$ChSize);
         echo "<tspan x=" . (($Pitch['X']+0.2) * $Factor)  . " y=" . (($Pitch['Y']+$Ystart/$Mapscale) * $Factor) . 
              " style='font-size:" . ($Pitch['Type']?$FSize*2:$FSize) . "px;'>$Chunk</tspan>";
-        $Ystart += 0.6;
+        $Ystart += ($Pitch['Type']?1.2:0.6);
       }
     }
     echo "</text>";

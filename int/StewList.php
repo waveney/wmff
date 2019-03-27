@@ -3,7 +3,7 @@
   A_Check('Staff');
 
   dostaffhead("List Stewarding Events");
-  global $db,$Event_Types,$USERID,$Importance;
+  global $db,$Event_Types,$USERID,$Importance,$YEAR;
   $yn = array('','Y');
   include_once("ProgLib.php");
   include_once("DocLib.php");
@@ -29,7 +29,7 @@
 
   echo "</thead><tbody>";
 
-  $res=$db->query("SELECT * FROM Events WHERE (NeedSteward=1 OR StewardTasks!='' OR SetupTasks!='') AND SubEvent<=0 ORDER BY Day, Start, Type");
+  $res=$db->query("SELECT * FROM Events WHERE (NeedSteward=1 OR StewardTasks!='' OR SetupTasks!='') AND SubEvent<=0 AND Year=$YEAR ORDER BY Day, Start, Type");
   
 
   if ($res) {

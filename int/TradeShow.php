@@ -9,7 +9,7 @@
 
   $Locs = Get_Trade_Locs(1);
   $TTypes = Get_Trade_Types(1);
-  $Traders = Get_Traders_Coming(1);
+  $Traders = Get_Traders_Coming(1,"Fee DESC");
   $TTUsed = $LocUsed = $AllList = [];
   
   foreach ($Traders as $ti=>$Trad) {
@@ -26,6 +26,9 @@
     }
     $AllList[] = $ti; 
   }
+  
+  $Overview = 0;
+  foreach ($Locs as $loc) if ($loc['SN'] == 'Overview') $Overview = $loc;
 
   
   echo "<form>" . fm_hidden('Y',$YEAR);
@@ -43,43 +46,95 @@
       echo "<input type=submit name=SEL value='Show All'> ";
   echo "</table><p>";
   
-  if (!isset($_REQUEST['SEL'])) dotail();
-  
+
   $List = [];
   $SLoc = 0;
-  $sel = $_REQUEST['SEL'];
-  if ($sel == 'Show All') {
-    $List = $AllList;
-    $Title = 'All Traders';
+
+  if (isset($_REQUEST['SEL'])) {
+    $sel = $_REQUEST['SEL'];
+    if ($sel == 'Show All') {
+      $List = $AllList;
+      $Title = 'All Traders';
+    } else {
+      foreach($Locs as $loc) 
+        if ($sel == $loc['SN']) {
+          $List = $LocUsed[$loc['TLocId']];
+          $SLoc = $loc;
+          $Title = 'All Traders ' . $Prefixes[$loc['prefix']] . ' ' . $loc['SN'];
+          $Pitches = Get_Trade_Pitches($loc['TLocId']);
+          break;
+        }
+      if (!$List) foreach($TTypes as $typ)
+        if ($sel == $typ['SN']) {
+          $List = $TTUsed[$typ['id']];
+          $Title = 'All ' . $typ['SN'] . " Traders";
+        }
+    }
+
+    echo "<h2>$Title</h2>";
   } else {
-    foreach($Locs as $loc) 
-      if ($sel == $loc['SN']) {
-        $List = $LocUsed[$loc['TLocId']];
-        $SLoc = $loc;
-        $Title = 'All Traders ' . $Prefixes[$loc['prefix']] . ' ' . $loc['SN'];
-        $Pitches = Get_Trade_Pitches($loc['TLocId']);
-        break;
-      }
-    if (!$List) foreach($TTypes as $typ)
-      if ($sel == $typ['SN']) {
-        $List = $TTUsed[$typ['id']];
-        $Title = 'All ' . $typ['SN'] . " Traders";
-      }
+  
   }
   
-  echo "<h2>$Title (who have asked to be listed)</h2>";
-  
-  if ($SLoc) Pitch_Map($SLoc,$Pitches,$Traders,1) ;
+  if ($SLoc) {
+    Pitch_Map($SLoc,$Pitches,$Traders,1) ;
+  } else if ($Overview) {
+    $Pitches = Get_Trade_Pitches($Overview['TLocId']);
+    Pitch_Map($Overview,$Pitches,0,1) ; 
+  }
   echo "<br clear=all><p>";
-    
+
+  if (!isset($_REQUEST['SEL'])) dotail();  
+   
   if ($YEAR < $PLANYEAR) {
     echo "These traders where at the Folk Festival.<p>";
   } else {
     echo "These traders will be at the Folk Festival.<p>";
   }
-  echo "To become a trader see the <a href=/info/trade>trade info page</a>.  ";
-  echo "Only those traders who have paid their deposits and have asked to be listed are shown here.<p>";
+  echo "To become a trader see the <a href=/info/trade>trade application page</a>.  ";
+  echo "Only those traders who have paid their deposits are shown here.<p>";
 
+ 
+  echo "<div id=flex>\n";
+  foreach($List as $ti) {
+    $trad = $Traders[$ti];
+ //var_dump($ti,$trad);
+    echo "<div class=TradeFlexCont>";
+    if ($trad['Website']) echo weblinksimple($trad['Website']);
+
+    if ($trad['Photo']) echo "<img src=" . $trad['Photo'] . ">";
+    echo "<h2>" . $trad['SN'] . "</h2>";
+    if ($trad['Website']) echo "</a>";
+    
+    $txt = nl2br($trad['GoodsDesc']);
+    
+    echo "<div class=Tradetext>$txt</div>"; // TODO Handle non html chars also do double nl to p
+    
+    if (!$SLoc) {
+      echo ($YEAR >= $PLANYEAR?"<p>Will be trading ":"<p>Was trading ") . $Prefixes[$Locs[$trad['PitchLoc0']]['prefix']] . ' ' . $Locs[$trad['PitchLoc0']]['SN'];
+      if ($trad['PitchLoc2']) {
+        echo ", " . $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc1']]['SN'] . " and " 
+         		. $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc2']]['SN'];
+      } else if ($trad['PitchLoc1']) {
+        echo " and " . $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc1']]['SN'];
+      }
+      if ($trad['Days']) echo " on " . $Trade_Days[$trad['Days']];
+    } else {
+      if ($trad['Days']) echo $Trade_Days[$trad['Days']];    
+    }
+    echo "</div>";
+  }
+  echo "</div>";
+//  dotail();
+//  exit;  
+
+/*
+
+  echo "<h2>Old Version</h2>";    
+  
+  }
+  // Old Code
+  
   echo "<div id=flex>\n";
   foreach($List as $ti) {
     $trad = $Traders[$ti];
@@ -106,6 +161,7 @@
     echo "<p>";
     echo "</div>";
   }
-
+*/
+  echo "<br clear=all>";
   dotail();
 ?>

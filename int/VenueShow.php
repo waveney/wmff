@@ -160,7 +160,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   $VenList[] = $V;
   if ($Ven['IsVirtual']) {
     $res = $db->query("SELECT DISTINCT e.* FROM Events e, Venues v, EventTypes t WHERE e.Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1 OR " .
-                "( e.Venue=v.VenueId AND v.PartVirt=$V )) ORDER BY Day, Start");
+                "( e.Venue=v.VenueId AND v.PartVirt=$V )) $xtr ORDER BY Day, Start");
     $parts = $db->query("SELECT VenueId FROM Venues v WHERE v.PartVirt=$V");
     while ($part = $parts->fetch_assoc()) $VenList[] = $part['VenueId'];
   } else {
