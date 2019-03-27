@@ -6,13 +6,21 @@
   
   include_once("ProgLib.php");
   include_once("DanceLib.php");
+  include_once("ViewLib.php");
   global $YEAR,$MASTER_DATA;
     
   $Ven = Get_Venue($V);
 
-  dostaffhead("PA Requirements for " . $Ven['SN']);
-
-//  echo "TO BE WRITTEN";
+  $ShowMode = '';
+  $AtEnd = [];
+  if (isset($_REQUEST['Embed'])) $ShowMode = 'Embed';
+  if (isset($_REQUEST['HeaderFree'])) $ShowMode = 'HeaderFree';
+  
+  if ($ShowMode == 'HeaderFree') {
+    dominimalhead("PA Requirements for " . $Ven['SN'],'js/Tools.js','files/festconstyle.css');
+  } else {
+    dostaffhead("PA Requirements for " . $Ven['SN']);
+  }
 
 
  $VenList[] = $V;
@@ -74,6 +82,18 @@
 
 //var_dump($VirtVen);
 
+//  echo "<h2 class=FakeButton><a href=PAShow.php?pa4v=$V>Browsing Format</a>, <a href=PAShow.php?pa4v=$V&FILES=1>Embed Files</a>,  <a href=PAShow.php?pa4v=$V&FILES=2>Header Free for Printing</a></h2>";
+
+  if ($ShowMode != 'HeaderFree') {
+    echo "<form>" . fm_hidden('pa4v',$V);
+    echo "<input type=submit name=Basic value='Browsing Format'> ";
+    echo "<input type=submit name=Embed value='Embed Files'> ";
+    echo "<input type=submit name=HeaderFree value='Header Free for Printing'> ";
+    echo "</form>";
+  } else {
+    echo "<div style='width:1000;'>";
+  }
+
   $lastevent = -99;
   foreach ($EVs as $ei=>$e) {
     $eid = $e['EventId'];
@@ -100,7 +120,12 @@
             $Current = $files[0];
             $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
             if (file_exists("PAspecs/$snum.$Cursfx")) {
-              echo "<a href=ShowFile.php?l=PAspecs/$snum.$Cursfx>View File</a>";
+              if ($ShowMode) {
+                $AtEnd[$snum] = "PAspecs/$snum.$Cursfx";
+                echo "See Below";
+              } else {
+                echo "<a href=ShowFile.php?l=PAspecs/$snum.$Cursfx>View File</a>";
+              }
             } else {
               echo "None";
             }
@@ -117,16 +142,21 @@
   }
   echo "</table>\n";
   
+  if ($AtEnd) {
+    foreach($AtEnd as $snum=>$IncFile) {
+      $side = Get_Side($snum);
+      echo "<h2>" . $side['SN'] . "</h2>";
+      ViewFile($IncFile,1,'',0);
+    }
+  }
+ 
+  if ($ShowMode == 'HeaderFree') exit;
+  
   if (Access('Staff')) {
     echo "<h3>Link to send to Engineer: https://" . $MASTER_DATA['HostURL'] . "/int/Access.php?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'];
     if (Access('SysAdmin')) echo "<a href='Access.php?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'] . "'> Use\n";
     echo "</h3>\n";
   }
   dotail();
-  
-/* Need to see PA on venue list 
-   Summary sheet per day, then details
-   
-   */
 
 ?>
