@@ -21,7 +21,7 @@
   foreach ($Spons as $s) {
     echo "<li class=SponsorsIds id=" .$s['id'] . "><div class=sponcontainer><div class=sponContent>";
     if ($s['Website']) echo weblinksimple($s['Website']);
-    if ($s['Image']) echo "<img src='" . $s['Image'] . "' width=150 class=sponImage>";
+    if ($s['Image']) echo "<img src='" . $s['Image'] . "' class=sponImage>";
     if (!$s['Image'] || $s['IandT']) echo "<div class=sponText>" . $s['SN'] . "</div>";
     if ($s['Website']) echo "</a>";
     echo "</div></div>";

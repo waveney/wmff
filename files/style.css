@@ -850,9 +850,11 @@ textarea:Focus
   transform: translate(-50%, -50%);
 } 
 .sponText {
-  font-size:24;
+  font-size:20;
 } 
 .sponImage {
+  max-height:150;
+  max-width:150;
 } 
 .DayExpand {
   color:black;
