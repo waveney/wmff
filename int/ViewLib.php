@@ -34,7 +34,7 @@ if ($read) { // Attempt to read rather than download
       exit;
     } else {
       copy($file,"Temp/$tf");    
-      echo '<iframe id=embed' . $id . 'src="http://docs.google.com/gview?url=' . $_SERVER['SERVER_NAME'] . "/int/Temp/$tf" . 
+      echo '<iframe id=embed' . $id . 'src="http://docs.google.com/gview?url=https://' . $_SERVER['SERVER_NAME'] . "/int/Temp/$tf" . 
            '&embedded=true" style="width:100%;" frameborder="0" ' . $onload . '></iframe>';
     }
 
@@ -58,7 +58,7 @@ if ($read) { // Attempt to read rather than download
   case 'ppsm':
     if ($Single) dohead("Show Office File");
     copy($file,"Temp/$tf");
-    echo "<iframe id=$id src='https://view.officeapps.live.com/op/view.aspx?src=http%3A%2F%2Fwimbornefolk.co.uk%2Fint%2FTemp%2F$tf' width=100% height=" . 
+    echo "<iframe id=$id src='https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fwimbornefolk.co.uk%2Fint%2FTemp%2F$tf' width=100% height=" . 
          ($Single?"800":"100%") . " $onload></iframe>";
     if ($Single) dotail();
     return;
