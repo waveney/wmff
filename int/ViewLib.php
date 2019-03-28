@@ -3,9 +3,14 @@
 function ViewFile($file,$read=1,$targetname='',$Single=1) {
 global $USERID;
 
-$sfx = pathinfo($file,PATHINFO_EXTENSION );
-$base = basename($file);
-static $tfnum = 0;
+  $path = pathinfo($file );
+  $Dir = $path['dirname'];
+  $BName = $path['basename'];
+  $sfx = $path['extension'];
+  
+  $cachefile = "$Dir/CACHE$BName.$sfx.html";
+
+  static $tfnum = 0;
 
 
 
@@ -25,17 +30,22 @@ if ($read) { // Attempt to read rather than download
    if ($Single) {
       header('Content-Description: File Transfer');
       header('Content-Type: application/pdf');
-      header("Content-Disposition: inline; filename='$base'");
+      header("Content-Disposition: inline; filename='$BNase'");
       header('Expires: 0');
       header('Cache-Control: must-revalidate');
       header('Pragma: public');
       header('Content-Length: ' . filesize($file));
       readfile($file);
       exit;
+    } elseif (file_exists($cachefile)) {
+      copy("$file.html","Temp/$tf.html");    
+      echo "<iframe id=$id src='Temp/$tf.html' width=100%  height=" . ($Single?"800":"100%") . " $onload></iframe>";
+      return;
     } else {
       copy($file,"Temp/$tf");    
-      echo '<iframe id=embed' . $id . 'src="http://docs.google.com/gview?url=https://' . $_SERVER['SERVER_NAME'] . "/int/Temp/$tf" . 
+      echo '<iframe id=' . $id . ' src="https://docs.google.com/gview?url=https://' . $_SERVER['SERVER_NAME'] . "/int/Temp/$tf" . 
            '&embedded=true" style="width:100%;" frameborder="0" ' . $onload . '></iframe>';
+      return;
     }
 
   case 'doc':
@@ -57,10 +67,16 @@ if ($read) { // Attempt to read rather than download
   case 'potx':
   case 'ppsm':
     if ($Single) dohead("Show Office File");
-    copy($file,"Temp/$tf");
-    echo "<iframe id=$id src='https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fwimbornefolk.co.uk%2Fint%2FTemp%2F$tf' width=100% height=" . 
-         ($Single?"800":"100%") . " $onload></iframe>";
-    if ($Single) dotail();
+    
+    if (!$Single && (file_exists($cachefile))) {
+      copy("$file.html","Temp/$tf.html");    
+      echo "<iframe id=$id src='Temp/$tf.html' width=100%  height=" . ($Single?"800":"100%") . " $onload></iframe>"; 
+    } else {
+      copy($file,"Temp/$tf");
+      echo "<iframe id=$id src='https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fwimbornefolk.co.uk%2Fint%2FTemp%2F$tf' width=100% height=" .  
+          ($Single?"800":"100%") . " $onload></iframe>";
+      if ($Single) dotail();
+    }
     return;
 
   case 'jpg':
@@ -101,12 +117,12 @@ if ($read) { // Attempt to read rather than download
   }
 } 
 
-if ($targetname) $base=$targetname;
+if ($targetname) $BNase=$targetname;
 
 //  down load if not read or no handler available
   header('Content-Description: File Transfer');
   header('Content-Type: application/octet-stream');
-  header("Content-Disposition: attachment; filename='$base'");
+  header("Content-Disposition: attachment; filename='$BName.$sfx'");
   header('Expires: 0');
   header('Cache-Control: must-revalidate');
   header('Pragma: public');
@@ -114,5 +130,54 @@ if ($targetname) $base=$targetname;
 
   readfile($file);
 
+}
+
+// This is used to cache PDF and MS files so subsequent viewing is simpler and not cross platform
+function Cache_File($file) {
+  global $USERID;
+  $path = pathinfo($file );
+  $Dir = $path['dirname'];
+  $BName = $path['basename'];
+  $sfx = $path['extension'];
+  
+  $cachefile = "$Dir/CACHE$BName.$sfx.html";
+  Set_User();
+  if (!$tfnum) system("rm Temp/$USERID.*");
+  $tf = $USERID . "." . $tfnum . ".$sfx";
+
+  switch ($sfx) {
+
+  case 'pdf':
+    copy($file,"Temp/$tf");
+    $cached = file_get_contents('https://docs.google.com/gview?url=https://' . $_SERVER['SERVER_NAME'] . "/int/Temp/$tf&embedded=true");
+    file_put_contents("$cachefile",$cached);
+    return;
+  
+  case 'doc':
+  case 'docx':
+  case 'docmi':
+  case 'dotm':
+  case 'dotx':
+  case 'xls':
+  case 'xlsx':
+  case 'xlsb':
+  case 'xlsm':
+  case 'pptx':
+  case 'ppsx':
+  case 'ppt':
+  case 'pps':
+  case 'pptm':
+  case 'potm':
+  case 'ppam':
+  case 'potx':
+  case 'ppsm':
+    copy($file,"Temp/$tf");
+    $cached = file_get_contents('https://view.officeapps.live.com/op/view.aspx?src=https://' . $_SERVER['SERVER_NAME'] . "/int/Temp/$tf");
+    file_put_contents("$cachefile",$cached);
+    return;
+
+  default: // Not cached
+    return; 
+  }
 }
 ?>

@@ -315,7 +315,7 @@ function Set_Side_Help() {
         'OverlapsM'=>'Sides that share Musicians - These can perform at the same spot at the same time, or consecutive times',
         'Blurb'=>'Longer description, for the webpage on the festival website about the side/act/performer, only seen when a user clicks a link for more info on them - OPTIONAL',
         'CostumeDesc'=>'Short description of costume and where in the country they are from, for the programme book',
-        'Description'=>'Short blurb to describe the performers, for lists of performers on the website - NOT OPTIONAL',
+        'Description'=>'The entry in the programme book will be based on this',
         'Website'=>'If more than one seperate with spaces (mainly for music acts)',
         'Facebook'=>'If more than one seperate with spaces (mainly for music acts)',
         'Twitter'=>'If more than one seperate with spaces (mainly for music acts)',
