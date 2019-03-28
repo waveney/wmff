@@ -208,6 +208,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
         $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
         if (file_exists("PAspecs/$snum.$Cursfx")) {
           echo "Have been uploaded.  <span id=ViewPA> <a href=ShowFile.php?l=PAspecs/$snum.$Cursfx>View</a></span> &nbsp; &nbsp; &nbsp; ";
+          if (Access('SysAdmin'))  echo "<a href PASpecCache.php?i=$snum>Re-Cache</a> &nbsp; &nbsp; &nbsp; ";
         }
       }
       echo "Select PA requirements file to upload:";
