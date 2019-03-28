@@ -10,7 +10,7 @@
   $snum = $_REQUEST['i'];
   $side = Get_Side($snum);
   
-  if ($Side['StagePA'] != '@@FILE@@') Error_Page('No PA Spec on file');
+  if ($side['StagePA'] != '@@FILE@@') Error_Page('No PA Spec on file');
  
   $files = glob("PAspecs/$snum.*");
   if ($files) {

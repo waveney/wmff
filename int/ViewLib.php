@@ -8,7 +8,7 @@ global $USERID;
   $BName = $path['basename'];
   $sfx = $path['extension'];
   
-  $cachefile = "$Dir/CACHE$BName.$sfx.html";
+  $cachefile = "$Dir/CACHE$BName.html";
 
   static $tfnum = 0;
 
@@ -30,7 +30,7 @@ if ($read) { // Attempt to read rather than download
    if ($Single) {
       header('Content-Description: File Transfer');
       header('Content-Type: application/pdf');
-      header("Content-Disposition: inline; filename='$BNase'");
+      header("Content-Disposition: inline; filename='$BName'");
       header('Expires: 0');
       header('Cache-Control: must-revalidate');
       header('Pragma: public');
@@ -117,12 +117,12 @@ if ($read) { // Attempt to read rather than download
   }
 } 
 
-if ($targetname) $BNase=$targetname;
+if ($targetname) $BName=$targetname;
 
 //  down load if not read or no handler available
   header('Content-Description: File Transfer');
   header('Content-Type: application/octet-stream');
-  header("Content-Disposition: attachment; filename='$BName.$sfx'");
+  header("Content-Disposition: attachment; filename='$BName'");
   header('Expires: 0');
   header('Cache-Control: must-revalidate');
   header('Pragma: public');
@@ -140,7 +140,7 @@ function Cache_File($file) {
   $BName = $path['basename'];
   $sfx = $path['extension'];
   
-  $cachefile = "$Dir/CACHE$BName.$sfx.html";
+  $cachefile = "$Dir/CACHE$BName.html";
   Set_User();
   if (!$tfnum) system("rm Temp/$USERID.*");
   $tf = $USERID . "." . $tfnum . ".$sfx";
