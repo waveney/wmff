@@ -7,7 +7,9 @@ Needs php 7
 
 Installation:
 
-Needs to be at a webspace root, Php needs the webspace root in the php include path.  
+Needs to be at a webspace root, Php needs the webspace root in the php include path.
+
+Needs ImageMagick installed for some features to work.
 
 Then run int/Initialise.php - this will create appropriate subdirectories and populate the database with appropriate initial tables and values.
 
