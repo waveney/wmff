@@ -37,7 +37,15 @@ if ($read) { // Attempt to read rather than download
       header('Content-Length: ' . filesize($file));
       readfile($file);
       exit;
-    } elseif (file_exists($cachefile)) {
+    }
+    
+    copy($file,"Temp/$tf"); // No $onload as it does not work...
+    echo "<iframe id=$id src='/js/ViewerJS/#/int/Temp/$tf' width=100%  height=" . ($Single?"800":"100%") . " ></iframe>";
+    return;
+
+/*    
+    // Duff block...
+     elseif (file_exists($cachefile)) {
       copy("$file.html","Temp/$tf.html");    
       echo "<iframe id=$id src='Temp/$tf.html' width=100%  height=" . ($Single?"800":"100%") . " $onload></iframe>";
       return;
@@ -47,6 +55,7 @@ if ($read) { // Attempt to read rather than download
            '&embedded=true" style="width:100%;" frameborder="0" ' . $onload . '></iframe>';
       return;
     }
+*/
 
   case 'doc':
   case 'docx':
@@ -133,6 +142,7 @@ if ($targetname) $BName=$targetname;
 }
 
 // This is used to cache PDF and MS files so subsequent viewing is simpler and not cross platform
+// dOES NOT DO AS WANTED - leaving code around for now.
 function Cache_File($file) {
   global $USERID;
   $path = pathinfo($file );
@@ -140,10 +150,12 @@ function Cache_File($file) {
   $BName = $path['basename'];
   $sfx = $path['extension'];
   
+  static $tfnum = 0;
+   
   $cachefile = "$Dir/CACHE$BName.html";
   Set_User();
   if (!$tfnum) system("rm Temp/$USERID.*");
-  $tf = $USERID . "." . $tfnum . ".$sfx";
+  $tf = $USERID . "." . ($tfnum++) . ".$sfx";
 
   switch ($sfx) {
 
@@ -151,7 +163,7 @@ function Cache_File($file) {
     copy($file,"Temp/$tf");
     $cached = file_get_contents('https://docs.google.com/gview?url=https://' . $_SERVER['SERVER_NAME'] . "/int/Temp/$tf&embedded=true");
     file_put_contents("$cachefile",$cached);
-    return;
+    return $cached;
   
   case 'doc':
   case 'docx':
@@ -174,7 +186,7 @@ function Cache_File($file) {
     copy($file,"Temp/$tf");
     $cached = file_get_contents('https://view.officeapps.live.com/op/view.aspx?src=https://' . $_SERVER['SERVER_NAME'] . "/int/Temp/$tf");
     file_put_contents("$cachefile",$cached);
-    return;
+    return $cached;
 
   default: // Not cached
     return; 
