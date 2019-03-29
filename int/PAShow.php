@@ -88,7 +88,7 @@
     echo "<form>" . fm_hidden('pa4v',$V);
     echo "<input type=submit name=Basic value='Browsing Format'> ";
     echo "<input type=submit name=Embed value='Embed Files'> ";
-    echo "<input type=submit name=HeaderFree value='Header Free for Printing'> ";
+    echo "<input type=submit name=HeaderFree value='Editable/Printer Version'> ";
     echo "</form>";
   } else {
     echo "<div style='width:1000;'>";
@@ -157,8 +157,8 @@
     echo '<script type="text/javascript">
       var qrcode = new QRCode(document.getElementById("qrcode"), {
         text: "https://' . $MASTER_DATA['HostURL'] . "/int/Access.php?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'] . '",
-        width: 195,
-        height: 195,
+        width: 205,
+        height: 205,
       });
       </script>';
 
