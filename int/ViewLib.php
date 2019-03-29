@@ -161,6 +161,7 @@ function Cache_File($file) {
     $im = new Imagick();
     $im->setResolution(300, 300);
     $im->readImage($file);
+    $im->setIteratorIndex(0);
     $im->setImageFormat('jpeg');
     $im->setImageCompression(imagick::COMPRESSION_JPEG); 
     $im->setImageCompressionQuality(100);
