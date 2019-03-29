@@ -17,9 +17,9 @@
   if (isset($_REQUEST['HeaderFree'])) $ShowMode = 'HeaderFree';
   
   if ($ShowMode == 'HeaderFree') {
-    dominimalhead("PA Requirements for " . $Ven['SN'],'js/Tools.js','files/festconstyle.css');
+    dominimalhead("PA Requirements for " . $Ven['SN'],'js/Tools.js','files/festconstyle.css',"js/qrcode.js");
   } else {
-    dostaffhead("PA Requirements for " . $Ven['SN']);
+    dostaffhead("PA Requirements for " . $Ven['SN'],"js/qrcode.js");
   }
 
 
@@ -150,9 +150,23 @@
     }
   }
  
-  if ($ShowMode == 'HeaderFree') exit;
+  if ($ShowMode == 'HeaderFree') {
+
+    echo "<h3> To find out more scan this:<br>to visit wimbornefolk.co.uk</h3>"; // pixels should be multiple of 41
+    echo "<br clear=all><div id=qrcode></div>";
+    echo '<script type="text/javascript">
+      var qrcode = new QRCode(document.getElementById("qrcode"), {
+        text: "https://' . $MASTER_DATA['HostURL'] . "/int/Access.php?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'] . '",
+        width: 195,
+        height: 195,
+      });
+      </script>';
+
+    exit;
+  }
   
   if (Access('Staff')) {
+
     echo "<h3>Link to send to Engineer: https://" . $MASTER_DATA['HostURL'] . "/int/Access.php?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'];
     if (Access('SysAdmin')) echo "<a href='Access.php?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'] . "'> Use\n";
     echo "</h3>\n";
