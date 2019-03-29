@@ -8,7 +8,7 @@ global $USERID;
   $BName = $path['basename'];
   $sfx = $path['extension'];
   
-  $cachefile = "$Dir/CACHE$BName.html";
+  $cachefile = "$Dir/CACHE$BName.jpg";
 
   static $tfnum = 0;
 
@@ -17,7 +17,7 @@ global $USERID;
 if (!file_exists($file)) Error_Page("Could not find file $file");
   Set_User();
   if (!$tfnum) system("rm Temp/$USERID.*");
-  $tf = $USERID . "." . $tfnum . ".$sfx";
+  $tf = $USERID . "." . $tfnum . "." . time() . ".$sfx";
   $tfnum++;
   $id = "Embed$tfnum";
   $onload = ($Single?'':" onload=setIframeHeight(this.id) ");
@@ -37,19 +37,17 @@ if ($read) { // Attempt to read rather than download
       header('Content-Length: ' . filesize($file));
       readfile($file);
       exit;
+    } elseif (file_exists($cachefile)) {
+      copy($cachefile,"Temp/$tf.jpg");    
+      echo "<img src=Temp/$tf.jpg width=800>";
+      return;
+    } else { 
+      copy($file,"Temp/$tf"); // No $onload as it does not work...
+      echo "<iframe id=$id src='/js/ViewerJS/#/int/Temp/$tf' width=100%  height=" . ($Single?"800":"100%") . " ></iframe>";
+      return;
     }
-    
-    copy($file,"Temp/$tf"); // No $onload as it does not work...
-    echo "<iframe id=$id src='/js/ViewerJS/#/int/Temp/$tf' width=100%  height=" . ($Single?"800":"100%") . " ></iframe>";
-    return;
-
 /*    
     // Duff block...
-     elseif (file_exists($cachefile)) {
-      copy("$file.html","Temp/$tf.html");    
-      echo "<iframe id=$id src='Temp/$tf.html' width=100%  height=" . ($Single?"800":"100%") . " $onload></iframe>";
-      return;
-    } else {
       copy($file,"Temp/$tf");    
       echo '<iframe id=' . $id . ' src="https://docs.google.com/gview?url=https://' . $_SERVER['SERVER_NAME'] . "/int/Temp/$tf" . 
            '&embedded=true" style="width:100%;" frameborder="0" ' . $onload . '></iframe>';
@@ -152,7 +150,7 @@ function Cache_File($file) {
   
   static $tfnum = 0;
    
-  $cachefile = "$Dir/CACHE$BName.html";
+  $cachefile = "$Dir/CACHE$BName.jpg";
   Set_User();
   if (!$tfnum) system("rm Temp/$USERID.*");
   $tf = $USERID . "." . ($tfnum++) . ".$sfx";
@@ -160,6 +158,16 @@ function Cache_File($file) {
   switch ($sfx) {
 
   case 'pdf':
+    $im = new Imagick();
+    $im->setResolution(300, 300);
+    $im->readImage($file);
+    $im->setImageFormat('jpeg');
+    $im->setImageCompression(imagick::COMPRESSION_JPEG); 
+    $im->setImageCompressionQuality(100);
+    $im->writeImage($cachefile);
+    return ;
+    
+// Duff
     copy($file,"Temp/$tf");
     $cached = file_get_contents('https://docs.google.com/gview?url=https://' . $_SERVER['SERVER_NAME'] . "/int/Temp/$tf&embedded=true");
     file_put_contents("$cachefile",$cached);
@@ -183,10 +191,10 @@ function Cache_File($file) {
   case 'ppam':
   case 'potx':
   case 'ppsm':
-    copy($file,"Temp/$tf");
-    $cached = file_get_contents('https://view.officeapps.live.com/op/view.aspx?src=https://' . $_SERVER['SERVER_NAME'] . "/int/Temp/$tf");
-    file_put_contents("$cachefile",$cached);
-    return $cached;
+//    copy($file,"Temp/$tf"); // Wont work
+//    $cached = file_get_contents('https://view.officeapps.live.com/op/view.aspx?src=https://' . $_SERVER['SERVER_NAME'] . "/int/Temp/$tf");
+//    file_put_contents("$cachefile",$cached);
+//    return $cached;
 
   default: // Not cached
     return; 

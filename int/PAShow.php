@@ -107,7 +107,7 @@
     if ($e['StagePA']) $rows++;
     
     if ($rows) {
-      echo "<tr><td rowspan=$rows>". timecolon($e['Start'] - $e['Setup']) . "-" . timecolon($e['End']) . "<td rowspan=$rows>" . $e['SN'] ;
+      echo "<tr><td rowspan=$rows>". timecolon($e['Start'] - $e['Setup']) . "-" . timecolon($e['End']) . "<td rowspan=$rows>" . ($e['SubEvent']<1?$e['SN']:"") ;
       $tr = 0;
       if ($e['StagePA']) { echo "<td><td>" . $e['StagePA']; $tr=1;}
       foreach ($e['With'] as $snum) {
@@ -152,7 +152,7 @@
  
   if ($ShowMode == 'HeaderFree') {
 
-    echo "<h3> To find out more scan this:<br>to visit wimbornefolk.co.uk</h3>"; // pixels should be multiple of 41
+    echo "<h3> To find out more scan this:</h3>"; // pixels should be multiple of 41
     echo "<br clear=all><div id=qrcode></div>";
     echo '<script type="text/javascript">
       var qrcode = new QRCode(document.getElementById("qrcode"), {

@@ -2,6 +2,8 @@
 
 // THIS CODE IS HORRIBLE NEEDS TO BE MUCH IMPROVED
 
+include_once("ViewLib.php");
+
 function Upload_Init($Dir='') {
   global $YEAR,$Side,$Sidey,$Put,$Puty,$snum;
 
@@ -169,6 +171,7 @@ function Upload_PASpec($Dir='') {
   if (file_exists("$target_dir/$snum.$Cursfx")) {
     rename($Current, "$Current.old");
     if (move_uploaded_file($_FILES["PASpec"]["tmp_name"], $target_file)) {
+      Cache_File($target_file);
       unlink("$Current.old");
       return "The PA Specification file has been replaced by " . basename( $_FILES["PASpec"]["name"]);
     } else {
@@ -178,6 +181,7 @@ function Upload_PASpec($Dir='') {
   } else {
 //var_dump($target_file, $_FILES);
     if (move_uploaded_file($_FILES["PASpec"]["tmp_name"], $target_file)) {
+      Cache_File($target_file);
       $Side['StagePA'] = '@@FILE@@';
       if ($Put($Side)) {
         return "The PA Specification ". basename( $_FILES["PASpec"]["name"]). " has been uploaded.";
