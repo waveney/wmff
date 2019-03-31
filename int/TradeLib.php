@@ -286,10 +286,10 @@ function Set_Trade_Help() {
         'Power'=>'Some locations can provide power, some only support lower power requirements. 
 There will be an additional fee for power from &pound;10-20, that will be added to your final invoice.
 Any generator must meet the Euro 4 silent generator standard.',
-        'Photo'=>'Give URL of Image to use or upload one',
+        'Photo'=>'Give URL of Image to use or upload one (landscape is prefered)',
         'TradeType'=>'Fees depend on trade type, pitch size and location',
 //        'BookingState'=>'ONLY change this if you are fixing a problem, use the state change buttons',
-        'PublicInfo'=>'Information in this section may be used on the public website if you tick the "Do you want to appear on the Folk Festival Website?" box', 
+        'PublicInfo'=>'Information in this section may be used on the public website', 
         'PrivateInfo'=>'Information in this section is only visible to you and the revelent members of the festival, you can amend this at any time',
         'PublicHealth'=>'Please give the NAME of the local authority your registered with',
 
@@ -340,7 +340,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte, 
       } else {
         echo fm_text('Website',$Trad,'Website');
       };
-      if ($Mode != 2) echo "<td colspan=1>" . fm_checkbox('Do you want to appear on<br>the Folk Festival Website?',$Trad,'ListMe');
+//      if ($Mode != 2) echo "<td colspan=1>" . fm_checkbox('Do you want to appear on<br>the Folk Festival Website?',$Trad,'ListMe');
       echo fm_text('Image',$Trad,'Photo',1,'style="min-width:145;"'); 
       if ($Tid >0) {
         echo "<td colspan=3>Select file to upload:";
@@ -574,6 +574,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
 // Risc Assessment
   echo "<tr><td>Risk Assessment<td>Coming soon";
 
+
 // Notes - As Sides
   echo "<tr>" . fm_textarea('Notes/Requests',$Trady,'YNotes',6,2);
   if ($Mode) echo "<tr>" . fm_textarea('Private Notes',$Trady,'PNotes',6,2,'class=NotSide','class=NotSide');
@@ -600,7 +601,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
 }
 
 function Get_Trade_Details(&$Trad,&$Trady) {
-  global $Trade_Days,$TradeLocData,$TradeTypeData;
+  global $Trade_Days,$TradeLocData,$TradeTypeData,$MASTER,$EType_States;
 
 //  $Body  = "\nWimborne Minster Folk festival Trading application\n";
   $Body = "\nBusiness: " . $Trad['SN'] . "\n";
@@ -623,20 +624,21 @@ function Get_Trade_Details(&$Trad,&$Trady) {
   $Body .= "For " . $Trady['Year'] .":\n";
   $Body .= "Days: " . $Trade_Days[$Trady['Days']] . "\n";
   $Body .= "Pitch:" . $Trady['PitchSize0'];
+  $Partial = (array_flip($EType_States))['Partial'];
   if ($Trady['PitchLoc0']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc0']]['SN'];
-  if ($MASTER['TradeState']>= $EType_States['Partial'] && $Trady['PitchNum0']) $Body .= "Pitch Number "  . $Trady['PitchNum0'];
+  if ($MASTER['TradeState']>= $Partial && $Trady['PitchNum0']) $Body .= "Pitch Number "  . $Trady['PitchNum0'];
   if ($Trady['Power0']) $Body .= " with " . ($Trady["Power0"]> 0 ? $Trady['Power0'] . " Amps\n" : " own Euro 4 silent generator\n");
 
   if ($Trady['PitchSize1']) {
     $Body .= "\nPitch 2:" . $Trady['PitchSize1'];
     if ($Trady['PitchLoc1']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc1']]['SN'];
-    if ($MASTER['TradeState']>= $EType_States['Partial'] && $Trady['PitchNum1']) $Body .= "Pitch Number "  . $Trady['PitchNum1'];
+    if ($MASTER['TradeState']>= $Partial && $Trady['PitchNum1']) $Body .= "Pitch Number "  . $Trady['PitchNum1'];
     if ($Trady['Power1']) $Body .= " with " . $Trady['Power1'] . " Amps\n";
   }
   if ($Trady['PitchSize2']) {
     $Body .= "\nPitch 3:" . $Trady['PitchSize2'];
     if ($Trady['PitchLoc2']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc2']]['SN'];
-    if ($MASTER['TradeState']>= $EType_States['Partial'] && $Trady['PitchNum2']) $Body .= "Pitch Number "  . $Trady['PitchNum2'];
+    if ($MASTER['TradeState']>= $Partial && $Trady['PitchNum2']) $Body .= "Pitch Number "  . $Trady['PitchNum2'];
     if ($Trady['Power2']) $Body .= " with " . $Trady['Power2'] . " Amps\n";
   }
 
@@ -679,13 +681,13 @@ function Trade_Finance(&$Trad,&$Trady) { // Finance statement as part of stateme
 }
 
 function Trader_Details($key,&$data,$att=0) {
-  global $Trade_Days,$TradeLocData,$TradeTypeData;
+  global $Trade_Days,$TradeLocData,$TradeTypeData,$Prefixes;
   $Trad = &$data[0];
   if (isset($data[1])) $Trady = &$data[1];
   $Tid = $Trad['Tid'];
   switch ($key) {
-  case 'WHO':  return $Trad['Contact']? firstword($Trad['Contact']) : $Trad['SN'];
-  case 'LINK': return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "'><b>link</b></a>";
+  case 'WHO':  return $Trad['Contact']? UpperFirstChr(firstword($Trad['Contact'])) : $Trad['SN'];
+  case 'LINK': return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "'  style='background:lightblue;'><b>link</b></a>";
   case 'WMFFLINK': return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Trade.php?id=$Tid'><b>link</b></a>";
   case 'HERE':
   case 'REMOVE': return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Remove.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "'><b>remove</b></a>";
@@ -724,6 +726,26 @@ function Trader_Details($key,&$data,$att=0) {
     preg_match('/(\d*)\.pdf/',$att,$mtch);
     return Sage_Code($Trad) . "/" . (isset($mtch[1]) ? $mtch[1] : '0000' );
   case 'FINANCIAL': return Trade_Finance($Trad,$Trady);
+  case 'TRADEMAP': 
+    $MapLinks = '';
+    for ($i=0; $i<3; $i++) {
+      if ($Trady["PitchLoc$i"] && $Trady["PitchNum$i"]) {
+        $plural = (strchr(',',$Trady["PitchNum$i"])?"Pitches numbered ":"Pitch number ");
+        $MapLinks .= "You have been assigned $plural " . $Trady["PitchNum$i"] . " " . 
+                     $Prefixes[$TradeLocData[$Trady["PitchLoc$i"]]['prefix']] . " " . $TradeLocData[$Trady["PitchLoc$i"]]['SN'] . 
+                     " please see this <a href='https://" . $_SERVER['HTTP_HOST'] . "/int/TradeStandMap.php?l=" . $Trady["PitchLoc$i"] . "' style='background:lightblue;'>map</a> " .
+                     "- Note the formatting of the business names on this will be improved soon<p>";
+      }
+    }
+    if (!$MapLinks) return "";
+    return "<b>Pitch assignments</b>.  The new layouts of many areas are for health and safety reasons and are not negotiable.<p> " . $MapLinks;
+  case 'WEBSITESTUFF':
+    $webstuff = '';
+    if (!$Trad['Photo']) {
+      $webstuff = "If you would like a photo to appear on our website, please use the *LINK* to upload one.  ";
+    }
+    $webstuff .= "If you would like to revise the description of what sell or you do, please use the *LINK* to revise it (this will appear on our website).  ";
+    return "$webstuff<p>";
   default: return "UNKNOWN CODE $key UNKNOWN UNKNOWN";
   }
 }

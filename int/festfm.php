@@ -339,6 +339,10 @@ function firstword($stuff) {
   return $stuff;
 }
 
+function UpperFirstChr($stuff) {
+  return strtoupper(substr($stuff,0,1)) . strtolower(substr($stuff,1));
+}
+
 function SAO_Report($i) {
   $OSide = Get_Side( $i ); 
   $str = "<a href=/int/ShowDance.php?sidenum=$i>" . $OSide['SN'];
