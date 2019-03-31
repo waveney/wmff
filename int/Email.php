@@ -201,7 +201,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,&$attachments=0) {
           case (preg_match('/MAILTO_(.*)/',$key,$mtch)?true:false):
             $rep = "<a href='mailto:" . $mtch[1] . "@" . $MASTER_DATA['HostURL'] . "'>" . $mtch[1] . "@" . $MASTER_DATA['HostURL'] . "</a>";
             break;
-          case (preg_match('/WEB(.*)/',$key,$mtch)?true:false):
+          case (preg_match('/WEB(:.*)/',$key,$mtch)?true:false):
             $bits = preg_split('/:/',$mtch[1],3);
             $url = '';
             $txt = 'Festival Website';
@@ -276,10 +276,12 @@ function Replace_Help($Area='',$Right=0) {
   ['*MAILTO_name*','Inserts a mailto link to name@festival.org','All'],
   ['*BBREF*/*LNLREF*','Unique reference for payments','BB, LNL'],
   ['*PROG*','Programme for performer','Dance (will be all performers)'],
-  ['*WEB*/*WEB:URL:TEXT','Website for Festival, URL - to follow website, TEXT - To be displayed (NO SPACES - any _ will appear as spaces)','All'],
+  ['*WEB:*/*WEB:URL:TEXT','Website for Festival, URL - to follow website, TEXT - To be displayed (NO SPACES - any _ will appear as spaces)','All'],
   ['*MISSING*','Important information missing from a dance side','Dance'],
   ['*SIDE*','Name of side','Dance'],
-  ['*TICKBOX:b:TEXT*','Direct link to click a box, b=box num(1-4), TEXT to be displayed (NO SPACES - any _ will appear as spaces)','Dance']
+  ['*TICKBOX:b:TEXT*','Direct link to click a box, b=box num(1-4), TEXT to be displayed (NO SPACES - any _ will appear as spaces)','Dance'],
+  ['*TRADEMAP*','Trade location and Map info','Trade'],
+  ['*WEBSITESTUFF*','Traders photo and product description prompt','Trade'],
   ];
 
   echo "<span " . ($Right?' class=floatright':'') . " id=largeredsubmit onclick=($('.HelpDiv').toggle()) >Click to toggle Standard Replacements Help</span>";
