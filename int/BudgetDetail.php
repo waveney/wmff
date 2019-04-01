@@ -17,14 +17,14 @@
   include_once("BudgetLib.php");
   global $YEAR,$PLANYEAR,$BUDGET,$PerfTypes;
 
-
-  
-  echo "<h2>Manage Budget - $YEAR</h2>\n";
-  if (UpdateMany('BudgetAreas','Put_BudgetItem',$BUDGET)) $BUDGET = Get_Budget();
-
   Budget_Scan(1);
   
-  $Bitem = $BUDGET[$_GET['b']]['Detail']; 
+  echo "<h2>Manage Budget - $YEAR - " . $BUDGET[$_GET['b']]['SN'] . "</h2>\n";
+//  if (UpdateMany('BudgetAreas','Put_BudgetItem',$BUDGET)) $BUDGET = Get_Budget();
+
+
+  
+  if (isset($BUDGET[$_GET['b']]['Detail'])) $Bitem = $BUDGET[$_GET['b']]['Detail']; 
   
     
 //var_dump($BUDGET);
@@ -36,27 +36,29 @@
   echo fm_hidden('Year0',$PLANYEAR);
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Type</a>\n";
+//  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Type</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Cost</a>\n";
   echo "</thead><tbody>";
-  foreach($Bitem as $i=>$b) {
-    $act = Get_Side($b[0]);
-    echo "<tr><td>";
-    $ts = [];
-    foreach($PerfTypes as $p=>$d) if ($act[$d[0]]) $ts[] = $p;
-    echo implode(", ",$ts);
+  if (isset($Bitem)) {
+    foreach($Bitem as $i=>$b) {
+      $act = Get_Side($b[0]);
+      echo "<tr><td>";
+//      $ts = [];
+//      foreach($PerfTypes as $p=>$d) if ($act[$d[0]]) $ts[] = $p;
+//      echo implode(", ",$ts);
 //    if ($act['IsASide']) echo "Side ";
 //    if ($act['IsAnAct']) echo "Act ";
 //    if ($act['IsOther']) echo "Other ";
-    echo "<td>";
-    echo "<a href=AddPerf.php?sidenum=" . $b[0] . ">" . $act['SN'] . "</a>";
-    echo "<td>";
-    echo $b[1];
+//      echo "<td>";
+      echo "<a href=AddPerf.php?sidenum=" . $b[0] . ">" . $act['SN'] . "</a>";
+      echo "<td>";
+      echo $b[1];
     }
+  }
   echo "</table>\n";
   
-  echo "<h2><a href=BudgetManage.php?>Back Budget Management</a></h2><p>\n";
+  echo "<h2><a href=BudgetManage.php?>Back to Budget Management</a></h2><p>\n";
   
   dotail();
 

@@ -707,7 +707,7 @@ function Trader_Details($key,&$data,$att=0) {
     if ($Price ==0) return "Not Known";
     return "&pound;" . $Price;
   case 'DEPOSIT': return T_Deposit($Trad);
-  case 'BALANCE': return ($Trady['Fee'] - T_Deposit($Trad));
+  case 'BALANCE': return ($Trady['Fee'] - max(T_Deposit($Trad),$Trady['TotalPaid']));
   case 'DETAILS': return Get_Trade_Details($Trad,$Trady);
   case 'PAIDSOFAR': return $Trady['TotalPaid'];
   case 'STATE': return ['No application has been made',
