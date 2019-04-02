@@ -105,7 +105,7 @@
     echo "<tr>" . fm_text('Music Rider',$Venue,'MusicRider',5);
     echo "<tr>" . fm_text('Other Rider',$Venue,'OtherRider',5);
     echo "<tr>" . fm_text('Disability Statement',$Venue,'DisabilityStat',5);
-    echo "<tr><td>Access Key:<td colspan=5>" . $Venue['AccessKey'];
+    if (isset($Venue['AccessKey']) && Access('SysAdmin')) echo "<tr><td>Access Key:<td colspan=5>" . $Venue['AccessKey'];
     echo "</table>\n";
 
   if ($vid > 0) {

@@ -44,6 +44,37 @@ $ActFix = [
 'Steve Faulkner'=>['SortCode'=>''],
 'The Polly Morris Band'=>['SN'=>'Polly Morris Band'],
 'The Folk Orc Session Band'=>['SN'=>'The Folk Orc'],
+'Witchampton Ukuele Orchestra'=>['SN'=>'Witchampton Ukulele Orchestra'],
+'India Electric Company'=>['SN'=>'India Electric Co.'],
+'The Wareham Whalers'=>['SN'=>'Wareham Whalers'],
+'Kim Lowings'=>['SN'=>'Kim Lowings and the Greenwood'],
+'Alden, Patterson & Dashwood'=>['SN'=>'Alden, Patterson and Dashwood'],
+'Ben Morgan Brown'=>['SN'=>'Ben Morgan-Brown'],
+'Just Sing Choir'=>['SN'=>'Just Sing Adult Choir'],
+'Mikey Ball & the Company'=>['SN'=>'Mikey Ball and the Company'],
+'Mitchell & Vincent'=>['SN'=>'Mitchell and Vincent'],
+'Odette Mitchell'=>['SN'=>'Odette Michell'],
+'Krista'=>['SN'=>'Krista Green and the Bees'],
+'Rob Lane'=>['SN'=>'Robert Lane'],
+'Scuttle Shake'=>['SN'=>'ScuttleShake'],
+'The Shackleton Trio'=>['SN'=>'Shackleton Trio'],
+'Susie Dawson'=>['SN'=>'Susie Dobson'],
+'Vicki Swann & Johnny Dyer'=>['SN'=>'Vicki Swan & Johnny Dyer'],
+'Will Finn & Rosie Calvert'=>['SN'=>'Will Finn and Rosie Calvert'],
+'Tom Moore & Archie Churchill-Moss'=>['SN'=>'Tom Moore and Archie Churchill-Moss'],
+'Antoine and Owena'=>['SN'=>'Antoine & Owena'],
+'Black Sheep Band'=>['SN'=>'Black Sheep'],
+'Atlantico'=>['SN'=>'Atlántico'],
+'Rhaniket'=>['SN'=>'Ranikhet'],
+'Tatterdamalion'=>['SN'=>'Tatterdemalion'],
+'Ed Loftsedt Assembly'=>['SN'=>'The Ed Loftsedt Assembly'],
+'Footlight Performance Academy'=>['SN'=>'Footlights Performance Academy'],
+'Two Man Travelling Medicine Show'=>['SN'=>'The Two Man Travelling Medicine Show'],
+'x'=>['SN'=>''],
+'x'=>['SN'=>''],
+'x'=>['SN'=>''],
+
+
 ];
 
 $ActYFix = [
@@ -269,20 +300,31 @@ function Update(&$side,$sidef,$shtf,$spec='') {
    
     
   }
-  exit;
+//  exit;
   
   //****************************************************  Events
   
-  function  FinishEvent($Start,$VenueId,$End,$Content) {
-    echo "Found an event from $Start to $End at $VenueId with $Content<br>";  // Test code
+  function  FinishEvent($Start,$VenueId,$End,$Content,$row) {
+    global $dnum;
+    echo "Found an event from $Start to $End at $VenueId with $Content ";  // Test code
+    
+    $Evs = Get_Event_VTs($VenueId,$Start,$dnum);
+    if (!$Evs) {
+      echo " - No Event Found for this.";
+    } elseif (isset($Evs[1])) { // Event & sub event case
+    } else { // Simple event
+    
+    }
+    echo "<br>";
   }
   
   $DayCodes = ['Fri','Sat','Sun'];
-  $Venues = Get_AVenues(1);
+  $Venues = Get_Venues(1);
   $Loops = 0;
   // Events for Friday
   foreach ($DayCodes as $dnum=>$dname) {
   
+    echo "<h2>$dname</h2>";
     $sheet = $ss->getSheetByName($dname);
    
     $highestRow = $sheet->getHighestRow(); // e.g. 10
@@ -293,19 +335,21 @@ function Update(&$side,$sidef,$shtf,$spec='') {
     // Get Col Headings
     $colHeads = [];
     for ($col = 'B'; $col != $highestColumn; ++$col) {
-      $heading = $sheet->getCell($col . "1")->getValue();
+      $heading = $sheet->getCell($col . "1")->getFormattedValue();
       $colHeads[$col] = $heading;
     }
-echo "BB";exit; 
+//echo "BB";
     $ColbyName = array_flip($colHeads);
 
     $times = [];
     for ($row = 2; $row <= $highestRow; ++$row) {
-      $time = $sheet->getCell("A$row")->getValue();
+      $time = $sheet->getCell("A$row")->getFormattedValue();
+//echo "Time is $time<br>";
+//exit;
       $lasttime = $times[$row] =  ($time ? Time_BestGuess($time) : timeadd($lasttime,5));
     }
 
-echo "AA"; exit;
+//echo "AA"; exit;
     // Scan by Venue map heading to actual venue #
     // Look for multi row entry
     // find period needed
@@ -316,7 +360,9 @@ echo "AA"; exit;
     
     for ($col = 'B'; $col != $highestColumn; ++$col) {
       $ColHead = trim($colHeads[$col]);
+      if (!$ColHead) continue;
       $VenueName = $VenueXlate[$ColHead];
+      echo "Looking 4: $VenueName<br>";
       if (!$ColHead) continue;
       $VenueId = 0;
       foreach ($Venues as $vi=>$Ven) if ($Ven['SN'] == $VenueName) { $VenueId = $vi; break; }
@@ -335,22 +381,23 @@ echo "AA"; exit;
         } else if ($Range) {
           if ($Cell->isMergeRangeValueCell()) { // First Cell
             $End = $times[$row];
-            FinishEvent($Start,$VenueId,$End,$Content);
+            FinishEvent($Start,$VenueId,$End,$Content,$row);
             $Start = $End;
             $Content = $Cell->getValue();           
           } else {// Continue - prob no action
           }
         } else { // End of event
             $End = $times[$row];
-            FinishEvent($Start,$VenueId,$End,$Content);          
+            FinishEvent($Start,$VenueId,$End,$Content,$row); 
+            $Mode = 0;         
         }
       }
       
       if ($Mode) { // End of event
             $End = $times[$row];
-            FinishEvent($Start,$VenueId,$End,$Content);      
+            FinishEvent($Start,$VenueId,$End,$Content,$row);      
       }
-exit;
+//exit;
     }
   }
    
