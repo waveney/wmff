@@ -125,7 +125,7 @@ $VenueXlate = [ // Trim to access
 'Minster Arms'=>'Minster Arms',
 'Green Man'=>'Green Man (Inside)',
 'Micro-Brew'=>'Microbreweries Stage',
-''=>'',
+'Microbreweries'=>'Microbreweries Stage',
 
 ];
 

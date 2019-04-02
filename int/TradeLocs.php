@@ -10,7 +10,11 @@
   echo "<div class='content'><h2>Manage Trade Locations</h2>\n";
   
   echo "Artisan Messages trigger local Artisan related emails<p>Only set the Invoice Code for locations that override normal trade type invoice codes<p>";
+  
+  echo "Set No List to exclude from venues on Show Trade<p>";
+  
   $Locs=Get_Trade_Locs(1);
+  
 
   if (UpdateMany('TradeLocs','Put_Trade_Loc',$Locs,0)) $Locs=Get_Trade_Locs(1);
 
@@ -24,7 +28,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Prefix</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Has Power</a>\n";
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Pitches</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>No List</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>In Use</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Days</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Artisan Msgs</a>\n";
@@ -41,7 +45,8 @@
     echo "<tr><td>$i" . fm_text1("",$t,'SN',1,'','',"SN$i");
     echo "<td>" . fm_select($Prefixes,$t,"prefix",0,'',"prefix$i");
     echo "<td>" . fm_checkbox('',$t,'HasPower','',"HasPower$i");
-    echo fm_text1('',$t,'Pitches',0.25,'','',"Pitches$i");
+    echo "<td>" . fm_checkbox('',$t,'NoList','',"NoList$i");
+//    echo fm_text1('',$t,'Pitches',0.25,'','',"Pitches$i");
     echo "<td>" . fm_checkbox('',$t,'InUse','',"InUse$i");
     echo "<td>" . fm_select($Trade_Days,$t,"Days",0,'',"Days$i");
     echo "<td>" . fm_checkbox("",$t,'ArtisanMsgs','',"ArtisanMsgs$i");
@@ -57,7 +62,8 @@
   echo "<tr><td><td><input type=text name=SN0 >";
   echo "<td>" . fm_select2($Prefixes,0,'prefix0');
   echo "<td><input type=checkbox name=HasPower0>";
-  echo fm_text1('',$t,'Pitches',0.25,'','',"Pitches0");
+//  echo fm_text1('',$t,'Pitches',0.25,'','',"Pitches0");
+  echo "<td><input type=checkbox name=NoList0>";
   echo "<td><input type=checkbox name=InUse0>";
   echo "<td>" . fm_select2($Trade_Days,0,'Days0');
   echo "<td><input type=checkbox name=ArtisanMsgs0>";
