@@ -120,6 +120,12 @@ $VenueXlate = [ // Trim to access
 'Rising Sun'=>'Rising Sun',
 'Olive Branch'=>'Olive Branch Garden Stage',
 'Alendale House'=>'Allendale House (Downstairs room)',
+'Allendale House'=>'Allendale House (Downstairs room)',
+'Willow Walk'=>'Willow Walk Stage',
+'Minster Arms'=>'Minster Arms',
+'Green Man'=>'Green Man (Inside)',
+'Micro-Brew'=>'Microbreweries Stage',
+''=>'',
 
 ];
 
