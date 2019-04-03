@@ -42,15 +42,14 @@
   }
 
   if (isset($_GET{'INC'})) {
-    if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR>Exclude Declined/Cancelled/Not Submitted</a></h2>";
+    if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR>Exclude Declined/Cancelled/Not Submitted</a>, <a href=ListCTrade.php?Y=$YEAR&SUB>Include Submitted</a></h2>";
     $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR ORDER BY SN";
-  } else if (isset($_GET['NOTSUB'])) { 
-    if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR>Exclude Declined/Cancelled/Not Submitted</a></h2>";
-    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>" . $Trade_State['Submitted'] . " ORDER BY SN";  
+  } else if (isset($_GET['SUB'])) { 
+    if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR&INC>Show All</a>, <a href=ListCTrade.php?Y=$YEAR>Exclude Declined/Cancelled/Submitted</a></h2>";
+    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Submitted'] . " ORDER BY SN";  
   }else {  
-    if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR&INC>Show All</a>, <a href=ListCTrade.php?Y=$YEAR&NOTSUB>Exclude Submitted</a></h2>";
-    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Submitted'] .
-                " ORDER BY SN";
+    if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR&INC>Show All</a>, <a href=ListCTrade.php?Y=$YEAR&SUB>Include Submitted</a></h2>";
+    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>" . $Trade_State['Submitted'] . " ORDER BY SN";
   }
 
   $res = $db->query($qry);
