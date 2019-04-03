@@ -222,6 +222,17 @@ function Get_Event_VT($v,$t,$d) {
   if ($res) return $res->fetch_assoc();
 }
 
+function Get_Event_VTs($v,$t,$d) { // As above returns many
+  global $db,$YEAR;
+  $res=$db->query("SELECT * FROM Events WHERE Year=$YEAR AND Venue=$v AND Start=$t AND Day=$d AND Status=0 ORDER BY EventId");
+
+  if (!$res) return 0;
+  $evs = [];
+  while($ev = $res->fetch_assoc()) $evs[] = $ev;
+  return $evs;
+}
+
+
 function Check_4Changes(&$Cur,&$now) {
   $tdchange = 0;
   if (!isset($Cur['Day'])) return;

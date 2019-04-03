@@ -707,7 +707,7 @@ function Trader_Details($key,&$data,$att=0) {
     if ($Price ==0) return "Not Known";
     return "&pound;" . $Price;
   case 'DEPOSIT': return T_Deposit($Trad);
-  case 'BALANCE': return ($Trady['Fee'] - T_Deposit($Trad));
+  case 'BALANCE': return ($Trady['Fee'] - max(T_Deposit($Trad),$Trady['TotalPaid']));
   case 'DETAILS': return Get_Trade_Details($Trad,$Trady);
   case 'PAIDSOFAR': return $Trady['TotalPaid'];
   case 'STATE': return ['No application has been made',
@@ -1701,7 +1701,8 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
       $Ystart = ($Pub?0.6:1.2) *($Pitch['Type']?2:1);
       $MaxCnk = floor(($Pitch['Ysize']*2.5*$Mapscale) - ($Pub?1:2));
 //      $Name = preg_replace('/.*t\/a (.*)/',
-      $Chunks = str_split($Name,$ChSize);
+//      $Chunks = str_split($Name,$ChSize);
+      $Chunks = ChunkSplit($Name,$ChSize,$MaxCnk);
       
       foreach ($Chunks as $i=>$Chunk) {
         if ($i>=$MaxCnk) break; 

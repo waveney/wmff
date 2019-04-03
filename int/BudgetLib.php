@@ -36,36 +36,13 @@ function Budget_Scan($Detail=0) {
   foreach ($BUDGET as $B) $B['CommittedSoFar'] = 0;
 
   include_once("DanceLib.php");
-  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND ( TotalFee>0 OR OtherPayCost>0 OR (EnableCamp=1 AND (CampFri>0 OR CampSat>0 OR CampSun>0)))";
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND ( TotalFee>0 OR OtherPayCost>0 OR (CampFri>0 OR CampSat>0 OR CampSun>0))";
   $res = $db->query($qry);
   if ($res) while ($sy = $res->fetch_assoc()) {
     if (preg_match('/N/',$Coming_Idx[$sy['Coming']]) && ($sy['YearState'] < 2)) continue;
     $Fee = $sy['TotalFee']+$sy['OtherPayCost'];
-    $Camps = ($sy['EnableCamp'] ? ($sy['CampFri'] + $sy['CampSat'] + $sy['CampSun']) * $MASTER['CampingCost'] : 0);
-    $Fee += $Camps;
-    if ($sy['BudgetArea2']) {
-      $BUDGET[$sy['BudgetArea2']]['CommittedSoFar'] += $sy['BudgetValue2'];
-      if ($Detail) $BUDGET[$sy['BudgetArea2']]['Detail'][] = [ $sy['SideId'], $sy['BudgetValue2']];
-      $Fee -= $sy['BudgetValue2'];
-    }
-    if ($sy['BudgetArea3']) {
-      $BUDGET[$sy['BudgetArea3']]['CommittedSoFar'] += $sy['BudgetValue3'];
-      if ($Detail) $BUDGET[$sy['BudgetArea3']]['Detail'][] = [ $sy['SideId'], $sy['BudgetValue3']];
-      $Fee -= $sy['BudgetValue3'];
-    }
-    $BUDGET[$sy['BudgetArea']]['CommittedSoFar'] += $Fee;
-    if ($Detail) $BUDGET[$sy['BudgetArea']]['Detail'][] = [ $sy['SideId'], $Fee];
-  }
-  if (Feature('NewPERF')) return;
-
-  include_once("MusicLib.php");
-  $qry = "SELECT s.*, y.* FROM Sides s, ActYear y WHERE s.SideId=y.SideId AND (s.IsAnAct=1 OR s.IsOther=1) AND y.Year=$YEAR AND " .
-         "(TotalFee>0 OR OtherPayCost>0 OR (EnableCamp=1 AND (CampFri>0 OR CampSat>0 OR CampSun>0)))";
-  $res = $db->query($qry);
-  if ($res) while ($sy = $res->fetch_assoc()) {
-    if ($sy['YearState'] < 2) continue;
-    $Fee = $sy['TotalFee']+$sy['OtherPayCost'];  
-    $Camps = ($sy['EnableCamp'] ? ($sy['CampFri'] + $sy['CampSat'] + $sy['CampSun']) * $MASTER['CampingCost'] : 0);
+    $Camps =  ($sy['CampFri'] + $sy['CampSat'] + $sy['CampSun']) * $MASTER['CampingCost'];
+//if ($sy['SideId'] == 484) { echo "Camps = $Camps<br>"; 
     $Fee += $Camps;
     if ($sy['BudgetArea2']) {
       $BUDGET[$sy['BudgetArea2']]['CommittedSoFar'] += $sy['BudgetValue2'];

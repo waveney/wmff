@@ -36,7 +36,7 @@
   echo "<tr><td>Show by Location<td>Show by Type<td>Show All";
   echo "<tr><td>";
     foreach($Locs as $loc) {
-      if ($loc['InUse'] && isset($LocUsed[$loc['TLocId']])) echo "<input type=submit name=SEL value='" . $loc['SN'] . "'> ";
+      if ($loc['InUse'] && isset($LocUsed[$loc['TLocId']]) && !$loc['NoList']) echo "<input type=submit name=SEL value='" . $loc['SN'] . "'> ";
     }
     echo "<td>";
     foreach($TTypes as $typ) {

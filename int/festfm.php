@@ -423,4 +423,32 @@ function FestDate($day,$format='M',$Year=0) {
   }
 }
 
+function ChunkSplit($txt,$maxlen,$maxchnks) {
+  $Words = explode(' ',$txt);
+  $Res = [];
+  $left = '';
+  foreach ($Words as $w) {
+    if ($left) {
+      if (strlen("$left $w") <= $maxlen) {
+        $left .= " $w";
+      } else if (strlen($w) < $maxlen) {
+        $Res[] = $left;
+        $left = $w;
+      } elseif (strlen("$left $w") <= 2*$maxlen) {
+        $chk = "$left $w";
+        $Res[] = substr($chk,0,$maxlen);
+        $left = substr($chk,$maxlen);
+      }
+    } elseif (strlen($w) < $maxlen) {
+      $left = $w;
+    } else {
+      $Res[] = substr($w,0,$maxlen);
+      $left = substr($w,$maxlen);
+    }
+  }
+  if ($left) $Res[] = $left;
+  
+  return $Res;
+}
+
 ?>
