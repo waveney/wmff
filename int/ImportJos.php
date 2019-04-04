@@ -139,7 +139,7 @@ function Get_SideByName($who) {
 
 
 
-function Update(&$side,$sidef,$shtf,$spec='',) {
+function Update(&$side,$sidef,$shtf,$spec='') {
   global $Data, $SideChange;
   $val = $Data[$shtf];
   if (!$val) return;
