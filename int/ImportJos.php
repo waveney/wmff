@@ -139,7 +139,7 @@ function Get_SideByName($who) {
 
 
 
-function Update(&$side,$sidef,$shtf,$spec='') {
+function Update(&$side,$sidef,$shtf,$spec='',) {
   global $Data, $SideChange;
   $val = $Data[$shtf];
   if (!$val) return;
@@ -153,9 +153,16 @@ function Update(&$side,$sidef,$shtf,$spec='') {
   }
   
   if (!isset($side[$sidef]) || $side[$sidef] != $val) {
-    $side[$sidef] = $val;
-    $SideChange = 1;
-    echo "Change $sidef to $val<br>";
+    if (!isset($side[$sidef])) {
+      $side[$sidef] = $val;
+      $SideChange = 1;
+      echo "Set $sidef to $val<br>";
+    } else {
+      $oldv = $side[$sidef];
+      $side[$sidef] = $val;
+      $SideChange = 1;
+      echo "Change $sidef from $oldv to $val<br>";
+    }
   }
 }
 
