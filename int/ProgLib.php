@@ -602,7 +602,7 @@ function Price_Show(&$Ev) {
 
   if ($Ev['DoorPrice'] && $Ev['DoorPrice'] != $Cpri) {
     if ($str) $str .= ", then ";
-    $str .= Print_Pound($Cpri) . " in advance and " . Print_Pound($Ev['DoorPrice']) . " at the door";
+    $str .= Print_Pound($Cpri) . " in advance and " . Print_Pound($Ev['DoorPrice']) . " on the door";
   } else {
     if ($str) $str .= ", then ";
     $str .= Print_Pound($Cpri);

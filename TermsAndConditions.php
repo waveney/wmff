@@ -10,7 +10,7 @@
 <li>The Festival has Day tickets (wristbands), Weekend tickets (wristbands) and tickets for individual events. 
 Weekend tickets include events on the Friday.<p>
 
-<li>A full weekend ticket (but no other kind of ticket) will give free entry to the Party in the Paddock.<p>
+<li>A full weekend ticket (but no other kind of ticket) will also give free entry to the Party in the Paddock.<p>
 
 <li>The weekend ticket will give admittance to all festival events, except events at the Tivoli.  
 This is because events at the Tivoli are likely to sell out with individual event tickets and these
@@ -39,17 +39,17 @@ adult for all performance events. Stewards reserve the right to refuse admission
 
 <li>Camping: Festival tickets do not include camping. Camping tickets may be bought via the Festival website at the same time as Festival tickets.<p>
 
-<li> Advance Event Tickets: The number of Advance Event tickets available for each event is limited.
+<li>Advance Event Tickets: The number of Advance Event tickets available for each event is limited.
 On The Door Event Tickets are available at the door for most events, subject to capacity.
 Admission will be from 10 minutes before the event starts, after all Festival ticket
 and Advance Event ticket holders have been let in. <p>
 
 <li>How and where to buy tickets: All tickets may be purchased via the Festival website. 
-All tickets, apart from camping, may be bought at the Allendale Centre and Wimborne Tourist Information. 
+All tickets may be bought at the Wimborne Tourist Information Centre. 
 The cut off point for advance ticket sales is midnight on the Thursday before the Festival. 
 After that time, tickets can only be bought at Festival Information, where tickets can be
 paid for by cash or card, or on the door at the venue where tickets (if still available)
-will be on sale about 10 mins before the event starts - payment must be in cash.<p>
+will be on sale about 10 mins before the event starts.<p>
 
 <li>Collection of advance tickets:  For Weekend and Day Tickets, bring your receipt to Festival
 Information to exchange it for a wristband.  Event ticket receipts can be shown to the

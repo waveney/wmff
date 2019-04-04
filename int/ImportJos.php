@@ -67,7 +67,7 @@ $ActFix = [
 'Atlantico'=>['SN'=>'Atlántico'],
 'Rhaniket'=>['SN'=>'Ranikhet'],
 'Tatterdamalion'=>['SN'=>'Tatterdemalion'],
-'Ed Loftsedt Assembly'=>['SN'=>'The Ed Loftsedt Assembly'],
+'Ed Loftsedt Assembly'=>['SN'=>'The Ed Lofstedt Assembly'],
 'Footlight Performance Academy'=>['SN'=>'Footlights Performance Academy'],
 'Two Man Travelling Medicine Show'=>['SN'=>'The Two Man Travelling Medicine Show'],
 'x'=>['SN'=>''],
@@ -155,7 +155,7 @@ function Update(&$side,$sidef,$shtf,$spec='') {
   if (!isset($side[$sidef]) || $side[$sidef] != $val) {
     $side[$sidef] = $val;
     $SideChange = 1;
-//    echo "Change $sidef to $val<br>";
+    echo "Change $sidef to $val<br>";
   }
 }
 
