@@ -520,7 +520,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
         echo $TradeLocs[$Trady["PitchLoc$i"]];
         echo fm_hidden("PitchLoc$i",$Trady["PitchLoc$i"]);
         echo "<td>";
-        if ($MASTER['TradeState']>= $EType_States['Partial'] && $Trady["PitchNum$i"]) echo $Trady["PitchNum$i"] . " <a href=TradeStandMap.php?l=" . $Trady["PitchLoc$i"] . ">Map</a>";
+        if ($Trady["PitchNum$i"]) echo $Trady["PitchNum$i"] . " <a href=TradeStandMap.php?l=" . $Trady["PitchLoc$i"] . ">Map</a>"; // TODO Trade State testing for partial
       } else {
         echo "<td>";
       }
@@ -979,6 +979,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
       if (isset($_POST{'NewAccessKey'})) $_POST{'AccessKey'} = rand_string(40);
 
       Update_db_post('Trade',$Trad);
+      Report_Log('Trade');
       if ($Mode < 2 && !$Orgs) {
         if ($_POST{'Year'} == $PLANYEAR) {
           $same = 1;

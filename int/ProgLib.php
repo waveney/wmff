@@ -582,7 +582,7 @@ function Price_Show(&$Ev) {
     $Npri = $Ev['Price2'];
     if ($Npri != $Cpri && $Npri != 0) {
       if ($pc > time()) {
-        $str .= "&pound;" . $Cpri . " until " . date('j M Y',$pc);
+        $str .= Print_Pound($Cpri) . " until " . date('j M Y',$pc);
       }
     $Cpri = $Npri;
     }
@@ -594,7 +594,7 @@ function Price_Show(&$Ev) {
     if ($Npri != $Cpri && $Npri != 0) {
       if ($pc > time()) {
         if ($str) $str .= ", then ";
-        $str .= "&pound;" . $Cpri . " until " . date('j M Y',$pc);
+        $str .= Print_Pound($Cpri) . " until " . date('j M Y',$pc);
       }
       $Cpri = $Npri;
     }
@@ -602,10 +602,10 @@ function Price_Show(&$Ev) {
 
   if ($Ev['DoorPrice'] && $Ev['DoorPrice'] != $Cpri) {
     if ($str) $str .= ", then ";
-    $str .= "&pound;" . $Cpri . " in advance and &pound;" . $Ev['DoorPrice'] . " at the door";
+    $str .= Print_Pound($Cpri) . " in advance and " . Print_Pound($Ev['DoorPrice']) . " at the door";
   } else {
     if ($str) $str .= ", then ";
-    $str .= "&pound;" . $Cpri;
+    $str .= Print_Pound($Cpri);
   } 
 
   return $str;
