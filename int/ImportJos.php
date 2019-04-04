@@ -302,8 +302,14 @@ function Update(&$side,$sidef,$shtf,$spec='') {
         Update_db('SideYear',$OrigSY,$sy);
         $snum = $side['SideId'];
       }
+    } else {
+      if ($SideChange && $New) {
+        echo "Would Create Side Year<p>";
+      } else {
+        echo "Would Update Side Year<p>";
+      }
+      
     }
-   
     
   }
 //  exit;
