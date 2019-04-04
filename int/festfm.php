@@ -390,7 +390,7 @@ function AlphaNumeric($txt) {
 
 
 function Print_Pound($amt) {
-  return ($amt<0?"-":"") . sprintf((is_int($amt)?"&pound;%d":"&pound;%0.2f"),abs($amt));
+  return ($amt<0?"-":"") . sprintf((ctype_digit($amt)?"&pound;%d":"&pound;%0.2f"),abs($amt));
 }
 
 function Print_Pence($amt) {

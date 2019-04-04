@@ -93,7 +93,7 @@ function Lnl_Details($key,&$lnl) {
   case 'WHO': return firstword(($lnl['Contact']? $lnl['Contact'] : $lnl['SN']));
   case 'DETAILS': return Get_lnl_Details($lnl);
   case 'LNLREF': return "LNL" . $lnl['id'];
-  case 'DEPOSIT': return "&pound;$LNLDepositValue";
+  case 'DEPOSIT': return Print_Pound($LNLDepositValue);
   }
 }
 
@@ -207,7 +207,7 @@ function BB_Details($key,&$bb) {
   case 'WHO': return $bb['Contact']? firstword($bb['Contact']) : $bb['SN'];
   case 'DETAILS': return Get_BB_Details($bb);
   case 'BBREF': return "BB" . $bb['id'];
-  case 'DEPOSIT': return "&pound;$BBDepositValue";
+  case 'DEPOSIT': return Print_Pound($BBDepositValue);
   }
 }
 

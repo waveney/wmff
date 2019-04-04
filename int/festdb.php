@@ -65,7 +65,14 @@ function Report_Log($roll) {
         $Side = Get_Side($USERID);
         $who = $Side['SN'];
         break;
+        
+      case 'Trade':
+        $Trad = Get_Trader($USERID);
+        $who = $Trad['SN'];
+        break;
+        
       default :
+        
         return;
       }
     } else {
