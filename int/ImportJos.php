@@ -153,7 +153,7 @@ function Update(&$side,$sidef,$shtf,$spec='') {
   }
   
   if (!isset($side[$sidef]) || $side[$sidef] != $val) {
-    if (!isset($side[$sidef])) {
+    if (!isset($side[$sidef]) || !$side[$sidef]) {
       $side[$sidef] = $val;
       $SideChange = 1;
       echo "Set $sidef to $val<br>";
