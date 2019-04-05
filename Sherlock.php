@@ -36,7 +36,7 @@
   if ($Ett >= 0) { 
     $qry = "SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND ( e.Type=$Ett $xtr ) AND ( e.SubEvent<1 OR e.ShowSubevent=1 ) AND e.Venue!=0 " .
                 "$restrict ORDER BY e.Day, e.Start";
-    echo "$qry<p>";
+//    echo "$qry<p>";
     $ans = $db->query($qry); 
     if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
     if (count($Evs) > 1) $Types = $Ets[$Ett]['Plural'];
