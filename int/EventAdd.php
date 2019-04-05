@@ -304,6 +304,7 @@ A similar feature will appear eventually for music.<p>
       echo "<tr>";
       echo "<td class=NotSide>" . fm_checkbox('Exclude From Spot Counts',$Event,'ExcludeCount');
       echo "<td class=NotSide>" . fm_checkbox('Ignore Clashes',$Event,'IgnoreClash');
+      echo "<td class=NotSide>" . fm_checkbox('Show even if subevent',$Event,'ShowSubevent');
 //      echo "<td class=NotSide>" . fm_checkbox('Ignore Multi Use',$Event,'IgnoreMultiUse');  See Venue
       echo "<td class=NotSide>" .fm_checkbox('Exclude from Weekend Pass',$Event,'ExcludePass');
       echo "<td class=NotSide>" .fm_checkbox('Exclude from Day Tickets',$Event,'ExcludeDay');

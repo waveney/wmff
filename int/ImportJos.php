@@ -46,7 +46,7 @@ $ActFix = [
 'The Folk Orc Session Band'=>['SN'=>'The Folk Orc'],
 'Witchampton Ukuele Orchestra'=>['SN'=>'Witchampton Ukulele Orchestra'],
 'India Electric Company'=>['SN'=>'India Electric Co.'],
-'The Wareham Whalers'=>['SN'=>'Wareham Whalers'],
+'The Wareham Whalers'=>['SN'=>'Wareham Whalers','AccountName'=>'Wareham Whalers'],
 'Kim Lowings'=>['SN'=>'Kim Lowings and the Greenwood'],
 'Alden, Patterson & Dashwood'=>['SN'=>'Alden, Patterson and Dashwood'],
 'Ben Morgan Brown'=>['SN'=>'Ben Morgan-Brown'],
@@ -67,10 +67,10 @@ $ActFix = [
 'Atlantico'=>['SN'=>'Atlántico'],
 'Rhaniket'=>['SN'=>'Ranikhet'],
 'Tatterdamalion'=>['SN'=>'Tatterdemalion'],
-'Ed Loftsedt Assembly'=>['SN'=>'The Ed Loftsedt Assembly'],
+'Ed Loftsedt Assembly'=>['SN'=>'The Ed Lofstedt Assembly'],
 'Footlight Performance Academy'=>['SN'=>'Footlights Performance Academy'],
 'Two Man Travelling Medicine Show'=>['SN'=>'The Two Man Travelling Medicine Show'],
-'x'=>['SN'=>''],
+'Steve Faulkner'=>['SortCode'=>''],
 'x'=>['SN'=>''],
 'x'=>['SN'=>''],
 
@@ -150,12 +150,22 @@ function Update(&$side,$sidef,$shtf,$spec='') {
   case 'N': 
     if ($val == 'N/A' || !$val) return;
     break;
+  case 'D':
+    $val = preg_replace("/[^0-9]/", "",$val);
+    break;
   }
   
   if (!isset($side[$sidef]) || $side[$sidef] != $val) {
-    $side[$sidef] = $val;
-    $SideChange = 1;
-//    echo "Change $sidef to $val<br>";
+    if (!isset($side[$sidef]) || !$side[$sidef]) {
+      $side[$sidef] = $val;
+      $SideChange = 1;
+      echo "Set $sidef to $val<br>";
+    } else {
+      $oldv = $side[$sidef];
+      $side[$sidef] = $val;
+      $SideChange = 1;
+      echo "Change $sidef from $oldv to $val<br>";
+    }
   }
 }
 
@@ -216,8 +226,8 @@ function Update(&$side,$sidef,$shtf,$spec='') {
       if (!isset($Fixes['IsFunny'])) $side['IsAnAct'] = 1;
       $New = 1;
     };
-    Update($side,'SortCode', 'Sort Code','N');
-    Update($side,'Account', 'Account No.','N');
+    Update($side,'SortCode', 'Sort Code','D');
+    Update($side,'Account', 'Account No.','D');
     Update($side,'AccountName', 'Account Name','N');
     Update($side,'Email', 'Email');
     Update($side,'Contact', 'Contact name ');
@@ -302,8 +312,14 @@ function Update(&$side,$sidef,$shtf,$spec='') {
         Update_db('SideYear',$OrigSY,$sy);
         $snum = $side['SideId'];
       }
+    } else {
+      if ($SideChange && $New) {
+        echo "Would Create Side Year<p>";
+      } else {
+        echo "Would Update Side Year<p>";
+      }
+      
     }
-   
     
   }
 //  exit;

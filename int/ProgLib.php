@@ -198,6 +198,7 @@ Set Use Notes to fmt to use the Big Event programming Notes to describe types of
         'StagePA'=>'IF this event needs extra PA other than identified by the performers, list it here',
         'ExcludePA'=>'Exclude participents in this event from PA requirements for the venue - for the procession',
         'IgnoreMultiUse'=>'Set to prevent warning that same performer has been at this location on this day',
+        'ShowSubevent'=>'Set this in the rare case when a sub event should be show on top level listings',
         
   );
   Set_Help_Table($t);
@@ -602,7 +603,7 @@ function Price_Show(&$Ev) {
 
   if ($Ev['DoorPrice'] && $Ev['DoorPrice'] != $Cpri) {
     if ($str) $str .= ", then ";
-    $str .= Print_Pound($Cpri) . " in advance and " . Print_Pound($Ev['DoorPrice']) . " at the door";
+    $str .= Print_Pound($Cpri) . " in advance and " . Print_Pound($Ev['DoorPrice']) . " on the door";
   } else {
     if ($str) $str .= ", then ";
     $str .= Print_Pound($Cpri);
