@@ -15,9 +15,12 @@
 
   $Extras = array('Music'=>' OR e.ListMusic=1'); // Need Dance Equiv
 
+//  var_dump($Type);
+//  var_dump($Ets);
   //  Need check if year < first
   $Ett = -1;
   foreach($Ets as $eti=>$et) if ($et['SN'] == $Type) $Ett = $eti;
+
   $xtr = (isset($Extras[$Type]))? $Extras[$Type] : '';
   $Evs = array();
   $Complete = 0;
@@ -29,10 +32,12 @@
     $restrict = "";
     $Complete = 4;
   }
-  
+
   if ($Ett >= 0) { 
-    $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND ( e.Type=$Ett $xtr ) AND e.SubEvent<1 AND e.Venue!=0 " .
-                "$restrict ORDER BY e.Day, e.Start"); // Need to work with release settings as well
+    $qry = "SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND ( e.Type=$Ett $xtr ) AND ( e.SubEvent<1 OR e.ShowSubevent=1 ) AND e.Venue!=0 " .
+                "$restrict ORDER BY e.Day, e.Start";
+    echo "$qry<p>";
+    $ans = $db->query($qry); 
     if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
     if (count($Evs) > 1) $Types = $Ets[$Ett]['Plural'];
     if ($YEAR == $PLANYEAR) $Complete = $Ets[$Ett]['State'];
