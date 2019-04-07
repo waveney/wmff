@@ -810,6 +810,7 @@ input[type='file'] {
   width:1000px !important;
   max-width:1000px !important;
   font-size:18px;
+  background-color:white !important;
 }
 #Postertitle {
   font-size:60px;

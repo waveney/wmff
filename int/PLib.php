@@ -17,7 +17,11 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
 
   $Side['TotalFee'] = (isset($Sidey['TotalFee'])?$Sidey['TotalFee']:0); // This is to make linkemail do the right thing 
   $NotD = 0;
-  foreach ($PerfTypes as $p=>$d) if (($d[0] != 'IsASide') && $Side[$d[0]]) $NotD = 1;
+  $PerfTC = 0;
+  foreach ($PerfTypes as $p=>$d) {
+    if ($Side[$d[0]]) $PerfTC++;
+    if (($d[0] != 'IsASide') && $Side[$d[0]]) $NotD = 1;
+  }
 
   if ( isset($Side['Photo']) && ($Side['Photo'])) echo "<img class=floatright id=PerfThumb src=" . $Side['Photo'] . " height=80>\n";
   echo "<input  class=floatright type=Submit name='Update' value='Save Changes' form=mainform>";
@@ -120,13 +124,23 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
           echo fm_hidden('SideId',-1);
           echo fm_hidden('Id',-1);
         }
-        echo "<td class=NotSide colspan=2>Importance:" . fm_select($Importance, $Side,'Importance');
-        echo " " . fm_text0("Rel Order",$Side,'RelOrder',1,'class=NotSide','class=NotSide size=4'); 
+        echo "<td class=NotSide colspan=2>";
+        if ($PerfTC < 2 || !$Side['DiffImportance']) echo "Importance:" . fm_select($Importance, $Side,'Importance');
+        if ($PerfTC > 1) echo " " . fm_checkbox("Diff Imp",$Side,'DiffImportance'); 
+//        echo " " . fm_text0("Rel Order",$Side,'RelOrder',1,'class=NotSide','class=NotSide size=4');  // Unused
         echo fm_text1('Where found',$Side,'Pre2017',1,'class=NotSide','class=NotSide'); 
         echo "<td class=NotSide colspan=3>";
         echo Help('PerfTypes') . " ";
         foreach ($PerfTypes as $t=>$p) echo fm_checkbox($t,$Side,$p[0]) . " ";
         echo "<td class=NotSide>State:" . fm_select($Side_Statuses,$Side,'SideStatus') . "\n";
+        if ($PerfTC > 1 && $Side['DiffImportance']) {
+          echo "<tr><td class=NotSide>Importances:" . help('Importance');
+          foreach ($PerfTypes as $p=>$d) {
+            if ($Side[$d[0]]) {
+              echo "<td class=NotSide>" . $d[2] . ": " . fm_select($Importance, $Side,$d[2] . 'Importance');
+            }
+          }
+        }
     } else {
       echo fm_hidden('SideId',$snum);
       echo fm_hidden('Id',$snum);

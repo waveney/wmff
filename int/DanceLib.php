@@ -353,6 +353,7 @@ Major - major error, minor avoid if you can',
         'PerfTypes'=>'You MUST Save changes after any changes to Performer Types, to refresh the page.
 IF you wish to remove a performer type tell Richard - there are many small changes that may be needed that are not yet automated',
         'OneBlurb'=>'Select this to surpress showing the Short Blurb and the Long Blurb at the same time',
+        'DiffImportance'=>'IF needs to have different Importances for performer types, select this and SAVE CHANGES',
   );
   Set_Help_Table($t);
 }

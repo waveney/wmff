@@ -3,7 +3,7 @@
 // Displaying utilities for public site
 
 function formatminimax(&$side,$link,$mnat=2,$sdisp=1) {
-  global $YEAR;
+  global $YEAR,$PerfTypes;
   echo "<div class=mnfloatleft>";
   if ($side['Photo']) {
     $wi = $side['ImageWidth'];
@@ -16,41 +16,48 @@ function formatminimax(&$side,$link,$mnat=2,$sdisp=1) {
   } else {
     $fmt = 't';
   } // fmt t=txt, l=ls, p=pt, s=sq, b=ban
-  $mnmx = ($side['Importance'] >= $mnat?'maxi':'mini');
+  $Imp = $side['Importance'];
+  if ($side['DiffImportance']) {
+    $Imp = 0;
+    foreach($PerfTypes as $pt=>$pd) if ($side[$pd[0]] && $imp < $side[$pd[2] . 'Importance'] ) $imp = $side[$pd[2] . 'Importance'];
+  }
+  
+  $mnmx = ($Imp >= $mnat?'maxi':'mini');
   $id = AlphaNumeric($side['SN']);
   echo "<div class=$mnmx" . "_$fmt id=$id>";
   echo "<a href=/int/$link?sidenum=" . $side['SideId'] . "&Y=$YEAR>";
   if ($mnmx != 'maxi' && $side['Photo']) echo "<div class=mnmximgwrap><img class=mnmximg src='" . $side['Photo'] ."'></div>";
-  echo "<div class=mnmxttl style='font-size:" . (24+$side['Importance']*3) . "px'>" . $side['SN'] . "</div>";
+  echo "<div class=mnmxttl style='font-size:" . (24+$Imp*3) . "px'>" . $side['SN'] . "</div>";
   if ($mnmx == 'maxi' && $side['Photo']) echo "<div class=mnmximgwrap><img class=mnmximg src='" . $side['Photo'] ."'></div>";
   echo "</a>";
   if ($sdisp) echo "<div class=mnmxtxt>" . $side['Description'] . "</div>";
   echo "</div></div>\n";
 }
 
-function formatLineups(&$perfs,$link,$mnat=2,$sdisp=1) {
+function formatLineups(&$perfs,$link,&$Sizes,$sdisp=1) {
 // Link, if (text) Title, pic, text else Pic Title
 // If size = small then fit 5, else fit 3 - if fit change br
 // Float boxes with min of X and Max of Y
   global $YEAR;
-  $Size = 'Fit3';
+  $LastSize = -1;
   
-  echo "<div class=LineupFit3Wrapper>";
   foreach ($perfs as $perf) {
-    if ($perf['Importance'] < $mnat && $Size == 'Fit3') {
-      $Size = 'Fit5';
-      echo "</div><br clear=all><div class=LineupFit5Wrapper>";
+    $Imp = $perf['EffectiveImportance'];
+    if ($Sizes[$Imp] != $LastSize) {
+      if ($LastSize >=0) echo "</div><br clear=all>";
+      $LastSize = $Sizes[$Imp];
+      echo "<div class=LineupFit" . $LastSize . "Wrapper>";
     }
-    echo "<div class='Lineup$Size'>";
+    echo "<div class='LineupFit$LastSize'>";
     echo "<a href=/int/$link?sidenum=" . $perf['SideId'] . "&Y=$YEAR>";  
     if ($sdisp) {
-      echo "<div class=LineUpFitTitle style='font-size:" . (24+$perf['Importance']*3) . "px'>" . $perf['SN'] . "</div>";
+      echo "<div class=LineUpFitTitle style='font-size:" . (24+$Imp) . "px'>" . $perf['SN'] . "</div>";
       if ($perf['Photo']) echo "<img class=LineUpFit src='" . $perf['Photo'] . "'>";
       echo "<div class=LineUptxt>" . $perf['Description'] . "</div>";
        
     } else {
       if ($perf['Photo']) echo "<img class=LineUpFit src='" . $perf['Photo'] . "'>";
-      echo "<br><div class=LineUpFitTitle style='font-size:" . (24+$perf['Importance']*3) . "px'>" . $perf['SN'] . "</div></a>";
+      echo "<br><div class=LineUpFitTitle style='font-size:" . (24+$Imp*3) . "px'>" . $perf['SN'] . "</div></a>";
     }
     echo "</div>";
   }
@@ -59,9 +66,8 @@ function formatLineups(&$perfs,$link,$mnat=2,$sdisp=1) {
 
 // Check ET to see if imps should be found
 function Get_Imps(&$e,&$imps,$clear=1,$all=0) {
-  global $Event_Types_Full,$YEAR;
+  global $Event_Types_Full,$YEAR,$PerfTypes;
   $ETs = Get_Event_Types(1);
-  $newf = Feature('NewPERF');
   $ets = $ETs[$e['Type']]['State']; 
   $useimp = ($Event_Types_Full[$e['Type']]['UseImp'] && ($e['BigEvent']==0));
   $now=time();
@@ -73,8 +79,20 @@ function Get_Imps(&$e,&$imps,$clear=1,$all=0) {
         if ($si) {
           $y = Get_SideYear($ee,$YEAR);
           $s = array_merge($si, munge_array($y)); 
-          if ($s && ($all || ((( $s['Coming'] == 2) || ($s['YearState'] >= 2)) && ($ets >1 || ($ets==1 && Access('Participant','Side',$s))) && $s['ReleaseDate'] < $now))) 
-             $imps[$useimp?$s['Importance']:0][] = $s; }; }; };
+          if ($s && ($all || ((( $s['Coming'] == 2) || ($s['YearState'] >= 2)) && ($ets >1 || ($ets==1 && Access('Participant','Side',$s))) && $s['ReleaseDate'] < $now))) {
+            if (!$useimp) {
+              $imps[0][] = $s;
+            } elseif ($s['DiffImportance']) {
+              $iimp = 0;
+              foreach($PerfTypes as $pt=>$pd) if ($s[$pd[0]] && $iimp < $s[$pd[2] . 'Importance']) $iimp = $s[$pd[2] . 'Importance'];
+              $imps[$iimp][] = $s;
+            } else {
+              $imps[$s['Importance']][] = $s;
+            }
+          }
+        } 
+      }
+    }
   }
 }
 
@@ -198,7 +216,7 @@ function Expand_Special(&$Art) {
   switch ($words[0]) {
   case '@Dance_Imp':
     $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.IsASide=1 AND s.SideId=y.SideId AND y.Year=$YEAR AND s.Photo!='' AND y.Coming=" . $Coming_Type['Y'] .
-                        " AND s.Importance!=0 AND y.ReleaseDate<$now ORDER BY RAND() LIMIT 5");
+                        " AND ((s.DiffImportance=0 AND s.Importance!=0) OR (s.DiffImportance=1 AND s.DanceImportance!=0)) AND y.ReleaseDate<$now ORDER BY RAND() LIMIT 5");
     if (!$ans) { $Art = []; return; }  
   
     while ( $Dstuff = $ans->fetch_assoc()) {
@@ -247,7 +265,7 @@ function Expand_Special(&$Art) {
 
   case '@Music_Imp':  
     $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$YEAR AND s.Photo!='' AND y.YearState>0 " . 
-                        " AND s.Importance!=0 AND y.ReleaseDate<$now ORDER BY RAND() LIMIT 5");
+                        " AND ((s.DiffImportance=0 AND s.Importance!=0) OR (s.DiffImportance=1 AND s.MusicImportance!=0)) AND y.ReleaseDate<$now ORDER BY RAND() LIMIT 5");
     if (!$ans) { echo "EEK"; $Art = []; return; }  
   
     while ( $Mstuff = $ans->fetch_assoc()) {
