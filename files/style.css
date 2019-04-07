@@ -1121,8 +1121,8 @@ button {
 }
 
 .LineupFit3 {
-  min-width:400;
-  max-width:500;
+  min-width:300;
+  max-width:450;
   flex-grow:1;
   margin:15;
 }
