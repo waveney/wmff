@@ -14,7 +14,7 @@
   global $db,$Coming_Type,$YEAR,$PLANYEAR,$Book_State,$EType_States;
   
   $now = time();
-  $FSwitch = 1;
+  $Sizes = [5,4,3,2,2,1,1];
   $ShortDesc = 1;
   switch ($T) {
   case 'Dance':
@@ -34,9 +34,10 @@
 //      echo "Click on the name of a team, or their photograph to find out more about them and where they are dancing.<p>\n";
       if ($ET['State'] >=3 ) echo "<b><a href=/int/ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR>" . $EType_States[$ET['State']] . " Dance Programme for $YEAR</a></b><p>\n";
     }
-    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, SideYear AS y WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . 
-             " AND s.IsASide=1 AND y.ReleaseDate<$now ORDER BY s.Importance DESC, s.RelOrder DESC, s.SN");
-    $FSwitch = -1;
+    $SideQ = $db->query("SELECT s.*, y.*, IF(s.DiffImportance=1,s.DanceImportance,s.Importance) AS EffectiveImportance " .
+             "FROM Sides AS s, SideYear AS y WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . 
+             " AND s.IsASide=1 AND y.ReleaseDate<$now ORDER BY EffectiveImportance DESC, s.RelOrder DESC, s.SN");
+    $Sizes = [3,3,3,2,2,1,1];
     $ShortDesc = 0;
     break;
     
@@ -48,9 +49,9 @@
       echo "Click on the name of a Act, or their photograph to find out more about them and where they are performing.<p>\n";
     }
 
-    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, SideYear AS y " .
+    $SideQ = $db->query("SELECT s.*, y.*, IF(s.DiffImportance=1,s.MusicImportance,s.Importance) AS EffectiveImportance FROM Sides AS s, SideYear AS y " .
            "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>=" . $Book_State['Booking'] . 
-           " AND s.IsAnAct=1 AND y.ReleaseDate<$now ORDER BY s.Importance DESC, s.RelOrder DESC, s.SN");
+           " AND s.IsAnAct=1 AND y.ReleaseDate<$now ORDER BY EffectiveImportance DESC, s.RelOrder DESC, s.SN");
 
     $ShortDesc = 0;
     break;
@@ -63,12 +64,11 @@
 //      echo "Click on the name of a Act, or their photograph to find out more about them and where they are performing.<p>\n";
     }
 
-    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, SideYear AS y " .
+    $SideQ = $db->query("SELECT s.*, y.*, IF(s.DiffImportance=1,s.ComedyImportance,s.Importance) AS EffectiveImportance  FROM Sides AS s, SideYear AS y " .
            "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>=" . $Book_State['Booking'] . 
-           " AND s.IsFunny=1 AND y.ReleaseDate<$now ORDER BY s.Importance DESC, s.RelOrder DESC, s.SN");
+           " AND s.IsFunny=1 AND y.ReleaseDate<$now ORDER BY EffectiveImportance DESC, s.RelOrder DESC, s.SN");
 
     $ShortDesc = 0;
-    $FSwitch = -1;
     break;
 
   
@@ -80,10 +80,9 @@
       echo "Click on the name of a Children's Entertainer, or their photograph to find out more about them and where they are performing.<p>\n";
     }
 
-    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, SideYear AS y " .
+    $SideQ = $db->query("SELECT s.*, y.*, IF(s.DiffImportance=1,s.FamilyImportance,s.Importance) AS EffectiveImportance  FROM Sides AS s, SideYear AS y " .
            "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>=" . $Book_State['Booking'] . 
-           " AND s.IsFamily=1 AND y.ReleaseDate<$now ORDER BY s.Importance DESC, s.RelOrder DESC, s.SN");
-    $FSwitch = -1;
+           " AND s.IsFamily=1 AND y.ReleaseDate<$now ORDER BY EffectiveImportance DESC, s.RelOrder DESC, s.SN");
     break;
 
   
@@ -96,21 +95,18 @@
       echo "Click on the name of a performer, or their photograph to find out more about them and where they are performing.<p>\n";
     }
 
-    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, SideYear AS y " .
+    $SideQ = $db->query("SELECT s.*, y.*, IF(s.DiffImportance=1,s.OtherImportance,s.Importance) AS EffectiveImportance  FROM Sides AS s, SideYear AS y " .
            "WHERE s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>=" . $Book_State['Booking'] . 
-           " AND s.IsOther=1 AND y.ReleaseDate<$now ORDER BY s.Importance DESC, s.RelOrder DESC, s.SN");
+           " AND s.IsOther=1 AND y.ReleaseDate<$now ORDER BY EffectiveImportance DESC, s.RelOrder DESC, s.SN");
 
     break;
   }
   
-  if (Feature('NewLineUpFormat')) {
-    $Slist = [];
-    while($side = $SideQ->fetch_assoc()) $Slist[] = $side;
-    formatLineups($Slist,'ShowDance.php',$FSwitch,$ShortDesc);
-  } else {
-    while($side = $SideQ->fetch_assoc()) formatminimax($side,'ShowDance.php',$FSwitch,$ShortDesc);
-  }
 
+  $Slist = [];
+  while($side = $SideQ->fetch_assoc()) $Slist[] = $side;
+  formatLineups($Slist,'ShowDance.php',$Sizes,$ShortDesc);
+  
   echo "<div style='clear:both;'>";
   $Prev = $YEAR-1;
   if ($Prev >= $ET['FirstYear']) {

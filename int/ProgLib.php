@@ -182,7 +182,7 @@ Set Use Notes to fmt to use the Big Event programming Notes to describe types of
         'LongEvent'=>'Enable event to ran over many days',
         'Owner'=>'Who created the event, editable by this person, the Alt Edit and any with global edit rights',
         'Owner2'=>'This person is also allowed to edit this event',
-        'Importance'=>'Affects appearance of event on home page',
+        'Importance'=>'Affects appearance of event on home page - not used',
         'NoPart'=>'Set if the event has no particpants (Sides, Acts or Other)',
         'Image'=>'These are all for handling weird cases only',
         'Status'=>'Only mark as cancelled to have it appear in online lists and say cancelled, otherwise just delete',
@@ -415,13 +415,12 @@ function ListLinksNew(&$Perfs,$idx,$single,$plural,$size,$mult) {
 
 // Get Participants, Order by Importance/Time, if l>0 give part links as well
 function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
-  global $db,$Event_Types_Full,$YEAR;
+  global $db,$Event_Types_Full,$YEAR,$PerfTypes,$SHOWYEAR;
 
   include_once "DanceLib.php";
   include_once "MusicLib.php";
   $ans = "";
   $now = time();
-  $flds = (Feature('NewPERF2')? ['Side'] : ['Side','Act','Other']);
   $MainEv = 0;
   $res = $db->query("SELECT * FROM Events WHERE EventId='$Ev' OR SubEvent='$Ev' ORDER BY Day, Start DESC");
   $found = array();
@@ -437,10 +436,9 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
       
       
 // need perfs[type][imp] and then condense to perf[type] in imporder - will be needed for Big Es as well in time
-        foreach ($flds as $f) {
           for($i=1;$i<5;$i++) {
-            if (isset($e["$f$i"])) { 
-              $ee = $e["$f$i"];
+            if (isset($e["Side$i"])) { 
+              $ee = $e["Side$i"];
               if ($ee) {
 
                 if (!isset($found[$ee]) || !$found[$ee]) {
@@ -449,11 +447,16 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
 //var_dump($sy); echo "<P>";
                   if ($sy) {
                     $s = array_merge($s, $sy);  
-                    $s['NotComing'] = (($s['Coming'] != 2) && ($s['YearState'] < 2));
+                    $s['NotComing'] = ((($s['Coming'] != 2) && ($s['YearState'] < 2)) || $YEAR<$SHOWYEAR);
                   } else $s['NotComing'] = 1;
                   if ($s && ($sy['ReleaseDate'] < $now) || ( Access('Committee') && $Mode)) {
-                    $imps[$s['Importance']][] = $s; 
-                    $Perfs[$e["PerfType$i"]][$s['Importance']][] = $s; 
+                    $Imp2Use = $s['Importance'];
+                    if ($s['DiffImportance']) {
+                      $Imp2Use = 0;
+                      foreach($PerfTypes as $pt=>$pd) if ($s[$pd[0]] && $Imp2Use < $s[$pd[2] . 'Importance']) $Imp2Use = $s[$pd[2] . 'Importance'];
+                    }
+                    $imps[$Imp2Use][] = $s; 
+                    $Perfs[$e["PerfType$i"]][$Imp2Use][] = $s; 
                     $PerfCount++;
                   }
                   $found[$ee]=1;
@@ -461,7 +464,6 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
               }
             } 
           }
-        }
       }
     }
 
@@ -472,8 +474,7 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
         // Drop through
       } else {
         $ans .= (isset($Perfs[1])?ListLinksNew($Perfs,1,'Music by','Music by',$size,$mult):"Music to be announced");
-//echo "ans= $ans</br>";
-        if (isset($Perfs[4])) $ans .= "; " . ListLinksNew($Perfs,4,'Caller','Callers',$size,$mult);
+        if (isset($Perfs[4])) $ans .= "; "   . ListLinksNew($Perfs,4,'Caller','Callers',$size,$mult);
         if (isset($Perfs[0])) $ans .= "<br>" . ListLinksNew($Perfs,0,'Dance spot by','Dance spots by',$size,$mult);
         if (isset($Perfs[2])) $ans .= "<br>" . ListLinksNew($Perfs,2,'Comedy spot by','Comedy spots by',$size,$mult);
         if (isset($Perfs[3])) $ans .= "<br>" . ListLinksNew($Perfs,3,'Entertainment spot by','Entertainment spots by',$size,$mult); 
@@ -514,7 +515,7 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
 }
 
 function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='',&$Event=0) {
-  global $db;
+  global $db,$PertTypes;
   include_once "DanceLib.php";
   $now = time();
   $imps=array();
@@ -529,7 +530,17 @@ function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='
         $s = Get_Side($si);
         $sy = Get_SideYear($si); // TODO munge/merge?
         if ($pfx) { $s['ZZZZZpfx'] = $pfx; $pfx = ''; };
-        $iimp = ((isset($Event['UseBEnotes']) && $Event['UseBEnotes'])?0:$s['Importance']);
+        if (isset($Event['UseBEnotes']) && $Event['UseBEnotes']) {
+          $iimp = 0;
+        } elseif (!$s['DiffImportance']) {
+          $iimp = $s['Importance'];
+        } else {
+          $iimp = 0;
+          foreach ($PerfTypes as $j=>$pd) {
+            if ($s[$pd[0]] && $s[$pd[2] . "Importance"] > $iimp) $iimp = $s[$pd[2] . "Importance"];
+          }
+        }
+
         if ($s && ($sy['ReleaseDate'] < $now) || ( Access('Committee') && $Mode)) $imps[$iimp][] = $s; 
         $something = 1;
         $found[$si] = 1;

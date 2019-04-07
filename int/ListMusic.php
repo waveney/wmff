@@ -15,6 +15,7 @@
   foreach ($PerfTypes as $p=>$d) if ($d[4] == $Type) { $Perf = $p; $PerfD = $d; };
 
   $TypeSel = $PerfD[0] . "=1 ";
+  $DiffFld = $PerfD[2] . "Importance";
   echo "<div class=content><h2>List $Perf $YEAR</h2>\n";
   
   $Ins_colours = ['red','orange','lime'];
@@ -45,8 +46,9 @@
     $col8 = "Invited $PLANYEAR";
     $col9 = "Coming $PLANYEAR";
   } else if ($_GET{'SEL'} == 'Coming') {
-    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, $YearTab as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
-                $Book_State['Contract Signed'] . " ORDER BY Importance DESC, SN");
+    $SideQ = $db->query("SELECT s.*, y.*, IF(s.DiffImportance=1,s.$DiffFld,s.Importance) AS EffectiveImportance FROM Sides AS s, $YearTab as y " .
+                "WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
+                $Book_State['Contract Signed'] . " ORDER BY EffectiveImportance DESC, SN"); 
     $col5 = "Complete?";
   } else if ($_GET{'SEL'} == 'Booking') {
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, $YearTab as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>0" . 
@@ -61,8 +63,9 @@
     
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s, $YearTab as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
-                $Book_State['Contract Signed'] . " ORDER BY Importance DESC SN");
+    $SideQ = $db->query("SELECT $flds, IF(s.DiffImportance=1,s.$DiffFld,s.Importance) AS EffectiveImportance  FROM Sides AS s, $YearTab as y " .
+                "WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
+                $Book_State['Contract Signed'] . " ORDER BY EffectiveImportance DESC SN");
   }
 
   if (!$SideQ || $SideQ->num_rows==0) {
@@ -140,7 +143,7 @@
           } 
           break;
         case 'Importance':
-          echo "<td>" . $Importance[$fetch['Importance']];
+          echo "<td>" . $Importance[($fetch['DiffImportance']?$fetch[$DiffFld]:$fetch['Importance'])];
           break;
         case 'Insurance':
           $ins = (isset($fetch['Insurance']) ? $fetch['Insurance'] : 0);

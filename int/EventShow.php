@@ -7,20 +7,26 @@
   include_once("DispLib.php");
   include_once("MusicLib.php");
   include_once("DanceLib.php");
-  global $MASTER,$Importance,$DayLongList,$YEAR;
+  global $MASTER,$Importance,$DayLongList,$YEAR,$PerfTypes;
 /*
   Have different formats for different types of events, concerts, ceidihs, workshop
 */
 
 function Print_Thing($thing,$right=0) {
+  global $YEAR,$SHOWYEAR,$PerfTypes;
   echo "<div class=EventMini id=" . AlphaNumeric($thing['SN']) . ">";
-  if (( $thing['Coming'] != 2) && ( $thing['YearState'] < 2)) {
+  if (( $thing['Coming'] != 2) && ( $thing['YearState'] < 2) && ($YEAR >= $SHOWYEAR)) {
     echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
     echo " are no longer coming";
   } else {
     echo "<a href=Show" . ($thing['IsAnAct']?"Music":'Dance') . ".php?sidenum=" . $thing['SideId'] . ">";
     if ($thing['Photo']) echo "<img class=EventMiniimg" . ($right?'right':'') . " src='" . $thing['Photo'] ."'>";
-    echo "<h2 class=EventMinittl style='font-size:" . (27+ $thing['Importance']) . "px;'>"; 
+    $iimp = $thing['Importance'];
+    if ($thing['DiffImportance']) {
+      $iimp = 0;
+      foreach($PerfTypes as $pt=>$pd) if ($thing[$pd[0]] && ($iimp < $thing[$pd[2] . 'Importance'])) $iimp = $thing[$pd[2] . 'Importance'];
+    }
+    echo "<h2 class=EventMinittl style='font-size:" . (27+ $iimp) . "px;'>"; 
     echo $thing['SN'];  
     if (isset($thing['Type']) && $thing['Type']) echo " (" . $thing['Type'] . ") ";
     echo "</a></h2>";
@@ -202,7 +208,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
       $sublst = array_merge($sublst,$Subs);
       foreach ($sublst as $e) Get_imps($e,$imps,0);
       $HighImp = 0;
-      foreach ($Importance as $i=>$v) if ($i > 0 && isset($imps[$i])) $HighImp = $i;
+      foreach ($imps as $i=>$v) if ($i > 0 && isset($imps[$i])) $HighImp = $i;
       if ($HighImp) {
         echo "With: ";
         $with = 0;
@@ -230,13 +236,9 @@ function Print_Participants($e,$when=0,$thresh=0) {
   if ($Ev['Website']) echo "<h3>" . weblink($Ev['Website'],'Website for this event') . "</h3><p>\n";
 
 
-
-//  echo "<h2>Detail</h2>";
-  // Detail
-
-  if (!$Se) { // Single Event Big Events not done yet
+  if (!$Se) { 
     if ($Ev['BigEvent']) {
-      if ($OtherPart[1]) echo "Participants" . ($Ev['NoOrder']?'':" in order") . ":<p>\n";
+      if (isset($OtherPart[1])) echo "Participants" . ($Ev['NoOrder']?'':" in order") . ":<p>\n";
       echo "<div class=mini style='width:480;'>\n";
       foreach ($OtherPart as $oi=>$O) {
         if ($Ev['UseBEnotes'] && isset($OtherNotes[$oi])) echo "<b>" . $OtherNotes[$oi] . ":</b> ";
@@ -250,7 +252,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
       Print_Participants($Ev);
     }
   } else { // Sub Events
-    Print_Participants($Ev,$ETs[$Ev['Type']]['Format']-1);
+    Print_Participants($Ev,1,$ETs[$Ev['Type']]['Format']-1);
     foreach($Subs as $sub) if (Event_Has_Parts($sub)) Print_Participants($sub,1,$ETs[$Ev['Type']]['Format']-1);
   }
   if ($lemons) echo "</table>";

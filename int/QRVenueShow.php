@@ -7,7 +7,7 @@
   include_once("MusicLib.php");
   include_once("DispLib.php");
   
-  global $db, $YEAR,$ll,$SpecialImage,$Pictures;
+  global $db, $YEAR,$ll,$SpecialImage,$Pictures,$PerfTypes;
 
 function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   global $ll,$SpecialImage,$Pictures;
@@ -25,7 +25,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
           $things++;
           if ((($things % $ll) == 1) && ($things != 1)) echo "<tr>"; // <td><td>";
           echo ($ll > 1 && $things == $ImpC && ($ImpC %2) == 1)?"<td colspan=$ll>":"<td>";
-          $scale = $thing['Importance'];
+          $scale = $imp;
 //var_dump($thing);
           if (( $thing['IsASide'] && (!isset($thing['Coming']) || $thing['Coming'] != 2)) && 
               (($thing['IsAnAct'] || $thing['IsFunny'] || $thing['IsFamily'] || $thing['IsOther']) && (!isset($thing['YearState']) || $thing['YearState'] < 2))) {
@@ -184,6 +184,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
     $WithC = 0;
     if ($e['BigEvent']) {
       $O = Get_Other_Things_For($e['EventId']);
+// var_dump($O);
       $found = ($e['Venue'] == $V); 
 //      if (!$O && !$found) continue;
       if ( !$found && $Ven['IsVirtual'] && in_array($e['Venue'],$VenList)) $found = 1; 
@@ -194,17 +195,20 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
             if (in_array($thing['Identifier'],$VenList)) $found = 1; 
             break;
           case 'Perf':
+          case 'Act':
+          case 'Other':
           case 'Side':
             $sidy = Get_SideYear($thing['Identifier']);
-            if ($thing['Identifier'] && ($Mode || $sidy['ReleaseDate']<$now)) $e['With'][($Poster?$sides[$thing['Identifier']]['Importance']:0)][] = $sides[$thing['Identifier']];
-            $WithC++;
-            break;
-          case 'Act':
-            if ($thing['Identifier'] && ($Mode || $thing['ReleaseDate']<$now)) $e['With'][($Poster?$Acts[$thing['Identifier']]['Importance']:0)][] = $Acts[$thing['Identifier']];
-            $WithC++;
-            break;
-          case 'Other':
-            if ($thing['Identifier'] && ($Mode || $thing['ReleaseDate']<$now)) $e['With'][($Poster?$Others[$thing['Identifier']]['Importance']:0)][] = $Others[$thing['Identifier']];
+            $s = $sides[$thing['Identifier']];
+            if ($thing['Identifier'] && ($Mode || $sidy['ReleaseDate']<$now)) {
+              $iimp = 0;
+              if (!$s['DiffImportance']) {
+                $iimp = $s['Importance'];
+              } else {
+                foreach ($PerfTypes as $j=>$pd) if ($s[$pd[0]] && $s[$pd[2] . "Importance"] > $iimp) $iimp = $s[$pd[2] . "Importance"];
+              }
+              $e['With'][$Poster?$iimp:0][] = $s;
+            }
             $WithC++;
             break;
           default:
@@ -215,8 +219,6 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
     } else {
       for($i=1;$i<5;$i++) {
         if ($e["Side$i"]) $WithC++;
-        if ($e["Act$i"]) $WithC++;
-        if ($e["Other$i"]) $WithC++;
       }
     }
     $EVs[$e['EventId']] = $e;
@@ -261,9 +263,18 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
     }
 
     $SpecialImage = 0;
-    Get_Imps($e,$imps,1,$Mode);
+    if ($e['BigEvent']) {
+      if (isset($e['With'])) {
+        $imps = $e['With'];
+      } else {
+        $imps = [];
+      }
+    
+    } else {
+      Get_Imps($e,$imps,1,$Mode);
+    }
+    
     $things = 0;
-    if (isset($e['With']) && $e['With']) $imps = $e['With'];
     $ImpC = ImpCount($imps);
     $rows = max(1,ceil($ImpC/2));
 
@@ -326,7 +337,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
         height: 123,
       });
       </script>';
-    echo "</body></html>\n";
+    echo "<br clear=all></body></html>\n";
   } else {
     dotail();
   }

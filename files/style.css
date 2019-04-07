@@ -1096,26 +1096,44 @@ button {
   background:#c0c0c0;
 }
 
-.LineupFit3Wrapper, .LineupFit5Wrapper {
+.LineupFit1Wrapper, .LineupFit2Wrapper, .LineupFit3Wrapper, .LineupFit4Wrapper, .LineupFit5Wrapper {
   display: flex;
   align-items: flex-start;
   object-fit: contain;
   align-items: flex-start;
   justify-content: flex-start; 
   flex-wrap: wrap;
+  justify-content: center;
+}
+
+.LineupFit1 {
+  min-width:100%;
+  max-width:100%;
+  flex-grow:1;
+  margin:25;
+}
+
+.LineupFit2 {
+  min-width:450;
+  max-width:900;
+  flex-grow:1;
+  margin:20;
 }
 
 .LineupFit3 {
-  min-width:300;
-  max-width:450;
+  min-width:400;
+  max-width:500;
   flex-grow:1;
   margin:15;
 }
 
-.LineupFit3 img, .LineupFit5 img {
-  width:100%;
+.LineupFit4 {
+  min-width:250;
+  max-width:360;
+  flex-grow:1;
+  margin:12;
 }
-  
+
 .LineupFit5 {
   min-width:200;
   max-width:280;
@@ -1123,6 +1141,10 @@ button {
   margin:10;
 }
 
+.LineupFit1 img, .LineupFit2 img, .LineupFit3 img, .LineupFit4 img, .LineupFit5 img {
+  width:100%;
+}
+  
 .LineUpFitTitle {
   background:blue;
   color:white;
