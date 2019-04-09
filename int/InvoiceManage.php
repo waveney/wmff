@@ -101,7 +101,7 @@
         Pay_Update($id);
         break;
       }
-      $Dateflds = ['DueDate'];
+      $Dateflds = ['DueDate','IssueDate','EmailDate'];
       Parse_DateInputs($Dateflds);
       $Moneyflds = ['Amount1','Amount2','Amount3','PaidTotal'];
       Parse_MoneyInputs($Moneyflds);
