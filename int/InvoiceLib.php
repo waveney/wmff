@@ -502,9 +502,9 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
     } 
   }
   echo "<tr><td colspan=3>Total<td>" . Print_Pence($inv['Total']);
-  echo "<tr><td>Issued on:<td>" . date('d/m/y H:i:s',$inv['IssueDate']);
+  echo "<tr>" .  fm_date('Issued on',$inv,'IssueDate'); // <td>" . date('d/m/y H:i:s',$inv['IssueDate']);
   if ($inv['EmailDate']) {
-    echo "<td>Email Sent:<td>" . date('d/m/y H:i:s',$inv['EmailDate']);
+    echo fm_date('Email Sent',$inv,'EmailDate'); // "<td>Email Sent:<td>" . date('d/m/y H:i:s',$inv['EmailDate']);
   } else {
     echo "<td><b>Email Not Sent</b>";
   }

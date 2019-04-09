@@ -1128,8 +1128,8 @@ button {
 }
 
 .LineupFit4 {
-  min-width:250;
-  max-width:360;
+  min-width:240;
+  max-width:350;
   flex-grow:1;
   margin:12;
 }
