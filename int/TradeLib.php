@@ -513,7 +513,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
     if ($Mode) {
       echo "<td class=NotCSide>" . fm_select($TradeLocs,$Trady,"PitchLoc$i",1,'class=NotCSide');
       echo fm_text1("",$Trady,"PitchNum$i",1,'class=NotCSide','class=NotCSide');
-      if (isset($Trady["PitchLoc$i"]) && $Trady["PitchLoc$i"]) echo $Trady["PitchNum$i"] . " <a href=TradeStandMap.php?l=" . $Trady["PitchLoc$i"] . ">Map</a>";
+      if (isset($Trady["PitchLoc$i"]) && $Trady["PitchLoc$i"]) echo " <a href=TradeStandMap.php?l=" . $Trady["PitchLoc$i"] . ">Map</a>";
     } else {
       echo "<td>";
       if (isset($Trady["PitchLoc$i"])  && $Trady["PitchLoc$i"]) {

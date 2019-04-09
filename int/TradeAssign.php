@@ -21,12 +21,15 @@
         echo "<tr><td draggable=true class='TradeName Trader$tid' id=TradeN$tid ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event) " .
              "style='background:" . $Trade_Types[$Trad['TradeType']]['Colour'] . "'>" . $Trad['SN'] . "<td>";
         echo "<img src=/images/icons/information.png width=20 title='" . $Trad['GoodsDesc'] . "'><td>";
+        $pitched = 0;
         for ($i=0; $i<3; $i++) 
           if ($Trad["PitchLoc$i"] == $loc) {
+            if ($pitched) {
+              echo "<tr><td><td>&amp;<td>";
+            }
             echo $Trad["PitchSize$i"] . "<td id=PitchLoc$i>";
             echo fm_text0('',$Trad,"PitchNum$i",0.25,'','',"PitchNum$i:$tid");
-            //if ($Trad["PitchNum$i"]) echo $Trad["PitchNum$i"];
-            break;
+            $pitched = 1;
           }
       }
       echo "</table></div>";
