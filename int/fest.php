@@ -82,6 +82,16 @@ function Set_User() {
       $USER = $res->fetch_assoc();
       $USERID = $USER['UserId'];
       $db->query("UPDATE FestUsers SET LastAccess='" . time() . "' WHERE UserId=$USERID" );
+// Track suspicious things
+      if ($USERID == 35) {
+        $logf = fopen("LogFiles/U35.txt",'a+');
+        if ($logf) {
+          fwrite($logf,date('d/m H:j:s '));
+          fwrite($logf,$_SERVER['PHP_SELF']);
+          fwrite($logf,json_encode($_REQUEST));
+          fwrite($logf,"\n\n");
+        }
+      }
     }
   } 
   if (isset($_COOKIE{'WMFF'})) {
