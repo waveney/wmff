@@ -226,7 +226,6 @@ if (isset($_FILES['croppedImage'])) {
           processData: false,
           contentType: false, 
           success: function (resp) { 
-debugger;
             //console.log(resp); 
             //document.getElementById('Feedback').innerHTML = resp; 
             var src = $('#image').attr('src');
