@@ -41,7 +41,7 @@
   if ($Manage) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Id</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Year</a>\n";
-  if ($Manage) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Detail</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Detail</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Budget</a>\n";
 
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Used So Far</a>\n";
@@ -62,13 +62,13 @@
         echo fm_text1("",$b,'Budget',1,'','',"Budget$i") . "</a>";
         echo "<td>" . $b['CommittedSoFar'];
       } else {
-        echo "<tr><td>" . $b['SN'] . "<td>" . $b['Year'] . "<td>" . $b['Budget'] . "<td>" . $b['CommittedSoFar']; 
+        echo "<tr><td>" . $b['SN'] . "<td>" . $b['Year'] . "<td><a href=BudgetDetail.php?b=$i>Detail</a><td>" . $b['Budget'] . "<td>" . $b['CommittedSoFar']; 
       }
     } else {
       if ($Manage) {
         echo "<tr><td>-1<td>HOMELESS PERFORMERS<td><td><a href=BudgetDetail.php?b=0>Detail</a><td><td>" . $b['CommittedSoFar'];
       } else {
-        echo "<tr><td>HOMELESS PERFORMERS<td><td><td>" . $b['CommittedSoFar'];        
+        echo "<tr><td>HOMELESS PERFORMERS<td><td><a href=BudgetDetail.php?b=0>Detail</a><td><td>" . $b['CommittedSoFar'];        
       }
     }
     echo "\n";

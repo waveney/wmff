@@ -1,0 +1,381 @@
+/* Main */
+
+header {
+  position: sticky;
+  top:0;
+  z-index: 100;
+  border-bottom: 1px solid #fff;
+  background: black; 
+  transition: all ease-in-out 0.4s;
+  box-shadow: 0 0 0px rgba(0,0,0,0);
+  height: 80px;
+  color:white;
+/*  overflow: hidden; */
+}
+
+header a, header a:link, header a:visited  {
+  color:white;
+}
+
+header:hover, header.main-header.fixedheader{
+  background: #fff;
+  color:blue;
+}
+
+header.main-header:hover,
+header.main-header.fixedheader{
+  box-shadow: 0 0 40px rgba(0,0,0,0.7);
+}
+
+header .header-logo {
+/*  min-width: 300px; */
+  max-width: 29%;
+  padding: 12px 30px;
+  position: absolute;
+  display: block;
+  height: 54px;
+}
+
+header .header-logo.head-white-logo{
+  opacity: 1;
+  transition: all ease-in-out 0.4s;
+}
+header .header-logo.head-coloured-logo{
+/*  opacity: 0; */
+  transition: all ease-in-out 0.4s;
+  display: none;
+}
+header:hover .header-logo.head-white-logo,
+.fixedheader .header-logo.head-white-logo{
+  opacity: 0;
+}
+header:hover .header-logo.head-coloured-logo,
+.fixedheader .header-logo.head-coloured-logo{
+  opacity: 1;
+  display: block;
+}
+
+.headericon {
+  transition: all ease-in-out 0.4s;
+  max-height:20px;
+  filter: grayscale(100%);
+/*  border:solid 2px white; */
+}
+
+.headericon:hover {
+  filter:none;
+  transform: scale(1.5);
+  background:white;
+  border:2;
+  }
+  
+.fixedheader .navigation .headericon a:hover {
+
+  background:white;
+}
+
+header #MenuBars {
+  width: 67%; 
+  height: 100%; 
+  position: absolute;
+  right: 0;
+  float: right;
+  margin: 0;
+/*  margin-right: 30; */
+  padding:0;
+  border:0;
+  display: inline-block;
+}
+
+#PublicBar1 {
+  height: 80px;
+  line-height: 80px;
+/*  background-color: white; */
+  color: blue;
+}
+
+#PublicBar2 {
+  height: 40px;
+  line-height: 40px;
+/*  background-color: white; */
+  color: blue;
+}
+
+#PrivateBar {
+  height: 40px;
+  line-height: 40px;
+  background-color: dimgrey;
+  color: black;
+}
+
+.MenuIcon {
+  position: absolute;  
+  right: 0;
+  width: 80px;
+  height: 56px;
+  margin:0;
+  padding:0;
+  text-align:center;
+  padding-top:24px;
+  background:white;
+}
+
+
+.navigation {
+  width:100%;
+  text-align:right;
+/*  overflow:hidden; */
+  padding:0;
+  list-style:none;
+  font-size: 20px;
+}
+
+#PublicBar1 .navigation a {
+  line-height:80px;
+}
+
+header .fixedheader a,  {
+ color: #43a9b2;
+}
+
+.navigation a { 
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  font-size: 20px;
+  padding-left:10px;
+  padding-right:10px;
+  vertical-align:middle;
+  font-weight:520;
+}
+
+.fixedheader .navigation a:hover,
+.navigation a:hover {
+  background-color:#43a9b2;
+  color:white;
+  transition: all ease-in-out 0.4s;
+  transform-origin: top center;
+/*    opacity: 0; */
+
+}
+
+  header .navigation a:hover > .dropdown-content:nth-child(1) {
+    animation-name: menu-5;
+    animation-duration: 150ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+  header .navigation a:hover > .dropdown-content:nth-child(2) {
+    animation-name: menu-5;
+    animation-duration: 300ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+  header .navigation a:hover > .dropdown-content:nth-child(3) {
+    animation-name: menu-5;
+    animation-duration: 450ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+  header .navigation a:hover > .dropdown-content:nth-child(4) {
+    animation-name: menu-5;
+    animation-duration: 600ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+  header .navigation a:hover > .dropdown-content:nth-child(5) {
+    animation-name: menu-5;
+    animation-duration: 750ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+  header .navigation a:hover > .dropdown-content:nth-child(6) {
+    animation-name: menu-5;
+    animation-duration: 900ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+  header .navigation a:hover > .dropdown-content:nth-child(7) {
+    animation-name: menu-5;
+    animation-duration: 1050ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+  header .navigation a:hover > .dropdown-content:nth-child(8) {
+    animation-name: menu-5;
+    animation-duration: 1200ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+  header .navigation a:hover > .dropdown-content:nth-child(9) {
+    animation-name: menu-5;
+    animation-duration: 1350ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+  header .navigation a:hover > .dropdown-content:nth-child(10) {
+    animation-name: menu-5;
+    animation-duration: 1500ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+  header .navigation a:hover > .dropdown-content:nth-child(11) {
+    animation-name: menu-5;
+    animation-duration: 1425ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+  header .navigation a:hover > .dropdown-content:nth-child(12) {
+    animation-name: menu-5;
+    animation-duration: 1650ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+  header .navigation a:hover > .dropdown-content:nth-child(13) {
+    animation-name: menu-5;
+    animation-duration: 1725ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+  header .navigation a:hover > .dropdown-content:nth-child(14) {
+    animation-name: menu-5;
+    animation-duration: 1850ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+  header .navigation a:hover > .dropdown-content:nth-child(15) {
+    animation-name: menu-5;
+    animation-duration: 1975ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+  header .navigation a:hover > .dropdown-content:nth-child(16) {
+    animation-name: menu-5;
+    animation-duration: 2025ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+  }
+
+  @keyframes menu-5 {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    50% {
+      opacity: 1;
+    }
+    90% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+.fixedheader .navigation a {
+  color:#43a9b2;
+}
+
+#MenuGetTicket {
+  background:rgba(255,255,255,0.3);
+  padding-left:30px;
+  padding-right:30px;
+}
+
+.fixedheader #MenuGetTicket {
+  background:rgba(2, 52, 76,0.1);
+}
+
+#MenuGetTicket:hover {
+  background:rgba(197, 31, 132,1);
+}
+
+.dropdown {
+  display: inline-block;
+  padding:0;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  width: 220px;
+  z-index: 110;
+  margin: 0px 0 0 -55px;
+/*  transform: translateX( -25%); */
+}
+
+.dropdown-content a {
+  line-height:20px; 
+  text-align:center;
+  font-size: 18px;
+  display: block;
+  background-color:white;
+  padding:8px;  
+  color:#43a9b2;
+}
+
+.fixedheader .dropdown-content a {
+  background-color:white;  
+  color:#43a9b2;
+}
+
+.dropdown-content a:hover {
+  background-color:#43a9b2;
+  color:white;
+}
+
+.NotYet {
+  background-color:grey;
+  pointer-events: none;
+  cursor:default;
+  color:grey;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.active {
+  display: block;
+}
+
+.stick {
+  display: block;
+}
+
+/* sub Main */
+#PrivateBar .navigation, .PrivateBar .dropdown-content a:hover {
+  background-color:#ec038c;
+
+}
+
+#PrivateBar .navigation a:hover, .PrivateBar .dropdown-content {
+  background-color:#43a9b2;
+}
+
+.ShowMenu {
+/*  display:none; */
+}
+
+
+/* Footer Stuff */
+.footer {
+  font-size:13px;
+  padding: 0px 0px 100px 25px;
+  background:url(/images/icons/Flora.png) repeat-x bottom left;
+  background-color:#00344c ;
+  color:#FFFFFF;
+}
+
+.copyright{
+  width: 68%
+}
+
+.VersionBy{
+  width: 28%;
+  text-align: right;
+  display: inline-block;
+  float: right; 
+  padding-right:20px;
+}

@@ -18,7 +18,7 @@ $(document).ready(function() {
     if (!Spons) return 0;
     SponUse = [];
     SponPos = [];
-    var wid = window.innerWidth;
+    var wid = $('#SponDisplay').width();
     for(var i=0;i*200<wid;i++) {
       var elem = Math.floor(Math.random() * Spons.length);
       var tries=1;
@@ -71,7 +71,6 @@ $(document).ready(function() {
   
   function SetupArts() {
     // Works out columns
-    debugger;
     var Show = $('#ShowArt');
     var WorkWidth = Show.width();
     var ColCount = 1;

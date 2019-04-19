@@ -39,6 +39,9 @@
       $Type = 'Perf'; //($Side['IsASide']?'Side': ($Side['IsAnAct'] ? 'Act' : 'Other'));
     }
 
+//    echo "Key should be: " . $Side['AccessKey'] . " is " . $_GET['key'] ."<p>";
+//    var_dump($Side);
+    
     if ($Side['AccessKey'] != $_GET{'key'}) Error_Page("Sorry - This is not the right key");  // No return
 
     $Cake = sprintf("%s:%d:%06d",$Type,$Access_Type['Participant'],$SideId ); 

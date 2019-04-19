@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Whats on When");
+  dohead("Whats on Now");
 
   include_once("int/ProgLib.php");
   include_once("int/DateTime.php");

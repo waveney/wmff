@@ -543,19 +543,26 @@ function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
   if ($extra1) doextras($extra1,$extra2,$extra3,$extra4,$extra5);
   echo "</head><body>\n";
 
-  echo "<div id=HeadRow>";
-  if ($MASTER_DATA['AdvertImgLeft']) { 
-    echo "<a href=" . $MASTER_DATA['AdvertLinkLeft'] . "><img src=" . $MASTER_DATA['AdvertImgLeft'] . " id=leftspon hidden></a>";
-  } else echo "<center>";
-  echo "<a href=/><img id=HeadBan src=" . $MASTER_DATA['WebSiteBanner'] . "?V=$V ></a></center>";
-  if ($MASTER_DATA['AdvertImgRight']) { 
-    echo "<a href=" . $MASTER_DATA['AdvertLinkRight'] . "><img src=" . $MASTER_DATA['AdvertImgRight'] . " id=rightspon hidden></a>";
-  } else if ($MASTER_DATA['AdvertImgLeft']) echo "<a href=" . $MASTER_DATA['AdvertLinkLeft'] . "><img src=" . $MASTER_DATA['AdvertImgLeft'] . " id=rightspon hidden></a>";
-  echo "</div>\n";
-  echo "<script src=/js/WmffAds.js?V=$V></script>";
+  if (Feature('NewStyle')) {
+    echo "<div class=contentlim>";  
+    include_once("files/Newnavigation.php");
+    echo "<div class=maincontent>";  
+  } else {
+    echo "<div id=HeadRow>";
+    if ($MASTER_DATA['AdvertImgLeft']) { 
+      echo "<a href=" . $MASTER_DATA['AdvertLinkLeft'] . "><img src=" . $MASTER_DATA['AdvertImgLeft'] . " id=leftspon hidden></a>";
+    } else echo "<center>";
+    echo "<a href=/><img id=HeadBan src=" . $MASTER_DATA['WebSiteBanner'] . "?V=$V ></a></center>";
+    if ($MASTER_DATA['AdvertImgRight']) { 
+      echo "<a href=" . $MASTER_DATA['AdvertLinkRight'] . "><img src=" . $MASTER_DATA['AdvertImgRight'] . " id=rightspon hidden></a>";
+    } else if ($MASTER_DATA['AdvertImgLeft']) echo "<a href=" . $MASTER_DATA['AdvertLinkLeft'] . "><img src=" . $MASTER_DATA['AdvertImgLeft'] . " id=rightspon hidden></a>";
+    echo "</div>\n";
+    echo "<script src=/js/WmffAds.js?V=$V></script>";
 
-  include_once("files/navigation.php"); 
-  echo "<div class=contentlim>";
+    include_once("files/navigation.php"); 
+    echo "<div class=contentlim>";
+  }
+
   $head_done = 1;
 }
 
@@ -611,8 +618,13 @@ function dominimalhead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra
 
 function dotail() {
   global $head_done;
-  echo "</div>";
-  if ($head_done == 1) include_once("files/footer.php");
+
+  if (Feature('NewStyle')) {
+    if ($head_done == 1) include_once("files/Newfooter.php");  
+  } else {
+    echo "</div>";
+    if ($head_done == 1) include_once("files/footer.php");
+  }
   echo "</body></html>\n";
   exit;
 }

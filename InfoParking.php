@@ -29,8 +29,9 @@ The principle long term car parks are:
 <li>Allenview West (behind the Allendale Centre)
 <li>Allenview North (behind the Allendale Centre)
 <li>Westfield Close (Near Green Man/Minster Arms)
-<li>Pye Corner Carpark (Near Green Man/Minster Arms)
 <li>Walford Mill
+<li>Leigh Road 
+<li>Poole Road
 <li>At the Market
 
 </ul>
