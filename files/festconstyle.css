@@ -4,13 +4,13 @@
 }
 
 body {
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
 }
 
 h2 {
   font-weight: bold;
   font-size:22px;
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
 }
 
 table {
@@ -20,7 +20,7 @@ table {
 th {
   font-size:15px;
   color:black;
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
 }
 
 input {
@@ -826,7 +826,7 @@ input[type='file'] {
   color:white;
   border-radius:5px;
   font-weight:normal;
-  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
   font-size:35px;
 }
 

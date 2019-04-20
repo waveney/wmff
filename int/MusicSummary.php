@@ -1,6 +1,8 @@
 <?php
   include_once("fest.php");
   A_Check('Committee');
+  
+  // TODO THIS IS TOTALLY DUFF!!!!! TODO TODO 
 ?>
 
 <html>

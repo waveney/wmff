@@ -12,7 +12,7 @@
   $Bars = 1;
   if (isset($_COOKIE{'WMFF2'}) || isset($USER{'AccessLevel'})) {
     $Bars = 2;
-    $UserName = $USER['Login'];
+    $UserName = (isset($USER['Login'])? $USER['Login'] : "");
   }
 //   $Bars = 1; 
 
@@ -22,7 +22,7 @@
   $Menus = [
     'Public'=> [
       '<Home'=>'',
-      'Line-up'=>[
+      'Line Up'=>[
         'Dance'=>'LineUp.php?T=Dance',
         'Music'=>'LineUp.php?T=Music', 
         'Comedy'=>'LineUp.php?T=Comedy',
@@ -32,7 +32,7 @@
         'By Venue'=>'WhatsOnWhere.php',
         'By Time'=>'WhatsOnWhen.php',
         '*Now'=>'WhatsOnNow.php',
-        'Dancing'=>'int/ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR',
+        'Dancing'=>"int/ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR",
         'Music'=>'Sherlock.php?t=Music',
 //        'Special Events'=>'Sherlock.php?t=Special',
         'Family'=>'Sherlock.php?t=Family',
@@ -76,18 +76,18 @@
     'Private'=> [  
       'Staff Tools'=>'int/Staff.php',
       '-Documents'=>'int/Dir.php',
-      '-Time Line'=>'int/TimeLine.php?Y=$YEAR',
+      '-Time Line'=>"int/TimeLine.php?Y=$YEAR",
       "Logout $UserName"=>'int/Login.php?ACTION=LOGOUT',
       ],
     'Perf'=>[
-      'Edit Data'=>"int/AddPerf.php?sidenum=$USERID",
+      'Edit Your Data'=>"int/AddPerf.php?sidenum=$USERID",
       '-Public view'=>"int/ShowDance.php?sidenum=$USERID",
       '?Dance FAQ'=>'int/DanceFAQ.php',
-      '#Performer T&amp;Cs'=>'MusicFAQ.php',    
+      '#Performer T&amp;Cs'=>'int/MusicFAQ.php',    
       ],
     'Trade'=>[
-      'Edit Trader Info'=>'int/TraderPage.php?id=$USERID',
-      '-Public view of Trader'=>'int/ShowTrade.php?id=$USERID',
+      'Edit Trader Info'=>"int/TraderPage.php?id=$USERID",
+      '-Public view of Trader'=>"int/ShowTrade.php?id=$USERID",
       'Trade FAQ'=>'int/TradeFAQ.php',
       ], 
 
@@ -96,13 +96,16 @@
       ],         
   ];
  
-function Show_Bar(&$Bar,$level=0) { 
-  global $USERID,$host;
+function Show_Bar(&$Bar,$level=0,$Pval=1) { 
+  global $USERID,$host,$PerfTypes;
   $host= "https://" . $_SERVER['HTTP_HOST'];
 //  echo "<ul class=MenuLevel$level>";
+  $P=$Pval*100;
+  $Pi = 0;
   foreach ($Bar as $text=>$link) {
     $Minor = 0;
     $xtra = '';
+    $Pi++; $P++;
     if (!$text) continue;
     switch (substr($text,0,1)) {
       case '*' : 
@@ -126,28 +129,31 @@ function Show_Bar(&$Bar,$level=0) {
         $text = substr($text,1);
         break;
       case '?' :
+        include_once("int/DanceLib.php");
         $Side = Get_Side($USERID);
         if (!$Side['IsASide']) continue;
         $text = substr($text,1);
         break;
       case '#' :
+        include_once("int/DanceLib.php");
         $Side = Get_Side($USERID);
         $NotD = 0;
         foreach ($PerfTypes as $p=>$d) if (($d[0] != 'IsASide') && $Side[$d[0]]) $NotD = 1;
-        if (!$NotD) continue;
+        if (!$NotD) continue 2;
         $text = substr($text,1);
         break;
       default:
     }
     if (is_array($link)) {
-      echo "<div class='dropdown MenuMinor$Minor' $xtra onmouseover=NoHoverSticky(event)>";
-      echo "<a onclick=NavStick(event)>$text</a>";
-      echo "<div class=dropdown-content>";
-      Show_Bar($link,$level+1);
+      echo "<div class='dropdown MenuMinor$Minor' id=MenuParent$P $xtra onmouseover=NoHoverSticky(event)>";
+      echo "<a onclick=NavStick(event) onmouseover=NavSetPosn(event,$P)>$text</a>";
+      echo "<div class=dropdown-content id=MenuChild$P>";
+      Show_Bar($link,$level+1,$P);
       echo "</div></div>";
     } elseif (substr($link,0,1) == "!") {
       echo "<a class='MenuMinor$Minor headericon' $xtra href='" . substr($link,1) . "' target=_blank>$text</a>";
     } else {
+      if ($level == 1) $xtra .= " style='animation-duration: " . (150 * $Pi) . "ms; '";
       echo "<a href='$host/$link' class='MenuMinor$Minor' $xtra onmouseover=NoHoverSticky(event)>$text</a>";
     }
   }
@@ -182,7 +188,9 @@ function Show_Bar(&$Bar,$level=0) {
           break;
       }
       if (isset($_COOKIE{'WMFF2'})) {
+        echo "<div class=MenuTesting>";
         Show_Bar($Menus['Testing']);
+        echo "</div>";
       }
     } else if (isset($_COOKIE{'WMFF2'})) {
       Show_Bar($Menus['Private']);

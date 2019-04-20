@@ -65,13 +65,7 @@ function Forgot() {
 }
 
 function Set_Password($user,$msg='') {
-//var_dump($user);
-  echo "<html><head><title>WMFF Staff | Set Password</title>";
-  include_once("files/header.php");
-  include_once("festcon.php"); 
-  echo '<link href="files/festconstyle.css" type="text/css" rel="stylesheet" />';
-  echo "</head> <body>";
-  include_once("files/navigation.php");
+  dostaffhead("Set Password");
 
   $ans = Get_User($user);
 // var_dump($ans);exit;
@@ -121,15 +115,9 @@ function Limited() {
 function Login($errmsg='', $message='') {
   global $db,$USER,$AccessType;
   Set_User();
-  if (isset($USER)  && $USER && $USER{'AccessLevel'} > $AccessType['Participant']) include ("Staff.php");
+  if (isset($USER)  && $USER && $USER{'AccessLevel'} > $AccessType['Participant']) include_once ("Staff.php");
 
-  echo "<html><head><title>WMFF Staff | Login</title>";
-  include_once("files/header.php");
-  include_once("festcon.php"); 
-  echo '<link href="files/festconstyle.css" type="text/css" rel="stylesheet" />';
-  echo "</head> <body>";
-  include_once( "files/navigation.php");
-
+  dostaffhead("Staff Login");
   if ($errmsg) echo "<h2 class=ERR>$errmsg</h2>";
   if ($message) echo "<h2>$message</h2>";
 

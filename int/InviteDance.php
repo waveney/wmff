@@ -4,7 +4,6 @@
 
   dostaffhead("Invite Dance", "/js/clipboard.min.js", "/js/emailclick.js", "/js/InviteThings.js");
 
-  include_once("files/navigation.php"); 
   include_once("DanceLib.php"); 
   global $YEAR,$PLANYEAR,$Coming_Colours,$Coming_idx,$Bespoke;
   $Invited = (isset($_REQUEST['INVITED'])? "&INVITED" :"");

@@ -538,8 +538,6 @@ function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
   echo "<html><head>";
   echo "<title>$pfx " . $MASTER_DATA['FestName'] . " | $title</title>\n";
   include_once("files/header.php");
-  echo "<script src=/js/tablesort.js?V=$V></script>\n";
-  echo "<script src=/js/Tools.js?V=$V></script>\n";
   if ($extra1) doextras($extra1,$extra2,$extra3,$extra4,$extra5);
   echo "</head><body>\n";
 
@@ -575,8 +573,6 @@ function doheadpart($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='
   echo "<html><head>";
   echo "<title>$pfx " . $MASTER_DATA['FestName'] . " | $title</title>\n";
   include_once("files/header.php");
-  echo "<script src=/js/tablesort.js?V=$V></script>\n";
-  echo "<script src=/js/Tools.js?V=$V></script>\n";
   if ($extra1) doextras($extra1,$extra2,$extra3,$extra4,$extra5);
   $head_done = 1;
 }
@@ -591,13 +587,17 @@ function dostaffhead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5=
   echo "<title>$pfx " . $MASTER_DATA['ShortName'] . " | $title</title>\n";
   include_once("files/header.php");
   include_once("festcon.php");
-  echo "<script src=/js/tablesort.js?V=$V></script>\n";
-  echo "<script src=/js/Tools.js?V=$V></script>\n";
   if ($extra1) doextras($extra1,$extra2,$extra3,$extra4,$extra5);
   echo "<meta http-equiv='cache-control' content=no-cache>";
   echo "</head><body>\n";
-  include_once("files/navigation.php"); 
-  echo "<div class=content>";
+  if (Feature('NewStyle')) {
+    include_once("files/Newnavigation.php");
+    echo "<div class=content>";  
+  } else {
+    include_once("files/navigation.php"); 
+    echo "<div class=content>";
+  }
+
   $head_done = 1;
 }
 

@@ -81,6 +81,17 @@ function NavStick(e) { // Toggle sticking of menus
   }
 }
 
+function NavSetPosn(e,labl) {
+  // Find Actual width of div labl, position child half of width to the left
+  debugger;
+  var parent = $("#MenuParent" + labl);
+//  var child = $("#MenuChild" + labl);
+  var lablwid = $("#MenuParent" + labl).outerWidth();
+//  $("#MenuChild" + labl).css({"transform":"translateX(" + (-(lablwid/2)) + ")" })
+  $("#MenuChild" + labl).css({"margin-left":(-(lablwid/2)) })
+  var aaa=1;
+}
+
 function MenuResize() {
 // Work out effective width
 // if < Threshold 2 - hide level 2 elements
@@ -121,8 +132,7 @@ function MenuResize() {
 
 $(document).ready(function() {
   MenuResize();
-  window.addEventListener('resize',MenuResize);
-  
+  window.addEventListener('resize',MenuResize);  
 })
 
 

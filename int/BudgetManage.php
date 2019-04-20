@@ -81,7 +81,7 @@
   
   if ($Manage) {  
     echo "<input type=submit name=Update value=Update>\n";
-    echo "</form></div>";
+    echo "</form>";
     echo "<h2><a href=BudgetManage.php?VIEW>Budget View</a></h2><p>\n";
   }
   
