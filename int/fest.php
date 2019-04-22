@@ -510,26 +510,23 @@ function Send_SysAdmin_Email($Subject,&$data=0) {
 
 $head_done = 0;
 
-function doextras($extra1,$extra2,$extra3,$extra4,$extra5) {
+function doextras($extras) {
   global $MASTER_DATA;
   $V=$MASTER_DATA['V'];
-  for ($i=1;$i<6;$i++) {
-    if (${"extra$i"}) {
-      $e = ${"extra$i"};
-      $suffix=pathinfo($e,PATHINFO_EXTENSION);
-      if ($suffix == "js") {
-        echo "<script src=$e?V=$V></script>\n";
-      } else if ($suffix == 'jsdefer') {
-        $e = preg_replace('/jsdefer$/','js',$e);
-        echo "<script defer src=$e?V=$V></script>\n";
-      } else if ($suffix == "css") {
-        echo "<link href=$e?V=$V type=text/css rel=stylesheet>\n";
-      }
+  foreach ($extras as $e) {
+    $suffix=pathinfo($e,PATHINFO_EXTENSION);
+    if ($suffix == "js") {
+      echo "<script src=$e?V=$V></script>\n";
+    } else if ($suffix == 'jsdefer') {
+      $e = preg_replace('/jsdefer$/','js',$e);
+      echo "<script defer src=$e?V=$V></script>\n";
+    } else if ($suffix == "css") {
+      echo "<link href=$e?V=$V type=text/css rel=stylesheet>\n";
     }
   }
 }
 
-function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
+function dohead($title,$extras=[]) {
   global $head_done,$MASTER_DATA,$CONF;
   if ($head_done) return;
   $V=$MASTER_DATA['V'];
@@ -538,7 +535,7 @@ function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
   echo "<html><head>";
   echo "<title>$pfx " . $MASTER_DATA['FestName'] . " | $title</title>\n";
   include_once("files/header.php");
-  if ($extra1) doextras($extra1,$extra2,$extra3,$extra4,$extra5);
+  if ($extras) doextras($extras);
   echo "</head><body>\n";
 
   if (Feature('NewStyle')) {
@@ -564,7 +561,7 @@ function dohead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
   $head_done = 1;
 }
 
-function doheadpart($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
+function doheadpart($title,$extras=[]) {
   global $head_done,$MASTER_DATA,$CONF;
   if ($head_done) return;
   $V=$MASTER_DATA['V'];
@@ -573,11 +570,11 @@ function doheadpart($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='
   echo "<html><head>";
   echo "<title>$pfx " . $MASTER_DATA['FestName'] . " | $title</title>\n";
   include_once("files/header.php");
-  if ($extra1) doextras($extra1,$extra2,$extra3,$extra4,$extra5);
+  if ($extras) doextras($extras);
   $head_done = 1;
 }
 
-function dostaffhead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') {
+function dostaffhead($title,$extras=[]) {
   global $head_done,$MASTER_DATA,$CONF;
   if ($head_done) return;
   $V=$MASTER_DATA['V'];
@@ -587,7 +584,7 @@ function dostaffhead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5=
   echo "<title>$pfx " . $MASTER_DATA['ShortName'] . " | $title</title>\n";
   include_once("files/header.php");
   include_once("festcon.php");
-  if ($extra1) doextras($extra1,$extra2,$extra3,$extra4,$extra5);
+  if ($extras) doextras($extras);
   echo "<meta http-equiv='cache-control' content=no-cache>";
   echo "</head><body>\n";
   if (Feature('NewStyle')) {
@@ -601,7 +598,7 @@ function dostaffhead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5=
   $head_done = 1;
 }
 
-function dominimalhead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra5='') { 
+function dominimalhead($title,$extras=[]) { 
   global $head_done,$MASTER_DATA,$CONF;
   $V=$MASTER_DATA['V'];
   $pfx="";
@@ -610,7 +607,7 @@ function dominimalhead($title,$extra1='',$extra2='',$extra3='',$extra4='',$extra
   echo "<title>$pfx " . $MASTER_DATA['ShortName'] . " | $title</title>\n";
   echo "<link href=files/style.css?V=$V type=text/css rel=stylesheet>";
   echo "<script src=/js/jquery-3.2.1.min.js></script>";
-  if ($extra1) doextras($extra1,$extra2,$extra3,$extra4,$extra5);
+  if ($extras) doextras($extras);
   echo "<script>" . $MASTER_DATA['Analytics'] . "</script>";
   echo "</head><body>\n";
   $head_done = 2;

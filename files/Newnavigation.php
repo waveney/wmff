@@ -185,7 +185,7 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
 //  echo $MainBar;
   
   if ($Bars == 2) {
-    $MainBar .=  "<div class='navigation PrivateBar' align=right>";
+    $MainBar .=  "<div class='navigation PrivateBar MenuMinor0' align=right>";
     if ( isset($USER{'AccessLevel'}) && $USER{'AccessLevel'} == $Access_Type['Participant'] ) {
       switch ($USER{'Subtype'}) {
         case 'Perf': 

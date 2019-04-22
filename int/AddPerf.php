@@ -39,7 +39,7 @@
     break;
   }  
 
-  dostaffhead("Add/Change Performer", "/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js");
+  dostaffhead("Add/Change Performer", ["/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js"]);
   global $YEAR,$PLANYEAR,$Mess,$BUTTON;  // TODO Take Mess local
 
   echo '<h2>Add/Edit Performer</h2>'; // TODO CHANGE

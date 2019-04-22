@@ -2,7 +2,7 @@
   include_once("fest.php");
   A_Check('Steward');
 
-  dostaffhead("Add/Change Timeline Entry", "js/jquery-ui.min.js", "css/jquery-ui.min.css", "js/timeline.jsdefer");
+  dostaffhead("Add/Change Timeline Entry",[ "js/jquery-ui.min.js", "css/jquery-ui.min.css", "js/timeline.jsdefer"]);
 
   include_once("DocLib.php");
   include_once("TLLib.php");

@@ -5,7 +5,7 @@
   include_once("TradeLib.php");
   global $db,$YEAR,$SHOWYEAR,$PLANYEAR,$Trade_States,$Trade_State,$YEAR,$Trade_Days,$Prefixes;
 
-  dohead("Traders in $YEAR",'files/festconstyle.css');
+  dohead("Traders in $YEAR",['files/festconstyle.css']);
 
   $Locs = Get_Trade_Locs(1);
   $TTypes = Get_Trade_Types(1);

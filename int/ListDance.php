@@ -2,7 +2,7 @@
   include_once("fest.php");
   A_Check('Steward');
 
-  dostaffhead("List Dance", "/js/clipboard.min.js","/js/emailclick.js", "/js/InviteThings.js" );
+  dostaffhead("List Dance", ["/js/clipboard.min.js","/js/emailclick.js", "/js/InviteThings.js"] );
   global $YEAR,$PLANYEAR,$Dance_Comp,$Dance_Comp_Colours,$Event_Types_Full;
   include_once("DanceLib.php"); 
   include_once("ProgLib.php");

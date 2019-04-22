@@ -37,7 +37,7 @@ Please be aware that access to/from the town on foot is over Julian's bridge, wh
 
 This year the campsite will be available from Thursday (5pm onwards).<p>
 
-The nearest postcode to the campsite is BH21 1EF (do not use code for the farm it is 2 miles away by road).<p>
+Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use code for the farm it is 2 miles away by road).<p>
 
 
 <table cellspacing="5" cellpadding="5" style="background-color:#59B404; border-color:#59B404; max-width:900;">
@@ -74,7 +74,7 @@ The site has toilets, showers, food and good 24 hour security. Entry to the camp
 
 Please be aware that access to/from the town on foot is over Julian's bridge, which has no footpath, so please take care when crossing at all times.<p>
 
-The nearest postcode to the campsite is BH21 1EF (do not use code for the farm it is 2 miles away by road).<p>
+Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use code for the farm it is 2 miles away by road).<p>
 
 <?php
 }

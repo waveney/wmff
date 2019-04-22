@@ -70,7 +70,7 @@
   $USER{'UserId'} = $USERID = $id;
 
   $_GET['id'] = $id;
-  if ($DoHead[$t]) dostaffhead($CakeTypes[$t],"/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js");
+  if ($DoHead[$t]) dostaffhead($CakeTypes[$t],["/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js"]);
   include_once($includes[$t]); // Should not return
   dotail();
 ?>

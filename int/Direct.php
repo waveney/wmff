@@ -49,7 +49,7 @@
     setcookie('WMFFD',$biscuit,0,'/');
     $_COOKIE['WMFFD'] = $biscuit;
 
-    dostaffhead($Type, "/js/Participants.js");
+    dostaffhead($Type, ["/js/Participants.js"]);
 
     $USER{'AccessLevel'} = $Access_Type['Participant'];
     $USER{'Subtype'} = $Type;

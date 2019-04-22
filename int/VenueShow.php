@@ -58,7 +58,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   $Poster = (isset($_GET['Poster']) ? $_GET['Poster'] : 0 ) ; // If present do Poster Mode - No Navigation/Trailer, but add new trailer with web and QR
 
   if ($Poster) {
-    doheadpart("Venue Details","js/qrcode.js","files/festconstyle.css");
+    doheadpart("Venue Details",["js/qrcode.js","files/festconstyle.css"]);
     echo "</head><body>\n";
     $Pictures = (isset($_POST['Pics']) && ($_POST['Pics'] == 'on'));
   } else {

@@ -2,7 +2,7 @@
   include_once("fest.php");
   A_Check('Committee','Venues');
 
-  dostaffhead("Manage Trade Pitches",'js/Trade.js');
+  dostaffhead("Manage Trade Pitches",['js/Trade.js']);
 
   include_once("TradeLib.php");
 

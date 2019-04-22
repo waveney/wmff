@@ -1,4 +1,4 @@
-/* Main */
+/* Main - headers, footer and menus */
 
 header {
   position: sticky;
@@ -320,6 +320,14 @@ header .dropdown-content a:visited  {
   background: dimgrey;
   color: white;  
 }
+
+/* Banner Stuff */
+
+.banner {
+  min-height:80;
+  background:black;
+}
+
 
 
 /* Footer Stuff */

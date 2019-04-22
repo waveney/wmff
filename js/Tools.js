@@ -84,7 +84,7 @@ function NavStick(e) { // Toggle sticking of menus
 function NavSetPosn(e,labl) {
   // Find Actual width of div labl, position child half of width to the left
   var lablwid = $("#MenuParent" + labl).outerWidth();
-  $("#MenuChild" + labl).css({"margin-left":(-(lablwid/2)) })
+  $("#MenuChild" + labl).css({"margin-left":(-110+(lablwid/2)) })
 }
 
 function MenuResize() {

@@ -2,7 +2,7 @@
   include_once("int/fest.php");
 
   set_ShowYear();  
-  dohead('7,8,9 June 2019', '/js/WmffAds.js', "/js/HomePage.js");
+  dohead('7,8,9 June 2019', ['/js/WmffAds.js', "/js/HomePage.js"]);
 
   global $MASTER_DATA;
   include("int/TradeLib.php");
