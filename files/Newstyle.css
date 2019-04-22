@@ -115,13 +115,18 @@ h2 {
 .content, .contentlim     {
     min-height:580px;
     margin: 0 auto 0 auto;
-    padding: 0;
+
     background-color:#fff;
     }
+.content {
+  padding: 15px 25px;
+}
+
 .contentlim {
   max-width:1560;
   margin:auto;
   background: 
+  padding: 0;
 }
 .widthLim {
   max-width:1560;

@@ -83,13 +83,8 @@ function NavStick(e) { // Toggle sticking of menus
 
 function NavSetPosn(e,labl) {
   // Find Actual width of div labl, position child half of width to the left
-  debugger;
-  var parent = $("#MenuParent" + labl);
-//  var child = $("#MenuChild" + labl);
   var lablwid = $("#MenuParent" + labl).outerWidth();
-//  $("#MenuChild" + labl).css({"transform":"translateX(" + (-(lablwid/2)) + ")" })
   $("#MenuChild" + labl).css({"margin-left":(-(lablwid/2)) })
-  var aaa=1;
 }
 
 function MenuResize() {
@@ -130,11 +125,35 @@ function MenuResize() {
   }
 }
 
+
 $(document).ready(function() {
   MenuResize();
   window.addEventListener('resize',MenuResize);  
 })
 
+
+function ShowHoverMenu() {
+  debugger;
+//  if (!MenuCopied) CopyHoverMenu();
+//  $("#HoverContainer").show();
+  $("#HoverContainer").addClass("Slide-Left");
+  $(".MenuMenuIcon").hide();
+  $(".MenuMenuClose").show();
+  $(".MenuSubMenu").hide();
+  $(".MenuSubMenuIcon").hide();
+}
+
+function CloseHoverMenu() {
+//  $("#HoverContainer").hide();
+  $("#HoverContainer").removeClass("Slide-Left");
+  $(".MenuMenuIcon").show();
+  $(".MenuMenuClose").hide();
+}
+
+function HoverDownShow(labl) {
+  $("#HoverChild" + labl).toggle();
+  $("#DownArrow" + labl).toggleClass("Flip");
+}
 
 
 var isAdvancedUpload = function() {

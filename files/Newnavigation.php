@@ -10,6 +10,7 @@
 
   $V=$MASTER_DATA['V'];  
   $Bars = 1;
+  $UserName = '';
   if (isset($_COOKIE{'WMFF2'}) || isset($USER{'AccessLevel'})) {
     $Bars = 2;
     $UserName = (isset($USER['Login'])? $USER['Login'] : "");
@@ -95,9 +96,13 @@
       'Staff Tools'=>'int/Staff.php',
       ],         
   ];
- 
+
+global $MainBar,$HoverBar;
+$MainBar = $HoverBar = '';
+
+
 function Show_Bar(&$Bar,$level=0,$Pval=1) { 
-  global $USERID,$host,$PerfTypes;
+  global $USERID,$host,$PerfTypes,$MainBar,$HoverBar;
   $host= "https://" . $_SERVER['HTTP_HOST'];
 //  echo "<ul class=MenuLevel$level>";
   $P=$Pval*100;
@@ -109,7 +114,9 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
     if (!$text) continue;
     switch (substr($text,0,1)) {
       case '*' : 
-        echo "<a class='NotYet MenuMinor2'>" . substr($text,1);
+        $str = "<a class='NotYet MenuMinor2'>" . substr($text,1);
+        $MainBar .= $str;
+        $HoverBar .= $str;
         continue 2;
       case '!' :
         $Minor = 1;
@@ -145,16 +152,22 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
       default:
     }
     if (is_array($link)) {
-      echo "<div class='dropdown MenuMinor$Minor' id=MenuParent$P $xtra onmouseover=NoHoverSticky(event)>";
-      echo "<a onclick=NavStick(event) onmouseover=NavSetPosn(event,$P)>$text</a>";
-      echo "<div class=dropdown-content id=MenuChild$P>";
+      $MainBar .= "<div class='dropdown MenuMinor$Minor' id=MenuParent$P $xtra onmouseover=NoHoverSticky(event)>";
+      $MainBar .= "<a onclick=NavStick(event) onmouseover=NavSetPosn(event,$P)>$text</a>";
+      $MainBar .= "<div class=dropdown-content id=MenuChild$P>";
+      if ($level == 1) $xtra .= " style='animation-duration: " . (150 * $Pi) . "ms; '";      
+      $HoverBar .= "<div class=hoverdown id=HoverParent$P onclick=HoverDownShow($P) $xtra >$text<img class=hoverdownarrow src=/images/icons/Down-arrow.png id=DownArrow$P></div>";
+      $HoverBar .= "<div class=hoverdown-content id=HoverChild$P>";
       Show_Bar($link,$level+1,$P);
-      echo "</div></div>";
+      $MainBar .= "</div></div>";
+      $HoverBar .= "</div>";
     } elseif (substr($link,0,1) == "!") {
-      echo "<a class='MenuMinor$Minor headericon' $xtra href='" . substr($link,1) . "' target=_blank>$text</a>";
+      $MainBar .= "<a class='MenuMinor$Minor headericon' $xtra href='" . substr($link,1) . "' target=_blank>$text</a>";
+      $HoverBar .= "<div class=hoverdown><a class='headericon' $xtra href='" . substr($link,1) . "' target=_blank>$text</a></div>";
     } else {
       if ($level == 1) $xtra .= " style='animation-duration: " . (150 * $Pi) . "ms; '";
-      echo "<a href='$host/$link' class='MenuMinor$Minor' $xtra onmouseover=NoHoverSticky(event)>$text</a>";
+      $MainBar .=  "<a href='$host/$link' class='MenuMinor$Minor' $xtra onmouseover=NoHoverSticky(event)>$text</a>";
+      $HoverBar .=  "<div class=hoverdown><a href='$host/$link' $xtra >$text</a></div>";
     }
   }
 }
@@ -163,19 +176,16 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
 
 /* START HERE */
 
-  echo "<header class=main-header>"; 
-  echo "<a href=/>";
-    echo "<img src=" . $MASTER_DATA['WebsiteBanner2'] . "?V=$V class='header-logo head-white-logo'>";
-    echo "<img src=" . $MASTER_DATA['WebSiteBanner'] . "?V=$V class='header-logo head-coloured-logo'>";
-  echo "</a>";
-  echo "<div class=MenuIcon><img src=/images/icons/MenuIcon.svg onmouseover=ShowHoverMenu(0) onclick=ShowHoverMenu(1)></div>";
-  echo "<div id=MenuBars>";
-  echo "<div id=PublicBar$Bars class=navigation align=right>";
-  echo Show_Bar($Menus['Public']);
-  echo "</div>";
+  // This generates the info into MainBar and HoverBar
+
+  $MainBar .= "<div class='PublicBar PublicBar$Bars navigation' align=right>";
+  Show_Bar($Menus['Public']);
+  $MainBar .= "</div>";
+  
+//  echo $MainBar;
   
   if ($Bars == 2) {
-    echo "<div id=PrivateBar class=navigation align=right>";
+    $MainBar .=  "<div class='navigation PrivateBar' align=right>";
     if ( isset($USER{'AccessLevel'}) && $USER{'AccessLevel'} == $Access_Type['Participant'] ) {
       switch ($USER{'Subtype'}) {
         case 'Perf': 
@@ -188,15 +198,27 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
           break;
       }
       if (isset($_COOKIE{'WMFF2'})) {
-        echo "<div class=MenuTesting>";
+        $MainBar .=  "<div class=MenuTesting>";
         Show_Bar($Menus['Testing']);
-        echo "</div>";
+        $MainBar .=  "</div>";
       }
-    } else if (isset($_COOKIE{'WMFF2'})) {
+    } else if (isset($_COOKIE{'WMFF2'}) && $UserName ) {
       Show_Bar($Menus['Private']);
-    } 
-    echo "</div>";
+    }
+    $MainBar .= "</div>";
   }
+  
+  echo "<header class=main-header>"; 
+  echo "<a href=/>";
+    echo "<img src=" . $MASTER_DATA['WebsiteBanner2'] . "?V=$V class='header-logo head-white-logo'>";
+    echo "<img src=" . $MASTER_DATA['WebSiteBanner'] . "?V=$V class='header-logo head-coloured-logo'>";
+  echo "</a>";
+  echo "<div class=MenuIcon><img id=MenuIconIcon src=/images/icons/MenuIcon.png onclick=ShowHoverMenu() class=MenuMenuIcon>";
+  echo "<img id=MenuIconClose src=/images/icons/MenuClose.png onclick=CloseHoverMenu() class=MenuMenuClose>";
+  echo "<div id=HoverContainer><div id=HoverMenu>$HoverBar</div></div></div>";
+  echo "<div id=MenuBars>";
+  echo $MainBar;
+
   echo "</div></header>";
   
 ?>
