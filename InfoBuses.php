@@ -3,7 +3,7 @@
 
   dohead("Getting Here");
 
-  include_once("int/ProgLib.php");
+  include_once("int/ProgLib.php",[],1);
 
 ?>
 <script language=Javascript defer>

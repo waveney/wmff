@@ -113,7 +113,7 @@ h2 {
     background-color:#005983;
     }
 .content, .contentlim     {
-    min-height:580px;
+    min-height:700px;
     margin: 0 auto 0 auto;
 
     background-color:#fff;
@@ -125,8 +125,9 @@ h2 {
 .contentlim {
   max-width:1560;
   margin:auto;
-  background: 
+/*  background:  */
   padding: 0;
+/*  overflow:hidden; */
 }
 .widthLim {
   max-width:1560;
@@ -135,6 +136,8 @@ h2 {
 .MainContent {
   min-height:640px;
   padding: 15px 25px;
+  position:realtive;
+  display:block;
 }
 sup
     {

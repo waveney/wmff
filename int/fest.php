@@ -526,7 +526,8 @@ function doextras($extras) {
   }
 }
 
-function dohead($title,$extras=[]) {
+// If Banner is a simple image then treated as a basic banner image with title overlaid otherwise what is passed is used as is
+function dohead($title,$extras=[],$Banner='',$BannerOptions=' ') {
   global $head_done,$MASTER_DATA,$CONF;
   if ($head_done) return;
   $V=$MASTER_DATA['V'];
@@ -539,8 +540,29 @@ function dohead($title,$extras=[]) {
   echo "</head><body>\n";
 
   if (Feature('NewStyle')) {
+
     echo "<div class=contentlim>";  
     include_once("files/Newnavigation.php");
+
+    if ($Banner) {
+      if ($Banner == 1) {
+        echo "<div class=WMFFBanner400><img src=" . $MASTER_DATA['DefaultPageBanner'] . " class=WMFFBannerDefault>";
+        echo "<div class=WMFFBannerText>$title</div>";
+        if (!strchr('T',$BannerOptions)) echo "<img src=/images/icons/torn-top.svg class=TornTopEdge>";
+        echo "</div>";
+      }
+      else if (substr($Banner,0,7) == 'images/') {
+        echo "<div class=WMFFBanner400><img src=$Banner class=BannerDefault>";
+        echo "<div class=WMFFBannerText>$title</div>";
+        if (!strstr($BannerOptions,'T')) echo "<img src=/images/icons/torn-top.svg class=TornTopEdge>";
+        echo "</div>";
+      } else {
+        echo $Banner;
+      }
+    } else {
+      echo "<div class='NullBanner'></div>";  // Not shure this is needed
+    }
+
     echo "<div class=maincontent>";  
   } else {
     echo "<div id=HeadRow>";
@@ -561,6 +583,7 @@ function dohead($title,$extras=[]) {
   $head_done = 1;
 }
 
+//  No Banner 
 function doheadpart($title,$extras=[]) {
   global $head_done,$MASTER_DATA,$CONF;
   if ($head_done) return;
@@ -574,6 +597,7 @@ function doheadpart($title,$extras=[]) {
   $head_done = 1;
 }
 
+// No Banner
 function dostaffhead($title,$extras=[]) {
   global $head_done,$MASTER_DATA,$CONF;
   if ($head_done) return;
@@ -598,6 +622,7 @@ function dostaffhead($title,$extras=[]) {
   $head_done = 1;
 }
 
+// No Banner
 function dominimalhead($title,$extras=[]) { 
   global $head_done,$MASTER_DATA,$CONF;
   $V=$MASTER_DATA['V'];

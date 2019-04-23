@@ -33,6 +33,9 @@ $(document).ready(function() {
   //caches a jQuery object containing the header element
   var header = $(".main-header");
   var dhead = header[0]; // jquery to dom
+  var scroll = $(window).scrollTop();  
+  if (scroll >= 1) header.addClass("fixedheader");
+  
   $(window).scroll(function() {
     var scroll = $(window).scrollTop();
     if (scroll >= 1) {
@@ -96,7 +99,7 @@ function MenuResize() {
   // copy menus to menu icon
   // hide those that can be hidden
 //  return;
-  debugger;
+//  debugger;
   var Ewidth = $(".Main-Header").width();
   var IconWidth = $(".header-logo").width();
   if (Ewidth > 1380 ) {  // Show all
@@ -133,7 +136,7 @@ $(document).ready(function() {
 
 
 function ShowHoverMenu() {
-  debugger;
+//  debugger;
 //  if (!MenuCopied) CopyHoverMenu();
 //  $("#HoverContainer").show();
   $("#HoverContainer").addClass("Slide-Left");

@@ -178,9 +178,9 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
 
   // This generates the info into MainBar and HoverBar
 
-  $MainBar .= "<div class='PublicBar PublicBar$Bars navigation' align=right>";
+  $MainBar .= "<nav class='PublicBar PublicBar$Bars navigation' align=right>";
   Show_Bar($Menus['Public']);
-  $MainBar .= "</div>";
+  $MainBar .= "</nav>";
   
 //  echo $MainBar;
   

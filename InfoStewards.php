@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Stewards and Volunteers");
+  dohead("Volunteers",[],1);
 
 ?>
 <div class="biodiv">
@@ -9,8 +9,7 @@
 <p>Apply to volunteer at Wimborne Minster Folk Festival</p>
 </div>
 
-<h2 class="maintitle">Stewards & Volunteers</h2>
-Volunteer at Wimborne Minster Folk Festival<p>
+Please volunteer at Wimborne Minster Folk Festival<p>
 
 We are looking for vibrant people to be part of the festival team who are prepared to work in shifts, for at least 6-8 hours for the festival.<p>
 

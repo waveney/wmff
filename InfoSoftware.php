@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Folk Festival Software");
+  dohead("Folk Festival Software",[],1);
 ?>
   <h2 class=subtitle>Folk Festival Software</h2>
 <h3>BACKGROUND</h3>

@@ -2,13 +2,19 @@
   include_once("int/fest.php");
 
   set_ShowYear();  
-  dohead('7,8,9 June 2019', ['/js/WmffAds.js', "/js/HomePage.js"]);
+  $Banner  = "<div class=WMFFBanner800><img src=" . $MASTER_DATA['DefaultPageBanner'] . " class=WMFFBannerDefault>";
+  $Banner .= "<div class=WMFFBannerText>Thursday 6th June to<br>Sunday 9th June 2019</div>";
+  $Banner .= "<img src=/images/icons/torn-top.svg class=TornTopEdge>";
+  $Banner .= "</div>";
+
+
+  dohead('7,8,9 June 2019', ['/js/WmffAds.js', "/js/HomePage.js"],$Banner );
 
   global $MASTER_DATA;
   include("int/TradeLib.php");
   include("int/NewsLib.php");
   include("int/DispLib.php");
-  $host= "https://" . $_SERVER['HTTP_HOST'];
+  
   
   Show_Articles_For("Top");
 

@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Contact Us");
+  dohead("Contact Us",[],1);
 
 ?>
 <h2 class="maintitle">Contact Us</h2>

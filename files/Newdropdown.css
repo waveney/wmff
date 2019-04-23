@@ -5,9 +5,9 @@ header {
   top:0;
   z-index: 1000;
   border-bottom: 1px solid #fff;
-  background: black; 
+  background:  linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.2));
   transition: all ease-in-out 0.4s;
-  box-shadow: 0 0 0px rgba(0,0,0,0);
+ /* box-shadow: 0 0 0px rgba(0,0,0,0);*/
   height: 80px;
   color:white;
 /*  overflow: hidden; */
@@ -95,6 +95,10 @@ header #MenuBars {
 .PrivateBar {
   height: 40px;
   line-height: 40px;
+
+}
+
+.PrivateBar a {
   background-color: dimgrey;
 }
 
@@ -312,7 +316,6 @@ header .dropdown-content a:visited  {
 
 .Flip {
   transform: rotate(180deg);
-  
 }
 
 #HoverMenu .hoverdown:hover,
@@ -323,12 +326,73 @@ header .dropdown-content a:visited  {
 
 /* Banner Stuff */
 
-.banner {
+.NullBanner {
   min-height:80;
+  width:1560;
+  position:absolute; 
+  top: 0;
   background:black;
 }
 
 
+.WMFFbanner400 {
+  height:400;
+  width:1560;
+  margin-top:-80;
+  top: 0;
+  background:black;
+  z-index: 99;
+}
+
+
+.WMFFbanner600 {
+  height:600;
+  width:1560;
+  margin-top:-80;
+  top: 0;
+  background:black;
+  z-index: 99;
+}
+
+.WMFFbanner800 {
+  height:800;
+  width:1560;
+  margin-top:-80;
+  top: 0;
+  background:black;
+  z-index: 99;
+}
+
+.WMFFBannerText {
+  color: #fff;
+  margin: 30px 0 0;
+  text-align: center;
+  width:1560;
+  font-size: 60px;
+  position: absolute;
+  top:150;
+  z-index: 100;  
+  font-weight: 400;
+  text-shadow: 0 0 15px black, 0 0 10px black ;
+}
+
+.WMFFbanner800.WMFFBannerText {
+  top:350;
+}
+
+.WMFFBannerDefault {
+  width:100%;
+  height:inherit;
+  object-fit:cover;
+}
+
+.TornBottomEdge {
+
+}
+
+.TornTopEdge {
+  margin-top:-30;
+}
 
 /* Footer Stuff */
 .footer {

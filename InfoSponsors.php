@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Sponsorship");
+  dohead("Sponsorship",[],1);
 
 ?>
 <h2 class="maintitle" style="text-align:center; margin-bottom:10px;">Sponsorship Opportunities</h2>

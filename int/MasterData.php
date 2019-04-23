@@ -25,6 +25,7 @@
   echo "<tr>" . fm_text("Right Ad Img",$MASTER_DATA,'AdvertImgRight') . fm_text("Left Ad Right",$MASTER_DATA,'AdvertLinkRight'); */
   echo "<tr>" . fm_text("Website Coloured Banner",$MASTER_DATA,'WebSiteBanner',3);
   echo "<tr>" . fm_text("Website White Banner",$MASTER_DATA,'WebsiteBanner2',3);
+  echo "<tr>" . fm_text("Default Page Banner",$MASTER_DATA,'DefaultPageBanner',3);
   echo "<tr>" . fm_textarea("Analytics code",$MASTER_DATA,'Analytics',3,3);
   echo "<tr>" . fm_text("Directions Google API key",$MASTER_DATA,'GoogleAPI',3);
   echo "</table>\n";

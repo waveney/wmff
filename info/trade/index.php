@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Trade Stands");
+  dohead("Trade Stands",[],1);
 
   global $PLANYEAR;
   echo "<div class=biodiv>

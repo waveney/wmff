@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Road Closures");
+  dohead("Road Closures",[],1);
 ?>
   The following roads will be closed for periods over the 2018 festival, more details will be provided nearer the time:<p>
 <ul>
