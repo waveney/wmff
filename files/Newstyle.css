@@ -113,7 +113,7 @@ h2 {
     background-color:#005983;
     }
 .content, .contentlim     {
-    min-height:700px;
+    min-height:650px;
     margin: 0 auto 0 auto;
 
     background-color:#fff;
@@ -125,16 +125,14 @@ h2 {
 .contentlim {
   max-width:1560;
   margin:auto;
-/*  background:  */
   padding: 0;
-/*  overflow:hidden; */
 }
 .widthLim {
   max-width:1560;
   margin: 0 auto 0 auto;
 }
 .MainContent {
-  min-height:640px;
+
   padding: 15px 25px;
   position:realtive;
   display:block;
@@ -1073,6 +1071,11 @@ button {
   justify-content: center;
 }
 
+.LineupBase {
+  background:#f6f6f6;
+  color: #004668;
+}
+
 .LineupFit1 {
   min-width:100%;
   max-width:100%;
@@ -1088,21 +1091,21 @@ button {
 }
 
 .LineupFit3 {
-  min-width:300;
+  min-width:350;
   max-width:450;
   flex-grow:1;
   margin:15;
 }
 
 .LineupFit4 {
-  min-width:240;
+  min-width:250;
   max-width:350;
   flex-grow:1;
   margin:12;
 }
 
 .LineupFit5 {
-  min-width:200;
+  min-width:150;
   max-width:280;
   flex-grow:1;
   margin:10;
@@ -1110,15 +1113,25 @@ button {
 
 .LineupFit1 img, .LineupFit2 img, .LineupFit3 img, .LineupFit4 img, .LineupFit5 img {
   width:100%;
+  max-height: 350;
+  object-fit: cover;
+  border-bottom: 1px solid #dedede;
 }
   
 .LineUpFitTitle {
-  background:blue;
-  color:white;
   margin-top:2;
   margin-bottom:2;
   padding:5;
   text-align: center;
+}
+
+.LUHighlight, .LUHighlight a, .LUHighlight a:visited {
+  background-color:#43a9b2;
+  color:white;
+  animation-name: pbpop;  
+  animation-duration: 0.3s;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
 }
 
 .LineUptxt {
@@ -1128,6 +1141,14 @@ button {
   padding:5;
   background:white;
 }
+
+@keyframes pbpop {
+  50% {
+    -webkit-transform: scale(1.052);
+    transform: scale(1.05);
+  }
+}
+
 
 .TradeFlexCont {
   min-width:33%;

@@ -3,10 +3,13 @@
 
   set_ShowYear();  
   $Banner  = "<div class=WMFFBanner800><img src=" . $MASTER_DATA['DefaultPageBanner'] . " class=WMFFBannerDefault>";
-  $Banner .= "<div class=WMFFBannerText>Thursday 6th June to<br>Sunday 9th June 2019</div>";
+  $Banner .= "<div class=BanOverlay><img src=/images/icons/wimborne-folk-festival-logo-white-shadow.png>";
+  $Banner .= "<img src=/images/icons/underline.png>";
+  $Banner .= "</div>";
+  $Banner .= "<div class=BanDates>" . ($MASTER['DateFri']+$MASTER['FirstDay']) . " - " . ($MASTER['DateFri']+$MASTER['LastDay']) . " June $SHOWYEAR</div>";
+
   $Banner .= "<img src=/images/icons/torn-top.svg class=TornTopEdge>";
   $Banner .= "</div>";
-
 
   dohead('7,8,9 June 2019', ['/js/WmffAds.js', "/js/HomePage.js"],$Banner );
 
@@ -15,10 +18,8 @@
   include("int/NewsLib.php");
   include("int/DispLib.php");
   
-  
-  Show_Articles_For("Top");
-
-  echo "<br clear=all></div><div style=margin:10>";
+  Show_Articles_For("NewTop");
+  echo "</div><div style=margin:10>";
   echo '<center><h2 class="subtitle">Sponsors & Supporters</h2>';
   echo "Wimborne Minster Folk Festival would not be possible without the amazing help and generosity of the following companies and organisations:<p>";
   echo "</center>";
@@ -33,7 +34,7 @@
     echo "</div></div>";
   }
   echo "</div>\n";
-  echo "<center><table style='table-layout: fixed;width:100%' id=SponDisplay><tr id=SponsorRow></table></center><p>";
+  echo "<center><table style='table-layout: fixed;width:100%' id=SponDisplay><tr id=SponsorRow></table></center>";
 
   dotail();
 ?>

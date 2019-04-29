@@ -43,21 +43,24 @@ function formatLineups(&$perfs,$link,&$Sizes,$sdisp=1) {
   
   foreach ($perfs as $perf) {
     $Imp = $perf['EffectiveImportance'];
+    $Id = $perf['SideId'];
     if ($Sizes[$Imp] != $LastSize) {
       if ($LastSize >=0) echo "</div><br clear=all>";
       $LastSize = $Sizes[$Imp];
       echo "<div class=LineupFit" . $LastSize . "Wrapper>";
     }
-    echo "<div class='LineupFit$LastSize'>";
-    echo "<a href=/int/$link?sidenum=" . $perf['SideId'] . "&Y=$YEAR>";  
+    echo "<div class='LineupFit$LastSize LineUpBase' onmouseover=AddLineUpHighlight($Id) onmouseout=RemoveLineUpHighlight($Id) id=LineUp$Id>";
+    echo "<a href=/int/$link?sidenum=$Id&Y=$YEAR>";
+    $Photo = $perf['Photo'];
+    if (!$Photo) $Photo = '/images/icons/user.png';
     if ($sdisp) {
-      echo "<div class=LineUpFitTitle style='font-size:" . (24+$Imp) . "px'>" . $perf['SN'] . "</div>";
-      if ($perf['Photo']) echo "<img class=LineUpFit src='" . $perf['Photo'] . "'>";
+      echo "<div class=LineUpFitTitle style='font-size:" . (18+$Imp) . "px'>" . $perf['SN'] . "</div>";
+      echo "<img src=$Photo>";
       echo "<div class=LineUptxt>" . $perf['Description'] . "</div>";
        
     } else {
-      if ($perf['Photo']) echo "<img class=LineUpFit src='" . $perf['Photo'] . "'>";
-      echo "<br><div class=LineUpFitTitle style='font-size:" . (24+$Imp*3) . "px'>" . $perf['SN'] . "</div></a>";
+      echo "<img src=$Photo>";
+      echo "<br><div class=LineUpFitTitle style='font-size:" . (18+$Imp*3) . "px'>" . $perf['SN'] . "</div></a>";
     }
     echo "</div>";
   }

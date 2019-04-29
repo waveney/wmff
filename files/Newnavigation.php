@@ -212,6 +212,7 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
   echo "<a href=/>";
     echo "<img src=" . $MASTER_DATA['WebsiteBanner2'] . "?V=$V class='header-logo head-white-logo'>";
     echo "<img src=" . $MASTER_DATA['WebSiteBanner'] . "?V=$V class='header-logo head-coloured-logo'>";
+    echo "<div class=FestDates>6 - 9<br>June<br>2019</div>";
   echo "</a>";
   echo "<div class=MenuIcon><img id=MenuIconIcon src=/images/icons/MenuIcon.png onclick=ShowHoverMenu() class=MenuMenuIcon>";
   echo "<img id=MenuIconClose src=/images/icons/MenuClose.png onclick=CloseHoverMenu() class=MenuMenuClose>";

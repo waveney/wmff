@@ -389,7 +389,7 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade
   $Budgets = Budget_List();
   $InvCodes = Get_InvoiceCodes(0);
 
-  echo "This page is ONLY to be used to create invoices for things other than Trade.<p>";
+  echo "<h2 class=Err>DO <b>NOT</b> USE THIS TO CREATE TRADE INVOICES - USE THE TOOLS IN TRADE<p>";
   echo "<form method=post action=InvoiceManage.php>";
   if ($Dat) echo fm_hidden('i',$dat);
   echo "<table border>";

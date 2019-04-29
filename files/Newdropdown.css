@@ -27,7 +27,7 @@ header.main-header.fixedheader{
 }
 
 header .header-logo {
-  max-width: 29%;
+/*  max-width: 29%; */
   padding: 12px 30px;
   position: absolute;
   display: block;
@@ -51,6 +51,21 @@ header:hover .header-logo.head-coloured-logo,
 .fixedheader .header-logo.head-coloured-logo{
   opacity: 1;
   display: block;
+}
+
+header .FestDates {
+  display: inline-block;
+  position: absolute;
+  top:0;
+  left:340;
+  margin: 7 0 0 0;
+  padding:0;
+  text-align: center;
+  font-weight:750;
+}
+
+.fixedheader .FestDates {
+  color: #004668;
 }
 
 .headericon {
@@ -114,7 +129,7 @@ header #MenuBars {
 }
 
 .MenuIcon:hover {
-  background:#43a9b2;
+  background: #004668;
 }
 
 .MenuMenuClose {
@@ -127,8 +142,8 @@ header #MenuBars {
   padding:0;
 }
 
-header .fixedheader a,  {
- color: #43a9b2;
+header .fixedheader a  {
+ color: #004668;
 }
 
 .navigation a { 
@@ -176,7 +191,11 @@ header .fixedheader a,  {
 }
 
 .fixedheader .navigation a {
-  color:#43a9b2;
+  color: #004668;
+}
+
+.fixedheader .PrivateBar a {
+  color: white;
 }
 
 .navigation #MenuGetTicket {
@@ -354,15 +373,6 @@ header .dropdown-content a:visited  {
   z-index: 99;
 }
 
-.WMFFbanner800 {
-  height:800;
-  width:1560;
-  margin-top:-80;
-  top: 0;
-  background:black;
-  z-index: 99;
-}
-
 .WMFFBannerText {
   color: #fff;
   margin: 30px 0 0;
@@ -376,9 +386,47 @@ header .dropdown-content a:visited  {
   text-shadow: 0 0 15px black, 0 0 10px black ;
 }
 
-.WMFFbanner800.WMFFBannerText {
-  top:350;
+/* Home Page - large banner */
+
+.WMFFbanner800 {
+  height:800;
+  width:1560;
+  margin-top:-80;
+  top: 0;
+  background:black;
+  z-index: 99;
 }
+
+.WMFFbanner800 .BanOverlay {
+  top:260;
+  text-align:center;
+  z-index: 100;
+  position: absolute;
+  object-fit: contain;
+  left:50%;
+  transform: translateX(-50%); 
+}
+
+.WMFFbanner800 .BanOverlay img {
+  max-height:160px;
+}
+
+.WMFFbanner800 .BanDates {
+  top:490;
+  padding: 10 20;
+  z-index: 100;
+  position: absolute;
+  left:50%;
+  transform: translateX(-50%); 
+
+  background:white;
+  color:black;
+  text-align:center;
+  font-size:30;
+  font-weight:bold;
+
+}
+
 
 .WMFFBannerDefault {
   width:100%;
