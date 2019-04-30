@@ -818,7 +818,6 @@ textarea:Focus
   border-spacing:5;
   background-color:#59B404; 
   border-color:#59B404; 
-  max-width:1200;
 }
 
 .GreenTable td {
@@ -1254,9 +1253,16 @@ button {
   max-height:150;
 }
 
+.TradeFlexCont:hover {
+  animation-name: pbpop;  
+  animation-duration: 0.3s;
+  animation-timing-function: linear;
+  animation-iteration-count: 1; 
+}
+
 .TradeFlexCont h2 {
-  background:blue;
-  color:white;
+  background:#f6f6f6;
+  color:#004668;
   margin-top:2;
   margin-bottom:2;
   padding:5;
@@ -1264,6 +1270,11 @@ button {
 /*   text-align: center; */
   font-size:20;
   overflow: none;
+}
+
+.TradeFlexCont:hover h2 {
+  background-color:#43a9b2;
+  color:white;
 }
 
 .TradeFlexCont img {
