@@ -20,27 +20,27 @@ function ShowBus(Route) {
 debugger;
   $('#TimeTab').load("/files/BusRoute" +Route );
 }
-
 </script>
 
-<h2 class="maintitle">Getting Here</h2>
+<h2>Getting To Wimborne</h2>
 Wimborne Minster Folk Festival takes place in the historic market town of Wimborne Minster in Dorset.<p>
 
-<a href=#Buses class=PurpButton>Buses</a> <a href=#Taxis class=PurpButton>Taxis</a><p>
-
-<h2 class="subtitle">By Road</h2>
+<a href=#Buses class=PurpButton>Public Transport</a> <a href=#Taxis class=PurpButton>Taxis</a><p>
+<div class=BorderBox>
+<h2>By Road</h2>
 
 Wimborne has good road connections with easy access from the A31, B3082 and B3078.<p>
 
 <a href=InfoParking.php>Information on Parking - Car parks and bicycle parking</a>.<p>
 
-<h2 class="subtitle">By Public Transport</h2>
+</div><div class=BorderBox>
+<h2>By Public Transport</h2>
 
 The most convienent train station is <strong>Poole</strong>, with train services operated by 
 <a href="https://www.southwesternrailway.com" target="_blank">South Western Railway</a>.<p>
 
 <a name=Buses></a>Regular buses service Wimborne during the folk festival from Poole and Bournemouth. Bus services are operated by 
-<a href="http://morebus.co.uk" target="_blank">More Buses</a> (3, 4 & 13).<p>
+<a href="http://morebus.co.uk" target="_blank">More Buses</a> (routes 3, 4 &amp; 13).<p>
 
 Route 3 runs every 30 minutes to and from <b>Poole</b> to <b>Wimborne</b> Monday to Saturday daytime (and is faster).<p>
 Route 4 runs every 30 minutes to and from <b>Poole</b> to <b>Wimborne</b> every day (but is slower). <p>
@@ -52,7 +52,7 @@ Note there will be a temporary bus stop by the Campsite, this is on the route of
 
 Buses in <span class=ExtraBus>Bold Blue</span> are additional buses being run for the festival.<p>
 
-<table border class=TueTab>
+<table border class=GreenTable>
 <tr><td>Route<td colspan=3>To Wimborne<td colspan=3>From Wimborne
 <tr><td>Route 3<td><a onclick=ShowBus('3.1') class=FakeLink>Friday</a>
 		<td><a onclick=ShowBus('3.2') class=FakeLink>Saturday</a>
@@ -75,8 +75,8 @@ Buses in <span class=ExtraBus>Bold Blue</span> are additional buses being run fo
 </table>
 
 <div id=TimeTab></div>
-
-<h2 class="subtitle"><a name=Taxis></a>By Taxi</h2>
+</div><div class=BorderBox>
+<h2><a name=Taxis></a>By Taxi</h2>
 This is a list of Taxi firms.  Note only those from East Dorset can wait at Taxi ranks in Wimborne, others can pick up booked passengers.<p>
 <table border class=WedTab>
 <tr><td>Authority<td>Name<td>Phone
@@ -87,7 +87,7 @@ This is a list of Taxi firms.  Note only those from East Dorset can wait at Taxi
   foreach($Taxis as $t) echo "<tr><td>" . $TaxiAuthorities[$t['Authority']] . "<td>" . $t['SN'] . "<td>" . $t['Phone'];
 ?>
 </table><p>
-
+</div>
 <?php 
   dotail();
 ?>

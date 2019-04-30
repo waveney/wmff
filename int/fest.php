@@ -550,9 +550,13 @@ function dohead($title,$extras=[],$Banner='',$BannerOptions=' ') {
         echo "<div class=WMFFBannerText>$title</div>";
         if (!strchr('T',$BannerOptions)) echo "<img src=/images/icons/torn-top.svg class=TornTopEdge>";
         echo "</div>";
-      }
-      else if (substr($Banner,0,7) == 'images/') {
-        echo "<div class=WMFFBanner400><img src=$Banner class=BannerDefault>";
+      } else if (substr($Banner,0,7) == 'images/') {
+        echo "<div class=WMFFBanner400><img src=$Banner class=WMFFBannerDefault>";
+        echo "<div class=WMFFBannerText>$title</div>";
+        if (!strstr($BannerOptions,'T')) echo "<img src=/images/icons/torn-top.svg class=TornTopEdge>";
+        echo "</div>";
+      } else if (preg_match('/^https?:\/\//',$Banner)) {
+        echo "<div class=WMFFBanner400><img src=$Banner class=WMFFBannerDefault>";
         echo "<div class=WMFFBannerText>$title</div>";
         if (!strstr($BannerOptions,'T')) echo "<img src=/images/icons/torn-top.svg class=TornTopEdge>";
         echo "</div>";

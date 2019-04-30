@@ -66,7 +66,7 @@ function Update_MapPoints() {
   return file_put_contents("../cache/mappoints.json",json_encode($data));
 }
 
-
+// Features 1= normal, 0 none, 2 no venues
 
 function Init_Map($CentType,$Centerid,$Zoom,$Features=1) { // CentType 0=Venue, 1=Mappoint, -1=WImborne
   global $MASTER_DATA;  

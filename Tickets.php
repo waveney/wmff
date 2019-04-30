@@ -129,7 +129,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 
   echo "</table></div></p>";
 
-  echo "<table cellspacing=5 cellpadding=10 style='background-color:#59B404; border-color:#59B404; max-width:1200;'>";
+  echo "<table class=GreenTable>";
   echo "<tr><th colspan=3>Camping Tickets";
   
   $Avails = [

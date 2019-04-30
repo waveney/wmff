@@ -500,7 +500,7 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
               $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
             }
             $ans .= NoBreak($thing['SN']);
-            if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
+            if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ")");
             if ($link) $ans .= "</a>";
           }
         }
@@ -556,10 +556,14 @@ function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='
     $things = 0;
     foreach ( array_reverse($ks) as $imp) {
       if ($imp) $ans .= "<span style='font-size:" . ($size+$imp*$mult) . "px'>";
-      foreach ($imps[$imp] as $thing) {
-        if ($things++) $ans .= ", ";
+      foreach ($imps[$imp] as $thing) {    
         $link=0;
-        if (isset($thing['ZZZZZpfx'])) $ans .= $thing['ZZZZZpfx'];
+        if (isset($thing['ZZZZZpfx'])) { 
+          if ($things++) $ans .= "<br>";
+          $ans .= $thing['ZZZZZpfx'];
+        } else {
+          if ($things++) $ans .= ", ";
+        } 
         if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
         if ($link) {
           if ($link ==1) {
@@ -569,7 +573,7 @@ function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='
           }
         }
         $ans .= NoBreak($thing['SN']);
-        if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
+        if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ")");
         if ($link) $ans .= "</a>";
        }
       if ($imp) $ans .= "</span>";

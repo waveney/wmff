@@ -92,7 +92,8 @@ function initMap() {
         var mtch = data.imp.match(/(\d*)(-?)(\d*)?/);
         minz=mtch[1];
         if (mtch[3]) maxz=mtch[3]; 
-      }  
+      }
+      if ((MapFeatures == 2) && (data.id < 1000000)) return;
       if (data.icon != 1) {
         var marker = new google.maps.Marker({
           position: latLng,

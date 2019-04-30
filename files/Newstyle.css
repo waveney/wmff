@@ -46,6 +46,8 @@ h2 {
   margin:0;
   padding:0px;
   font-weight:normal;
+  font-size:28px;
+  padding-bottom:20px;
 }
 .centhead {
   color: #005983;
@@ -802,18 +804,36 @@ textarea:Focus
   padding:5;
   border-spacing:5;
   max-width:1200;
+  margin:0;
 }
 
-.Tuetab tr:hover td, .Wedtab tr:hover td, .Thurtab tr:hover td, .Fritab tr:hover td, .Sattab tr:hover td, .Suntab tr:hover td, .Montab tr:hover td, .lemontab tr:hover td {
+.Tuetab tr:hover td, .Wedtab tr:hover td, .Thurtab tr:hover td, .Fritab tr:hover td, .Sattab tr:hover td, .Suntab tr:hover td, .Montab tr:hover td, .lemontab tr:hover td,
+.GreenTable tr:hover td {
   background: #f4f4f4;
 }
 
+.GreenTable {
+  margin:0;
+  padding:5;
+  border-spacing:5;
+  background-color:#59B404; 
+  border-color:#59B404; 
+  max-width:1200;
+}
+
+.GreenTable td {
+  margin:5;
+  padding:10;
+  background-color:white;
+}
+
+
 .TicketTable table tr td:nth-child(1) {
-  width:270;
+  width:260;
 }
 
 .TicketTable table tr td:nth-child(2) {
-  width:200;
+  width:190;
 }
 
 .TicketTable table tr td:nth-child(3) {
@@ -821,7 +841,62 @@ textarea:Focus
 }
 
 .TicketTable table tr td:nth-child(4) {
-  width:90;
+  width:80;
+}
+
+/* Whats on When and Now */
+.WhenTable {
+  padding-top:10;
+  padding-bottom:10;
+}
+
+.WhenTable tr {
+  animation: WhenTablefade 1s;
+}
+
+.WhenTable table tr td:nth-child(1) {
+  width:115;
+}
+
+.WhenTable table tr td:nth-child(2) {
+  width:200;
+}
+
+.WhenTable table tr td:nth-child(3) {
+  width:260;
+}
+
+.WhenTable table tr td:nth-child(4) {
+  width:540;
+}
+
+.WhenTable table tr td:nth-child(5) {
+  width:80;
+}
+
+@keyframes WhenTablefade {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.DayExpand {
+  color:black;
+  font-weight:bold;
+  padding:5;
+  margin:5;
+  border-radius:5px;
+  width:120;
+} 
+
+.BorderBox {
+  border: 1px solid #ccc;
+  padding:10;
+  margin:10;
 }
 
 .sponcontainer {
@@ -842,10 +917,6 @@ textarea:Focus
 .sponImage {
   max-height:150;
   max-width:150;
-} 
-.DayExpand {
-  color:black;
-  font-weight:bold;
 } 
 .FlexContain {
   display: flex;
@@ -880,11 +951,12 @@ textarea:Focus
 }
 .PurpButton {
   padding:5;
+  margin:5;
   font-size:20px;
   font-weight:bold;
   color:white !important;
   background:purple;
-  border-radius:15px;
+  border-radius:5px;
 }
 
 .PurpSelect {

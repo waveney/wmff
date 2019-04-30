@@ -1,12 +1,11 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Camping",[],1);
+  dohead("Camping",[],'images/icons/CampingBanner.png');
   global $MASTER;
 
   include_once("int/MapLib.php");
 ?>
-<h2 class="maintitle">Camping</h2>
 <div class=rightdiv style='margin-bottom:50'>
 <div class="biodiv">
 <img src="http://wimbornefolk.co.uk/images/Wimborne-Folk-Festival-Campsite.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
@@ -39,9 +38,10 @@ This year the campsite will be available from Thursday (5pm onwards).<p>
 
 Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use postcode for the farm it over a mile away by road).<p>
 
-
-<table cellspacing="5" cellpadding="5" style="background-color:#59B404; border-color:#59B404; max-width:900;">
 <?php
+  echo "<table class=GreenTable>";
+  echo "<tr><th colspan=3>Camping Tickets";
+  
   $Avails = [
              'Thursday, Friday, Saturday and Sunday nights'=>['TFSS',4],
              'Thursday, Friday and Saturday nights'=>['TFSx',3],
@@ -54,15 +54,16 @@ Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use p
              'Saturday night only'=>['xxSx',1],
              'Sunday night only'=>['xxxS',1],
             ];
+   $DName = ['Thursday','Friday','Saturday','Sunday'];
    foreach ($Avails as $txt=>$dat) {
      if (!$MASTER['CampingCode_' . $dat[0] ]) continue;
-     echo "<tr><td>$txt Camping<td>" . Print_Pence($MASTER['CampingPrice' . $dat[1] . 'Day']*100) . "<td>";
+     echo "<tr><td>Camping for:";
+     foreach (str_split($dat[0]) as $i=>$c) echo "<td>" . ($c == 'x'?"":$DName[$i]);
+     echo "<td>" . Print_Pence($MASTER['CampingPrice' . $dat[1] . 'Day']*100) . "<td>";
      echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER['CampingCode_' . $dat[0] ] . "' target=_blank><b>Buy Now</b></a>";
    }
-?>
-</table><p>
+  echo "</table><p>";
 
-<?php 
 } else {
 ?>
 
@@ -80,8 +81,8 @@ Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use p
 }
 ?>
 
-For more information about the campsite, visit <a href="http://merleyhallfarm.co.uk/camping" rel="tag"><strong>MerleyHallFarm.co.uk</strong></a>, but
-please book through these links above.<p>
+For more information about the campsite, visit <a href="http://merleyhallfarm.co.uk/camping" rel="tag">MerleyHallFarm.co.uk</a>, 
+Call 01202 984 879, or email: <a href=mailto:karen@merleyhallfarm.co.uk>karen@merleyhallfarm.co.uk</a> but please book through these links above.<p>
 
 <?php
   dotail();
