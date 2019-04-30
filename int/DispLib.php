@@ -18,7 +18,7 @@ function formatminimax(&$side,$link,$mnat=2,$sdisp=1) {
   } // fmt t=txt, l=ls, p=pt, s=sq, b=ban
   $Imp = $side['Importance'];
   if ($side['DiffImportance']) {
-    $Imp = 0;
+    $imp = 0;
     foreach($PerfTypes as $pt=>$pd) if ($side[$pd[0]] && $imp < $side[$pd[2] . 'Importance'] ) $imp = $side[$pd[2] . 'Importance'];
   }
   

@@ -4,11 +4,11 @@
   set_ShowYear();
   $Types = $Type = $_GET['t'];
   if (strlen($Type) > 20) $Types = $Type = 'Dance';
-  dohead("Whats on $Type");
+
 
   include_once("int/ProgLib.php");
   include_once("int/DateTime.php");
-  global $db,$YEAR,$PLANYEAR,$MASTER,$DayList,$DayLongList;
+  global $db,$YEAR,$PLANYEAR,$SHOWYEAR,$MASTER,$DayList,$DayLongList;
 
   $Ets = Get_Event_Types(1);
   $Vens = Get_Venues(1);
@@ -32,7 +32,8 @@
     $restrict = "";
     $Complete = 4;
   }
-
+  
+  $Banner = 1;
   if ($Ett >= 0) { 
     $qry = "SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND ( e.Type=$Ett $xtr ) AND ( e.SubEvent<1 OR e.ShowSubevent=1 ) AND e.Venue!=0 " .
                 "$restrict ORDER BY e.Day, e.Start";
@@ -42,13 +43,14 @@
     if (count($Evs) > 1) $Types = $Ets[$Ett]['Plural'];
     if ($YEAR == $PLANYEAR) $Complete = $Ets[$Ett]['State'];
     $BackStop = $Ets[$Ett]['FirstYear'];
+    if ($Ets['Banner']) $Banner = $Ets['Banner'];
   } else { // Handle other Sherlock calls
     switch ($Type) {
       case 'Family':
         $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND e.Family=1 AND e.SubEvent<1 AND e.Venue!=0 " .
                 "$restrict ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
-        $Types = "Family Event";
+        $Types = "Family Events";
         if (count($Evs) != 1) $Types .= "s";
         if ($YEAR == $PLANYEAR) $Complete = $MASTER[$Type . 'State'];
         break;
@@ -56,7 +58,7 @@
         $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND e.Special=1 AND (e.SubEvent<1 OR e.LongEvent=1) AND e.Venue!=0 " .
                 "$restrict ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
-        $Types = "Special Event";
+        $Types = "Special Events";
         if (count($Evs) != 1) $Types .= "s";
         if ($YEAR == $PLANYEAR) $Complete = $MASTER[$Type . 'State'];
         break;
@@ -65,6 +67,9 @@
     }
   }
 
+
+  dohead("What's on: $Types",[],$Banner);
+  
   $Titles = array("", // Not used
                 "Currently known $Types for $YEAR, there will be more", // Draft
                 "Currently known $Types for $YEAR, there will be more", // Partial
@@ -76,7 +81,9 @@
   foreach($Evs as $e) if ($e['Price1']) $NotAllFree = 1;
 
   if ($Evs && $Complete) {
-    echo "<h2 class=subtitle>" . $Titles[$Complete] . "</h2><div class=FullWidth>";
+    if ($Complete <4 || $YEAR!=$SHOWYEAR) echo "<h2>" . $Titles[$Complete] . "</h2>";
+    
+    echo "<div class='FullWidth WhenTable'>";
 
     if ($NotAllFree == 0) echo "All $Types are free.<p>";
 

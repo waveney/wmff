@@ -8,22 +8,23 @@
   include_once("TradeLib.php");
   global $EType_States,$PLANYEAR;
 
-  echo "<div class='content'><h2>Manage Event Types</h2>\n";
+//  echo "<div class='content'><h2>Manage Event Types</h2>\n";
+  $Types = Get_Event_Types(1);
+  if (UpdateMany('EventTypes','Put_Event_Type',$Types,1)) $Types = Event_Types_ReRead();
+  $coln = 0;
+
   echo "Please don't have too many types.<p>\n";
   echo "The only event types that should be not public are Sound Checks (probably)<p>\n";
   echo "Set Inc Type to indicate event type in description if it is not part of the events name.<p>";
   echo "State drives lots: - set to draft to enable the performers to see their own events. Set to complete when all events of given type are in<p>\n";
   echo "Set <b>No Part</b> if event type is valid without any participants.<p>";
   echo "First Year - first year this event type is listed - prevents backtracking.<p>\n";
+  echo "If Banner is blank the default will be used<p>";
   
-  $Types = Get_Event_Types(1);
-  if (UpdateMany('EventTypes','Put_Event_Type',$Types,1)) $Types = Event_Types_ReRead();
-
-  $coln = 0;
-  echo "<h2>Event Types</h2><p>";
   echo "Set the Not critical flag for sound checks - means that this event type does not have to be complete for contract signing.<p>";
-  echo "Set the Use Imp flag to bring headline particpants to top of an event, they still get bigger fonts.<p>";
+  echo "Set the <b>Use Imp</b> flag to bring headline particpants to top of an event, they still get bigger fonts.<p>";
   echo "Set Format to drive EventShow rules 0=All Large, 2=Switch to large at Importance-High, 9+=All Small<p>";
+  
   echo "<form method=post action=EventTypes.php>";
   echo "<table id=indextable border>\n";
   echo "<thead><tr>";
@@ -42,6 +43,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>No Part</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Dont List</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>First Year</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Banner</a>\n";
   echo "</thead><tbody>";
   foreach($Types as $t) {
     $i = $t['ETypeNo'];
@@ -59,6 +61,7 @@
     echo "<td>" . fm_checkbox('',$t,'NoPart','',"NoPart$i");
     echo "<td>" . fm_checkbox('',$t,'DontList','',"DontList$i");
     echo fm_number1('',$t,'FirstYear','','',"FirstYear$i");
+    echo          fm_text1("",$t,'Banner',1,'','',"Banner$i");
     echo "\n";
   }
   echo "<tr><td><td><input type=text name=SN0 >";
@@ -75,6 +78,7 @@
   echo "<td><input type=checkbox name=NoPart0>";
   echo "<td><input type=checkbox name=DontList0>";
   echo "<td><input type=number name=FirstYear0 value=$PLANYEAR>";
+  echo "<td><input type=text name=Banner0 >";
   echo "</table>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";
