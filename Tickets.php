@@ -20,7 +20,6 @@ Your passes will grant you access to official festival concerts and ceilidhs lis
 <?php
   if ($MASTER['BookingFee']) echo "Please note that there is a booking fee of " . $MASTER['BookingFee'] . " when ordering tickets online.<p> ";
 ?>
-Please take care whilst ordering tickets as we are unable to process exchanges or refunds.<p>
 
 Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require a carer ticket.<p>
 
@@ -92,7 +91,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 
   global $YEAR,$db,$DayList,$MASTER;
 
-  echo "<div class=FullWidth>";
+  echo "<div class='FullWidth TicketTable'>";
   $Vens = Get_Venues(1);
   $qry = "SELECT * FROM Events WHERE Year='$YEAR' AND ((Price1!=0 AND TicketCode!='') OR SpecPriceLink!='')  AND SubEvent<=0 AND (Public=0 || Public=1) ORDER BY Day,Start";
   $Evs = $db->query($qry);
@@ -127,13 +126,12 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
   }
   
   if (!$Evs->num_rows) echo "No Ticketed Events are yet published.<p>";
-?>
 
-</table></div></p>
+  echo "</table></div></p>";
 
-<table cellspacing="5" cellpadding="5" style="background-color:#59B404; border-color:#59B404; max-width:1200;">
-<tr><th colspan=3>Camping Tickets
-<?php
+  echo "<table cellspacing=5 cellpadding=10 style='background-color:#59B404; border-color:#59B404; max-width:1200;'>";
+  echo "<tr><th colspan=3>Camping Tickets";
+  
   $Avails = [
              'Thursday, Friday, Saturday and Sunday nights'=>['TFSS',4],
              'Thursday, Friday and Saturday nights'=>['TFSx',3],
@@ -146,9 +144,12 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
              'Saturday night only'=>['xxSx',1],
              'Sunday night only'=>['xxxS',1],
             ];
+   $DName = ['Thursday','Friday','Saturday','Sunday'];
    foreach ($Avails as $txt=>$dat) {
      if (!$MASTER['CampingCode_' . $dat[0] ]) continue;
-     echo "<tr><td>$txt Camping<td>" . Print_Pence($MASTER['CampingPrice' . $dat[1] . 'Day']*100) . "<td>";
+     echo "<tr><td>Camping for:";
+     foreach (str_split($dat[0]) as $i=>$c) echo "<td>" . ($c == 'x'?"":$DName[$i]);
+     echo "<td>" . Print_Pence($MASTER['CampingPrice' . $dat[1] . 'Day']*100) . "<td>";
      echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER['CampingCode_' . $dat[0] ] . "' target=_blank><b>Buy Now</b></a>";
    }
 ?>
@@ -169,7 +170,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 <p>If you're looking to combine a weekend of official festival events and a trip to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>, then book your tickets with us!</p>
 
 <h2 class="subtitle">Official Ticket Outlets</h2>
-<p>Event tickets and day/weekend passes are on sale at these Wimborne outlets:</p>
+<p>Tickets and day/weekend passes are on sale at these Wimborne outlets:</p>
 <ul>
 <li><strong>Tourist Information Centre</strong>, Wimborne, BH21 1HR &#8211; Telephone bookings: 01202 886116</li>
 </ul>

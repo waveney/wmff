@@ -52,7 +52,7 @@ function formatLineups(&$perfs,$link,&$Sizes,$sdisp=1) {
     echo "<div class='LineupFit$LastSize LineUpBase' onmouseover=AddLineUpHighlight($Id) onmouseout=RemoveLineUpHighlight($Id) id=LineUp$Id>";
     echo "<a href=/int/$link?sidenum=$Id&Y=$YEAR>";
     $Photo = $perf['Photo'];
-    if (!$Photo) $Photo = '/images/icons/user.png';
+    if (!$Photo) $Photo = '/images/icons/user2.png';
     if ($sdisp) {
       echo "<div class=LineUpFitTitle style='font-size:" . (18+$Imp) . "px'>" . $perf['SN'] . "</div>";
       echo "<img src=$Photo>";
