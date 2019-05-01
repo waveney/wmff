@@ -69,9 +69,9 @@
         '2013 Photos'=>'gallery/2013',
         '2017 Laugh out Loud Photos'=>'int/ShowGallery.php?g=3',
        ],
-      '!images/icons/Facebook.png'=>'!http://facebook.com/WimborneFolk',
-      '!images/icons/Twitter.png'=>'!http://twitter.com/WimborneFolk',
-      '!images/icons/Instagram.png'=>'!http://instagram.com/WimborneFolk',
+      '!/images/icons/Facebook.png'=>'!http://facebook.com/WimborneFolk',
+      '!/images/icons/Twitter.png'=>'!http://twitter.com/WimborneFolk',
+      '!/images/icons/Instagram.png'=>'!http://instagram.com/WimborneFolk',
       '=Get Tickets'=>'Tickets.php',
       ],
     'Private'=> [  

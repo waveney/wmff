@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Photo Gallery");
+  dohead("Photo Gallery",[],1);
 
 ?>
 

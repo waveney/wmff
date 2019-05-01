@@ -122,7 +122,11 @@ function Gallery($id,$embed=0) {
   }
 
   $name = $Gal['SN'];
-  if (!$embed) dohead($name, ['/files/gallery.css']);
+  if (!$embed) {
+    $Banner = 1;
+    if (isset($Gal['Banner'])) $Banner = $Gal['Banner'];
+    dohead($name, ['/files/gallery.css'],$Banner);
+  }
 
   echo "<h2 class=maintitle>$name</h2><p>";
   echo "Click on any slide to start a Slide Show with that slide.<p>\n";

@@ -17,6 +17,7 @@ body {
 a {
   color: #EC038C;
   text-decoration: none;
+  font-weight:520;
 }
 A:link, .FakeLink {
   text-decoration: none; 
