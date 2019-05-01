@@ -110,14 +110,11 @@ function Show_Side($snum,$Message='') {
     $syear = Get_SideYear($snum,$YEAR);
     if ($Message) echo "<h2 class=ERR>$Message</h2>"; 
 
-    $ed = "AddPerf";
-    
-    if (Access('Participant','Side',$snum)) {
-      echo "<h2><a href=$ed.php?sidenum=$snum>Click here to edit Details, Contacts, Days, Times, Requests, Upload Photos and Insurance</a></h2>";
-      echo "<h2>Public Information about: " . $side['SN'] . "</h2>";
-    } else {
-      echo "<h2>" . $side['SN'] . "</h2>";
-    }
+    $Banner = 1;
+    if ($side['Photo']) $Banner = $side['Photo'];
+echo "<prehead>";
+    dohead($side['SN'],[],$Banner);
+echo "<posthead>";
     if ($side['IsASide'] && $side['ShortName']) echo "( Appearing in the grids as:" . $side['ShortName'] . " )<br>";
 
     echo "<div style='width:800px;'>";
@@ -188,10 +185,6 @@ function Show_Side($snum,$Message='') {
     } else {
       echo "<h2>The programme has not yet been published yet.</h2>\n";
       echo "When it is, the programme for <b>" . $side['SN'] . "</b> will appear here.<p>";
-    }
-
-    if (Access('Participant','Side',$snum)) {
-      echo "<h2><a href=$ed.php?sidenum=$snum>Click here to edit Details, Contacts, Days, Times, Requests, Upload Photos and Insurance</a></h2>";
     }
 
   } else {

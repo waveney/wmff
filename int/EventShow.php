@@ -1,7 +1,7 @@
 <?php
   include_once("fest.php");
 
-  dohead("Show Event");
+
 
   include_once("ProgLib.php");
   include_once("DispLib.php");
@@ -128,8 +128,8 @@ function Print_Participants($e,$when=0,$thresh=0) {
 
   $xtra = '';
   if (($ETs[$Ev['Type']]['IncType']) && !strpos(strtolower($Ev['SN']),strtolower($ETs[$Ev['Type']]['SN']))) $xtra = " (" . $ETs[$Ev['Type']]['SN'] . ")";
-  echo "<h2 class=subtitle>" . $Ev['SN'] . "$xtra</h2>\n";
-
+  dohead($Ev['SN'] . $xtra,[],1); // TODO Event specific banners
+  
   if ($Ev['NonFest']) echo "This event is not run by the folk festival, but is shown here for your information.<p>\n";
   if ($Ev['Description']) echo $Ev['Description'] . "<P>";
   // On, Start, End, Durration, Price, Where 

@@ -209,10 +209,7 @@ function RemoveLineUpHighlight(id) {
 }
 
 function Set_MinHeight(p1,p2) {
-//debugger;
-  var ht = $(p1).height();
-  $(p2).css({"min-height":ht});
-  var a = 1;
+  $(p2).css({"min-height":$(p1).height()});
 }
 
 var LoadStack = [];
