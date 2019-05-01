@@ -1,6 +1,6 @@
 /* Main - headers, footer and menus */
 
-header {
+.main-header {
   position: sticky;
   top:0;
   z-index: 1000;
@@ -13,20 +13,20 @@ header {
 /*  overflow: hidden; */
 }
 
-header a, header a:link, header a:visited  {
+.main-header a, .main-header a:link, .main-header a:visited  {
   color:white;
 }
 
-header:hover, header.main-header.fixedheader{
+.main-header:hover, .main-header.fixedheader{
   background: #fff;
 }
 
-header.main-header:hover,
-header.main-header.fixedheader{
+.main-header:hover,
+.main-header.fixedheader{
   box-shadow: 0 0 40px rgba(0,0,0,0.7);
 }
 
-header .header-logo {
+.main-header .header-logo {
 /*  max-width: 29%; */
   padding: 12px 30px;
   position: absolute;
@@ -34,26 +34,26 @@ header .header-logo {
   height: 54px;
 }
 
-header .header-logo.head-white-logo{
+.main-header .header-logo.head-white-logo{
   opacity: 1;
   transition: all ease-in-out 0.4s;
 }
-header .header-logo.head-coloured-logo{
+.main-header .header-logo.head-coloured-logo{
 /*  opacity: 0; */
   transition: all ease-in-out 0.4s;
   display: none;
 }
-header:hover .header-logo.head-white-logo,
-.fixedheader .header-logo.head-white-logo{
+.main-header:hover .header-logo.head-white-logo,
+.fixedheader ..main-header-logo.head-white-logo{
   opacity: 0;
 }
-header:hover .header-logo.head-coloured-logo,
+.main-header:hover .header-logo.head-coloured-logo,
 .fixedheader .header-logo.head-coloured-logo{
   opacity: 1;
   display: block;
 }
 
-header .FestDates {
+.main-header .FestDates {
   display: inline-block;
   position: absolute;
   top:0;
@@ -85,7 +85,7 @@ header .FestDates {
   background:white;
 }
 
-header #MenuBars {
+.main-header #MenuBars {
   width: 67%; 
   height: 100%; 
   position: absolute;
@@ -142,7 +142,7 @@ header #MenuBars {
   padding:0;
 }
 
-header .fixedheader a  {
+.main-header .fixedheader a  {
  color: #004668;
 }
 
@@ -240,9 +240,9 @@ header .fixedheader a  {
   color:white;
 }
 
-header .dropdown-content a, 
-header .dropdown-content a:link, 
-header .dropdown-content a:visited  {
+.main-header .dropdown-content a, 
+.main-header .dropdown-content a:link, 
+.main-header .dropdown-content a:visited  {
   color:#43a9b2;
 }
 

@@ -208,7 +208,7 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
     $MainBar .= "</div>";
   }
   
-  echo "<header class=main-header>"; 
+  echo "<div class=main-header>"; 
   echo "<a href=/>";
     echo "<img src=" . $MASTER_DATA['WebsiteBanner2'] . "?V=$V class='header-logo head-white-logo'>";
     echo "<img src=" . $MASTER_DATA['WebSiteBanner'] . "?V=$V class='header-logo head-coloured-logo'>";
@@ -220,7 +220,7 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
   echo "<div id=MenuBars>";
   echo $MainBar;
 
-  echo "</div></header>";
+  echo "</div></div>";
   
 ?>
 
