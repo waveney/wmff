@@ -108,13 +108,14 @@ function Show_Side($snum,$Message='') {
   global $YEAR, $Coming_Type,$db;
   if (is_numeric($snum) && ($side = Get_Side($snum))) {
     $syear = Get_SideYear($snum,$YEAR);
-    if ($Message) echo "<h2 class=ERR>$Message</h2>"; 
 
     $Banner = 1;
     if ($side['Photo']) $Banner = $side['Photo'];
-echo "<prehead>";
     dohead($side['SN'],[],$Banner);
-echo "<posthead>";
+    if ($Message) echo "<h2 class=ERR>$Message</h2>"; 
+
+
+
     if ($side['IsASide'] && $side['ShortName']) echo "( Appearing in the grids as:" . $side['ShortName'] . " )<br>";
 
     echo "<div style='width:800px;'>";
