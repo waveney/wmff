@@ -48,7 +48,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
       if ($imp) echo "</span>";
     } 
   } else  echo "<td>&nbsp;";
-  if ($things > $ll && ($things % $ll) == 1) echo "<td>&nbsp;";
+//  if ($things > $ll && ($things % $ll) == 1) echo "<td>&nbsp;";
   if ($NotAllFree && ($things < $ll)) echo "<td rowspan=$rows valign=top>$Price";
 }
 
@@ -279,14 +279,15 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
       if ($e['LongEvent'] && !$imps) continue;
       $parname = $e['SN']; 
       $lastevent = $ei;
-      echo "<tr><td rowspan=$rows $colwid valign=top><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) .  "</a>";
+      $rowsp1 = ($ImpC? $rows+1: $rows);
+      echo "<tr><td rowspan=$rowsp1 $colwid valign=top><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) .  "</a>";
       if ($VirtVen) echo "<br>" . $VenNames[$e['Venue']];
       echo "<td colspan=" . ($imps?$ll+($e['LongEvent']?0:1):$ll+1) . " valign=top><a href=EventShow.php?e=$eid>" . $parname . "</a>";
       if ($e['Status'] == 1) echo "<br><div class=Cancel>CANCELLED</div>";
       if ($e['Description']) echo "<br>" . $e['Description'];
 
       if ($imps) {
-        if (!$e['LongEvent']) echo "<tr><td rowspan=$rows >&nbsp;<td rowspan=$rows  valign=top>" . timecolon($e['Start']) . " - " . timecolon($e['SlotEnd']);
+        if (!$e['LongEvent']) echo "<tr><td rowspan=$rows  valign=top>" . timecolon($e['Start']) . " - " . timecolon($e['SlotEnd']);
         PrintImps($imps,$NotAllFree,Price_Show($e,1),$rows,$ImpC);
       } else if (!$e['LongEvent'] && $NotAllFree) echo "<td>" . Price_Show($e,1);
     } else if ($e['SubEvent'] == 0) { // Is stand alone

@@ -66,8 +66,7 @@
       echo "<td>";
       if ($e['Description']) echo $e['Description'] . "<br>";
       echo  ($e['BigEvent'] ? Get_Other_Participants($Others,0,1,15,1,'',$e) : Get_Event_Participants($eid,0,1,15));
-      echo "<td>" . Price_Show($e,1);
-      }     
+      echo "<td>" . Price_Show($e,1);   
     }
     echo "</table>\n";
   }
