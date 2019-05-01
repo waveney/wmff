@@ -618,7 +618,7 @@ function Price_Show(&$Ev) {
 
   if ($Ev['DoorPrice'] && $Ev['DoorPrice'] != $Cpri) {
     if ($str) $str .= ", then ";
-    $str .= Print_Pound($Cpri) . " in advance and " . Print_Pound($Ev['DoorPrice']) . " on the door";
+    $str .= Print_Pound($Cpri) . " in advance</a> and " . Print_Pound($Ev['DoorPrice']) . " on the door"; // The </a> is to stop the links when used
   } else {
     if ($str) $str .= ", then ";
     $str .= Print_Pound($Cpri);

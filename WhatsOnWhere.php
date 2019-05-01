@@ -17,7 +17,7 @@
 
 //var_dump($Vids);
 
-  echo "<h2 class=subtitle>Select a Venue</h2>";
+  echo "<h2>Select a Venue</h2>";
   if ($YEAR == $PLANYEAR) {
     echo "All these venues have events schedualled, not all may be public yet.<p>";
   } else {
@@ -25,9 +25,9 @@
   }
 
   if ($Vens) {
-    echo "<ul style='font-size:20'>";
-    foreach ($Vens as $ven) echo "<li><a href=/int/VenueShow.php?v=" . $ven['VenueId'] . "&Y=$YEAR>" . $ven['SN'] . "</a><br>";
-    echo "</ul>";
+    echo "<div id=flex5>\n";
+    foreach ($Vens as $ven) echo "<div class=VenueFlexCont><a href=/int/VenueShow.php?v=" . $ven['VenueId'] . "&Y=$YEAR>" . $ven['SN'] . "</a></div>";
+    echo "</div><br>";
   } else {
     echo "<h3>No venues have published events yet</h3>";
   }
