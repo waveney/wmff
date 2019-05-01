@@ -100,7 +100,7 @@ function MenuResize() {
   // hide those that can be hidden
 //  return;
 //  debugger;
-  var Ewidth = $(".Main-Header").width();
+  var Ewidth = $(".Main-Header").outerWidth();
   var IconWidth = $(".header-logo").width();
   if (Ewidth > 1380 ) {  // Show all
     $(".MenuIcon").hide();
