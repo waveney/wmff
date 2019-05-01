@@ -80,6 +80,7 @@
     echo          fm_text('Caption2',$Venue,'Caption2',1);
     echo "<tr>" . fm_text('Website',$Venue,'Website',1);
     echo     "<td>" . fm_checkbox('Supress Free',$Venue,'SupressFree');
+    echo          fm_text('Banner',$Venue,'Banner',1);
     echo "<tr><td>" . fm_checkbox('Bar',$Venue,'Bar') . "<td>" . fm_checkbox('Food',$Venue,'Food') . fm_text('Food/Bar text',$Venue,'BarFoodText') . "\n";
     echo "<tr>" . fm_text('Notes',$Venue,'Notes',3);
     echo "<td colspan=2>Do NOT use if:" . fm_select($RealSites,$Venue,'DontUseIf',1) . " In use";

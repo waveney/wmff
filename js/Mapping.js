@@ -70,7 +70,7 @@ function ShowDirect(MarkId) { // Open directions window from current loc (me) to
 }
 
 function initMap() {
-  debugger;
+//  debugger;
   var MapLat = +$('#MapLat').val();
   var MapLong = +$('#MapLong').val();
   var MapZoom = +$('#MapZoom').val();

@@ -583,7 +583,7 @@ function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='
   return $prefix . "Details to follow";
 }
 
-function Price_Show(&$Ev) {
+function Price_Show(&$Ev,$Buy=0) {
   global $MASTER;
 
   if ($Ev['SpecPrice']) return $Ev['SpecPrice'];
@@ -593,6 +593,13 @@ function Price_Show(&$Ev) {
   $Cpri = $Ev['Price1'];
   if (!$Cpri) return 'Free';
 
+  if ($Buy) {
+    if ($Ev['TicketCode']) {
+      $str .= "<a href=https://www.ticketsource.co.uk/date/" . $Ev['TicketCode'] . " target=_blank>";
+    } else if ($Ev['SpecPriceLink']) {
+      $str .= "<a href=" . $Ev['SpecPriceLink'] . " target=_blank>";
+    }
+  }
   if ($MASTER['PriceChange1']) {
     $pc = $MASTER['PriceChange1'];
     $Npri = $Ev['Price2'];

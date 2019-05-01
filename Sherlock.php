@@ -111,7 +111,7 @@
         } else {
           echo Get_Event_Participants($eid,0,1,15,1, 'With: ');
         }
-      if ($NotAllFree) echo "<td>" . Price_Show($E);
+      if ($NotAllFree) echo "<td>" . Price_Show($E,1);
       echo "\n";
     }
     echo "</table></div><p>";
