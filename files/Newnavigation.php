@@ -58,7 +58,7 @@
       '-Get Involved'=>[
         'Volunteer'=>'InfoStewards.php',
         'Sponsorship'=>'InfoSponsors.php',
-        'Trade Stand Applications'=>'info/trade', // TODO make like the rest
+        'Trade Stand Applications'=>'InfoTrade.php', 
          ],
       '-Gallery'=>[
         '2018 Photos'=>'gallery/gallery2018.php',

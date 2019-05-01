@@ -28,7 +28,7 @@ In exchange for your time, we will give you a pass for festival events and to <a
 </ul>
 
 Stewarding & Volunteer roles available:<p>
-<h2 class="maintitle">Stewarding</h2>
+<div class=BorderBox><h2>Stewarding</h2>
 <ul>
 
 <li>Information desk at The Square
@@ -40,15 +40,18 @@ Stewarding & Volunteer roles available:<p>
 </ul>
 
 <p><strong>Operational Hours</strong>:
-<br />Thursday 1900-2300 (Evening concert, very limited requirement)
-<br />Friday 0900-1200 hrs (Limited Requirement) , 1200-2300 hrs
-<br />Saturday 0900-2300 hrs
-<br />Sunday 0900-2300 hrs</p>
-<p><i>Schedules will be designed to suit your requirements as much as possible.</i></p>
+<ul>
+<li>Thursday 1900-2300 (Evening concert, very limited requirement)
+<li>Friday 0900-1200 hrs (Limited Requirement) , 1200-2300 hrs
+<li>Saturday 0900-2300 hrs
+<li>Sunday 0900-2300 hrs
+</ul>
+Schedules will be designed to suit your requirements as much as possible.<p>
 
-<h3><a href=int/Volunteers.php?A=New>Please Volunteer as a Steward</a></h3>
+<div class=trader-app-link><a href=int/Volunteers.php?A=New>Please Volunteer as a Steward</a></div>
+</div><div class=BorderBox>
 
-<h2 class="maintitle">Setup/Cleardown Crew</h2>
+<h2>Setup/Cleardown Crew</h2>
 <ul>
 <li>Setup and cleardown of Banners, Marquees, Bunting, Furniture, Venues, Posters, Generators, 
 <li>Most of these tasks are before and after the festival, leaving you free to enjoy the festival
@@ -68,26 +71,26 @@ Stewarding & Volunteer roles available:<p>
 </ul>
 
 
-<h3><a href=int/Volunteers.php?A=New>Please Volunteer as Setup Crew</a></h3>
-
-<h2 class="maintitle">Artistic Team</h2>
+<div class=trader-app-link><a href=int/Volunteers.php?A=New>Please Volunteer for the Setup Crew</a></div>
+</div><div class=BorderBox>
+<!--<h2>Artistic Team</h2>
 <ul>
 <li>Setup / Packdown of festival art displays
 <li>Assisting with decorating the town
 <li>Assisting creative workshops prior to festival
 </ul>
 
-<h3><a href=int/Volunteers.php?A=New>Please Volunteer for the Artistic Team</a></h3>
-
-<h2 class="maintitle">Media Team</h2>
+<div class=trader-app-link><a href=int/Volunteers.php?A=New>Please Volunteer for the Artistic Team</a></div>
+</div><div class=BorderBox>-->
+<h2>Media Team</h2>
 <ul><li>Photographers
 <li>Videographers
 </ul>
 
-Applications for this team close on 14th of April.<p>
+Applications for this team are closed.<p>
 
-<h3><a href=int/Volunteers.php?A=New>Please Volunteer for Media</a></h3>
-
+<!--<div class=trader-app-link><a href=int/Volunteers.php?A=New>Please Volunteer for Media</a></div> -->
+</div>
 
 <?php
   dotail();

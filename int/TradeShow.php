@@ -94,7 +94,7 @@
   } else {
     echo "These traders will be at the Folk Festival.<p>";
   }
-  echo "To become a trader see the <a href=/info/trade>trade application page</a>.  ";
+  echo "To become a trader see the <a href=/InfoTrade.php>trade application page</a>.  ";
   echo "Only those traders who have paid their deposits are shown here.<p>";
 
  

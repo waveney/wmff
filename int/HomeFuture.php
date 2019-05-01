@@ -10,18 +10,6 @@
   include("int/DispLib.php");
   $host= "https://" . $_SERVER['HTTP_HOST'];
   
-/*
-<!--
-<div class="rslides_container" style="margin:0 0 25px 0;">
-<ul class="rslides" id="slider1">
-  <li><a href="/info/trade" ><img src="/images/Highstreet-Traders-2016.jpg"></a></li>
-  <li><img src="/images/Justin-Wikkaman-2016.jpg"></li>
-  <li><img src="/images/Happy-Morris-Dancer-2016.jpg"></li>
-  <li><img src="/images/Ringwood-Pipe-Band-2016.jpg"></li>
-</ul>
-</div>
--->
-*/
   $future = $_REQUEST['F'];
   echo "<form method=post>";
   echo fm_text("Days in Future", $_REQUEST,'F');

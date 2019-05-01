@@ -14,25 +14,19 @@ body {
     margin:0;
     cursor:default;
     }
-A:link, .FakeLink
-    {
-    text-decoration: none; 
-    color: #005983;
-    transition:color .5s;
-    }
-A:visited 
-    {
-    text-decoration: none; 
-    color: #005983;
-    }
-A:active {
-    text-decoration: none; 
-    color: #005983;
-    }
-A:hover {
-    text-decoration: none; 
-    color: #a30046;
-    }
+a {
+  color: #EC038C;
+  text-decoration: none;
+}
+A:link, .FakeLink {
+  text-decoration: none; 
+  color: #EC038C;
+  transition:color .5s;
+}
+A:visited, A:active, A:hover {
+  text-decoration: none; 
+  color: #EC038C;
+}
 #HeadRow {
   background-color:#c2eff4;
   max-height:250px;
@@ -1214,11 +1208,16 @@ button {
   border-bottom: 1px solid #dedede;
 }
   
-.LineUpFitTitle {
+.LineUpFitTitle, .LineUpFitTitle a {
   margin-top:2;
   margin-bottom:2;
   padding:5;
   text-align: center;
+  color: #004668;
+}
+
+.LUHighlight a .LineUpFitTitle {
+  color:white;
 }
 
 .LUHighlight, .LUHighlight a, .LUHighlight a:visited {
@@ -1230,7 +1229,7 @@ button {
   animation-iteration-count: 1;
 }
 
-.LineUptxt {
+.LineUptxt, .LineUptxt a {
   font-size:16;
   color:black;
   margin-top:5;
@@ -1304,10 +1303,14 @@ button {
   text-align:center;
   font-size:20px;
   margin:10px;
-  padding-top:25px;
+  padding-top:28px;
   border: 1px solid #f5f5f5;
   background: #f8f8f8;
   height:60;
+}
+
+.VenueFlexCont a {
+  color:#004668;
 }
 
 .VenueFlexCont:hover {
@@ -1322,4 +1325,46 @@ button {
 
 .VenueFlexCont:hover a {
   color:white;
+}
+
+.trader-app-link{
+  width: 100%;
+  padding: 20px 20px 50px;
+}
+.trader-app-link a{
+  min-width: 180px;
+  background:#EC038C;
+  color: #fff;
+  padding: 16px 30px;
+  display: inline-block;
+  transition: all ease-in-out 0.4s;
+  display: inline-block;
+  vertical-align: middle;
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
+  position: relative;
+  font-size:20px;
+}
+.trader-app-link a:hover{
+  background:#EC038C;
+  color: #fff;
+}
+.trader-app-link a:before {
+  content: '';
+  position: absolute;
+  border: #EC038C solid 4px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transition: all ease-in-out 0.4s;
+}
+.trader-app-link a:hover:before,
+.trader-app-link a:focus:before,
+.trader-app-link a:active:before {
+  top: -8px;
+  right: -8px;
+  bottom: -8px;
+  left: -8px;
+  border: #EC038C solid 4px;
 }

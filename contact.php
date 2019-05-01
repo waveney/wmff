@@ -22,7 +22,7 @@
 <tr>
 <td>Trade Stands</td>
 <td style="font-weight:bold; color:orange;">Closed</td>
-<td>For all <a href="/info/trade"><b>Trade Stand enquiries</b></a> that can not be answered by the <a href=/int/TradeFAQ.php><b>Trade FAQ</b></a>
+<td>For all <a href="/InfoTrade.php"><b>Trade Stand enquiries</b></a> that can not be answered by the <a href=/int/TradeFAQ.php><b>Trade FAQ</b></a>
 </tr>
 <tr>
 <td>Volunteers</td>

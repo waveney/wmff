@@ -4,15 +4,8 @@
   dohead("Sponsorship",[],1);
 
 ?>
-<h2 class="maintitle" style="text-align:center; margin-bottom:10px;">Sponsorship Opportunities</h2>
 
-<div class="rslides_container" style="margin:0 0 25px 0;">
-<ul class="rslides" id="slider1">
-  <li><img src="/images/WMFF-Stage-in-The-Square-2015.jpg"></li>
-</ul>
-</div>
-
-<h2 class="subtitle">About the Festival</h2>
+<h2>About the Festival</h2>
 
 <p><strong>Wimborne Minster Folk Festival</strong> is Wimborne's biggest event of the year.  Over the second weekend of June, it attracts tens of thousands of people into the town for three days of folk, family and fun.</p>
 
