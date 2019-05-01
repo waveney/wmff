@@ -2,7 +2,7 @@
   include_once("fest.php");
   A_Check('Staff');
 
-  dostaffhead("Add/Change Event", "/js/Participants.js");
+  dostaffhead("Add/Change Event",[ "/js/Participants.js"]);
 //Access is for anyone with Venue to edit all, otherwise can Create and edit own only 
 
   include_once("ProgLib.php");

@@ -150,7 +150,7 @@ if (isset($_FILES['croppedImage'])) {
 
   A_Check('Staff','Photos');
 
-  dostaffhead("Manage Photos",'/js/cropper.js',"/css/cropper.css");
+  dostaffhead("Manage Photos",['/js/cropper.js',"/css/cropper.css"]);
 
 
 /* Edit images for Sides, Traders, Sponsors

@@ -12,7 +12,7 @@
   } else {
     echo "These traders will be at the Folk Festival (many more to confirm).<p>";
   }
-  echo "To become a trader see the <a href=/info/trade>trade info page</a>.  ";
+  echo "To become a trader see the <a href=/InfoTrade.php>trade info page</a>.  ";
   echo "Only those traders who have paid their deposits and have asked to be listed are shown here.<p>";
 
   $Locs = Get_Trade_Locs(1);

@@ -1,7 +1,7 @@
 <?php
   include_once("fest.php");
 
-  dostaffhead("Buskers Bash Application", "/js/Participants.js");
+  dostaffhead("Buskers Bash Application", ["/js/Participants.js"]);
 
   include_once("SignupLib.php");
   global $USER,$USERID,$db,$PLANYEAR,$SignupStates,$SignupStateColours;

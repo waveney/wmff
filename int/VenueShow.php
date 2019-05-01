@@ -48,7 +48,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
       if ($imp) echo "</span>";
     } 
   } else  echo "<td>&nbsp;";
-  if ($things > $ll && ($things % $ll) == 1) echo "<td>&nbsp;";
+//  if ($things > $ll && ($things % $ll) == 1) echo "<td>&nbsp;";
   if ($NotAllFree && ($things < $ll)) echo "<td rowspan=$rows valign=top>$Price";
 }
 
@@ -56,16 +56,6 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
 
   $Mode = (isset($_GET['Mode']) ? $_GET['Mode'] : 0 ) ; // If present show everything
   $Poster = (isset($_GET['Poster']) ? $_GET['Poster'] : 0 ) ; // If present do Poster Mode - No Navigation/Trailer, but add new trailer with web and QR
-
-  if ($Poster) {
-    doheadpart("Venue Details","js/qrcode.js","files/festconstyle.css");
-    echo "</head><body>\n";
-    $Pictures = (isset($_POST['Pics']) && ($_POST['Pics'] == 'on'));
-  } else {
-    set_showyear();
-    dohead("Venue Details");
-    $Pictures = 1;
-  }
 
   if (!is_numeric($V)) exit("Invalid Venue Number");
   $Ven = Get_Venue($V);
@@ -90,6 +80,9 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   }
 
   if ($Poster) {
+    doheadpart("Venue Details",["js/qrcode.js","files/festconstyle.css"]);
+    echo "</head><body>\n";
+    $Pictures = (isset($_POST['Pics']) && ($_POST['Pics'] == 'on'));
     echo "<div id=Poster>"; 
     echo "<center>";
     echo "<h2 class=subtitle id=Postertitle>";
@@ -102,7 +95,11 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
       echo $Ven['SN'] . "</h2>";
     }
   } else {
-    echo "<h2 class=subtitle>" . $Ven['SN'] . "</h2>";
+    set_showyear();
+    $Banner = 1;
+    if ($Ven['Banner']) $Banner = $Ven['Banner'];
+    dohead($Ven['SN'],[],1);
+    $Pictures = 1;
   }
 
   /* Desc        Picture
@@ -139,7 +136,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
       echo "<div id=DirPaneWrap><div id=DirPane><div id=DirPaneTop></div><div id=Directions></div></div></div>";
       echo "<p><div id=map></div></div><p>";
       echo "<button class=PurpButton onclick=ShowDirect($V)>Directions</button> (From the Square if it does not know your location)\n";
-      echo "</div>\n";
+      echo "</div><script>Register_Onload(Set_MinHeight,'.venueimg','.MainContent')</script>\n";
       Init_Map(0,$V,18);
    }
 
@@ -282,16 +279,17 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
       if ($e['LongEvent'] && !$imps) continue;
       $parname = $e['SN']; 
       $lastevent = $ei;
-      echo "<tr><td rowspan=$rows $colwid valign=top><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) .  "</a>";
+      $rowsp1 = ($ImpC? $rows+1: $rows);
+      echo "<tr><td rowspan=$rowsp1 $colwid valign=top><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) .  "</a>";
       if ($VirtVen) echo "<br>" . $VenNames[$e['Venue']];
       echo "<td colspan=" . ($imps?$ll+($e['LongEvent']?0:1):$ll+1) . " valign=top><a href=EventShow.php?e=$eid>" . $parname . "</a>";
       if ($e['Status'] == 1) echo "<br><div class=Cancel>CANCELLED</div>";
       if ($e['Description']) echo "<br>" . $e['Description'];
 
       if ($imps) {
-        if (!$e['LongEvent']) echo "<tr><td rowspan=$rows >&nbsp;<td rowspan=$rows  valign=top>" . timecolon($e['Start']) . " - " . timecolon($e['SlotEnd']);
-        PrintImps($imps,$NotAllFree,Price_Show($e),$rows,$ImpC);
-      } else if (!$e['LongEvent'] && $NotAllFree) echo "<td>" . Price_Show($e);
+        if (!$e['LongEvent']) echo "<tr><td rowspan=$rows  valign=top>" . timecolon($e['Start']) . " - " . timecolon($e['SlotEnd']);
+        PrintImps($imps,$NotAllFree,Price_Show($e,1),$rows,$ImpC);
+      } else if (!$e['LongEvent'] && $NotAllFree) echo "<td>" . Price_Show($e,1);
     } else if ($e['SubEvent'] == 0) { // Is stand alone
       $lastDay = $e['Day'];
       $parname = $e['SN'];
@@ -302,7 +300,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
       if ($e['Status'] == 1) echo "<br><div class=Cancel>CANCELLED</div>";
       if ($e['Description']) echo "<br>" . $e['Description'];
       if ($e['Image']) $SpecialImage = $e['Image'];
-      PrintImps($imps,$NotAllFree,Price_Show($e),$rows,$ImpC,($Poster?2:100));
+      PrintImps($imps,$NotAllFree,Price_Show($e,1),$rows,$ImpC,($Poster?2:100));
     } else { // Is a sube
       if ($e['LongEvent'] && $lastevent != $e['SubEvent']) {
         $lastevent = $e['SubEvent'];
@@ -313,7 +311,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
         echo "<td rowspan=$rows valign=top ><a href=EventShow.php?e=$lastevent>" . $parname . "</a>";
         if ($e['Status'] == 1) echo "<br><div class=Cancel>CANCELLED</div>";
         if ($pare['Description']) echo "<br>" . $pare['Description'];
-        if ($imps) PrintImps($imps,$NotAllFree,Price_show($pare),$rows,$ImpC);
+        if ($imps) PrintImps($imps,$NotAllFree,Price_show($pare,1),$rows,$ImpC);
       } else if ($imps) {
         echo "<tr><td rowspan=$rows $colwid >&nbsp;<td rowspan=$rows  valign=top>";
         if ($parname != $e['SN']) {

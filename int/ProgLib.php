@@ -500,7 +500,7 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
               $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
             }
             $ans .= NoBreak($thing['SN']);
-            if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
+            if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ")");
             if ($link) $ans .= "</a>";
           }
         }
@@ -556,10 +556,14 @@ function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='
     $things = 0;
     foreach ( array_reverse($ks) as $imp) {
       if ($imp) $ans .= "<span style='font-size:" . ($size+$imp*$mult) . "px'>";
-      foreach ($imps[$imp] as $thing) {
-        if ($things++) $ans .= ", ";
+      foreach ($imps[$imp] as $thing) {    
         $link=0;
-        if (isset($thing['ZZZZZpfx'])) $ans .= $thing['ZZZZZpfx'];
+        if (isset($thing['ZZZZZpfx'])) { 
+          if ($things++) $ans .= "<br>";
+          $ans .= $thing['ZZZZZpfx'];
+        } else {
+          if ($things++) $ans .= ", ";
+        } 
         if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
         if ($link) {
           if ($link ==1) {
@@ -569,7 +573,7 @@ function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='
           }
         }
         $ans .= NoBreak($thing['SN']);
-        if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ") ");
+        if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ")");
         if ($link) $ans .= "</a>";
        }
       if ($imp) $ans .= "</span>";
@@ -579,22 +583,31 @@ function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='
   return $prefix . "Details to follow";
 }
 
-function Price_Show(&$Ev) {
+function Price_Show(&$Ev,$Buy=0) {
   global $MASTER;
 
   if ($Ev['SpecPrice']) return $Ev['SpecPrice'];
 
   $dats = array();
   $str = '';
+  $once = 0;
   $Cpri = $Ev['Price1'];
   if (!$Cpri) return 'Free';
 
+  if ($Buy) {
+    if ($Ev['TicketCode']) {
+      $str .= "<a href=https://www.ticketsource.co.uk/date/" . $Ev['TicketCode'] . " target=_blank>";
+    } else if ($Ev['SpecPriceLink']) {
+      $str .= "<a href=" . $Ev['SpecPriceLink'] . " target=_blank>";
+    }
+  }
   if ($MASTER['PriceChange1']) {
     $pc = $MASTER['PriceChange1'];
     $Npri = $Ev['Price2'];
     if ($Npri != $Cpri && $Npri != 0) {
       if ($pc > time()) {
         $str .= Print_Pound($Cpri) . " until " . date('j M Y',$pc);
+        $once = 1;
       }
     $Cpri = $Npri;
     }
@@ -607,16 +620,17 @@ function Price_Show(&$Ev) {
       if ($pc > time()) {
         if ($str) $str .= ", then ";
         $str .= Print_Pound($Cpri) . " until " . date('j M Y',$pc);
+        $once = 1;
       }
       $Cpri = $Npri;
     }
   }
 
   if ($Ev['DoorPrice'] && $Ev['DoorPrice'] != $Cpri) {
-    if ($str) $str .= ", then ";
-    $str .= Print_Pound($Cpri) . " in advance and " . Print_Pound($Ev['DoorPrice']) . " on the door";
+    if ($once) $str .= ", then ";
+    $str .= Print_Pound($Cpri) . " in advance</a> and " . Print_Pound($Ev['DoorPrice']) . " on the door"; // The </a> is to stop the links when used
   } else {
-    if ($str) $str .= ", then ";
+    if ($once) $str .= ", then ";
     $str .= Print_Pound($Cpri);
   } 
 

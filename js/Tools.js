@@ -22,16 +22,6 @@ function ToolSelect(e,c) { // e= event, c = colnum
 
 }
 
-// Sticky menus for mobiles
-
-function NoHoverSticky(e) {
-  $('.active').removeClass('active');
-}
-
-function HoverSticky(e) {
-  $('.active').removeClass('active');
-  e.currentTarget.lastElementChild.className += " active";
-}
 
 function PCatSel(e) {
   $('[id^=MPC_').hide();
@@ -39,22 +29,135 @@ function PCatSel(e) {
   $('#MPC_' + selectedOption).show();
 }
 
+$(document).ready(function() {
+  //caches a jQuery object containing the header element
+  var header = $(".main-header");
+  var dhead = header[0]; // jquery to dom
+  var scroll = $(window).scrollTop();  
+  if (scroll >= 1) header.addClass("fixedheader");
+  
+  $(window).scroll(function() {
+    var scroll = $(window).scrollTop();
+    if (scroll >= 1) {
+      header.addClass("fixedheader");
+    } else {
+      header.removeClass("fixedheader");
+  	}
+  });
+  dhead.addEventListener("mouseover",function() {
+    header.addClass("fixedheader");
+  });
+  dhead.addEventListener("mouseout",function() {
+    var scroll = $(window).scrollTop();
+    if (scroll < 1) {
+      header.removeClass("fixedheader");
+  	}
+  });
+
+});
+
+// Sticky menus for mobiles
+
 var StickyTime;
 
 function RemoveSticky() {
   $('.stick').removeClass('stick');  
 }
 
+function NoHoverSticky(e) {
+  $('.active').removeClass('active');
+}
+
+function HoverSticky(e) {
+  NoHoverSticky();
+  RemoveSticky();
+  e.currentTarget.lastElementChild.className += " active";
+}
+
 function NavStick(e) { // Toggle sticking of menus
   if (e.currentTarget.nextElementSibling.classList.contains('stick')) {
-    $('.stick').removeClass('stick');
     RemoveSticky();
   } else {
-    $('.stick').removeClass('stick');
+    RemoveSticky();
     e.currentTarget.nextElementSibling.className += " stick";
     StickyTime = setTimeout(RemoveSticky,3000);
   }
 }
+
+function NavSetPosn(e,labl) {
+  // Find Actual width of div labl, position child half of width to the left
+  var lablwid = $("#MenuParent" + labl).outerWidth();
+  $("#MenuChild" + labl).css({"margin-left":(-110+(lablwid/2)) })
+}
+
+function MenuResize() {
+// Work out effective width
+// if < Threshold 2 - hide level 2 elements
+// Work out effective Width
+// if < Threshold 1 then
+  // Show Menu Icon
+  // copy menus to menu icon
+  // hide those that can be hidden
+//  return;
+//  debugger;
+  var Ewidth = $(".Main-Header").width();
+  var IconWidth = $(".header-logo").width();
+  if (Ewidth > 1380 ) {  // Show all
+    $(".MenuIcon").hide();
+    $(".MenuMinor0").show();
+    $(".MenuMinor1").show();
+    $(".MenuMinor2").show();
+    $("#MenuBars").css({"right":0,"width":(Ewidth-IconWidth-40)});
+  } else {
+    $(".MenuMinor2").hide();
+    if (Ewidth < 1275) { // Show limited
+      $(".MenuMinor1").hide();
+      $("#MenuBars").css({"right":80, "width":(Ewidth-IconWidth-120)});
+      if (Ewidth < 845) { // Show none
+        $(".MenuMinor0").hide();
+      } else {
+        $(".MenuMinor0").show();
+      }
+      $(".MenuIcon").show();
+    } else { // Show most
+      $(".MenuIcon").hide();    
+      $(".MenuMinor0").show();
+      $(".MenuMinor1").show();
+      $("#MenuBars").css({"right":0, "width":(Ewidth-IconWidth-40)});
+    }
+  }
+}
+
+
+$(document).ready(function() {
+  MenuResize();
+  window.addEventListener('resize',MenuResize);  
+})
+
+
+function ShowHoverMenu() {
+//  debugger;
+//  if (!MenuCopied) CopyHoverMenu();
+//  $("#HoverContainer").show();
+  $("#HoverContainer").addClass("Slide-Left");
+  $(".MenuMenuIcon").hide();
+  $(".MenuMenuClose").show();
+  $(".MenuSubMenu").hide();
+  $(".MenuSubMenuIcon").hide();
+}
+
+function CloseHoverMenu() {
+//  $("#HoverContainer").hide();
+  $("#HoverContainer").removeClass("Slide-Left");
+  $(".MenuMenuIcon").show();
+  $(".MenuMenuClose").hide();
+}
+
+function HoverDownShow(labl) {
+  $("#HoverChild" + labl).toggle();
+  $("#DownArrow" + labl).toggleClass("Flip");
+}
+
 
 var isAdvancedUpload = function() {
   var div = document.createElement('div');
@@ -95,4 +198,32 @@ function setIframeHeight(id) {
     ifrm.style.visibility = 'visible';
 }
 
+function AddLineUpHighlight(id) {
+//  debugger;
+  $('#LineUp' + id).addClass("LUHighlight");
+//  var xx=1;
+}
+
+function RemoveLineUpHighlight(id) {
+  $('#LineUp' + id).removeClass("LUHighlight");
+}
+
+function Set_MinHeight(p1,p2) {
+  $(p2).css({"min-height":$(p1).height()});
+}
+
+var LoadStack = [];
+
+function Register_Onload(fun,p1,p2) {
+  LoadStack.push([fun,p1,p2]);
+}
+
+$(document).ready(function() {
+//  debugger;
+  if (!LoadStack) return;
+  for (var f in LoadStack) {
+    [fun,p1,p2] = LoadStack[f];
+    fun(p1,p2);
+  }
+})
 

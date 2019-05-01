@@ -1,7 +1,7 @@
 <?php
   include_once("fest.php");
 
-  dostaffhead("Live and Loud Application", "/js/Participants.js");
+  dostaffhead("Live and Loud Application", ["/js/Participants.js"]);
 
   include_once("SignupLib.php");
   include_once("InvoiceLib.php");

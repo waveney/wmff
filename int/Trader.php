@@ -1,7 +1,7 @@
 <?php
   include_once("fest.php");
 // Set a temp cookie on IP address that will pass validation later, if wmffd not set
-  dostaffhead("Trader Application", "/js/Participants.js");
+  dostaffhead("Trader Application",["/js/Participants.js"]);
 
   include_once("TradeLib.php");
   global $USER,$USERID,$db;

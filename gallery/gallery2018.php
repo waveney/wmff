@@ -1,12 +1,12 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("2018 Photo Gallery", '/files/gallery.css');
+  dohead("2018 Photo Gallery", ['/files/gallery.css'],1);
 
   echo '<h2 class="maintitle">2018 Photo Gallery</h2>';
 ?>
 
-2018 was a fabulous festival, here are some of the pictures and videos.<p>
+2018 was a fabulous festival, here are some of the pictures:<p>
 
 <div id="flex">
 
@@ -50,12 +50,6 @@
 <h2 class="articlettl">Workshops 2018 Photo Gallery</h2>
 <img class="articleimg" src="https://wimbornefolk.co.uk/images/gallery/2018/Workshops/23_LG5A8671_23-2048-STEPHENAJONES.jpg" ></a>
 <p class="articletxt">
-</div>
-
-<div class="article">
-<h2 class="articlettl">2018 Video Gallery</h2>
-<!-- <img class="articleimg" src="" ></a> -->
-<p class="articletxt">Coming soon.
 </div>
 
 <div class="article">

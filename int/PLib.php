@@ -208,7 +208,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
 
 // PA 
     echo "<tr " . (($Side['IsASide'] && !$Side['IsAnAct'] && !$Side['IsOther'])?$Adv:"") . ">";
-      if (!isset($Side['StagePA']) || ($Side['StagePA'] == '')) $Side['StagePA'] = 'None';
+      if (($NotD == 0) && (!isset($Side['StagePA']) || ($Side['StagePA'] == ''))) $Side['StagePA'] = 'None';
       echo "<td>PA Requirements:";
       $f = ($Side['StagePA'] == '@@FILE@@');  // This does not use fm_radio as it has many speccial cases
       echo "<td><label for=StagePAtext>Text</label> <input type=radio $ADDALL name=StagePAtext value=1 onchange=setStagePA(1) id=StagePAtext " . ($f?"":"checked") . "> " .
@@ -294,8 +294,8 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
  
           echo ($SelectPerf[$p]?fm_select($SelectPerf[$p],$O,$Other,1,"id=Perf$pi" . "_Side$i " . ($O[$OtherCat]==$pi?'':'hidden'),"Perf$pi" . "_Side$i") :"");
           if ($sid && ($O[$OtherCat] == $pi) && !isset($SelectPerf[$p][$sid])) {
-            $Side = Get_Side($sid);
-            echo "<del><a href=AddPerf.php?id=$sid>" . $Side['SN'] . "</a></del> ";               
+            $OSide = Get_Side($sid);
+            echo "<del><a href=AddPerf.php?id=$sid>" . $OSide['SN'] . "</a></del> ";               
           }
           $pi++;
         }
@@ -505,7 +505,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
   }
       
   // Wristbands
-  if (! $Side['IsAnAct']) {
+//  if ( $Side['IsASide'] || $Side['IsAnAct']==0 || Feature('MusicWristBands')) {
     echo "<tr>";    
       if ($Side['IsASide']) {
         echo fm_text("<span $Imp>How Many Performers Wristbands</span>",$Sidey,'Performers',0.5,'','onchange=updateimps()');
@@ -523,7 +523,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
       }
     echo "<td id=ComeAny hidden colspan=2><span class=Err>Don't forget to click Coming above?</span>";
     echo "<td id=WhatDays hidden colspan=2><span class=Err>What Days?</span>";
-  }
+//  }
 
 
 

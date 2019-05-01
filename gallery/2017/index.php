@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("2017 Photo Gallery", '/files/gallery.css');
+  dohead("2017 Photo Gallery", ['/files/gallery.css'],1);
 
   echo '<h2 class="maintitle">2017 Photo Gallery</h2>';
   echo '<div id="galleryflex">';

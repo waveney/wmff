@@ -5,7 +5,7 @@
   include_once("TradeLib.php");
   global $db,$YEAR,$SHOWYEAR,$PLANYEAR,$Trade_States,$Trade_State,$YEAR,$Trade_Days,$Prefixes;
 
-  dohead("Traders in $YEAR",'files/festconstyle.css');
+  dohead("Traders in $YEAR",['files/festconstyle.css'],1);
 
   $Locs = Get_Trade_Locs(1);
   $TTypes = Get_Trade_Types(1);
@@ -32,16 +32,19 @@
 
   
   echo "<form>" . fm_hidden('Y',$YEAR);
-  echo "<table border class=lemontab>";
-  echo "<tr><td>Show by Location<td>Show by Type<td>Show All";
-  echo "<tr><td>";
+  echo "<table class=GreenTable>";
+  echo "<tr><td>Show by Location:"; // <td>Show by Type
+
+  echo "<td>";
     foreach($Locs as $loc) {
       if ($loc['InUse'] && isset($LocUsed[$loc['TLocId']]) && !$loc['NoList']) echo "<input type=submit name=SEL value='" . $loc['SN'] . "'> ";
     }
-    echo "<td>";
+//    echo "<td>";
+/*
     foreach($TTypes as $typ) {
       if (!$typ['Addition'] && isset($TTUsed[$typ['id']])) echo '<input type=submit name=SEL value="' . $typ['SN'] . '" style="background:' . $typ['Colour'] . ';color:black;"> ';
     }
+*/
     echo "<td>";
       echo "<input type=submit name=SEL value='Show All'> ";
   echo "</table><p>";
@@ -91,7 +94,7 @@
   } else {
     echo "These traders will be at the Folk Festival.<p>";
   }
-  echo "To become a trader see the <a href=/info/trade>trade application page</a>.  ";
+  echo "To become a trader see the <a href=/InfoTrade.php>trade application page</a>.  ";
   echo "Only those traders who have paid their deposits are shown here.<p>";
 
  
@@ -111,16 +114,22 @@
     echo "<div class=Tradetext>$txt</div>"; // TODO Handle non html chars also do double nl to p
     
     if (!$SLoc) {
-      echo ($YEAR >= $PLANYEAR?"<p>Will be trading ":"<p>Was trading ") . $Prefixes[$Locs[$trad['PitchLoc0']]['prefix']] . ' ' . $Locs[$trad['PitchLoc0']]['SN'];
-      if ($trad['PitchLoc2']) {
-        echo ", " . $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc1']]['SN'] . " and " 
-         		. $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc2']]['SN'];
-      } else if ($trad['PitchLoc1']) {
-        echo " and " . $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc1']]['SN'];
-      }
+      if ($trad['PitchLoc0'] == $trad['PitchLoc1']) $trad['PitchLoc1'] = 0;
+      if ($trad['PitchLoc0'] == $trad['PitchLoc2']) $trad['PitchLoc2'] = 0;    
+      if ($trad['PitchLoc1'] == $trad['PitchLoc2']) $trad['PitchLoc2'] = 0;    
+    
+      if (isset($Locs[$trad['PitchLoc0']])) {
+        echo ($YEAR >= $PLANYEAR?"<p>Will be trading ":"<p>Was trading ") . $Prefixes[$Locs[$trad['PitchLoc0']]['prefix']] . ' ' . $Locs[$trad['PitchLoc0']]['SN'];
+        if ($trad['PitchLoc2']) {
+          echo ", " . $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc1']]['SN'] . " and " 
+           		. $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc2']]['SN'];
+        } else if ($trad['PitchLoc1']) {
+          echo " and " . $Prefixes[$Locs[$trad['PitchLoc1']]['prefix']] . ' ' . $Locs[$trad['PitchLoc1']]['SN'];
+        }
       if ($trad['Days']) echo " on " . $Trade_Days[$trad['Days']];
-    } else {
-      if ($trad['Days']) echo $Trade_Days[$trad['Days']];    
+      } else {
+        if ($trad['Days']) echo $Trade_Days[$trad['Days']];    
+      }
     }
     echo "</div>";
   }

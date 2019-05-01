@@ -4,13 +4,13 @@
 }
 
 body {
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
 }
 
 h2 {
   font-weight: bold;
   font-size:22px;
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
 }
 
 table {
@@ -20,7 +20,7 @@ table {
 th {
   font-size:15px;
   color:black;
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
 }
 
 input {
@@ -171,7 +171,6 @@ input[type=password] {
 
 .staffform {
   font-size:14px;
-  color: #005983;
   background-color:white;
   padding:0px;
   border:0px;
@@ -179,12 +178,13 @@ input[type=password] {
 }
 
 #staffformid, #Posterid {
-  font-size:17px;
-  color: #005983;
+  font-size:18px;
+  color: #EC038C;
   background-color:white;
   padding:0px;
   border:0px;
   margin:0 0 0 0;
+  font-weight:520;
 }
 
 .Vuse2 {
@@ -826,7 +826,7 @@ input[type='file'] {
   color:white;
   border-radius:5px;
   font-weight:normal;
-  font-family:SHONAR, verdana, arial, helvetica, sans-serif;
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
   font-size:35px;
 }
 

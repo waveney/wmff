@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Water Bottle Refills", '/files/gallery.css');
+  dohead("Water Bottle Refills", ['/files/gallery.css'],1);
 
   include_once("int/ProgLib.php");
   echo "<h2 class=subtitle>Water Bottle Refills</h2>";

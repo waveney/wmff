@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("2015 Photo Gallery", '/files/gallery.css');
+  dohead("2015 Photo Gallery", ['/files/gallery.css'],1);
 ?>
 <h2 class="maintitle">2015 Photo Gallery</h2>
 

@@ -55,7 +55,7 @@
     }
   }
 
-  dostaffhead("Add Performer", "/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js");
+  dostaffhead("Add Performer", ["/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js"]);
 
   include_once("MusicLib.php");
   include_once("DateTime.php");

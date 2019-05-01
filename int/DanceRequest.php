@@ -3,7 +3,7 @@
   $snum=$_GET{'sidenum'};
   A_Check('Participant','Side',$snum);
 
-  dohead("Request");
+  dohead("Request",[],1);
   echo "<h2>Requested</h2>\n";
   include_once("DanceLib.php");
   global $YEAR,$MASTER_DATA,$PerfTypes;

@@ -18,7 +18,7 @@ function formatminimax(&$side,$link,$mnat=2,$sdisp=1) {
   } // fmt t=txt, l=ls, p=pt, s=sq, b=ban
   $Imp = $side['Importance'];
   if ($side['DiffImportance']) {
-    $Imp = 0;
+    $imp = 0;
     foreach($PerfTypes as $pt=>$pd) if ($side[$pd[0]] && $imp < $side[$pd[2] . 'Importance'] ) $imp = $side[$pd[2] . 'Importance'];
   }
   
@@ -43,21 +43,24 @@ function formatLineups(&$perfs,$link,&$Sizes,$sdisp=1) {
   
   foreach ($perfs as $perf) {
     $Imp = $perf['EffectiveImportance'];
+    $Id = $perf['SideId'];
     if ($Sizes[$Imp] != $LastSize) {
       if ($LastSize >=0) echo "</div><br clear=all>";
       $LastSize = $Sizes[$Imp];
       echo "<div class=LineupFit" . $LastSize . "Wrapper>";
     }
-    echo "<div class='LineupFit$LastSize'>";
-    echo "<a href=/int/$link?sidenum=" . $perf['SideId'] . "&Y=$YEAR>";  
+    echo "<div class='LineupFit$LastSize LineUpBase' onmouseover=AddLineUpHighlight($Id) onmouseout=RemoveLineUpHighlight($Id) id=LineUp$Id>";
+    echo "<a href=/int/$link?sidenum=$Id&Y=$YEAR>";
+    $Photo = $perf['Photo'];
+    if (!$Photo) $Photo = '/images/icons/user2.png';
     if ($sdisp) {
-      echo "<div class=LineUpFitTitle style='font-size:" . (24+$Imp) . "px'>" . $perf['SN'] . "</div>";
-      if ($perf['Photo']) echo "<img class=LineUpFit src='" . $perf['Photo'] . "'>";
+      echo "<div class=LineUpFitTitle style='font-size:" . (18+$Imp) . "px'>" . $perf['SN'] . "</div>";
+      echo "<img src=$Photo>";
       echo "<div class=LineUptxt>" . $perf['Description'] . "</div>";
        
     } else {
-      if ($perf['Photo']) echo "<img class=LineUpFit src='" . $perf['Photo'] . "'>";
-      echo "<br><div class=LineUpFitTitle style='font-size:" . (24+$Imp*3) . "px'>" . $perf['SN'] . "</div></a>";
+      echo "<img src=$Photo>";
+      echo "<br><div class=LineUpFitTitle style='font-size:" . (18+$Imp*3) . "px'>" . $perf['SN'] . "</div></a>";
     }
     echo "</div>";
   }
@@ -119,7 +122,11 @@ function Gallery($id,$embed=0) {
   }
 
   $name = $Gal['SN'];
-  if (!$embed) dohead($name, '/files/gallery.css');
+  if (!$embed) {
+    $Banner = 1;
+    if (isset($Gal['Banner'])) $Banner = $Gal['Banner'];
+    dohead($name, ['/files/gallery.css'],$Banner);
+  }
 
   echo "<h2 class=maintitle>$name</h2><p>";
   echo "Click on any slide to start a Slide Show with that slide.<p>\n";
@@ -238,7 +245,8 @@ function Expand_Special(&$Art) {
     $Art['SN'] = "Dancing in $YEAR";
     $Art['Link'] = "/LineUpDance.php";
 
-    $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " AND y.ReleaseDate<$now");
+    $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . 
+           $Coming_Type['Y'] . " AND y.ReleaseDate<$now");
     $Dsc = 0;
     if ($ans) {
       $res = $ans->fetch_assoc();
@@ -273,7 +281,7 @@ function Expand_Special(&$Art) {
       $Shown[] = $Mstuff['SideId'];
 
       $Art['SN'] = $Mstuff['SN'];
-      $Art['Link'] = ('/int/ShowMusic.php?sidenum=' . $Mstuff['SideId']);
+      $Art['Link'] = ('/int/ShowPerf.php?id=' . $Mstuff['SideId']);
       $Art['Text'] = $Mstuff['Description'];
       $Art['Image'] = $Mstuff['Photo'];
       $Art['ImageWidth'] = (isset($Mstuff['ImageWidth'])?$Mstuff['ImageWidth']:100);
@@ -304,7 +312,7 @@ function Expand_Special(&$Art) {
       if (in_array($MMany['SideId'],$Shown)) continue;
       $Shown[] = $MMany['SideId'];
 
-      $Art['Text'] .= "  Including <a href=/int/ShowMusic.php?sidenum=" . $MMany['SideId'] . ">" . $MMany['SN'] . "</a>";
+      $Art['Text'] .= "  Including <a href=/int/ShowPerf.php?id=" . $MMany['SideId'] . ">" . $MMany['SN'] . "</a>";
       $Art['Image'] = $MMany['Photo'];
       $Art['ImageWidth'] = (isset($MMany['ImageWidth'])?$MMany['ImageWidth']:100);
       $Art['ImageHeight'] = (isset($MMany['ImageHeight'])?$MMany['ImageHeight']:100);
@@ -321,7 +329,7 @@ function Expand_Special(&$Art) {
     $Shown [] = $id;
     $Perf = Get_Side($id);
     $Art['SN'] = $Perf['SN'];
-    $Art['Link'] = ($Perf['IsASide']?'/int/ShowDance.php?sidenum=':'/int/ShowMusic.php?sidenum=') . $Perf['SideId'];
+    $Art['Link'] = '/int/ShowPerf.php?id=' . $Perf['SideId'];
     $Art['Text'] = $Perf['Description'];
     $Art['Image'] = $Perf['Photo'];
     $Art['ImageWidth'] = (isset($Perf['ImageWidth'])?$Perf['ImageWidth']:100);

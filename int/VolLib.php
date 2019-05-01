@@ -1,7 +1,7 @@
 <?php
   include_once("fest.php");
 
-//  dostaffhead("Steward / Volunteer Application", "/js/Volunteers.js");
+//  dostaffhead("Steward / Volunteer Application", ["/js/Volunteers.js"]);
 
   include_once("Email.php");
 //  include_once("SignupLib.php");
@@ -377,7 +377,7 @@ function Check_Unique() { // Is email Email already registered - if so send new 
 function VolAction($Action) {
   global $PLANYEAR;
 
-  dostaffhead("Steward / Volunteer Application", "/js/Volunteers.js");
+  dostaffhead("Steward / Volunteer Application", ["/js/Volunteers.js"]);
   switch ($Action) {
   
   case 'New': // New Volunteer

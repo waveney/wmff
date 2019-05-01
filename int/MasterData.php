@@ -21,9 +21,11 @@
   echo "<tr>" . fm_text("SMTP user",$MASTER_DATA,'SMTPuser');
   echo "<tr>" . fm_text("SMTP password",$MASTER_DATA,'SMTPpwd');
   echo "<tr>" . fm_textarea("Features",$MASTER_DATA,'Features',4,10);
-  echo "<tr>" . fm_text("Left Ad Img",$MASTER_DATA,'AdvertImgLeft') . fm_text("Left Ad Link",$MASTER_DATA,'AdvertLinkLeft');
-  echo "<tr>" . fm_text("Right Ad Img",$MASTER_DATA,'AdvertImgRight') . fm_text("Left Ad Right",$MASTER_DATA,'AdvertLinkRight');
-  echo "<tr>" . fm_text("Website Banner",$MASTER_DATA,'WebSiteBanner',3);
+/*  echo "<tr>" . fm_text("Left Ad Img",$MASTER_DATA,'AdvertImgLeft') . fm_text("Left Ad Link",$MASTER_DATA,'AdvertLinkLeft');
+  echo "<tr>" . fm_text("Right Ad Img",$MASTER_DATA,'AdvertImgRight') . fm_text("Left Ad Right",$MASTER_DATA,'AdvertLinkRight'); */
+  echo "<tr>" . fm_text("Website Coloured Banner",$MASTER_DATA,'WebSiteBanner',3);
+  echo "<tr>" . fm_text("Website White Banner",$MASTER_DATA,'WebsiteBanner2',3);
+  echo "<tr>" . fm_text("Default Page Banner",$MASTER_DATA,'DefaultPageBanner',3);
   echo "<tr>" . fm_textarea("Analytics code",$MASTER_DATA,'Analytics',3,3);
   echo "<tr>" . fm_text("Directions Google API key",$MASTER_DATA,'GoogleAPI',3);
   echo "</table>\n";

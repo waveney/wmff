@@ -8,7 +8,7 @@
   A_Check('Upload');
   $host= "https://" . $_SERVER['HTTP_HOST'];
 
-  dostaffhead("Staff Pages", "/js/jquery.typeahead.min.js", "/css/jquery.typeahead.min.css", "/js/Staff.js");
+  dostaffhead("Staff Pages", ["/js/jquery.typeahead.min.js", "/css/jquery.typeahead.min.css", "/js/Staff.js"]);
 
   global $YEAR,$PLANYEAR;
   include_once("ProgLib.php");

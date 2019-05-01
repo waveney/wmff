@@ -17,7 +17,7 @@
   if (!$Gal) Error_Page("Gallery $id does not exist");
 
   $name = $Gal['SN'];
-  dohead($name, '/css/jquery.bxslider.css','/js/jquery.bxslider.min.js');
+  dohead($name, ['/css/jquery.bxslider.css','/js/jquery.bxslider.min.js']);
   echo "<h2 class=maintitle>$name</h2><p>";
   echo "<center style='height:95vh !important;'>\n";
   echo "<ul class=bxslider>\n";

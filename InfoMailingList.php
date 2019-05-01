@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Mailing List","//cdn-images.mailchimp.com/embedcode/classic-10_7.css", 'css/MailChimp.css' );
+  dohead("Mailing List",["//cdn-images.mailchimp.com/embedcode/classic-10_7.css", 'css/MailChimp.css'] ,1);
 
 ?>
 <!-- Begin Mailchimp Signup Form -->

@@ -4,7 +4,6 @@
 
   dostaffhead("Document Search");
 
-  include_once("files/navigation.php"); 
   include_once("DocLib.php");
 /* Search Loc and Restrict 
 */

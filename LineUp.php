@@ -4,7 +4,7 @@
   $T = 'Dance';
   if (isset($_GET['T'])) $T = $_GET['T'];
 
-  dohead("$T Line-up");
+  dohead("$T Line-up",[],1,'T');
 
   set_ShowYear();
   include_once("int/ProgLib.php");

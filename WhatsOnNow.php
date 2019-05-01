@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Whats on When");
+  dohead("Whats on Now");
 
   include_once("int/ProgLib.php");
   include_once("int/DateTime.php");
@@ -90,7 +90,7 @@
       }
     }
     echo "<td>" . ($e['BigEvent'] ? Get_Other_Participants($Others,0,1,15,1,$e) : Get_Event_Participants($eid,0,1,15));
-    echo "<td>" . Price_Show($e);
+    echo "<td>" . Price_Show($e,1);
     $something = 1;
   }
   echo "</table>\n";

@@ -1,7 +1,7 @@
 <?php
   include_once("fest.php");
 
-  dostaffhead("Steward / Volunteer Application", "/js/Participants.js");
+  dostaffhead("Steward / Volunteer Application", ["/js/Participants.js"]);
 
   include_once("SignupLib.php");
   global $USER,$USERID,$db,$PLANYEAR,$StewClasses,$Relations,$Days;

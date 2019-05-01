@@ -1,12 +1,11 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Contact Us");
+  dohead("Contact Us",[],1);
 
 ?>
-<h2 class="maintitle">Contact Us</h2>
 
-<p><table cellspacing="5" cellpadding="5" style="background-color:#005983; border-color:#005983;">
+<p><table class='FullWidth GreenTable'>
 <tr>
 <th colspan="3">Applications for 2019 Festival</th>
 </tr>
@@ -23,7 +22,7 @@
 <tr>
 <td>Trade Stands</td>
 <td style="font-weight:bold; color:orange;">Closed</td>
-<td><a href="/info/trade">Trade Stands</a>
+<td>For all <a href="/InfoTrade.php"><b>Trade Stand enquiries</b></a> that can not be answered by the <a href=/int/TradeFAQ.php><b>Trade FAQ</b></a>
 </tr>
 <tr>
 <td>Volunteers</td>

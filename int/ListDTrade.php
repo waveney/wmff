@@ -2,7 +2,7 @@
   include_once("fest.php");
   A_Check('Steward');
 
-  dostaffhead("List Traders in Detail", "/js/clipboard.min.js", "/js/emailclick.js");
+  dostaffhead("List Traders in Detail", ["/js/clipboard.min.js", "/js/emailclick.js"]);
 
   global $YEAR,$PLANYEAR,$Trade_States,$Trade_State_Colours,$Trade_State,$TS_Actions,$ButExtra;
   include_once("TradeLib.php");

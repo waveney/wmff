@@ -1,9 +1,8 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Folk Festival Software");
+  dohead("Folk Festival Software",[],1);
 ?>
-  <h2 class=subtitle>Folk Festival Software</h2>
 <h3>BACKGROUND</h3>
 A sophisticated database and website system is being developed for Wimborne Minster Folk Festival, using experence and knowledge from providing facilities for many events 
 (Folk Festivals and Science

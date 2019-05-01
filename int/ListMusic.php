@@ -2,7 +2,7 @@
   include_once("fest.php");
   A_Check('Steward');
 
-  dostaffhead("List Music", "/js/clipboard.min.js", "/js/emailclick.js");
+  dostaffhead("List Music", ["/js/clipboard.min.js", "/js/emailclick.js"]);
 
   global $YEAR,$PLANYEAR,$Book_Colours,$Book_States,$Book_Actions,$Book_ActionExtras,$Importance,$InsuranceStates,$PerfTypes;
   include_once("DanceLib.php"); 
