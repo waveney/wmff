@@ -123,17 +123,19 @@ h2 {
   max-width:1560;
   margin:auto;
   padding: 0;
-  object-fit: contain;
-  display:inline-block;
 }
 .widthLim {
   max-width:1560;
   margin: 0 auto 0 auto;
 }
 .MainContent {
+
+}
+
+.MainWrapper {
   padding: 15px 25px;
   position:realtive;
-  display:block;
+  display: block;
 }
 sup
     {
@@ -667,11 +669,12 @@ textarea:Focus
 .adp-warnbox { 
   display:none;
 }
-.venueimg {
+.venueimg {  /* TODO fix this for screen size */
   float:right;
   min-width:500px !important;
   width:40%;
   margin:10px;
+/*  display:inline-block; */
 }
 .venueimg #map {
   height:500px;

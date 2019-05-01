@@ -208,4 +208,25 @@ function RemoveLineUpHighlight(id) {
   $('#LineUp' + id).removeClass("LUHighlight");
 }
 
+function Set_MinHeight(p1,p2) {
+//debugger;
+  var ht = $(p1).height();
+  $(p2).css({"min-height":ht});
+  var a = 1;
+}
+
+var LoadStack = [];
+
+function Register_Onload(fun,p1,p2) {
+  LoadStack.push([fun,p1,p2]);
+}
+
+$(document).ready(function() {
+//  debugger;
+  if (!LoadStack) return;
+  for (var f in LoadStack) {
+    [fun,p1,p2] = LoadStack[f];
+    fun(p1,p2);
+  }
+})
 

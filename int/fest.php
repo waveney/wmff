@@ -567,7 +567,7 @@ function dohead($title,$extras=[],$Banner='',$BannerOptions=' ') {
       echo "<div class='NullBanner'></div>";  // Not shure this is needed
     }
 
-    echo "<div class=maincontent>";  
+    echo "<div class=mainwrapper><div class=maincontent>";  
   } else {
     echo "<div id=HeadRow>";
     if ($MASTER_DATA['AdvertImgLeft']) { 
@@ -581,7 +581,7 @@ function dohead($title,$extras=[],$Banner='',$BannerOptions=' ') {
     echo "<script src=/js/WmffAds.js?V=$V></script>";
 
     include_once("files/navigation.php"); 
-    echo "<div class=contentlim>";
+    echo "<div class=mainwrapper><div class=contentlim>";
   }
 
   $head_done = 1;
@@ -646,9 +646,10 @@ function dotail() {
   global $head_done;
 
   if (Feature('NewStyle')) {
+    echo "</div>";
     if ($head_done == 1) include_once("files/Newfooter.php");  
   } else {
-    echo "</div>";
+    echo "</div></div>";
     if ($head_done == 1) include_once("files/footer.php");
   }
   echo "</body></html>\n";
