@@ -369,6 +369,7 @@
 .WMFFbanner600 {
   height:600;
   width:1560;
+  max-width:100%;
   margin-top:-80;
   top: 0;
   background:black;
@@ -394,6 +395,7 @@
 .WMFFbanner800 {
   height:800;
   width:1560;
+  max-width:100%;
   margin-top:-80;
   top: 0;
   background:black;
