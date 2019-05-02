@@ -8,7 +8,7 @@
   $Banner .= "</div>";
   $Banner .= "<div class=BanDates>" . ($MASTER['DateFri']+$MASTER['FirstDay']) . " - " . ($MASTER['DateFri']+$MASTER['LastDay']) . " June $SHOWYEAR</div>";
 
-  $Banner .= "<img src=/images/icons/torn-top.svg class=TornTopEdge>";
+  $Banner .= "<img src=/images/icons/torn-top.png class=TornTopEdge>";
   $Banner .= "</div>";
 
   dohead('7,8,9 June 2019', ['/js/WmffAds.js', "/js/HomePage.js"],$Banner );

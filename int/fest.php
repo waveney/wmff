@@ -547,13 +547,14 @@ function dohead($title,$extras=[],$Banner='',$BannerOptions=' ') {
     if ($Banner) {
       if ($Banner == 1) {
         echo "<div class=WMFFBanner400><img src=" . $MASTER_DATA['DefaultPageBanner'] . " class=WMFFBannerDefault>";
+        if (!strchr('T',$BannerOptions)) echo "<img src=/images/icons/torn-top.png class=TornTopEdge>";
         echo "<div class=WMFFBannerText>$title</div>";
-        if (!strchr('T',$BannerOptions)) echo "<img src=/images/icons/torn-top.svg class=TornTopEdge>";
+
         echo "</div>";
       } else if (preg_match('/^(https?:\/\/|\/?images\/)/',$Banner)) {
         echo "<div class=WMFFBanner400><img src=$Banner class=WMFFBannerDefault>";
         echo "<div class=WMFFBannerText>$title</div>";
-        if (!strstr($BannerOptions,'T')) echo "<img src=/images/icons/torn-top.svg class=TornTopEdge>";
+        if (!strstr($BannerOptions,'T')) echo "<img src=/images/icons/torn-top.png class=TornTopEdge>";
         echo "</div>";
       } else {
         echo $Banner;
