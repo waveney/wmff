@@ -364,6 +364,7 @@
   background:black;
   z-index: 99;
   object-fit:contain;
+  overflow:hidden;
 }
 
 
@@ -376,6 +377,7 @@
   background:black;
   z-index: 99;
   object-fit:contain;
+  overflow:hidden;
 }
 
 .WMFFBannerText {
@@ -402,6 +404,7 @@
   background:black;
   z-index: 99;
   object-fit:contain;
+  overflow:hidden;
 }
 
 .WMFFbanner800 .BanOverlay {
@@ -447,9 +450,6 @@
 
 .TornTopEdge {
   margin-top:-35;
-  min-width:100%;
-  
-  object-fit:none;
 }
 
 /* Footer Stuff */
