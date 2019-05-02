@@ -199,6 +199,7 @@ Set Use Notes to fmt to use the Big Event programming Notes to describe types of
         'ExcludePA'=>'Exclude participents in this event from PA requirements for the venue - for the procession',
         'IgnoreMultiUse'=>'Set to prevent warning that same performer has been at this location on this day',
         'ShowSubevent'=>'Set this in the rare case when a sub event should be show on top level listings',
+        'Concert'=>'Select this if it has a ticketed entry to a whole - multi act event - used in formatting event descriptions',
         
   );
   Set_Help_Table($t);

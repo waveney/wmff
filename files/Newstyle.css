@@ -392,7 +392,7 @@ textarea:Focus
     column-count:3;
     }
 #flex5 {
-  columns: 100px 4;
+  columns: 220px 5;
   column-gap: 20px;
   margin-right:15;
 }
@@ -1297,7 +1297,7 @@ button {
 
 .VenueFlexCont {
   max-width:400px;
-  min-width:150px;
+  min-width:250px;
   width:100%;
   display: inline-block;
   text-align:center;
@@ -1368,3 +1368,33 @@ button {
   left: -8px;
   border: #EC038C solid 4px;
 }
+
+.TwoCols {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.TwoCols .OneCol {
+  width:48%;
+}
+.TwoCols .OneCol div {
+  margin: 20 0;
+}
+.PerfProg, .PerfProg td , .PerfProg th {
+  border: 1px solid black;
+  margin: 5;
+  padding: 5;
+}
+.PerfProg {
+  background:#ddd;
+}
+.PerfProg td , .PerfProg th {
+  background: white;
+}
+
+.PerfProg tr:hover td, .PerfProg tr:hover th {
+  background: #f6f6f6;
+}
+

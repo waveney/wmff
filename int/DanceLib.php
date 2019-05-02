@@ -104,7 +104,7 @@ function &Part_Come_All() {
   return $Coming;  
 }
 
-function Show_Side($snum,$Message='') {
+function Show_Side($snum,$Message='',$price=0) {
   global $YEAR, $Coming_Type,$db;
   if (is_numeric($snum) && ($side = Get_Side($snum))) {
     $syear = Get_SideYear($snum,$YEAR);
@@ -115,13 +115,14 @@ function Show_Side($snum,$Message='') {
     if ($Message) echo "<h2 class=ERR>$Message</h2>"; 
 
 
+//    if ($side['IsASide'] && $side['ShortName']) echo "( Appearing in the Dance grids as:" . $side['ShortName'] . " )<br>";
 
-    if ($side['IsASide'] && $side['ShortName']) echo "( Appearing in the grids as:" . $side['ShortName'] . " )<br>";
+    echo "<div class=TwoCols><script>Register_Onload(Set_ColBlobs,'Blob',4)</script>";
+    echo "<div class=OneCol id=TwoCols1>";
+    
 
-    echo "<div style='width:800px;'>";
-    if ($side['Photo']) echo "<img src=" . $side['Photo'] . " width=100%><p>\n";
-
-   
+    
+    echo "<div id=Blob0>";
     if ($side['Description']) {
       if ($side['OneBlurb']==0 || strlen($side['Description']) > strlen($side['Blurb'])) echo $side['Description'] . "<p>";
     }
@@ -170,18 +171,25 @@ function Show_Side($snum,$Message='') {
       echo "<p>";
     }
     if ($side['Blurb']) echo $side['Blurb'];
+    echo "</div>";
+    
+    if ($side['Photo']) echo "<div id=Blob2><img src=" . $side['Photo'] . " width=100%></div>\n";
+    
+    if ( $side['Video']) echo "<div id=Blob3>" . embedvideo($side['Video']) . "</div>";
 
-    echo "</div><br clear=all><p>";
+    if ($side['Website'] || $side['Facebook'] || $side['Twitter'] || $side['Instagram']) {
+      echo "<div id=Blob4>";
+      if ( $side['Website'] ) echo "<img src=/images/icons/web.svg width=24> " . weblink($side['Website'],"<b>" . $side['SN'] . "'s website</b>") . "<br>";
+      $follow = "Follow " . $side['SN'] . " on ";
+      echo  Social_Link($side,'Facebook',1,$follow);
+      echo  Social_Link($side,'Twitter',1,$follow);
+      echo  Social_Link($side,'Instagram',1,$follow);
+      echo "</div>";
+    }
 
-    if ( $side['Website'] ) echo weblink($side['Website'],"<b>" . $side['SN'] . " website</b>") . "<p>";
+    echo "</div><div class=OneCol id=TwoCols2></div></div>";
 
-    if ( $side['Video'] )  echo embedvideo($side['Video']) . "<p>";
-
-    echo  Social_Link($side,'Facebook',1);
-    echo  Social_Link($side,'Twitter',1);
-    echo  Social_Link($side,'Instagram',1);
-
-    if ($prog = Show_Prog('Side',$snum)) {
+    if ($prog = Show_Prog('Side',$snum,0,$price)) {
       echo $prog;
     } else {
       echo "<h2>The programme has not yet been published yet.</h2>\n";

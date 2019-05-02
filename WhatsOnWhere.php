@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Whats on By Venue",[],1);
+  dohead("What's on - By Venue",[],1);
 
   set_ShowYear();
   include_once("int/ProgLib.php");
