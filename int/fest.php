@@ -512,7 +512,7 @@ function Show_Prog($type,$id,$all=0,$price=0) { //mode 0 = html, 1 = text for em
         $Thing = Get_Side($id);
         $Desc = ($Worst > 2)?"":'Current ';
         $str = "<h2>$Desc Programme for " . $Thing['SN'] . ":</h2>\n" . ($UsedNotPub?"<span class=NotCSide>These are not currently public<p>\n</span>":"") .
-                "<table border><tr><td>Day<td>time<td>Event<td>Venue" . ($With?'<td>With':'') . ($Price?'<td>':'') . $str;
+                "<table class=PerfProg><tr><td>Day<td>time<td>Event<td>Venue" . ($With?'<td>With':'') . ($Price?'<td>':'') . $str;
       }
     }
     if ($evc) {

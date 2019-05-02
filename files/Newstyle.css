@@ -1382,3 +1382,19 @@ button {
 .TwoCols .OneCol div {
   margin: 20 0;
 }
+.PerfProg, .PerfProg td , .PerfProg th {
+  border: 1px solid black;
+  margin: 5;
+  padding: 5;
+}
+.PerfProg {
+  background:#ddd;
+}
+.PerfProg td , .PerfProg th {
+  background: white;
+}
+
+.PerfProg tr:hover td, .PerfProg tr:hover th {
+  background: #f6f6f6;
+}
+
