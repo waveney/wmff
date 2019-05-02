@@ -179,11 +179,11 @@ function Show_Side($snum,$Message='') {
 
     if ($side['Website'] || $side['Facebook'] || $side['Twitter'] || $side['Instagram']) {
       echo "<div id=Blob4>";
-      if ( $side['Website'] ) echo "<img src=/images/icons/web.svg width=24> " . weblink($side['Website'],"<b>" . $side['SN'] . " website</b>") . "<p>";
-
-      echo  Social_Link($side,'Facebook',1);
-      echo  Social_Link($side,'Twitter',1);
-      echo  Social_Link($side,'Instagram',1);
+      if ( $side['Website'] ) echo "<img src=/images/icons/web.svg width=24> " . weblink($side['Website'],"<b>" . $side['SN'] . "'s website</b>") . "<br>";
+      $follow = "Follow " . $side['SN'] . " on ";
+      echo  Social_Link($side,'Facebook',1,$follow);
+      echo  Social_Link($side,'Twitter',1,$follow);
+      echo  Social_Link($side,'Instagram',1,$follow);
       echo "</div>";
     }
 

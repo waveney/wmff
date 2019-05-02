@@ -355,13 +355,14 @@ function SName(&$What) {
   return $What['SN'];
 }
 
-function Social_Link(&$data,$site,$mode=0) { // mode:0 Return Site as text, mode 1: return blank/icon
+function Social_Link(&$data,$site,$mode=0,$text='') { // mode:0 Return Site as text, mode 1: return blank/icon
   if (! isset($data[$site]) || strlen($data[$site]) < 5) return ($mode? '' :$site);
   $link = $data[$site];
   if (preg_match("/$site/i",$link)) {
-    return " " . weblink($link,($mode? ( "<img src=/images/icons/$site.jpg>") : $site));
+    $follow = ($text? $text . $site :'');
+    return " " . weblink($link,($mode? ( "<img src=/images/icons/$site.jpg title='$follow'> $follow") : $site)) . "<br>";
   }
-  return " <a href=http://$site.com/$link>" . ($mode? ( "<img src=/images/icons/$site.jpg>") : $site) . "</a>";
+  return " <a href=http://$site.com/$link>" . ($mode? ( "<img src=/images/icons/$site.jpg>") : $site) . "</a><br>";
 }
 
 function NoBreak($t,$Max=0) {
