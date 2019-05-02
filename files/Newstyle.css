@@ -1378,4 +1378,5 @@ button {
 
 .TwoCols .OneCol {
   width:48%;
+  margins: 10 0;
 }
