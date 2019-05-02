@@ -1,9 +1,9 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Getting Here");
+  dohead("Getting Here",[],1);
 
-  include_once("int/ProgLib.php",[],1);
+  include_once("int/ProgLib.php");
 
 ?>
 <script language=Javascript defer>

@@ -9,6 +9,7 @@
   include_once("DocLib.php");
   include_once("EventCheck.php");
 
+//var_dump($_POST);
 //var_dump($Event_Types);
 
   if (isset($_POST{'ACTION'}) && Access('Staff','Venues')) {
@@ -42,7 +43,16 @@
         case 'Chown to':
           $Event['Owner'] = $_POST['W'];
           break;
+          
+        case 'Public':
+          $Event['Public'] = 0;
+          break;
+
+        case 'Concert':
+          $Event['IsConcert'] = 1;
+          break;
         }
+//        var_dump($Event);
         Put_Event($Event);
       }
     }
@@ -165,7 +175,9 @@
     echo "<input type=text name=Minutes size=4> Minutes, ";
     echo "<input type=Submit name=ACTION value='Move to'> " . fm_select($realvens,0,'v') . ",";
     if (Access('SysAdmin')) echo "<input type=Submit name=ACTION value='Chown to'> " . fm_select($AllActive,0,'W') . ",";
-    echo "<input type=Submit name=LIST value='Show All'><br>\n";
+    echo "<input type=Submit name=LIST value='Show All'>\n";
+    echo "<input type=Submit name=ACTION value='Public'>\n";
+    echo "<input type=Submit name=ACTION value='Concert'><br>\n";
   }
   echo "</form>\n";
 

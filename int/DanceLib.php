@@ -104,7 +104,7 @@ function &Part_Come_All() {
   return $Coming;  
 }
 
-function Show_Side($snum,$Message='') {
+function Show_Side($snum,$Message='',$price=0) {
   global $YEAR, $Coming_Type,$db;
   if (is_numeric($snum) && ($side = Get_Side($snum))) {
     $syear = Get_SideYear($snum,$YEAR);
@@ -189,7 +189,7 @@ function Show_Side($snum,$Message='') {
 
     echo "</div><div class=OneCol id=TwoCols2></div></div>";
 
-    if ($prog = Show_Prog('Side',$snum)) {
+    if ($prog = Show_Prog('Side',$snum,0,$price)) {
       echo $prog;
     } else {
       echo "<h2>The programme has not yet been published yet.</h2>\n";
