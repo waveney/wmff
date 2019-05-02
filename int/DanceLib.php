@@ -179,7 +179,7 @@ function Show_Side($snum,$Message='') {
 
     if ($side['Website'] || $side['Facebook'] || $side['Twitter'] || $side['Instagram']) {
       echo "<div id=Blob4>";
-      if ( $side['Website'] ) echo weblink($side['Website'],"<b>" . $side['SN'] . " website</b>") . "<p>";
+      if ( $side['Website'] ) echo "<img src=/images/icons/web.svg width=24> " . weblink($side['Website'],"<b>" . $side['SN'] . " website</b>") . "<p>";
 
       echo  Social_Link($side,'Facebook',1);
       echo  Social_Link($side,'Twitter',1);
