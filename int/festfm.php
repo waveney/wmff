@@ -359,9 +359,9 @@ function Social_Link(&$data,$site,$mode=0) { // mode:0 Return Site as text, mode
   if (! isset($data[$site]) || strlen($data[$site]) < 5) return ($mode? '' :$site);
   $link = $data[$site];
   if (preg_match("/$site/i",$link)) {
-    return weblink($link,($mode? ( "<img src=/images/icons/$site.jpg>") : $site));
+    return " " . weblink($link,($mode? ( "<img src=/images/icons/$site.jpg>") : $site));
   }
-  return "<a href=http://$site.com/$link>" . ($mode? ( "<img src=/images/icons/$site.jpg>") : $site) . "</a>";
+  return " <a href=http://$site.com/$link>" . ($mode? ( "<img src=/images/icons/$site.jpg>") : $site) . "</a>";
 }
 
 function NoBreak($t,$Max=0) {

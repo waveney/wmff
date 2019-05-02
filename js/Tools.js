@@ -208,8 +208,18 @@ function RemoveLineUpHighlight(id) {
   $('#LineUp' + id).removeClass("LUHighlight");
 }
 
+// Onload functions
 function Set_MinHeight(p1,p2) {
   $(p2).css({"min-height":$(p1).height()});
+}
+
+function Set_ColBlobs(Blobs,MaxBlob) {
+  for (var B = 1; B <= MaxBlob; B++) {
+    var ht1 = $('#TwoCols1').height(); 
+    var ht2 = $('#TwoCols2').height(); 
+    var Bht = $('#' + Blobs + B).height();
+    if ((ht1 - Bht) > ht2) $('#' + Blobs + B).detach().appendTo('#TwoCols2');
+  }
 }
 
 var LoadStack = [];

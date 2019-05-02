@@ -1368,3 +1368,14 @@ button {
   left: -8px;
   border: #EC038C solid 4px;
 }
+
+.TwoCols {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.TwoCols .OneCol {
+  width:48%;
+}

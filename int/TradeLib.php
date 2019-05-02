@@ -1565,7 +1565,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
 
   if ($Tchng) Put_Trader($Trad);
   if ($Ychng || $CurState != $NewState ) {
-    $Trady['BookingState'] = $NewState;
+    if ($Action) $Trady['BookingState'] = $NewState; // Action test is to catch the moe errors
     $By = (isset($USER['Login'])) ? $USER['Login'] : 'Trader';
     $Trady['History'] .= "Action: $Hist $Action $xtra on " . date('j M Y H:i') . " by $By.\n";
     Put_Trade_Year($Trady);

@@ -30,7 +30,7 @@ function Parse_Perf_Selection() {
   echo "<div class=content>";
   echo "<div class=HelpDiv hidden>";
 ?>
-<h3>Help for Adding/Creating/Modifying an Event (the form is stil on this page lower down)</h3>
+<h3>Help for Adding/Creating/Modifying an Event (the form is still on this page lower down)</h3>
 For most events you only need:<p>
 <ul><li>A Name (Can be pretty generic eg Dancing, Saturday Night Concert)
 <li>A Type (A Broad categorization as to what lists it appears in)<li>A Venue<li>A Day<li>A Start and End Time</ul>
@@ -38,6 +38,7 @@ If you need to block off the venue before the event, give a setup time in minute
 If you would like to give a small description, this will appear in the programme book and in lists of events.<p>
 You may if you wish have a longer blurb, this will only appear on the webpage for this event.<p>
 If it should be listed as a Family event, click the relevant box.  A children's Workshop would be type workshop and have Family selected.<p>
+For a concert type event - with ticketed entry to the whole event tick Concert.<p>
 You do not normally need to set Duration, Bar/Food, Special, Alt Edit, Prices, PA Requirements and Non Fest.  For all complex cases contact Richard (07718 511432)<p>
 Then click on <b>Create</b>.<p>
 See if any errors are reported at the top of the event - they currently are a bit cryptic but any event clashes involving this event will be listed 
@@ -312,8 +313,9 @@ A similar feature will appear eventually for music.<p>
       echo "<tr><td class=NotSide>" . fm_checkbox('Multiday Event',$Event,'LongEvent','onchange=$(".mday").show()');
       $hidemday =  (isset($Event['LongEvent']) && $Event['LongEvent'])?'':'hidden ';
       echo "<td class=NotSide>" . fm_checkbox('Big Event',$Event,'BigEvent') . " " . fm_checkbox('No Order',$Event,'NoOrder') . fm_checkbox('Use Notes to fmt',$Event,'UseBEnotes');
-      echo "<td class=NotSide>" . fm_checkbox('Also Dance',$Event,'ListDance') . " ". fm_checkbox('Also Music',$Event,'ListMusic');
-      echo "<td class=NotSide>" . fm_checkbox('No Part',$Event,'NoPart');
+      echo "<td>" . fm_checkbox('Also Dance',$Event,'ListDance') . " ". fm_checkbox('Also Music',$Event,'ListMusic');
+      echo "<td>" . fm_checkbox('No Part',$Event,'NoPart');
+      echo "<td>" . fm_checkbox('Concert',$Event,'Concert');
       echo "<tr><td>" . fm_checkbox('Special Event',$Event,'Special');
       echo "<td>" . fm_checkbox('Family Event',$Event,'Family');
       echo "<td>" . fm_checkbox('Non Fest',$Event,'NonFest');
