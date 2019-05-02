@@ -50,7 +50,7 @@
         $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND e.Family=1 AND e.SubEvent<1 AND e.Venue!=0 " .
                 "$restrict ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
-        $Types = "Family Events";
+        $Types = "Family Event";
         if (count($Evs) != 1) $Types .= "s";
         if ($YEAR == $PLANYEAR) $Complete = $MASTER[$Type . 'State'];
         break;
@@ -58,7 +58,7 @@
         $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND e.Special=1 AND (e.SubEvent<1 OR e.LongEvent=1) AND e.Venue!=0 " .
                 "$restrict ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
-        $Types = "Special Events";
+        $Types = "Special Event";
         if (count($Evs) != 1) $Types .= "s";
         if ($YEAR == $PLANYEAR) $Complete = $MASTER[$Type . 'State'];
         break;

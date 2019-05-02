@@ -105,16 +105,14 @@ h2 {
     margin:0px;
     transition:background 1s, color 1s;
     }
-.staffnavbutton:hover
-    {
-    background-color:#005983;
-    }
-.content, .contentlim     {
-    min-height:650px;
-    margin: 0 auto 0 auto;
-
-    background-color:#fff;
-    }
+.staffnavbutton:hover {
+  background-color:#005983;
+}
+.content, .contentlim {
+  min-height:650px;
+  margin: 0 auto 0 auto;
+  background-color:#fff;
+}
 .content {
   padding: 15px 25px;
 }
