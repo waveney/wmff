@@ -25,7 +25,7 @@ Copyright &copy; <a href="/" style="color:#FFFFFF;">Wimborne Minster Folk Festiv
 <p>Website supported by <a href=http://wavwebs.com style=color:white;>Waveney Web Services</a> - Version 
 <?php 
   echo $MASTER_DATA['V'];
-  if (!isset($_COOKIE{'WMFF2'})) echo " <a href=/int/Login.php style='color:white; float:right;'>Staff Login</a><p>\n";
+  if (!isset($_COOKIE{'WMFF2'})) echo " <a href=/int/Login.php style='color:white; float:right;'> Staff Login</a><p>\n";
 ?>
 </div>
 </div>
