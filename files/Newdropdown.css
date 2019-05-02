@@ -150,7 +150,7 @@
   position: relative;
   display: inline-block;
   text-align: center;
-  font-size: 20px;
+  font-size: 15pt;
   padding-left:10px;
   padding-right:10px;
   vertical-align:middle;
@@ -227,7 +227,7 @@
 .dropdown-content a {
   line-height:20px; 
   text-align:center;
-  font-size: 18px;
+  font-size: 13pt;
   display: block; 
   background-color:white;
   padding:8px;  
@@ -317,7 +317,7 @@
 
 #HoverMenu .hoverdown {
   width:100%;
-  font-size:18px;
+  font-size:18pt;
   padding: 4 10 4 10;
   color:white;
 }
@@ -357,6 +357,7 @@
 .WMFFbanner400 {
   height:400;
   width:1560;
+  max-width:100%;
   margin-top:-80;
   top: 0;
   background:black;
@@ -379,8 +380,8 @@
   color: #fff;
   margin: 30px 0 0;
   text-align: center;
-  width:1560;
-  font-size: 60px;
+  width:100%;
+  font-size: 48pt;
   position: absolute;
   top:150;
   z-index: 100;  
@@ -425,7 +426,7 @@
   background:white;
   color:black;
   text-align:center;
-  font-size:30;
+  font-size:24pt;
   font-weight:bold;
 
 }
@@ -447,7 +448,7 @@
 
 /* Footer Stuff */
 .footer {
-  font-size:13px;
+  font-size:10pt;
   padding: 0px 0px 100px 25px;
   background:url(/images/icons/Flora.png) repeat-x bottom left;
   background-color:#00344c ;
