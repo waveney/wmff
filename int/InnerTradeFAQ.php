@@ -34,7 +34,7 @@ must co-operate with festival organisers and supervisors at all times.<p>
 
 <dt>Liability<dd>The festival organisers accept no liability for lost, damaged or stolen property.<p>
 
-<dt>Confidentiality<dd>All information specified by you (other than that show as public) is treated as strictly confidential and will be held securely.<p>
+<dt>Confidentiality<dd>All information specified by you (other than that shown as public) is treated as strictly confidential and will be held securely.<p>
 
 <dt>Sleeping<dd>Any persons sleeping in trade stands will result in removal of the stand immediately.  You are welcome to use camping:<p>
 

@@ -25,7 +25,7 @@ function formatminimax(&$side,$link,$mnat=2,$sdisp=1) {
   $mnmx = ($Imp >= $mnat?'maxi':'mini');
   $id = AlphaNumeric($side['SN']);
   echo "<div class=$mnmx" . "_$fmt id=$id>";
-  echo "<a href=/int/$link?sidenum=" . $side['SideId'] . "&Y=$YEAR>";
+  echo "<a href=/int/$link?id=" . $side['SideId'] . "&Y=$YEAR>";
   if ($mnmx != 'maxi' && $side['Photo']) echo "<div class=mnmximgwrap><img class=mnmximg src='" . $side['Photo'] ."'></div>";
   echo "<div class=mnmxttl style='font-size:" . (24+$Imp*3) . "px'>" . $side['SN'] . "</div>";
   if ($mnmx == 'maxi' && $side['Photo']) echo "<div class=mnmximgwrap><img class=mnmximg src='" . $side['Photo'] ."'></div>";
@@ -231,7 +231,7 @@ function Expand_Special(&$Art) {
       $Shown[] = $Dstuff['SideId'];
 
       $Art['SN'] = $Dstuff['SN'];
-      $Art['Link'] = ('/int/ShowDance.php?sidenum=' . $Dstuff['SideId']);
+      $Art['Link'] = ('/int/ShowPerf.php?id=' . $Dstuff['SideId']);
       $Art['Text'] = $Dstuff['Description'];
       $Art['Image'] = $Dstuff['Photo'];
       $Art['ImageWidth'] = (isset($Dstuff['ImageWidth'])?$Dstuff['ImageWidth']:100);
@@ -263,7 +263,7 @@ function Expand_Special(&$Art) {
       if (in_array($DMany['SideId'],$Shown)) continue;
       $Shown[] = $DMany['SideId'];
 
-      $Art['Text'] .= "  Including <a href=/int/ShowDance.php?sidenum=" . $DMany['SideId'] . ">" . $DMany['SN'] . "</a>";
+      $Art['Text'] .= "  Including <a href=/int/ShowPerf.php?id=" . $DMany['SideId'] . ">" . $DMany['SN'] . "</a>";
       $Art['Image'] = $DMany['Photo'];
       $Art['ImageWidth'] = (isset($DMany['ImageWidth'])?$DMany['ImageWidth']:100);
       $Art['ImageHeight'] = (isset($DMany['ImageHeight'])?$DMany['ImageHeight']:100);

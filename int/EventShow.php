@@ -16,7 +16,7 @@ function Print_Thing($thing,$right=0) {
   global $YEAR,$SHOWYEAR,$PerfTypes;
   echo "<div class=EventMini id=" . AlphaNumeric($thing['SN']) . ">";
   if (( $thing['Coming'] != 2) && ( $thing['YearState'] < 2) && ($YEAR >= $SHOWYEAR)) {
-    echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
+    echo "<a href=/int/ShowPerf.php?id=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
     echo " are no longer coming";
   } else {
     echo "<a href=Show" . ($thing['IsAnAct']?"Music":'Dance') . ".php?sidenum=" . $thing['SideId'] . ">";
@@ -65,11 +65,11 @@ function Print_Participants($e,$when=0,$thresh=0) {
       $things++;
       echo "<td>";
       if (( $thing['Coming'] != 2) && ($thing['YearState'] < 2)) {
-        echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
+        echo "<a href=/int/ShowPerf.php?id=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
  //       var_dump($thing);
         echo " are no longer coming";
       } else {
-        formatminimax($thing,'ShowDance.php',$thresh); // 99 should be from Event type
+        formatminimax($thing,'ShowPerf.php',$thresh); // 99 should be from Event type
       }
     }
   }
@@ -221,7 +221,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
               if (feature('EventWithDown')) {
                 echo "<a href=#" . AlphaNumeric($thing['SN']) . " style='font-size:" . (17+$i*2) . "'>" . $thing['SN'] . "</a>";
               } else {
-                echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . " style='font-size:" . (17+$i*2) . "'>" . NoBreak($thing['SN']) . "</a>";              
+                echo "<a href=/int/ShowPerf.php?id=" . $thing['SideId'] . " style='font-size:" . (17+$i*2) . "'>" . NoBreak($thing['SN']) . "</a>";              
               }
             }
           }

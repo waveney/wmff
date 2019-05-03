@@ -402,7 +402,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
                 $s = &$Sides[$si];
                 $txt = SName($s) . (($types && $s['Type'])?(" (" . trim($s['Type']) . ") "):"");
                 echo "<span data-d=$si class='DPESide Side$si'>";
-                if ($links) echo "<a href=/int/ShowDance.php?sidenum=$si>";
+                if ($links) echo "<a href=/int/ShowPerf.php?id=$si>";
                 echo $txt;
                   if ($links) echo "</a>";
                 echo "<br></span>";
@@ -437,7 +437,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
           $class .= " Side$si";
           $rows = ($G['w']?('rowspan=' . (4-$line)):'');
           echo "$OtherLoc<td id=$id $DRAG $dev data-d=$si $rows class='$class'>";
-          if ($links) echo "<a href=/int/ShowDance.php?sidenum=$si>";
+          if ($links) echo "<a href=/int/ShowPerf.php?id=$si>";
           echo $txt;
           if ($links) echo "</a>";
           if (!$evs[$G['e']]['ExcludeCount']) $SideCounts[$si]++;
@@ -749,7 +749,7 @@ function Prog_MG_Print($drag,$types,$format) {
           echo "$row>";
           if ($s && ($drag || $evs[$eid]['InvisiblePart'] == 0)) {
             if (isset($Sides[$s])) {
-              if ($condense && !$types) echo "<a href=/int/ShowDance.php?sidenum=$s>";
+              if ($condense && !$types) echo "<a href=/int/ShowPerf.php?id=$s>";
               echo SName($Sides[$s]);
               if ($types) echo " (" . trim($Sides[$s]['Type']) . ")";;
               if ($condense && !$types) echo "</a>";
@@ -791,7 +791,7 @@ function Prog_MG_Print($drag,$types,$format) {
               echo "$row>";
               if ($s && ($drag || $evs[$eid]['InvisiblePart'] == 0)) {
                 if (isset($Sides[$s])) {
-                  if ($condense && !$types) echo "<a href=/int/ShowDance.php?sidenum=$s>";
+                  if ($condense && !$types) echo "<a href=/int/ShowPerf.php?id=$s>";
                   echo SName($Sides[$s]);
                   if ($types) echo " (" . trim($Sides[$s]['Type']) .")";;
                   if ($condense && !$types) echo "</a>";

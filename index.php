@@ -19,9 +19,9 @@
   include("int/DispLib.php");
   
   Show_Articles_For("NewTop");
-  echo "</div><div style=margin:10>";
-  echo '<center><h2>Sponsors & Supporters</h2>';
-  echo "Wimborne Minster Folk Festival would not be possible without the amazing help and generosity of the following companies and organisations:<p>";
+  echo "<div style=margin:10>";
+  echo '<center><h2>Sponsors & Supporters</h2></center>';
+  echo "<center>Wimborne Minster Folk Festival would not be possible without the amazing help and generosity of the following companies and organisations:<p>";
   echo "</center>";
   $Spons = Get_Sponsors();
   echo "<div hidden>";
