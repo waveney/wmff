@@ -105,7 +105,7 @@
 
   $Slist = [];
   while($side = $SideQ->fetch_assoc()) $Slist[] = $side;
-  formatLineups($Slist,'ShowDance.php',$Sizes,$ShortDesc);
+  formatLineups($Slist,'ShowPerf.php',$Sizes,$ShortDesc);
   
   echo "<div style='clear:both;'>";
   $Prev = $YEAR-1;

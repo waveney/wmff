@@ -1,19 +1,18 @@
-img
-    {
-    display: inline;
-    border-style: none;
-    }
+img {
+  display: inline;
+  border-style: none;
+}
 body {
   background:#00344c ;
-    min-width:320px;
-    width:responsive;
-    height:100%;
-    color:#000000;
+  min-width:320px;
+  width:responsive;
+  height:100%;
+  color:#000000;
   font-family: Montserrat, Arial, Helvetica, sans-serif;
-    font-size:13pt;
-    margin:0;
-    cursor:default;
-    }
+  font-size:13pt;
+  margin:0;
+  cursor:default;
+}
 a {
   color: #EC038C;
   text-decoration: none;
@@ -41,16 +40,9 @@ h2 {
   margin:0;
   padding:0px;
   font-weight:normal;
-  font-size:28px;
+  font-size:28pt;
   padding-bottom:10px;
 }
-.centhead {
-  color: #005983;
-  font-weight:normal;
-  text-align:center;
-  padding:0px;
-  font-size:24px;
-}	
 .button
     {
     padding:2.5px 10px 2.5px 10px;
@@ -265,9 +257,6 @@ sup {
     color:red;
     }
 .subtitle {
-    margin:0 0 0 0;
-    font-size:35px;
-    color:#005983;
     }
 .mintitle
     {
@@ -909,7 +898,7 @@ textarea:Focus
   transform: translate(-50%, -50%);
 } 
 .sponText {
-  font-size:20;
+  font-size:14pt;
 } 
 .sponImage {
   max-height:150;
@@ -1270,7 +1259,6 @@ button {
   margin-bottom:2;
   padding:5;
   padding-left:10;
-/*   text-align: center; */
   font-size:20;
   overflow: none;
 }

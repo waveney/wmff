@@ -29,10 +29,10 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
 //var_dump($thing);
           if (( $thing['IsASide'] && (!isset($thing['Coming']) || $thing['Coming'] != 2)) && 
               (($thing['IsAnAct'] || $thing['IsFunny'] || $thing['IsFamily'] || $thing['IsOther']) && (!isset($thing['YearState']) || $thing['YearState'] < 2))) {
-            echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
+            echo "<a href=/int/ShowPerf.php?id=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
             echo " are no longer coming";
           } else {
-            echo " <a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">";
+            echo " <a href=/int/ShowPerf.php?id=" . $thing['SideId'] . ">";
 //echo "HELLO $Pictures<p>";
             if ($Pictures) {
               if ($SpecialImage) { echo "<img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
@@ -40,7 +40,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
               } elseif ($thing['Photo']) echo "<img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
                     (100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $thing['Photo'] . ">";
             }
-            echo "<a href=/int/ShowDance.php?sidenum=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
+            echo "<a href=/int/ShowPerf.php?id=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
             if (isset($thing['Type']) && (strlen($thing['Type'])>1)) echo " " . NoBreak("(" . $thing['Type'] . ")");
           }
           if ($NotAllFree && ($things == $ll)) echo "<td rowspan=$rows valign=top>$Price";

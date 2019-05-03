@@ -401,7 +401,7 @@ function ListLinksNew(&$Perfs,$idx,$single,$plural,$size,$mult) {
     if ($imp) $ans .= "<span style='font-size:" . ($size+$imp*$mult) . "px'>";
     foreach ($Perfs[$idx][$imp] as $thing) {
       $things++;
-      $ttxt = "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
+      $ttxt = "<a href='/int/ShowPerf.php?id=" . $thing['SideId'] . "'>";
       $ttxt .= NoBreak($thing['SN']);
       if (isset($thing['Type']) && $thing['Type']) $ttxt .= NoBreak(" (" . $thing['Type'] . ")");
       $ttxt .= "</a>";
@@ -498,7 +498,7 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
           } else {
             if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
             if ($link) {
-              $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
+              $ans .= "<a href='/int/ShowPerf.php?id=" . $thing['SideId'] . "'>";
             }
             $ans .= NoBreak($thing['SN']);
             if (isset($thing['Type']) && $thing['Type']) $ans .= NoBreak(" (" . $thing['Type'] . ")");
@@ -568,7 +568,7 @@ function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='
         if ($thing['Photo'] || $thing['Description'] || $thing['Blurb'] || $thing['Website']) $link=$l;
         if ($link) {
           if ($link ==1) {
-            $ans .= "<a href='/int/ShowDance.php?sidenum=" . $thing['SideId'] . "'>";
+            $ans .= "<a href='/int/ShowPerf.php?id=" . $thing['SideId'] . "'>";
           } else if ($Mode)  {
             $ans .= "<a href='/int/AddPerf.php?sidenum=" . $thing['SideId'] . "'>";           
           }
