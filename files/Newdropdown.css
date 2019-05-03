@@ -246,6 +246,10 @@
   color:#43a9b2;
 }
 
+.main-header .dropdown-content a:hover  {
+  color:white;
+}
+
 .NotYet {
   background-color:grey;
   pointer-events: none;
