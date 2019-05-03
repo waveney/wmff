@@ -170,7 +170,7 @@ input[type=password] {
 }
 
 .staffform {
-  font-size:14px;
+  font-size:12pt;
   background-color:white;
   padding:0px;
   border:0px;
@@ -178,7 +178,7 @@ input[type=password] {
 }
 
 #staffformid, #Posterid {
-  font-size:18px;
+  font-size:13pt;
   color: #EC038C;
   background-color:white;
   padding:0px;

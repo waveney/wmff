@@ -5,7 +5,7 @@
   include_once("TradeLib.php");
   global $db,$YEAR,$SHOWYEAR,$PLANYEAR,$Trade_States,$Trade_State,$YEAR,$Trade_Days,$Prefixes;
 
-  dohead("Traders in $YEAR",['files/festconstyle.css'],1);
+  dohead("Traders in $YEAR",['files/festconstyle.css'],'https://wimbornefolk.co.uk/int/images/gallery/2018/Around/14_HSJX8086_14-2048-STEPHENAJONES.jpg');
 
   $Locs = Get_Trade_Locs(1);
   $TTypes = Get_Trade_Types(1);

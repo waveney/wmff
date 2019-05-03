@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Trade Stands",[],1);
+  dohead("Trade Stands",[],'https://wimbornefolk.co.uk/int/images/gallery/2018/Around/14_HSJX8086_14-2048-STEPHENAJONES.jpg');
 
   global $PLANYEAR;
   echo "<div class=biodiv>

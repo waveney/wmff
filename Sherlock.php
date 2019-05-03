@@ -43,7 +43,7 @@
     if (count($Evs) > 1) $Types = $Ets[$Ett]['Plural'];
     if ($YEAR == $PLANYEAR) $Complete = $Ets[$Ett]['State'];
     $BackStop = $Ets[$Ett]['FirstYear'];
-    if ($Ets['Banner']) $Banner = $Ets['Banner'];
+    if ($Ets[$Ett]['Banner']) $Banner = $Ets[$Ett]['Banner'];
   } else { // Handle other Sherlock calls
     switch ($Type) {
       case 'Family':
