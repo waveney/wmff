@@ -28,8 +28,9 @@
         'Music'=>'LineUp.php?T=Music', 
         'Comedy'=>'LineUp.php?T=Comedy',
         'Family'=>'LineUp.php?T=Family',
+        'Traders'=>'int/TradeShow.php',
         ],
-      "What's On"=>[
+      "Timetable"=>[
         'By Venue'=>'WhatsOnWhere.php',
         'By Time'=>'WhatsOnWhen.php',
         '*Now'=>'WhatsOnNow.php',
@@ -42,7 +43,6 @@
         'Comedy'=>'Sherlock.php?t=Comedy',
         'Sessions'=>'Sherlock.php?t=Session',
         'Religion'=>'Sherlock.php?t=Religion',
-        'Traders'=>'int/TradeShow.php',
         ],
       'Information'=>[
         'Festival Map'=>'Map.php',
@@ -127,7 +127,7 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
         $text = substr($text,1);
         break;
       case '=' :
-        $Minor = 1;
+//        $Minor = 1;
         $xtra = "id=MenuGetTicket";
         $text = substr($text,1);
         break;
@@ -214,8 +214,8 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
     echo "<img src=" . $MASTER_DATA['WebSiteBanner'] . "?V=$V class='header-logo head-coloured-logo'>";
     echo "<div class=FestDates>6 - 9<br>June<br>2019</div>";
   echo "</a>";
-  echo "<div class=MenuIcon><img id=MenuIconIcon src=/images/icons/MenuIcon.png onclick=ShowHoverMenu() class=MenuMenuIcon>";
-  echo "<img id=MenuIconClose src=/images/icons/MenuClose.png onclick=CloseHoverMenu() class=MenuMenuClose>";
+  echo "<div class=MenuIcon><div id=MenuIconIcon class=MenuMenuIcon onclick=ShowHoverMenu()>Menu<img src=/images/icons/MenuIcon.png></div>";
+  echo "<div id=MenuIconClose onclick=CloseHoverMenu() class=MenuMenuClose>Close<img src=/images/icons/MenuClose.png></div>";
   echo "<div id=HoverContainer><div id=HoverMenu>$HoverBar</div></div></div>";
   echo "<div id=MenuBars>";
   echo $MainBar;

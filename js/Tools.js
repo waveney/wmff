@@ -110,10 +110,10 @@ function MenuResize() {
     $("#MenuBars").css({"right":0,"width":(Ewidth-IconWidth-40)});
   } else {
     $(".MenuMinor2").hide();
-    if (Ewidth < 1275) { // Show limited
+    if (Ewidth < 1290) { // Show limited
       $(".MenuMinor1").hide();
       $("#MenuBars").css({"right":80, "width":(Ewidth-IconWidth-120)});
-      if (Ewidth < 845) { // Show none
+      if (Ewidth < 1020) { // Show none
         $(".MenuMinor0").hide();
       } else {
         $(".MenuMinor0").show();
