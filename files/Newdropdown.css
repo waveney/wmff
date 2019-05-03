@@ -122,14 +122,17 @@
   right: 0;
   width: 70px;
   height: 48px;
-  padding-top:18;
+  padding-top:2;
+  padding-bottom:18;
   margin:5;
   text-align:center;
   background:white;
+  color:black;
 }
 
 .MenuIcon:hover {
   background: #004668;
+  color:white;
 }
 
 .MenuMenuClose {
@@ -227,10 +230,10 @@
 .dropdown-content a {
   line-height:20px; 
   text-align:center;
-  font-size: 13pt;
+  font-size: 16pt;
   display: block; 
   background-color:white;
-  padding:8px;  
+  padding:12px;  
   color:#43a9b2;
 /*  border:0.5px solid #43a9b2; /* works - do I want it? */ 
 }
