@@ -47,7 +47,7 @@
     $Tid = $USERID;
     Trade_Main(0,'TraderPage.php',$Tid);
   } else {
-    echo "<h3>Have you traded at Wimborne Minster Folk Festival in 2017? Or filled in an application form for 2018?</h3>";
+    echo "<h3>Have you traded at Wimborne Minster Folk Festival since 2017? Or filled in an application form in the last few years?</h3>";
     echo "<form >";
     echo "If so please give your email address:" . fm_text1('',$_GET,'Email');
     echo "<input type=submit name=go value=Go>";

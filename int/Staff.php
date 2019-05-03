@@ -353,6 +353,7 @@
     if (Access('Staff')) echo "<li><a href=TEmailProformas.php>EMail Proformas</a>";
     if (Access('Staff')) echo "<li><a href=AdminGuide.php>Admin Guide</a> \n";
     if (Access('SysAdmin')) {
+//      echo "<li><a href=BannerManage.php>Manage Banners</a> \n";
       echo "<li><a href=General.php?Y=$YEAR>General Year Settings</a> \n";
       echo "<li><a href=MasterData.php>Master Data Settings</a> \n";
     }

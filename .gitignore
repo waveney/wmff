@@ -4,6 +4,7 @@ int/.*.swp
 tickets
 OldStuff/*
 !images/icons
+!images/Banners
 !images/2018Pics
 !int/*/.htaccess
 int/Configuration.ini
