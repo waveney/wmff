@@ -1680,13 +1680,18 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Li
   foreach ($Pitches as $Pitch) {
     $Posn = $Pitch['Posn'];
     $Name = '';
+    $Lopen = 0;
     if (isset($Usage[$Posn])) $Name = $Usage[$Posn];
     if ($Pitch['Type']) $Name = $Pitch['SN'];
     if ($Links) {
       if ($Links == 1 && !$Pitch['Type']) {
-        if (isset($TNum[$Posn])) echo "<a href=#Trader" . $TNum[$Posn] . ">";
+        if (isset($TNum[$Posn])) {
+          echo "<a href=#Trader" . $TNum[$Posn] . ">";
+          $Lopen = 1;
+        }
       } elseif ($Links == 2) {
         echo "<a href='TradeShow.php?SEL=" . $Pitch['SN'] . "'>";
+        $Lopen = 1;
       }
     }
     echo "<rect x=" . ($Pitch['X'] * $Factor) . " y=" . ($Pitch['Y'] * $Factor) . " width=" . ($Pitch['Xsize'] * $Factor) . " height=" . ($Pitch['Ysize'] * $Factor);
@@ -1724,7 +1729,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Li
       }
     }
     echo "</text>";
-    if (($Links == 1 && !$Pitch['Type']) || $Links ==2) "</a>";
+    if ($Lopen) echo "</a>";
 
   }   
   echo "</svg>";
