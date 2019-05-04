@@ -165,7 +165,7 @@ var isAdvancedUpload = function() {
 }();
 
 function InvoiceCatChange(e,v) {
-  debugger;
+//  debugger;
   $('.InvOrg1').hide();
   $('.InvOrg2').hide();
   if (v == 0) $('.InvOrg1').show();
@@ -214,11 +214,15 @@ function Set_MinHeight(p1,p2) {
 }
 
 function Set_ColBlobs(Blobs,MaxBlob) {
-  for (var B = 1; B <= MaxBlob; B++) {
-    var ht1 = $('#TwoCols1').height(); 
-    var ht2 = $('#TwoCols2').height(); 
-    var Bht = $('#' + Blobs + B).height();
-    if ((ht1 - Bht) > ht2) $('#' + Blobs + B).detach().appendTo('#TwoCols2');
+  if ($(".Main-Header").outerWidth() <= 800) {
+    $(".OneCol").removeClass("OneCol"); // Wont work on resize (yet)
+  } else {
+    for (var B = 1; B <= MaxBlob; B++) {
+      var ht1 = $('#TwoCols1').height(); 
+      var ht2 = $('#TwoCols2').height(); 
+      var Bht = $('#' + Blobs + B).height();
+      if ((ht1 - Bht) > ht2) $('#' + Blobs + B).detach().appendTo('#TwoCols2');
+    }
   }
 }
 

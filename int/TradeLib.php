@@ -1637,7 +1637,7 @@ function Get_Traders_For($loc) {
    plot the pitches
    */
 
-function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
+function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Links 0:none, 1:traders, 2:Trade areas
   global $TradeTypeData;
   
   if (!$loc['MapImage']) return;
@@ -1649,7 +1649,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
   $TLocId = $loc['TLocId'];
   $FSize = 10*$scale;
   
-  $Usage = [];$TT = [];
+  $Usage = [];$TT = [];$TNum = [];
   if ($Traders) {
     foreach ($Traders as $Trad) 
       for ($i=0; $i<3; $i++) 
@@ -1658,6 +1658,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
           foreach ($list as $p) {
             $Usage[$p] = (isset($Usage[$p])?"CLASH!":$Trad['SN']);
             $TT[$p] = $Trad['TradeType'];
+            $TNum[$p] = $Trad['Tid'];
           }
         }
   }
@@ -1669,7 +1670,9 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
     $ImgHt = $stuff[1];
     $ImgWi = $stuff[0];
   }
-  
+
+//var_dump($TNum);
+
 //  echo "scale=$scale sp=$sp Ht=$ImgHt Mapscale=$Mapscale <br>";
   echo "<div class=img-overlay-wrap>";
   echo "<img src=" . $loc['MapImage'] . " width=" . ($ImgWi*$scale) . ">";
@@ -1679,6 +1682,13 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
     $Name = '';
     if (isset($Usage[$Posn])) $Name = $Usage[$Posn];
     if ($Pitch['Type']) $Name = $Pitch['SN'];
+    if ($Links) {
+      if ($Links == 1 && !$Pitch['Type']) {
+        if (isset($TNum[$Posn])) echo "<a href=#Trader" . $TNum[$Posn] . ">";
+      } elseif ($Links == 2) {
+        echo "<a href='TradeShow.php?SEL=" . $Pitch['SN'] . "'>";
+      }
+    }
     echo "<rect x=" . ($Pitch['X'] * $Factor) . " y=" . ($Pitch['Y'] * $Factor) . " width=" . ($Pitch['Xsize'] * $Factor) . " height=" . ($Pitch['Ysize'] * $Factor);
     echo " style='fill:" . ($Pitch['Type']?$Pitch['Colour']:($Name?$TradeTypeData[$TT[$Posn]]['Colour']  : "yellow")) . ";stroke:black;";
     if ($Pitch['Angle']) echo "transform: rotate(" . $Pitch['Angle'] . "Deg);" ;
@@ -1714,6 +1724,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1) {
       }
     }
     echo "</text>";
+    if (($Links == 1 && !$Pitch['Type']) || $Links ==2) "</a>";
 
   }   
   echo "</svg>";
