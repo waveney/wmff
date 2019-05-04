@@ -96,6 +96,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
     }
   } else {
     set_showyear();
+    $Banner = 1;
     if ($Ven['Banner']) $Banner = $Ven['Banner'];
     dohead($Ven['SN'],[],$Banner);
     $Pictures = 1;

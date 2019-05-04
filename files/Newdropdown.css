@@ -223,7 +223,7 @@
 .dropdown-content {
   display: none;
   position: absolute;
-  width: 220px;
+  width: 280px;
   z-index: 1010;
 }
 
@@ -398,6 +398,7 @@
   z-index: 100;  
   font-weight: 400;
   text-shadow: 0 0 15px black, 0 0 10px black ;
+
 }
 
 /* Home Page - large banner */

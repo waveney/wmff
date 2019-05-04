@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Tickets");
+  dohead("Buy Tickets and Passes",[],1);
   global $MASTER,$YEAR;
   set_ShowYear();
   include_once "int/ProgLib.php";
@@ -10,8 +10,6 @@
 <img src="https://wimbornefolk.co.uk/images/Weekend-Wristband.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
 <p>Buy Tickets for Wimborne Minster Folk Festival</p>
 </div>
-
-<h2 class="maintitle">Buy Festival Tickets</h2>
 
 Select from the options below to purchase your passes and tickets for Wimborne Minster Folk Festival <?php echo $YEAR ?>.<p>
  
@@ -155,21 +153,21 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 ?>
 </table><p>
 
-<h2 class="subtitle">Child Tickets</h2>
+<h2>Child Tickets</h2>
 
 <p>Child ticket pricing for the festival is 0-4 Free, 5-15 Half Price, 16+ Standard ticket price.</p>
 
-<h2 class="subtitle">Official Campsite</h2>
+<h2>Official Campsite</h2>
 <p>
 <a href=/InfoCamping.php><b>Camping Information.</b></a><p>
 
 <p>Order your festival tickets and camping together, by selecting <strong>Continue Shopping</strong> before you checkout!</p> 
 
-<span style="float:left;">*</span><h2 class="subtitle">Party In The Paddock</h2>
+</span><h2>* Party In The Paddock</h2>
 
 <p>If you're looking to combine a weekend of official festival events and a trip to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>, then book your tickets with us!</p>
 
-<h2 class="subtitle">Official Ticket Outlets</h2>
+<h2>Official Ticket Outlets</h2>
 <p>Tickets and day/weekend passes are on sale at these Wimborne outlets:</p>
 <ul>
 <li><strong>Tourist Information Centre</strong>, Wimborne, BH21 1HR &#8211; Telephone bookings: 01202 886116</li>

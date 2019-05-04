@@ -483,7 +483,7 @@ function Show_Prog($type,$id,$all=0,$price=0) { //mode 0 = html, 1 = text for em
             $str .= "<tr><td $cls>" . FestDate($e['Day'],'M') . "<td $cls>" . timecolon($pe['Start']) . "-" . timecolon($pe['End'] ) .
                         "<td $cls><a href=/int/$EventLink?e=$Parent>" . $pe['SN'] . 
                         "</a><td $cls><a href=/int/$VenueLink?v=" . $pe['Venue'] . ">" . VenName($Venues[$pe['Venue']]) . "</a>" .
-                        "<td>" . implode(', ',$with) . "<br>" . $side['SN'] . " are performing from " . timecolon($e['Start']) . " to " . timecolon($e['End']);
+                        "<td>" . implode(', ',$with) . "<br>" . $side['SN'] . " will be performing from " . timecolon($e['Start']) . " to " . timecolon($e['End']);
             if ($Price) $str .= "<td>" . Price_Show($pe,1);
           
           } else { // Normal Event

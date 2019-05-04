@@ -48,7 +48,6 @@
     echo "<td>";
       echo "<input type=submit name=SEL value='Show All'> ";
   echo "</table><p>";
-  
 
   $List = [];
   $SLoc = 0;
@@ -80,10 +79,10 @@
   }
   
   if ($SLoc) {
-    Pitch_Map($SLoc,$Pitches,$Traders,1) ;
+    Pitch_Map($SLoc,$Pitches,$Traders,1,1,1) ;
   } else if ($Overview) {
     $Pitches = Get_Trade_Pitches($Overview['TLocId']);
-    Pitch_Map($Overview,$Pitches,0,1) ; 
+    Pitch_Map($Overview,$Pitches,0,1,1,2) ; 
   }
   echo "<br clear=all><p>";
 
@@ -102,7 +101,7 @@
   foreach($List as $ti) {
     $trad = $Traders[$ti];
  //var_dump($ti,$trad);
-    echo "<div class=TradeFlexCont>";
+    echo "<div class=TradeFlexCont id=Trader" . $trad['Tid'] .  ">";
     if ($trad['Website']) echo weblinksimple($trad['Website']);
 
     if ($trad['Photo']) echo "<img src=" . $trad['Photo'] . ">";

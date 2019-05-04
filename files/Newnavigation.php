@@ -23,7 +23,7 @@
   $Menus = [
     'Public'=> [
       '<Home'=>'',
-      'Line Up'=>[
+      'Line-Up'=>[
         'Dance'=>'LineUp.php?T=Dance',
         'Music'=>'LineUp.php?T=Music', 
         'Comedy'=>'LineUp.php?T=Comedy',
