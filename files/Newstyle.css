@@ -12,7 +12,7 @@ body {
   font-size:13pt;
   margin:0;
   cursor:default;
-  -webkit-transform: translate3d(0,0,0);
+/*  -webkit-transform: translate3d(0,0,0); /* made no difference */
 }
 a {
   color: #EC038C;

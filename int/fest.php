@@ -615,8 +615,14 @@ function dostaffhead($title,$extras=[]) {
   echo "<meta http-equiv='cache-control' content=no-cache>";
   echo "</head><body>\n";
   include_once("files/Newnavigation.php");
-  echo "<div class=content>";
-
+  echo "<div class=content>";  
+  if (Feature('NewStyle') ) {
+    include_once("files/Newnavigation.php");
+    echo "<div class=content>";  
+  } else {
+    include_once("files/navigation.php"); 
+    echo "<div class=content>";
+  }
   $head_done = 1;
 }
 
@@ -638,6 +644,7 @@ function dominimalhead($title,$extras=[]) {
 
 function dotail() {
   global $head_done;
+  
 
   echo "</div>";
   if ($head_done == 1) include_once("files/Newfooter.php");  

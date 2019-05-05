@@ -294,14 +294,14 @@
 /* Mobile menu stuff */
 
 #HoverContainer {
-/*  display:none; */
   position: fixed;
   top:80;
   right:-300;
   width:300;
   max-height: calc(100vh - 80px);
   height:auto;
-  transition: margin-right 0.5s;  
+  transition: margin-right 0.5s; 
+  display:none;
 }
 
 .Slide-Left {
@@ -317,6 +317,7 @@
   transition: all ease-in-out 0.4s;
   z-index:950;
   overflow-y:auto;
+  overflow-x:hidden;
 /*  transform: translateX(-300);  */
 }
 
