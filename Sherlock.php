@@ -68,7 +68,7 @@
   }
 
 
-  dohead("What's on: $Types",[],$Banner);
+  dohead("Timetable: $Types",[],$Banner);
   
   $Titles = array("", // Not used
                 "Currently known $Types for $YEAR, there will be more", // Draft
