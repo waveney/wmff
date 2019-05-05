@@ -175,7 +175,7 @@ function Show_Side($snum,$Message='',$price=0) {
     
     if ($side['Photo']) echo "<div id=Blob2><img src=" . $side['Photo'] . " width=100%></div>\n";
     
-    if ( $side['Video']) echo "<div id=Blob3>" . embedvideo($side['Video']) . "</div>";
+    if ( $side['Video']) echo "<div id=Blob3  style='max-width:100%; object-fit:contain;overflow:hidden'>" . embedvideo($side['Video']) . "</div>";
 
     if ($side['Website'] || $side['Facebook'] || $side['Twitter'] || $side['Instagram']) {
       echo "<div id=Blob4>";

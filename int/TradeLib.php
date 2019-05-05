@@ -1641,7 +1641,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Li
   global $TradeTypeData;
   
   if (!$loc['MapImage']) return;
-  $scale=($Scale?$loc['Showscale']:1); 
+  $scale=$Scale*$loc['Showscale'];
   $Mapscale = $loc['Mapscale'];
   $sp = $scale*100;
   $Factor = 20*$scale*$Mapscale;

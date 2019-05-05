@@ -5,8 +5,9 @@
   include_once("TradeLib.php");
   global $db,$YEAR,$SHOWYEAR,$PLANYEAR,$Trade_States,$Trade_State,$YEAR,$Trade_Days,$Prefixes;
 
-  dohead("Traders in $YEAR",['files/festconstyle.css'],'https://wimbornefolk.co.uk/int/images/gallery/2018/Around/14_HSJX8086_14-2048-STEPHENAJONES.jpg');
+  dohead("Traders in $YEAR",['files/festconstyle.css'],'https://wimbornefolk.co.uk/int/images/gallery/2018/Around/14_HSJX8086_14-2048-STEPHENAJONES.jpg','T');
 
+  global $Locs,$LocUsed;
   $Locs = Get_Trade_Locs(1);
   $TTypes = Get_Trade_Types(1);
   $Traders = Get_Traders_Coming(1,"Fee DESC");
@@ -30,33 +31,44 @@
   $Overview = 0;
   foreach ($Locs as $loc) if ($loc['SN'] == 'Overview') $Overview = $loc;
 
-  
-  echo "<form>" . fm_hidden('Y',$YEAR);
-  echo "<table class=GreenTable>";
-  echo "<tr><td>Show by Location:"; // <td>Show by Type
+function ShowForm($Dir='H') {
+  global $Locs,$LocUsed,$YEAR;
+// Work OUt the selection form
+  $ShowForm = "<form>" . fm_hidden('Y',$YEAR);
+  $ShowForm .= "<table class=GreenTable>";
+  $ShowForm .=  "<tr><td>Show by Location:"; // <td>Show by Type
 
-  echo "<td>";
+  $ShowForm .=  (($Dir=='H')?"<td>":"");
     foreach($Locs as $loc) {
-      if ($loc['InUse'] && isset($LocUsed[$loc['TLocId']]) && !$loc['NoList']) echo "<input type=submit name=SEL value='" . $loc['SN'] . "'> ";
+      if ($loc['InUse'] && isset($LocUsed[$loc['TLocId']]) && !$loc['NoList']) {
+        $ShowForm .=  (($Dir=='H')?"":"<tr><td>");
+        $ShowForm .=  "<input type=submit name=SEL value='" . $loc['SN'] . "'> ";
+      }
     }
-//    echo "<td>";
+//    $ShowForm .=  "<td>";
 /*
     foreach($TTypes as $typ) {
       if (!$typ['Addition'] && isset($TTUsed[$typ['id']])) echo '<input type=submit name=SEL value="' . $typ['SN'] . '" style="background:' . $typ['Colour'] . ';color:black;"> ';
     }
 */
-    echo "<td>";
-      echo "<input type=submit name=SEL value='Show All'> ";
-  echo "</table><p>";
+  $ShowForm .=  (($Dir=='H')?"<td>":"<tr><td>");
+  $ShowForm .=  "<input type=submit name=SEL value='Show All'> ";
+  $ShowForm .=  "</table></form><p>";
+  return $ShowForm;
+}
 
+// Work out pitches, Map and Title (if any)
   $List = [];
   $SLoc = 0;
+  $Title = '';
+  $Scale = 1;
 
   if (isset($_REQUEST['SEL'])) {
     $sel = $_REQUEST['SEL'];
     if ($sel == 'Show All') {
       $List = $AllList;
       $Title = 'All Traders';
+      $Scale = 0.5;
     } else {
       foreach($Locs as $loc) 
         if ($sel == $loc['SN']) {
@@ -72,17 +84,19 @@
           $Title = 'All ' . $typ['SN'] . " Traders";
         }
     }
-
-    echo "<h2>$Title</h2>";
-  } else {
-  
   }
   
+
   if ($SLoc) {
+    echo ShowForm();
+    if ($Title) echo "<h2>$Title</h2>";
     Pitch_Map($SLoc,$Pitches,$Traders,1,1,1) ;
   } else if ($Overview) {
     $Pitches = Get_Trade_Pitches($Overview['TLocId']);
-    Pitch_Map($Overview,$Pitches,0,1,1,2) ; 
+//    echo "<div style='float:left;display:inline'>" . ShowForm(($Scale==1)?'V':'H') . " </div>"; 
+    echo ShowForm();
+    Pitch_Map($Overview,$Pitches,0,1,$Scale,2);
+
   }
   echo "<br clear=all><p>";
 

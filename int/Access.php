@@ -51,6 +51,9 @@
       break;
 
     case 'c' : // Staff - not yet
+      $Data = Get_User($id);
+      break;
+      
     default:
       Error_Page("Invalid link - type XX $t not recognised");
   }
