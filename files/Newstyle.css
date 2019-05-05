@@ -119,10 +119,12 @@ h2 {
   margin: 0 auto 0 auto;
 }
 .MainContent {
+  overflow:hidden;
+  
 }
 .MainWrapper {
   padding: 15px 25px;
-  position:realtive;
+  position:relative;
   display: block;
 }
 sup {
@@ -316,6 +318,8 @@ table {
     padding-bottom:5px;
     border: 0, solid 5px, solid 5px, solid 5px;
     border-radius:15px;
+    overflow:scroll;
+    display:inline-block;
     }
     
 .FullWidth table {
@@ -376,7 +380,7 @@ textarea:Focus
 
 #flex
     {
-    column-width:350px;
+    column-width:340px;
     column-gap: 25px;
     column-count:3;
     }
@@ -1235,7 +1239,7 @@ button {
 
 
 .TradeFlexCont {
-  min-width:33%;
+  min-width:30%;
   max-width:100%;
   max-width:600px;
   min-width:250px;
@@ -1243,6 +1247,7 @@ button {
   display: inline-block;
   margin:10px;
   max-height:150;
+  border: 1px solid black;
 }
 
 .TradeFlexCont:hover {
@@ -1255,7 +1260,6 @@ button {
 .TradeFlexCont h2 {
   background:#f6f6f6;
   color:#004668;
-  margin-top:2;
   margin-bottom:2;
   padding:5;
   padding-left:10;
@@ -1270,7 +1274,6 @@ button {
 
 .TradeFlexCont img {
   float:right;
-  margin-top:2;
   max-width:40%;
   max-height:120;
   margin-left:5;
@@ -1281,6 +1284,7 @@ button {
   max-height: 70;
   overflow-y: auto;
   font-size:12;
+  padding-left:2px;
 }
 
 .VenueFlexCont {
@@ -1386,3 +1390,9 @@ button {
   background: #f6f6f6;
 }
 
+.SimpleTable, .SimpleTable table, .SimpleTable tr, .SimpleTable th, .SimpleTable td {
+  border:1px solid black;
+  width:auto;
+  height:auto;
+}
+  

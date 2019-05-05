@@ -403,7 +403,6 @@
   z-index: 100;  
   font-weight: 400;
   text-shadow: 0 0 15px black, 0 0 10px black ;
-  display:block;
 }
 
 /* Home Page - large banner */
@@ -411,7 +410,7 @@
 .WMFFbanner800 {
   height:800;
   width:1560;
-  max-width:100%;
+  max-width:100vw;
   margin-top:-80;
   top: 0;
   background:black;
@@ -425,6 +424,7 @@
   text-align:center;
   z-index: 100;
   position: absolute;
+  max-width:90vw;
   object-fit: contain;
   left:50%;
   transform: translateX(-50%); 
@@ -432,6 +432,7 @@
 
 .WMFFbanner800 .BanOverlay img {
   max-height:160px;
+  max-width:90vw;
 }
 
 .WMFFbanner800 .BanDates {

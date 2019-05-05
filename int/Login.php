@@ -122,7 +122,7 @@ function Login($errmsg='', $message='') {
   if ($message) echo "<h2>$message</h2>";
 
   echo "<form method=post action=Login.php>";
-  echo "<table><tr><td>User Name or Email:<td><input type=text Name=UserName>\n";
+  echo "<table class=simpletable><tr><td>User Name or Email:<td><input type=text Name=UserName>\n";
   echo "<tr><td>Password:<td><input type=password Name=password>\n";
   $_POST{'RememberMe'} = 1;
   echo "<tr><td>" . fm_checkbox("Remember Me",$_POST,'RememberMe');

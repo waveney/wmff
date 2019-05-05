@@ -316,7 +316,7 @@ function embedvideo($dest) {
   } else {
     $dest = preg_replace("/.*tu.be/i",'',$dest);
   }
-  return "<iframe width=560 height=315 src='https://www.youtube.com/embed/" . $dest . "' frameborder=0 allowfullscreen></iframe>";
+  return "<iframe style='max-width:100%; width:560; height:315' src='https://www.youtube.com/embed/" . $dest . "' frameborder=0 allowfullscreen></iframe>";
 }
 
 function Clean_Email(&$addr) {
