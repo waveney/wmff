@@ -98,8 +98,11 @@
 
  
   echo "<div id=flex>\n";
+  $Done = [];
   foreach($List as $ti) {
     $trad = $Traders[$ti];
+    if (isset($Done[$ti])) continue;
+    $Doone[$ti]=1;
  //var_dump($ti,$trad);
     echo "<div class=TradeFlexCont id=Trader" . $trad['Tid'] .  ">";
     if ($trad['Website']) echo weblinksimple($trad['Website']);

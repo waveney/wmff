@@ -45,7 +45,10 @@ $(document).ready(function() {
   	}
   });
   dhead.addEventListener("mouseover",function() {
-    header.addClass("fixedheader");
+    var scroll = $(window).scrollTop();
+    if (scroll < 1) {
+      header.addClass("fixedheader");
+    }
   });
   dhead.addEventListener("mouseout",function() {
     var scroll = $(window).scrollTop();

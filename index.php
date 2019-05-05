@@ -6,7 +6,8 @@
   $Banner .= "<div class=BanOverlay><img src=/images/icons/wimborne-folk-festival-logo-white-shadow.png>";
   $Banner .= "<img src=/images/icons/underline.png>";
   $Banner .= "</div>";
-  $Banner .= "<div class=BanDates>" . ($MASTER['DateFri']+$MASTER['FirstDay']) . " - " . ($MASTER['DateFri']+$MASTER['LastDay']) . " June $SHOWYEAR</div>";
+  $Banner .= "<a href=/Tickets.php class=BanDates>" . ($MASTER['DateFri']+$MASTER['FirstDay']) . " - " . ($MASTER['DateFri']+$MASTER['LastDay']) . 
+             " June $SHOWYEAR<br>Buy Tickets</a>";
 
   $Banner .= "<img src=/images/icons/torn-top.png class=TornTopEdge>";
   $Banner .= "</div>";

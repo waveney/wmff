@@ -72,7 +72,7 @@
       '!/images/icons/Facebook.png'=>'!http://facebook.com/WimborneFolk',
       '!/images/icons/Twitter.png'=>'!http://twitter.com/WimborneFolk',
       '!/images/icons/Instagram.png'=>'!http://instagram.com/WimborneFolk',
-      '=Get Tickets'=>'Tickets.php',
+      '=Buy Tickets'=>'Tickets.php',
       ],
     'Private'=> [  
       'Staff Tools'=>'int/Staff.php',
