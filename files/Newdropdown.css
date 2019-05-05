@@ -317,7 +317,6 @@
   transition: all ease-in-out 0.4s;
   z-index:950;
   overflow-y:auto;
-  overflow-x:hidden;
 /*  transform: translateX(-300);  */
 }
 
