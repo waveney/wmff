@@ -141,7 +141,7 @@ $(document).ready(function() {
 function ShowHoverMenu() {
 //  debugger;
 //  if (!MenuCopied) CopyHoverMenu();
-//  $("#HoverContainer").show();
+  $("#HoverContainer").show();
   $("#HoverContainer").addClass("Slide-Left");
   $(".MenuMenuIcon").hide();
   $(".MenuMenuClose").show();
@@ -150,7 +150,7 @@ function ShowHoverMenu() {
 }
 
 function CloseHoverMenu() {
-//  $("#HoverContainer").hide();
+  $("#HoverContainer").hide();
   $("#HoverContainer").removeClass("Slide-Left");
   $(".MenuMenuIcon").show();
   $(".MenuMenuClose").hide();
