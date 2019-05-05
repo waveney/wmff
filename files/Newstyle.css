@@ -314,16 +314,16 @@ p {
     max-width:100%;
 }
 table {
-/*    width:100%; */
     padding-bottom:5px;
     border: 0, solid 5px, solid 5px, solid 5px;
     border-radius:15px;
-    overflow:scroll;
+    overflow:auto;
     display:inline-block;
+    max-width:99%;
     }
     
 .FullWidth table {
-  width:100%;
+  width:99%;
 }
 th
     {
@@ -794,7 +794,7 @@ textarea:Focus
 .lemontab, .lemontab td {
   padding:5;
   border-spacing:5;
-  max-width:100%;
+  max-width:99%;
   margin:0;
 }
 
@@ -806,6 +806,7 @@ textarea:Focus
 .GreenTable {
   margin:0;
   padding:5;
+  max-width:95%;
   border-spacing:5;
   background-color:#59B404; 
   border-color:#59B404; 
