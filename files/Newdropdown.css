@@ -395,6 +395,7 @@
   color: #fff;
   margin: 30px 0 0;
   width:100%;
+  max-width:1560;
   text-align:center; 
   font-size: 48pt;
   position: absolute;
@@ -402,6 +403,7 @@
   z-index: 100;  
   font-weight: 400;
   text-shadow: 0 0 15px black, 0 0 10px black ;
+  display:block;
 }
 
 /* Home Page - large banner */
