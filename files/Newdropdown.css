@@ -373,7 +373,6 @@
   margin-top:-80;
   top: 0;
   background:black;
-  z-index: 99;
   object-fit:contain;
   overflow:hidden;
 }
@@ -386,7 +385,6 @@
   margin-top:-80;
   top: 0;
   background:black;
-  z-index: 99;
   object-fit:contain;
   overflow:hidden;
 }
@@ -400,7 +398,6 @@
   font-size: 44pt;
   position: absolute;
   top:130;
-  z-index: 100;  
   font-weight: 400;
   text-shadow: 0 0 15px black, 0 0 10px black ;
   max-height:220;
@@ -416,7 +413,6 @@
   margin-top:-80;
   top: 0;
   background:black;
-  z-index: 99;
   object-fit:contain;
   overflow:hidden;
 }
@@ -424,7 +420,6 @@
 .WMFFbanner800 .BanOverlay {
   top:260;
   text-align:center;
-  z-index: 100;
   position: absolute;
   max-width:90vw;
   object-fit: contain;
@@ -440,7 +435,6 @@
 .WMFFbanner800 .BanDates {
   top:490;
   padding: 10 20;
-  z-index: 100;
   position: absolute;
   left:50%;
   transform: translateX(-50%); 
