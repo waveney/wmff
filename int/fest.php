@@ -28,7 +28,7 @@ $Invite_States = array('','Yes','YES!','No','Maybe');
 $Invite_Type = array_flip($Invite_States);
 $Dance_Comp = ['Don\'t Know','Yes','No'];
 $Dance_Comp_Colours = ['white','lime','salmon'];
-$Surfaces = ['','Tarmac','Flagstones','Grass','Stage','Brick','Wood','Carpet','Astroturf'];// Last 3 not used yet
+$Surfaces = ['','Tarmac','Flagstones','Grass','Stage','Brick','Wood','Carpet','Astroturf'];// Last 3 Sysadmin only
 $Surface_Colours = ['','grey','Khaki','lightgreen','Peru','salmon','Peru','Teal','lime'];
 $Side_Statuses = array("Alive","Dead");
 $Share_Spots = array('Prefered','Always','Never','Sometimes');
@@ -561,17 +561,14 @@ function dohead($title,$extras=[],$Banner='',$BannerOptions=' ') {
   if ($extras) doextras($extras);
   echo "</head><body>\n";
 
-  if (Feature('NewStyle')) {
-
     echo "<div class=contentlim>";  
     include_once("files/Newnavigation.php");
 
     if ($Banner) {
       if ($Banner == 1) {
         echo "<div class=WMFFBanner400><img src=" . $MASTER_DATA['DefaultPageBanner'] . " class=WMFFBannerDefault>";
-        if (!strchr('T',$BannerOptions)) echo "<img src=/images/icons/torn-top.png class=TornTopEdge>";
         echo "<div class=WMFFBannerText>$title</div>";
-
+        if (!strchr('T',$BannerOptions)) echo "<img src=/images/icons/torn-top.png class=TornTopEdge>";
         echo "</div>";
       } else if (preg_match('/^(https?:\/\/|\/?images\/)/',$Banner)) {
         echo "<div class=WMFFBanner400><img src=$Banner class=WMFFBannerDefault>";
@@ -586,22 +583,6 @@ function dohead($title,$extras=[],$Banner='',$BannerOptions=' ') {
     }
 
     echo "<div class=mainwrapper><div class=maincontent>";  
-  } else {
-    echo "<div id=HeadRow>";
-    if ($MASTER_DATA['AdvertImgLeft']) { 
-      echo "<a href=" . $MASTER_DATA['AdvertLinkLeft'] . "><img src=" . $MASTER_DATA['AdvertImgLeft'] . " id=leftspon hidden></a>";
-    } else echo "<center>";
-    echo "<a href=/><img id=HeadBan src=" . $MASTER_DATA['WebSiteBanner'] . "?V=$V ></a></center>";
-    if ($MASTER_DATA['AdvertImgRight']) { 
-      echo "<a href=" . $MASTER_DATA['AdvertLinkRight'] . "><img src=" . $MASTER_DATA['AdvertImgRight'] . " id=rightspon hidden></a>";
-    } else if ($MASTER_DATA['AdvertImgLeft']) echo "<a href=" . $MASTER_DATA['AdvertLinkLeft'] . "><img src=" . $MASTER_DATA['AdvertImgLeft'] . " id=rightspon hidden></a>";
-    echo "</div>\n";
-    echo "<script src=/js/WmffAds.js?V=$V></script>";
-
-    include_once("files/navigation.php"); 
-    echo "<div class=mainwrapper><div class=contentlim>";
-  }
-
   $head_done = 1;
 }
 
@@ -633,12 +614,8 @@ function dostaffhead($title,$extras=[]) {
   if ($extras) doextras($extras);
   echo "<meta http-equiv='cache-control' content=no-cache>";
   echo "</head><body>\n";
-  if (Feature('NewStyle')) {
-    include_once("files/Newnavigation.php");
-    echo "<div class=content>";  
-  } else {
-    include_once("files/navigation.php"); 
-    echo "<div class=content>";
+  include_once("files/Newnavigation.php");
+  echo "<div class=content>";  
   }
 
   $head_done = 1;
@@ -663,13 +640,8 @@ function dominimalhead($title,$extras=[]) {
 function dotail() {
   global $head_done;
 
-  if (Feature('NewStyle')) {
-    echo "</div>";
-    if ($head_done == 1) include_once("files/Newfooter.php");  
-  } else {
-    echo "</div></div>";
-    if ($head_done == 1) include_once("files/footer.php");
-  }
+  echo "</div>";
+  if ($head_done == 1) include_once("files/Newfooter.php");  
   echo "</body></html>\n";
   exit;
 }
