@@ -397,12 +397,14 @@
   width:100%;
   max-width:1560;
   text-align:center; 
-  font-size: 48pt;
+  font-size: 44pt;
   position: absolute;
-  top:150;
+  top:130;
   z-index: 100;  
   font-weight: 400;
   text-shadow: 0 0 15px black, 0 0 10px black ;
+  max-height:220;
+  font-size: 5.2vw;
 }
 
 /* Home Page - large banner */

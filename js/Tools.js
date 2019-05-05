@@ -118,8 +118,14 @@ function MenuResize() {
       $("#MenuBars").css({"right":80, "width":(Ewidth-IconWidth-120)});
       if (Ewidth < 1020) { // Show none
         $(".MenuMinor0").hide();
+        if (Ewidth < 470) { // Not even the dates!!
+          $(".FestDates").hide();
+        } else {
+          $(".FestDates").show();
+        }
       } else {
         $(".MenuMinor0").show();
+        $(".FestDates").show();
       }
       $(".MenuIcon").show();
     } else { // Show most
