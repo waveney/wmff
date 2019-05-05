@@ -615,8 +615,7 @@ function dostaffhead($title,$extras=[]) {
   echo "<meta http-equiv='cache-control' content=no-cache>";
   echo "</head><body>\n";
   include_once("files/Newnavigation.php");
-  echo "<div class=content>";  
-  }
+  echo "<div class=content>";
 
   $head_done = 1;
 }
