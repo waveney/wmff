@@ -1,6 +1,5 @@
 /* Main - headers, footer and menus */
 
-
 .main-header {
   position: sticky;
   top:0;
@@ -16,17 +15,13 @@
   color:white;
 }
 
-.main-header:hover,  .main-header.fixedheader {
+.main-header:hover, .main-header.fixedheader {
   background: #fff;
+  box-shadow: 0 0 40px rgba(0,0,0,0.7);
 }
 
 .main-header:hover .PublicBar a {
   color: #004668;
-}
-
-.main-header:hover,
-.fixedheader .main-header {
-  box-shadow: 0 0 40px rgba(0,0,0,0.7);
 }
 
 .main-header .header-logo {
@@ -46,12 +41,12 @@
   transition: all ease-in-out 0.4s;
   display: none;
 }
-.main-header:hover .header-logo .head-white-logo,
-.fixedheader .main-header-logo .head-white-logo{
+.main-header:hover .header-logo.head-white-logo,
+.fixedheader .main-header-logo.head-white-logo{
   opacity: 0;
 }
-.main-header:hover .header-logo .head-coloured-logo,
-.fixedheader .header-logo .head-coloured-logo{
+.main-header:hover .header-logo.head-coloured-logo,
+.fixedheader .header-logo.head-coloured-logo{
   opacity: 1;
   display: block;
 }
