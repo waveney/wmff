@@ -16,7 +16,7 @@ body {
 a {
   color: #EC038C;
   text-decoration: none;
-  font-weight:520;
+  font-weight:500;
 }
 A:link, .FakeLink {
   text-decoration: none; 
@@ -315,9 +315,10 @@ p {
 }
 table {
     padding-bottom:5px;
-    border: 0, solid 5px, solid 5px, solid 5px;
+    border: 1px solid inherit;
     border-radius:15px;
     overflow:auto;
+    -webkit-overflow-scrolling: touch
     display:inline-block;
     max-width:99%;
     }
@@ -846,23 +847,23 @@ textarea:Focus
 }
 
 .WhenTable table tr td:nth-child(1) {
-  width:115;
+  width:115px;
 }
 
 .WhenTable table tr td:nth-child(2) {
-  width:200;
+  width:250px;
 }
 
 .WhenTable table tr td:nth-child(3) {
-  width:260;
+  width:280px;
 }
 
 .WhenTable table tr td:nth-child(4) {
-  width:540;
+  width:700px;
 }
 
 .WhenTable table tr td:nth-child(5) {
-  width:80;
+  width:100px;
 }
 
 @keyframes WhenTablefade {
@@ -881,7 +882,9 @@ textarea:Focus
   padding:5px;
   margin:5px;
   border-radius:5px;
-  width:120px;
+  width:150px;
+  top:-5px;
+  position: relative;
 } 
 
 .BorderBox {
@@ -1029,7 +1032,7 @@ textarea {
 }
 
 .ArtFormat1 {
-  overflow:contain;
+  overflow:auto;
 }
 
 .ArtTitleS {
@@ -1197,7 +1200,7 @@ button {
 
 .LineupFit1 img, .LineupFit2 img, .LineupFit3 img, .LineupFit4 img, .LineupFit5 img {
   width:100%;
-  max-height: 310;
+  max-height: 310px;
   object-fit: cover;
   border-bottom: 1px solid #dedede;
 }
@@ -1226,14 +1229,13 @@ button {
 .LineUptxt, .LineUptxt a {
   font-size:16pt;
   color:black;
-  margin-top:5;
-  padding:5;
+  margin-top:5px;
+  padding:5px;
   background:white;
 }
 
 @keyframes pbpop {
   50% {
-    -webkit-transform: scale(1.052);
     transform: scale(1.05);
   }
 }
@@ -1265,7 +1267,6 @@ button {
   padding:5px;
   padding-left:10px;
   font-size:16pt;
-  overflow: none;
 }
 
 .TradeFlexCont:hover h2 {
@@ -1299,7 +1300,7 @@ button {
   padding-top:28px;
   border: 2px solid #f1f1f1;
   background: #f8f8f8;
-  height:60;
+  height:60px;
 }
 
 .VenueFlexCont a {
@@ -1377,8 +1378,8 @@ button {
 }
 .PerfProg, .PerfProg td , .PerfProg th {
   border: 1px solid black;
-  margin: 5;
-  padding: 5;
+  margin: 5px;
+  padding: 5px;
   max-width:95%;
 }
 .PerfProg {

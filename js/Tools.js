@@ -56,7 +56,7 @@ $(document).ready(function() {
       header.removeClass("fixedheader");
   	}
   });
-
+  $('#HoverContainer').detach().appendTo('#LastDiv');  // Get menu to work on Iphones
 });
 
 // Sticky menus for mobiles
@@ -156,7 +156,7 @@ $(document).ready(function() {
 function ShowHoverMenu() {
 //  debugger;
 //  if (!MenuCopied) CopyHoverMenu();
-  $('#HoverContainer').detach().appendTo('#LastDiv');
+
   $("#HoverContainer").show();
   $("#HoverContainer").addClass("Slide-Left");
   $(".MenuMenuIcon").hide();
