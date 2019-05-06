@@ -1380,6 +1380,7 @@ button {
   border: 1px solid black;
   margin: 5;
   padding: 5;
+  max-width:95%;
 }
 .PerfProg {
   background:#ddd;

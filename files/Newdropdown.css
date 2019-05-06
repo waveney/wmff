@@ -68,8 +68,19 @@
   font-weight:750;
 }
 
-.fixedheader .FestDates {
+.fixedheader .FestDates, .fixedheader .SmallDates {
   color: #004668;
+}
+
+.SmallDates {
+  display:none;
+  position: absolute;
+  top:60;
+  left:92;
+  margin:0;
+  padding:0;
+  text-align: center;
+  font-weight:750;
 }
 
 .headericon {
@@ -373,7 +384,6 @@
   margin-top:-80;
   top: 0;
   background:black;
-  z-index: 99;
   object-fit:contain;
   overflow:hidden;
 }
@@ -386,7 +396,6 @@
   margin-top:-80;
   top: 0;
   background:black;
-  z-index: 99;
   object-fit:contain;
   overflow:hidden;
 }
@@ -397,12 +406,13 @@
   width:100%;
   max-width:1560;
   text-align:center; 
-  font-size: 48pt;
+  font-size: 44pt;
   position: absolute;
-  top:150;
-  z-index: 100;  
+  top:130;
   font-weight: 400;
   text-shadow: 0 0 15px black, 0 0 10px black ;
+  max-height:220;
+/*  font-size: 5vw; */
 }
 
 /* Home Page - large banner */
@@ -414,7 +424,6 @@
   margin-top:-80;
   top: 0;
   background:black;
-  z-index: 99;
   object-fit:contain;
   overflow:hidden;
 }
@@ -422,7 +431,6 @@
 .WMFFbanner800 .BanOverlay {
   top:260;
   text-align:center;
-  z-index: 100;
   position: absolute;
   max-width:90vw;
   object-fit: contain;
@@ -438,7 +446,6 @@
 .WMFFbanner800 .BanDates {
   top:490;
   padding: 10 20;
-  z-index: 100;
   position: absolute;
   left:50%;
   transform: translateX(-50%); 
