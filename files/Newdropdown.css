@@ -68,8 +68,19 @@
   font-weight:750;
 }
 
-.fixedheader .FestDates {
+.fixedheader .FestDates, .fixedheader .SmallDates {
   color: #004668;
+}
+
+.SmallDates {
+  display:none;
+  position: absolute;
+  top:60;
+  left:92;
+  margin:0;
+  padding:0;
+  text-align: center;
+  font-weight:750;
 }
 
 .headericon {
@@ -401,7 +412,7 @@
   font-weight: 400;
   text-shadow: 0 0 15px black, 0 0 10px black ;
   max-height:220;
-  font-size: 5.2vw;
+/*  font-size: 5vw; */
 }
 
 /* Home Page - large banner */

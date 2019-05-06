@@ -111,21 +111,29 @@ function MenuResize() {
     $(".MenuMinor1").show();
     $(".MenuMinor2").show();
     $("#MenuBars").css({"right":0,"width":(Ewidth-IconWidth-40)});
+    $(".WMFFBannerText").css({"font-size":'44pt'});
   } else {
     $(".MenuMinor2").hide();
     if (Ewidth < 1290) { // Show limited
       $(".MenuMinor1").hide();
       $("#MenuBars").css({"right":80, "width":(Ewidth-IconWidth-120)});
+      $(".WMFFBannerText").css({"font-size":'40pt'});
       if (Ewidth < 1020) { // Show none
         $(".MenuMinor0").hide();
         if (Ewidth < 470) { // Not even the dates!!
           $(".FestDates").hide();
+          $(".SmallDates").show();
+          $(".WMFFBannerText").css({"font-size":'20pt'});
         } else {
           $(".FestDates").show();
+          $(".SmallDates").hide();
+          $(".WMFFBannerText").css({"font-size":'24pt'});
         }
       } else {
         $(".MenuMinor0").show();
         $(".FestDates").show();
+        $(".SmallDates").hide();
+        $(".WMFFBannerText").css({"font-size":'34pt'});
       }
       $(".MenuIcon").show();
     } else { // Show most
@@ -133,6 +141,7 @@ function MenuResize() {
       $(".MenuMinor0").show();
       $(".MenuMinor1").show();
       $("#MenuBars").css({"right":0, "width":(Ewidth-IconWidth-40)});
+      $(".WMFFBannerText").css({"font-size":'40pt'});
     }
   }
 }
