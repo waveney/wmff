@@ -242,7 +242,7 @@
     }
   }
   echo "<tr><td>Total Fees<td>" . Print_Pound($totrec) . "<td>" . Print_Pound($totsub) . "<td>" . Print_Pound($totfee) . "<td>\n";
-  echo "</table>";
+  echo "</table><br>";
   echo "<table border id=narrowtable><tr><td>Location<td>Received<td>Total Accept<td>Total inc Quoted<td>Details\n";
   foreach ($TradeLocData as $TLoc) {
     if (!isset($TLoc['QuoteTot']) || $TLoc['QuoteTot'] == 0) continue;
@@ -256,7 +256,7 @@
     
   echo "<tr><td>Total Fees<td>" . Print_Pound($TotLRec) . "<td>" . Print_Pound($TotLAcc) . "<td>" . Print_Pound($TotLQut) . "<td>\n";
 
-  echo "</table>\n";
+  echo "</table><br>\n";
   echo "<table border id=narrowtable><tr><td>State<td>Number\n";
   foreach ($Trade_States as $i=>$state) {
     if (isset($TrState[$i]) && $TrState[$i]>0) echo "<tr><td style='background:" . $Trade_State_Colours[$i] . ";padding:4; white-space: nowrap;'>$state<td>" . $TrState[$i];

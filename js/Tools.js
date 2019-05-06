@@ -118,7 +118,7 @@ function MenuResize() {
       $(".MenuMinor1").hide();
       $("#MenuBars").css({"right":80, "width":(Ewidth-IconWidth-120)});
       $(".WMFFBannerText").css({"font-size":'40pt'});
-      if (Ewidth < 1020) { // Show none
+      if (Ewidth < 1000) { // Show none
         $(".MenuMinor0").hide();
         if (Ewidth < 470) { // Not even the dates!!
           $(".FestDates").hide();
@@ -156,6 +156,7 @@ $(document).ready(function() {
 function ShowHoverMenu() {
 //  debugger;
 //  if (!MenuCopied) CopyHoverMenu();
+  $('#HoverContainer').detach().appendTo('#LastDiv');
   $("#HoverContainer").show();
   $("#HoverContainer").addClass("Slide-Left");
   $(".MenuMenuIcon").hide();

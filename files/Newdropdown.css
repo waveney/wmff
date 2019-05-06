@@ -32,7 +32,7 @@
 
 .main-header .header-logo {
 /*  max-width: 29%; */
-  padding: 12px 30px;
+  padding: 10px 24px;
   position: absolute;
   display: block;
   height: 54px;
@@ -61,7 +61,7 @@
   display: inline-block;
   position: absolute;
   top:0;
-  left:340;
+  left:320;
   margin: 7 0 0 0;
   padding:0;
   text-align: center;
@@ -305,9 +305,9 @@
 /* Mobile menu stuff */
 
 #HoverContainer {
-  position: fixed;
-  top:80;
-  right:-300;
+  position: absolute;
+  top:76;
+  right:-304;
   width:300;
   max-height: calc(100vh - 80px);
   height:auto;
@@ -332,7 +332,7 @@
 /*  transform: translateX(-300);  */
 }
 
-#HoverMenu:hover {
+#HoverMenu:hover, #HoverMenu .hoverdown a {
   background: black;
   color: white;  
 }
