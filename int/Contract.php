@@ -71,7 +71,7 @@ services, under the following terms and conditions:<p>\n";
     return "No Contract Yet";  // With no events there is no conract, not even a draft
   } else {
 
-    $str .= "<table border>";
+    $str .= "<div class=tablecont><table border>";
     if ($ctype == 1) { 
       $str .= "<tr><td>Number<td>Event Name<td>Date<td>On Stage at<td>Start<td>Duration<td colspan=3>Where\n";
     } else {
@@ -110,7 +110,7 @@ services, under the following terms and conditions:<p>\n";
         $str .= "TBD";
       }
     } 
-    $str .= "</table>\n";
+    $str .= "</table></div>\n";
   } 
 
 //  if ($mode < -1) $str .= "</span>";

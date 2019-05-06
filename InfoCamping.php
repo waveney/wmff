@@ -39,7 +39,7 @@ This year the campsite will be available from Thursday (5pm onwards).<p>
 Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use postcode for the farm it over a mile away by road).<p>
 
 <?php
-  echo "<table class=GreenTable>";
+  echo "<div class=tablecont><table class=GreenTable>";
   echo "<tr><th colspan=3>Camping Tickets";
   
   $Avails = [
@@ -62,7 +62,7 @@ Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use p
      echo "<td>" . Print_Pence($MASTER['CampingPrice' . $dat[1] . 'Day']*100) . "<td>";
      echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER['CampingCode_' . $dat[0] ] . "' target=_blank><b>Buy Now</b></a>";
    }
-  echo "</table><p>";
+  echo "</table></div><p>";
 
 } else {
 ?>

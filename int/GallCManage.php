@@ -106,7 +106,7 @@
   $coln = 0;
   echo "<form method=post action=GallCManage.php>";
   echo fm_hidden('g',$Galid);
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Id</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>File</a>\n";
@@ -126,7 +126,7 @@
   echo "<tr><td><td><input type=text name=File0 >";
   echo "<td><input type=text name=Captions0 >";
   echo "<td><input type=number name=RelOrder0 >";
-  echo "</table>\n";
+  echo "</table></div>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";
   echo "<h2><a href=GallManage.php>Back to Galleries</a>, <a href=ShowGallery.php?g=$Galid>Show Gallery</a></h2><p>\n";

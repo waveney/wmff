@@ -289,15 +289,15 @@
   background-color:#43a9b2;
 }
 
-.PrivateBar .MenuTesting {
-  background:salmon;
+.PrivateBar .MenuTesting, .MenuTesting a {
+  background:salmon ;
   float:right;
 }
 
 /* Mobile menu stuff */
 
 #HoverContainer {
-  position: absolute;
+  position: fixed;
   top:76px;
   right:-304px;
   width:300px;

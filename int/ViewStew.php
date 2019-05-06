@@ -63,7 +63,7 @@ function Submit_Steward() {
 
   echo "<h2 class=subtitle>Steward / Volunteer Application Form</h2>\n";
   echo "<form method=post action=ViewStew.php>";
-  echo "<table border>\n";
+  echo "<div class=tablecont><table border>\n";
   echo "<tr>" . fm_text('SN',$stew,'SN',2);
   echo fm_hidden('id',$id);
   echo "<tr>" . fm_text('Email',$stew,'Email',2);
@@ -95,7 +95,7 @@ function Submit_Steward() {
   echo "<tr>" . fm_text('Contact Name',$stew,'ContactName',2);
   echo "<tr>" . fm_text('Contact Phone',$stew,'ContactPhone',2);
   echo "<tr><td>Relationship:<td>" . fm_select($Relations,$stew,'Relation');
-  echo "</table><p>";
+  echo "</table></div><p>";
   echo "<input type=submit name=submit value='Change Application'><p>\n"; 
   echo "</form>\n";
 

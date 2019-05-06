@@ -35,7 +35,8 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 
 <a href=/InfoCamping.php><b>Camping Information and Camping Tickets.</b></a><p>
 
-<p><table cellspacing="5" cellpadding="5" style="background-color:#39a5d8; border-color:#39a5d8; max-width:1200">
+<p><div class=tablecont>
+<table cellspacing="5" cellpadding="5" style="background-color:#39a5d8; border-color:#39a5d8; max-width:1200">
 <tr><th colspan="5">Festival Passes</th>
 <?php
   foreach(['Weekend','Friday','Saturday','Sunday'] as $day) {
@@ -85,7 +86,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
       }
     }
   }
-  echo "</table><p>";
+  echo "</table></div><p>";
 
   global $YEAR,$db,$DayList,$MASTER;
 
@@ -125,9 +126,9 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
   
   if (!$Evs->num_rows) echo "No Ticketed Events are yet published.<p>";
 
-  echo "</table></div></p>";
+  echo "</table></div></div></p>";
 
-  echo "<table class=GreenTable>";
+  echo "<div class=tablecont><table class=GreenTable>";
   echo "<tr><th colspan=3>Camping Tickets";
   
   $Avails = [
@@ -151,7 +152,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
      echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER['CampingCode_' . $dat[0] ] . "' target=_blank><b>Buy Now</b></a>";
    }
 ?>
-</table><p>
+</table></div><p>
 
 <h2>Child Tickets</h2>
 

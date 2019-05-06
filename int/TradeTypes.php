@@ -22,7 +22,7 @@
   $InvCodes =  Get_InvoiceCodes();
   
   echo "<form method=post>";
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Index</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Trade Type</a>\n";
@@ -75,7 +75,7 @@
   echo "<td><input type=checkbox name=TOpen0>";
   echo "<td>" . fm_select($InvCodes,$t,'InvoiceCode',1,'',"SalesCode0");
   echo "<td><textarea name=Description0 cols=40></textarea>";
-  echo "</table>\n";
+  echo "</table></div>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";
 

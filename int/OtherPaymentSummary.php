@@ -20,13 +20,13 @@
     $tots[$src]['A' . $pay['State']] += $pay['Amount'];
   }
   
-  echo "<h2>Other Payments Summary</h2><table><tr><td>For<td>States<td>Transactions<td>Total Value";
+  echo "<h2>Other Payments Summary</h2><<div class=tablecont>table><tr><td>For<td>States<td>Transactions<td>Total Value";
   foreach ($tots as $src=>$prec) {
     for ($stat = 0; $stat<=2; $stat++) {
       echo "<tr><td>" . $src . "<td>" . $OpayStates[$stat] . "<td>" . $prec[$stat] . "<td>" . $prec["A$stat"]/100;
     }
   }
-  echo "</table><p>";
+  echo "</table></div><p>";
          
   dotail();
 

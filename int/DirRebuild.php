@@ -50,7 +50,7 @@ function Scan_Documents($Act) {
   $FullPs = [];
   
   echo "<h2>Scanning Directories Stage 1</h2>";
-  if ($Act == 0) echo "<form method=post action=DirRebuild.php><table>";
+  if ($Act == 0) echo "<form method=post action=DirRebuild.php><div class=tablecont><table>";
   foreach ($Dirs as $D) {
     $d = $D['DirId'];
     $fullpath = "Store" . Dir_FullPname($d);
@@ -357,7 +357,7 @@ function Scan_Documents($Act) {
   echo "<h2>Scanning Finished</h2>";
   
   if ($Act == 0) {
-    echo "</table>\n";
+    echo "</table></div>\n";
     echo "<input type=submit name=FIXFI value='Fix Selected - Files/Directories are master'>";
     echo "<input type=submit name=FIXDB value='Fix Selected - Database is the master'>";
   }

@@ -13,7 +13,7 @@
   $Evs = $db->query($qry);
 
   $coln = 0;
-  echo "<table id=indextable border=1>\n";
+  echo "<div class=tablecont><table id=indextable border=1>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Day</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Start</a>\n";
@@ -40,7 +40,7 @@
     echo "<td><a href=https://www.ticketsource.co.uk/date/" . $E['TicketCode'] . "><strong>Buy Now</strong></a>\n";
     echo "<td>" . $E['Public'];
   }
-  echo "</tbody></table>\n";
+  echo "</tbody></table></div>\n";
   
   dotail();
 ?>

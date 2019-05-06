@@ -36,7 +36,7 @@
   
   echo "<h2 class=subtitle>Laugh Out Load 2018 Application Form</h2>\n";
   echo "<form method=post action=LaughForm.php>";
-  echo "<table border>\n";
+  echo "<div class=tablecont><table border>\n";
   echo "<tr>" . fm_text("Act Name",$_POST,'SN',2);
   echo "<tr><td colspan=4>Main Contact:\n";
   echo "<tr>" . fm_text('Name',$_POST,'Contact');
@@ -54,7 +54,7 @@
   echo "<tr><td>Available on Tuesday March 6th?<td>" . fm_checkbox('',$_POST,'Avail1');
   echo "<tr><td>Available on Tuesday April 10th?<td>" . fm_checkbox('',$_POST,'Avail2');
   echo "<tr><td>Available on Tuesday May 1st?<td>" . fm_checkbox('',$_POST,'Avail3');
-  echo "</table><p>";
+  echo "</table></div><p>";
   echo "<input type=submit name=submit value='Submit Application' onclick=$('#Patience').show()><p>\n";   
   echo "<h2 hidden class=Err id=Patience>This takes a few moments, please be patient</h2>";
 

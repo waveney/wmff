@@ -25,7 +25,7 @@
 
   $coln = 0;
   echo "<form method=post>";
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Index</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Title</a>\n";
@@ -60,7 +60,7 @@
   echo "<td><input type=text name=image0>";
   echo "<td><input type=text name=caption0>";
   echo "<td><input type=text size=10 name=author0 value =" . firstword($USER['SN']) . ">";
-  echo "</table>\n";
+  echo "</table></div>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";
 

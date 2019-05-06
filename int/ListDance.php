@@ -78,7 +78,7 @@
     echo "<h2>No Sides Found</h2>\n";
   } else {
     $coln = ($col10?1:0); // Start at 1 for select col
-    echo "<table id=indextable border width=100%>\n";
+    echo "<div class=tablecont><table id=indextable border width=100%>\n";
     echo "<thead><tr>";
     if ($col10) echo "<th><input type=checkbox name=SelectAll id=SelectAll onchange=ToolSelectAll(event)>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
@@ -223,7 +223,7 @@
 //        echo "<td>" . ($fetch["SentEmail$i"]?"Y":"");
 //      }
     }
-    echo "</tbody></table>\n";
+    echo "</tbody></table></div>\n";
     
     if ($col10) {
       $Dtypes = Get_Dance_Types(0);

@@ -392,7 +392,7 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade
   echo "<h2 class=Err>DO <b>NOT</b> USE THIS TO CREATE TRADE INVOICES - USE THE TOOLS IN TRADE<p>";
   echo "<form method=post action=InvoiceManage.php>";
   if ($Dat) echo fm_hidden('i',$dat);
-  echo "<table border>";
+  echo "<div class=tablecont><table border>";
   echo "<tr>" . fm_radio("Organisation",$Org_Cats,$inv,'OrgType','onchange=InvoiceCatChange(event,###V)');
   echo "<td class=InvOrg1 $hide1 >" . fm_select($Traders,$inv,'Tid') . "<td class=InvOrg1  $hide1>If the trader, is not in list, then <a href=Trade.php><b>Create them</b></a> first"; 
   echo "<td class=InvOrg2 $hide2 >" . fm_select($Orgs,$inv,'Oid') . "<td class=InvOrg2  $hide2 >If the organisation, is not in list, then <a href=Trade.php?ORGS><b>Create them</b></a> first";
@@ -419,7 +419,7 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade
   } else {
     fm_hidden('Source',2); 
   }
-  echo "</table><p><input type=submit name=ACTION value=" . ($Dat? "UPDATE":"CREATE") . "></form>\n";
+  echo "</table></div><p><input type=submit name=ACTION value=" . ($Dat? "UPDATE":"CREATE") . "></form>\n";
 }
 
 
@@ -481,7 +481,7 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   echo "<h2>Details of " . ($inv['Total'] < 0 ? "Credit Note ": "Invoice ") . $id . ($Rev?" Revision $Rev":"") . "</h2>\n";
   if ($InValid) echo "<span class=Err>$InValid</span>\n";
   echo "<form method=post action=InvoiceManage.php>";  
-  echo "<table border>";
+  echo "<div class=tablecont><table border>";
   echo fm_hidden('i',$id);
 // Who
   echo "<tr>" . fm_text("Organisation",$inv,'BZ',1,$RO) . fm_text('Revision',$inv,'Revision',1,$RO);
@@ -527,7 +527,7 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   echo "<tr><td>Source:<td>" . fm_select($Invoice_Sources,$inv,'Source',0,$RO) . fm_number("SourceId", $inv,'SourceId','',$RO); 
   echo "<tr>" . fm_textarea('History',$inv,'History',5,2,'','maxlength=2000');
   if ($inv['Source'] != 1) echo "<tr>" . fm_textarea('Cover Note',$inv,'CoverNote',5,4);
-  echo "</table>";
+  echo "</table></div>";
   echo "<input type=submit name=ACTION value=UPDATE>";
   if ($inv['Email'] && !$InValid) {
     echo "<input type=submit name=ACTION value=" . ($inv['EmailDate']?"RESEND":"SEND") . ">";
@@ -712,13 +712,13 @@ function Pay_Show($id) {
   echo "<h2>Payment for Other things</h2>";
   echo "Currently just Live N Loud<p>";
   
-  echo "<form method=post><table border>";
+  echo "<form method=post><div class=tablecont><table border>";
   echo "<tr><td>Id:<td>$id" . fm_text("Code",$pay,"Code") . fm_hidden('PAYCODES',1) .fm_text('Name',$pay,'SN') .fm_hidden('id',$id);
   echo "<tr>" . fm_number("Amount (pence)",$pay,"Amount") . "<td>issued on:<td>" . date('j/n/y',$pay['IssueDate']);
   echo "<tr><td>State:<td>" . fm_select($OpayStates,$pay,'State') . "<td>Source:" . fm_select($Invoice_Sources,$pay,'Source',0);
   echo "<tr>" . fm_text('Reason',$pay,'Reason');
   echo "<tr>" . fm_textarea("Notes", $pay,'Notes',5,1);
-  echo "</table>";
+  echo "</table></div>";
   echo "<input type=submit name=ACTION value=UPDATE>";
   dotail();
 }

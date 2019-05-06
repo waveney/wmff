@@ -25,7 +25,7 @@ Route 13 goes to and from <b>Bournemouth</b> to <b>Wimborne</b> every 30 minutes
 Note there will be a temporary bus stop by the Campsite, this is on the route of the 3, and the 4's that go via Corfe Mullen in the evenings and on Sunday.<p>
 
 Buses in <span class=ExtraBus>Bold Blue</span> are additional buses being run for the festival.
-
+<div class=tablecont>
 <table border class=TueTab>
 <tr><td>Route<td colspan=3>To Wimborne<td colspan=3>From Wimborne
 <tr><td>Route 3<td><a onclick=ShowBus('3.1') class=FakeLink>Friday</a>
@@ -46,9 +46,9 @@ Buses in <span class=ExtraBus>Bold Blue</span> are additional buses being run fo
                 <td><a onclick=ShowBus('13.4') class=FakeLink>Friday</a>
 		<td><a onclick=ShowBus('13.5') class=FakeLink>Saturday</a>
 		<td><a onclick=ShowBus('13.6') class=FakeLink>Sunday</a>
-</table>
+</table></div><br clear=all>&nbsp;<br clear=all>
 
-<div id=TimeTab></div>
+<div id=TimeTab class=tablecont></div>
 
 <?php 
   dotail();

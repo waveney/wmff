@@ -43,7 +43,7 @@
   
   echo "<h2 class=subtitle>Steward / Volunteer Application Form</h2>\n";
   echo "<form method=post action=StewardForm.php>";
-  echo "<table border>\n";
+  echo "<div class=tablecont><table border>\n";
   echo "<tr>" . fm_text('Name',$_POST,'SN',2);
   echo "<tr>" . fm_text('Email',$_POST,'Email',2);
   echo "<tr>" . fm_text('Phone(s)',$_POST,'Phone',2);
@@ -73,7 +73,7 @@
   echo "<tr>" . fm_text('Contact Name',$_POST,'ContactName',2);
   echo "<tr>" . fm_text('Contact Phone',$_POST,'ContactPhone',2);
   echo "<tr><td>Relationship:<td>" . fm_select($Relations,$_POST,'Relation');
-  echo "</table><p>";
+  echo "</table><div><p>";
   echo "<input type=submit name=submit value='Submit Application'><p>\n"; 
   echo "</form>\n";
 

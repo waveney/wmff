@@ -142,7 +142,7 @@ function VolForm(&$Vol,$Err='') {
   echo "<h2 class=subtitle>Steward / Volunteer Application Form</h2>\n";
   echo "<p class=Err>$Err<p>";
   echo "<form method=post action=Volunteers.php>";
-  echo "<table border style='table-layout:fixed'>\n";
+  echo "<div class=tablecont><table border style='table-layout:fixed'>\n";
   echo "<tr><td colspan=5><h3><center>Volunteer</center></h3>";
   if (Access('SysAdmin')) echo "<tr><td>id: " . $Vol['id'] . " VYid: " . $Vol['VYid'];
 //  echo "<tr><td style='max-width:100;width:100'>Name:" . fm_text1('',$Vol,'SN',2,'');
@@ -193,7 +193,7 @@ function VolForm(&$Vol,$Err='') {
 
   echo "<tr><td><h3>Anything Else /Notes:</h3><td colspan=4>" . fm_basictextarea($Vol,'Notes',4,3);
 
-  echo "<tr><td><td colspan=4><table border=0><tr><td width=33%>";
+  echo "<tr><td><td colspan=4><div class=tablecont><table border=0><tr><td width=33%>";
   if ($Vol['VYid'] < 0) {
     echo "<input type=submit name=Submit value='Submit Application'>\n"; 
     echo fm_hidden('A','Submit');
@@ -206,9 +206,9 @@ function VolForm(&$Vol,$Err='') {
     echo "<td width=33%><input type=submit name=NotThisYear value='Sorry not this Year'>";
     echo "<td><input class=floatright type=submit name=Delete value='Remove me from the festival records' onClick=\"javascript:return confirm('Please confirm delete?');\">";
   }
-  echo "</table>";
+  echo "</table></div>";
 
-  echo "</table><p>";
+  echo "</table></div><p>";
   if (Access('Staff')) echo "<h2><a href=Volunteers.php?A=List>Back to list of Volunteers</a></h2>";
   
   echo "<h3>Terms and Conditions</h3>\n";
@@ -295,7 +295,7 @@ function List_Vols() {
   
   $coln = 0;  
   echo "<form method=post>";
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
 
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Id</a>\n";
@@ -335,7 +335,7 @@ function List_Vols() {
       if (isset($VY[$av])) echo (strlen($VY[$av])<12? $VY[$av] : $link. "Expand</a>") . "\n";
     }
   }
-  echo "</tbody></table>\n";
+  echo "</tbody></table></div>\n";
 
   echo "<h2><a href=Volunteers.php?A=New>Add a Volunteer</a</h2>";
   dotail();
@@ -346,11 +346,11 @@ function Email_Form_Only($Vol,$mess='') {
   echo "<h2>Stage 1 - Who are you?</h2>";
   if ($mess) echo "<h2 class=Err>$mess</h2>";
   echo "<form method=post>";
-  echo "<table border>";
+  echo "<div class=tablecont><table border>";
   echo "<tr>" . fm_text('Name',$Vol,'SN',2);
   echo "<tr>" . fm_text('Email',$Vol,'Email',2);
   echo fm_hidden('A','NewStage2');
-  echo "</table><p><input type=Submit>\n";
+  echo "</table></div><p><input type=Submit>\n";
   dotail();
 }
 

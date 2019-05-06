@@ -33,12 +33,12 @@
  
   sort($ks);
 
-  echo "<table border><td>PostCode<td>Sat<td>Sun<td>Both\n";
+  echo "<div class=tablecont><table border><td>PostCode<td>Sat<td>Sun<td>Both\n";
   foreach ($ks as $pc) {
     echo "<tr><td>$pc<td>" . $PCodes[$pc]['Sat'] . "<td>" . $PCodes[$pc]['Sun'] . "<td>" . $PCodes[$pc]['Both'] . "\n";
   }
 
-  echo "</table>\n";
+  echo "</table></div>\n";
   echo "Total: $Total\n<br>";
 
   dotail();

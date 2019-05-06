@@ -61,7 +61,7 @@
   } else {
     $str = '';
     $coln = 0;
-    $str .= "<table id=indextable border>\n";
+    $str .= "<div class=tablecont><table id=indextable border>\n";
     $str .= "<thead><tr>";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Type</a>\n";
@@ -228,12 +228,12 @@
         }          
       }
     }
-    $str .= "</tbody></table>\n";
+    $str .= "</tbody></table></div>\n";
   }
 
   if (!$Sum && isset($str)) echo $str;
 
-  echo "<p><table border id=narrowtable><tr><td>Type<td>Received<td>Total Accept<td>Total inc Quoted<td>Details\n";
+  echo "<p><div class=tablecont><table border id=narrowtable><tr><td>Type<td>Received<td>Total Accept<td>Total inc Quoted<td>Details\n";
   foreach ($Trade_Types as $t) {
     if (isset($TrMon[$t['id']]) && $TrMon[$t['id']]) {
       echo "<tr><td style='background:" . $t['Colour'] . ";'>" . $t['SN'] ;
@@ -242,8 +242,8 @@
     }
   }
   echo "<tr><td>Total Fees<td>" . Print_Pound($totrec) . "<td>" . Print_Pound($totsub) . "<td>" . Print_Pound($totfee) . "<td>\n";
-  echo "</table><br>";
-  echo "<table border id=narrowtable><tr><td>Location<td>Received<td>Total Accept<td>Total inc Quoted<td>Details\n";
+  echo "</table></div><br>";
+  echo "<div class=tablecont><table border id=narrowtable><tr><td>Location<td>Received<td>Total Accept<td>Total inc Quoted<td>Details\n";
   foreach ($TradeLocData as $TLoc) {
     if (!isset($TLoc['QuoteTot']) || $TLoc['QuoteTot'] == 0) continue;
     echo "<tr><td>" . $TLoc['SN'];
@@ -256,12 +256,12 @@
     
   echo "<tr><td>Total Fees<td>" . Print_Pound($TotLRec) . "<td>" . Print_Pound($TotLAcc) . "<td>" . Print_Pound($TotLQut) . "<td>\n";
 
-  echo "</table><br>\n";
-  echo "<table border id=narrowtable><tr><td>State<td>Number\n";
+  echo "</table></div><br>\n";
+  echo "<div class=tablecont><table border id=narrowtable><tr><td>State<td>Number\n";
   foreach ($Trade_States as $i=>$state) {
     if (isset($TrState[$i]) && $TrState[$i]>0) echo "<tr><td style='background:" . $Trade_State_Colours[$i] . ";padding:4; white-space: nowrap;'>$state<td>" . $TrState[$i];
   }
-  echo "</table>";
+  echo "</table></div>";
   echo "<p>";
   dotail();
 ?>

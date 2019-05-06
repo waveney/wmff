@@ -646,9 +646,9 @@ function DayTable($d,$Types,$xtr='',$xtra2='') {
   global $DayList,$DayLongList,$YEAR,$MASTER;
   static $lastday = -99;
   if ($d != $lastday) {
-    if ($lastday != -99) echo "</table><p>\n";
+    if ($lastday != -99) echo "</table></div><p>\n";
     $lastday = $d;
-    echo '<p><table class=' . $DayList[$d] . 'tab>';
+    echo '<p><div class=tablecont><table class=' . $DayList[$d] . 'tab>';
     echo "<tr><th colspan=99 $xtra2>$Types on " . FestDate($d,'L') . " $xtr</th>\n";
     return 1;
   }

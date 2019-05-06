@@ -53,7 +53,7 @@
 //  var_dump($Gens);
 
 //  echo "<!-- " . var_dump($Gen) . " -->\n";
-  echo "<table width=90% border>\n";
+  echo "<div class=tablecont><table width=90% border>\n";
     echo "<tr><td>Year:<td>";
       if (isset($ynum) && $ynum > 0) {
         echo $ynum . fm_hidden('Year',$ynum);
@@ -123,7 +123,7 @@
 //    $comps = array('Ceildih','Session','Workshop','Concert','Family','Comedy','Special','Craft');
 
 //    foreach($comps as $c) echo "<tr><td>$c Complete:" . fm_checkbox('',$Gen,$c . "Complete");
-  echo "</table>\n";
+  echo "</table></div>\n";
 
   if ($ynum > 0) {
     echo "<Center><input type=Submit name='Update' value='Update'>\n";

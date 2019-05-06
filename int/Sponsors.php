@@ -19,7 +19,7 @@
 
   $coln = 0;
   echo "<form method=post>";
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Index</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
@@ -48,7 +48,7 @@
   echo "<td><input type=checkbox name=IandT0>";
   echo "<td><textarea name=Description0 rows=2 cols=40></textarea>";
   echo "<td><input type=number name=Importance0>";
-  echo "</table>\n";
+  echo "</table></div>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";
 

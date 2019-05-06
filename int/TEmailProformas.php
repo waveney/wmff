@@ -23,7 +23,7 @@
 
   $coln = 0;
   echo "<form method=post action=TEmailProformas.php>";
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Index</a>\n";
   echo "<th colspan=2><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
@@ -39,7 +39,7 @@
     echo "<tr><td><td colspan=2><input type=text name=SN0 size=32>";
     echo "<td><textarea name=Body0 rows=6 cols=120></textarea>";
   }
-  echo "</table>\n";
+  echo "</table></div>\n";
   if ($Edit) echo "<input type=submit name=Update value=Update>\n";
   
   echo "</form></div>";

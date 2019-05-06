@@ -102,7 +102,7 @@
     } else {
       echo "This can only be editted by the creator, the assignee or those responsible for time lines.<p>";
     }
-    echo "<table width=90% border>\n";
+    echo "<div class=tablecont><table width=90% border>\n";
       echo "<tr>" . fm_text('Title',$tle,'Title',2,'','placeholder="Please give entry a short Title"');
       if (isset($tl) && $tl > 0) {
         echo "<td>Id:<td>";
@@ -146,7 +146,7 @@
 
       echo "<tr>" . fm_textarea('History',$tle,'History',8,2);
 
-      echo "</table>\n";
+      echo "</table></div>\n";
   
     if ($Editable) {
       if ($tl > 0) {

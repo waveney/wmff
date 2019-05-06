@@ -24,7 +24,7 @@
     echo "System is for ownership of the document root directory, and nobody for the owner of files and directories ";
     echo "that were created by people no longer on the system.<p>";
   }
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
 
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>User Id</a>\n";
@@ -69,7 +69,7 @@
       }
     }
   }
-  echo "</tbody></table>\n";
+  echo "</tbody></table></div>\n";
   
   if ($Full) echo "<h2><a href=AddUser.php>Add User</a></a>";
 

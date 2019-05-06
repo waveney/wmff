@@ -29,14 +29,14 @@
   echo "<h2>Music Types</h2><p>";
   echo "You do not have to have all Music Types here, these are just the categories brought out in the summary page.<p>";
   echo "<form method=post action=MusicTypes.php>";
-  echo "<table border><tr><td>id<td>Name<td>Importance\n";
+  echo "<div class=tablecont><table border><tr><td>id<td>Name<td>Importance\n";
   foreach($Types as $i=>$t) {
     echo "<tr><td>$i<td><input type=text name=SN$i value='" . $t['SN'] . "'>";
     echo "<td><input text name=Imp$i value='" . $t['Importance'] . "'>\n";
   }
   echo "<tr><td><td><input type=text name=SN0 >";
   echo "<td><input text name=Imp0>\n";
-  echo "</table>";
+  echo "</table></div>";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form>";
   dotail();

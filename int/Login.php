@@ -82,13 +82,12 @@ function Set_Password($user,$msg='') {
     if ($msg) echo "<h2 class=ERR>$msg</h2>\n";
     echo "Min length is 6.<p>";
     echo "<form method=post action=Login.php>";
-    echo "<table>";
+    echo "<div class=tablecont><table>";
     echo "<tr><td>Password:<td><input type=password Name=password>\n";
     echo fm_hidden('UserId',$user) . fm_hidden('AccessKey',$rand_hash);
     echo "<tr><td>Confirm:<td><input type=password Name=confirm>\n";
-    echo "</table>\n";
     $_POST{'RememberMe'} = 1;
-    echo "<tr><td>" . fm_checkbox("Remember Me",$_POST,'RememberMe') . "</table><p>\n";
+    echo "<tr><td>" . fm_checkbox("Remember Me",$_POST,'RememberMe') . "</table></div><p>\n";
     echo "<input type=submit Name=ACTION value='Set New Password'><p>\n";
     echo "</form></div>\n";
 
@@ -122,11 +121,11 @@ function Login($errmsg='', $message='') {
   if ($message) echo "<h2>$message</h2>";
 
   echo "<form method=post action=Login.php>";
-  echo "<table class=simpletable><tr><td>User Name or Email:<td><input type=text Name=UserName>\n";
+  echo "<div class=tablecont><table class=simpletable><tr><td>User Name or Email:<td><input type=text Name=UserName>\n";
   echo "<tr><td>Password:<td><input type=password Name=password>\n";
   $_POST{'RememberMe'} = 1;
   echo "<tr><td>" . fm_checkbox("Remember Me",$_POST,'RememberMe');
-  echo "</table>\n";
+  echo "</table></div>\n";
   echo "<p><input type=submit Name=ACTION value=Logon><p>\n";
 
   echo "<input type=submit Name=ACTION value='Lost your password'>\n";

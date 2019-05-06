@@ -134,7 +134,7 @@ Coming ...
   echo "</ul>\n";
 */
 
-  echo "<table style=' width: auto;' border><tr><td><a class=PurpButton href=AddTimeLine.php>Add a Task</a>";
+  echo "<div class=tablecont><table style=' width: auto;' border><tr><td><a class=PurpButton href=AddTimeLine.php>Add a Task</a>";
   echo "<td><div class=PurpButton id=TasksYou onclick=TLSelect(this.id)>Your Tasks</div><br><div class=PurpSelect id=TasksAll onclick=TLSelect(this.id)>Everyone's</div>";
   echo "<td><div class=PurpButton id=OpenTasks onclick=TLSelect(this.id)>Open Tasks</div>";
   echo     "<div class=PurpSelect id=NextMonth onclick=TLSelect(this.id)>Tasks Due Next Month</div>";
@@ -142,7 +142,7 @@ Coming ...
   echo     "<div class=PurpSelect id=CompleteTasks onclick=TLSelect(this.id)>Completed Tasks</div>";
   echo     "<div class=PurpSelect id=AllTasks onclick=TLSelect(this.id)>All Tasks</div>";
   echo "<td><div class=PurpButton id=DataLow onclick=TLSelect(this.id)>Basic Info</div><br><div class=PurpSelect id=DataHigh onclick=TLSelect(this.id)>More Info</div>";
-  echo "</table><p>\n";
+  echo "</table></div><p>\n";
 
   echo "<div class=FullD hidden>Note the Year is the festival year, not the calenda year.</div>\n";
   $TLents = TL_Select($V);
@@ -150,7 +150,7 @@ Coming ...
   if ($TLents) {
     echo "<form method=post >";
     echo fm_hidden('Y',$YEAR);
-    echo "<table id=indextable border>\n";
+    echo "<div class=tablecont><table id=indextable border>\n";
     echo "<thead><tr>";
 
     $coln = ((Access('Committee','TLine'))? 1:0);  // Start at 1 because of select all
@@ -211,7 +211,7 @@ Coming ...
       echo "<td class=FullD hidden>" . ($tl['NextYearId']? ("<a href=AddTimeLine.php?TLid=" . $tl['NextYearId'] . ">Y</a>" ) : "");
       echo "<td>" . $tl['Notes'] . "\n";  
     }
-    echo "</table>\n";
+    echo "</table></div>\n";
     if (Access('Committee','TLine')) {
       echo "<div class=floatright><input type=Submit name=ACTION value='Copy Recuring to $PLANYEAR' class=FullD hidden></div>";
       echo "Selected: <input type=Submit name=ACTION value=Cancel " .

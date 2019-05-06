@@ -326,6 +326,10 @@ table {
 .FullWidth table {
   width:99%;
 }
+.tablecont {
+  width:100%;
+  overflow-x:auto;
+}
 th
     {
     color:#FFFFFF;
@@ -808,6 +812,7 @@ textarea:Focus
   margin:0;
   padding:5px;
   max-width:95%;
+  min-width:30%;
   border-spacing:5px;
   background-color:#59B404; 
   border-color:#59B404; 
@@ -1144,7 +1149,7 @@ textarea {
 }
 
 button {
-  font-size:16pt;
+  font-size:14pt;
   background:#c0c0c0;
 }
 

@@ -59,7 +59,7 @@
   echo "<form method=post action=BuskersBashForm.php>";
 
   if (isset($id)) echo fm_hidden('id',$id);
-  echo "<table border>\n";
+  echo "<div class=tablecont><table border>\n";
   echo "<tr>" . fm_text1("Band/Group/Act Name",$_POST,'SN',2);
   echo fm_text1('Style of Music',$_POST,'Style');
   echo "<tr><td colspan=2>Band/Act Members, or significant members of large groups\n";
@@ -93,7 +93,7 @@ used to introduce you to the audience. You may wish to include:<br>
   echo fm_basictextarea($_POST,'Bio',4,4);
   echo "<tr>" . fm_text("Social Media link(s)",$_POST,'Social');
   echo "<tr>" . fm_text("Video link(s)",$_POST,'Example') . "<td colspan=2>(This is what we will use to decide your suitability for the event)";
-  echo "</table><p>";
+  echo "</table></div><p>";
   if (!Access('Staff')) {
     echo "<input type=submit name=submit value='Submit Application' onclick=$('#Patience').show()><p>\n";   
     echo "<h2 hidden class=Err id=Patience>This takes a few moments, please be patient</h2>";

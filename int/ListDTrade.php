@@ -52,7 +52,7 @@
   } else {
     $str = '';
     $coln = 0;
-    $str .= "<table id=indextable border>\n";
+    $str .= "<div class=tablecont><table id=indextable border>\n";
     $str .= "<thead><tr>";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Type</a>\n";
@@ -153,7 +153,7 @@
     }
     echo "$str\n";
     echo "<tr><td>Totals:<td><td><td>" . Print_Pound($totfee) . "<td><td>" . Print_Pound($totdep) .  "<td><td><td>" . Print_Pound($totbal) . "<td><td>" . Print_Pound($totrec) . "\n";
-    echo "</table><p>";
+    echo "</table></div><p>";
   }
   dotail();
 ?>

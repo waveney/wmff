@@ -11,7 +11,7 @@
 
   echo "<form method=post>\n";
   echo fm_hidden('id',1);
-  echo "<table>";
+  echo "<div class=tablecont><table>";
   echo "<tr>" . fm_text("Festival Name",$MASTER_DATA,'FestName',3);
   echo "<tr>" . fm_text("Festival Short Name",$MASTER_DATA,'ShortName');
   echo "<tr>" . fm_number("Version",$MASTER_DATA,'Version');
@@ -28,7 +28,7 @@
   echo "<tr>" . fm_text("Default Page Banner",$MASTER_DATA,'DefaultPageBanner',3);
   echo "<tr>" . fm_textarea("Analytics code",$MASTER_DATA,'Analytics',3,3);
   echo "<tr>" . fm_text("Directions Google API key",$MASTER_DATA,'GoogleAPI',3);
-  echo "</table>\n";
+  echo "</table></div>\n";
 
   echo "<Center><input type=Submit name='Update' value='Update'></center>\n";
   echo "</form>\n";

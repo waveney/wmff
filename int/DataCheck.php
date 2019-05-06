@@ -157,9 +157,9 @@ function Data_Check_Emails($Addr) {
 
   if (count($LinkList)) {
     if (0 && access('SysAdmin')) {
-      echo "Links found:<p><table border>\n";
+      echo "Links found:<p><div class=tablecont><table border>\n";
       foreach ($LinkList as $a) echo "<tr><td>" . implode("<td>",$a) . "<td><a href=/int/Access.php?t=" . $a[1] . "&i=" . $a[2] . "&k=" . $a[4] . ">Use</a>\n";
-      echo "</table><p>\n";
+      echo "</table></div><p>\n";
     } else {
       Links_Email($Addr,$LinkList);
     }

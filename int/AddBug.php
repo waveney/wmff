@@ -59,7 +59,7 @@
 //var_dump($Bug);
 
   if (!$Skip) {
-    echo "<table width=90% border>\n";
+    echo "<div class=tablecont><table width=90% border>\n";
       if (isset($b) && $b > 0) {
         echo "<tr><td>Bug Id:<td>";
         echo $b . fm_hidden('BugId',$b);
@@ -75,7 +75,7 @@
       echo "<tr>" . fm_textarea('Description',$Bug,'Description',5,10);
       echo "<tr>" . fm_textarea('Response',$Bug,'Response',5,10);
 
-      echo "</table>\n";
+      echo "</table></div>\n";
   
     if ($b > 0) {
       echo "<Center><input type=Submit name='Update' value='Update'>\n";

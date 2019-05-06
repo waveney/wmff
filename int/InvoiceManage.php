@@ -260,7 +260,7 @@
   $Now = time();
   $TotInv = $TotPaid = 0;
   $coln = 0;
-  echo "<table id=indextable border class=SimpleTable>\n";
+  echo "<div class=tablecont><table id=indextable border class=SimpleTable>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Id</a>\n";
   if ($All) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Inv/CN</a>\n";
@@ -390,7 +390,7 @@
     echo "\n";
     }
   
-    echo "</table>\n";
+    echo "</table></div>\n";
   }
   if ($Tots) {
     echo "<h3>Total Invoiced: " . Print_Pence($TotInv) . "<br>Total Paid: " . Print_Pence($TotPaid) . "</h3>";

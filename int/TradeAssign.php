@@ -15,7 +15,7 @@
     if (!$Traders) {
       echo "No Traders Here Yet";
     } else {
-      echo "<table border><tr><td>Name<td>info<td>Size<td>Pitch";
+      echo "<div class=tablecont><table border><tr><td>Name<td>info<td>Size<td>Pitch";
       foreach ($Traders as $Trad) {
         $tid = $Trad['Tid'];
         echo "<tr><td draggable=true class='TradeName Trader$tid' id=TradeN$tid ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event) " .
@@ -32,7 +32,7 @@
             $pitched = 1;
           }
       }
-      echo "</table></div>";
+      echo "</table></div></div>";
       echo "<input type=submit name=Update value=Update> <span class=Err>$Message</span>";
       echo "<a href=TradeSetup.php?i=$loc style='font-size:20;'>Setup</a>";
     }

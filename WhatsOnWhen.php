@@ -68,7 +68,7 @@
       echo  ($e['BigEvent'] ? Get_Other_Participants($Others,0,1,15,1,'',$e) : Get_Event_Participants($eid,0,1,15));
       echo "<td>" . Price_Show($e,1);   
     }
-    echo "</table>\n";
+    echo "</table></div>\n";
   }
   
   if ($YEAR > 2018) {

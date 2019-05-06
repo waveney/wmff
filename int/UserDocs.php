@@ -10,7 +10,7 @@
   $res = $db->query($qry);
 
   $coln = 0;
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
 
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>User Id</a>\n";
@@ -22,7 +22,7 @@
   while($usr = $res->fetch_array()) {
     echo "<tr><td>" . $usr[0] . "<td>" . $AllU[$usr[0]] . "<td>" . $usr[2] . "<td align=right>" . formatBytes($usr[1]) . "\n";
   }
-  echo "</tbody></table>\n";
+  echo "</tbody></table></div>\n";
   dotail();
 ?>
 

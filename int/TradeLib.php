@@ -331,7 +331,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte, 
   echo "<form method=post id=mainform enctype='multipart/form-data' action=$Form>";
   Register_AutoUpdate('Trader',$Tid);
   if (isset($_REQUEST['ORGS'])) echo fm_hidden('ORGS',1);
-  echo "<table width=90% border class=SideTable>\n";
+  echo "<div class=tablecont><table width=90% border class=SideTable>\n";
     echo "<tr><th colspan=8><b>Public Information</b>" . Help('PublicInfo');
     echo "<tr>" . fm_text('Business Name', $Trad,'SN',2,'','autocomplete=off id=SN');
     echo "<tr>";
@@ -414,7 +414,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte, 
     if ($Mode) {
       echo "<tr>" . fm_textarea('Notes',$Trad,'Notes',7,2,'class=NotSide','class=NotSide');
     }
-  echo "</table>";
+  echo "</table></div>";
 }
 
 function Trade_TandC() {
@@ -458,7 +458,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
 
   $TradeLocs = Get_Trade_Locs();
 
-  echo "<table width=90% border class=SideTable>\n";
+  echo "<div class=tablecont><table width=90% border class=SideTable>\n";
   echo fm_hidden('Year',$year);
   if (isset($Trady['TYid'])) echo fm_hidden('TYid',$Trady['TYid']);
 
@@ -597,7 +597,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
     }
   }
   if (Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=6 class=NotSide><textarea id=Debug></textarea>";
-  echo "</table>\n";
+  echo "</table></div>\n";
 }
 
 function Get_Trade_Details(&$Trad,&$Trady) {
@@ -1512,7 +1512,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     if ($Invs) {
       $Now = time();
       $coln = 0;
-      echo "<table id=indextable border>\n";
+      echo "<div class=tablecont><table id=indextable border>\n";
       echo "<thead><tr>";
       echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Our Ref</a>\n";
       echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D')>Date Raised</a>\n";
@@ -1542,7 +1542,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
         echo "<td><a href=ShowFile.php?D=" . Get_Invoice_Pdf($id,'',$Rev) . ">Download</a>";
         echo "\n";
       }
-      echo "</table><p>";
+      echo "</table></div><p>";
       echo "<h2><a href=TraderPage.php?id=$Tid>Back to Trade Details</a></h2>";
       dotail();
     } else {

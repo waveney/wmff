@@ -15,7 +15,7 @@
   $tot_perf = 0;
 
   echo "<h2>Car Parking needed</h2>\n";
-  echo "<table border><tr><th>Side<th>Saturday<th>Sunday\n";
+  echo "<div class=tablecont><table border><tr><th>Side<th>Saturday<th>Sunday\n";
   while ($side = $SideQ->fetch_assoc()) {
     if ($side['Performers'] > 0) $tot_perf += $side['Performers'];
     if ($side['CarPark']) {
@@ -24,7 +24,7 @@
       if ($side['Sun']) echo "<td>" . $side['CarPark'];
     }
   }
-  echo "</table>\n";
+  echo "</table></div>\n";
   echo "Total Performers: " . $tot_perf;
   echo "</body></html>\n";
 ?>

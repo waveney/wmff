@@ -44,7 +44,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
 
   if (!$imps) return;
 
-  if ($lemons++ == 0) echo "<table class=lemontab border>\n";
+  if ($lemons++ == 0) echo "<div class=tablecont><table class=lemontab border>\n";
   if ($imps) echo "<tr>";
   if ($when && $imps) {
     echo "<td>";
@@ -133,7 +133,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
   if ($Ev['NonFest']) echo "This event is not run by the folk festival, but is shown here for your information.<p>\n";
   if ($Ev['Description']) echo $Ev['Description'] . "<P>";
   // On, Start, End, Durration, Price, Where 
-  echo "<table><tr><td>";
+  echo "<div class=tablecont><table><tr><td>";
   if ($Ev['LongEvent']) {
     echo "Starting On:<td>" . FestDate($Ev['Day'],'L') . "\n";
     echo "<tr><td>Finishing On:<td>" . FestDate($Ev['EndDay'],'L') . "\n";
@@ -192,7 +192,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
     if ($Ven['BarFoodText']) { echo "<td>" . $Ven['BarFoodText']; }
     else if ($Ev['BarFoodText']) { echo "<td>" . $Ev['BarFoodText']; }
   }
-  echo "</table><p>\n";
+  echo "</table></div><p>\n";
 
   // Headlines
   if ($ETs[$Ev['Type']]['UseImp']) {
@@ -255,7 +255,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
     Print_Participants($Ev,1,$ETs[$Ev['Type']]['Format']-1);
     foreach($Subs as $sub) if (Event_Has_Parts($sub)) Print_Participants($sub,1,$ETs[$Ev['Type']]['Format']-1);
   }
-  if ($lemons) echo "</table>";
+  if ($lemons) echo "</table></div>";
   if ($Ev['LongEvent']) {
   } else {
     echo "<p>Ending at: " . $Ev['End'];

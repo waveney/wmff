@@ -62,7 +62,7 @@
   echo "The Banner formats go across the entire page<p>";
 
   echo "<form method=post>";
-  echo "<table border>\n";
+  echo "<div class=tablecont><table border>\n";
   echo "<tr>" . fm_text("Title",$Art,'SN');
     echo fm_text("Usage",$Art,'UsedOn');
     echo "<td colspan=2 rowspan=5>";
@@ -80,7 +80,7 @@
     if ($id > 0) echo fm_hidden('id',$id) . "id: $id";
     echo fm_text1("Image",$Art,'Image');
   echo "<tr>" . fm_textarea("Text:<br>(some html)", $Art,'Text',6,10);
-  echo "</table>";
+  echo "</table></div>";
   
   if ($id > 0) {
     echo "<input type=submit name=ACTION value=UPDATE>";

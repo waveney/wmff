@@ -23,7 +23,7 @@ Titles starting with @ have special derived content, which is generated on the f
 Click on the title to edit.<p>";
   $coln = 0;
   $now = time();
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Index</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Title</a>\n";
@@ -49,7 +49,7 @@ Click on the title to edit.<p>";
     echo "<td>" . $t['UsedOn'] . "\n";
   }
 
-  echo "</table>\n";
+  echo "</table></div>\n";
   
   echo "<h2><a href=AddArticle.php>Add An Article</a>, <a href=HomeFuture.php?F=7>Top Page in a Week</a></h2>\n";
 
