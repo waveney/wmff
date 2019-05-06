@@ -31,7 +31,7 @@ function PCatSel(e) {
 
 $(document).ready(function() {
   //caches a jQuery object containing the header element
-  var header = $(".main-header");
+  var header = $("#HeaderBackground");
   var dhead = header[0]; // jquery to dom
   var scroll = $(window).scrollTop();  
   if (scroll >= 1) header.addClass("fixedheader");
