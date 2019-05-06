@@ -11,5 +11,5 @@
   echo "Copyright &copy; <a href='/' style='color:white;'>Wimborne Minster Folk Festival Ltd</a> $CALYEAR All Rights Reserved. Registered Company: 08290423<br>";
 
   echo "Photos remain Copyright of their respective owners and cannot be reproduced or used without permission.";
-  echo "</div></div></div>";
+  echo "</div></div></div><div id=LastDiv></div>";
 ?>
