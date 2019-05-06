@@ -12,7 +12,7 @@
   $Banner .= "<img src=/images/icons/torn-top.png class=TornTopEdge>";
   $Banner .= "</div>";
 
-  dohead('7,8,9 June 2019', ['/js/WmffAds.js', "/js/HomePage.js"],$Banner );
+  dohead('6 - 9 June 2019', ['/js/WmffAds.js', "/js/HomePage.js"],$Banner );
 
   global $MASTER_DATA;
   include("int/TradeLib.php");

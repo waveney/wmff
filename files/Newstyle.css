@@ -5,7 +5,6 @@ img {
 body {
   background:#00344c ;
   min-width:320px;
-  width:responsive;
   height:100%;
   color:#000000;
   font-family: Montserrat, Arial, Helvetica, sans-serif;
@@ -32,7 +31,7 @@ A:visited, A:active, A:hover {
   background-color:#c2eff4;
   max-height:250px;
   margin:0;
-  padding:5;
+  padding:5px;
   margin-left: auto;
   margin-right: auto;
   display:block;
@@ -111,12 +110,12 @@ h2 {
 }
 
 .contentlim {
-  max-width:1560;
+  max-width:1560px;
   margin:auto;
   padding: 0;
 }
 .widthLim {
-  max-width:1560;
+  max-width:1560px;
   margin: 0 auto 0 auto;
 }
 .MainContent {
@@ -388,7 +387,7 @@ textarea:Focus
 #flex5 {
   columns: 220px 5;
   column-gap: 20px;
-  margin-right:15;
+  margin-right:15px;
 }
 
 .article {
@@ -643,7 +642,7 @@ textarea:Focus
 }
 #map {
   height: 100%;
-  text-color:black;
+  color:black;
 }
 #MapWrap {
   overflow:hidden;
@@ -793,8 +792,8 @@ textarea:Focus
 }
 .Tuetab, .Tuetab td, .Wedtab, .Wedtab td, .Thurtab, .Thurtab td, .Fritab td, .Fritab, .Sattab td, .Sattab, .Suntab td, .Suntab, .Montab, .Montab td, 
 .lemontab, .lemontab td {
-  padding:5;
-  border-spacing:5;
+  padding:5px;
+  border-spacing:5px;
   max-width:99%;
   margin:0;
 }
@@ -806,40 +805,40 @@ textarea:Focus
 
 .GreenTable {
   margin:0;
-  padding:5;
+  padding:5px;
   max-width:95%;
-  border-spacing:5;
+  border-spacing:5px;
   background-color:#59B404; 
   border-color:#59B404; 
 }
 
 .GreenTable td {
-  margin:5;
-  padding:10;
+  margin:5px;
+  padding:10px;
   background-color:white;
 }
 
 
 .TicketTable table tr td:nth-child(1) {
-  width:260;
+  width:260px;
 }
 
 .TicketTable table tr td:nth-child(2) {
-  width:190;
+  width:190px;
 }
 
 .TicketTable table tr td:nth-child(3) {
-  width:670;
+  width:670px;
 }
 
 .TicketTable table tr td:nth-child(4) {
-  width:80;
+  width:80px;
 }
 
 /* Whats on When and Now */
 .WhenTable {
-  padding-top:10;
-  padding-bottom:10;
+  padding-top:10px;
+  padding-bottom:10px;
 }
 
 .WhenTable tr {
@@ -879,16 +878,16 @@ textarea:Focus
 .DayExpand {
   color:black;
   font-weight:bold;
-  padding:5;
-  margin:5;
+  padding:5px;
+  margin:5px;
   border-radius:5px;
-  width:120;
+  width:120px;
 } 
 
 .BorderBox {
   border: 1px solid #ccc;
-  padding:10;
-  margin:10;
+  padding:10px;
+  margin:10px;
 }
 
 .sponcontainer {
@@ -907,20 +906,20 @@ textarea:Focus
   font-size:14pt;
 } 
 .sponImage {
-  max-height:150;
-  max-width:150;
+  max-height:150px;
+  max-width:150px;
 } 
 .FlexContain {
   display: flex;
   flex-wrap: wrap;
 }
 .BigBlock {
-  width:480;
-  height:300;
+  width:480px;
+  height:300px;
 }
 .SmallBlock {
-  width:240;
-  height:150;
+  width:240px;
+  height:150px;
 }
 .BBtitle, SBtitle {
   max-width:100%;
@@ -942,8 +941,8 @@ textarea:Focus
   overflow:auto;
 }
 .PurpButton {
-  padding:5;
-  margin:5;
+  padding:5px;
+  margin:5px;
   font-size:20px;
   font-weight:bold;
   color:white !important;
@@ -952,15 +951,15 @@ textarea:Focus
 }
 
 .PurpSelect {
-  padding:5;
+  padding:5px;
   font-size:20px;
   font-weight:bold;
-  color:#EC038C; !important;
+  color:#EC038C !important;
   background:lightgray;
   border-radius:15px;
 }
 #leftspon, #rightspon {
-  max-height:100;
+  max-height:100px;
 }
 .Cancel {
   color:red;
@@ -994,7 +993,7 @@ textarea {
 
 .ArtColClass {
   float:left;
-  padding:10;
+  padding:10px;
   max-width:100%;
   flex-wrap: wrap;
   word-wrap: break-word;
@@ -1044,7 +1043,7 @@ textarea {
 
 .ArtImageS {
   float:left;
-  padding-right:5;
+  padding-right:5px;
 }
 
 .ArtTextS {}
@@ -1118,7 +1117,7 @@ textarea {
 
 .ArtImageFP {
   float:left;
-  padding-right:5;
+  padding-right:5px;
 }
 
 .ArtTextFP {
@@ -1142,7 +1141,7 @@ textarea {
 }
 
 button {
-  font-size:16;
+  font-size:16pt;
   background:#c0c0c0;
 }
 
@@ -1165,35 +1164,35 @@ button {
   min-width:100%;
   max-width:100%;
   flex-grow:1;
-  margin:25;
+  margin:25px;
 }
 
 .LineupFit2 {
-  min-width:450;
-  max-width:900;
+  min-width:450px;
+  max-width:900px;
   flex-grow:1;
-  margin:20;
+  margin:20px;
 }
 
 .LineupFit3 {
-  min-width:350;
-  max-width:450;
+  min-width:350px;
+  max-width:450px;
   flex-grow:1;
-  margin:15;
+  margin:15px;
 }
 
 .LineupFit4 {
-  min-width:250;
-  max-width:350;
+  min-width:250px;
+  max-width:350px;
   flex-grow:1;
-  margin:12;
+  margin:12px;
 }
 
 .LineupFit5 {
-  min-width:150;
-  max-width:280;
+  min-width:150px;
+  max-width:280px;
   flex-grow:1;
-  margin:10;
+  margin:10px;
 }
 
 .LineupFit1 img, .LineupFit2 img, .LineupFit3 img, .LineupFit4 img, .LineupFit5 img {
@@ -1204,9 +1203,9 @@ button {
 }
   
 .LineUpFitTitle, .LineUpFitTitle a {
-  margin-top:2;
-  margin-bottom:2;
-  padding:5;
+  margin-top:2px;
+  margin-bottom:2px;
+  padding:5px;
   text-align: center;
   color: #004668;
 }
@@ -1225,7 +1224,7 @@ button {
 }
 
 .LineUptxt, .LineUptxt a {
-  font-size:16;
+  font-size:16pt;
   color:black;
   margin-top:5;
   padding:5;
@@ -1248,7 +1247,7 @@ button {
   width:100%;
   display: inline-block;
   margin:10px;
-  max-height:150;
+  max-height:150px;
   border: 1px solid black;
 }
 
@@ -1262,10 +1261,10 @@ button {
 .TradeFlexCont h2 {
   background:#f6f6f6;
   color:#004668;
-  margin-bottom:2;
-  padding:5;
-  padding-left:10;
-  font-size:20;
+  margin-bottom:2px;
+  padding:5px;
+  padding-left:10px;
+  font-size:16pt;
   overflow: none;
 }
 
@@ -1277,15 +1276,15 @@ button {
 .TradeFlexCont img {
   float:right;
   max-width:40%;
-  max-height:120;
-  margin-left:5;
+  max-height:120px;
+  margin-left:5px;
 }
 
 .TradeText {
-  margin-top:2;
-  max-height: 70;
+  margin-top:2px;
+  max-height: 70px;
   overflow-y: auto;
-  font-size:12;
+  font-size:10pt;
   padding-left:2px;
 }
 
@@ -1374,7 +1373,7 @@ button {
   width:48%;
 }
 .TwoCols .OneCol div {
-  margin: 20 0;
+  margin: 20px 0;
 }
 .PerfProg, .PerfProg td , .PerfProg th {
   border: 1px solid black;
