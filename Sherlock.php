@@ -91,7 +91,9 @@
 
     foreach ($Evs as $i=>$E) {
       $eid = $E['EventId'];
-      if (DayTable($E['Day'],$Types,($Complete>2?'':'(More to come)'))) echo "<tr><td>When<td>What<td>Where<td>Description" . ($NotAllFree?"<td>Price\n":"\n");
+      if (DayTable($E['Day'],$Types,($Complete>2?'':'(More to come)'),'','style=min-width:800')) {
+        echo "<tr><td>When<td>What<td>Where<td>Description" . ($NotAllFree?"<td>Price\n":"\n");
+      }
 
       echo "<tr>";
       echo "<td>"; 

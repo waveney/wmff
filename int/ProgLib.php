@@ -642,13 +642,13 @@ function VenName(&$V) {
   return ($V['ShortName']?$V['ShortName']:$V['SN']);
 }
 
-function DayTable($d,$Types,$xtr='',$xtra2='') {
+function DayTable($d,$Types,$xtr='',$xtra2='',$xtra3='') {
   global $DayList,$DayLongList,$YEAR,$MASTER;
   static $lastday = -99;
   if ($d != $lastday) {
     if ($lastday != -99) echo "</table></div><p>\n";
     $lastday = $d;
-    echo '<p><div class=tablecont><table class=' . $DayList[$d] . 'tab>';
+    echo '<p><div class=tablecont><table class=' . $DayList[$d] . "tab $xtra3>";
     echo "<tr><th colspan=99 $xtra2>$Types on " . FestDate($d,'L') . " $xtr</th>\n";
     return 1;
   }

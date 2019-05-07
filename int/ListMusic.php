@@ -72,7 +72,7 @@
     echo "<h2>No Acts Found</h2>\n";
   } else {
     $coln = 0;
-    echo "<div class=tablecont><table id=indextable border>\n";
+    echo "<div class=tablecont><table id=indextable border style='min-width:1200px'>\n";
     echo "<thead><tr>";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Type</a>\n";

@@ -36,7 +36,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 <a href=/InfoCamping.php><b>Camping Information and Camping Tickets.</b></a><p>
 
 <p><div class=tablecont>
-<table cellspacing="5" cellpadding="5" style="background-color:#39a5d8; border-color:#39a5d8; max-width:1200">
+<table cellspacing="5" cellpadding="5" style="background-color:#39a5d8; border-color:#39a5d8; max-width:1200px; min-width:800px">
 <tr><th colspan="5">Festival Passes</th>
 <?php
   foreach(['Weekend','Friday','Saturday','Sunday'] as $day) {
@@ -96,7 +96,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
   $Evs = $db->query($qry);
 
   while ($E = $Evs->fetch_assoc()) {
-    DayTable($E['Day'],"Event Tickets",($MASTER['PriceComplete' . ($E['Day'] >=0?$E['Day']:"_" . (-$E['Day'])) ]?'':'(More to come)'));
+    DayTable($E['Day'],"Event Tickets",($MASTER['PriceComplete' . ($E['Day'] >=0?$E['Day']:"_" . (-$E['Day'])) ]?'':'(More to come)'),'','style=min-width:1000');
     $bl = "<a href=" . ($E['SpecPriceLink']? $E['SpecPriceLink'] : ("https://www.ticketsource.co.uk/date/" . $E['TicketCode'])) . " target=_blank>" ;
     echo "<tr><td><strong><a href=/int/EventShow.php?e=" . $E['EventId'] . ">" . $E['SN'] . "</a></strong><br>"; 
       echo Price_Show($E);
@@ -128,7 +128,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 
   echo "</table></div></div></p>";
 
-  echo "<div class=tablecont><table class=GreenTable>";
+  echo "<div class=tablecont><table class=GreenTable style='min-width:700px'>";
   echo "<tr><th colspan=3>Camping Tickets";
   
   $Avails = [

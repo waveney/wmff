@@ -824,6 +824,8 @@ textarea:Focus
   background-color:white;
 }
 
+.TicketTable {
+}
 
 .TicketTable table tr td:nth-child(1) {
   width:260px;
