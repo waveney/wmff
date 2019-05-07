@@ -1159,8 +1159,6 @@ button {
   display: flex;
   align-items: flex-start;
   object-fit: contain;
-  align-items: flex-start;
-  justify-content: flex-start; 
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -1260,7 +1258,8 @@ button {
   border: 1px solid black;
 }
 
-.TradeFlexCont:hover {
+.TradeFlexCont:hover,
+.sponflexcont:hover {
   animation-name: pbpop;  
   animation-duration: 0.3s;
   animation-timing-function: linear;
@@ -1405,4 +1404,49 @@ button {
   width:auto;
   height:auto;
 }
-  
+
+.Sponflexwrap {
+  display: flex;
+  object-fit: contain;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.sponflexcont {
+  min-width:200px;
+  max-width:300px;
+  margin:15px;
+
+}
+
+.sponflexcont img {
+  min-width:225px;
+  max-width:225px;
+  margin:0 10px 5px 0;
+  padding:0;
+  transition:opacity .5s, filter .5s;
+}
+
+.sponttl {
+  margin:0 0 -5px 0;
+  padding:0;
+  text-align:left;
+  transition:opacity .5s, filter .5s;
+  font-weight:bold;
+  background:#f0f0f0;
+  color:#004668;
+  margin-bottom:2px;
+  padding:5px;
+  padding-left:10px;
+  font-size:16pt;
+}
+
+.sponttl:hover {
+  background-color:#43a9b2;
+  color:white;
+}
+
+.sponflexcont p {
+
+}

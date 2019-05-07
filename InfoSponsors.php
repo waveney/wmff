@@ -17,7 +17,7 @@
 
 <p>Organised entirely by volunteers, the festival aims to deliver a range of benefits to Wimborne's economy and community.  We are proud to have the backing of East Dorset District Council, Wimborne Minster Town Council and the Wimborne Business Improvement District (BID).</p>
 
-<h2 class="subtitle">How to Help</h2>
+<h2>How to Help</h2>
 
 <p>Our sponsors play a vital role in helping the festival thrive and continue 'giving back' to Wimborne for years to come.  As a sponsor, your business would be aligned with our family-friendly values and enjoy multiple opportunities to reach thousands of valuable potential customers.  We offer a range of sponsorship packages to suit any budget.</p>
 
@@ -26,23 +26,24 @@
 <?php 
   global $SHOWYEAR;
   set_ShowYear();
-  echo "<h2 class=subtitle>Our Sponsors in $SHOWYEAR</h2>";
+  echo "<h2>Our Sponsors in $SHOWYEAR</h2>";
 
-  echo "<div id=flex>\n";
-
+  echo "<div class=sponflexwrap>\n";
 
   include_once("int/TradeLib.php");
   $Spons = Get_Sponsors();
+  shuffle($Spons);
 
   foreach ($Spons as $s) {
-    echo "<div class=mini>\n";
+    echo "<div class=sponflexcont>\n";
     if ($s['Website']) echo weblinksimple($s['Website']);
     if ($s['Image']) echo "<img src='" . $s['Image'] . "' class=miniing width=200>";
-    echo "<h2 class=minittl>" . $s['SN'] . "</h2>";
+    echo "<div class=sponttl>" . $s['SN'] . "</div>";
     if ($s['Website']) echo "</a>";
-    if ($s['Description']) echo "<p><span class=minitxt>" . $s['Description'] . "</span>";
+    if ($s['Description']) echo "<p>" . $s['Description'];
     echo "</div>\n";
   }
+  echo "</div>";
 
   dotail();
 ?>
