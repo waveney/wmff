@@ -53,7 +53,7 @@
   }
 
 //  echo "<!-- " . var_dump($User) . " -->\n";
-  echo "<table width=90% border>\n";
+  echo "<div class=tablecont><table width=90% border>\n";
     echo "<tr><td>User Id:<td>";
       if (isset($unum) && $unum > 0) {
         echo $unum . fm_hidden('UserId',$unum);
@@ -83,7 +83,7 @@
       echo "<tr>" . fm_text('Access Key',$User,'AccessKey',1,'','readonly');
       echo "<tr>" . fm_textarea('Prefs',$User,'Prefs',6,2);
     }
-    echo "</table>\n";
+    echo "</table></div>\n";
 
   if ($unum > 0) {
     echo "<Center><input type=Submit name='Update' value='Update'>\n";

@@ -26,7 +26,7 @@
 
   echo "<h2>Map Points</h2><p>";
   echo "<form method=post action=MapPoints.php>";
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>id</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
@@ -63,7 +63,7 @@
   echo "<td>" . fm_checkbox("",$t,'InUse','',"InUse0");
   echo "<td>" . fm_checkbox("",$t,'Directions','',"Directions0");
   echo fm_text1("",$t,'Link',1,'','',"Link0");
-  echo "</table>\n";
+  echo "</table></div>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";
 

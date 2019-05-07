@@ -14,7 +14,7 @@
 
   $coln = 0; 
   echo "Click on Id/Name to edit, on Show for public page.<p>\n";
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
 
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Event Id</a>\n";
@@ -45,7 +45,7 @@
       echo "<td>" . $evnt['SetupTasks'];
     }
   }
-  echo "</tbody></table>\n";
+  echo "</tbody></table></div>\n";
 
   dotail();
 ?>

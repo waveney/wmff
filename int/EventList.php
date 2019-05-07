@@ -94,7 +94,7 @@
   echo "Click on Id/Name to edit, on Show for public page.<p>\n";
   echo "If the Stewards column has 'Stew' or 'Set' then there are more elaborate Stewarding/Setup Requirements - see the event for more detail.<p>";
   if ($se) echo fm_hidden('se',$se);
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
 
   echo "<th><input type=checkbox name=SelectAll id=SelectAll onchange=ToolSelectAll(event)>\n";
@@ -165,7 +165,7 @@
       echo "<td><a href=EventShow.php?e=$i>Show</a>\n";
     }
   }
-  echo "</tbody></table>\n";
+  echo "</tbody></table></div>\n";
   if (Access('Staff','Venues')) {
     $realvens = Get_Real_Venues();
     echo "Selected: <input type=Submit name=ACTION value=Delete " .

@@ -11,7 +11,7 @@
   if (!isset($_GET['ALL'])) echo "<h2>Click <a href=VenueList.php?ALL>All</a> to see not in use Venues</h2>";
   $edit = Access('Staff','Venues');
   $coln = 0;
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
 
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Venue Id</a>\n";
@@ -65,7 +65,7 @@
       echo "<td><a href=VenueShow.php?Y=$YEAR&v=$i>Prog</a>";
     }
   }
-  echo "</tbody></table>\n";
+  echo "</tbody></table></div>\n";
   
   if (Access('Committee','Venues')) {
     echo "<h2><a href=AddVenue.php>Add Venue</a></h2>";

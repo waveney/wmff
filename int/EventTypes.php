@@ -26,7 +26,7 @@
   echo "Set Format to drive EventShow rules 0=All Large, 2=Switch to large at Importance-High, 9+=All Small<p>";
   
   echo "<form method=post action=EventTypes.php>";
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Event Type</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
@@ -79,7 +79,7 @@
   echo "<td><input type=checkbox name=DontList0>";
   echo "<td><input type=number name=FirstYear0 value=$PLANYEAR>";
   echo "<td><input type=text name=Banner0 >";
-  echo "</table>\n";
+  echo "</table></div>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";
 

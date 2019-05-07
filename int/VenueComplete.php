@@ -41,7 +41,7 @@
 
   $coln = 0;
   echo "<form method=post>";
-  echo "<table id=indextable border style='width:500;'>\n";
+  echo "<div class=tablecont><table id=indextable border style='width:500;'>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Index</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Venue</a>\n";
@@ -56,7 +56,7 @@
     echo "<td>" . fm_checkbox('',$VenY[$i],'Complete','',"Complete$i");
     echo "\n";
   }
-  echo "</table><p><input type=submit name=Update value=Update>\n";
+  echo "</table></div><p><input type=submit name=Update value=Update>\n";
   echo "</form></div>";
 
 

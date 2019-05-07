@@ -22,7 +22,7 @@
   $InvCodes =  Get_InvoiceCodes();
   
   echo "<form method=post action=TradeLocs.php>";
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Index</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
@@ -72,7 +72,7 @@
   echo "<td><input type=text name=MapImage0 >";
   echo fm_text1('',$t,'Mapscale',0.5,'','',"Mapscale0"); 
   echo fm_text1('',$t,'Showscale',0.5,'','',"Showscale0"); 
-  echo "</table>\n";
+  echo "</table></div>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";
 

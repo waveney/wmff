@@ -58,7 +58,7 @@
     }    
     echo "</div>";
   }
-  echo "<table style='width:70%' border>\n";
+  echo "<div class=tablecont><table style='width:70%' border>\n";
     if (isset($vid) && $vid > 0) {
       echo "<tr><td>Venue Id:<td>";
       echo $vid . fm_hidden('VenueId',$vid);
@@ -107,7 +107,7 @@
     echo "<tr>" . fm_text('Other Rider',$Venue,'OtherRider',5);
     echo "<tr>" . fm_text('Disability Statement',$Venue,'DisabilityStat',5);
     if (isset($Venue['AccessKey']) && Access('SysAdmin')) echo "<tr><td>Access Key:<td colspan=5>" . $Venue['AccessKey'];
-    echo "</table>\n";
+    echo "</table></div>\n";
 
   if ($vid > 0) {
     echo "<Center><input type=Submit name='Update' value='Update'>\n";

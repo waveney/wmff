@@ -364,7 +364,7 @@
 
     foreach($list as $file) Doc_List($file);
     
-    echo "</tbody></table>\n";
+    echo "</tbody></table></div>\n";
 
     echo "Select file(s) to upload:";
     echo fm_hidden('d', $d);

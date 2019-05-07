@@ -16,7 +16,7 @@
   function PitchList() {
     global $Pitches,$tloc,$loc,$TradeMapPoints;
     echo "<div class=PitchWrap><div class=PitchCont>";
-    echo "<table border><tr><td>#<td>X<td>Y<td>Ang<td>Xsize<td>Ysize<td>Type<td>Txt<td>Colr";
+    echo "<div class=tablecont><table border><tr><td>#<td>X<td>Y<td>Ang<td>Xsize<td>Ysize<td>Type<td>Txt<td>Colr";
     $posn = 0;
     foreach ($Pitches as $Pitch) {
       $i = $Pitch['id'];
@@ -39,7 +39,7 @@
     echo "<td>" . fm_select($TradeMapPoints,$Pitch,'Type',0,'',"Type0");
     echo fm_text1("",$Pitch,'SN',0.15,'','',"SN0") . fm_text1("",$Pitch,'Colour',0.15,'','',"Colour0");
     echo fm_hidden('Loc0',$loc);
-    echo "</table></div>";
+    echo "</table></div></div>";
     echo "<input type=submit name=Update value=Update> ";
     echo "<a href=TradeAssign.php?i=$loc style='font-size:20;'>Assign</a>";
     echo "</div>";

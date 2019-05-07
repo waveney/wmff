@@ -276,7 +276,7 @@ function Set_Doc_Help() {
 
 function Doc_Table_Head($withdir=0) {
   Set_Doc_Help();
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   $coln = 0;
   echo "Click on column to sort by column, on the Filename to view.<p>\n";

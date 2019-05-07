@@ -4,7 +4,7 @@
   dohead("Contact Us",[],1);
 
 ?>
-
+<div class=tablecont>
 <p><table class='FullWidth GreenTable'>
 <tr>
 <th colspan="3">Applications for 2019 Festival</th>
@@ -30,7 +30,7 @@
 <td>Visit our <a href=/InfoStewards.php><strong>Volunteers</strong></a> page to apply online for stewarding, setup/cleardown crew, technical crew, 
 artistic team and media team positions.</td>
 </tr>
-</table></p>
+</table></div></p>
 
 <?php
   global $db;

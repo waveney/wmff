@@ -15,7 +15,7 @@
   $coln = 0;
   echo "<h2>Galleries</h2><p>";
   echo "<form method=post action=GallManage.php>";
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Id</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
@@ -40,7 +40,7 @@
   echo "<td><input type=text name=Credits0 >";
   echo "<td>" . fm_select($Medias,$g,"Media0");
   echo "<td><input type=text name=Banner0 >";
-  echo "</table>\n";
+  echo "</table></div>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";
 

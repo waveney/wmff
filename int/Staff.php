@@ -25,7 +25,7 @@
   if (isset($Years[$YEAR+1])) echo "<a href=Staff.php?Y=" . ($YEAR+1) .">" . ($YEAR+1) . "</a>\n";
   echo "</h2></div>";
   echo "<h2>Staff Pages - $YEAR</h2>\n";
-  echo "<table border width=100% class=Staff>\n";
+  echo "<div class=tablecont><table border width=100% class=Staff style='min-width:800px'>\n";
   echo "<tr><td class=Stafftd><h2>Document Storage</h2>\n";
     echo "<ul>\n";
     if (Access('Staff')) {
@@ -95,12 +95,12 @@
 //      echo "<li><a href=ShowMusicProg.php?Y=$YEAR>View Music Programme</a>";
     }
     if (Access('SysAdmin')) {
-      echo "<p><table><tr><td>";
+      echo "<p><div class=tablecont><table><tr><td>";
       echo "<li class=smalltext><a href=ShowMusicProg.php?Pub=1&Y=$YEAR>Public Music Programme</a>";
       echo "<li class=smalltext><a href=MusicTypes.php>Set Music Types</a>";
 //      echo "<li class=smalltext><a href=ResetImageSizes.php?PERF>Scan and save Image sizes</a>";
 //      echo "<li class=smalltext><a href=CopyActYear.php>Copy all ActYear data to SideYear</a>";
-      echo "</table><p>\n";
+      echo "</table></div><p>\n";
     }
     echo "<li><a href=ContractView.php?t=1>Dummy Music Contract</a>";
     echo "<li><a href=LiveNLoudView.php?Y=$YEAR>Show Live N Loud applications</a>";
@@ -150,24 +150,24 @@
 
     if (Access('SysAdmin')) {
 //      echo "<li><a href=ShowDanceProg.php?Y=$YEAR>View Dance Programme</a>";
-      echo "<p><table class=FullWidth><tr><td width=300>";
+      echo "<p><div class=tablecont><table class=FullWidth><tr><td width=300px>";
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=1&Y=$YEAR>Condensed Dance Programme</a>";
       echo "<li class=smalltext><a href=DanceCheck.php?Y=$YEAR>Dance Checking</a>";
       echo "<li class=smalltext><a href=DanceTypes.php>Set Dance Types</a>";
       echo "<li class=smalltext><a href=LineUpDance.php?MIN&Y=$YEAR>Picture free List of Dance Sides Coming</a>\n";
 //      echo "<li class=smalltext><a href=ModifyDance2.php>Modify Dance Structure #2</a>\n";
       echo "<li class=smalltext><a href=WhereDance.php?Y=$YEAR>Where did Dance Sides Come from</a>\n";
-      echo "<td width=300>";
+      echo "<td width=300px>";
       echo "<li class=smalltext><a href=PrintLabels.php?Y=$YEAR>Print Address Labels</a>";
       echo "<li class=smalltext><a href=CarPark.php?Y=$YEAR>Car Park Tickets</a>";
       if ($YEAR == $PLANYEAR) echo "<li class=smalltext><a href=WristbandsSent.php>Mark Wristbands Sent</a>";
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR>Public Dance Programme</a>";
-      echo "<td>";
+      echo "<td width=300px>";
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=0&Pub=1&Head=0&Day=Sat&Y=$YEAR>Dance Programme - Sat - no headers</a>";
       echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=0&Pub=1&Head=0&Day=Sun&Y=$YEAR>Dance Programme - Sun - no headers</a>";
       echo "<li class=smalltext><a href=CheckDuplicates.php?Y=$YEAR>Check for Duplicate Year Tables Entries</a>";      
 //      echo "<li class=smalltext><a href=ImportDance2.php>Import Appalachian List</a>"; // Should never be needed again
-      echo "</table>\n";
+      echo "</table></div>\n";
     }
     echo "</ul>\n";
 // *********************** Comedy, Childrens Ent, Other Perf
@@ -239,9 +239,9 @@
       echo "<li><a href=Trade2CSV.php?Y=$YEAR>Traders as CSV</a>\n";
     }
     if (Access('SysAdmin')) {
-      echo "<p><table><tr><td>";
+      echo "<p><div class=tablecont><table><tr><td>";
       echo "<li class=smalltext><a href=ResetImageSizes.php?TRADE>Scan and save Image sizes</a>";
-      echo "</table><p>\n";
+      echo "</table></div><p>\n";
     }
     echo "</ul>\n";
 
@@ -326,12 +326,13 @@
       echo "<li><a href=InvoiceManage.php?Y=$YEAR>Invoice Management</a>\n";
     }
     if (Access('SysAdmin')) {
-      echo "<p>";
-      echo "<li class=smalltext><a href=ImportDebtorCodes.php>Import Debtor Codes</a>";
-      echo "<p>";
+//      echo "<p>";
+//      echo "<li class=smalltext><a href=ImportDebtorCodes.php>Import Debtor Codes</a>";
+//      echo "<li class=smalltext><a href=ImportProgAds.php>Import Programme ads</a>\n";  
+//      echo "<p>";
       echo "<li><a href=Sponsors.php>Sponsors</a>\n";
       echo "<li><a href=WaterManage.php>Water Refills</a>\n";
-      echo "<li><a href=ImportProgAds.php>Import Programme ads</a>\n";  
+
 //      echo "<li><a href=ImportOldInvoice.php>Import Old Invoices</a>\n";  
     }
     echo "</ul>\n";
@@ -360,7 +361,7 @@
     echo "</ul>\n";
 
 
-  echo "</table>\n";
+  echo "</table></div>\n";
 
   dotail();
 ?>

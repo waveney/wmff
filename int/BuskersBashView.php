@@ -13,7 +13,7 @@
   
   $coln = 0;  
 //  echo "<form method=post action=BuskersBashView.php>";
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
 
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Id</a>\n";
@@ -39,7 +39,7 @@
 
     }
   }
-  echo "</tbody></table>\n";
+  echo "</tbody></table></div>\n";
 
   dotail();
 ?>

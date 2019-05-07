@@ -35,7 +35,7 @@
     echo "<h2>No " . ($Orgs?"Businesses or Organisations":"Traders") . " Found</h2>\n";
   } else {
     $coln = 0;
-    echo "<table id=indextable border>\n";
+    echo "<div class=tablecont><table id=indextable border>\n";
     echo "<thead><tr>";
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
     if (!$Orgs) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Type</a>\n";
@@ -88,7 +88,7 @@
       
       }
     }
-    echo "</tbody></table>\n";
+    echo "</tbody></table></div>\n";
   }
   dotail();
 ?>

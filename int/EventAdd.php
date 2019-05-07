@@ -290,7 +290,7 @@ A similar feature will appear eventually for music.<p>
   Register_AutoUpdate('Event',$eid);
   if (!$Skip) {
     $adv = (isset($Event['SubEvent']) ?(($Event['SubEvent']>0?"class=Adv":"")) : ""); 
-    echo "<table width=90% border>\n";
+    echo "<div class=tablecont><table width=90% border>\n";
       if (isset($eid) && $eid > 0) {
         echo "<tr><td>Event Id:" . $eid . fm_hidden('EventId',$eid);
         Register_AutoUpdate('Event',$eid);
@@ -404,7 +404,7 @@ A similar feature will appear eventually for music.<p>
       }
 
     if (Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=7 class=NotSide><textarea id=Debug></textarea>";        
-    echo "</table>\n";
+    echo "</table></div>\n";
     if (isset($Event['BigEvent']) && $Event['BigEvent']) {
       echo "Use the <a href=BigEventProg.php?e=$eid>Big Event Programming Tool</a> to add sides, musicians and others to this event. ";
       echo "Use the <a href=DisplayBE.php?e=$eid>Big Event Display</a> to get a simple display of the event.";

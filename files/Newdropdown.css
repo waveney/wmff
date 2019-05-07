@@ -59,7 +59,7 @@
   margin: 7px 0 0 0;
   padding:0;
   text-align: center;
-  font-weight:750;
+  font-weight:700;
 }
 
 .fixedheader .FestDates, .fixedheader .SmallDates {
@@ -74,7 +74,7 @@
   margin:0;
   padding:0;
   text-align: center;
-  font-weight:750;
+  font-weight:700;
 }
 
 .headericon {
@@ -165,7 +165,7 @@
   padding-left:10px;
   padding-right:10px;
   vertical-align:middle;
-  font-weight:520;
+  font-weight:600;
 }
 
 .fixedheader .navigation a:hover,
@@ -289,15 +289,15 @@
   background-color:#43a9b2;
 }
 
-.PrivateBar .MenuTesting {
-  background:salmon;
+.PrivateBar .MenuTesting, .MenuTesting a {
+  background:salmon ;
   float:right;
 }
 
 /* Mobile menu stuff */
 
 #HoverContainer {
-  position: absolute;
+  position: fixed;
   top:76px;
   right:-304px;
   width:300px;
@@ -445,7 +445,7 @@
   background:white;
   color:black;
   text-align:center;
-  font-size:24pt;
+  font-size:18pt;
   font-weight:bold;
 }
 
@@ -453,8 +453,6 @@
   background:rgba(197, 31, 132,1);
   color:white;
   transition: all ease-in-out 0.4s;
-  transform-origin: top center;
-  perspective: 1000px;
 }
 
 .WMFFBannerDefault {
@@ -468,7 +466,7 @@
 }
 
 .TornTopEdge {
-  margin-top:-35;
+  margin-top:-35px;
 }
 
 /* Footer Stuff */

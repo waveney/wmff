@@ -15,10 +15,10 @@
 
   echo "<html><body>";
 
-  echo "<table><tr><td>";
+  echo "<div class=tablecont><table><tr><td>";
   echo "<h2>" . SName($data) . "</h2>\n";
-  echo "<td align=right><a href=$link>Edit</a> <a onclick=infoclose(event)>X</a> &nbsp; </table>\n";
-  echo "<table>";
+  echo "<td align=right><a href=$link>Edit</a> <a onclick=infoclose(event)>X</a> &nbsp; </table></div>\n";
+  echo "<div class=tablecont><table>";
   if ($data['Type']) echo "<tr><td>Type:<td>" . $data['Type'];
   if ($data['Description']) echo "<tr valign=top><td>Desc:<td>" . $data['Description'];
   $surfs = 0; 
@@ -73,6 +73,6 @@
 
   if ($data['NoiseLevel']) echo "<tr><td>Noise:<td>" . $Noise_Levels[$data['NoiseLevel']];
 
-  echo "</table>\n</body></html>";
+  echo "</table></div>\n</body></html>";
 
 ?>

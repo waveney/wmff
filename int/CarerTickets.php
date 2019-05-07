@@ -38,7 +38,7 @@
 
   $coln = 0;
   echo "<form method=post action=CarerTickets.php>";
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Index</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Booked Name</a>\n";
@@ -59,7 +59,7 @@
   echo "<td><input type=text name=Carer0>";
   echo "<td><input type=text name=Notes0 size=60>";
   echo fm_hidden('Year0',$PLANYEAR);
-  echo "</table>\n";
+  echo "</table></div>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";
 

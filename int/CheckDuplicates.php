@@ -16,7 +16,7 @@
   $qry = "SELECT * FROM SideYear WHERE Year=$YEAR AND SideId>0 ORDER BY SideId";
   $coln = 0;
   
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Year</a>\n";
@@ -47,7 +47,7 @@
     $lastside = $snum;
     $lastsidey = $sidey;
   }
-  echo "</table><p>\n";
+  echo "</table></div><p>\n";
   echo "Finished";
 
   

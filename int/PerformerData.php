@@ -70,7 +70,7 @@
   // List
     $files = glob("Store/Performers/$id/*");
     if ($files) {
-      echo "<table border><tr><td>File Name<td>Size<td>Uploaded<td>Actions";
+      echo "<div class=tablecont><table border><tr><td>File Name<td>Size<td>Uploaded<td>Actions";
       foreach ($files as $file) {
         $fname = basename($file);
         echo "<tr><td><a href=ShowFile.php?l64=" . base64_encode("Store/Performers/$id/$fname") . ">$fname</a>";
@@ -78,7 +78,7 @@
         echo "<td><a href=ShowFile.php?D=Store/Performers/$id/$fname>download</a>";
         if ($UpdateValid) echo ", <a href=PerformerData.php?id=$id&ACTION=DELETE&f=" . base64_encode($fname) . ">delete</a>";
       }
-      echo "</table><p>";
+      echo "</table></div><p>";
     } else {
       echo "No Files are currently stored";
     }

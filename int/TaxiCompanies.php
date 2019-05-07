@@ -14,7 +14,7 @@
 
   $coln = 0;
   echo "<form method=post action=TaxiCompanies.php>";
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Index</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Authority</a>\n";
@@ -36,7 +36,7 @@
   echo "<td><input type=text name=SN0>";
   echo "<td><input type=text name=Phone0>";
   echo "<td><input type=text name=Website0>";
-  echo "</table>\n";
+  echo "</table></div>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";
 

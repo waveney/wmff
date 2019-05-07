@@ -56,7 +56,7 @@ $(document).ready(function() {
       header.removeClass("fixedheader");
   	}
   });
-
+  $('#HoverContainer').detach().appendTo('#LastDiv');  // Get menu to work on Iphones
 });
 
 // Sticky menus for mobiles
@@ -107,6 +107,7 @@ function MenuResize() {
   var IconWidth = $(".header-logo").width();
   if (Ewidth > 1380 ) {  // Show all
     $(".MenuIcon").hide();
+    CloseHoverMenu();
     $(".MenuMinor0").show();
     $(".MenuMinor1").show();
     $(".MenuMinor2").show();
@@ -138,6 +139,7 @@ function MenuResize() {
       $(".MenuIcon").show();
     } else { // Show most
       $(".MenuIcon").hide();    
+      CloseHoverMenu();
       $(".MenuMinor0").show();
       $(".MenuMinor1").show();
       $("#MenuBars").css({"right":0, "width":(Ewidth-IconWidth-40)});
@@ -156,7 +158,7 @@ $(document).ready(function() {
 function ShowHoverMenu() {
 //  debugger;
 //  if (!MenuCopied) CopyHoverMenu();
-  $('#HoverContainer').detach().appendTo('#LastDiv');
+
   $("#HoverContainer").show();
   $("#HoverContainer").addClass("Slide-Left");
   $(".MenuMenuIcon").hide();

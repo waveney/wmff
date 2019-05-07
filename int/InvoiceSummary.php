@@ -28,7 +28,7 @@
      
   $Now = time();
   $coln = 0;
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'D')>Date Raised</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Client</a>\n";
@@ -60,7 +60,7 @@
     echo "<td>" . Print_Pence($inv['Total']);
     echo "<td>" . ($inv['PayDate'] <0 ? 'Credit Note' : ($inv['PayDate'] > 0 ? date('d/m/y',$inv['PayDate']) : ""));
   }
-  echo "</table>\n";
+  echo "</table></div>\n";
   
   dotail();
 

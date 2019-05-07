@@ -21,7 +21,7 @@
   }
 
   $coln = 0;
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
 
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Bug Id</a>\n";
@@ -42,7 +42,7 @@
       echo "<td>" . $Bug_Status[$bug['State']];
     }
   }
-  echo "</tbody></table>\n";
+  echo "</tbody></table></div>\n";
   
   echo "<h2><a href=AddBug.php>Add Bug/Feature Request</a>, <a href=ListBugs.php?OLD>Old Bugs</a></h2>";
 

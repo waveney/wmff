@@ -51,7 +51,7 @@
   $coln = 0;
 
   echo "<form method=post>";
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Id</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Code</a>\n";
@@ -77,7 +77,7 @@
   echo "<tr><td><td>Grand Totals<td colspan=3><td colspan=3><td>" . Print_Pence($GTotInv) . "<td>" . Print_Pence($GTotPaid) . "<td>\n";
   echo "<tr><td><td><input type=number name=Code0><td colspan=3><input type=text size=48 name=SN0 >";
   echo "<td colspan=3><input type=text  size=48 name=Notes0><td><td><td>";
-   echo "</table>\n";
+   echo "</table></div>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";
 

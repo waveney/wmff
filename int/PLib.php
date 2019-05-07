@@ -65,7 +65,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
 
 
   echo "<form method=post id=mainform enctype='multipart/form-data' action=$Form>";
-  echo "<table width=90% border class=SideTable>\n";
+  echo "<div class=tablecont><table width=90% border class=SideTable>\n";
     Register_AutoUpdate('Performer',$snum);
     echo "<tr><th colspan=8><h2><b>Public Information" . Help('PublicInfo') . "</b></h2>";
     echo "<tr>" . fm_text(($Side['IsASide']?'Team Name':'Act Name'), $Side,'SN',3,'','autocomplete=off onchange=nameedit(event) oninput=nameedit(event) id=SN');
@@ -336,7 +336,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
     }
   if (Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=7 class=NotSide><textarea id=Debug></textarea>";
 
-  echo "</table>\n";
+  echo "</table></div>\n";
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -410,7 +410,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
   echo fm_hidden('Y',$year);
   if (isset($Sidey['syId']) && ($Sidey['syId'])) echo fm_hidden('syId',$Sidey['syId']);
 
-  echo "<table width=90% border class=SideTable>\n";
+  echo "<div class=tablecont><table width=90% border class=SideTable>\n";
   
   // Booked by, Release Date, Camping
   if ($Mode) {
@@ -728,7 +728,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
 
   if ($Mode) echo "<tr>" . fm_textarea('Private Notes',$Sidey,'PrivNotes',8,2,'class=NotSide','class=NotSide');
 
-  echo "</table>\n";
+  echo "</table></div>\n";
 }
 /*
 1) imp - Problems doing it there is code in js/Participants 

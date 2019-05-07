@@ -60,7 +60,7 @@
     echo "<h2>No Sides Found</h2>\n";
   } else {
     $coln = 1; // Start at 1 for select col
-    echo "<table id=indextable border width=100%>\n";
+    echo "<div class=tablecont><table id=indextable border width=100%>\n";
     echo "<thead><tr>";
     echo "<th><input type=checkbox name=SelectAll id=SelectAll onchange=ToolSelectAll(event)>\n";
     echo "<th width=200><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
@@ -187,7 +187,7 @@
 //        echo "<td>" . ($fetch["SentEmail$i"]?"Y":"");
 //      }
     }
-    echo "</tbody></table>\n";
+    echo "</tbody></table></div>\n";
     
       $Dtypes = Get_Dance_Types(0);
       echo "<div id=SelTools data-t1=Tool_Type,2 data-t2=Tool_Invite,8 data-t3=Tool_Coming,10 data-t4=Tool_Coming_Last,7></div>"; // Encode all tools below selectname,col to test

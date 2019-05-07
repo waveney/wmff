@@ -36,7 +36,7 @@
   if ($Manage) echo "<form method=post action=BudgetManage.php>";
   echo fm_hidden('Y',$YEAR);
   echo fm_hidden('Year0',$PLANYEAR);
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   if ($Manage) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Id</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
@@ -77,7 +77,7 @@
     echo "<tr><td><td><input type=text name=SN0 ><td><input type=number value=$PLANYEAR name=Year0>";
     echo "<td><td><input type=number name=Budget0 >";
   }
-  echo "</table>\n";
+  echo "</table></div>\n";
   
   if ($Manage) {  
     echo "<input type=submit name=Update value=Update>\n";

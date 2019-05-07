@@ -16,7 +16,7 @@
   echo "<h2>Links</h2><p>";
   echo "Heading 'Category' not yet used.<p>";
   echo "<form method=post action=LinkManage.php>";
-  echo "<table id=indextable border>\n";
+  echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Id</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
@@ -39,7 +39,7 @@
   echo "<td><input type=text name=Image0 >";
   echo "<td><input type=text name=LinkType0 >";
   echo "<td><input type=text name=Year0 value=$PLANYEAR >";
-  echo "</table>\n";
+  echo "</table></div>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";
 

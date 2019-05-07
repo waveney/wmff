@@ -10,7 +10,7 @@
 
   $Types = Get_Event_Types(1);
 
-  echo "<table class=TueTab><tr><td>Event type<td>Number";
+  echo "<div class=tablecont><table class=TueTab><tr><td>Event type<td>Number";
 
   $tot = $sp = $fam = 0;
   foreach ($Types as $t) {
@@ -31,7 +31,7 @@
   echo "<tr><td>Special<td>$sp";
   echo "<tr><td>Total<td>$tot";
     
-  echo "</table>\n";
+  echo "</table></div>\n";
   dotail();
 
 ?>

@@ -24,7 +24,8 @@ Vehicles left on site overnight will not be subsequently charged unless taken of
 
 <h2 class=subtitle>Long Term Car Parks</h2>
 The principle long term car parks are:<p>
-<table class=GreenTable>
+
+<div class=tablecont><table class=GreenTable>
 <tr><td>Allenview North and West (behind the Allendale Centre) <td> <button onclick=ShowDirect(1000016)>Directions</button>
 <tr><td>Westfield Close (Near Green Man/Minster Arms) <td> <button onclick=ShowDirect(1000011)>Directions</button>
 <tr><td>Walford Mill <td> <button onclick=ShowDirect(1000010)>Directions</button>
@@ -33,7 +34,7 @@ The principle long term car parks are:<p>
 <tr><td>Old Town Road (Near the Green Man)<td> <button onclick=ShowDirect(1000017)>Directions</button>
 <tr><td>At the Market<td>
 
-</table>
+</table></div>
 
 <h2 class=subtitle>Short Term Car Parks</h2>
 The principle short term car parks are:

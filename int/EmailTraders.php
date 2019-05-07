@@ -47,12 +47,12 @@
 
     echo "<h2>THEN</h2>";
     echo "<h3>Select subset of traders - if no States/Locations/types are selected that category is treated as all</h3><p>";
-    echo "<form method=post><table class=Devemail>";
+    echo "<form method=post><div class=tablecont><table class=Devemail>";
     
     echo "<tr height=30>" . fm_radio("State",$Trade_States,$_POST,'Tr_State','',1,'','',$Trade_State_Colours,1);
     echo "<tr height=30>" . fm_radio("Location",$Trade_Loc_Names,$_POST,'Tr_Loc','',1,'','',null,1);
     echo "<tr height=30>" . fm_radio("Trade Type",$Trade_Type_Names,$_POST,'Tr_Type','',1,'','',$Trade_Type_Colours,1);
-    echo "</table><p>";
+    echo "</table></div><p>";
     
     if (!isset($Mess)) $Mess = $Messages[1]['Body'];
     $Sender = $USER['SN'];
@@ -60,13 +60,13 @@
 
     $_POST['Mess'] = preg_replace('/\*SENDER\*/',$Sender,$Mess);
 
-    echo "<form method=post><table class=Devemail>";
+    echo "<form method=post><div class=tablecont><table class=Devemail>";
     echo "<tr><td colspan=8>" . fm_checkbox("Just list who it would go to do not actually send anything",$_POST,'JustList');
     echo "<tr>" . fm_text('Start at', $_POST,'STARTAT');
     echo "<tr>" . fm_textarea('Message',$_POST,'Mess',10,25);
     echo "<input type=submit name=SEND value=Send>\n";
     
-    echo "</table><form>\n";
+    echo "</table></div><form>\n";
   } else {
     $Limited = '';
 

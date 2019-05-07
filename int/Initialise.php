@@ -38,14 +38,14 @@ function Create_Config() {
   
   if (!isset($_POST['dbase']) || !isset($_POST['user'])) {
     echo "<html><head><title>Festival System Setup</title></head><body>";
-    echo "<form method=post><table border>\n";
+    echo "<form method=post><div class=tablecont><table border>\n";
     echo "<tr>" . fm_text("Host Name - usually localhost",$_POST,'host');
     echo "<tr>" . fm_text("Database Name - must be unique to server",$_POST,'dbase');
     echo "<tr>" . fm_text("Database User - Must be already setup",$_POST,'user');
     echo "<tr>" . fm_text("Database Password (if any)",$_POST,'passwd');
     echo "<tr>" . fm_text("Testing mode - blank for live, 1 for simple test (no emails), an email address to divert all emails too",$_POST,'testing');
     echo "<tr>" . fm_text("Title Prefix - for test/stage/dev sites only",$_POST,'TitlePrefix');
-    echo "</table><input type=submit></form>\n";
+    echo "</table></div><input type=submit></form>\n";
     echo "</body></html>\n";
     exit;
   }
@@ -237,10 +237,10 @@ function Check_Sysadmin() {
   if ($isasys) return;  // There is a sysadmin setup - skip
   
   echo "<form method=post><h2>Setup a sysadmin account</h2>";
-  echo "<table><tr>" . fm_text("Login",$_POST,'login');
+  echo "<div class=tablecont><table><tr>" . fm_text("Login",$_POST,'login');
   echo "<tr>" . fm_text("Password",$_POST,'password');
   echo "<tr>" . fm_text("Full Name",$_POST,'SN');
-  echo "</table><p>";
+  echo "</table><div><p>";
   echo "<input type=submit name=SETUPSYS value=SETUP>";
   exit;
 }

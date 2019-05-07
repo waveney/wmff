@@ -22,7 +22,7 @@
                 'Sat Evening'=>("y.Coming=" . $Coming_Type['Y'] . " AND y.SatEve=1 "),
                 ); 
 
-  echo "<table border><tr><th>Category<th>Total";
+  echo "<div class=tablecont><table border><tr><th>Category<th>Total";
   foreach ($Types as $typ) echo "<th style='background:" . $typ['Colour'] . ";'>" . $typ['SN'];
   echo "<th>Other</tr>\n";
 
@@ -47,7 +47,7 @@
     }
     echo "<td align=right>" . max(0,$catcount - $runtotal) . "</tr>\n";
   }
-  echo "</table>\n";
+  echo "</table></div>\n";
   dotail();
 ?>
 

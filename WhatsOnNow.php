@@ -76,7 +76,7 @@
 
     $dname = $DayLongList[$e['Day']];
 
-    if (DayTable($e['Day'],"Events")) echo "<tr class=Day$dname><td>Time<td >What<td>Where<td>With<td>Price";
+    if (DayTable($e['Day'],"Events",'','style=min-width:1000')) echo "<tr class=Day$dname><td>Time<td >What<td>Where<td>With<td>Price";
         
     Get_Imps($e,$imps,1,(Access('Staff')?1:0));
     echo "<tr class=Day$dname><td>" . timecolon($e['Start']) . " - " . timecolon($e['End']); 
