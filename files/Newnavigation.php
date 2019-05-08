@@ -83,6 +83,7 @@
     'Perf'=>[
       'Edit Your Data'=>"int/AddPerf.php?sidenum=$USERID",
       '-Public view'=>"int/ShowDance.php?sidenum=$USERID",
+      '?Dance Loc Map'=>'/Map.php?F=3',
       '?Dance FAQ'=>'int/DanceFAQ.php',
       '#Performer T&amp;Cs'=>'int/MusicFAQ.php',    
       ],

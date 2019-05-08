@@ -102,6 +102,7 @@ function initMap() {
         if (mtch[3]) maxz=mtch[3]; 
       }
       if ((MapFeatures == 2) && (data.id < 1000000)) return;
+      if ((MapFeatures == 3) && !data.usage.match(/^D/)) return;
       if (data.icon != 1) {
         var marker = new google.maps.Marker({
           position: latLng,

@@ -11,8 +11,11 @@
   echo "<div id=MapWrap>";
   echo "<div id=DirPaneWrap><div id=DirPane><div id=DirPaneTop></div><div id=Directions></div></div></div>";
   echo "<div id=map></div></div>";
+  
+  $Feat = 0;
+  if ($_GET['F']) $Feat = $_GET['F'];
 //  echo "<button class=PurpButton onclick=ShowDirect()>Directions</button> (From the Square if it does not know your location)\n";
-  Init_Map(-1,0,17);
+  Init_Map(-1,0,17,$Feat);
   
   dotail();
 ?>

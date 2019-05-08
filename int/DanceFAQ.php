@@ -115,7 +115,7 @@ prefer to do a half hour spot on your own, or to share your half hour spot alter
 
 <dt>Music<dd> All Music on Willow Walk, the Square and in the Microbreweries is free.
 
-<dt>Map<dd>A Map of all festival venues can be found <a href=/Map.php>Here</a>
+<dt>Map<dd>A Map of all festival venues can be found <a href=/Map.php>Here</a> and Map of just the dance locations is <a href=/Map.php?F=3>Here</a>.
 
 </dl>
 

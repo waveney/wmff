@@ -147,6 +147,7 @@
       }
     }
     echo "<li><a href=ShowDanceProg.php?Y=$YEAR>View Dance Programme</a>";
+    echo "<li><a href=/Map.php?F=3>Dance Location Map</a>";
 
     if (Access('SysAdmin')) {
 //      echo "<li><a href=ShowDanceProg.php?Y=$YEAR>View Dance Programme</a>";
