@@ -75,12 +75,20 @@ function initMap() {
   var MapLong = +$('#MapLong').val();
   var MapZoom = +$('#MapZoom').val();
   MapFeatures = +$('#MapFeat').val();
-  var Center = ((MapLat == 0 && MapLong == 0)?Wimb:{lat: MapLat, lng: MapLong}),
+  var customStyled = [{
+    featureType: "all",
+    elementType: "labels",
+    stylers: [
+      { visibility: "off" }
+    ]
+  }];
+  var Center = ((MapLat == 0 && MapLong == 0)?Wimb:{lat: MapLat, lng: MapLong});
 
   gmap = map = new google.maps.Map(document.getElementById('map'), {
     center: Center,
     mapTypeId: (MapZoom>13?'hybrid':'roadmap'),
     zoom: MapZoom,
+    styles: customStyled,
     });
 
   $.getJSON("/cache/mappoints.json").done ( function(json1) {
@@ -94,6 +102,7 @@ function initMap() {
         if (mtch[3]) maxz=mtch[3]; 
       }
       if ((MapFeatures == 2) && (data.id < 1000000)) return;
+      if ((MapFeatures == 3) && !data.usage.match(/^D/)) return;
       if (data.icon != 1) {
         var marker = new google.maps.Marker({
           position: latLng,
@@ -105,6 +114,7 @@ function initMap() {
         marker.setMap(map);
         marker.setVisible(zoom>=minz && zoom <= maxz);
         markers[data.id] = marker;
+        if (data.id < 1000000) data.atxt = data.name;
 
         if (MapFeatures && (data.id < 1000000 || data.link != '' || data.direct == 1)) { 
           var cont = '<div class=MapInfo><h3>' + data.name + '</h3>';

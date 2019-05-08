@@ -647,16 +647,21 @@ textarea:Focus
 }
 #map {
   height: 100%;
+  max-height:85vh;
   color:black;
 }
 #MapWrap {
   overflow:hidden;
+  margin:0;
 }
 #DirPane {
   overflow:auto;
 }
 #DirPaneWrap{
   display:inline-block; 
+}
+#BlobMap {
+  margin:0;
 }
 /* Fix to Google maps to remove american warning */
 .adp-warnbox { 
@@ -669,6 +674,12 @@ textarea:Focus
   margin:10px;
 /*  display:inline-block; */
 }
+
+#VenueMap  {
+  max-height:85vh;
+  width:auto;
+}
+
 .venueimg #map {
   height:500px;
 }
@@ -1159,8 +1170,6 @@ button {
   display: flex;
   align-items: flex-start;
   object-fit: contain;
-  align-items: flex-start;
-  justify-content: flex-start; 
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -1260,7 +1269,8 @@ button {
   border: 1px solid black;
 }
 
-.TradeFlexCont:hover {
+.TradeFlexCont:hover,
+.sponflexcont:hover {
   animation-name: pbpop;  
   animation-duration: 0.3s;
   animation-timing-function: linear;
@@ -1383,6 +1393,10 @@ button {
 .TwoCols .OneCol div {
   margin: 20px 0;
 }
+.TwoCols .OneCol div div {
+  margin:0;
+}
+
 .PerfProg, .PerfProg td , .PerfProg th {
   border: 1px solid black;
   margin: 5px;
@@ -1405,4 +1419,50 @@ button {
   width:auto;
   height:auto;
 }
-  
+
+.Sponflexwrap {
+  display: flex;
+  object-fit: contain;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.sponflexcont {
+  min-width:200px;
+  max-width:300px;
+  margin:15px;
+
+}
+
+.sponflexcont img {
+  min-width:150px;
+  max-width:200px;
+  max-height:150px;
+  margin:0 10px 5px 0;
+  padding:0;
+  transition:opacity .5s, filter .5s;
+}
+
+.sponttl {
+  margin:0 0 -5px 0;
+  padding:0;
+  text-align:left;
+  transition:opacity .5s, filter .5s;
+  font-weight:bold;
+  background:#f0f0f0;
+  color:#004668;
+  margin-bottom:2px;
+  padding:5px;
+  padding-left:10px;
+  font-size:16pt;
+}
+
+.sponttl:hover {
+  background-color:#43a9b2;
+  color:white;
+}
+
+.sponflexcont p {
+
+}

@@ -2,7 +2,7 @@
   include_once("fest.php");
 
   include_once("ProgLib.php");
-  include_once("int/MapLib.php");
+  include_once("MapLib.php");
   include_once("DanceLib.php");
   include_once("MusicLib.php");
   include_once("DispLib.php");
@@ -102,6 +102,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
     $Pictures = 1;
   }
 
+
   /* Desc        Picture
      Address         Map
 
@@ -109,6 +110,11 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   */
 
   if (!$Poster) {
+    echo "<div class=TwoCols><script>Register_Onload(Set_ColBlobs,'Blob',4)</script>";
+    echo "<div class=OneCol id=TwoCols1>";
+
+    echo "<div id=Blob0>";
+
     if ($Ven['Description']) echo $Ven['Description'] . "<p>\n";
     if ($Ven['Address']) echo "Address: " . $Ven['Address'] . " " . $Ven['PostCode'] ."<p>\n";
 
@@ -118,26 +124,32 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
       if ($Ven['BarFoodText']) echo " " . $Ven['BarFoodText'] . "<P>\n";
     }
 
-    echo "<div class=venueimg>";
+    echo "</div>";
       $Img = 0;
       if ($Ven['Image']) {
+        echo "<div id=Blob1>";
         echo "<img width=100% src=" . $Ven['Image'] . "><br>";
         if ($Ven['Caption']) echo $Ven['Caption'] . "<br>";
         $Img = 1;
+        echo "</div>";
       }
       if ($Ven['Image2']) {
+        echo "<div id=Blob2>";
         echo "<img width=100% src=" . $Ven['Image2'] . "><br>";
         if ($Ven['Caption2']) echo $Ven['Caption2'] . "<br>";
         $Img = 1;
+        echo "</div>";
       } 
-      if (!$Img) echo "No Image Yet<p>";
-      
-      echo "<p><div id=MapWrap>";
+      if (!$Img) echo "<div id=Blob1>No Image Yet<p></div>";
+
+      echo "<div id=Blob3>";      
+      echo "<div id=VenueMap><div id=MapWrap>";
       echo "<div id=DirPaneWrap><div id=DirPane><div id=DirPaneTop></div><div id=Directions></div></div></div>";
-      echo "<p><div id=map></div></div><p>";
+      echo "<p><div id=map style='max-height:400px'></div></div><p>";
       echo "<button class=PurpButton onclick=ShowDirect($V)>Directions</button> (From the Square if it does not know your location)\n";
       echo "</div><script>Register_Onload(Set_MinHeight,'.venueimg','.MainContent')</script>\n";
       Init_Map(0,$V,18);
+      echo "</div></div><div class=OneCol id=TwoCols2></div></div>";  
    }
 
   $ETs = Get_Event_Types(1);

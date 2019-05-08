@@ -15,7 +15,7 @@
   color:white;
 }
 
-.main-header:hover, .main-header.fixedheader {
+.main-header:hover, .fixedheader {
   background: #fff;
   box-shadow: 0 0 40px rgba(0,0,0,0.7);
 }
@@ -37,7 +37,6 @@
   transition: all ease-in-out 0.4s;
 }
 .main-header .header-logo.head-coloured-logo{
-/*  opacity: 0; */
   transition: all ease-in-out 0.4s;
   display: none;
 }
@@ -154,7 +153,7 @@
 }
 
 .main-header .fixedheader a  {
- color: #004668;
+  color: #004668;
 }
 
 .navigation a { 
@@ -174,8 +173,7 @@
   color:white;
   transition: all ease-in-out 0.4s;
   transform-origin: top center;
-  perspective: 1000px;
-
+  perspective: 1000px
 }
 
 .navigation .dropdown-content a {
