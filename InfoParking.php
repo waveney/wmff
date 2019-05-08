@@ -22,7 +22,7 @@ Vehicles left on site overnight will not be subsequently charged unless taken of
 <div id=DirPane><div id=DirPaneTop></div><div id=Directions></div></div>
 </div><div id=map  style='max-height:400px'></div>
 </div>
-<?php    Init_Map(1,4,15,2); ?>
+<?php    Init_Map(1,4,16,4); ?>
 
 </div></div><div id=Blob4>
 

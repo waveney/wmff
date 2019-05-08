@@ -103,13 +103,16 @@ function initMap() {
       }
       if ((MapFeatures == 2) && (data.id < 1000000)) return;
       if ((MapFeatures == 3) && !data.usage.match(/^D/)) return;
-      if (data.icon != 1) {
+      if ((MapFeatures == 4) && (data.icon != 3) && (data.icon != 5)) return; // Car Parks
+      if ((MapFeatures == 5) && !data.usage.match(/^.M/)) return;
+      if (data.icon != 1) { // text
         var marker = new google.maps.Marker({
           position: latLng,
           title: data.name,
-          importance: data.imp,
+          importance: ((MapFeatures == 4)?"15-36":data.imp),
           dirExtra:data.extra,
         });
+        if (MapFeatures == 4) minz=15;
         if (data.icon > 1 && mtypes[data.icon].Icon) marker.setIcon("/images/icons/" + mtypes[data.icon].Icon);
         marker.setMap(map);
         marker.setVisible(zoom>=minz && zoom <= maxz);
