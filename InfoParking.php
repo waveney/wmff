@@ -20,11 +20,11 @@ Vehicles left on site overnight will not be subsequently charged unless taken of
 <div id=MapWrap>
 <div id=DirPaneWrap>
 <div id=DirPane><div id=DirPaneTop></div><div id=Directions></div></div>
-</div><div id=map></div>
+</div><div id=map  style='max-height:400px'></div>
 </div>
 <?php    Init_Map(1,4,15,2); ?>
 
-</div></div><div id=Blob2>
+</div></div><div id=Blob4>
 
 <h2>Long Term Car Parks</h2>
 The principle long term car parks are:<p>
@@ -39,7 +39,7 @@ The principle long term car parks are:<p>
 <tr><td>At the Market<td>
 
 </table></div>
-</div><div id=Blob4>
+</div><div id=Blob2>
 <h2>Short Term Car Parks</h2>
 The principle short term car parks are:
 <ul>
