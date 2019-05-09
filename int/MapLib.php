@@ -51,9 +51,23 @@ function Update_MapPoints() {
   $res = $db->query("SELECT * FROM Venues WHERE Status=0 AND Lat!='' AND MapImp>=0 ");// Normal Code
 //  $res = $db->query("SELECT * FROM Venues WHERE Lat!='' "); // ALL VENUES
   if ($res) while($ven = $res->fetch_assoc()) {
+    $usage = (($ven['Dance']?'D':'_').($ven['Music']?'M':'_').($ven['Child']?'F':'_').($ven['Craft']?'C':'_').($ven['Other']?'O':'_').($ven['Comedy']?'Y':'_'));
+    if ($usage == '______' || $usage == '____O_' ) {
+      $used4 = 'Many things';
+    } else {
+      $lst = [];
+      if ($ven['Dance']) $lst[] = 'Dance';
+      if ($ven['Music']) $lst[] = 'Music';    
+      if ($ven['Comedy']) $lst[] = 'Comedy';    
+      if ($ven['Child']) $lst[] = 'Family';
+      if ($ven['Craft']) $lst[] = 'Craft';    
+      if ($ven['Other']) $lst[] = 'Other things';
+      $used4 = FormatList($lst);  
+    }
     $data[] = array('id'=>$ven['VenueId'], 'name'=>$ven['SN'], 'lat'=>$ven['Lat'], 'long'=>$ven['Lng'],
         'imp'=>$ven['MapImp'],'icon'=>$ven['IconType'],'atxt'=>0,'desc'=>$ven['Description'],
-        'usage'=>(($ven['Dance']?'D':'_').($ven['Music']?'M':'_').($ven['Child']?'F':'_').($ven['Craft']?'C':'_').($ven['Other']?'O':'_')),
+        'usage'=>$usage,
+        'used4'=>$used4,
         'image'=>$ven['Image'],'extra'=>$ven['DirectionsExtra']);
   }
 
@@ -66,7 +80,7 @@ function Update_MapPoints() {
   return file_put_contents("../cache/mappoints.json",json_encode($data));
 }
 
-// Features 1= normal, 0 none, 2 no venues, 3=Dance only, 4 = CarParks, 5 = Music only
+// Features 1= normal, 0 none, 2 no venues, 3=Dance only, 4 = CarParks, 5 = Music only, 6=Craft, 7=Family, 8=Comedy
 
 function Init_Map($CentType,$Centerid,$Zoom,$Features=1) { // CentType 0=Venue, 1=Mappoint, -1=WImborne
   global $MASTER_DATA;  

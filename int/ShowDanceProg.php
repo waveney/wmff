@@ -4,6 +4,7 @@
 
   global $DAY;
   include_once("NewProgramLib.php");
+  include_once("MapLib.php");
 
   $Cond = 0;
   if (isset($_GET{'Cond'})) $Cond = $_GET{'Cond'};
@@ -20,6 +21,14 @@
 
 //  var_dump($day);
   Prog_Headers($Public,$head);
+  echo "<h2 class=DanceMap onclick=$('.DanceMap').toggle()>Show Dance Locations</h2>";
+  echo "<h2 class=DanceMap onclick=$('.DanceMap').toggle() hidden>Hide Dance Locations</h2>";
+  echo "<div class=DanceMap hidden><div id=MapWrap>";
+  echo "<div id=DirPaneWrap><div id=DirPane><div id=DirPaneTop></div><div id=Directions></div></div></div>";
+  echo "<div id=map></div></div>";
+  Init_Map(-1,0,17,3);
+  echo "</div>";
+  
   if ($day != 'Sun') {
     Grab_Data();
     Scan_Data($Cond);

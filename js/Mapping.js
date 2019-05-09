@@ -102,9 +102,12 @@ function initMap() {
         if (mtch[3]) maxz=mtch[3]; 
       }
       if ((MapFeatures == 2) && (data.id < 1000000)) return;
-      if ((MapFeatures == 3) && !data.usage.match(/^D/)) return;
+      if ((MapFeatures == 3) && (!data.usage || !data.usage.match(/^D/))) return;
       if ((MapFeatures == 4) && (data.icon != 3) && (data.icon != 5)) return; // Car Parks
-      if ((MapFeatures == 5) && !data.usage.match(/^.M/)) return;
+      if ((MapFeatures == 5) && (!data.usage || !data.usage.match(/^.M/))) return;
+      if ((MapFeatures == 6) && (!data.usage || !data.usage.match(/^...C/))) return;
+      if ((MapFeatures == 7) && (!data.usage || !data.usage.match(/^..F/))) return;
+      if ((MapFeatures == 8) && (!data.usage || !data.usage.match(/^.....Y/))) return;
       if (data.icon != 1) { // text
         var marker = new google.maps.Marker({
           position: latLng,
@@ -119,13 +122,13 @@ function initMap() {
         markers[data.id] = marker;
         if (data.id < 1000000) data.atxt = data.name;
 
-        if (MapFeatures && (data.id < 1000000 || data.link != '' || data.direct == 1)) { 
+        if (MapFeatures && (data.id < 1000000 || (data.link && data.link != '') || data.direct)) { 
           var cont = '<div class=MapInfo><h3>' + data.name + '</h3>';
           if (data.image) cont += '<img src=' + data.image + ' class=mapimage><br>';
           cont += (data.desc || '');
           if (data.usage && data.usage != '_____') {
-            cont += '<p>Venue for ';
-            switch (data.usage) {
+            cont += '<p>Venue for ' + data.used4;
+/*            switch (data.usage) {
               case 'DMFCO': cont += 'Dance, Music, Family, Craft and other things'; break;
               case 'DMFC_': cont += 'Dance, Music, Family and Craft'; break;
               case 'DMF_O': cont += 'Dance, Music, Family and other things'; break;
@@ -158,7 +161,7 @@ function initMap() {
               case '___C_': cont += 'Craft'; break;
               case '____O': cont += 'Other things'; break;
               case '_____': cont += 'many things'; break;
-            };
+            }; */
           }
           if (data.id < 1000000) cont += '<p><a href=/int/VenueShow.php?v=' + data.id + '>More Info</a>&nbsp; &nbsp;';
           if (data.link) cont += '<p><a href=' + data.link + '>More Info</a>';

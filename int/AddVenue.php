@@ -90,6 +90,7 @@
     echo "<td colspan=2>Part of:" . fm_select($VirtSites,$Venue,'PartVirt',1);
     echo "<tr><td>Venue For:<td colspan=3>" . fm_checkbox('Dance',$Venue,'Dance');
     echo fm_checkbox('Music',$Venue,'Music');
+    echo fm_checkbox('Comedy',$Venue,'Comedy');
     echo fm_checkbox('Children',$Venue,'Child');
     echo fm_checkbox('Craft',$Venue,'Craft');
     echo fm_checkbox('Other',$Venue,'Other');
