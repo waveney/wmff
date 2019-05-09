@@ -26,6 +26,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Dance Setup Overlap</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Dance</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Music</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Comedy</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Child</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Craft</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Other</a>\n";
@@ -56,6 +57,7 @@
       echo "<td>" . $yn[$Ven['SetupOverlap']];
       echo "<td>" . $yn[$Ven['Dance']];
       echo "<td>" . $yn[$Ven['Music']];
+      echo "<td>" . $yn[$Ven['Comedy']];
       echo "<td>" . $yn[$Ven['Child']];
       echo "<td>" . $yn[$Ven['Craft']];
       echo "<td>" . $yn[$Ven['Other']] ."\n";
