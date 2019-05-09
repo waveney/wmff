@@ -21,8 +21,8 @@
 
 //  var_dump($day);
   Prog_Headers($Public,$head);
-  echo "<h2 class=DanceMap onclick=$('.DanceMap').toggle()>Show Dance Locations</h2>";
-  echo "<h2 class=DanceMap onclick=$('.DanceMap').toggle() hidden>Hide Dance Locations</h2>";
+  echo "<h2 class='DanceMap Fakelink' onclick=$('.DanceMap').toggle()>Show Dance Locations</h2>";
+  echo "<h2 class='DanceMap FakeLink' onclick=$('.DanceMap').toggle() hidden>Hide Dance Locations</h2>";
   echo "<div class=DanceMap hidden><div id=MapWrap>";
   echo "<div id=DirPaneWrap><div id=DirPane><div id=DirPaneTop></div><div id=Directions></div></div></div>";
   echo "<div id=map></div></div>";

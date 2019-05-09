@@ -122,7 +122,7 @@ function initMap() {
         markers[data.id] = marker;
         if (data.id < 1000000) data.atxt = data.name;
 
-        if (MapFeatures && (data.id < 1000000 || (data.link && data.link != '') || data.direct)) { 
+        if (MapFeatures && (data.id < 1000000 || data.link != '' || data.direct)) { 
           var cont = '<div class=MapInfo><h3>' + data.name + '</h3>';
           if (data.image) cont += '<img src=' + data.image + ' class=mapimage><br>';
           cont += (data.desc || '');
