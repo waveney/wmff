@@ -103,6 +103,7 @@ function Create_Directories() {  // Makes all needed directories and adds .htacc
            ['int/Store',1],
            ['int/Temp',0],
           ];
+  $LinkedDirs = ['js','files','cache','images'];
   foreach($Dirs as $D) {
     if (!file_exists("../" . $D[0])) {
     
@@ -111,6 +112,10 @@ function Create_Directories() {  // Makes all needed directories and adds .htacc
       echo "Creating " . $D[0] . "<br>";
     }
     if ($D[1] && !file_exists("../" . $D[0] . "/.htaccess")) file_put_contents("../" . $D[0] . "/.htaccess","order deny,allow\ndeny from all");
+  }
+  foreach($LinkedDirs as $D) {
+    if (!file_exists("../" . $D)) mkdir("../" . $D,0777,true);
+    if (!file_exists($D)) symlink ("../" . $D, $D);
   }
   echo "Directories Created<p>";
 }

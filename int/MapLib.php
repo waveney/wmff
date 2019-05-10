@@ -77,7 +77,7 @@ function Update_MapPoints() {
         'imp'=>$mp['MapImp'],'icon'=>$mp['Type'],'atxt'=>$mp['AddText'],'direct'=>$mp['Directions'],'link'=>$mp['Link']);
   }
 
-  return file_put_contents("../cache/mappoints.json",json_encode($data));
+  return file_put_contents("cache/mappoints.json",json_encode($data));
 }
 
 // Features 1= normal, 0 none, 2 no venues, 3=Dance only, 4 = CarParks, 5 = Music only, 6=Craft, 7=Family, 8=Comedy
@@ -97,7 +97,9 @@ function Init_Map($CentType,$Centerid,$Zoom,$Features=1) { // CentType 0=Venue, 
   }
 
   $V = $MASTER_DATA['V'];
-  echo fm_hidden('MapLat',$Lat) . fm_hidden('MapLong',$Long) . fm_hidden('MapZoom',$Zoom) . fm_hidden('MapFeat',$Features);
+  echo fm_hidden('MapLat',$Lat) . fm_hidden('MapLong',$Long) . fm_hidden('MapZoom',$Zoom) . fm_hidden('MapFeat',$Features) .
+       fm_hidden('MapDataDate',filemtime("cache/mappoints.json"));
+       
   echo "<script src='https://maps.googleapis.com/maps/api/js?key=" . $MASTER_DATA['GoogleAPI'] . "' ></script>";
   echo "<script src=/js/maplabel.js?V=$V ></script>";
   echo "<script src=/js/Mapping.js?V=$V ></script>";

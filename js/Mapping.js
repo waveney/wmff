@@ -12,9 +12,10 @@ var docready = 0;
 var gmap;
 var DSrequest;
 var Wimb = {lat: 50.800150, lng: -1.988000};
+var MapDataDate = 0;
 
 
-$.getJSON("/cache/mapptypes.json").done (function(json1) {
+$.getJSON("/cache/mapptypes.json?" + MapDataDate).done (function(json1) {
   $.each(json1,function(key,data) {
     mtypes[data.id] = data;
   })
@@ -75,6 +76,7 @@ function initMap() {
   var MapLong = +$('#MapLong').val();
   var MapZoom = +$('#MapZoom').val();
   MapFeatures = +$('#MapFeat').val();
+  MapDataDate = +$('#MapDataDate').val();
   var customStyled = [{
     featureType: "all",
     elementType: "labels",
@@ -91,7 +93,7 @@ function initMap() {
     styles: customStyled,
     });
 
-  $.getJSON("/cache/mappoints.json").done ( function(json1) {
+  $.getJSON("/cache/mappoints.json?" + MapDataDate).done ( function(json1) {
     var zoom=map.getZoom();
     $.each(json1, function(key, data) {
       var latLng = new google.maps.LatLng(data.lat, data.long); 
@@ -128,40 +130,6 @@ function initMap() {
           cont += (data.desc || '');
           if (data.usage && data.usage != '_____') {
             cont += '<p>Venue for ' + data.used4;
-/*            switch (data.usage) {
-              case 'DMFCO': cont += 'Dance, Music, Family, Craft and other things'; break;
-              case 'DMFC_': cont += 'Dance, Music, Family and Craft'; break;
-              case 'DMF_O': cont += 'Dance, Music, Family and other things'; break;
-              case 'DMF__': cont += 'Dance, Music and Family'; break;
-              case 'DM_CO': cont += 'Dance, Music, Craft and other things'; break;
-              case 'DM_C_': cont += 'Dance, Music and Craft'; break;
-              case 'DM__O': cont += 'Dance, Music and other things'; break;
-              case 'DM___': cont += 'Dance and Music'; break;
-              case 'D_FCO': cont += 'Dance, Family, Craft and other things'; break;
-              case 'D_FC_': cont += 'Dance, Family and Craft'; break;
-              case 'D_F_O': cont += 'Dance, Family and other things'; break;
-              case 'D_F__': cont += 'Dance and Family'; break;
-              case 'D__CO': cont += 'Dance, Craft and other things'; break;
-              case 'D__C_': cont += 'Dance and Craft'; break;
-              case 'D___O': cont += 'Dance and other things'; break;
-              case 'D____': cont += 'Dance'; break;
-              case '_MFCO': cont += 'Music, Family, Craft and other things'; break;
-              case '_MFC_': cont += 'Music, Family and Craft'; break;
-              case '_MF_O': cont += 'Music, Family and other things'; break;
-              case '_MF__': cont += 'Music and Family'; break;
-              case '_M_CO': cont += 'Music, Craft and other things'; break;
-              case '_M_C_': cont += 'Music and Craft'; break;
-              case '_M__O': cont += 'Music and other things'; break;
-              case '_M___': cont += 'Music'; break;
-              case '__FCO': cont += 'Family, Craft and other things'; break;
-              case '__FC_': cont += 'Family and Craft'; break;
-              case '__F_O': cont += 'Family and other things'; break;
-              case '__F__': cont += 'Family'; break;
-              case '___CO': cont += 'Craft and other things'; break;
-              case '___C_': cont += 'Craft'; break;
-              case '____O': cont += 'Other things'; break;
-              case '_____': cont += 'many things'; break;
-            }; */
           }
           if (data.id < 1000000) cont += '<p><a href=/int/VenueShow.php?v=' + data.id + '>More Info</a>&nbsp; &nbsp;';
           if (data.link) cont += '<p><a href=' + data.link + '>More Info</a>';
