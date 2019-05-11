@@ -557,7 +557,7 @@ function dohead($title,$extras=[],$Banner='',$BannerOptions=' ') {
   if (isset($CONF['TitlePrefix'])) $pfx = $CONF['TitlePrefix'];
   echo "<html><head>";
   echo "<title>$pfx " . $MASTER_DATA['FestName'] . " | $title</title>\n";
-  include_once("files/header.php");
+  include_once("files/Newheader.php");
   if ($extras) doextras($extras);
   echo "</head><body>\n";
 
@@ -609,15 +609,20 @@ function dostaffhead($title,$extras=[]) {
   if (isset($CONF['TitlePrefix'])) $pfx = $CONF['TitlePrefix'];
   echo "<html><head>";
   echo "<title>$pfx " . $MASTER_DATA['ShortName'] . " | $title</title>\n";
-  include_once("files/header.php");
-  include_once("festcon.php");
-  if ($extras) doextras($extras);
-  echo "<meta http-equiv='cache-control' content=no-cache>";
-  echo "</head><body>\n";
-  if (Feature('NewStyle') ) {
+  if (Feature('NewStyle') && ! UserGetPref('StaffOldFormat')) {
+    include_once("files/Newheader.php");
+    include_once("festcon.php");
+    if ($extras) doextras($extras);
+    echo "<meta http-equiv='cache-control' content=no-cache>";
+    echo "</head><body>\n";
     include_once("files/Newnavigation.php");
     echo "<div class=content>";  
   } else {
+    include_once("files/header.php");
+    include_once("festcon.php");
+    if ($extras) doextras($extras);
+    echo "<meta http-equiv='cache-control' content=no-cache>";
+    echo "</head><body>\n";
     include_once("files/navigation.php"); 
     echo "<div class=content>";
   }

@@ -8,9 +8,8 @@
 
   $V = $MASTER_DATA['V'];
   echo "<script>" . $MASTER_DATA['Analytics'] . "</script>";
-  echo "<link href=/files/style.css?V=$V type=text/css rel=stylesheet />";
-  echo "<link href=/files/dropdown.css?V=$V type=text/css rel=stylesheet />\n";
-
+  echo "<link href=/files/Newstyle.css?V=$V type=text/css rel=stylesheet />";
+  echo "<link href=/files/Newdropdown.css?V=$V type=text/css rel=stylesheet />\n";  
 ?>
 
     <script src="/js/jquery-3.2.1.min.js"></script>
