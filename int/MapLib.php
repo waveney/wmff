@@ -45,7 +45,7 @@ function Update_MapPoints() {
   global $db;
 
   $types = Get_Map_Point_Types();
-  file_put_contents("../cache/mapptypes.json",json_encode($types)); 
+  file_put_contents("cache/mapptypes.json",json_encode($types)); 
 
   $data = array();
   $res = $db->query("SELECT * FROM Venues WHERE Status=0 AND Lat!='' AND MapImp>=0 ");// Normal Code
