@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Information");
+  dohead("Information",[],1);
 
 ?>
 <h2 class="maintitle">Information</h2>
@@ -17,17 +17,17 @@
 </div>
 
 <div class="mini">
-<a href="/info/getting-here">
+<a href="/InfoGettingHere.php">
 <img class="miniimg" src="/images/Liftshare-to-Wimborne.jpg" alt="Wimborne Minster Folk Festival" />
 <h2 class="minittl">Getting Here</h2></a>
 <p class="minitxt">The festival takes place in the historic market town of Wimborne Minster in Dorset.</p>
 </div>
 
 <div class="mini">
-<a href="sponsorship">
+<a href="/InfoSponsors.php">
 <img class="miniimg" src="/images/Waitrose-Cheque-2014.jpg" alt="Wimborne Minster Folk Festival" />
 <h2 class="minittl">Sponsorship</h2></a>
-<p class="minitxt">Become a sponsor of the festival in 2018 with a reach of 50,000 people!</p>
+<p class="minitxt">Become a sponsor of the festival with a reach of 70,000 people!</p>
 </div>
 
 <div class="mini">
@@ -45,24 +45,10 @@
 </div>
 
 <div class="mini">
-<a href="trade">
+<a href="/InfoTrade.php">
 <img class="miniimg" src="/images/Chutney-Trader-2016.jpg" alt="Wimborne Minster Folk Festival" />
 <h2 class="minittl">Trade Stands</h2></a>
 <p class="minitxt">Applications for trading at the festival in have opened.</p>
-</div>
-
-<div class="mini">
-<a href="thanks">
-<img class="miniimg" src="/images/Dorset-Waste-Partnership-Crew-2015.jpg" alt="Wimborne Minster Folk Festival" />
-<h2 class="minittl">With Thanks</h2></a>
-<p class="minitxt">The committee's Thank You page for everyone involved with making the festival happen each year.</p>
-</div>
-
-<div class="mini">
-<a href="/RadioWimborne.php">
-<img class="miniimg" src="/images/Radio-Wimborne.jpg" alt="Wimborne Minster Folk Festival" />
-<h2 class="minittl">Radio Wimborne</h2></a>
-<p class="minitxt">Listen in to a Live stream of Wimborne Minster Folk Festival by Radio Wimborne.</p>
 </div>
 
 </div>

@@ -516,7 +516,7 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
 }
 
 function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='',&$Event=0) {
-  global $db,$PertTypes;
+  global $db,$PerfTypes;
   include_once "DanceLib.php";
   $now = time();
   $imps=array();

@@ -244,7 +244,8 @@ function Print_Participants($e,$when=0,$thresh=0) {
         if ($Ev['UseBEnotes'] && isset($OtherNotes[$oi])) echo "<b>" . $OtherNotes[$oi] . ":</b> ";
         $id = $O['Identifier'];
         $side = Get_Side($id);
-        $side = array_merge($side,array_munge(Get_SideYear($id)));
+        $sy = Get_SideYear($id);
+        $side = array_merge($side,$sy);
         Print_Thing($side);
       }
       echo "</div><br clear=all>\n";
