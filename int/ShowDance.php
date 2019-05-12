@@ -3,13 +3,18 @@
 
   set_ShowYear();
   include_once("DanceLib.php");
+  
+  $id = 0;
   if (isset($_GET['sidenum'])) {
-    Show_Side($_GET['sidenum'],'',1);
+    $id = $_GET['sidenum'];
   } else if (isset($_GET['id'])) {
-    Show_Side($_GET['id'],'',1);
+    $id = $_GET['id'];
   } else {
     echo "No Side Indicated";
   }
+  if (!is_numeric($id)) Error_page("Not a performer");
+  
+  Show_Side($id,'',1);
 
   dotail();
 ?>

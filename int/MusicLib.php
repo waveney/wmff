@@ -390,6 +390,7 @@ function Contract_Save($Side,$Sidey,$Reason) {
     $_POST['Contracts'] = $IssNum;
     $_POST['ContractDate'] = time();
     $_POST['YearState'] = $Book_State['Contract Signed'];
+    mkdir("Contracts/$PLANYEAR",0775,true);
     file_put_contents("Contracts/$PLANYEAR/$snum.$IssNum.html",$Cont);
     return 1;
   }
