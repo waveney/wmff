@@ -2,7 +2,9 @@
   include_once ("int/fest.php");
 
   $T = 'Dance';
+  
   if (isset($_GET['T'])) $T = $_GET['T'];
+  if (strlen($T) > 12 || preg_match('/\W/',$T)) $T = 'Dance';  
 
   dohead("$T Line-up",[],1,'T');
 
@@ -104,7 +106,7 @@
   
 
   $Slist = [];
-  while($side = $SideQ->fetch_assoc()) $Slist[] = $side;
+  if ($SideQ) while($side = $SideQ->fetch_assoc()) $Slist[] = $side;
   formatLineups($Slist,'ShowPerf.php',$Sizes,$ShortDesc);
   
   echo "<div style='clear:both;'>";
