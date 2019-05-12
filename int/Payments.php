@@ -36,7 +36,7 @@
     }
     $heads[] = 'Homeless';
     
-    fputcsv($output, $heads);
+    fputcsv($output, $heads,',','"');
 
   } else {  
     echo "<h2><a href=Payments.php?Y=$YEAR&F=CSV>Output as CSV</a></h2>";
@@ -73,7 +73,10 @@
       $data = [$payee['SN'],$payee['TotalFee'], $payee['SortCode'], $payee['Account'], $payee['AccountName']];
 
       foreach($BUDGET as $i=>$b)  $data[]= (isset($bud[$i])?$bud[$i]:"");
-      fputcsv($output,$data);
+      $csvdata = [];
+      foreach ($data as $d) $csvdata[] = (is_numeric($d)?"'$d'":$d);
+      
+      fputcsv($output,$csvdata);
     } else {
       echo "<tr><td>" . $payee['SideId'] . "/" . $payee['syId'] . "<td>" . $payee['SN'];
       echo "<td>" . $payee['TotalFee'];

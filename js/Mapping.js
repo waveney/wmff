@@ -24,17 +24,17 @@ $.getJSON("/cache/mapptypes.json?" + MapDataDate).done (function(json1) {
 })
 
 function CloseDir() {
-  debugger;
+//  debugger;
 
 }
 
 function SetTravelMode(Nmode) {
-  debugger;
+//  debugger;
   DSrequest.travelMode = Nmode; 
 }
 
 function ShowDirect(MarkId) { // Open directions window from current loc (me) to the given Marker
-  debugger;
+//  debugger;
     var zoom = map.getZoom();
     if (!dirServ) dirServ = new google.maps.DirectionsService();
 //      suppressMarkers: true,
