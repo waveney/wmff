@@ -105,6 +105,8 @@
         $_POST{'AccessKey'} = rand_string(40);
       } elseif (isset($_POST{'Contract'})) { 
         Contract_Save($Side,$Sidey,2); 
+      } elseif (isset($_POST{'Contract2'})) { 
+        Contract_Save($Side,$Sidey,2,1); 
       } elseif (isset($_POST{'Decline'})) { 
         Contract_Decline($Side,$Sidey,2); 
       }
@@ -165,7 +167,12 @@
   Show_Perf_Year($snum,$Sidey,$YEAR,Access('Staff'));
 
   if ($snum > 0) {
-    if (Access('SysAdmin')) echo "<div class=floatright><input type=Submit id=smallsubmit name='NewAccessKey' class=Button$BUTTON value='New Access Key'></div>\n";
+    if (Access('SysAdmin')) {
+      echo "<div class=floatright>";
+      echo "<input type=Submit id=smallsubmit name='NewAccessKey' class=Button$BUTTON value='New Access Key'>";
+      echo "<input type=Submit id=smallsubmit name='Contract2' class=Button$BUTTON value='Confirm Contract'>";
+      echo "</div>\n";
+    }
     echo "<Center><input type=Submit name='Update' value='Save Changes' class=Button$BUTTON >\n";
     if (Access('Staff','Dance')) {
       if (!isset($Sidey['Coming']) || $Sidey['Coming'] == 0) {

@@ -540,6 +540,7 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   }
 
   echo "<input type=submit name=ACTION value=DOWNLOAD formaction='ShowFile.php?D=" . Get_Invoice_Pdf($id,'',$inv['Revision']) . "'>";
+  if ($inv['PayDate']) echo "<input type=submit name=ACTION value=UNPAID>";
 
   if ( Access('SysAdmin')) echo "<input type=submit name=ACTION value=PRINTPDF>";
   echo "</form><p>";

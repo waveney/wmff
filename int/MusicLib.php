@@ -380,17 +380,17 @@ function &Other_All() {
   return $All;
 }
 
-function Contract_Save($Side,$Sidey,$Reason) {
+function Contract_Save($Side,$Sidey,$Reason,$exist=0) {
   global $PLANYEAR,$Book_State;
   include_once("Contract.php");
   $snum = $Side['SideId'];
   $Cont = Show_Contract($snum,$Reason);
   if (!Contract_Check($snum)) {
-    $IssNum = abs($Sidey['Contracts'])+1;
+    $IssNum = abs($Sidey['Contracts'])+ ($exist?0:1);
     $_POST['Contracts'] = $IssNum;
     $_POST['ContractDate'] = time();
     $_POST['YearState'] = $Book_State['Contract Signed'];
-    mkdir("Contracts/$PLANYEAR",0775,true);
+    if (!file_exists("Contracts/$PLANYEAR")) mkdir("Contracts/$PLANYEAR",0775,true);
     file_put_contents("Contracts/$PLANYEAR/$snum.$IssNum.html",$Cont);
     return 1;
   }

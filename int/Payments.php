@@ -54,6 +54,7 @@
       if ($b['id']) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>" . $b['SN'] . "</a>\n";
     }
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Homeless</a>\n";
+    echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Contract</a>\n";
     echo "</thead><tbody>";
   }
   
@@ -85,6 +86,19 @@
       foreach($BUDGET as $i=>$b) {
         echo "<td>";
         if (isset($bud[$i])) echo $bud[$i];
+      }
+      echo "<td>";
+      if ($files = glob("Contracts/$YEAR/" . $payee['SideId'] . ".*")) {
+        $IssPfx = '';
+        $file = '';
+        if ($payee['Contracts']) $IssPfx = "." . $payee['Contracts'];
+        $files = glob("Contracts/$YEAR/" . $payee['SideId'] . "$IssPfx.*");
+        if ($files) {
+          $file = $files[0];
+        }
+        if ($file) {
+          echo "<a href='ShowFile.php?l=$file'>View</a>";
+        }
       }
       echo "\n";
     }
