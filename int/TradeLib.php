@@ -1549,7 +1549,20 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
       echo "<h3>No Invoices Found</h3>";
     }
     break;
-  
+  case 'UnPaid':
+    $PaidSoFar -= $data;
+    $Trady['TotalPaid'] -= $data;
+    $Ychng = 1;    
+    $Dep = T_Deposit($Trad);
+    $fee = $Trady['Fee'];
+    $xtra = $data;
+    if ($Trady['TotalPaid'] >= $fee) { // No change?
+    } else if ($Trady['TotalPaid'] >= $Dep) {
+      $NewState = $Trade_State['Deposit Paid'];
+    } else {
+      $NewState = $Trade_State['Accepted'];
+    }
+    break;
   
   default:
     break;
@@ -1563,9 +1576,9 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
 
 // var_dump($Ychng,$CurState,$NewState);
 
-  if ($Tchng) Put_Trader($Trad);
-  if ($Ychng || $CurState != $NewState ) {
-    if ($Action) $Trady['BookingState'] = $NewState; // Action test is to catch the moe errors
+  if ($Tchng && $Action) Put_Trader($Trad);
+  if ($Action && ($Ychng || $CurState != $NewState )) {
+    $Trady['BookingState'] = $NewState; // Action test is to catch the moe errors
     $By = (isset($USER['Login'])) ? $USER['Login'] : 'Trader';
     $Trady['History'] .= "Action: $Hist $Action $xtra on " . date('j M Y H:i') . " by $By.\n";
     Put_Trade_Year($Trady);

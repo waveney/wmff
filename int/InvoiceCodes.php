@@ -33,7 +33,7 @@
         $TotPaid[$inv['InvoiceCode3']] += $inv['PaidTotal'] * $inv['Amount3']/$inv['Total']; 
       } else {
         $TotInv[$inv['InvoiceCode']] += $inv['Amount3'];
-        $TotPaid[$inv['InvoiceCode']] += $inv['PaidTotal'] * $inv['Amount2']/$inv['Total'];      
+        $TotPaid[$inv['InvoiceCode']] += $inv['PaidTotal'] * $inv['Amount3']/$inv['Total'];      
       } 
 
     } else { // Simle case

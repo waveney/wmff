@@ -200,6 +200,14 @@
     case 'SHOWCODE' :
     
       break;
+      
+    case 'UNPAID' : // Cancel a Paid action in error
+      $inv['PayDate'] = 0;
+      $inv['PaidTotal'] = 0;
+      $inv['History'] .= "Recorded as unpaid: " . date('j/n/d') . "\n";      
+      Put_Invoice($inv);
+      if ($inv['Source'] == 1) Trade_F_Action($inv['SourceId'],'UnPaid',$inv['Total']); 
+      break;
     
     }
 

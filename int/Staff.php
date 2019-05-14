@@ -322,7 +322,7 @@
       echo "<li><a href=OtherPaymentSummary.php?Y=$YEAR>Other Payment Summary</a>\n";   
       echo "<li><a href=ListTrade.php?ORGS>Businesses and Organistaions List</a>\n"; 
       echo "<li><a href=Trade.php?ORGS>New Business or Organistaion</a>\n";  
-      echo "<li><a href=Payments.php?Y=$YEAR>List All Payments</a>\n";  
+      echo "<li><a href=Payments.php?Y=$YEAR>List All Performer Payments</a>\n";  
     } elseif (Access('Committee')) {
       echo "<li><a href=BudgetManage.php?Y=$YEAR>Budget View</a>\n";
       echo "<li><a href=InvoiceManage.php?Y=$YEAR>Invoice Management</a>\n";
