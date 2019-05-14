@@ -14,7 +14,7 @@ $TS_Actions = array('Submit,Invite,Invite Better',
                 'Resend,Quote,Invite,Accept,Decline,UnQuote',
                 'Resend,Dep Paid,Cancel',
                 'Resend,Paid,Invoice,Cancel',
-                'Resend,Paid,Cancel',
+                'Resend,Paid,Chase,Cancel',
                 'Resend,Cancel',
                 'Resend,Accept,Decline,Cancel',
                 'Resend,Quote,Cancel');
@@ -37,6 +37,7 @@ $ButExtra = array(
         'Invite Better'=>'title="Send an Invitation to a better location"',
         'Artisan Invite'=>'title="Send an Artisan Invite"',
         'UnQuote'=>'title="Remove Quote or Invitation"',
+        'Chase'=>'title="Chase email for final payment"',
         ); 
 $ButTrader = array('Submit','Accept','Decline','Cancel','Resend'); // Actions Traders can do
 $RestrictButs = array('Paid','Dep Paid'); // If !AutoInvoice or SysAdmin
@@ -1563,6 +1564,15 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
       $NewState = $Trade_State['Accepted'];
     }
     break;
+  
+  case 'Chase':
+    $att = 0;
+    $Invs = Get_Invoices(" OurRef='" . Sage_Code($Trad) . "'"," IssueDate DESC ");
+    if ($Invs) $att = Get_Invoice_Pdf($Invs[0]['id']);
+
+    Send_Trader_Email($Trad,$Trady,'Trade_Chase1',$att); 
+    break;
+    
   
   default:
     break;
