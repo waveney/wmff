@@ -43,7 +43,7 @@ Cash will not be used for payments. Any queries should be submitted through the 
 
 <PARKING>
 
-<dt>Changes<dd>Any Change, other than to sound check times, will require the contract to be confirmed again.<P>
+<dt>Changes<dd>Any Change <SOUNDCHECK>, other than to sound check times,</SOUNDCHECK> will require the contract to be confirmed again.<P>
 
 This contract and any attachments or riders incorporated herein, shall be governed by the UK Music
 Performance law, and is binding and valid only when confirmed by both parties.
