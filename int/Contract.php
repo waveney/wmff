@@ -153,7 +153,7 @@ services, under the following terms and conditions:<p>\n";
   
   if ($Sidey['ReportTo'] == 0 ) {
     $str .= "<b>ON ARRIVAL</b>: Please report to the <b>Information Point in the square. </b>" .
-            "You will need to arrive prior to your soundcheck time to collect wristbands.<p>\n";
+            ($SoundChecks ?"You will need to arrive prior to your soundcheck time to collect wristbands.":"") . "<p>\n";
   } else if ($Sidey['ReportTo'] == 1 ) { // None
   } else {
     $Reporttos = Report_To();
