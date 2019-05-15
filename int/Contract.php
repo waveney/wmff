@@ -61,11 +61,12 @@ services, under the following terms and conditions:<p>\n";
 //    $str .= "<span class=NotSide>";  
   }
   
-  $ETs = Get_Event_Types();
+  $ETs = Get_Event_Types(1);
   $evc = $evd = $evv = 0;
   $riders = array();
   $evday = $pkday = [-3=>0,-2=>0,-1=>0,0=>0,1=>0,2=>0,3=>0];
   $pkvens = array();
+  $SoundChecks = 0;
   $pking = "";
   if (!$Evs) {
     return "No Contract Yet";  // With no events there is no conract, not even a draft
@@ -78,6 +79,7 @@ services, under the following terms and conditions:<p>\n";
       $str .= "<tr><td>Number<td>Event Name<td>Date<td>Start<td>Duration<td colspan=3>Where\n";
     }
     foreach($Evs as $e) {
+      if ($ETs[$e['Type']]['Public'] == 0 || $ETs[$e['Type']]['DontList'] == 1) $SoundChecks = 1;
       $evc++;
       if ($e['SubEvent'] < 0) { $End = $e['SlotEnd']; } else { $End = $e['End']; };
       if (($e['Start'] != 0) && ($End != 0) && ($e['Duration'] == 0)) $e['Duration'] = timeadd2real($End, - $e['Start']);
@@ -222,6 +224,8 @@ services, under the following terms and conditions:<p>\n";
       // Should never get here
     }
   }
+  
+  if (!$SoundChecks) $faq = preg_replace("/<SOUNDCHECK>.*<\/SOUNDCHECK>/",'',$faq);
 
   $str .= $faq;
 

@@ -131,7 +131,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
   dohead($Ev['SN'] . $xtra,[],1); // TODO Event specific banners
   
   if ($Ev['NonFest']) echo "This event is not run by the folk festival, but is shown here for your information.<p>\n";
-  if ($Ev['Description']) echo $Ev['Description'] . "<P>";
+  if ($Ev['Description'] && !$Ev['Blurb']) echo $Ev['Description'] . "<P>";
   // On, Start, End, Durration, Price, Where 
   echo "<div class=tablecont><table><tr><td>";
   if ($Ev['LongEvent']) {
