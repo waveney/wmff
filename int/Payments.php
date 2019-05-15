@@ -95,6 +95,9 @@
         $files = glob("Contracts/$YEAR/" . $payee['SideId'] . "$IssPfx.*");
         if ($files) {
           $file = $files[0];
+        } else if ($payee['Contracts'] == 1) {
+          $files = glob("Contracts/$YEAR/" . $payee['SideId'] . ".*");
+          if ($files) $file = $files[0];
         }
         if ($file) {
           echo "<a href='ShowFile.php?l=$file'>View</a>";
