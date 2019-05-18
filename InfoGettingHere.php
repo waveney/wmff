@@ -17,7 +17,6 @@
 ?>
 <script language=Javascript defer>
 function ShowBus(Route) {
-debugger;
   $('#TimeTab').load("/files/BusRoute" +Route );
 }
 </script>
@@ -25,7 +24,7 @@ debugger;
 <h2>Getting To Wimborne</h2>
 Wimborne Minster Folk Festival takes place in the historic market town of Wimborne Minster in Dorset.<p>
 
-<a href=#Buses class=PurpButton>Public Transport</a> <a href=#Taxis class=PurpButton>Taxis</a><p>
+Junmp to: <a href=#Buses class='DaySkipTo sattab'>Public Transport</a> <a href=#Taxis class='DaySkipTo suntab'>Taxis</a><p>
 <div class=BorderBox>
 <h2>By Road</h2>
 
@@ -52,7 +51,7 @@ Note there will be a temporary bus stop by the Campsite, this is on the route of
 
 Buses in <span class=ExtraBus>Bold Blue</span> are additional buses being run for the festival.<p>
 <div class=tablecont>
-<table border class=GreenTable>
+<table class=InfoTable>
 <tr><td>Route<td colspan=3>To Wimborne<td colspan=3>From Wimborne
 <tr><td>Route 3<td><a onclick=ShowBus('3.1') class=FakeLink>Friday</a>
 		<td><a onclick=ShowBus('3.2') class=FakeLink>Saturday</a>
@@ -78,7 +77,7 @@ Buses in <span class=ExtraBus>Bold Blue</span> are additional buses being run fo
 </div><div class=BorderBox>
 <h2><a name=Taxis></a>By Taxi</h2>
 This is a list of Taxi firms.  Note only those from East Dorset can wait at Taxi ranks in Wimborne, others can pick up booked passengers.<p>
-<div class=tablecont><table border class=WedTab>
+<div class=tablecont><table class=InfoTable>
 <tr><td>Authority<td>Name<td>Phone
 <?php
   include_once("int/TradeLib.php");

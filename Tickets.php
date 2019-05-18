@@ -36,7 +36,7 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 <a href=/InfoCamping.php><b>Camping Information and Camping Tickets.</b></a><p>
 
 <p><div class=tablecont>
-<table cellspacing="5" cellpadding="5" style="background-color:#39a5d8; border-color:#39a5d8; max-width:1200px; min-width:800px">
+<table class=InfoTable>
 <tr><th colspan="5">Festival Passes</th>
 <?php
   foreach(['Weekend','Friday','Saturday','Sunday'] as $day) {
@@ -128,8 +128,8 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 
   echo "</table></div></div></p>";
 
-  echo "<div class=tablecont><table class=GreenTable style='min-width:700px'>";
-  echo "<tr><th colspan=3>Camping Tickets";
+  echo "<div class=tablecont><table class='InfoTable CampTable' style='min-width:700px'>";
+  echo "<tr><th colspan=7>Camping Tickets";
   
   $Avails = [
              'Thursday, Friday, Saturday and Sunday nights'=>['TFSS',4],

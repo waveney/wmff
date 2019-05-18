@@ -35,7 +35,7 @@ function ShowForm($Dir='H') {
   global $Locs,$LocUsed,$YEAR;
 // Work OUt the selection form
   $ShowForm = "<form>" . fm_hidden('Y',$YEAR);
-  $ShowForm .= "<div class=tablecont><table class=GreenTable>";
+  $ShowForm .= "<div class=tablecont><table class=InfoTable>";
   $ShowForm .=  "<tr><td>Show by Location:"; // <td>Show by Type
 
   $ShowForm .=  (($Dir=='H')?"<td>":"");
