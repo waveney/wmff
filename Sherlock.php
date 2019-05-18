@@ -82,7 +82,14 @@
                 );
 
   $NotAllFree = 0;
-  foreach($Evs as $e) if ($e['Price1']) $NotAllFree = 1;
+  $DaysUsed = [];
+  for ($i=-4;$i<10; $i++) $DaysUsed[$i] = 0;
+  foreach($Evs as $e) {
+    if ($e['Price1']) $NotAllFree = 1;
+    $DaysUsed[$e['Day']] = 1;
+  }
+  $TotalDays = array_sum($DaysUsed);
+  
 
   if ($Evs && $Complete) {
     if ($Complete <4 || $YEAR!=$SHOWYEAR) echo "<h2>" . $Titles[$Complete] . "</h2>";
@@ -98,15 +105,25 @@
       echo "</div>";    
     }
     
+//var_dump($TotalDays,$DaysUsed);
+    if ($TotalDays > 1) {
+      echo "<p>Jump to: ";
+      for ($i=-4;$i<10; $i++) {
+        if (!$DaysUsed[$i]) continue;
+        echo "<a href=#SkipTo" . ($i+10) . " class='DaySkipTo " . $DayList[$i] . "Tab'>" . $DayLongList[$i] . "</a> ";
+      }
+    }
+    
     echo "<div class='FullWidth WhenTable'>";
 
     if ($NotAllFree == 0) echo "All $Types are free.<p>";
 
     echo "Click on the event name for more information.<p>";
 
+    
     foreach ($Evs as $i=>$E) {
       $eid = $E['EventId'];
-      if (DayTable($E['Day'],$Types,($Complete>2?'':'(More to come)'),'','style=min-width:800')) {
+      if (DayTable($E['Day'],$Types,($Complete>2?'':'(More to come)'),'',"style='min-width:801;' id=SkipTo" . ($E['Day']+10) )) {
         echo "<tr><td>When<td>What<td>Where<td>Description" . ($NotAllFree?"<td>Price\n":"\n");
       }
 

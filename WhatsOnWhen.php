@@ -20,7 +20,7 @@
      More to come from event states and general
   */
   $More = 0; 
-  foreach ($Event_Types_Full as $et) if ($et['State'] != 4) $More++;
+  foreach ($Event_Types_Full as $et) if ($et['State'] != 4 && $et['Public']) $More++;
   if ($MASTER['FamilyState'] != 4) $More++;
   if ($MASTER['SpecialState'] != 4) $More++;
   if ($YEAR < $PLANYEAR) $More = 0;

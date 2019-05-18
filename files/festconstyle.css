@@ -928,6 +928,14 @@ div.scrollableY {
 
 table {
   width:100%;
+  display: table;
 }
 
+.staff tr, .staff tbody {
+  width:100%;
+}
+
+.staff td {
+  width:33%;
+}
 

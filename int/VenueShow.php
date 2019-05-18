@@ -7,7 +7,7 @@
   include_once("MusicLib.php");
   include_once("DispLib.php");
   
-  global $db, $YEAR,$ll,$SpecialImage,$Pictures,$PerfTypes;
+  global $db, $YEAR,$ll,$SpecialImage,$Pictures,$PerfTypes,$DayList,$DayLongList;
 
 function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   global $ll,$SpecialImage,$Pictures;
@@ -255,6 +255,22 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
     echo "<h2 class=subtitle>" . ($AllDone?'':" CURRENT ") . "PROGRAMME OF EVENTS" . ($AllDone?'':" (Others may follow)") . "</h2></center>";
     echo "Click on the event name or time to get more detail.<p>";
     if (!$NotAllFree && $Ven['SupressFree']==0) echo "All events here are Free.<p>\n";
+
+    $DaysUsed = [];
+    for ($i=-4;$i<10; $i++) $DaysUsed[$i] = 0;
+    foreach($EVs as $e) {
+      if ($e['Price1']) $NotAllFree = 1;
+      $DaysUsed[$e['Day']] = 1;
+    }
+    $TotalDays = array_sum($DaysUsed);
+    
+    if ($TotalDays > 1) {
+      echo "<p>Jump to: ";
+      for ($i=-4;$i<10; $i++) {
+        if (!$DaysUsed[$i]) continue;
+        echo "<a href=#SkipTo" . ($i+10) . " class='DaySkipTo " . $DayList[$i] . "Tab'>" . $DayLongList[$i] . "</a> ";
+      }
+    }
   }
 
 //var_dump($VirtVen);
@@ -265,7 +281,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   foreach ($EVs as $ei=>$e) {
     $eid = $e['EventId'];
     $ll = ($MaxEvDay[$e['Day']]<2?1:2);
-    if (DayTable($e['Day'],"Events")) {
+    if (DayTable($e['Day'],"Events",'','', 'id=SkipTo' . ($e['Day']+10) )) {
       echo "<tr><td>Time<td >What<td colspan=$ll>With";
       if ($NotAllFree) echo "<td>Price\n";
       $lastevent = -99;

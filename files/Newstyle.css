@@ -46,7 +46,7 @@ h2 {
 .button
     {
     padding:2.5px 10px 2.5px 10px;
-    background-color:#005983;
+    background-color:#004668;
     margin:5px 0 0 0;
     transition:background 1s, color 1s;
     color:#FFFFFF;
@@ -68,7 +68,7 @@ h2 {
 .navbutton
     {
     padding:9.5px 10px;
-    background-color:#005983;
+    background-color:#004668;
     font-size:18px;
     margin:0px;
     transition:background 1s, color 1s;
@@ -87,7 +87,7 @@ h2 {
     }
 .navbuttondrop:hover
     {
-    background-color:#005983;
+    background-color:#004668;
     }
 .staffnavbutton
     {
@@ -98,7 +98,7 @@ h2 {
     transition:background 1s, color 1s;
     }
 .staffnavbutton:hover {
-  background-color:#005983;
+  background-color:#004668;
 }
 .content, .contentlim {
   min-height:650px;
@@ -137,7 +137,7 @@ sup {
     min-width:250px;
     max-width:500px;
     min-height:250px;
-    background-color:#005983;
+    background-color:#004668;
     width:100%;
     text-align:center;
     color:#FFFFFF;
@@ -166,7 +166,7 @@ sup {
     min-width:150px;
     max-width:200px;
     min-height:150px;
-    background-color:#005983;
+    background-color:#004668;
     width:100%;
     text-align:center;
     color:#FFFFFF;
@@ -245,7 +245,7 @@ sup {
     {
     margin:0 0 0 0;
     font-size:40px;
-    color:#005983;
+    color:#004668;
     }
 .footersubtitle {
     margin:0 0 0 0;
@@ -264,7 +264,7 @@ sup {
     {
     margin:0 0 0 0;
     font-size:30px;
-    color:#005983;
+    color:#004668;
     }
 p {
   text-align:justify;
@@ -315,10 +315,11 @@ p {
 }
 table {
     padding-bottom:5px;
-    border: 1px solid inherit;
+/*    border-width: 1px;
+    border-color: inherit;
+    border-style: solid;*/
     border-radius:15px;
     overflow:auto;
-    -webkit-overflow-scrolling: touch
     display:inline-block;
     max-width:99%;
     }
@@ -352,7 +353,7 @@ input
     }
 input:Focus
     {
-    border:solid 2px #005983;
+    border:solid 2px #004668;
     color:#000000;
     }
 select
@@ -365,7 +366,7 @@ select
     }
 select:Focus
     {
-    border:solid 2px #005983;
+    border:solid 2px #004668;
     color:#000000;
     }
 textarea
@@ -379,7 +380,7 @@ textarea
     }
 textarea:Focus
     {
-    border:solid 2px #005983;
+    border:solid 2px #004668;
     color:#000000;
     }
 
@@ -564,7 +565,7 @@ textarea:Focus
     display: inline-block;
     margin-bottom:25px;
     background-color:#FFFFFF;
-    border:solid 4px #005983;
+    border:solid 4px #004668;
     border-radius:15px;
     }
 .adminarticlettl {
@@ -573,7 +574,7 @@ textarea:Focus
     text-align:center;
     font-size:30px;
     color:#FFFFFF;
-    background-color:#005983;
+    background-color:#004668;
     }
 .adminarticletxt {
     max-width:100%;
@@ -776,33 +777,17 @@ textarea:Focus
   min-height:290px;
   max-height:295px;
 }
-.Tuetab {
-  background-color:#8040cf;
-  border-color:#8040cf;
+.Tuetab, .Fritab, .Montab {
+  background-color:slategray;
+  border-color:slategray;
 }
-.Wedtab {
-  background-color:#af404f;
-  border-color:#af404f;
+.Wedtab, .Sattab {
+  background-color:seagreen;
+  border-color:seagreen;
 }
-.Thurtab {
-  background-color:#ff8000;
-  border-color:#ff8000;
-}
-.Fritab {
-  background-color:#59B404;
-  border-color:#59B404;
-}
-.Sattab {
-  background-color:#bf40c9;
-  border-color:#bf40c9;
-}
-.Suntab {
-  background-color:#f08000;
-  border-color:#f08000;
-}
-.Montab {
-  background-color:#808000;
-  border-color:#808000;
+.Thurtab, .Suntab {
+  background-color:darkcyan;
+  border-color:darkcyan;
 }
 .lemontab {
 }
@@ -815,24 +800,31 @@ textarea:Focus
 }
 
 .Tuetab tr:hover td, .Wedtab tr:hover td, .Thurtab tr:hover td, .Fritab tr:hover td, .Sattab tr:hover td, .Suntab tr:hover td, .Montab tr:hover td, .lemontab tr:hover td,
-.GreenTable tr:hover td {
+.InfoTable tr:hover td {
   background: #f4f4f4;
 }
 
-.GreenTable {
+.InfoTable {
   margin:0;
   padding:5px;
   max-width:95%;
   min-width:30%;
   border-spacing:5px;
-  background-color:#59B404; 
-  border-color:#59B404; 
+  background-color:#004668; 
+  border-color:#004668; 
+  border-width:2px;
+  padding-right:3px;
 }
 
-.GreenTable td {
+.InfoTable td {
   margin:5px;
   padding:10px;
   background-color:white;
+  border-width:2px;
+}
+
+.CampTable td:nth-child(2), .CampTable td:nth-child(3), .CampTable td:nth-child(4), .CampTable td:nth-child(5) {
+  width:80px;
 }
 
 .TicketTable {
@@ -1090,7 +1082,7 @@ textarea {
 
 .ArtTextBT {
   text-align:center;
-  color: #005983;
+  color: #004668;
   font-weight:normal;
   font-size:24px;
 }
@@ -1466,3 +1458,13 @@ button {
 .sponflexcont p {
 
 }
+
+.DaySkipTo {
+  font-size:20px;
+  color:#fff !Important;
+  margin:5px;
+  padding:5px 10px 5px 10px;
+  border-radius:5px;
+}
+
+

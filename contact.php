@@ -5,7 +5,7 @@
 
 ?>
 <div class=tablecont>
-<p><table class='FullWidth GreenTable'>
+<p><table class='FullWidth InfoTable'>
 <tr>
 <th colspan="3">Applications for 2019 Festival</th>
 </tr>

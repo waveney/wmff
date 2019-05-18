@@ -39,7 +39,7 @@ This year the campsite will be available from Thursday (5pm onwards).<p>
 Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use postcode for the farm it over a mile away by road).<p>
 
 <?php
-  echo "<div class=tablecont><table class=GreenTable>";
+  echo "<div ><table class=InfoTable>"; // Not using tablecont for this small table
   echo "<tr><th colspan=3>Camping Tickets";
   
   $Avails = [
