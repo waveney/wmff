@@ -207,4 +207,17 @@ function Parse_DateInputs(&$feilds) {
     if (isset($_POST[$fld])) $_POST[$fld] = Date_BestGuess($_POST[$fld]);
   }
 }
+
+function Days2Festival() {
+  global $MASTER,$YEAR;
+  $now = time();
+  
+  $your_date = strtotime("$YEAR-" . $MASTER['MonthFri'] . "-" . ($MASTER['DateFri'] + $MASTER['FirstDay']));
+  $datediff = $your_date - $now;
+
+  return round($datediff / (60 * 60 * 24));
+}
+
+
+
 ?>

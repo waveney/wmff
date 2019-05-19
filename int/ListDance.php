@@ -6,6 +6,7 @@
   global $YEAR,$PLANYEAR,$Dance_Comp,$Dance_Comp_Colours,$Event_Types_Full;
   include_once("DanceLib.php"); 
   include_once("ProgLib.php");
+  include_once("DateTime.php");
   
   echo "<h2>List Dance Sides $YEAR</h2>\n";
   echo fm_hidden('Year',$YEAR);
@@ -26,6 +27,9 @@
 
   $DanceState = 0;
   foreach( $Event_Types_Full  as $ET) if ($ET['SN'] == 'Dancing') $DanceState = $ET['State'];
+  $Days2Festival = Days2Festival();
+  
+//  echo "Days to fest: $Days2Festival<p>";
 
   echo "If you click on the email link, press control-V afterwards to paste the standard link into message.<p>";
   $col9 = $col8 = $col7 = '';
@@ -215,6 +219,12 @@
             echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Program',$snum,'Program','SendProfEmail.php')" . 
                  Proforma_Background('Program') . ">Program</button>";
           }
+        }
+        
+        if ($DanceState == 4 && $Days2Festival < 20) {
+            echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Final_Info',$snum,'FinalInfo','SendProfEmail.php')" . 
+                 Proforma_Background('FinalInfo') . ">Final Info</button>";
+        
         }
       }
 
