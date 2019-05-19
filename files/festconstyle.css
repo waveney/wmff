@@ -560,10 +560,10 @@ div.dataTables_wrapper {
   min-width:250px;
   max-width:250px;
   height:154px;
-  min-height:154px;
-  max-height:154px;
+  min-height:154.5px;
+  max-height:154.5px;
   font-size:14px;
-  overflow:hidden;
+  overflow: hidden;
   padding-left:15px;
   padding-right:15px;
 }
@@ -575,8 +575,12 @@ div.dataTables_wrapper {
   overflow:hidden;
   margin-bottom:2px;
   padding: 0 0 0 0;
-/*  padding-left:15px;
-#  padding-right:15px; */
+}
+
+.adrlables tr td:nth-child(2) {
+  width:265px;
+  min-width:265px;
+  max-width:265px;
 }
 
 p {
