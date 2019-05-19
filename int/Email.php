@@ -209,6 +209,15 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,&$attachments=0) {
             if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
             $rep = "<a href='https://" . $MASTER_DATA['HostURL'] . ($url? "/$url" : "") . "'>$txt</a>";
             break;
+          case (preg_match('/READFILE_(.*)/',$key,$mtch)?true:false):
+            $file = file_get_contents($mtch[1]);
+            if ($file) {
+              $rep = $file;
+            } else {
+              $rep = "File " . $mtch[1] . " not Found.<p>";
+            }
+            break;
+
           default:
             $rep = ($helper?$helper($key,$helperdata,$attachments):"*$key*");
             break;
@@ -282,6 +291,7 @@ function Replace_Help($Area='',$Right=0) {
   ['*TICKBOX:b:TEXT*','Direct link to click a box, b=box num(1-4), TEXT to be displayed (NO SPACES - any _ will appear as spaces)','Dance'],
   ['*TRADEMAP*','Trade location and Map info','Trade'],
   ['*WEBSITESTUFF*','Traders photo and product description prompt','Trade'],
+  ['*READFILE_file*','Read file as body of message - only use for VERY large messages, contact Richard','All'],
   ];
 
   echo "<span " . ($Right?' class=floatright':'') . " id=largeredsubmit onclick=($('.HelpDiv').toggle()) >Click to toggle Standard Replacements Help</span>";
