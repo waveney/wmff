@@ -42,14 +42,24 @@
   }
 
   if (isset($_GET{'INC'})) {
-    if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR>Exclude Declined/Cancelled/Not Submitted</a>, <a href=ListCTrade.php?Y=$YEAR&SUB>Include Submitted</a></h2>";
+    if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR>Exclude Declined/Cancelled/Not Submitted</a>, " .
+      "<a href=ListCTrade.php?Y=$YEAR&SUB>Include Submitted</a>, " .
+      "<a href=ListCTrade.php?Y=$YEAR&ONLY>Only Submitted</a>, </h2>";
     $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR ORDER BY SN";
   } else if (isset($_GET['SUB'])) { 
-    if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR&INC>Show All</a>, <a href=ListCTrade.php?Y=$YEAR>Exclude Declined/Cancelled/Submitted</a></h2>";
-    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Submitted'] . " ORDER BY SN";  
-  }else {  
-    if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR&INC>Show All</a>, <a href=ListCTrade.php?Y=$YEAR&SUB>Include Submitted</a></h2>";
-    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>" . $Trade_State['Submitted'] . " ORDER BY SN";
+    if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR&INC>Show All</a>, <a href=ListCTrade.php?Y=$YEAR>Exclude Declined/Cancelled/Submitted</a>" .
+      "<a href=ListCTrade.php?Y=$YEAR&ONLY>Only Submitted</a>, </h2>";
+    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Submitted'] .
+           " ORDER BY SN";  
+  } else if (isset($_GET['ONLY'])) { 
+    if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR&INC>Show All</a>, <a href=ListCTrade.php?Y=$YEAR>Exclude Declined/Cancelled/Submitted</a> </h2>";
+    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState=" . $Trade_State['Submitted'] .
+           " ORDER BY SN";  
+  } else {  
+    if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR&INC>Show All</a>, <a href=ListCTrade.php?Y=$YEAR&SUB>Include Submitted</a>, " .
+      "<a href=ListCTrade.php?Y=$YEAR&ONLY>Only Submitted</a> </h2>";
+    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>" . $Trade_State['Submitted'] . 
+      " ORDER BY SN";
   }
 
   $res = $db->query($qry);
@@ -233,36 +243,39 @@
 
   if (!$Sum && isset($str)) echo $str;
 
-  echo "<p><div class=tablecont><table border id=narrowtable><tr><td>Type<td>Received<td>Total Accept<td>Total inc Quoted<td>Details\n";
-  foreach ($Trade_Types as $t) {
-    if (isset($TrMon[$t['id']]) && $TrMon[$t['id']]) {
-      echo "<tr><td style='background:" . $t['Colour'] . ";'>" . $t['SN'] ;
-      echo "<td>" . Print_Pound($TrRec[$t['id']]) . "<td>" . Print_Pound($TrSub[$t['id']]) . "<td>" . Print_Pound($TrMon[$t['id']]);
-      echo "<td><a href=ListDTrade.php?t=" . $t['id'] . ">Details</a>\n";
+  if (!isset($_GET['ONLY'])) {
+    echo "<p><div class=tablecont><table border id=narrowtable><tr><td>Type<td>Received<td>Total Accept<td>Total inc Quoted<td>Details\n";
+    foreach ($Trade_Types as $t) {
+      if (isset($TrMon[$t['id']]) && $TrMon[$t['id']]) {
+        echo "<tr><td style='background:" . $t['Colour'] . ";'>" . $t['SN'] ;
+        echo "<td>" . Print_Pound($TrRec[$t['id']]) . "<td>" . Print_Pound($TrSub[$t['id']]) . "<td>" . Print_Pound($TrMon[$t['id']]);
+        echo "<td><a href=ListDTrade.php?t=" . $t['id'] . ">Details</a>\n";
+      }
     }
-  }
-  echo "<tr><td>Total Fees<td>" . Print_Pound($totrec) . "<td>" . Print_Pound($totsub) . "<td>" . Print_Pound($totfee) . "<td>\n";
-  echo "</table></div><br>";
-  echo "<div class=tablecont><table border id=narrowtable><tr><td>Location<td>Received<td>Total Accept<td>Total inc Quoted<td>Details\n";
-  foreach ($TradeLocData as $TLoc) {
-    if (!isset($TLoc['QuoteTot']) || $TLoc['QuoteTot'] == 0) continue;
-    echo "<tr><td>" . $TLoc['SN'];
-    echo "<td>" . Print_Pound($TLoc['ReceiveTot']) . "<td>" . Print_Pound($TLoc['AcceptTot']) . "<td>" . Print_Pound($TLoc['QuoteTot']);
-    echo "<td><a href=ListDTrade.php?l=" . $TLoc['TLocId'] . ">Details</a>\n";
-    $TotLRec += $TLoc['ReceiveTot'];
-    $TotLAcc += $TLoc['AcceptTot'];
-    $TotLQut += $TLoc['QuoteTot'];
-    }
+    echo "<tr><td>Total Fees<td>" . Print_Pound($totrec) . "<td>" . Print_Pound($totsub) . "<td>" . Print_Pound($totfee) . "<td>\n";
+    echo "</table></div><br>";
+    echo "<div class=tablecont><table border id=narrowtable><tr><td>Location<td>Received<td>Total Accept<td>Total inc Quoted<td>Details\n";
+    foreach ($TradeLocData as $TLoc) {
+      if (!isset($TLoc['QuoteTot']) || $TLoc['QuoteTot'] == 0) continue;
+      echo "<tr><td>" . $TLoc['SN'];
+      echo "<td>" . Print_Pound($TLoc['ReceiveTot']) . "<td>" . Print_Pound($TLoc['AcceptTot']) . "<td>" . Print_Pound($TLoc['QuoteTot']);
+      echo "<td><a href=ListDTrade.php?l=" . $TLoc['TLocId'] . ">Details</a>\n";
+      $TotLRec += $TLoc['ReceiveTot'];
+      $TotLAcc += $TLoc['AcceptTot'];
+      $TotLQut += $TLoc['QuoteTot'];
+      }
     
-  echo "<tr><td>Total Fees<td>" . Print_Pound($TotLRec) . "<td>" . Print_Pound($TotLAcc) . "<td>" . Print_Pound($TotLQut) . "<td>\n";
+    echo "<tr><td>Total Fees<td>" . Print_Pound($TotLRec) . "<td>" . Print_Pound($TotLAcc) . "<td>" . Print_Pound($TotLQut) . "<td>\n";
 
-  echo "</table></div><br>\n";
-  echo "<div class=tablecont><table border id=narrowtable><tr><td>State<td>Number\n";
-  foreach ($Trade_States as $i=>$state) {
-    if (isset($TrState[$i]) && $TrState[$i]>0) echo "<tr><td style='background:" . $Trade_State_Colours[$i] . ";padding:4; white-space: nowrap;'>$state<td>" . $TrState[$i];
+    echo "</table></div><br>\n";
+    echo "<div class=tablecont><table border id=narrowtable><tr><td>State<td>Number\n";
+    foreach ($Trade_States as $i=>$state) {
+      if (isset($TrState[$i]) && $TrState[$i]>0) echo "<tr><td style='background:" . $Trade_State_Colours[$i] . ";padding:4; white-space: nowrap;'>$state<td>" .
+         $TrState[$i];
+    }
+    echo "</table></div>";
+    echo "<p>";
   }
-  echo "</table></div>";
-  echo "<p>";
   dotail();
 ?>
 
