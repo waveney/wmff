@@ -568,14 +568,15 @@ div.dataTables_wrapper {
   padding-right:15px;
 }
 
-.adrlabels {
-  width:800px;
+.adrlables {
+  min-width:800px;
+  max-width:800px;
   table-layout: fixed;
   overflow:hidden;
   margin-bottom:2px;
   padding: 0 0 0 0;
-#  padding-left:15px;
-#  padding-right:15px;
+/*  padding-left:15px;
+#  padding-right:15px; */
 }
 
 p {

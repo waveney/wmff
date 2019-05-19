@@ -9,7 +9,7 @@
     exit;
   }
 
-  dominimalhead("Print Dance Address Labels");
+  dominimalhead("Print Dance Address Labels",['files/festconstyle.css']);
   include_once("DanceLib.php");
 
   $Lines = 0;
@@ -25,7 +25,7 @@
 
   $LINESADR = 7;
 
-  echo "<table class=adrlabels border>";
+  echo "<table class=adrlables border>";
   if ($Lines) {
     for ($i = 0; $i < $Lines; $i++) echo "<tr><td class=adrlabbox><td class=adrlabbox><td class=adrlabbox>\n";
     $PerLine = 3;
@@ -37,7 +37,7 @@
     if ($PerLine == 3) {
       if (($Lines%8) == 7) {
         echo "</table>";
-        echo "<table class=adrlabels border>";
+        echo "<table class=adrlables border>";
       }
       echo "<tr>";
       $Lines++;
