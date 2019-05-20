@@ -41,7 +41,7 @@ echo "<h2>Email for " . $Side['SN'] . " - " . $Side['Contact'] . "</h2>";
 if (isset($_POST['PREVIEW'])) {
   echo "<p><h3>Preview...</h2>";
   $MessP = $Mess;
-  Parse_Proforma($MessP,$helper='Dance_Email_Details',[$Side,$Sidey]);
+  Parse_Proforma($MessP,$helper='Dance_Email_Details',[$Side,$Sidey],1);
   echo "<div style='background:white;border:2;border-color:blue;padding:20;margin:20;width:90%;height:50%;overflow:scroll' >$MessP</div>";
 }
 echo "<h3>Edit the message below, then click Preview, Send or Cancel</h3>";

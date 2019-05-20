@@ -31,11 +31,11 @@ function ProformaSend(name,snum,label,link) {
   
   if ($('#BespokeM').is(':visible')) {
     $("#DebugPane").load("sendproforma.php", "I=" + snum + "&N=" + name);
-    $("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=I&Y=" + year + "&L=" + label, function() {$("#Vited" + snum).scrollTop(1E6+ProformasSent*100)});
   } else {
     window.open((link + "?id=" + snum + "&N=" + name + "&L=" + label),"Bespoke Message " + snum);
-    $("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=J&Y=" + year + "&L=" + label, function() {$("#Vited" + snum).scrollTop(1E6+ProformasSent*100)});
   }
+  $("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=J&Y=" + year + "&L=" + label, function() {$("#Vited" + snum).scrollTop(1E6+ProformasSent*100)});
+
   ProformasSent++;
 }
 

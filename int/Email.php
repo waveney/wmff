@@ -55,7 +55,7 @@ function ConvertHtmlToText(&$body) {
 //$to can be single address, a [address, name] or [[to,address,name],[cc,addr,name],bcc,addr,name],replyto,addr,name]...]
 //$atts can be simple fie or [[file, name],[file,name]...]
 
-function NewSendEmail($to,$sub,&$letter,&$attachments=0) { 
+function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0) { 
   global $MASTER_DATA,$CONF;
   
 //  echo "Debug: " .( UserGetPref('EmailDebug')?2:0) . "<p>";
@@ -74,9 +74,17 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0) {
         } else {
           echo "Would attach $attachments<p>";       
         }
-      } else {
-        echo "No Attachments<p>";
       }
+      if ($embeded) {
+        if (is_array($embeded)) {
+          foreach ($embeded as $i=>$att) {
+            echo "Would embed attachment " . $att[0] . " as " . $att[1] . "<p>";
+          }                 
+        } else {
+          echo "Would embed $embeded<p>";       
+        }
+      }
+
       return;
     }
   }
@@ -138,6 +146,16 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0) {
         $email->addAttachment($attachments);       
       }
     }
+    if ($embeded) {
+      if (is_array($embeded)) {
+        foreach ($embeded as $i=>$att) {
+          $email->addEmbeddedImage($att[0],$att[1]);
+        }                 
+      } else {
+        $email->addEmbeddedImage($embeded);       
+      }
+    }
+
 
     $email->Send();
     
@@ -173,8 +191,9 @@ function Put_Email_Proforma(&$now) {
   return Update_db('EmailProformas',$Cur,$now);
 }
 
-function Parse_Proforma(&$Mess,$helper='',$helperdata=0,&$attachments=0) {
+function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments=0,&$embeded=[]) {
   global $PLANYEAR,$MASTER,$MASTER_DATA;
+  static $attnum = 1;
   $Reps = [];
 
   while (preg_match('/\*(\w*)\*/',$Mess)) {
@@ -217,9 +236,18 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,&$attachments=0) {
               $rep = "File " . $mtch[1] . " not Found.<p>";
             }
             break;
+          case (preg_match('/IMAGE_(.*)/',$key,$mtch)?true:false):
+            if (!file_exists($mtch[1])) { $rep = "Image " . $mtch[1] . " Not found<p>"; break;  };
+            $sfx = pathinfo($mtch[1],PATHINFO_EXTENSION );
+//            var_dump($embeded);
+            $embeded[] = [$mtch[1],"img_$attnum.$sfx"];
+
+            $rep = ($Preview?"<img src='" . $mtch[1] . "'>" :"<img src=cid:img_$attnum.$sfx>");
+            $attnum++;
+            break;
 
           default:
-            $rep = ($helper?$helper($key,$helperdata,$attachments):"*$key*");
+            $rep = ($helper?$helper($key,$helperdata,$attachments,$embeded):"*$key*");
             break;
           }
         $Reps[$key] =$rep;
@@ -237,7 +265,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,&$attachments=0) {
 
 // helper is a function that takes (THING,helperdata,atts) to return THING - not needed for generic fields typical THINGs are DETAILS, DEPOSIT...
 // if mescat > 30 chars it is assumed to be the proforma itself
-function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='',&$attachments=0) {
+function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='',&$attachments=0,&$embeded=[]) {
   global $PLANYEAR,$MASTER,$MASTER_DATA;
   if (strlen($mescat) < 30) {
     $Prof = Get_Email_Proforma($mescat);
@@ -245,9 +273,9 @@ function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='
   } else {
     $Mess = $mescat;
   }
-  Parse_Proforma($Mess,$helper,$helperdata,$attachments);
+  Parse_Proforma($Mess,$helper,$helperdata,0,$attachments,$embeded);
   
-  NewSendEmail($to,$subject,$Mess,$attachments);
+  NewSendEmail($to,$subject,$Mess,$attachments,$embeded);
   
   if ($logfile) {
     $logf = fopen("LogFiles/$logfile.txt","a");
@@ -259,6 +287,14 @@ function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='
         fwrite($logf,"With attachment $attachments\n\n");       
       }
     }
+    if ($embeded) {
+      if (is_array($embeded)) {
+        foreach ($embeded as $i=>$att) fwrite($logf,"With embeded: " . $att[0] . " as " . $att[1] . "\n\n");
+      } else {
+        fwrite($logf,"With embeded $embeded\n\n");       
+      }
+    }
+
     fclose($logf);
   }
   return $Mess;
@@ -291,7 +327,8 @@ function Replace_Help($Area='',$Right=0) {
   ['*TICKBOX:b:TEXT*','Direct link to click a box, b=box num(1-4), TEXT to be displayed (NO SPACES - any _ will appear as spaces)','Dance'],
   ['*TRADEMAP*','Trade location and Map info','Trade'],
   ['*WEBSITESTUFF*','Traders photo and product description prompt','Trade'],
-  ['*READFILE_file*','Read file as body of message - only use for VERY large messages, contact Richard','All'],
+  ['*READFILE_file*','Read file as body of message - only use for VERY large messages, contact Richard to use','All'],
+  ['*IMAGE_file*','Embed image from file - contact Richard to use','All'],
   ];
 
   echo "<span " . ($Right?' class=floatright':'') . " id=largeredsubmit onclick=($('.HelpDiv').toggle()) >Click to toggle Standard Replacements Help</span>";

@@ -5,7 +5,7 @@ $Dance_TimeFeilds = array('SatArrive','SatDepart','SunArrive','SunDepart');
 $OlapTypes = array('Dancer','Musician','Avoid');
 $OlapDays = array('All','Sat Only','Sun Only','None');
 $OlapCats = array('Side','Act','Comedy','Family','Other');
-$Proforma_Colours = ['Decide'=>'DarkOrange','Details'=>'Magenta','Program'=>'Yellow','ProgChk'=>'lightsalmon','NewProg'=>'yellow','FinalInfo'=>'LawnGreen'];
+$Proforma_Colours = ['Decide'=>'DarkOrange','Details'=>'Magenta','Program'=>'Yellow','ProgChk'=>'lightsalmon','NewProg'=>'yellow','FinalInfo'=>'LawnGreen','FinalInfo2'=>'MediumSeaGreen'];
 $TickBoxes = [['Seen Programme','Invited','YHAS','Program:']]; // Year -> Name',Criteria, test , value
 
 function Proforma_Background($name) {
