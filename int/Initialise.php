@@ -196,7 +196,7 @@ function Preload_Data() {
     ['MapPointTypes',6,['SN'=>'Dance Venue','Icon'=>'DanceIcon.png']],
     ['MapPointTypes',7,['SN'=>'Bicycle Park','Icon'=>'bicycleicom.png']],
     
-    ['Directories',0,[`SN`=>'DataRoot', 'Created'=>1, 'Who'=>1, 'Parent'=>0, 'State'=>0, 'AccessLevel'=>0, 'AccessSections'=>'', 'ExtraData'=>'']],
+    ['Directories',0,[`SN`=>'Documents', 'Created'=>1, 'Who'=>1, 'Parent'=>0, 'State'=>0, 'AccessLevel'=>0, 'AccessSections'=>'', 'ExtraData'=>'']],
 
   ];
 
