@@ -192,8 +192,8 @@ function Put_Email_Proforma(&$now) {
 }
 
 function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments=0,&$embeded=[]) {
-  global $PLANYEAR,$MASTER,$MASTER_DATA;
-  static $attnum = 1;
+  global $PLANYEAR,$MASTER,$MASTER_DATA,$USERID;
+  static $attnum = 0;
   $Reps = [];
 
   while (preg_match('/\*(\w*)\*/',$Mess)) {
@@ -239,10 +239,17 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
           case (preg_match('/IMAGE_(.*)/',$key,$mtch)?true:false):
             if (!file_exists($mtch[1])) { $rep = "Image " . $mtch[1] . " Not found<p>"; break;  };
             $sfx = pathinfo($mtch[1],PATHINFO_EXTENSION );
-//            var_dump($embeded);
             $embeded[] = [$mtch[1],"img_$attnum.$sfx"];
 
-            $rep = ($Preview?"<img src='" . $mtch[1] . "'>" :"<img src=cid:img_$attnum.$sfx>");
+            if ($Preview) {
+              Set_User();
+              if (!$attnum) system("rm Temp/$USERID.*");
+              $tf = $USERID . "." . $attnum . "." . time() . ".$sfx";
+              copy($mtch[1],"Temp/$tf");    
+              $rep = "<img src='Temp/$tf'>";
+            } else {
+              $rep = "<img src=cid:img_$attnum.$sfx>";
+            }
             $attnum++;
             break;
 
