@@ -359,6 +359,7 @@
 //      echo "<li><a href=BannerManage.php>Manage Banners</a> \n";
       echo "<li><a href=General.php?Y=$YEAR>General Year Settings</a> \n";
       echo "<li><a href=MasterData.php>Master Data Settings</a> \n";
+      echo "<li><a href=/Donate.php>Donate</a> - test code now\n";
     }
     echo "</ul>\n";
 

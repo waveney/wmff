@@ -1467,4 +1467,29 @@ button {
   border-radius:5px;
 }
 
+.DonateCont {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 
+}
+
+.Donate {
+  text-align: center;
+  height: 400px;
+  margin: 5px;
+  padding: 5px;
+  min-width:350px;
+  max-width:350px;
+  border: 1px solid black;
+  background: #eee;
+}
+
+.Donate h2 {
+
+}
+
+.Donate img {
+ max-width:320px;
+ max-height:200px;
+}

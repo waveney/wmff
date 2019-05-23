@@ -93,6 +93,9 @@ function NavSetPosn(e,labl) {
   $("#MenuChild" + labl).css({"margin-left":(( lablwid-$('.dropdown-content').width())/2) });
 }
 
+var MenuWidths = [470,1000,1290,1380];
+var MenuWidthsDonate = [470,1115,1385,1470];
+
 function MenuResize() {
 // Work out effective width
 // if < Threshold 2 - hide level 2 elements
@@ -105,7 +108,7 @@ function MenuResize() {
 //  debugger;
   var Ewidth = $(".Main-Header").outerWidth();
   var IconWidth = $(".header-logo").width();
-  if (Ewidth > 1380 ) {  // Show all
+  if (Ewidth > MenuWidths[3] ) {  // Show all
     $(".MenuIcon").hide();
     CloseHoverMenu();
     $(".MenuMinor0").show();
@@ -115,13 +118,13 @@ function MenuResize() {
     $(".WMFFBannerText").css({"font-size":'44pt'});
   } else {
     $(".MenuMinor2").hide();
-    if (Ewidth < 1290) { // Show limited
+    if (Ewidth < MenuWidths[2]) { // Show limited
       $(".MenuMinor1").hide();
       $("#MenuBars").css({"right":80, "width":(Ewidth-IconWidth-120)});
       $(".WMFFBannerText").css({"font-size":'40pt'});
-      if (Ewidth < 1000) { // Show none
+      if (Ewidth < MenuWidths[1]) { // Show none
         $(".MenuMinor0").hide();
-        if (Ewidth < 470) { // Not even the dates!!
+        if (Ewidth < MenuWidths[0]) { // Not even the dates!!
           $(".FestDates").hide();
           $(".SmallDates").show();
           $(".WMFFBannerText").css({"font-size":'20pt'});
@@ -150,6 +153,7 @@ function MenuResize() {
 
 
 $(document).ready(function() {
+  if ($('#MenuDonate')) MenuWidths = MenuWidthsDonate;
   MenuResize();
   window.addEventListener('resize',MenuResize);  
 })
