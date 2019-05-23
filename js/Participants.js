@@ -153,7 +153,8 @@ function AddBandRow(BPerR) {
   while (document.getElementById("BandRow" + row)) row++;
   var newrow = "<tr id=BandRow" + row + "><td>";
   for (var i=0;i<BPerR;i++) { 
-    newrow += "<td><input name=BandMember" + (BPerR*row+i) + ":0 type=text size=16 onchange=BandChange(event)>";
+    var id = "BandMember" + (BPerR*row+i) + ":0";
+    newrow += "<td><input name=" + id + " id=" + id + " type=text size=16 onchange=BandChange(event) oninput=AutoInput('" + id + "') >";
   };
   newrow += "</tr>";
   $("#AddHere").before(newrow);
@@ -214,19 +215,21 @@ function EventPerfSel(e,l,v) {
 function AutoInput(f) {
 //  debugger;
   var newval = document.getElementById(f).value;
+  var id = f;
+  if (document.getElementById(f).newid ) id = document.getElementById(f).newid;
   var yearval = (document.getElementById('Year') ? (document.getElementById('Year').value || 0) : 0);
   var typeval = document.getElementById('AutoType').value;
   var refval = document.getElementById('AutoRef').value;
-  $.post("formfill.php", {'D':typeval, 'F':f, 'V':newval, 'Y':yearval, 'I':refval}, function( data ) {
+  $.post("formfill.php", {'D':typeval, 'F':id, 'V':newval, 'Y':yearval, 'I':refval}, function( data ) {
     var elem = document.getElementById(f);
-    var m = data.match(/^\s?@(.*)@/);
+    var m = data.match(/^\s*?@(.*)@/);
     if (m) {
-      elem.id = m[1];
-    } else if (m = data.match(/^\s?#(.*)#/)) { // Photo update 
+      elem.newid = elem.name = m[1];
+    } else if (m = data.match(/^\s*?#(.*)#/)) { // Photo update 
       m = data.split('#')
       elem.value = m[1];
       document.getElementById(m[2]).src = m[3];
-    } else if (m = data.match(/^\s!(.*)!/)) $('#ErrorMessage').html( m[1] );
+    } else if (m = data.match(/^\s*!(.*)!/)) $('#ErrorMessage').html( m[1] );
 
     var dbg = document.getElementById('Debug');
     if (dbg) $('#Debug').html( data) ;  

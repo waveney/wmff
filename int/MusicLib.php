@@ -76,11 +76,14 @@ function Add_BandMember($bid,$name) {
 function UpdateBand($id) {
   $CurBand = Get_Band($id);
   $RevBand = array();
+//  echo "UpdateBand Called...";
+//var_dump(debug_backtrace());
 //  var_dump($CurBand);
+//  var_dump($_POST);
 // Updates
   $bi = 0;
   if ($CurBand) foreach ($CurBand as $b) {
-    if ($b['SN'] != $_POST["BandMember$bi:" . $b['BandMemId']]) {
+    if (isset($_POST["BandMember$bi:" . $b['BandMemId']]) && ($b['SN'] != $_POST["BandMember$bi:" . $b['BandMemId']])) {
       $b['SN'] = $_POST["BandMember$bi:" . $b['BandMemId']];
       if ($b['SN']) {
         Put_BandMember($b);
