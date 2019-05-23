@@ -73,6 +73,7 @@
       '!/images/icons/Twitter.png'=>'!http://twitter.com/WimborneFolk',
       '!/images/icons/Instagram.png'=>'!http://instagram.com/WimborneFolk',
       '=Buy Tickets'=>'Tickets.php',
+      '%Donate'=>'Donate.php',
       ],
     'Private'=> [  
       'Staff Tools'=>'int/Staff.php',
@@ -98,12 +99,12 @@
       ],         
   ];
 
-global $MainBar,$HoverBar;
-$MainBar = $HoverBar = '';
+global $MainBar,$HoverBar,$HoverBar2;
+$MainBar = $HoverBar = $HoverBar2 = '';
 
 
 function Show_Bar(&$Bar,$level=0,$Pval=1) { 
-  global $USERID,$host,$PerfTypes,$MainBar,$HoverBar;
+  global $USERID,$host,$PerfTypes,$MainBar,$HoverBar,$HoverBar2;
   $host= "https://" . $_SERVER['HTTP_HOST'];
 //  echo "<ul class=MenuLevel$level>";
   $P=$Pval*100;
@@ -150,6 +151,12 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
         if (!$NotD) continue 2;
         $text = substr($text,1);
         break;
+      case '%' :
+        if (!Feature('Donate')) continue 2;
+        $xtra = "id=MenuDonate";
+        $text = substr($text,1);
+        break;
+        
       default:
     }
     if (is_array($link)) {
@@ -164,7 +171,7 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
       $HoverBar .= "</div>";
     } elseif (substr($link,0,1) == "!") {
       $MainBar .= "<a class='MenuMinor$Minor headericon' $xtra href='" . substr($link,1) . "' target=_blank>$text</a>";
-      $HoverBar .= "<div class=hoverdown><a class='headericon' $xtra href='" . substr($link,1) . "' target=_blank>$text</a></div>";
+      $HoverBar2 .= "<div class=hoverdown><a class='headericon' $xtra href='" . substr($link,1) . "' target=_blank>$text</a></div>";
     } else {
       if ($level == 1) $xtra .= " style='animation-duration: " . (150 * $Pi) . "ms; '";
       $MainBar .=  "<a href='$host/$link' class='MenuMinor$Minor' $xtra onmouseover=NoHoverSticky(event)>$text</a>";
@@ -218,7 +225,7 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
   echo "</a>";
   echo "<div class=MenuIcon><div id=MenuIconIcon class=MenuMenuIcon onclick=ShowHoverMenu()>Menu<img src=/images/icons/MenuIcon.png></div>";
   echo "<div id=MenuIconClose onclick=CloseHoverMenu() class=MenuMenuClose>Close<img src=/images/icons/MenuClose.png></div>";
-  echo "<div id=HoverContainer><div id=HoverMenu>$HoverBar</div></div></div>";
+  echo "<div id=HoverContainer><div id=HoverMenu>$HoverBar$HoverBar2</div></div></div>";
   echo "<div id=MenuBars>";
   echo $MainBar;
 

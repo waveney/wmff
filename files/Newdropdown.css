@@ -209,8 +209,8 @@
 
 .navigation #MenuGetTicket {
   background:rgba(255,255,255,0.3);
-  padding-left:30px;
-  padding-right:30px;
+  padding-left:20px;
+  padding-right:20px;
 }
 
 .fixedheader .navigation #MenuGetTicket {
@@ -220,6 +220,22 @@
 .navigation #MenuGetTicket:hover {
   background:rgba(197, 31, 132,1);
 }
+
+.navigation #MenuDonate {
+  background:#b32d00;
+  padding-left:20px;
+  padding-right:20px;
+}
+
+.fixedheader .navigation #MenuDonate {
+  background:#b32d00;
+  color:white;
+}
+
+.navigation #MenuDonate:hover {
+  background:#ff531a;
+}
+
 
 .dropdown {
   display: inline-block;
