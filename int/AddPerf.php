@@ -122,9 +122,9 @@
           $Sidey['syID'] = $syId;
         };
       }
-      UpdateBand($snum);
+//      UpdateBand($snum);
       Report_Log("Dance"); // TODO Dance needs to depend on IsAs
-      UpdateOverlaps($snum);
+//      UpdateOverlaps($snum);
     } else { //New Side
       $proc = 1;
       $Side = array();

@@ -425,6 +425,7 @@ function Show_Prog($type,$id,$all=0,$price=0) { //mode 0 = html, 1 = text for em
       foreach ($Evs as $e) {
         $cls = ($e['Public']<2?'':' class=NotCSide ');
         if ($all || $ETs[$e['Type']]['State'] > 1 || ($ETs[$e['Type']]['State'] == 1 && Access('Participant',$type,$id))) {
+          if (!$all && $ETs[$e['Type']]['Public'] == 0) continue;
           $evc++;
            $Worst = min($ETs[$e['Type']]['State'],$Worst);
           if ($e['BigEvent']) { // Big Event
