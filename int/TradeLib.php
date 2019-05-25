@@ -1746,7 +1746,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Li
       foreach ($Chunks as $i=>$Chunk) {
         if ($i>=$MaxCnk) break; 
  //       $Chunk = substr($Name,0,$ChSize);
-        echo "<tspan x=" . (($Pitch['X']+0.2) * $Factor)  . " y=" . (($Pitch['Y']+$Pitch['Font']+$Ystart/$Mapscale) * $Factor) . 
+        echo "<tspan x=" . (($Pitch['X']+0.2) * $Factor)  . " y=" . (($Pitch['Y']+$Ystart/$Mapscale) * $Factor) . 
              " style='font-size:" . (($Pitch['Type']?$FSize*2:$FSize)+$Pitch['Font']) . "px;'>$Chunk</tspan>";
         $Ystart += ($Pitch['Type']?1.2:0.6);
       }
