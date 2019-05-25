@@ -1493,3 +1493,14 @@ button {
  max-width:320px;
  max-height:200px;
 }
+
+.TradeTable, .TradeTable td, .TradeTable input, .TradeTable select {
+  font-size:11px;
+  padding: 2 0 0 0;
+}
+.TradeTable td {
+  height:24px;
+}
+.TradeTable input, .TradeTable select {
+
+}

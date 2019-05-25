@@ -32,7 +32,7 @@
         ],
       "Timetable"=>[
         'By Venue'=>'WhatsOnWhere.php',
-        'By Time'=>'WhatsOnWhen.php',
+//        'By Time'=>'WhatsOnWhen.php',
         '*Now'=>'WhatsOnNow.php',
 //        'Dancing'=>"int/ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR",
         'Concerts'=>'Sherlock.php?t=Concert',

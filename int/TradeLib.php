@@ -1736,7 +1736,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Li
     // Lowercase 
     // Spilt at words of poss, otherwise at length (for now)
     
-      $ChSize = floor($Pitch['Xsize']*($Pitch['Type']?1.8:3.4)*$Mapscale);
+      $ChSize = floor($Pitch['Xsize']*($Pitch['Type']?18:34)*$Mapscale/($Pitch['Font']+10));
       $Ystart = ($Pub?0.6:1.2) *($Pitch['Type']?2:1);
       $MaxCnk = floor(($Pitch['Ysize']*2.5*$Mapscale) - ($Pub?1:2));
 //      $Name = preg_replace('/.*t\/a (.*)/',
@@ -1746,8 +1746,8 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Li
       foreach ($Chunks as $i=>$Chunk) {
         if ($i>=$MaxCnk) break; 
  //       $Chunk = substr($Name,0,$ChSize);
-        echo "<tspan x=" . (($Pitch['X']+0.2) * $Factor)  . " y=" . (($Pitch['Y']+$Ystart/$Mapscale) * $Factor) . 
-             " style='font-size:" . ($Pitch['Type']?$FSize*2:$FSize) . "px;'>$Chunk</tspan>";
+        echo "<tspan x=" . (($Pitch['X']+0.2) * $Factor)  . " y=" . (($Pitch['Y']+$Pitch['Font']+$Ystart/$Mapscale) * $Factor) . 
+             " style='font-size:" . (($Pitch['Type']?$FSize*2:$FSize)+$Pitch['Font']) . "px;'>$Chunk</tspan>";
         $Ystart += ($Pitch['Type']?1.2:0.6);
       }
     }

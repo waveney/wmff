@@ -16,28 +16,29 @@
   function PitchList() {
     global $Pitches,$tloc,$loc,$TradeMapPoints;
     echo "<div class=PitchWrap><div class=PitchCont>";
-    echo "<div class=tablecont><table border><tr><td>#<td>X<td>Y<td>Ang<td>Xsize<td>Ysize<td>Type<td>Txt<td>Colr";
+    echo "<div class=tablecont><table border class=TradeTable><tr><td>#<td>X<td>Y<td>Ang<td>Xsz<td>Ysz<td>Type<td>Txt<td>Col<td>font";
     $posn = 0;
     foreach ($Pitches as $Pitch) {
       $i = $Pitch['id'];
-      echo "<tr>" . fm_text1("",$Pitch,'Posn',0.1,'','',"Posn$i");
-      echo fm_text1("",$Pitch,'X',0.15,'','',"X$i") . fm_text1("",$Pitch,'Y',0.15,'','',"Y$i");
-      echo fm_text1("",$Pitch,'Angle',0.15,'','',"Angle$i");
-      echo fm_text1("",$Pitch,'Xsize',0.15,'','',"Xsize$i") . fm_text1("",$Pitch,'Ysize',0.15,'','',"Ysize$i");
+      echo "<tr>" . fm_text1("",$Pitch,'Posn',0.08,'','',"Posn$i");
+      echo fm_text1("",$Pitch,'X',0.10,'','',"X$i") . fm_text1("",$Pitch,'Y',0.10,'','',"Y$i");
+      echo fm_text1("",$Pitch,'Angle',0.10,'','',"Angle$i");
+      echo fm_text1("",$Pitch,'Xsize',0.10,'','',"Xsize$i") . fm_text1("",$Pitch,'Ysize',0.10,'','',"Ysize$i");
       echo "<td>" . fm_select($TradeMapPoints,$Pitch,'Type',0,'',"Type$i");
-      echo fm_text1("",$Pitch,'SN',0.15,'','',"SN$i") . fm_text1("",$Pitch,'Colour',0.15,'','',"Colour$i");
+      echo fm_text1("",$Pitch,'SN',1.2,'','',"SN$i") . fm_text1("",$Pitch,'Colour',0.35,'','',"Colour$i");
+      echo fm_text1("",$Pitch,'Font',0.10,'','',"Font$i");
       echo fm_hidden("Loc$i",$loc);
       $posn = max($posn, $Pitch['Posn']);
     }
     $Pitch['Posn'] = $posn+1; 
     $Pitch['X'] = $Pitch['Y'] = $Pitch['Angle'] = 0;
-    echo "<tr>" . fm_text1("",$Pitch,'Posn',0.1,'','',"Posn0");
-    echo fm_text1("",$Pitch,'X',0.15,'','',"X0") . fm_text1("",$Pitch,'Y',0.15,'','',"Y0");
-    echo fm_text1("",$Pitch,'Angle',0.15,'','',"Angle0");
+    echo "<tr>" . fm_text1("",$Pitch,'Posn',0.08,'','',"Posn0");
+    echo fm_text1("",$Pitch,'X',0.10,'','',"X0") . fm_text1("",$Pitch,'Y',0.10,'','',"Y0");
+    echo fm_text1("",$Pitch,'Angle',0.10,'','',"Angle0");
     $Pitch['Xsize'] = $Pitch['Ysize'] = 3;
-    echo fm_text1("",$Pitch,'Xsize',0.15,'','',"Xsize0") . fm_text1("",$Pitch,'Ysize',0.15,'','',"Ysize0");
+    echo fm_text1("",$Pitch,'Xsize',0.10,'','',"Xsize0") . fm_text1("",$Pitch,'Ysize',0.10,'','',"Ysize0");
     echo "<td>" . fm_select($TradeMapPoints,$Pitch,'Type',0,'',"Type0");
-    echo fm_text1("",$Pitch,'SN',0.15,'','',"SN0") . fm_text1("",$Pitch,'Colour',0.15,'','',"Colour0");
+    echo fm_text1("",$Pitch,'SN',1.2,'','',"SN0") . fm_text1("",$Pitch,'Colour',0.35,'','',"Colour0") . fm_text1("",$Pitch,'Font',0.10,'','',"Font0");
     echo fm_hidden('Loc0',$loc);
     echo "</table></div></div>";
     echo "<input type=submit name=Update value=Update> ";
