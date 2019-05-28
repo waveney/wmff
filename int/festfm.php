@@ -439,6 +439,10 @@ function ChunkSplit($txt,$maxlen,$maxchnks) {
         $chk = "$left $w";
         $Res[] = substr($chk,0,$maxlen);
         $left = substr($chk,$maxlen);
+      } else {
+        $Res[] = $left;
+        $Res[] = substr($w,0,$maxlen);
+        $left = substr($w,$maxlen);
       }
     } elseif (strlen($w) < $maxlen) {
       $left = $w;

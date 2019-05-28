@@ -1723,6 +1723,8 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Li
 
     echo "' id=Posn$Posn ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event) />"; // Not used at present
 
+    echo "<title>$Name</title>";
+
     echo "<text x=" . (($Pitch['X']+0.2) * $Factor)  . " y=" . (($Pitch['Y']+($Name?0.7:1.2)/$Mapscale) * $Factor);
     echo " style='";
     if ($Pitch['Angle']) echo "transform: rotate(" . $Pitch['Angle'] . "Deg);" ;
