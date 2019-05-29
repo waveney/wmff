@@ -12,8 +12,9 @@
   $loc = $_REQUEST['l'];
   if (!is_numeric($loc)) Error_Page("No Hacking please");
   $Traders = [];
-  if (Access('Staff') || $MASTER['TradeState']>= $EType_States['Partial']) $Traders = Get_Traders_For($loc);
+  if (Access('Staff') || $MASTER['TradeState']>= (array_flip($EType_States))['Partial']) $Traders = Get_Traders_For($loc);
   $Pitches = Get_Trade_Pitches($loc);  
+
   $tloc = Get_Trade_Loc($loc);
   
   Pitch_Map($tloc,$Pitches,$Traders,1,1);

@@ -446,7 +446,7 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
                   $s = Get_Side($ee);
                   $sy = Get_SideYear($ee,$YEAR);
 //var_dump($sy); echo "<P>";
-                  if ($sy) {
+                  if (is_array($sy)) {
                     $s = array_merge($s, $sy);  
                     $s['NotComing'] = ((($s['Coming'] != 2) && ($s['YearState'] < 2)) || $YEAR<$SHOWYEAR);
                   } else $s['NotComing'] = 1;

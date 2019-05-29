@@ -245,7 +245,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
         $id = $O['Identifier'];
         $side = Get_Side($id);
         $sy = Get_SideYear($id);
-        $side = array_merge($side,$sy);
+        if (is_array($sy)) $side = array_merge($side,$sy);
         Print_Thing($side);
       }
       echo "</div><br clear=all>\n";
