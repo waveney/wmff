@@ -446,7 +446,7 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
                   $s = Get_Side($ee);
                   $sy = Get_SideYear($ee,$YEAR);
 //var_dump($sy); echo "<P>";
-                  if ($sy) {
+                  if (is_array($sy)) {
                     $s = array_merge($s, $sy);  
                     $s['NotComing'] = ((($s['Coming'] != 2) && ($s['YearState'] < 2)) || $YEAR<$SHOWYEAR);
                   } else $s['NotComing'] = 1;
@@ -657,13 +657,13 @@ function DayTable($d,$Types,$xtr='',$xtra2='',$xtra3='') {
 
 function &Get_Active_Venues($All=0) {
   global $db,$YEAR;
-  $res = $db->query("SELECT DISTINCT v.* FROM Venues v, Events e, EventTypes t WHERE ( v.VenueId=e.Venue AND e.Public=0 AND e.Type=t.ETypeNo AND t.State>1 AND " .
+  $res = $db->query("SELECT DISTINCT v.* FROM Venues v, Events e, EventTypes t WHERE ( v.VenueId=e.Venue AND (e.Public=1 OR ( e.Public=0 AND e.Type=t.ETypeNo AND t.State>1 ) AND " .
                     " e.Year=$YEAR AND v.PartVirt=0) OR ( v.IsVirtual=1 ) ORDER BY v.SN"); // v.IsVirtual needs to work for virt venues TODO
   if ($res) while($ven = $res->fetch_assoc()) {
     if ($ven['IsVirtual']) {
       $vid = $ven['VenueId'];
-      $r2 = $db->query("SELECT t.* FROM Events e, Venues v, EventTypes t WHERE e.Venue=v.VenueId AND v.PartVirt=$vid AND e.Public=0 AND e.Type=t.ETypeNo AND t.State>1 AND " .
-                    " e.Year=$YEAR");
+      $r2 = $db->query("SELECT t.* FROM Events e, Venues v, EventTypes t WHERE e.Venue=v.VenueId AND v.PartVirt=$vid AND " .
+                    "(e.Public=1 OR ( e.Public=0 AND e.Type=t.ETypeNo AND t.State>1 ) AND e.Year=$YEAR");
       if ($r2->num_rows == 0) continue;
     }
     $ans[] = $ven;

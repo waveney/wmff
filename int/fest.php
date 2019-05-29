@@ -536,7 +536,7 @@ $head_done = 0;
 function doextras($extras) {
   global $MASTER_DATA;
   $V=$MASTER_DATA['V'];
-  foreach ($extras as $e) {
+  if ($extras) foreach ($extras as $e) {
     $suffix=pathinfo($e,PATHINFO_EXTENSION);
     if ($suffix == "js") {
       echo "<script src=$e?V=$V></script>\n";
