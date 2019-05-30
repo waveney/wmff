@@ -12,10 +12,10 @@ $TS_Actions = array('Submit,Invite,Invite Better',
                 'Resend,Submit',
                 'Resend,Quote,Accept,Decline,Hold,Cancel',
                 'Resend,Quote,Invite,Accept,Decline,UnQuote',
-                'Resend,Dep Paid,Cancel',
-                'Resend,Paid,Invoice,Cancel',
-                'Resend,Paid,Chase,Cancel',
-                'Resend,Cancel',
+                'Pitch,Moved,Resend,Dep Paid,Cancel',
+                'Pitch,Moved,Resend,Paid,Invoice,Cancel',
+                'Pitch,Moved,Resend,Paid,Chase,Cancel',
+                'Pitch,Moved,Resend,Cancel',
                 'Resend,Accept,Decline,Cancel',
                 'Resend,Quote,Cancel');
 
@@ -38,6 +38,8 @@ $ButExtra = array(
         'Artisan Invite'=>'title="Send an Artisan Invite"',
         'UnQuote'=>'title="Remove Quote or Invitation"',
         'Chase'=>'title="Chase email for final payment"',
+        'Pitch'=>'title="Change of Pitch Number"',
+        'Moved'=>'title="Pitch Moved"',
         ); 
 $ButTrader = array('Submit','Accept','Decline','Cancel','Resend'); // Actions Traders can do
 $RestrictButs = array('Paid','Dep Paid'); // If !AutoInvoice or SysAdmin
@@ -1160,9 +1162,10 @@ function Trade_Date_Cutoff() { // return 0 - normal, 30, full payment (normal du
   $Now = time();
   $PayTerm = Feature('PaymentTerms',30);
   if ($MASTER['TradeMainDate'] > $Now) return 0;
+  if ($Now >= $MASTER['TradeLastDate']) return 2;
   $DaysLeft = intdiv(($MASTER['TradeLastDate'] - $Now),24*60*60);
   if ($DaysLeft > $PayTerm) $DaysLeft = $PayTerm;
-  if ($DaysLeft < 0) $DaysLeft = 1;
+  if ($DaysLeft < 1) $DaysLeft = 2;
   return $DaysLeft;
 }
 
@@ -1573,7 +1576,15 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     Send_Trader_Email($Trad,$Trady,'Trade_Chase1',$att); 
     break;
     
+  case 'Pitch':
+    Send_Trader_Email($Trad,$Trady,'Trade_PitchChange'); 
+    break;
   
+  case 'Moved':
+    Send_Trader_Email($Trad,$Trady,'Trade_PitchMoved'); 
+    break;
+  
+
   default:
     break;
   }
