@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
 
-  dohead("Whats on Now");
+
 
   include_once("int/ProgLib.php");
   include_once("int/DateTime.php");
@@ -22,9 +22,20 @@
      Add Type to selection later
   */
 
-  $Now = getdate();
-  $now = time();
+  $Poster = 0;
   
+  if (isset($_REQUEST['NOW'])) {
+    $now = Date_BestGuess($_REQUEST['NOW']);
+    $Now = getdate($now);
+    dominimalhead("Whats on");
+    $Poster = 1;
+    $Link = 0;
+  } else {
+    $now = time();
+    $Link = 1;
+    dohead("Whats on Now",[],1);
+  } 
+  $Now = getdate($now);
   $Now['hours']++; // Festivals is BST server is UTC
 // Fudge for testing...
 //  $Now['mon'] = 6;
@@ -56,7 +67,7 @@
 
 //var_dump($StartLim,$EndLim);
 
-  echo "<h2 class=subtitle>What is on Now?</h2>";
+  if (!$Poster) echo "<h2 class=subtitle>What is on Now?</h2>";
   echo "<script src=/js/WhatsWhen.js></script>";
   $something = 0;
 
@@ -80,16 +91,18 @@
         
     Get_Imps($e,$imps,1,(Access('Staff')?1:0));
     echo "<tr class=Day$dname><td>" . timecolon($e['Start']) . " - " . timecolon($e['End']); 
-    echo "<td><a href=/int/EventShow.php?e=$eid>" . $e['SN'] . "</a>";
+    echo "<td>" . ($Poster? $e['SN'] : "<a href=/int/EventShow.php?e=$eid>" . $e['SN'] . "</a>");
     if ($e['Description']) echo "<br>" . $e['Description'];
-    echo "<td><a href=/int/VenueShow.php?v=" . $e['Venue'] . ">" . $Vens[$e['Venue']]['SN'] . "</a>";
+    echo "<td>" . ($Poster? $Vens[$e['Venue']]['SN'] : "<a href=/int/VenueShow.php?v=" . $e['Venue'] . ">" . $Vens[$e['Venue']]['SN'] . "</a>");
     if ($e['BigEvent']) {
       $Others = Get_Other_Things_For($eid);
       foreach ($Others as $i=>$o) {
-        if ($o['Type'] == 'Venue') echo ", <a href=/int/VenueShow.php?v=" . $o['Identifier'] . ">" . $Vens[$o['Identifier']]['SN'] . "</a>";
+        if ($o['Type'] == 'Venue') {
+          echo ", " . ($Poster? $Vens[$o['Identifier']]['SN'] : "<a href=/int/VenueShow.php?v=" . $o['Identifier'] . ">" . $Vens[$o['Identifier']]['SN'] . "</a>");
+        }
       }
     }
-    echo "<td>" . ($e['BigEvent'] ? Get_Other_Participants($Others,0,1,15,1,$e) : Get_Event_Participants($eid,0,1,15));
+    echo "<td>" . ($e['BigEvent'] ? Get_Other_Participants($Others,0,$Link,15,1,'',$e) : Get_Event_Participants($eid,0,$Link,15));
     echo "<td>" . Price_Show($e,1);
     $something = 1;
   }
@@ -99,6 +112,6 @@
     echo "<h3>There are no festival events later today</h3>\n";
   }
 
-  dotail();
+  if (!$Poster) dotail();
 
 ?>

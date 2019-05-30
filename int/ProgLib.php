@@ -444,6 +444,7 @@ function Get_Event_Participants($Ev,$Mode=0,$l=0,$size=12,$mult=1,$prefix='') {
 
                 if (!isset($found[$ee]) || !$found[$ee]) {
                   $s = Get_Side($ee);
+                  if (!is_array($s)) continue;
                   $sy = Get_SideYear($ee,$YEAR);
 //var_dump($sy); echo "<P>";
                   if (is_array($sy)) {
@@ -580,6 +581,7 @@ function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='
       if ($imp) $ans .= "</span>";
     }
   }
+//  var_dump($prefix,$ans);
   if ($ans) return "$prefix$ans";
   return $prefix . "Details to follow";
 }
