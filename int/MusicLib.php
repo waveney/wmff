@@ -449,7 +449,7 @@ function Contract_Check($snum,$chkba=1,$ret=0) { // if ret=1 returns result numb
     $ActY = (Feature('NewPERF')?Get_SideYear($snum) : Get_ActYear($snum));
     if ($ActY['TotalFee']) {
       $Side = Get_Side($snum);
-      if ( (strlen($Side['SortCode'])<6 ) || ( strlen($Side['Account']) < 8) || (strlen($Side['AccountName']) < 8)) $InValid = 2;
+      if ( (strlen($Side['SortCode'])<6 ) || ( strlen($Side['Account']) < 8) || (strlen($Side['AccountName']) < 6)) $InValid = 2;
     }
   }
 
