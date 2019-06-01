@@ -1,6 +1,6 @@
 <?php
   include_once("int/fest.php");
-
+  include_once("int/DateTime.php");
   dohead("Camping",[],'images/icons/CampingBanner.png');
   global $MASTER;
 
@@ -22,6 +22,13 @@ The site is just a 10 minute walk from the town centre over Julian's bridge.<p>
 
 <?php
 if ($MASTER['TicketControl'] == 1) {
+
+  if ($MASTER['TicketControl'] == 1 && Days2Festival() < 10) {
+    echo "<b>Note</b>: Online ticket sales will close at 6am on " . FestDate(0,'F') . " , after that tickets and passes can be purchased from Festival Information in the Square. " .
+         "Camping may be available at the campsite gate if there is space available.<p>";
+  }
+
+
 ?>
 Camping at Meadows Campsite this year is <strong>&pound;10</strong> for the first night and <strong>&pound;8</strong> for each additional night.  
 Under 8's are free.<p>
@@ -69,7 +76,7 @@ Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use p
 
 <b>Online booking has now closed</b><p>
 
-Camping at Meadows Campsite this year is from <strong>&pound;8</strong> per person per night. Under 8's are free.<p>
+Camping at Meadows Campsite this year is from <strong>&pound;10</strong> per person per night. Under 8's are free.<p>
 
 The site has toilets, showers, food and good 24 hour security. Entry to the campsite is by camping wristband only.<p>
 
