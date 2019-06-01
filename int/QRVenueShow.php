@@ -351,7 +351,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
       }
     }
   }
-  echo "</table>\n";
+  echo "</table></div>\n";
 
   if ($Poster) {
     echo "<div class=floatright id=qrcode></div>";
