@@ -320,7 +320,6 @@ table {
     border-style: solid;*/
     border-radius:15px;
     overflow:auto;
-    display:inline-block;
     max-width:99%;
     }
     
