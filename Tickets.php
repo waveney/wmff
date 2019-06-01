@@ -1,27 +1,34 @@
 <?php
   include_once("int/fest.php");
+  include_once("int/DateTime.php");
 
   dohead("Buy Tickets and Passes",[],1);
   global $MASTER,$YEAR;
   set_ShowYear();
   include_once "int/ProgLib.php";
-?>
-<div class="biodiv">
-<img src="https://wimbornefolk.co.uk/images/Weekend-Wristband.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
-<p>Buy Tickets for Wimborne Minster Folk Festival</p>
-</div>
+  
+  if ($MASTER['TicketControl'] == 0) {
+    echo "<h2>Tickets and Passes are not yet on Sale</h2>";
+    dotail();
+  }
+  
+  echo "<div class=biodiv>";
+  echo "<img src='https://wimbornefolk.co.uk/images/Weekend-Wristband.jpg' class=bioimg />";
+  echo "<p>Tickets for Wimborne Minster Folk Festival</p>";
+  echo "</div>";
 
-Select from the options below to purchase your passes and tickets for Wimborne Minster Folk Festival <?php echo $YEAR ?>.<p>
+  if ($MASTER['TicketControl'] == 1 && Days2Festival() < 10) {
+    echo "<b>Note</b>: Online ticket sales will close at 6am on " . FestDate(0,'F') . " , after that tickets and passes can be purchased from Festival Information in the Square. " .
+         "Camping may be available at the campsite gate if there is space available.<p>";
+  }
+
+  echo "Select from the options below to purchase your passes and tickets for Wimborne Minster Folk Festival $YEAR.<p>";
  
-Your passes will grant you access to official festival concerts and ceilidhs listed below (excluding anything at the Tivoli).<p>
+  echo "Your passes will grant you access to official festival concerts and ceilidhs listed below (excluding anything at the Tivoli).<p>";
 
-<?php
   if ($MASTER['BookingFee']) echo "Please note that there is a booking fee of " . $MASTER['BookingFee'] . " when ordering tickets online.<p> ";
-?>
+  echo "Please <a href='mailto:carers@wimbornefolk.co.uk'>Contact Us</a> if you require a carer ticket.<p>";
 
-Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require a carer ticket.<p>
-
-<?php
   if ($MASTER['CampingCost']) {
     echo "Order your festival tickets and camping together, by selecting <strong>Continue Shopping</strong> ";
     echo "before you checkout!<p>  Camping costs <strong>&pound;" . $MASTER['CampingPrice1Day'] . "</strong> for the first night and <strong>&pound;" .
@@ -29,18 +36,14 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
   } else {
     echo "Camping is not yet open to book<p>";
   }
-?>
 
-<a href=TermsAndConditions.php>Full Terms and Conditions</a>.<p>
+  echo "<a href=TermsAndConditions.php>Full Terms and Conditions</a>.<p>";
 
-<a href=/InfoCamping.php><b>Camping Information and Camping Tickets.</b></a><p>
+  echo "<a href=/InfoCamping.php><b>Camping Information and Camping Tickets.</b></a><p>";
 
-<p><div class=tablecont>
-<table class=InfoTable>
-<tr><th colspan="5">Festival Passes</th>
-<?php
+  echo "<p><div class=tablecont><table class=InfoTable>";
+  echo "<tr><th colspan=5>Festival Passes</th>";
   foreach(['Weekend','Friday','Saturday','Sunday'] as $day) {
-//  echo $day;
     if ($MASTER[$day . "PassCode"]) {
       echo "<tr><td>";
       if ($MASTER['TicketControl'] == 1) echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER[$day . "PassCode"] . "' target=_blank style='font-size:18px'>";
@@ -128,10 +131,11 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
 
   echo "</table></div></div></p>";
 
-  echo "<div class=tablecont><table class='InfoTable CampTable' style='min-width:700px'>";
-  echo "<tr><th colspan=7>Camping Tickets";
+  if (($MASTER['TicketControl'] == 1) && $MASTER['CampingCost']) {
+    echo "<div class=tablecont><table class='InfoTable CampTable' style='min-width:700px'>";
+    echo "<tr><th colspan=7>Camping Tickets";
   
-  $Avails = [
+    $Avails = [
              'Thursday, Friday, Saturday and Sunday nights'=>['TFSS',4],
              'Thursday, Friday and Saturday nights'=>['TFSx',3],
              'Thursday and Friday nights'=>['TFxx',2],             
@@ -143,39 +147,36 @@ Please <a href="mailto:carers@wimbornefolk.co.uk">Contact Us</a> if you require 
              'Saturday night only'=>['xxSx',1],
              'Sunday night only'=>['xxxS',1],
             ];
-   $DName = ['Thursday','Friday','Saturday','Sunday'];
-   foreach ($Avails as $txt=>$dat) {
-     if (!$MASTER['CampingCode_' . $dat[0] ]) continue;
-     echo "<tr><td>Camping for:";
-     foreach (str_split($dat[0]) as $i=>$c) echo "<td>" . ($c == 'x'?"":$DName[$i]);
-     echo "<td>" . Print_Pence($MASTER['CampingPrice' . $dat[1] . 'Day']*100) . "<td>";
-     echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER['CampingCode_' . $dat[0] ] . "' target=_blank><b>Buy Now</b></a>";
-   }
-?>
-</table></div><p>
+     $DName = ['Thursday','Friday','Saturday','Sunday'];
+     foreach ($Avails as $txt=>$dat) {
+       if (!$MASTER['CampingCode_' . $dat[0] ]) continue;
+       echo "<tr><td>Camping for:";
+       foreach (str_split($dat[0]) as $i=>$c) echo "<td>" . ($c == 'x'?"":$DName[$i]);
+       echo "<td>" . Print_Pence($MASTER['CampingPrice' . $dat[1] . 'Day']*100) . "<td>";
+       echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER['CampingCode_' . $dat[0] ] . "' target=_blank><b>Buy Now</b></a>";
+     }
+   
+    echo "</table></div><p>";
+  }
 
-<h2>Child Tickets</h2>
+  echo "<h2>Child Tickets</h2>";
 
-<p>Child ticket pricing for the festival is 0-4 Free, 5-15 Half Price, 16+ Standard ticket price.</p>
+  echo "<p>Child ticket pricing for the festival is 0-4 Free, 5-15 Half Price, 16+ Standard ticket price.</p>";
 
-<h2>Official Campsite</h2>
-<p>
-<a href=/InfoCamping.php><b>Camping Information.</b></a><p>
+  echo "<h2>Official Campsite</h2><p>";
+  echo "<a href=/InfoCamping.php><b>Camping Information.</b></a><p>";
 
-<p>Order your festival tickets and camping together, by selecting <strong>Continue Shopping</strong> before you checkout!</p> 
+  echo "Order your festival tickets and camping together, by selecting <strong>Continue Shopping</strong> before you checkout!</p> ";
 
-</span><h2>* Party In The Paddock</h2>
+  echo "<h2>* Party In The Paddock</h2><p>";
+  echo "If you're looking to combine a weekend of official festival events and a trip to <a href='http://partyinthepaddock.com'>Party In The Paddock</a>, " .
+       "then book your tickets with us!</p>";
 
-<p>If you're looking to combine a weekend of official festival events and a trip to <a href="http://partyinthepaddock.com" rel="tag">Party In The Paddock</a>, then book your tickets with us!</p>
-
-<h2>Official Ticket Outlets</h2>
+  if ($MASTER['TicketControl'] == 1) {
+    echo "<h2>Official Ticket Outlets</h2>
 <p>Tickets and day/weekend passes are on sale at these Wimborne outlets:</p>
-<ul>
-<li><strong>Tourist Information Centre</strong>, Wimborne, BH21 1HR &#8211; Telephone bookings: 01202 886116</li>
-</ul>
-
-
-</div>
-<?php
+<ul><li><strong>Tourist Information Centre</strong>, Wimborne, BH21 1HR &#8211; Telephone bookings: 01202 886116</li></ul>";
+  }
+  
   dotail();
 ?>

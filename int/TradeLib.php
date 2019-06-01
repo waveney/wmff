@@ -1165,7 +1165,7 @@ function Trade_Date_Cutoff() { // return 0 - normal, 30, full payment (normal du
   if ($Now >= $MASTER['TradeLastDate']) return 2;
   $DaysLeft = intdiv(($MASTER['TradeLastDate'] - $Now),24*60*60);
   if ($DaysLeft > $PayTerm) $DaysLeft = $PayTerm;
-  if ($DaysLeft < 1) $DaysLeft = 2;
+  if ($DaysLeft < 2) $DaysLeft = 2;
   return $DaysLeft;
 }
 
