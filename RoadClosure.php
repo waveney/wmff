@@ -3,13 +3,16 @@
 
   dohead("Road Closures",[],1);
 ?>
-  The following roads will be closed for periods over the 2018 festival, more details will be provided nearer the time:<p>
+  The following roads will be closed for periods over the 2019 festival.<p>
 <ul>
-<li><a href=#HighSt>High Street, East Borough, Cornmarket and Church Street</a>
+<li><a href=#HighSt>High Street, East Borough, The Square, West Road, Cook Row, Cornmarket and Church Street</a>
 <li><a href=#EastSt>Park Lane, East Street and King Street</a>
 </ul>
 
-<h2 id=HighSt>High Street, East Borough, Cornmarket and Church Street</h2>
+Also during this event, temporary traffic signals will be in use on Julians Road at Julians Bridge in order to provide a safe segregated
+walkway for pedestrians. In addition, there are also traffic management restrictions for the annual Party in the Paddock.<p>
+
+<h2 id=HighSt>High Street, East Borough, The Square, West Road, Cook Row, Cornmarket and Church Street</h2>
 These will be closed from about 5pm on Friday 8th June 2018 to about 6pm on Sunday 10th June. <p>
 
 
@@ -28,7 +31,7 @@ These will be closed on Saturday from about 12 noon until 4pm for the Procession
 There will be a manned barrier at the end of Park Lane.<p>
 
 <h2>Formal Notice</h2>
-<object width=100% height=1200 data="files/roadclosure2018.pdf"></object>
+<object width=100% height=1200 data="files/RoadClose2019.pdf"></object>
 <?php 
   dotail();
 ?>
