@@ -24,7 +24,7 @@ function ShowBus(Route) {
 <h2>Getting To Wimborne</h2>
 Wimborne Minster Folk Festival takes place in the historic market town of Wimborne Minster in Dorset.<p>
 
-Junmp to: <a href=#Buses class='DaySkipTo sattab'>Public Transport</a> <a href=#Taxis class='DaySkipTo suntab'>Taxis</a><p>
+Jump to: <a href=#Buses class='DaySkipTo sattab'>Public Transport</a> <a href=#Taxis class='DaySkipTo suntab'>Taxis</a><p>
 <div class=BorderBox>
 <h2>By Road</h2>
 
