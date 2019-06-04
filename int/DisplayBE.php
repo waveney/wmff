@@ -12,7 +12,7 @@
   if (!$Event['BigEvent']) Error_Page('Not A Big Event');
   $YEAR = $Event['Year'];
 
-  dostaffhead("Big Event Display");
+  dominimalhead("Big Event Display");
 
   $Sides = Part_Come_All();
 //  $Acts = Select_Act_Come_Full();

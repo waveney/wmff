@@ -61,7 +61,7 @@
   $xtr = isset($_GET['Mode'])?'':"AND ( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 ))";
   $today = ($Now['mday']-$MASTER['DateFri']);
 
-  $res = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND Day=$today $xtr ORDER BY Start");
+  $res = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND Day=$today AND t.Public=1 $xtr ORDER BY Start");
   if ($Poster) {
     $StartLim = $Now['hours']*100 + $Now['minutes'] + 100;
     $EndLim = $StartLim;
@@ -75,7 +75,7 @@
     dotail();
   }
 
-// var_dump($StartLim,$EndLim);
+ var_dump($StartLim,$EndLim);
 
   if (!$Poster) echo "<h2 class=subtitle>What is on Now?</h2>";
   echo "<script src=/js/WhatsWhen.js></script>";
@@ -85,7 +85,7 @@
     $eid = $e['EventId'];
     /* New day give table header, links to Dance Grid/Music Grid (if applicable), Events have click to expand */
 
-    if ($e['Start'] > $StartLim) continue; 
+    if ($e['Start'] >= $StartLim) continue; 
     if ($e['End'] < $EndLim) continue; 
     if ($e['SubEvent'] < 0 && $e['SlotEnd'] < $EndLim ) continue; 
 
@@ -97,12 +97,16 @@
 
     $dname = $DayLongList[$e['Day']];
 
-    if (DayTable($e['Day'],"Events",($Poster?(" at " . timecolon($time)):''),'style=min-width:1000')) echo "<tr class=Day$dname><td>Time<td >What<td>Where<td>With<td>Price";
-        
+    if (DayTable($e['Day'],"Events",($Poster?(" in the next hour or so "):''),'style=min-width:1000')) {
+      echo "<tr class=Day$dname><td>Time<td >What<td>Where" . ($Poster?'':"<td>With") . "<td>Price";
+    }
+      
     Get_Imps($e,$imps,1,(Access('Staff')?1:0));
     echo "<tr class=Day$dname><td>" . timecolon($e['Start']) . " - " . timecolon($e['End']); 
     echo "<td>" . ($Poster? $e['SN'] : "<a href=/int/EventShow.php?e=$eid>" . $e['SN'] . "</a>");
+    $With = ($e['BigEvent'] ? Get_Other_Participants($Others,0,$Link,15,1,'',$e) : Get_Event_Participants($eid,0,$Link,15));
     if ($e['Description']) echo "<br>" . $e['Description'];
+    if ($Poster) echo "<br>With: $With";
     echo "<td>" . ($Poster? $Vens[$e['Venue']]['SN'] : "<a href=/int/VenueShow.php?v=" . $e['Venue'] . ">" . $Vens[$e['Venue']]['SN'] . "</a>");
     if ($e['BigEvent']) {
       $Others = Get_Other_Things_For($eid);
@@ -112,7 +116,7 @@
         }
       }
     }
-    echo "<td>" . ($e['BigEvent'] ? Get_Other_Participants($Others,0,$Link,15,1,'',$e) : Get_Event_Participants($eid,0,$Link,15));
+    if (!$Poster) echo "<td>$With";
     echo "<td>" . Price_Show($e,1);
     $something = 1;
   }
