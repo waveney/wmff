@@ -24,19 +24,23 @@
 
   $Poster = 0;
   
-  if (isset($_REQUEST['NOW'])) {
-    $now = Date_BestGuess($_REQUEST['NOW']);
-    $Now = getdate($now);
-    dominimalhead("Whats on");
+  if (isset($_REQUEST['AtDate'])) {
+//  var_dump($_REQUEST);
+    $date = Date_BestGuess($_REQUEST['AtDate']);
+    $time = Time_BestGuess($_REQUEST['AtTime']);
+//    var_dump($date,$time);
+    $now = $date + timereal($time)*60;
+    dominimalhead("Whats on",['files/Newstyle.css'],1);
     $Poster = 1;
     $Link = 0;
+    $Now = getdate($now);
   } else {
     $now = time();
     $Link = 1;
     dohead("Whats on Now",[],1);
+    $Now = getdate($now);
+    $Now['hours']++; // Festivals is BST server is UTC
   } 
-  $Now = getdate($now);
-  $Now['hours']++; // Festivals is BST server is UTC
 // Fudge for testing...
 //  $Now['mon'] = 6;
 //  $Now['mday']= 9;
@@ -44,6 +48,7 @@
   $StartTime = mktime(0,0,0,$MASTER['MonthFri'],$MASTER['DateFri']+$MASTER['FirstDay'],$PLANYEAR);
   $EndTime = mktime(23,59,59,$MASTER['MonthFri'],$MASTER['DateFri']+$MASTER['LastDay'],$PLANYEAR);
  
+//var_dump($now,$StartTime,$EndTime);
   if ($now < $StartTime || $now > $EndTime) {
     echo "<h3>There are no festival events today</h3>\n";
     dotail();  
@@ -57,15 +62,20 @@
   $today = ($Now['mday']-$MASTER['DateFri']);
 
   $res = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND Day=$today $xtr ORDER BY Start");
-  $StartLim = (($today < 0 || $today>2) ? 2400 : ($Now['hours']+2)*100 );
-  $EndLim = (($today < 0 || $today>2) ? 0 : ($Now['hours'])*100 + $Now['minutes']);
+  if ($Poster) {
+    $StartLim = $Now['hours']*100 + $Now['minutes'] + 100;
+    $EndLim = $StartLim;
+  } else {
+    $StartLim = (($today < 0 || $today>2) ? 2400 : ($Now['hours']+2)*100 );
+    $EndLim = (($today < 0 || $today>2) ? 0 : ($Now['hours'])*100 + $Now['minutes']);
+  }
 
   if (!$res || $res->num_rows==0) {
     echo "<h3>There are no festival events today</h3>\n";
     dotail();
   }
 
-//var_dump($StartLim,$EndLim);
+// var_dump($StartLim,$EndLim);
 
   if (!$Poster) echo "<h2 class=subtitle>What is on Now?</h2>";
   echo "<script src=/js/WhatsWhen.js></script>";
@@ -87,7 +97,7 @@
 
     $dname = $DayLongList[$e['Day']];
 
-    if (DayTable($e['Day'],"Events",'','style=min-width:1000')) echo "<tr class=Day$dname><td>Time<td >What<td>Where<td>With<td>Price";
+    if (DayTable($e['Day'],"Events",($Poster?(" at " . timecolon($time)):''),'style=min-width:1000')) echo "<tr class=Day$dname><td>Time<td >What<td>Where<td>With<td>Price";
         
     Get_Imps($e,$imps,1,(Access('Staff')?1:0));
     echo "<tr class=Day$dname><td>" . timecolon($e['Start']) . " - " . timecolon($e['End']); 

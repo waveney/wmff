@@ -638,7 +638,7 @@ function dominimalhead($title,$extras=[]) {
   if (isset($CONF['TitlePrefix'])) $pfx = $CONF['TitlePrefix'];
   echo "<html><head>";
   echo "<title>$pfx " . $MASTER_DATA['ShortName'] . " | $title</title>\n";
-  echo "<link href=files/Newstyle.css?V=$V type=text/css rel=stylesheet>";
+//  echo "<link href=files/Newstyle.css?V=$V type=text/css rel=stylesheet>";
   echo "<script src=/js/jquery-3.2.1.min.js></script>";
   if ($extras) doextras($extras);
   echo "<script>" . $MASTER_DATA['Analytics'] . "</script>";

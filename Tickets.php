@@ -24,7 +24,8 @@
 
   echo "Select from the options below to purchase your passes and tickets for Wimborne Minster Folk Festival $YEAR.<p>";
  
-  echo "Your passes will grant you access to official festival concerts and ceilidhs listed below (excluding anything at the Tivoli).<p>";
+  echo "The weekend Pass is access to everything (apart from the Tivoli on Thursday).  Saturday and Sunday Passes are access to everything on those days.  Event tickets are just access
+  to that individual event.<p>";
 
   if ($MASTER['BookingFee']) echo "Please note that there is a booking fee of " . $MASTER['BookingFee'] . " when ordering tickets online.<p> ";
   echo "Please <a href='mailto:carers@wimbornefolk.co.uk'>Contact Us</a> if you require a carer ticket.<p>";
@@ -153,7 +154,11 @@
        echo "<tr><td>Camping for:";
        foreach (str_split($dat[0]) as $i=>$c) echo "<td>" . ($c == 'x'?"":$DName[$i]);
        echo "<td>" . Print_Pence($MASTER['CampingPrice' . $dat[1] . 'Day']*100) . "<td>";
-       echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER['CampingCode_' . $dat[0] ] . "' target=_blank><b>Buy Now</b></a>";
+       if (substr($MASTER['CampingCode_' . $dat[0] ],0,1) != '-') {
+         echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER['CampingCode_' . $dat[0] ] . "' target=_blank><b>Buy Now</b></a>";
+       } else {
+         echo "Closed";
+       } 
      }
    
     echo "</table></div><p>";
