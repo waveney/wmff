@@ -75,7 +75,7 @@
     dotail();
   }
 
- var_dump($StartLim,$EndLim);
+// var_dump($StartLim,$EndLim);
 
   if (!$Poster) echo "<h2 class=subtitle>What is on Now?</h2>";
   echo "<script src=/js/WhatsWhen.js></script>";
@@ -87,7 +87,7 @@
 
     if ($e['Start'] >= $StartLim) continue; 
     if ($e['End'] < $EndLim) continue; 
-    if ($e['SubEvent'] < 0 && $e['SlotEnd'] < $EndLim ) continue; 
+    if ((($e['SubEvent'] < 0) && ($e['SlotEnd'] < $EndLim) && !$e['IsConcert'] ) || ($e['IsConcert'] && ($e['SubEvent']>0))) continue; 
 
     if ($e['BigEvent'] == 0) {
       if ($e['Side1'] == 0 && $e['Side2'] == 0 && $e['Side3'] == 0 && $e['Side4'] == 0 &&
