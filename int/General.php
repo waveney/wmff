@@ -101,7 +101,7 @@
     echo "<tr>" . fm_number1("Camping Fee 2 Nights",$Gen,'CampingPrice2Day');
     echo "<tr>" . fm_number1("Camping Fee 3 Nights",$Gen,'CampingPrice3Day');
     echo "<tr>" . fm_number1("Camping Fee 4 Nights",$Gen,'CampingPrice4Day'); 
-    echo "<tr>" . fm_text("Camping Thurs-Sun Code",$Gen,'CampingCode_TFSS');
+    echo "<tr>" . fm_text("Camping Thurs-Sun Code",$Gen,'CampingCode_TFSS') . "<td>Put a - as the first char of the code to close just that";
     echo "<tr>" . fm_text("Camping Thurs-Sat Code",$Gen,'CampingCode_TFSx');
     echo "<tr>" . fm_text("Camping Thurs-Fri Code",$Gen,'CampingCode_TFxx');
     echo "<tr>" . fm_text("Camping Thurs Code",$Gen,'CampingCode_Txxx');

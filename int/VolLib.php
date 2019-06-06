@@ -337,7 +337,7 @@ function List_Vols() {
   }
   echo "</tbody></table></div>\n";
 
-  echo "<h2><a href=Volunteers.php?A=New>Add a Volunteer</a</h2>";
+  echo "<h2><a href=Volunteers.php?A=New>Add a Volunteer</a></h2>";
   dotail();
 }
 

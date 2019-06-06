@@ -91,7 +91,7 @@
       ],
     'Trade'=>[
       'Edit Trader Info'=>"int/TraderPage.php?id=$USERID",
-      '-Public view of Trader'=>"int/ShowTrade.php?id=$USERID",
+//      '-Public view of Trader'=>"int/ShowTrade.php?id=$USERID",
       'Trade FAQ'=>'int/TradeFAQ.php',
       ], 
 

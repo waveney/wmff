@@ -287,6 +287,10 @@
 //    if (Access('SysAdmin')) echo "<li><a href=ConvertEvents.php>Convert Old Format Events to New Format Events</a>\n";
     if (Access('SysAdmin')) echo "<li><a href=AddVenue.php?NEWACCESS onClick=\"javascript:return confirm('are you sure you update these?');\">Generate New Access Keys for Venues</a>\n";
     if ($YEAR == $PLANYEAR && Access('Staff')) echo "<li><a href=VenueActive.php>Refresh Active Venue List</a>\n";
+    echo "<li><form method=Post action=/WhatsOnNow.php class=staffform>";
+      echo "<input type=submit name=a value='Whats On At ' id=staffformid>" . 
+                fm_hidden('Y',$YEAR) . fm_text0('',$_POST,'AtTime') .' on ' . fm_text0('',$_POST,'AtDate');
+    
     echo "</ul>\n";
 
 // *********************** Misc *****************************************************************
