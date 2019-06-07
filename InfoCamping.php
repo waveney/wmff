@@ -78,7 +78,7 @@ Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use p
 } else {
 ?>
 
-<b>Online booking has now closed</b><p>
+<b>Online booking has now closed</b>  Camping may be available at the campsite gate if there is space available.<p>
 
 Camping at Meadows Campsite this year is from <strong>&pound;10</strong> per person per night. Under 8's are free.<p>
 
