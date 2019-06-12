@@ -216,7 +216,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
               } else {
                 foreach ($PerfTypes as $j=>$pd) if ($s[$pd[0]] && $s[$pd[2] . "Importance"] > $iimp) $iimp = $s[$pd[2] . "Importance"];
               }
-              $e['With'][$Poster?$iimp:0][] = $s;
+              $e['With'][$Poster?$iimp:0][] = array_merge($s,$sidy);
             }
             $WithC++;
             break;

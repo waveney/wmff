@@ -32,12 +32,12 @@
         ],
       "Timetable"=>[
         'By Venue'=>'WhatsOnWhere.php',
-//        'By Time'=>'WhatsOnWhen.php',
+        'By Time'=>'WhatsOnWhen.php',
         '*Now'=>'WhatsOnNow.php',
-//        'Dancing'=>"int/ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR",
+        'Dancing'=>"int/ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR",
         'Concerts'=>'Sherlock.php?t=Concert',
-//        'Music'=>'Sherlock.php?t=Music',
-//        'Special Events'=>'Sherlock.php?t=Special',
+        'Music'=>'Sherlock.php?t=Music',
+        'Special Events'=>'Sherlock.php?t=Special',
         'Family'=>'Sherlock.php?t=Family',
         'Ceilidhs'=>'Sherlock.php?t=Ceilidh',
         'Workshops and Talks'=>'Sherlock.php?t=Workshop',
@@ -62,6 +62,7 @@
         'Trade Stand Applications'=>'InfoTrade.php', 
          ],
       '-Gallery'=>[
+        '*2019 Photos'=>'gallery/gallery2019.php',
         '2018 Photos'=>'gallery/gallery2018.php',
         '2017 Photos'=>'int/ShowGallery.php?g=2',
         '2016 Photos'=>'gallery/2016',
@@ -91,7 +92,6 @@
       ],
     'Trade'=>[
       'Edit Trader Info'=>"int/TraderPage.php?id=$USERID",
-//      '-Public view of Trader'=>"int/ShowTrade.php?id=$USERID",
       'Trade FAQ'=>'int/TradeFAQ.php',
       ], 
 
