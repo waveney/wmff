@@ -20,7 +20,7 @@
   if ($MASTER['TicketControl'] == 1 && Days2Festival() < 10) {
     echo "<b>Note</b>: Online ticket sales will close at 6am on " . FestDate(0,'F') . " , after that tickets and passes can be purchased from Festival Information in the Square. " .
          "Camping may be available at the campsite gate if there is space available.<p>";
-  } else if  ($MASTER['TicketControl'] == 1 ) {
+  } else if  ($MASTER['TicketControl'] == 2 ) {
     echo "<b>Online Tickets have closed</b>.  Tickets may still be bought at Festival Information in the square and at the door for most events.  " .
          "Camping may be purchased at the campsite gate if space is available.<p>";
   }

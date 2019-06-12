@@ -110,7 +110,7 @@
       echo "<tr><td rowspan=$rows>". timecolon($e['Start'] - $e['Setup']) . "-" . timecolon($e['End']) . "<td rowspan=$rows>" . ($e['SubEvent']<1?$e['SN']:"") ;
       $tr = 0;
       if ($e['StagePA']) { echo "<td><td>" . $e['StagePA']; $tr=1;}
-      foreach ($e['With'] as $snum) {
+      if (isset($e['With'])) foreach ($e['With'] as $snum) {
         if ($tr++) echo "<tr>";
         $side = Get_Side($snum);
         echo "<td>" . $side['SN'] . "<td>";
