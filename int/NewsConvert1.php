@@ -6,7 +6,7 @@
   include_once("NewsLib.php");
   include_once("DateTime.php");
 
-  global $db,$YEAR,$MASTER;
+  global $db,$YEAR,$YEARDATA;
   
   $AllNews = Get_All_News(1,500);
   $c =0;

@@ -39,8 +39,8 @@
     if (Access('SysAdmin')) {
       echo "<p>";
       echo "<li class=smalltext><a href=DirRebuild.php?SC>Scan Directories - Report File/Database discrepancies</a>";    
-//      echo "<li><a href=DirRebuild.php?FI>Rebuild Directorys - Files are master</a>";
-//      echo "<li><a href=DirRebuild.php?DB>Rebuild Directorys - Database is master</a>";
+//      echo "<li><a href=DirRebuild.php?FI>Rebuild Directorys - Files are YEARDATA</a>";
+//      echo "<li><a href=DirRebuild.php?DB>Rebuild Directorys - Database is YEARDATA</a>";
     }
     echo "</ul>\n";
 
@@ -361,9 +361,8 @@
     if (Access('Staff')) echo "<li><a href=AdminGuide.php>Admin Guide</a> \n";
     if (Access('SysAdmin')) {
 //      echo "<li><a href=BannerManage.php>Manage Banners</a> \n";
-      echo "<li><a href=General.php?Y=$YEAR>General Year Settings</a> \n";
-      echo "<li><a href=MasterData.php>Master Data Settings</a> \n";
-      echo "<li><a href=/Donate.php>Donate</a> - test code now\n";
+      echo "<li><a href=YearData.php?Y=$YEAR>General Year Settings</a> \n";
+      echo "<li><a href=MasterData.php>Festival System Data Settings</a> \n";
     }
     echo "</ul>\n";
 

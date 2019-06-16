@@ -9,7 +9,7 @@
   include_once("int/DanceLib.php");
   include_once("int/MusicLib.php");
 
-  global $db,$YEAR,$SHOWYEAR,$MASTER,$DayList,$DayLongList,$Event_Types_Full ;
+  global $db,$YEAR,$SHOWYEAR,$YEARDATA,$DayList,$DayLongList,$Event_Types_Full ;
 
   $Vens = Get_Venues(1);
 
@@ -45,8 +45,8 @@
 //  $Now['mon'] = 6;
 //  $Now['mday']= 9;
  
-  $StartTime = mktime(0,0,0,$MASTER['MonthFri'],$MASTER['DateFri']+$MASTER['FirstDay'],$PLANYEAR);
-  $EndTime = mktime(23,59,59,$MASTER['MonthFri'],$MASTER['DateFri']+$MASTER['LastDay'],$PLANYEAR);
+  $StartTime = mktime(0,0,0,$YEARDATA['MonthFri'],$YEARDATA['DateFri']+$YEARDATA['FirstDay'],$PLANYEAR);
+  $EndTime = mktime(23,59,59,$YEARDATA['MonthFri'],$YEARDATA['DateFri']+$YEARDATA['LastDay'],$PLANYEAR);
  
 //var_dump($now,$StartTime,$EndTime);
   if ($now < $StartTime || $now > $EndTime) {
@@ -54,12 +54,12 @@
     dotail();  
   }
 /*
-  if (($Now['year'] != $SHOWYEAR) || ($Now['mon'] != 6) || ($Now['mday'] < ($MASTER['DateFri']-3)) || ($Now['mday'] > ($MASTER['DateFri']+3))) { // Not during festival
+  if (($Now['year'] != $SHOWYEAR) || ($Now['mon'] != 6) || ($Now['mday'] < ($YEARDATA['DateFri']-3)) || ($Now['mday'] > ($YEARDATA['DateFri']+3))) { // Not during festival
   }
 */
 
   $xtr = isset($_GET['Mode'])?'':"AND ( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 ))";
-  $today = ($Now['mday']-$MASTER['DateFri']);
+  $today = ($Now['mday']-$YEARDATA['DateFri']);
 
   $res = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND Day=$today AND t.Public=1 $xtr ORDER BY Start");
   if ($Poster) {

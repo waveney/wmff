@@ -436,7 +436,7 @@ function Trade_TandC() {
 }
 
 function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
-  global $YEAR,$PLANYEAR,$MASTER,$Trade_States,$Mess,$Action,$ADDALL,$Trade_State_Colours,$InsuranceStates,$Trade_State,$Trade_Days,$EType_States;
+  global $YEAR,$PLANYEAR,$YEARDATA,$Trade_States,$Mess,$Action,$ADDALL,$Trade_State_Colours,$InsuranceStates,$Trade_State,$Trade_Days,$EType_States;
   if ($year==0) $year=$YEAR;
   $CurYear = date("Y");
   if ($year < $PLANYEAR) { // Then it is historical - no changes allowed
@@ -604,7 +604,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
 }
 
 function Get_Trade_Details(&$Trad,&$Trady) {
-  global $Trade_Days,$TradeLocData,$TradeTypeData,$MASTER,$EType_States;
+  global $Trade_Days,$TradeLocData,$TradeTypeData,$YEARDATA,$EType_States;
 
 //  $Body  = "\nWimborne Minster Folk festival Trading application\n";
   $Body = "\nBusiness: " . $Trad['SN'] . "\n";
@@ -629,19 +629,19 @@ function Get_Trade_Details(&$Trad,&$Trady) {
   $Body .= "Pitch:" . $Trady['PitchSize0'];
   $Partial = (array_flip($EType_States))['Partial'];
   if ($Trady['PitchLoc0']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc0']]['SN'];
-  if ($MASTER['TradeState']>= $Partial && $Trady['PitchNum0']) $Body .= "Pitch Number "  . $Trady['PitchNum0'];
+  if ($YEARDATA['TradeState']>= $Partial && $Trady['PitchNum0']) $Body .= "Pitch Number "  . $Trady['PitchNum0'];
   if ($Trady['Power0']) $Body .= " with " . ($Trady["Power0"]> 0 ? $Trady['Power0'] . " Amps\n" : " own Euro 4 silent generator\n");
 
   if ($Trady['PitchSize1']) {
     $Body .= "\nPitch 2:" . $Trady['PitchSize1'];
     if ($Trady['PitchLoc1']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc1']]['SN'];
-    if ($MASTER['TradeState']>= $Partial && $Trady['PitchNum1']) $Body .= "Pitch Number "  . $Trady['PitchNum1'];
+    if ($YEARDATA['TradeState']>= $Partial && $Trady['PitchNum1']) $Body .= "Pitch Number "  . $Trady['PitchNum1'];
     if ($Trady['Power1']) $Body .= " with " . $Trady['Power1'] . " Amps\n";
   }
   if ($Trady['PitchSize2']) {
     $Body .= "\nPitch 3:" . $Trady['PitchSize2'];
     if ($Trady['PitchLoc2']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc2']]['SN'];
-    if ($MASTER['TradeState']>= $Partial && $Trady['PitchNum2']) $Body .= "Pitch Number "  . $Trady['PitchNum2'];
+    if ($YEARDATA['TradeState']>= $Partial && $Trady['PitchNum2']) $Body .= "Pitch Number "  . $Trady['PitchNum2'];
     if ($Trady['Power2']) $Body .= " with " . $Trady['Power2'] . " Amps\n";
   }
 
@@ -766,30 +766,30 @@ function Trader_Admin_Details($key,&$data,$att=0) {
 }
 
 function Send_Trader_Email(&$Trad,&$Trady,$messcat='Link',$att='') {
-  global $PLANYEAR,$MASTER_DATA;
+  global $PLANYEAR,$FESTSYS;
   include_once("Email.php");
-  Email_Proforma([$Trad['Email'],$Trad['Contact']],$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att);
+  Email_Proforma([$Trad['Email'],$Trad['Contact']],$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att);
 }
 
 function Send_Trader_Simple_Email(&$Trad,$messcat='Link',$att='') {
-  global $PLANYEAR,$MASTER_DATA;
+  global $PLANYEAR,$FESTSYS;
   include_once("Email.php");
-  Email_Proforma([$Trad['Email'],$Trad['Contact']],$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad],'TradeLog',$att);
+  Email_Proforma([$Trad['Email'],$Trad['Contact']],$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad],'TradeLog',$att);
 }
 
 function Send_Trade_Finance_Email(&$Trad,&$Trady,$messcat,$att=0) {
-  global $PLANYEAR,$MASTER_DATA;
+  global $PLANYEAR,$FESTSYS;
   include_once("Email.php");
 
-  Email_Proforma("treasurer@" . $MASTER_DATA['HostURL'],$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att);
+  Email_Proforma("treasurer@" . $FESTSYS['HostURL'],$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att);
 }
 
 function Send_Trade_Admin_Email(&$Trad,&$Trady,$messcat,$att=0) {
 
-  global $PLANYEAR,$MASTER_DATA;
+  global $PLANYEAR,$FESTSYS;
   include_once("Email.php");
 
-  Email_Proforma("trade@" . $MASTER_DATA['HostURL'],$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Admin_Details',[&$Trad,&$Trady],'TradeLog',$att);
+  Email_Proforma("trade@" . $FESTSYS['HostURL'],$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Admin_Details',[&$Trad,&$Trady],'TradeLog',$att);
 }
 
 //  Mark as submitted, email fest and trader, record data of submission
@@ -1158,12 +1158,12 @@ function Trade_Main($Mode,$Program,$iddd=0) {
 }
 
 function Trade_Date_Cutoff() { // return 0 - normal, 30, full payment (normal duration), >0 = Days left to trade stop (full payment)
-  global $MASTER;
+  global $YEARDATA;
   $Now = time();
   $PayTerm = Feature('PaymentTerms',30);
-  if ($MASTER['TradeMainDate'] > $Now) return 0;
-  if ($Now >= $MASTER['TradeLastDate']) return 2;
-  $DaysLeft = intdiv(($MASTER['TradeLastDate'] - $Now),24*60*60);
+  if ($YEARDATA['TradeMainDate'] > $Now) return 0;
+  if ($Now >= $YEARDATA['TradeLastDate']) return 2;
+  $DaysLeft = intdiv(($YEARDATA['TradeLastDate'] - $Now),24*60*60);
   if ($DaysLeft > $PayTerm) $DaysLeft = $PayTerm;
   if ($DaysLeft < 2) $DaysLeft = 2;
   return $DaysLeft;

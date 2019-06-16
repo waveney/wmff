@@ -2,7 +2,7 @@
   include_once("int/fest.php");
   include_once("int/DateTime.php");
   dohead("Camping",[],'images/icons/CampingBanner.png');
-  global $MASTER;
+  global $YEARDATA;
 
   include_once("int/MapLib.php");
 ?>
@@ -21,9 +21,9 @@ Our official campsite is run by Meadows Camping, a picturesque, local, secure, w
 The site is just a 10 minute walk from the town centre over Julian's bridge.<p>
 
 <?php
-if ($MASTER['TicketControl'] == 1) {
+if ($YEARDATA['TicketControl'] == 1) {
 
-  if ($MASTER['TicketControl'] == 1 && Days2Festival() < 10) {
+  if ($YEARDATA['TicketControl'] == 1 && Days2Festival() < 10) {
     echo "<b>Note</b>: Online ticket sales will close at 6am on " . FestDate(0,'F') . " , after that tickets and passes can be purchased from Festival Information in the Square. " .
          "Camping may be available at the campsite gate if there is space available.<p>";
   }
@@ -34,7 +34,7 @@ Camping at Meadows Campsite this year is <strong>&pound;10</strong> for the firs
 Under 8's are free.<p>
 
 <?php
-  if ($MASTER['BookingFee']) echo "Please note that there is a booking fee of " . $MASTER['BookingFee'] . " when ordering tickets online. <p>";
+  if ($YEARDATA['BookingFee']) echo "Please note that there is a booking fee of " . $YEARDATA['BookingFee'] . " when ordering tickets online. <p>";
 ?>
 
 The site has toilets, showers, food and good 24 hour security. Entry to the campsite is by camping wristband only.<p>
@@ -63,12 +63,12 @@ Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use p
             ];
    $DName = ['Thursday','Friday','Saturday','Sunday'];
    foreach ($Avails as $txt=>$dat) {
-     if (!$MASTER['CampingCode_' . $dat[0] ]) continue;
+     if (!$YEARDATA['CampingCode_' . $dat[0] ]) continue;
      echo "<tr><td>Camping for:";
      foreach (str_split($dat[0]) as $i=>$c) echo "<td>" . ($c == 'x'?"":$DName[$i]);
-     echo "<td>" . Print_Pence($MASTER['CampingPrice' . $dat[1] . 'Day']*100) . "<td>";
-     if (substr($MASTER['CampingCode_' . $dat[0] ],0,1) != '-') {
-       echo "<a href='https://www.ticketsource.co.uk/date/" . $MASTER['CampingCode_' . $dat[0] ] . "' target=_blank><b>Buy Now</b></a>";
+     echo "<td>" . Print_Pence($YEARDATA['CampingPrice' . $dat[1] . 'Day']*100) . "<td>";
+     if (substr($YEARDATA['CampingCode_' . $dat[0] ],0,1) != '-') {
+       echo "<a href='https://www.ticketsource.co.uk/date/" . $YEARDATA['CampingCode_' . $dat[0] ] . "' target=_blank><b>Buy Now</b></a>";
      } else {
        echo "Closed";
      }

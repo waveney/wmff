@@ -1,6 +1,6 @@
 <?php
 //  include_once("int/fest.php");
-  global $Access_Type,$USER,$USERID,$YEAR,$MASTER_DATA;
+  global $Access_Type,$USER,$USERID,$YEAR,$FESTSYS,$YEARDATA,$NEXTYEARDATA,$Months;
   Set_User();
   
   // Header bar  
@@ -8,7 +8,7 @@
   // Public bar
   // Private bar (may be zero height)
 
-  $V=$MASTER_DATA['V'];  
+  $V=$FESTSYS['V'];  
   $Bars = 1;
   $UserName = '';
   if (isset($_COOKIE{'WMFF2'}) || isset($USER{'AccessLevel'})) {
@@ -62,7 +62,7 @@
         'Trade Stand Applications'=>'InfoTrade.php', 
          ],
       '-Gallery'=>[
-        '*2019 Photos'=>'gallery/gallery2019.php',
+        '2019 Photos'=>'gallery/gallery2019.php',
         '2018 Photos'=>'gallery/gallery2018.php',
         '2017 Photos'=>'int/ShowGallery.php?g=2',
         '2016 Photos'=>'gallery/2016',
@@ -105,7 +105,7 @@ $MainBar = $HoverBar = $HoverBar2 = '';
 
 
 function Show_Bar(&$Bar,$level=0,$Pval=1) { 
-  global $USERID,$host,$PerfTypes,$MainBar,$HoverBar,$HoverBar2;
+  global $USERID,$host,$PerfTypes,$MainBar,$HoverBar,$HoverBar2,$YEARDATA;
   $host= "https://" . $_SERVER['HTTP_HOST'];
 //  echo "<ul class=MenuLevel$level>";
   $P=$Pval*100;
@@ -130,7 +130,7 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
         $text = substr($text,1);
         break;
       case '=' :
-//        $Minor = 1;
+        if ($YEARDATA['TicketControl'] > 2 || $YEARDATA['TicketControl'] == 0) continue 2;
         $xtra = "id=MenuGetTicket";
         $text = substr($text,1);
         break;
@@ -141,7 +141,7 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
       case '?' :
         include_once("int/DanceLib.php");
         $Side = Get_Side($USERID);
-        if (!$Side['IsASide']) continue;
+        if (!$Side['IsASide']) continue 2;
         $text = substr($text,1);
         break;
       case '#' :
@@ -218,11 +218,26 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
   }
   
   echo "<div class=main-header>"; 
+  $DFrom = ($YEARDATA['DateFri']+$YEARDATA['FirstDay']);
+  $DTo = ($YEARDATA['DateFri']+$YEARDATA['LastDay']);
+  $DMonth = $Months[$YEARDATA['MonthFri']];
+  
+  if ($YEARDATA['Years2Show'] > 0) {
+    $NFrom = ($NEXTYEARDATA['DateFri']+$NEXTYEARDATA['FirstDay']);
+    $NTo = ($NEXTYEARDATA['DateFri']+$NEXTYEARDATA['LastDay']);
+    $NMonth = $Months[$NEXTYEARDATA['MonthFri']];
+    $NYear = $YEAR+1;
+  }
   echo "<a href=/>";
-    echo "<img src=" . $MASTER_DATA['WebsiteBanner2'] . "?V=$V class='header-logo head-white-logo'>";
-    echo "<img src=" . $MASTER_DATA['WebSiteBanner'] . "?V=$V class='header-logo head-coloured-logo'>";
-    echo "<div class=SmallDates>0 - 9 June 2019</div>";
-    echo "<div class=FestDates>6 - 9<br>June<br>2019</div>";
+    echo "<img src=" . $FESTSYS['WebsiteBanner2'] . "?V=$V class='header-logo head-white-logo'>";
+    echo "<img src=" . $FESTSYS['WebSiteBanner'] . "?V=$V class='header-logo head-coloured-logo'>";
+    if ($YEARDATA['Years2Show'] < 2) { // TODO Handle Both
+      echo "<div class=SmallDates>$DFrom - $DTo $DMonth $YEAR</div>";
+      echo "<div class=FestDates>$DFrom - $DTo<br>$DMonth<br>$YEAR</div>";
+    } else {
+      echo "<div class=SmallDates>$NFrom - $NTo $NMonth $NYear</div>";
+      echo "<div class=FestDates>$NFrom - $NTo<br>$NMonth<br>$NYear</div>";    
+    }
   echo "</a>";
   echo "<div class=MenuIcon><div id=MenuIconIcon class=MenuMenuIcon onclick=ShowHoverMenu()>Menu<img src=/images/icons/MenuIcon.png></div>";
   echo "<div id=MenuIconClose onclick=CloseHoverMenu() class=MenuMenuClose>Close<img src=/images/icons/MenuClose.png></div>";

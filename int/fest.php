@@ -47,7 +47,7 @@ $Book_Actions = array('None'=>'Book','Declined'=>'Book,Contract','Booking'=>'Con
                 'Contract Signed'=>'Cancel,Decline');
 $Book_ActionExtras = array('Book'=>'', 'Contract'=>'', 'Decline'=>'', 'Cancel'=>'', 'Confirm'=>'');
 $EType_States = array('Very Early','Draft','Partial','Provisional','Complete');
-$TicketStates = array('Not Yet','Open','Closed');
+$TicketStates = array('Not Yet','Open','Closed','Remove');
 $ArticleFormats = ['Large Image','Small Image','Text','Banner Image','Banner Text','Fixed','Left/Right Pairs'];
 $PerfTypes = ['Dance Side'=>['IsASide','Dance','Dance','Dance','D'],
               'Musical Act'=>['IsAnAct','Music','Music','Music','M'],
@@ -55,8 +55,9 @@ $PerfTypes = ['Dance Side'=>['IsASide','Dance','Dance','Dance','D'],
               'Child Ent'=>['IsFamily','Children','Family','Youth','Y'],
               'Other'=>['IsOther','Info','Other','','O']];
 $PerfIdx = ['Side'=>0,'Act'=>1,'Comic'=>2,'ChEnt'=>3,'Other'=>4];
-// Perfname => [field to test, email address for,Capability name,budget,shortCode]
 
+// Perfname => [field to test, email address for,Capability name,budget,shortCode]
+$Months = ['','Jan','Feb','Mar','Apr','May','June','July','Aug','Sep','Oct','Nov','Dec'];
 
 date_default_timezone_set('GMT');
 
@@ -385,7 +386,8 @@ function Get_Years() {
   return $Gens;
 }
 
-$MASTER = Get_General();
+$YEARDATA = Get_General();
+if ($YEARDATA['Years2Show'] > 0) $NEXTYEARDATA = Get_General($YEAR+1);
 
 function First_Sent($stuff) {
   $onefifty=substr($stuff,0,150);
@@ -534,8 +536,8 @@ function Send_SysAdmin_Email($Subject,&$data=0) {
 $head_done = 0;
 
 function doextras($extras) {
-  global $MASTER_DATA;
-  $V=$MASTER_DATA['V'];
+  global $FESTSYS;
+  $V=$FESTSYS['V'];
   if ($extras) foreach ($extras as $e) {
     $suffix=pathinfo($e,PATHINFO_EXTENSION);
     if ($suffix == "js") {
@@ -551,13 +553,13 @@ function doextras($extras) {
 
 // If Banner is a simple image then treated as a basic banner image with title overlaid otherwise what is passed is used as is
 function dohead($title,$extras=[],$Banner='',$BannerOptions=' ') {
-  global $head_done,$MASTER_DATA,$CONF;
+  global $head_done,$FESTSYS,$CONF;
   if ($head_done) return;
-  $V=$MASTER_DATA['V'];
+  $V=$FESTSYS['V'];
   $pfx="";
   if (isset($CONF['TitlePrefix'])) $pfx = $CONF['TitlePrefix'];
   echo "<html><head>";
-  echo "<title>$pfx " . $MASTER_DATA['FestName'] . " | $title</title>\n";
+  echo "<title>$pfx " . $FESTSYS['FestName'] . " | $title</title>\n";
   include_once("files/Newheader.php");
   if ($extras) doextras($extras);
   echo "</head><body>\n";
@@ -567,7 +569,7 @@ function dohead($title,$extras=[],$Banner='',$BannerOptions=' ') {
 
     if ($Banner) {
       if ($Banner == 1) {
-        echo "<div class=WMFFBanner400><img src=" . $MASTER_DATA['DefaultPageBanner'] . " class=WMFFBannerDefault>";
+        echo "<div class=WMFFBanner400><img src=" . $FESTSYS['DefaultPageBanner'] . " class=WMFFBannerDefault>";
         echo "<div class=WMFFBannerText>$title</div>";
         if (!strchr('T',$BannerOptions)) echo "<img src=/images/icons/torn-top.png class=TornTopEdge>";
         echo "</div>";
@@ -589,13 +591,13 @@ function dohead($title,$extras=[],$Banner='',$BannerOptions=' ') {
 
 //  No Banner 
 function doheadpart($title,$extras=[]) {
-  global $head_done,$MASTER_DATA,$CONF;
+  global $head_done,$FESTSYS,$CONF;
   if ($head_done) return;
-  $V=$MASTER_DATA['V'];
+  $V=$FESTSYS['V'];
   $pfx="";
   if (isset($CONF['TitlePrefix'])) $pfx = $CONF['TitlePrefix'];
   echo "<html><head>";
-  echo "<title>$pfx " . $MASTER_DATA['FestName'] . " | $title</title>\n";
+  echo "<title>$pfx " . $FESTSYS['FestName'] . " | $title</title>\n";
   include_once("files/header.php");
   if ($extras) doextras($extras);
   $head_done = 1;
@@ -603,13 +605,13 @@ function doheadpart($title,$extras=[]) {
 
 // No Banner
 function dostaffhead($title,$extras=[]) {
-  global $head_done,$MASTER_DATA,$CONF;
+  global $head_done,$FESTSYS,$CONF;
   if ($head_done) return;
-  $V=$MASTER_DATA['V'];
+  $V=$FESTSYS['V'];
   $pfx="";
   if (isset($CONF['TitlePrefix'])) $pfx = $CONF['TitlePrefix'];
   echo "<html><head>";
-  echo "<title>$pfx " . $MASTER_DATA['ShortName'] . " | $title</title>\n";
+  echo "<title>$pfx " . $FESTSYS['ShortName'] . " | $title</title>\n";
   if (Feature('NewStyle') && ! UserGetPref('StaffOldFormat')) {
     include_once("files/Newheader.php");
     include_once("festcon.php");
@@ -632,16 +634,16 @@ function dostaffhead($title,$extras=[]) {
 
 // No Banner
 function dominimalhead($title,$extras=[]) { 
-  global $head_done,$MASTER_DATA,$CONF;
-  $V=$MASTER_DATA['V'];
+  global $head_done,$FESTSYS,$CONF;
+  $V=$FESTSYS['V'];
   $pfx="";
   if (isset($CONF['TitlePrefix'])) $pfx = $CONF['TitlePrefix'];
   echo "<html><head>";
-  echo "<title>$pfx " . $MASTER_DATA['ShortName'] . " | $title</title>\n";
+  echo "<title>$pfx " . $FESTSYS['ShortName'] . " | $title</title>\n";
 //  echo "<link href=files/Newstyle.css?V=$V type=text/css rel=stylesheet>";
   echo "<script src=/js/jquery-3.2.1.min.js></script>";
   if ($extras) doextras($extras);
-  echo "<script>" . $MASTER_DATA['Analytics'] . "</script>";
+  echo "<script>" . $FESTSYS['Analytics'] . "</script>";
   echo "</head><body>\n";
   $head_done = 2;
 }

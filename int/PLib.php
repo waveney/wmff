@@ -2,7 +2,7 @@
 // Participant Display Lib - Generalises Show_Side etc
 
 function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
-  global $MASTER,$Side_Statuses,$Importance,$Surfaces,$Surface_Colours,$Noise_Levels,$Noise_Colours,$Share_Spots,$Mess,$Action,$ADDALL,$CALYEAR,$PLANYEAR,$YEAR;
+  global $YEARDATA,$Side_Statuses,$Importance,$Surfaces,$Surface_Colours,$Noise_Levels,$Noise_Colours,$Share_Spots,$Mess,$Action,$ADDALL,$CALYEAR,$PLANYEAR,$YEAR;
   global $OlapTypes,$OlapCats,$OlapDays,$PerfTypes;
   if ($CatT == '') {
     $CatT = ($Side['IsASide'] ? 'Side' : $Side['IsAnAct'] ? 'Act' : 'Other');
@@ -344,7 +344,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
 
 
 function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
-  global $YEAR,$CALYEAR,$PLANYEAR,$MASTER,$Invite_States,$Coming_States,$Coming_Colours, $Mess,$Action,$ADDALL,$Invite_Type,$TickBoxes;
+  global $YEAR,$CALYEAR,$PLANYEAR,$YEARDATA,$Invite_States,$Coming_States,$Coming_Colours, $Mess,$Action,$ADDALL,$Invite_Type,$TickBoxes;
   global $InsuranceStates,$Book_State,$Book_States,$Book_Colours,$ContractMethods,$Dance_Comp,$Dance_Comp_Colours,$PerfTypes;
   
   if ($year==0) $year=$YEAR;

@@ -27,7 +27,7 @@ $volClasses = [ 'Stew' => ['Stewarding', 'Info Points, Concerts, Road Closures, 
                              ['Media_Dislike', 'Disliked Media Areas',"What events would you not want to cover"],
                              ['Examples','Links to examples of your work','Separate examples by spaces']]],
 
-                'Other' => ['Other', '',['Before',-1,0,1,2,3],'webmaster',0,0,
+                'Other' => ['Other', '',['Before',-1,0,1,2,3],'webYEARDATA',0,0,
                             [['OtherText','Please elaborate','']]],
                ];
                
@@ -36,7 +36,7 @@ $Relations = array('','Husband','Wife','Partner','Son','Daughter','Mother','Fath
  
 
 function Get_Vol_Details(&$vol) {
-  global $volClasses,$Relations,$MASTER;
+  global $volClasses,$Relations,$YEARDATA;
   $Body = "\nName: " . $vol['SN'] . "<br>\n";
   $Body .= "Email: <a href=mailto:" . $vol['Email'] . ">" . $vol['Email'] . "</a><br>\n";
   if ($vol['Phone']) $Body .= "Phone: " . $vol['Phone'] . "<br>\n";
@@ -58,7 +58,7 @@ function Get_Vol_Details(&$vol) {
   $Body .= "<p>\n";
   $Body . "Available:<p>\n";
   if (isset($vol['AvailBefore']) && $vol['AvailBefore'])  $Body .= "Before Festival: " . $vol["AvailBefore"] . "<br>\n";
-  for ($day = $MASTER['FirstDay']-1; $day<= $MASTER['LastDay']+1; $day++) {
+  for ($day = $YEARDATA['FirstDay']-1; $day<= $YEARDATA['LastDay']+1; $day++) {
     $av = "Avail" . ($day <0 ? "_" . (-$day) : $day);
     if (isset($vol[$av]) && $vol[$av]) $Body .= FestDate($day,'M') . ": " . $vol[$av] . "<br>\n";
   }
@@ -76,7 +76,7 @@ function Get_Vol_Details(&$vol) {
 }
 
 function Vol_Details($key,&$vol) {
-  global $MASTER_DATA;
+  global $FESTSYS;
   switch ($key) {
   case 'WHO': return firstword($vol['SN']);
   case 'DETAILS': return Get_Vol_Details($vol);
@@ -86,8 +86,8 @@ function Vol_Details($key,&$vol) {
 }
 
 function Email_Volunteer(&$vol,$messcat,$whoto) {
-  global $PLANYEAR,$USER,$MASTER_DATA;
-  Email_Proforma($whoto,$messcat,$MASTER_DATA['FestName'] . " $PLANYEAR and " . $vol['SN'],'Vol_Details',$vol,'Volunteer.txt');
+  global $PLANYEAR,$USER,$FESTSYS;
+  Email_Proforma($whoto,$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $vol['SN'],'Vol_Details',$vol,'Volunteer.txt');
 }
 
 function Get_Volunteer($id) {
@@ -138,7 +138,7 @@ function BeforeTeams() {
 }
 
 function VolForm(&$Vol,$Err='') {
-  global $volClasses,$MASTER,$PLANYEAR,$YEAR,$Relations;
+  global $volClasses,$YEARDATA,$PLANYEAR,$YEAR,$Relations;
   echo "<h2 class=subtitle>Steward / Volunteer Application Form</h2>\n";
   echo "<p class=Err>$Err<p>";
   echo "<form method=post action=Volunteers.php>";
@@ -185,9 +185,9 @@ function VolForm(&$Vol,$Err='') {
   echo "<tr><td colspan=5><h3>Availability</h3>If you could help on the days below, please give the times you would be available\n";
   echo "<tr class=SC_Days>" . fm_text("Months before the festival",$Vol,"AvailBefore",4) . BeforeTeams();
   $D = -2;
-  for ($day = $MASTER['FirstDay']-1; $day<=$MASTER['LastDay']+1; $day++) {
+  for ($day = $YEARDATA['FirstDay']-1; $day<=$YEARDATA['LastDay']+1; $day++) {
     $av = "Avail" . ($day <0 ? "_" . (-$day) : $day);
-    $rs = (($day<$MASTER['FirstDay'] || $day> $MASTER['LastDay']));
+    $rs = (($day<$YEARDATA['FirstDay'] || $day> $YEARDATA['LastDay']));
     echo "<tr " . ($rs?'class=SC_Days':'') . ">" . fm_text("On " . FestDate($day,'M'), $Vol,$av,4) . ($rs? BeforeTeams(): " <span class=SC_Days hidden> All Teams</span>");
   }
 
@@ -212,7 +212,7 @@ function VolForm(&$Vol,$Err='') {
   if (Access('Staff')) echo "<h2><a href=Volunteers.php?A=List>Back to list of Volunteers</a></h2>";
   
   echo "<h3>Terms and Conditions</h3>\n";
-  echo "<ul><li>I am, or will be over 18 years of age on " . FestDate($MASTER['FirstDay'],'L');
+  echo "<ul><li>I am, or will be over 18 years of age on " . FestDate($YEARDATA['FirstDay'],'L');
   echo "<li>You will be responsible for the health and safety of the general public, yourself and others around you " .
         "and must co-operate with festival organisers and supervisors at all times.\n";
   echo "<li>All volunteers must ensure that they are never, under any circumstances, alone with any person under the age of 18.\n";
@@ -236,7 +236,7 @@ function VolForm(&$Vol,$Err='') {
 }
 
 function Vol_Validate(&$Vol) {
-  global $MASTER,$volClasses;
+  global $YEARDATA,$volClasses;
 
   if (strlen($Vol['SN']) < 2) return "Please give your name";
   if (strlen($Vol['Email']) < 6) return "Please give your Email";
@@ -251,7 +251,7 @@ function Vol_Validate(&$Vol) {
 
   $Avail=0;
   if (strlen($Vol["AvailBefore"]) > 1) $Avail++;
-  for ($day =$MASTER['FirstDay']-1; $day<=$MASTER['LastDay']+1; $day++) {
+  for ($day =$YEARDATA['FirstDay']-1; $day<=$YEARDATA['LastDay']+1; $day++) {
     $av = "Avail" . ($day <0 ? "_" . (-$day) : $day);
     if (strlen($Vol[$av]) > 1) $Avail++;
   }
@@ -266,10 +266,10 @@ function Vol_Validate(&$Vol) {
 }
 
 function Vol_Emails(&$Vol,$reason='Submit') {// Allow diff message on reason=update
-  global $MASTER_DATA,$volClasses;
+  global $FESTSYS,$volClasses;
   Email_Volunteer($Vol,"Vol_Application_$reason",$Vol['Email']);
   foreach($volClasses as $vc=>$vd) {
-    if (isset($Vol["SC_" . $vc]) && $Vol["SC_" . $vc]) Email_Volunteer($Vol,"Vol_Staff_$reason",$vd[3]. "@" . $MASTER_DATA['HostURL']);
+    if (isset($Vol["SC_" . $vc]) && $Vol["SC_" . $vc]) Email_Volunteer($Vol,"Vol_Staff_$reason",$vd[3]. "@" . $FESTSYS['HostURL']);
   }
   echo "<h2 class=subtitle>Thankyou for " . (($reason == 'Submit')?"submitting":"updating") . " your application</h2>";
   if (Access('Staff')) echo "<h2><a href=Volunteers.php?A=List>Back to list of Volunteers</a></h2>";
@@ -277,15 +277,15 @@ function Vol_Emails(&$Vol,$reason='Submit') {// Allow diff message on reason=upd
 }
 
 function Vol_Staff_Emails(&$Vol,$reason='NotThisYear') {// Allow diff message on reason=update
-  global $MASTER_DATA,$volClasses;
+  global $FESTSYS,$volClasses;
   foreach($volClasses as $vc=>$vd) {
-    if (isset($Vol["SC_" . $vc]) && $Vol["SC_" . $vc]) Email_Volunteer($Vol,"Vol_Staff_$reason",$vd[3]. "@" . $MASTER_DATA['HostURL']);
+    if (isset($Vol["SC_" . $vc]) && $Vol["SC_" . $vc]) Email_Volunteer($Vol,"Vol_Staff_$reason",$vd[3]. "@" . $FESTSYS['HostURL']);
   }
 }
 
 
 function List_Vols() {
-  global $YEAR,$db,$volClasses,$MASTER,$PLANYEAR;
+  global $YEAR,$db,$volClasses,$YEARDATA,$PLANYEAR;
   echo "<button class='floatright FullD' onclick=\"($('.FullD').toggle())\">All Applications</button><button class='floatright FullD' hidden onclick=\"($('.FullD').toggle())\">Curent Aplications</button> ";
 
 
@@ -309,7 +309,7 @@ function List_Vols() {
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Media</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Other</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Before</a>\n";
-  for ($day = $MASTER['FirstDay']-1; $day<= $MASTER['LastDay']+1; $day++) {
+  for ($day = $YEARDATA['FirstDay']-1; $day<= $YEARDATA['LastDay']+1; $day++) {
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>" . FestDate($day,'s') . "</a>\n";
   }
   echo "</thead><tbody>";
@@ -329,7 +329,7 @@ function List_Vols() {
     echo "<td class=FullD hidden>" . $VY['Year'];
     foreach ($volClasses as $c=>$exp) echo "<td>" . (isset($VY["SC_$c"]) && $VY["SC_$c"]?'Y':'');
     echo "<td>" . (isset($VY['AvailBefore'])?$VY['AvailBefore']:"");
-    for ($day = $MASTER['FirstDay']-1; $day<= $MASTER['LastDay']+1; $day++) {
+    for ($day = $YEARDATA['FirstDay']-1; $day<= $YEARDATA['LastDay']+1; $day++) {
       $av = "Avail" . ($day <0 ? "_" . (-$day) : $day);
       echo "<td>";
       if (isset($VY[$av])) echo (strlen($VY[$av])<12? $VY[$av] : $link. "Expand</a>") . "\n";

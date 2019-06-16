@@ -157,8 +157,8 @@
       
     case 'SEND' :
       // Get cover note and send out and record
-      $subject = $MASTER_DATA['FestName'] . " $PLANYEAR and " . $inv['BZ'];
-      $too = [['to',$inv['Email'],$inv['Contact']],['from','Finance@' . $MASTER_DATA['HostURL'],'Wimborne Finance'],['replyto','Finance@' . $MASTER_DATA['HostURL'],'Wimborne Finance']];
+      $subject = $FESTSYS['FestName'] . " $PLANYEAR and " . $inv['BZ'];
+      $too = [['to',$inv['Email'],$inv['Contact']],['from','Finance@' . $FESTSYS['HostURL'],'Wimborne Finance'],['replyto','Finance@' . $FESTSYS['HostURL'],'Wimborne Finance']];
       $pdf = Get_Invoice_Pdf($id,'',$inv['Revision']);
       echo Email_Proforma($too,$inv['CoverNote'],$subject,'Invoice_Email_Details',$inv,$logfile='Invoices',$pdf);
       $inv['EmailDate'] = time();
@@ -174,8 +174,8 @@
     
     case 'RESEND' :
       // Resend current cover note
-      $subject = $MASTER_DATA['FestName'] . " $PLANYEAR and " . $inv['BZ'];
-      $too = [['to',$inv['Email'],$inv['Contact']],['from','Finance@' . $MASTER_DATA['HostURL'],'Wimborne Finance'],['replyto','Finance@' . $MASTER_DATA['HostURL'],'Wimborne Finance']];
+      $subject = $FESTSYS['FestName'] . " $PLANYEAR and " . $inv['BZ'];
+      $too = [['to',$inv['Email'],$inv['Contact']],['from','Finance@' . $FESTSYS['HostURL'],'Wimborne Finance'],['replyto','Finance@' . $FESTSYS['HostURL'],'Wimborne Finance']];
       $pdf = Get_Invoice_Pdf($id,'',$inv['Revision']);
       echo Email_Proforma($too,$inv['CoverNote'],$subject,'Invoice_Email_Details',$inv,$logfile='Invoices',$pdf);
 

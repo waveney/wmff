@@ -6,7 +6,7 @@
   include_once("InnerMusicFAQ.php"); 
 
 function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-2 dummy-1 Draft,0 proposed, 1 freeze reason - see contractConfirm, ctype 0=Side,1=act,2=other
-  global $Mess,$Action,$MASTER,$Cat_Type,$YEAR,$PLANYEAR,$DayList,$DayLongList, $Event_Types,$ContractMethods,$USERID,$ReportTo;
+  global $Mess,$Action,$YEARDATA,$Cat_Type,$YEAR,$PLANYEAR,$DayList,$DayLongList, $Event_Types,$ContractMethods,$USERID,$ReportTo;
 
   $str = "<div class=content900>\n";
   $Venues = Get_Real_Venues(1);

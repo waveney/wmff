@@ -10,7 +10,7 @@
   include_once("DanceLib.php");
   include_once("MusicLib.php");
   include_once("EventCheck.php");
-  global $MASTER,$YEAR,$USERID,$Importance,$PerfTypes;
+  global $YEARDATA,$YEAR,$USERID,$Importance,$PerfTypes;
 
   Set_Event_Help();
 
@@ -62,10 +62,10 @@ A similar feature will appear eventually for music.<p>
   echo "</div>";
   
   $FestDays = [];
-  if ($MASTER['LastDay']-$MASTER['FirstDay'] < 6) {
-    for ($day= $MASTER['FirstDay']; $day <=$MASTER['LastDay']; $day++) $FestDays[$day] = $DayList[$day];
+  if ($YEARDATA['LastDay']-$YEARDATA['FirstDay'] < 6) {
+    for ($day= $YEARDATA['FirstDay']; $day <=$YEARDATA['LastDay']; $day++) $FestDays[$day] = $DayList[$day];
   } else {
-    for ($day= $MASTER['FirstDay']; $day <=$MASTER['LastDay']; $day++) $FestDays[$day] = FestDate($day,'S');
+    for ($day= $YEARDATA['FirstDay']; $day <=$YEARDATA['LastDay']; $day++) $FestDays[$day] = FestDate($day,'S');
   }
 
   echo "<h2>Add/Edit Events</h2>\n";
@@ -334,8 +334,8 @@ A similar feature will appear eventually for music.<p>
       if ($se <= 0) {
         echo "<tr class=NotSide>";
         echo "<td  class=NotSide>" . fm_simpletext('Price &pound;',$Event,'Price1');
-        if ($MASTER['PriceChange1']) echo "<td class=NotSide>" . fm_simpletext('Price after ' . date('j M Y',$MASTER['PriceChange1']) . ' (if diff) &pound;',$Event,'Price2');
-        if ($MASTER['PriceChange2']) echo "<td class=NotSide>" . fm_simpletext('Price after ' . date('j M Y',$MASTER['PriceChange2']) . ' (if diff) &pound;',$Event,'Price3');
+        if ($YEARDATA['PriceChange1']) echo "<td class=NotSide>" . fm_simpletext('Price after ' . date('j M Y',$YEARDATA['PriceChange1']) . ' (if diff) &pound;',$Event,'Price2');
+        if ($YEARDATA['PriceChange2']) echo "<td class=NotSide>" . fm_simpletext('Price after ' . date('j M Y',$YEARDATA['PriceChange2']) . ' (if diff) &pound;',$Event,'Price3');
         echo "<td class=NotSide>" . fm_simpletext('Door Price (if different) &pound;',$Event,'DoorPrice');
         echo "<td class=NotSide>" . fm_simpletext('Ticket Code',$Event,'TicketCode');
       }

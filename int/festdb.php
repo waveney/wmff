@@ -57,7 +57,7 @@ function Get_Emails($roll) {
 $UpdateLog = '';
 
 function Report_Log($roll) {
-  global $Access_Type,$USER,$USERID,$UpdateLog,$MASTER_DATA;
+  global $Access_Type,$USER,$USERID,$UpdateLog,$FESTSYS;
   if ($UpdateLog) {
     if ($USER{'AccessLevel'} == $Access_Type['Participant']) {
       switch ($USER{'Subtype'}) {
@@ -81,9 +81,9 @@ function Report_Log($roll) {
 
     $emails = Get_Emails($roll);
     if ($emails) {
-      NewSendEmail($emails,$MASTER_DATA['ShortName'] . " update by $who",$UpdateLog);
+      NewSendEmail($emails,$FESTSYS['ShortName'] . " update by $who",$UpdateLog);
     }
-    Logg($MASTER_DATA['ShortName'] . " update by $who\n" . $UpdateLog);
+    Logg($FESTSYS['ShortName'] . " update by $who\n" . $UpdateLog);
     $UpdateLog = '';
   }
 }
@@ -229,26 +229,26 @@ function db_get($table,$cond) {
   return 0;
 }
 
-// Read Master Data - this is NOT year specific - Get fest name, short name, version everything else is for future
+// Read YEARDATA Data - this is NOT year specific - Get fest name, short name, version everything else is for future
 
-function Get_Master_Data() {
-  global $db,$MASTER_DATA;
+function Get_FESTSYS() {
+  global $db,$FESTSYS;
   $res = $db->query("SELECT * FROM MasterData");
   if ($res) return $res->fetch_assoc();
 }
 
-$MASTER_DATA = Get_Master_Data();
+$FESTSYS = Get_FESTSYS();
 $CALYEAR = gmdate('Y');
-$SHOWYEAR = $MASTER_DATA['ShowYear'];
-$YEAR = $PLANYEAR = $MASTER_DATA['PlanYear'];  //$YEAR can be overridden
-$MASTER_DATA['V'] = $CALYEAR . "." . $MASTER_DATA['Version'];
+$SHOWYEAR = $FESTSYS['ShowYear'];
+$YEAR = $PLANYEAR = $FESTSYS['PlanYear'];  //$YEAR can be overridden
+$FESTSYS['V'] = $CALYEAR . "." . $FESTSYS['Version'];
 
-function Feature($Name,$default='') {  // Return value of feature if set from Master_Data
+function Feature($Name,$default='') {  // Return value of feature if set from FESTSYS
   static $Features;
-  global $MASTER_DATA;
+  global $FESTSYS;
   if (!$Features) {
     $Features = [];
-    foreach (explode("\n",$MASTER_DATA['Features']) as $i=>$feat) {
+    foreach (explode("\n",$FESTSYS['Features']) as $i=>$feat) {
       $Dat = explode(":",$feat,3);
       if ($Dat[0])$Features[$Dat[0]] = trim($Dat[1]);
     }
@@ -258,10 +258,10 @@ function Feature($Name,$default='') {  // Return value of feature if set from Ma
 }
 
 function set_ShowYear() { // Overrides default above if not set by a Y argument
-  global $YEAR,$SHOWYEAR,$MASTER;
+  global $YEAR,$SHOWYEAR,$YEARDATA;
   if (!isset($_POST['Y']) && !isset($_GET['Y'])) {
     $YEAR = $SHOWYEAR;
-    $MASTER = Get_General($YEAR);
+    $YEARDATA = Get_General($YEAR);
   }
 }
 

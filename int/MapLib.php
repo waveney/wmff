@@ -83,7 +83,7 @@ function Update_MapPoints() {
 // Features 1= normal, 0 none, 2 no venues, 3=Dance only, 4 = CarParks, 5 = Music only, 6=Craft, 7=Family, 8=Comedy
 
 function Init_Map($CentType,$Centerid,$Zoom,$Features=1) { // CentType 0=Venue, 1=Mappoint, -1=WImborne
-  global $MASTER_DATA;  
+  global $FESTSYS;  
   if ($CentType > 0) {
     $mp = Get_Map_Point($Centerid);
     $Lat = $mp['Lat'];
@@ -96,11 +96,11 @@ function Init_Map($CentType,$Centerid,$Zoom,$Features=1) { // CentType 0=Venue, 
     $Lat = $Long = 0;
   }
 
-  $V = $MASTER_DATA['V'];
+  $V = $FESTSYS['V'];
   echo fm_hidden('MapLat',$Lat) . fm_hidden('MapLong',$Long) . fm_hidden('MapZoom',$Zoom) . fm_hidden('MapFeat',$Features) .
        fm_hidden('MapDataDate',filemtime("cache/mappoints.json"));
        
-  echo "<script src='https://maps.googleapis.com/maps/api/js?key=" . $MASTER_DATA['GoogleAPI'] . "' ></script>";
+  echo "<script src='https://maps.googleapis.com/maps/api/js?key=" . $FESTSYS['GoogleAPI'] . "' ></script>";
   echo "<script src=/js/maplabel.js?V=$V ></script>";
   echo "<script src=/js/Mapping.js?V=$V ></script>";
 }

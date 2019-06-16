@@ -8,7 +8,7 @@
 
   include_once("int/ProgLib.php");
   include_once("int/DateTime.php");
-  global $db,$YEAR,$PLANYEAR,$SHOWYEAR,$MASTER,$DayList,$DayLongList;
+  global $db,$YEAR,$PLANYEAR,$SHOWYEAR,$YEARDATA,$DayList,$DayLongList;
 
   $Ets = Get_Event_Types(1);
   $Vens = Get_Venues(1);
@@ -54,7 +54,7 @@
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
         $Types = "Family Event";
         if (count($Evs) != 1) $Types .= "s";
-        if ($YEAR == $PLANYEAR) $Complete = $MASTER[$Type . 'State'];
+        if ($YEAR == $PLANYEAR) $Complete = $YEARDATA[$Type . 'State'];
         $MapFeat = 7;
         break;
       case 'Special':
@@ -63,7 +63,7 @@
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
         $Types = "Special Event";
         if (count($Evs) != 1) $Types .= "s";
-        if ($YEAR == $PLANYEAR) $Complete = $MASTER[$Type . 'State'];
+        if ($YEAR == $PLANYEAR) $Complete = $YEARDATA[$Type . 'State'];
         // No MapFeat yet
         break;
       default:

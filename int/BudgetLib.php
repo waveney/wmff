@@ -32,7 +32,7 @@ function Budget_Update($area,$value,$oldvalue=0) {
 }
 
 function Budget_Scan($Detail=0) {
-  global $YEAR,$db,$BUDGET,$Coming_Idx,$MASTER;
+  global $YEAR,$db,$BUDGET,$Coming_Idx,$YEARDATA;
   foreach ($BUDGET as $B) $B['CommittedSoFar'] = 0;
 
   include_once("DanceLib.php");
@@ -42,7 +42,7 @@ function Budget_Scan($Detail=0) {
   if ($res) while ($sy = $res->fetch_assoc()) {
     if (preg_match('/N/',$Coming_Idx[$sy['Coming']]) && ($sy['YearState'] < 2)) continue;
     $Fee = $sy['TotalFee']+$sy['OtherPayCost'];
-    $Camps =  ($sy['CampFri'] + $sy['CampSat'] + $sy['CampSun']) * $MASTER['CampingCost'];
+    $Camps =  ($sy['CampFri'] + $sy['CampSat'] + $sy['CampSun']) * $YEARDATA['CampingCost'];
 //if ($sy['SideId'] == 484) { echo "Camps = $Camps<br>"; 
     $Fee += $Camps;
     if ($sy['BudgetArea2']) {

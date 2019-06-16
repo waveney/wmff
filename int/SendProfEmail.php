@@ -3,7 +3,7 @@
 include_once("fest.php");
 include_once("DanceLib.php");
 include_once("Email.php");
-global $MASTER_DATA,$PLANYEAR;
+global $FESTSYS,$PLANYEAR;
 
 A_Check("Staff","Dance");
 
@@ -13,13 +13,13 @@ $label = (isset($_REQUEST['L'])?$_REQUEST['L']:"");
 
 $Side = Get_Side($id);
 $Sidey = Get_SideYear($id);
-$subject = $MASTER_DATA['FestName'] . " $PLANYEAR and " . $Side['SN'];
+$subject = $FESTSYS['FestName'] . " $PLANYEAR and " . $Side['SN'];
 $Mess = (isset($_POST['Message'])?$_POST['Message']:(Get_Email_Proforma($proforma))['Body']);
 
 if (isset($_POST['CANCEL'])) {  echo "<script>window.close()</script>"; exit; }
 
 if (isset($_POST['SEND'])) {
-  $too = [['to',$Side['Email'],$Side['Contact']],['from','Dance@' . $MASTER_DATA['HostURL'],'Wimborne Dance'],['replyto','Dance@' . $MASTER_DATA['HostURL'],'Wimborne Dance']];
+  $too = [['to',$Side['Email'],$Side['Contact']],['from','Dance@' . $FESTSYS['HostURL'],'Wimborne Dance'],['replyto','Dance@' . $FESTSYS['HostURL'],'Wimborne Dance']];
   echo Email_Proforma($too,$Mess,$subject,'Dance_Email_Details',[$Side,$Sidey],$logfile='Dance');
   
 // Log to "Invited field"
