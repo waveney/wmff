@@ -248,7 +248,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   } else {
     foreach ($ETs as $ei=>$et) if (isset($ETused[$ei]) && $ETused[$ei] && $et['State'] != 4) $AllDone = 0;
     $comps = array('Family','Special');
-    foreach($comps as $c) if ($MASTER[$c . "State"] != 4) $AllDone = 0;
+    foreach($comps as $c) if ($YEARDATA[$c . "State"] != 4) $AllDone = 0;
   }
   
   if (!$Poster) {

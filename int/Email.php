@@ -56,7 +56,7 @@ function ConvertHtmlToText(&$body) {
 //$atts can be simple fie or [[file, name],[file,name]...]
 
 function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0) { 
-  global $MASTER_DATA,$CONF;
+  global $FESTSYS,$CONF;
   
 //  echo "Debug: " .( UserGetPref('EmailDebug')?2:0) . "<p>";
   if (@ $CONF['testing']){
@@ -93,12 +93,12 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0) {
   try {
     $email->SMTPDebug = ((Access('SysAdmin') && UserGetPref('EmailDebug'))?2:0);  // 2 general testing, 4 problems...
     $email->isSMTP();
-    $email->Host = $MASTER_DATA['HostURL'];
+    $email->Host = $FESTSYS['HostURL'];
     $email->SMTPAuth = true;
     $email->AuthType = 'LOGIN';
-    $email->From = $email->Username = $MASTER_DATA['SMTPuser'] . "@" . $MASTER_DATA['HostURL'];
-    $email->FromName = $MASTER_DATA['FestName'];
-    $email->Password = $MASTER_DATA['SMTPpwd'];
+    $email->From = $email->Username = $FESTSYS['SMTPuser'] . "@" . $FESTSYS['HostURL'];
+    $email->FromName = $FESTSYS['FestName'];
+    $email->Password = $FESTSYS['SMTPpwd'];
     $email->SMTPSecure = 'tls';
     $email->Port = 587;
     $email->SMTPOptions = ['ssl' => [ 'verify_peer' => false, 'verify_peer_name' => false, 'allow_self_signed' => true]];
@@ -192,7 +192,7 @@ function Put_Email_Proforma(&$now) {
 }
 
 function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments=0,&$embeded=[]) {
-  global $PLANYEAR,$MASTER,$MASTER_DATA,$USERID;
+  global $PLANYEAR,$MASTER,$FESTSYS,$USERID;
   static $attnum = 0;
   $Reps = [];
 
@@ -212,13 +212,13 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
             $rep = FestDate($MASTER['FirstDay']) . " to " . FestDate($MASTER['LastDay'],'M') ;
             break;
           case 'FESTIVAL':
-            $rep = $MASTER_DATA['FestName'];
+            $rep = $FESTSYS['FestName'];
             break;
           case 'HOST':
-            $rep = $MASTER_DATA['HostURL'];
+            $rep = $FESTSYS['HostURL'];
             break;
           case (preg_match('/MAILTO_(.*)/',$key,$mtch)?true:false):
-            $rep = "<a href='mailto:" . $mtch[1] . "@" . $MASTER_DATA['HostURL'] . "'>" . $mtch[1] . "@" . $MASTER_DATA['HostURL'] . "</a>";
+            $rep = "<a href='mailto:" . $mtch[1] . "@" . $FESTSYS['HostURL'] . "'>" . $mtch[1] . "@" . $FESTSYS['HostURL'] . "</a>";
             break;
           case (preg_match('/WEB(:.*)/',$key,$mtch)?true:false):
             $bits = preg_split('/:/',$mtch[1],3);
@@ -226,7 +226,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
             $txt = 'Festival Website';
             if (isset($bits[1])) $url = $bits[1];
             if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
-            $rep = "<a href='https://" . $MASTER_DATA['HostURL'] . ($url? "/$url" : "") . "'>$txt</a>";
+            $rep = "<a href='https://" . $FESTSYS['HostURL'] . ($url? "/$url" : "") . "'>$txt</a>";
             break;
           case (preg_match('/READFILE_(.*)/',$key,$mtch)?true:false):
             $file = file_get_contents($mtch[1]);
@@ -273,7 +273,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
 // helper is a function that takes (THING,helperdata,atts) to return THING - not needed for generic fields typical THINGs are DETAILS, DEPOSIT...
 // if mescat > 30 chars it is assumed to be the proforma itself
 function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='',&$attachments=0,&$embeded=[]) {
-  global $PLANYEAR,$MASTER,$MASTER_DATA;
+  global $PLANYEAR,$MASTER,$FESTSYS;
   if (strlen($mescat) < 30) {
     $Prof = Get_Email_Proforma($mescat);
     $Mess = ($Prof? $Prof['Body'] : "Unknown message $mescat");

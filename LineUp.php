@@ -90,7 +90,7 @@
   
   case 'Other':
     $ET['FirstYear'] = 2019; // FUDGE TODO make better
-    echo "These are performers who don't fit into any of the otther categories.<p>";
+    echo "These are performers who don't fit into any of the other categories.<p>";
     if ($YEAR < $PLANYEAR) {
       echo "In $YEAR, These other performers were in Wimborne.  Click on the name or photograph to find out more and where they performed.<p>\n";
     } else {
@@ -102,6 +102,9 @@
            " AND s.IsOther=1 AND y.ReleaseDate<$now ORDER BY EffectiveImportance DESC, s.RelOrder DESC, s.SN");
 
     break;
+    
+  default:
+    Error_Page('No line up selected');
   }
   
 

@@ -547,7 +547,7 @@ function EventCmp($a,$b) {
 /  otherwise get programmes for all overlaps and merge together and list as a timetable
 / */
 function Extended_Prog($type,$id,$all=0) { 
-    global $DayList,$MASTER,$OlapCats;
+    global $DayList,$YEARDATA,$OlapCats;
     $Olaps = Get_Active_Overlaps_For($id,1);
     if (!$Olaps) return "";
 
@@ -684,14 +684,14 @@ function Extended_Prog($type,$id,$all=0) {
 
 
 function Dance_Email_Details($key,&$data,$att=0) {
-  global $Trade_Days,$TradeLocData,$TradeTypeData,$YEAR,$MASTER_DATA;
+  global $Trade_Days,$TradeLocData,$TradeTypeData,$YEAR,$FESTSYS;
   $Side = &$data[0];
   if (isset($data[1])) $Sidey = &$data[1];
   $snum = $Side['SideId'];
   $str = '';
   switch ($key) {
   case 'WHO':  return $Side['Contact']? firstword($Side['Contact']) : $Side['SN'];
-  case 'LINK': return "<a href='https://" . $MASTER_DATA['HostURL'] . "/int/Direct.php?t=Perf&id=$snum&key=" . $Side['AccessKey'] . "&Y=$YEAR'><b>this link</b></a>  " ;
+  case 'LINK': return "<a href='https://" . $FESTSYS['HostURL'] . "/int/Direct.php?t=Perf&id=$snum&key=" . $Side['AccessKey'] . "&Y=$YEAR'><b>this link</b></a>  " ;
   case 'PROG': return Show_Prog('Perf',$snum,1);
   case 'MISSING': $str = "Please could you <span style='background:pink'><B>click</B> on the *LINK*</span> and add the following:<ol>\n"; 
     $count = 0;
@@ -726,7 +726,7 @@ function Dance_Email_Details($key,&$data,$att=0) {
     $txt = 'Click This';
     if (isset($bits[1])) $box = $bits[1];
     if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
-    return "<a href='https://" . $MASTER_DATA['HostURL'] . "/int/Access.php?t=s&i=$snum&B=$box&k=" . $Side['AccessKey'] . "&Y=$YEAR'><b>$txt</b></a>\n";
+    return "<a href='https://" . $FESTSYS['HostURL'] . "/int/Access.php?t=s&i=$snum&B=$box&k=" . $Side['AccessKey'] . "&Y=$YEAR'><b>$txt</b></a>\n";
 
   }
 }

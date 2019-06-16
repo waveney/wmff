@@ -45,7 +45,7 @@ function Logon(&$use=0) {
 }
 
 function Forgot() {
-  global $MASTER_DATA;
+  global $FESTSYS;
   $rand_hash = rand_string(40);
   $user = $_POST{'UserName'};
   if (strlen($user) > 2) {
@@ -56,7 +56,7 @@ function Forgot() {
         $ans['AccessKey'] = $rand_hash;
         Put_User($ans);
 
-        Email_Proforma($ans['Email'],'Login_Forgot_Password', $MASTER_DATA['FestName'] . " Staff Access for " . $ans['SN'],'Login_Details',$ans,'LoginLog.txt');
+        Email_Proforma($ans['Email'],'Login_Forgot_Password', $FESTSYS['FestName'] . " Staff Access for " . $ans['SN'],'Login_Details',$ans,'LoginLog.txt');
         return "A limited use link has been emailed to you";
       }
     }

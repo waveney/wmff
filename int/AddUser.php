@@ -4,7 +4,7 @@
 
   dostaffhead("Add/Change User");
   include_once("UserLib.php");
-  global $MASTER_DATA,$Sections;
+  global $FESTSYS,$Sections;
 
   Set_User_Help();
 
@@ -65,7 +65,7 @@
     echo "<tr>" . fm_text('Abrev', $User,'Abrev',1,'','autocomplete=off');
     echo "<tr>" . fm_text('Email',$User,'Email',3,'','autocomplete=off');
     echo "<tr>" . fm_text('Phone',$User,'Phone',1,'','autocomplete=off');
-    echo "<tr>" . fm_text($MASTER_DATA['ShortName'] . " Email",$User,'WMFFemail',1,'','autocomplete=off');
+    echo "<tr>" . fm_text($FESTSYS['ShortName'] . " Email",$User,'WMFFemail',1,'','autocomplete=off');
     echo "<tr>" . fm_text('Login',$User,'Login');
     echo "<tr>" . fm_text('Roll',$User,'Roll',3);
     echo "<tr><td>No Tasks (test users only) " . fm_checkbox('',$User,'NoTasks');

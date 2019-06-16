@@ -209,10 +209,10 @@ function Parse_DateInputs(&$feilds) {
 }
 
 function Days2Festival() {
-  global $MASTER,$YEAR;
+  global $YEARDATA,$YEAR;
   $now = time();
   
-  $your_date = strtotime("$YEAR-" . $MASTER['MonthFri'] . "-" . ($MASTER['DateFri'] + $MASTER['FirstDay']));
+  $your_date = strtotime("$YEAR-" . $YEARDATA['MonthFri'] . "-" . ($YEARDATA['DateFri'] + $YEARDATA['FirstDay']));
   $datediff = $your_date - $now;
 
   return round($datediff / (60 * 60 * 24));

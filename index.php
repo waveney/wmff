@@ -1,24 +1,41 @@
 <?php
   include_once("int/fest.php");
+  global $FESTSYS,$YEARDATA,$NEXTYEARDATA,$Months;
+  include_once("int/TradeLib.php");
+  include_once("int/NewsLib.php");
+  include_once("int/DispLib.php");
+  
 
   set_ShowYear();  
-  $Banner  = "<div class=WMFFBanner800><img src=" . $MASTER_DATA['DefaultPageBanner'] . " class=WMFFBannerDefault>";
+  $DFrom = ($YEARDATA['DateFri']+$YEARDATA['FirstDay']);
+  $DTo = ($YEARDATA['DateFri']+$YEARDATA['LastDay']);
+  $DMonth = $Months[$YEARDATA['MonthFri']];
+  
+  if ($YEARDATA['Years2Show'] > 0) {
+    $NFrom = ($NEXTYEARDATA['DateFri']+$NEXTYEARDATA['FirstDay']);
+    $NTo = ($NEXTYEARDATA['DateFri']+$NEXTYEARDATA['LastDay']);
+    $NMonth = $Months[$NEXTYEARDATA['MonthFri']];
+    $NYear = $YEAR+1;
+  }
+
+  $Banner  = "<div class=WMFFBanner800><img src=" . $FESTSYS['DefaultPageBanner'] . " class=WMFFBannerDefault>";
   $Banner .= "<div class=BanOverlay><img src=/images/icons/wimborne-folk-festival-logo-white-shadow.png>";
   $Banner .= "<img src=/images/icons/underline.png>";
   $Banner .= "</div>";
-  $Banner .= "<a href=/Tickets.php class=BanDates>" . ($MASTER['DateFri']+$MASTER['FirstDay']) . " - " . ($MASTER['DateFri']+$MASTER['LastDay']) . 
-             " June $SHOWYEAR<br>Buy Tickets</a>";
+
+  if ($YEARDATA['Years2Show'] == 2) {  
+    $Banner .= "<div class=BanDates>$NFrom - $NTo $NMonth $NYear</div>";
+  } else {
+    $Banner .= "<a href=/Tickets.php class=BanDates>$DFrom - $DTo $DMonth $SHOWYEAR</a><br>Buy Tickets</a>";  
+  }
 
   $Banner .= "<img src=/images/icons/torn-top.png class=TornTopEdge>";
   $Banner .= "</div>";
 
-  dohead('6 - 9 June 2019', ['/js/WmffAds.js', "/js/HomePage.js"],$Banner );
 
-  global $MASTER_DATA;
-  include("int/TradeLib.php");
-  include("int/NewsLib.php");
-  include("int/DispLib.php");
-  
+
+  dohead('12 - 14 June 2020', ['/js/WmffAds.js', "/js/HomePage.js"],$Banner );
+
   Show_Articles_For("NewTop");
   echo "<div style=margin:10>";
   echo '<center><h2>Sponsors & Supporters</h2></center>';

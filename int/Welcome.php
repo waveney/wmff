@@ -6,7 +6,7 @@
   include_once("UserLib.php");
   include_once("Email.php");
   
-  global $MASTER_DATA;
+  global $FESTSYS;
 
   if (isset($_GET['U'])) {
     $uid = $_GET['U'];
@@ -21,7 +21,7 @@
     Put_User($User);
     $User['ActualPwd'] = $newpwd; // Not stored
  
-    $subject = "Welcome " . firstword($User['SN']) . " to " . $MASTER_DATA['ShortName'] . " Staff pages";
+    $subject = "Welcome " . firstword($User['SN']) . " to " . $FESTSYS['ShortName'] . " Staff pages";
     $letter = Email_Proforma($User['Email'],'Login_Welcome',$subject,'Login_Details',$User,'LoginLog.txt');
     echo "Email sent:<p>$letter";
   } else {

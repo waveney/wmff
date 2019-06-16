@@ -6,7 +6,7 @@
   set_ShowYear();
   include_once("int/ProgLib.php");
   include_once("int/DateTime.php");
-  global $db,$YEAR,$PLANYEAR,$SHOWYEAR,$MASTER,$DayList,$DayLongList;
+  global $db,$YEAR,$PLANYEAR,$SHOWYEAR,$YEARDATA,$DayList,$DayLongList;
 
   if ( $YEAR != $SHOWYEAR) {
     $Vens = Get_Active_Venues();

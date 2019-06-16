@@ -18,7 +18,7 @@ CONF - the real top from Configure.ini IF present, otherwise default values used
  dbase
  testing
  
-MASTER-DATA - data that is not year related
+FESTSYS - data that is not year related
   Includes Features - controls many things
   
-MASTER - Data that is year related
+YEARDATA - Data that is year related

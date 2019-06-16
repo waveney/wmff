@@ -81,7 +81,7 @@ function SubmitLinks($Addr) {
 }
 
 function Links_Email($Addr,&$list) {
-  global $MASTER_DATA;
+  global $FESTSYS;
   $Mess = '';
 
   foreach($list as $e) {
@@ -114,7 +114,7 @@ function Links_Email($Addr,&$list) {
     }
   }
 
-  NewSendEmail($Addr,$MASTER_DATA['ShortName'] . " data records of $Addr",$Mess);
+  NewSendEmail($Addr,$FESTSYS['ShortName'] . " data records of $Addr",$Mess);
 
   $logf = fopen("LogFiles/DataCheck.txt","a");
   if( $logf) {

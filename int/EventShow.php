@@ -7,7 +7,7 @@
   include_once("DispLib.php");
   include_once("MusicLib.php");
   include_once("DanceLib.php");
-  global $MASTER,$Importance,$DayLongList,$YEAR,$PerfTypes;
+  global $YEARDATA,$Importance,$DayLongList,$YEAR,$PerfTypes;
 /*
   Have different formats for different types of events, concerts, ceidihs, workshop
 */
@@ -38,7 +38,7 @@ function Print_Thing($thing,$right=0) {
 $lemons = 0;
 
 function Print_Participants($e,$when=0,$thresh=0) {
-  global $lemons,$DayLongList,$MASTER;
+  global $lemons,$DayLongList,$YEARDATA;
   Get_Imps($e,$imps,1,(Access('Staff')?1:0));
   $things = 0;
 
@@ -150,7 +150,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
     } else {
       echo Price_Show($Ev,1);
       if (!$Ev['ExcludePass']) { echo ", or by Weekend ticket";
-        if (!$Ev['ExcludeDay'] && $MASTER[$DayLongList[$Ev['Day']] . "Pass"]) echo " or " . $DayLongList[$Ev['Day']] . " ticket\n";
+        if (!$Ev['ExcludeDay'] && $YEARDATA[$DayLongList[$Ev['Day']] . "Pass"]) echo " or " . $DayLongList[$Ev['Day']] . " ticket\n";
       }
     }
     if ($Ev['TicketCode']) {

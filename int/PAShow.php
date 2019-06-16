@@ -7,7 +7,7 @@
   include_once("ProgLib.php");
   include_once("DanceLib.php");
   include_once("ViewLib.php");
-  global $YEAR,$MASTER_DATA;
+  global $YEAR,$FESTSYS;
     
   $Ven = Get_Venue($V);
 
@@ -156,7 +156,7 @@
     echo "<br clear=all><div id=qrcode></div>";
     echo '<script type="text/javascript">
       var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "https://' . $MASTER_DATA['HostURL'] . "/int/Access.php?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'] . '",
+        text: "https://' . $FESTSYS['HostURL'] . "/int/Access.php?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'] . '",
         width: 205,
         height: 205,
       });
@@ -167,7 +167,7 @@
   
   if (Access('Staff')) {
 
-    echo "<h3>Link to send to Engineer: https://" . $MASTER_DATA['HostURL'] . "/int/Access.php?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'];
+    echo "<h3>Link to send to Engineer: https://" . $FESTSYS['HostURL'] . "/int/Access.php?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'];
     if (Access('SysAdmin')) echo "<a href='Access.php?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'] . "'> Use\n";
     echo "</h3>\n";
   }

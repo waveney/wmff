@@ -8,7 +8,7 @@ $DayLongList = array(-3=>'Tuesday',-2=>'Wednesday',-1=>'Thursday',0=>'Friday',1=
 $InfoLevels = array('None','Major','Minor','All');
 $VisParts = array('All','None'); // Add subcats when needed
 $Thing_Types = array('Sides','Acts','Others');
-$Public_Event_Types = array('As Master','Yes', 'Not yet','Never');
+$Public_Event_Types = array('As YEARDATA','Yes', 'Not yet','Never');
 
 $Day_Type = array_flip($DayList);
 $Info_Type = array_flip($InfoLevels);
@@ -587,7 +587,7 @@ function Get_Other_Participants(&$Others,$Mode=0,$l=0,$size=12,$mult=1,$prefix='
 }
 
 function Price_Show(&$Ev,$Buy=0) {
-  global $MASTER;
+  global $YEARDATA;
 
   if ($Ev['SpecPrice']) return $Ev['SpecPrice'];
 
@@ -604,8 +604,8 @@ function Price_Show(&$Ev,$Buy=0) {
       $str .= "<a href=" . $Ev['SpecPriceLink'] . " target=_blank>";
     }
   }
-  if ($MASTER['PriceChange1']) {
-    $pc = $MASTER['PriceChange1'];
+  if ($YEARDATA['PriceChange1']) {
+    $pc = $YEARDATA['PriceChange1'];
     $Npri = $Ev['Price2'];
     if ($Npri != $Cpri && $Npri != 0) {
       if ($pc > time()) {
@@ -616,8 +616,8 @@ function Price_Show(&$Ev,$Buy=0) {
     }
   }
   
-  if ($MASTER['PriceChange2']) {
-    $pc = $MASTER['PriceChange2'];
+  if ($YEARDATA['PriceChange2']) {
+    $pc = $YEARDATA['PriceChange2'];
     $Npri = $Ev['Price3'];
     if ($Npri != $Cpri && $Npri != 0) {
       if ($pc > time()) {
@@ -645,7 +645,7 @@ function VenName(&$V) {
 }
 
 function DayTable($d,$Types,$xtr='',$xtra2='',$xtra3='') {
-  global $DayList,$DayLongList,$YEAR,$MASTER;
+  global $DayList,$DayLongList,$YEAR,$YEARDATA;
   static $lastday = -99;
   if ($d != $lastday) {
     if ($lastday != -99) echo "</table></div><p>\n";

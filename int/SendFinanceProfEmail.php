@@ -3,7 +3,7 @@
 include_once("fest.php");
 include_once("InvoiceLib.php");
 include_once("Email.php");
-global $MASTER_DATA,$PLANYEAR;
+global $FESTSYS,$PLANYEAR;
 
 A_Check("Staff","Finance");
 
@@ -12,14 +12,14 @@ $id = $_REQUEST['id'];
 //$label = (isset($_REQUEST['L'])?$_REQUEST['L']:"");
 
 $inv = Get_Invoice($id);
-$subject = $MASTER_DATA['FestName'] . " $PLANYEAR and " . $inv['BZ'];
+$subject = $FESTSYS['FestName'] . " $PLANYEAR and " . $inv['BZ'];
 $Mess = (isset($_POST['Message'])?$_POST['Message']:$inv['CoverNote']);
 $inv['CoverNote'] = $Mess;
 
 if (isset($_POST['CANCEL'])) {  echo "<script>window.close()</script>"; exit; }
 
 if (isset($_POST['SEND'])) {
-  $too = [['to',$inv['Email'],$Side['Contact']],['from','Finance@' . $MASTER_DATA['HostURL'],'Wimborne Finance'],['replyto','Finance@' . $MASTER_DATA['HostURL'],'Wimborne Finance']];
+  $too = [['to',$inv['Email'],$Side['Contact']],['from','Finance@' . $FESTSYS['HostURL'],'Wimborne Finance'],['replyto','Finance@' . $FESTSYS['HostURL'],'Wimborne Finance']];
   echo Email_Proforma($too,$Mess,$subject,'Invoice_Email_Details',$inv,$logfile='Invoices');
   
   $inv['EmailDate'] = time();

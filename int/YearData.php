@@ -2,11 +2,12 @@
   include_once("fest.php");
   A_Check('SysAdmin');
 
-  dostaffhead("General Settings");
+  dostaffhead("General Year Settings");
 
   global $EType_States,$TicketStates;
   include_once("DateTime.php");
   $Dates = array('PriceChange1','PriceChange2','TradeMainDate','TradeLastDate');
+  $Years2Show = ['This','Both','Next'];
 
   echo "<div class='content'><h2>General Year Settings</h2>\n";
   
@@ -16,14 +17,14 @@
     Update_db('General',$Cur,$now);
   }
 
-  echo "<form method=post action='General.php'>\n";
-  if (isset($_POST{'Year'})) { /* Response to update button */
-    $ynum = $_POST{'Year'};
+  echo "<form method=post action='YearData.php'>\n";
+  if (isset($_POST['Year'])) { /* Response to update button */
+    $ynum = $_POST['Year'];
     Parse_DateInputs($Dates);
     if ($ynum > 0) {                                 // existing Year
       $Gen = Get_General($ynum);
-      if (isset($_POST{'ACTION'})) {
-        switch ($_POST{'ACTION'}) {
+      if (isset($_POST['ACTION'])) {
+        switch ($_POST['ACTION']) {
         case 'New Year' :
           break;
         }
@@ -70,6 +71,7 @@
     echo "<tr>" . fm_number1('Date of Friday',$Gen,'DateFri') . fm_number1('Month of Friday',$Gen,'MonthFri') . "<td>ie 8,6 for 8th of June.  It works out the rest from these\n";
     echo "<tr>" . fm_number1('First Day',$Gen,'FirstDay') . fm_number1('Last Day',$Gen,'LastDay') . 
          "<td colspan=2> Start -4 to 2 days before/after Friday, finish up to 10 days later - save changes after change\n";
+    echo "<tr><td>Years to Show:<td>" . fm_select($Years2Show,$Gen,'Years2Show') . "<td>\n";
     echo "<tr>" . fm_date('Date of Price Change 1',$Gen,'PriceChange1') . "<td>\n";
     echo "<tr>" . fm_date('Date of Price Change 2',$Gen,'PriceChange2') . "<td>\n";
     for ($day=$Gen['FirstDay']; $day<=$Gen['LastDay']; $day++) {
@@ -131,12 +133,12 @@
 
     // Last Year, // Current // Next | Create
     echo "<p><h2>Settings for ";
-    if (isset($Gens[$ynum-1])) echo "<a href=General.php?yearnum=". ($ynum-1) . ">" . ($ynum-1) . "</a>, ";
+    if (isset($Gens[$ynum-1])) echo "<a href=YearData.php?yearnum=". ($ynum-1) . ">" . ($ynum-1) . "</a>, ";
     echo $ynum;
     if (isset($Gens[$ynum+1])) {
-      echo ", <a href=General.php?yearnum=". ($ynum+1) . ">" . ($ynum+1) . "</a> ";
+      echo ", <a href=YearData.php?yearnum=". ($ynum+1) . ">" . ($ynum+1) . "</a> ";
     } else {
-      echo ", <a href=General.php?Create=". ($ynum+1) . ">Create " . ($ynum+1) . "</a> ";
+      echo ", <a href=YearData.php?Create=". ($ynum+1) . ">Create " . ($ynum+1) . "</a> ";
     }
     echo "</h2>";
   } else { 
@@ -144,11 +146,5 @@
     echo "</form>\n";
   }
 
-
+  dotail();
 ?>
-
-</div>
-
-<?php include_once("files/footer.php"); ?>
-</body>
-</html>

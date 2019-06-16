@@ -412,9 +412,9 @@ function Register_AutoUpdate($type,$ref) {
 }
 
 function FestDate($day,$format='M',$Year=0) {
-  global $MASTER,$YEAR;
+  global $YEARDATA,$YEAR;
   if ($Year == 0) $Year=$YEAR;
-  $date = mktime(0,0,0,$MASTER['MonthFri'],$MASTER['DateFri']+$day,$Year);
+  $date = mktime(0,0,0,$YEARDATA['MonthFri'],$YEARDATA['DateFri']+$day,$Year);
   
   switch (strtoupper($format)) {
     default:

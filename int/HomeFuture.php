@@ -4,7 +4,7 @@
 //  set_ShowYear();  // May want to do something more elaborate soon
   dohead('7,8,9 June 2019', ['/js/WmffAds.js', "/js/HomePage.js"]);
 
-  global $MASTER_DATA;
+  global $FESTSYS;
   include("int/TradeLib.php");
   include("int/NewsLib.php");
   include("int/DispLib.php");
