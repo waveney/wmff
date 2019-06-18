@@ -19,7 +19,7 @@
   $name = $Gal['SN'];
   dohead($name, ['/css/jquery.bxslider.css','/js/jquery.bxslider.min.js']);
   echo "<h2 class=maintitle>$name</h2><p>";
-  echo "<center style='height:95vh !important;'>\n";
+  echo "<center style='height:75vh !important;'>\n";
   echo "<ul class=bxslider>\n";
 
   $Imgs = Get_Gallery_Photos($Gal['id']);
@@ -28,7 +28,7 @@
     foreach ($Imgs as $img) {
       echo "<li><img src='" . $img['File'] . "'" ;
       if ($img['Caption']) echo " title='" . $img['Caption'] . "'";
-      echo " width=100% style='object-fit:contain; max-height:95vh !important;' >\n";
+      echo " width=90% style='object-fit:contain; max-height:70vh !important;' >\n";
       $count++;
     }
   } else {
@@ -42,6 +42,7 @@
         adaptiveHeight: true,
         keyboardEnabled: true,
         autoControls: true,
+        autoControlsCombine: true,
         auto: true,
         pagerType: "short",
         stopAutoOnClick: true,

@@ -25,11 +25,11 @@
 }
 
 .main-header .header-logo {
-/*  max-width: 29%; */
   padding: 10px 24px;
   position: absolute;
   display: block;
   height: 54px;
+  max-width: calc(100% - 100px);
 }
 
 .main-header .header-logo.head-white-logo{
@@ -375,7 +375,7 @@
 
 .NullBanner {
   min-height:80px;
-  width:1560px;
+  max-width:1560px;
   position:absolute; 
   top: 0;
   background:black;
