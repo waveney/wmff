@@ -185,11 +185,11 @@ function Invoice_Print(&$inv) {
     $pdf->SetFont('Arial','B',14);
     $pdf->Text($padx+$cw,$pady+29*$ch,"BACS PAYMENTS TO:");  
     $pdf->SetFont('Arial','',$fs);
-    $pdf->Text($padx+$cw,$pady+31*$ch,"TSB Bank, 5 The Square, Wimborne, Dorset BH21 1JE");
+    $pdf->Text($padx+$cw,$pady+31*$ch,Feature("FestBankAdr"));
     $pdf->Text($padx+$cw,$pady+32*$ch,"Sort Code:"); 
-    $pdf->Text($padx+23*$cw,$pady+32*$ch,"77-50-27"); 
+    $pdf->Text($padx+23*$cw,$pady+32*$ch,Feature("FestBankSortCode")); 
     $pdf->Text($padx+$cw,$pady+33*$ch,"Account No:");
-    $pdf->Text($padx+23*$cw,$pady+33*$ch,"22719960");
+    $pdf->Text($padx+23*$cw,$pady+33*$ch,Feature("FestBankAccountNum"));
     $pdf->Text($padx+$cw,$pady+34*$ch,"Quote Reference:");
     $pdf->Text($padx+23*$cw,$pady+34*$ch,$inv['OurRef'] . '/' . $inv['id'] );
   }

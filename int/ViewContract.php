@@ -13,7 +13,7 @@
   $Side = Get_Side($snum);
   $ctype = ($Side['IsAnAct']?1:0);
   
-  $Sidey = ((Feature('NewPERF') || $ctype==0) ? Get_SideYear($snum) : Get_ActYear($snum));
+  $Sidey = Get_SideYear($snum);
   $Opt = 0;
   $IssNum = $Sidey['Contracts']; 
   if ($Sidey['YearState'] == $Book_State['Contract Signed']) $Opt += 1;

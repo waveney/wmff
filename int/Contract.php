@@ -13,7 +13,7 @@ function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-2 dummy-1 Draft,0 prop
     
   if ($mode > -1) {  
     $Side = Get_Side($snum);
-    $Sidey = ((Feature('NewPERF') || $ctype == 0) ? Get_SideYear($snum,$YEAR) : Get_ActYear($snum,$YEAR) );
+    $Sidey = Get_SideYear($snum,$YEAR);
     $Booked = Get_User($Sidey['BookedBy']);
     $kwd = ($mode < 0?'DRAFT':($mode ==0?'Proposed':''));
   } else {

@@ -8,6 +8,7 @@
   include_once("int/DateTime.php");
   global $db,$YEAR,$PLANYEAR,$SHOWYEAR,$YEARDATA,$DayList,$DayLongList;
 
+  $Vens = [];
   if ( $YEAR != $SHOWYEAR) {
     $Vens = Get_Active_Venues();
   } else {

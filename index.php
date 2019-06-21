@@ -24,7 +24,7 @@
   $Banner .= "</div>";
 
   if ($YEARDATA['Years2Show'] == 2) {  
-    $Banner .= "<div class=BanDates>$NFrom - $NTo $NMonth $NYear</div>";
+    $Banner .= "<div class=BanDates>Next Year: $NFrom - $NTo $NMonth $NYear</div>";
   } else {
     $Banner .= "<a href=/Tickets.php class=BanDates>$DFrom - $DTo $DMonth $SHOWYEAR</a><br>Buy Tickets</a>";  
   }

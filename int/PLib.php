@@ -192,7 +192,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
         echo "<td colspan=2 $Adv>" . fm_radio("Music Volume",$Noise_Levels,$Side,'NoiseLevel','',0,'','',$Noise_Colours);
       echo "<tr $Adv>";
         echo fm_textarea('Workshops',$Side,'Workshops',3,1);
-//      if ($Mode && !Feature('NewPERF')) echo "<td class=NotSide>" . fm_checkbox("Need Bank",$Side,'NeedBank');
+
     };
 
 // TODO if (isset($Side['SortCode']) && $Side['SortCode'] replace needbank with js test of fee/op

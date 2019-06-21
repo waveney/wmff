@@ -275,14 +275,7 @@ A similar feature will appear eventually for music.<p>
   $AllActive = array();
   foreach ($AllU as $id=>$name) if ($AllA[$id] >= 2 && $AllA[$id] <= 6) $AllActive[$id]=$name;
   if (isset($Event['Year'])) $YEAR = $Event['Year'];
-  if (Feature('NewPERF2')) {
-    foreach ($PerfTypes as $p=>$d) $SelectPerf[$p] = ($d[0] == 'IsASide'? Select_Come(): Select_Perf_Come($d[0]));
-  } else {
-    $SideList=Select_Come();
-    $ActList=Select_Act_Come(0);
-    $OtherList=Select_Other_Come(0);
-  }
-
+  foreach ($PerfTypes as $p=>$d) $SelectPerf[$p] = ($d[0] == 'IsASide'? Select_Come(): Select_Perf_Come($d[0]));
 
 //var_dump($Event);
   if (isset($Err)) echo "<h2 class=ERR>$Err</h2>\n";
