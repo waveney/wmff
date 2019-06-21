@@ -220,8 +220,7 @@ function Select_Act_Come($type=0,$extra='') {
   static $Come_Loaded = 0;
   static $Coming = array('');
   if ($Come_Loaded) return $Coming;
-  $qry = "SELECT s.SideId, s.SN, s.Type FROM Sides s, " . (Feature('NewPERF')?'SideYear':'ActYear') . " y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
-        " AND s.IsAnAct=1 " . $extra . " ORDER BY s.SN";
+  $qry = "SELECT s.SideId, s.SN, s.Type FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND s.IsAnAct=1 " . $extra . " ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
@@ -238,8 +237,7 @@ function Select_Other_Come($type=0,$extra='') {
   static $Come_Loaded = 0;
   static $Coming = array('');
   if ($Come_Loaded) return $Coming;
-  $qry = "SELECT s.SideId, s.SN, s.Type FROM Sides s, " . (Feature('NewPERF')?'SideYear':'ActYear') . " y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
-        " AND s.IsOther=1 " . $extra . " ORDER BY s.SN";
+  $qry = "SELECT s.SideId, s.SN, s.Type FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND s.IsOther=1 " . $extra . " ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
@@ -293,8 +291,7 @@ function Select_Perf_Come_All($Perf,$extra='') {
 function &Select_Act_Full() {
   global $db,$YEAR;
   $Coming = [];
-  $qry = "SELECT s.*, y.* FROM Sides s, " . (Feature('NewPERF')?'SideYear':'ActYear') . " y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
-        " AND s.IsAnAct=1 ORDER BY s.SN";
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND s.IsAnAct=1 ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
   return $Coming;
@@ -303,8 +300,7 @@ function &Select_Act_Full() {
 function &Select_Other_Full() {
   global $db,$YEAR;
   $Coming = [];
-  $qry = "SELECT s.*, y.* FROM Sides s, " . (Feature('NewPERF')?'SideYear':'ActYear') . " y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
-        " AND s.IsOther=1 ORDER BY s.SN";
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND s.IsOther=1 ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
   return $Coming;
@@ -321,8 +317,7 @@ function &Select_Perf_Full() {
 
 function Select_Act_Come_Day($Day,$xtr='') { // This wont work - currently unused (I hope)
   global $db,$YEAR,$Coming_Type;
-  $qry = "SELECT s.*, y.* FROM Sides s, " . (Feature('NewPERF')?'SideYear':'ActYear') . " y " .
-         "WHERE s.SideId=y.SideId AND y.Year=$YEAR " . " AND y.$Day=1 $xtr ORDER BY s.SN";
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . " AND y.$Day=1 $xtr ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
@@ -337,7 +332,7 @@ function &Select_Act_Come_All() {
   static $Come_Loaded = 0;
   static $Coming;
   if ($Coming) return $Coming;
-  $qry = "SELECT s.*, y.* FROM Sides s, " . (Feature('NewPERF')?'SideYear':'ActYear') . " y WHERE s.SideId=y.SideId AND y.Year=$YEAR ORDER BY s.SN";
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
   return $Coming;
@@ -348,7 +343,7 @@ function &Select_Act_Come_Full() {
   static $Come_Loaded = 0;
   static $Coming;
   if ($Coming) return $Coming;
-  $qry = "SELECT s.*, y.* FROM Sides s, " . (Feature('NewPERF')?'SideYear':'ActYear') . " y WHERE s.SideId=y.SideId AND s.IsAnAct=1 AND y.Year=$YEAR ORDER BY s.SN";
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND s.IsAnAct=1 AND y.Year=$YEAR ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
   return $Coming;
@@ -359,7 +354,7 @@ function &Select_Other_Come_Full() {
   static $Come_Loaded = 0;
   static $Coming;
   if ($Coming) return $Coming;
-  $qry = "SELECT s.*, y.* FROM Sides s, " . (Feature('NewPERF')?'SideYear':'ActYear') . " y WHERE s.SideId=y.SideId AND s.IsOther=1 AND y.Year=$YEAR ORDER BY s.SN";
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND s.IsOther=1 AND y.Year=$YEAR ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
   return $Coming;
@@ -405,7 +400,7 @@ function Contract_Decline($Side,$Sidey,$Reason) {
   $Note = ", Contract Declined " . date('d/m/Y');
   $Sidey['PrivNotes'] .= $Note;
   if (isset($_POST['PrivNotes'])) $_POST['PrivNotes'] .= $Note;
-  if (Feature('NewPERF')) {Put_SideYear($Sidey); } else Put_ActYear($Sidey);
+  put_SideYear($Sidey);
   return 1;
 }
 
@@ -446,7 +441,7 @@ function Contract_Check($snum,$chkba=1,$ret=0) { // if ret=1 returns result numb
   }  
 
   if ($InValid == 0 && $chkba) { // Check Bank Account if fee
-    $ActY = (Feature('NewPERF')?Get_SideYear($snum) : Get_ActYear($snum));
+    $ActY = Get_SideYear($snum);
     if ($ActY['TotalFee']) {
       $Side = Get_Side($snum);
       if ( (strlen($Side['SortCode'])<6 ) || ( strlen($Side['Account']) < 8) || (strlen($Side['AccountName']) < 6)) $InValid = 2;
@@ -470,28 +465,28 @@ function Contract_Changed(&$Sidey) {
   if ($Sidey['YearState'] == $Book_State['Contract Signed']) {
     $chk = Contract_Check($snum);
     $Sidey['YearState'] = ($chk == ''? $Book_State['Contract Ready'] : ($chk == 'Start Time'? $Book_State['Confirmed'] : $Book_State['Booking']));
-    if (Feature('NewPERF')) {Put_SideYear($Sidey); } else Put_ActYear($Sidey);
+    Put_SideYear($Sidey);
     return 1;
   } else if (!Contract_Check($snum)) {
     $Sidey['YearState'] = $Book_State['Contract Ready'];
-    if (Feature('NewPERF')) {Put_SideYear($Sidey); } else Put_ActYear($Sidey);
+    Put_SideYear($Sidey);
     return 1;
   } else {
     $Evs = Get_Events4Act($snum,$YEAR);
     if ($Evs) {
       $Sidey['YearState'] = $Book_State['Booking'];
-      if (Feature('NewPERF')) {Put_SideYear($Sidey); } else Put_ActYear($Sidey);
+      Put_SideYear($Sidey);
       return 1;
     } else {
       $Sidey['YearState'] = $Book_State['None'];
-      if (Feature('NewPERF')) {Put_SideYear($Sidey); } else Put_ActYear($Sidey);
+      Put_SideYear($Sidey);
       return 1;
     }
   }
 }
 
 function Contract_Changed_id($id) {
-  $Sidey = (Feature('NewPERF')?Get_SideYear($snum) : Get_ActYear($snum));
+  $Sidey = Get_SideYear($snum);
   return Contract_Changed($Sidey);
 }
 
@@ -530,7 +525,7 @@ function Contract_State_Check(&$Sidey,$chkba=1) {
   }
   if ($ys != $Sidey['YearState']) {
     $Sidey['YearState'] = $ys;
-    if (Feature('NewPERF')) {Put_SideYear($Sidey); } else Put_ActYear($Sidey);
+    Put_SideYear($Sidey);
     return 1;
   }
 }
@@ -574,7 +569,7 @@ function Music_Actions($Act,&$side,&$Sidey) { // Note Sidey MAY have other recor
   if ($OldState != $NewState) {
 //echo "Newstate $NewState<p>";
     $Sidey['YearState'] = $NewState;
-    if (Feature('NewPERF')) {Put_SideYear($Sidey); } else Put_ActYear($Sidey);
+    Put_SideYear($Sidey);
   }
 }
 
@@ -582,7 +577,7 @@ function MusicMail($data,$name,$id,$direct) {
   include_once("Contract.php");
   global $USER,$Book_State;
 
-  $datay = (Feature('NewPERF')?Get_SideYear($id) : Get_ActYear($id));
+  $datay = Get_SideYear($id);
   $AddC = 0;
   $p = -1; // Draft
   $Msg = '';

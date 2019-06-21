@@ -171,7 +171,11 @@ if (isset($_FILES['croppedImage'])) {
   $Shapes = array('Landscape','Square','Portrait','Banner','Free Form');
   $aspect = array('4/3','1/1','3/4','7/2','NaN');
   $Shape = 0;
-  if (isset($_POST['SHAPE'])) $Shape = $_POST['SHAPE'];
+  if (isset($_POST['SHAPE'])) { 
+    $Shape = $_POST['SHAPE'];
+  } else {
+    $_POST['SHAPE'] = $Shape;
+  }
   $PhotoCats = array('Sides','Acts','Comics','Family','Other','Traders','Sponsors','Venues','Venue2');
 
   $Lists = array(

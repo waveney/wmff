@@ -194,4 +194,11 @@ function Upload_PASpec($Dir='') {
   }
   return 0; 
 }
+
+// FieldName is FeildName of object, RecType = (Perf|Trade|etc|Specials), RecId = id of Record, ShowId is div to be updated on screen, if '' not updated
+// Mode 0 = user, 1= ctte, Shape = -1:Not image, 0:Landscape, 1:Portrait, 2:Square, 3:Banner, 4:Freeform (users only get -1|0
+
+function DragonDrop($FieldName,$UpdateFn=0,$UpdateParas=0,$Multi=0) {
+
+}
 ?>
