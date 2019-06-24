@@ -7,10 +7,88 @@
 
 $Who = $Pcat = 0;
 
+
+  $Photo_Data = [
+    'Side'=> ['Data'=>'Get_Side',
+              'Field' => 'Photo', 
+              'FinalLoc' => "images/Sides/", 
+              'Put_Data' => 'Put_Side', 
+              'ListFn' => 'Perf_Name_List', 
+              'ListData' => 'IsASide', 
+              'Allow' => Access('Staff','Dance'),
+             ],
+    'Act'=>  ['Data'=>'Get_Side',
+              'Field' => 'Photo', 
+              'FinalLoc' => "images/Sides/", 
+              'Put_Data' => 'Put_Side', 
+              'ListFn' => 'Perf_Name_List', 
+              'ListData' => 'IsAnAct', 
+              'Allow' => Access('Staff','Music'),
+             ],
+    'Comics'=> ['Data'=>'Get_Side',
+              'Field' => 'Photo', 
+              'FinalLoc' => "images/Sides/", 
+              'Put_Data' => 'Put_Side', 
+              'ListFn' => 'Perf_Name_List', 
+              'ListData' => 'IsFunny', 
+              'Allow' => Access('Staff','Comedy'),
+             ],
+    'Family'=> ['Data'=>'Get_Side',
+              'Field' => 'Photo', 
+              'FinalLoc' => "images/Sides/", 
+              'Put_Data' => 'Put_Side', 
+              'ListFn' => 'Perf_Name_List', 
+              'ListData' => 'IsFamily', 
+              'Allow' => Access('Staff','Family'),
+             ],
+    'Other'=> ['Data'=>'Get_Side',
+              'Field' => 'Photo', 
+              'FinalLoc' => "images/Sides/", 
+              'Put_Data' => 'Put_Side', 
+              'ListFn' => 'Perf_Name_List', 
+              'ListData' => 'IsOther', 
+              'Allow' => Access('Staff','Other'),
+             ],
+    'Trade'=> ['Data'=>'Get_Trader',
+              'Field' => 'Photo', 
+              'FinalLoc' => "images/Trade/", 
+              'Put_Data' => 'Put_Trader', 
+              'ListFn' => 'Get_All_Traders', 
+              'ListData' => '0', 
+              'Allow' => Access('Staff','Trade'),
+             ],
+    'Sponsors'=> ['Data'=>'Get_Sponsor',
+              'Field' => 'Photo', 
+              'FinalLoc' => "images/Sponsors/", 
+              'Put_Data' => 'Put_Sponsor', 
+              'ListFn' => 'Get_Sponsor_Names', 
+              'ListData' => '', 
+              'Allow' => Access('Staff','Sponsors'),
+             ],
+    'Venues'=> ['Data'=>'Get_Side',
+              'Field' => ['Photo','Photo2'], 
+              'FinalLoc' => "images/Venues/", 
+              'Locextra' => ['','I2'],
+              'Put_Data' => 'Put_Side', 
+              'ListFn' => 'Perf_Name_List', 
+              'ListData' => 'IsASide', 
+              'Allow' => Access('Staff','Venues'),
+             ],
+    'Events'=> ['Data'=>'Get_Event',
+              'Field' => 'Photo', 
+              'FinalLoc' => "images/Events/", 
+              'Put_Data' => 'Put_Event', 
+              'ListFn' => 'Perf_Name_List', // TODO This years only
+              'ListData' => 'IsASide', 
+              'Allow' => Access('Staff','Venues'),
+             ],
+           ];
+
+
 function ImgData() {
   global $Who,$Pcat;
-  $Pcat = $_POST['PCAT'];
-  $Who = (isset($_POST['WHO']) && strlen($_POST['WHO']) ? $_POST['WHO'] : $_POST["WHO$Pcat"]);
+  $Pcat = $_REQUEST['PCAT'];
+  $Who = (isset($_REQUEST['WHO']) && strlen($_REQUEST['WHO']) ? $_REQUEST['WHO'] : $_REQUEST["WHO$Pcat"]);
 
   switch ($Pcat) {
     case 0: // Sides
@@ -113,11 +191,11 @@ function Upload_Image() {
       } 
       $pos = &$dat['Data'][$dat['Field']];
       if (isset($pos) && $pos == ("/" . $target_file)) {
-        $pos = $_POST[$dat['Field']] = "/" . $target_file . "?" . rand();
+        $pos = $_REQUEST[$dat['Field']] = "/" . $target_file . "?" . rand();
         $dat['Put']($dat['Data']);
         return "The image has been replaced by ". basename( $_FILES["PhotoForm"]["name"]) ;
       } else {
-        $pos = $_POST[$dat['Field']] = "/" . $target_file . "?" . rand();
+        $pos = $_REQUEST[$dat['Field']] = "/" . $target_file . "?" . rand();
         if ($dat['Put']($dat['Data'])) {
           return "The file ". basename( $_FILES["PhotoForm"]["name"]). " has been uploaded.";
         } else {
@@ -133,7 +211,7 @@ function Upload_Image() {
 
 if (isset($_FILES['croppedImage'])) {
   $dat = ImgData();
-  $PhotoBefore = $_POST['PhotoURL'];
+  $PhotoBefore = $_REQUEST['PhotoURL'];
 
   $Cursfx = pathinfo($PhotoBefore,PATHINFO_EXTENSION );
   $Loc = $dat['FinalLoc'] . ".$Cursfx";
@@ -171,10 +249,10 @@ if (isset($_FILES['croppedImage'])) {
   $Shapes = array('Landscape','Square','Portrait','Banner','Free Form');
   $aspect = array('4/3','1/1','3/4','7/2','NaN');
   $Shape = 0;
-  if (isset($_POST['SHAPE'])) { 
-    $Shape = $_POST['SHAPE'];
+  if (isset($_REQUEST['SHAPE'])) { 
+    $Shape = $_REQUEST['SHAPE'];
   } else {
-    $_POST['SHAPE'] = $Shape;
+    $_REQUEST['SHAPE'] = $Shape;
   }
   $PhotoCats = array('Sides','Acts','Comics','Family','Other','Traders','Sponsors','Venues','Venue2');
 
@@ -270,10 +348,10 @@ if (isset($_FILES['croppedImage'])) {
     global $Who,$Pcat;
     global $Shapes,$Shape,$PhotoCats,$Lists,$AccessNeeded;
     $mouse = 0;
-    if (isset($_POST['PCAT'])) {
-      $mouse = $_POST['PCAT'];
+    if (isset($_REQUEST['PCAT'])) {
+      $mouse = $_REQUEST['PCAT'];
     } else {
-      $_POST['PCAT']=0;
+      $_REQUEST['PCAT']=0;
     }
     
     $j = 0;
@@ -283,11 +361,11 @@ if (isset($_FILES['croppedImage'])) {
     }
     echo "<h2>Select Photo to modify</h2><p>\n";
     echo "<form method=post action=PhotoManage.php>";
-    echo fm_radio("Target shape",$Shapes,$_POST,'SHAPE','',0) . "<p>";
-    echo fm_radio("Photo For",$PhotoCats,$_POST,'PCAT','onclick=PCatSel(event)',0);
+    echo fm_radio("Target shape",$Shapes,$_REQUEST,'SHAPE','',0) . "<p>";
+    echo fm_radio("Photo For",$PhotoCats,$_REQUEST,'PCAT','onclick=PCatSel(event)',0);
     $i=0;
     foreach($Lists as $cat=>$dog) {
-      if ($AccessNeeded[$cat]) echo "<span id=MPC_$i " . ($cat == $PhotoCats[$mouse]?'':'hidden') . "> : " . fm_select($dog,$_POST,"WHO$i") . "</span>";
+      if ($AccessNeeded[$cat]) echo "<span id=MPC_$i " . ($cat == $PhotoCats[$mouse]?'':'hidden') . "> : " . fm_select($dog,$_REQUEST,"WHO$i") . "</span>";
       $i++;
     }
     echo "<input type=submit name=Edit value=Edit><p>\n";
@@ -297,7 +375,7 @@ if (isset($_FILES['croppedImage'])) {
   function Edit_Photo($type='Current') {
     global $Who,$Pcat;
     global $Shapes,$Shape, $Lists,$PhotoCats;
-//var_dump($_POST);
+//var_dump($_REQUEST);
     $dat = ImgData();
 
 //var_dump($dat); echo "<p>";
@@ -392,13 +470,13 @@ function New_Image() {
     copy($FinalLoc,$ArcLoc);
 //echo "Should have archived<br>";
   }
-  $dat['Data'][$dat['Field']] = $_POST['NewImage']; // Fetch and store image - consider stacking orig image
+  $dat['Data'][$dat['Field']] = $_REQUEST['NewImage']; // Fetch and store image - consider stacking orig image
   $dat['Put']($dat['Data']);
 }
 
 function Rotate_Image() {
   global $Who,$Pcat;
-  $FinalLoc = $_POST['FinalLoc'];
+  $FinalLoc = $_REQUEST['FinalLoc'];
   $image = imagecreatefromstring(file_get_contents($FinalLoc));
   $newimage = imagerotate($image,90,0);
   $dat = ImgData();
@@ -415,16 +493,16 @@ function Rotate_Image() {
   Change_Rand($dat);
 }
 
-// var_dump($_POST);
-  if (isset($_POST['Edit']) || isset($_POST['Current'])) {
-    if (isset($_POST['WHO'])) unset($_POST['WHO']);
+// var_dump($_REQUEST);
+  if (isset($_REQUEST['Edit']) || isset($_REQUEST['Current'])) {
+    if (isset($_REQUEST['WHO'])) unset($_REQUEST['WHO']);
     Edit_Photo('Current');
-  } else if (isset($_POST['Original'])) {
+  } else if (isset($_REQUEST['Original'])) {
     Edit_Photo('Original');
-  } else if (isset($_POST['Action'])) {
-    if ($_POST['Action'] == 'Upload') Upload_Image();
-    if ($_POST['Action'] == 'Change') New_Image();
-    if ($_POST['Action'] == 'Rotate') Rotate_Image();
+  } else if (isset($_REQUEST['Action'])) {
+    if ($_REQUEST['Action'] == 'Upload') Upload_Image();
+    if ($_REQUEST['Action'] == 'Change') New_Image();
+    if ($_REQUEST['Action'] == 'Rotate') Rotate_Image();
     Edit_Photo('Current');
   }
 
@@ -447,6 +525,121 @@ d  mkdir
   Archive stack, use on change , also upload, new url
   Access to stack
 
+Photo Access - Go through each type of photo - for access list
+  Perfs - ISa, Trade, Venue (2), Sponsors, Events
+Show Photo
+Photo Edits
+  Crop, Zoom, Rotate
+  New image - drag/drop, Select file, URL, cut/paste
+  
+Archive stack
+Archive Thumbs
+
+
+
 
 */
+
+/*
+
+global $Cats,$CatLists,$Mode;
+$Cats = [];
+$CatList = [];
+$Mode = 0;
+
+function Photos_Access($id) { // Multi Images
+  global $Cats,$CatList,$USER,$Pcat;
+  $Mode = 0;
+
+
+  switch ($USER['AccessLevel']) {
+  case $Access_Type['Participant'] : 
+    if ($USER['Subtype'] == 'Perf') {
+      if ($id != $USERID) Error_Page("Not accessable to you");
+      $Pcat = 0;
+      break;
+    } elseif ($USER['Subtype'] == 'Trade') {
+      if ($id != $USERID) Error_Page("Not accessable to you");
+      $Pcat = 5;
+      break;
+    } else Error_Page("Not accessable to you");
+
+  case $Access_Type['Upload'] :
+  case $Access_Type['Steward'] :
+    Error_Page("Not accessable to you");
+
+  case $Access_Type['Internal'] : 
+  case $Access_Type['SysAdmin'] : 
+    $Mode = 1; // Drop through
+  case $Access_Type['Staff'] :
+  case $Access_Type['Committee'] :
+    $capmatch = 0;
+    $Side = Get_Side($snum);
+    foreach ($FestTypes as $p=>$d) if ($Side[$d[0]] && $USER[$d[2]]) $capmatch = 1;
+    if (!$capmatch) fm_addall('disabled readonly');    
+    break;
+
+    break;
+  }  
+
+
+}
+
+function Photo_Access($id) { // Single image
+  global $Mode,$Pcat,$Who,$PData,$Photo_Data;
+  
+}
+
+function Photo_Show() {
+
+}
+
+function Photo_Edit() {
+
+}
+
+function Show_Thumbs() { // Show Thumbnails of saved images (if any) Click to Select
+
+}
+
+// Think about gallery??
+function Photo_Actions($Action) {
+  switch ($Action) {
+  
+  case 'Select': // Thumbs -> Copy to temp file 
+  
+  case 'Upload': // Main input new image -> copy to temp file initially
+  
+  case 'Rotate': 
+  
+  case 'Shape': // Landscape | others | default always Landscape, no options given to non fest
+  
+  case 'Crop and Save': // Crop to current image and save
+  
+  case 'Review': // Reshow, no actual change
+  
+  case 'Zoom': // Reshow, no actual change
+  
+  case 'Revert': // To original image
+  
+  default:
+  }
+}
+
+// Start Here
+$id = 0;
+
+if (isset($_REQUEST['id'])) { $id = $_REQUEST['id'];} 
+Photo_Access($id);
+
+
+
+
+
+
+*/
+
+
+
+
 ?>

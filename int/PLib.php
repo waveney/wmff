@@ -1,7 +1,7 @@
 <?php
 // Participant Display Lib - Generalises Show_Side etc
 
-function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
+function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
   global $YEARDATA,$Side_Statuses,$Importance,$Surfaces,$Surface_Colours,$Noise_Levels,$Noise_Colours,$Share_Spots,$Mess,$Action,$ADDALL,$CALYEAR,$PLANYEAR,$YEAR;
   global $OlapTypes,$OlapCats,$OlapDays,$PerfTypes;
   if ($CatT == '') {
@@ -90,18 +90,22 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
       } else {
         echo fm_text('Website',$Side,'Website');
       };
-      echo fm_text('Recent Photo',$Side,'Photo',1,'style="min-width:145;"'); 
+      if (Feature('NewPhotos')) {
+        echo "<td><button type=submit formaction=PhotoManage?WHO0=$snum&PCAT=0&Edit>" . ($Side['Photo']?'Change Photo':'Store Photo');
+      } else {
+        echo fm_text('Recent Photo',$Side,'Photo',1,'style="min-width:145;"'); 
 
-      echo "<td colspan=4>Select Photo file to upload:";
+        echo "<td colspan=4>Select Photo file to upload:";
 /*
       echo "<input type=file $ADDALL name=PhotoForm id=PhotoForm oninput=document.getElementById('PhotoButton').click() >";
       echo '<button type=submit onclick=document.getElementById("PhotoForm").click();>Browse...</button>';
       echo "<input hidden type=submit name=Action value=Photo id=PhotoButton>";
 */
-      echo "<input type=file $ADDALL name=PhotoForm id=PhotoForm onchange=document.getElementById('PhotoButton').click()>";
-      echo "<input hidden type=submit name=Action value=Photo id=PhotoButton>";
+        echo "<input type=file $ADDALL name=PhotoForm id=PhotoForm onchange=document.getElementById('PhotoButton').click()>";
+        echo "<input hidden type=submit name=Action value=Photo id=PhotoButton>";
 
-      if ($Mess && $Action == 'Photo') echo "<br>$Mess\n";
+        if ($Mess && $Action == 'Photo') echo "<br>$Mess\n";
+      }
     echo "<tr>";
       if (isset($Side['Video']) && $Side['Video'] != '') {
         echo fm_text("<a href=" . videolink($Side['Video']) . ">Recent Video</a>",$Side,'Video',1,$Adv);
@@ -221,8 +225,8 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
         $Current = $files[0];
         $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
         if (file_exists("PAspecs/$snum.$Cursfx")) {
-          echo "Have been uploaded.  <span id=ViewPA> <a href=ShowFile.php?l=PAspecs/$snum.$Cursfx>View</a></span> &nbsp; &nbsp; &nbsp; ";
-          if (Access('SysAdmin'))  echo "<a href=PASpecCache.php?i=$snum>Re-Cache</a> &nbsp; &nbsp; &nbsp; ";
+          echo "Have been uploaded.  <span id=ViewPA> <a href=ShowFile?l=PAspecs/$snum.$Cursfx>View</a></span> &nbsp; &nbsp; &nbsp; ";
+          if (Access('SysAdmin'))  echo "<a href=PASpecCache?i=$snum>Re-Cache</a> &nbsp; &nbsp; &nbsp; ";
         }
       }
       echo "Select PA requirements file to upload:";
@@ -295,7 +299,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
           echo ($SelectPerf[$p]?fm_select($SelectPerf[$p],$O,$Other,1,"id=Perf$pi" . "_Side$i " . ($O[$OtherCat]==$pi?'':'hidden'),"Perf$pi" . "_Side$i") :"");
           if ($sid && ($O[$OtherCat] == $pi) && !isset($SelectPerf[$p][$sid])) {
             $OSide = Get_Side($sid);
-            echo "<del><a href=AddPerf.php?id=$sid>" . $OSide['SN'] . "</a></del> ";               
+            echo "<del><a href=AddPerf?id=$sid>" . $OSide['SN'] . "</a></del> ";               
           }
           $pi++;
         }
@@ -315,7 +319,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
       if (Access('SysAdmin')) {
         echo fm_nontext('Access Key',$Side,'AccessKey',3,'class=NotSide','class=NotSide'); 
         if (isset($Side['AccessKey'])) {
-          echo "<td class=NotSide><a href=Direct.php?id=$snum&key=" . $Side['AccessKey'] . "&Y=$YEAR>Use</a>" . help('Testing');
+          echo "<td class=NotSide><a href=Direct?id=$snum&key=" . $Side['AccessKey'] . "&Y=$YEAR>Use</a>" . help('Testing');
         }
       }
       echo "<tr>" . fm_textarea('Notes',$Side,'Notes',5,2,'class=NotSide','class=NotSide');
@@ -325,13 +329,13 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf.php') { // if Cat blank
         $fcount = count($files);
         if ($fcount == 1 ) {
           $fname = basename($files[0]);
-          echo "File: <a href=ShowFile.php?l64=" . base64_encode("Store/Performers/$snum/$fname") . ">$fname</a>";
+          echo "File: <a href=ShowFile?l64=" . base64_encode("Store/Performers/$snum/$fname") . ">$fname</a>";
         } else {
           echo "$fcount files are stored ";
         }
       }
       
-      echo " <button type=submit formaction='PerformerData.php?id=$snum&ACTION=LIST'>Manage Files</button>" . help('ManageFiles');
+      echo " <button type=submit formaction='PerformerData?id=$snum&ACTION=LIST'>Manage Files</button>" . help('ManageFiles');
       
     }
   if (Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=7 class=NotSide><textarea id=Debug></textarea>";
@@ -370,7 +374,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
 //echo "HERE";
 
 //var_dump($Sidey);var_dump($Invite_Type);
-  $Self = ($Mode ? $_SERVER{'PHP_SELF'} : "AddPerf.php"); // TODO
+  $Self = ($Mode ? $_SERVER{'PHP_SELF'} : "AddPerf"); // TODO
   echo "<div class=floatright><h2>";
   $OList = [];
   for ($y = 5;$y>0; $y--) {
@@ -398,7 +402,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
 
   if (($Mode == 0) && (($Side['IsASide'] && (!isset($Sidey['Coming']) || $Sidey['Coming'] == 0) && (!isset($Sidey['Invite']) || $Sidey['Invite'] >= $Invite_Type['No'])) ||
                        ($Side['IsASide'] == 0 && $Sidey['YearState'] == 0))) {
-    echo "<h2><a href=DanceRequest.php?sidenum=$snum&Y=$YEAR>Request Invite for $YEAR</a></h2>";
+    echo "<h2><a href=DanceRequest?sidenum=$snum&Y=$YEAR>Request Invite for $YEAR</a></h2>";
     return;
   }
 
@@ -594,7 +598,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
       if ($Mode==2) echo "Direct editing of some fields will be possible soon"; //TODO
       echo "<tr class=ContractShow hidden><td>Event Name<td>Type<td>Date<td>On Stage at<td>Start<td>Duration (mins)<td colspan=3>Where\n";
       foreach($Evs as $e) {
-        $Detail = ($Mode?"EventAdd.php":"EventShow.php");
+        $Detail = ($Mode?"EventAdd":"EventShow");
         $vv = $e['Venue'];
         if ($e['SubEvent'] < 0) { $End = $e['SlotEnd']; } else { $End = $e['End']; };
         if (($e['Start'] != 0) && ($End != 0) && ($e['Duration'] == 0)) $e['Duration'] = timeadd2real($End, - $e['Start']);
@@ -604,7 +608,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
         echo "<td>" . ($e['Start']? ( timecolon(timeadd2($e['Start'],- $e['Setup']) )) : "TBD" ) ;
         echo "<td>" . ($e['Start']?timecolon($e['Start']):"TBD");
         echo "<td>" . ($e['Duration']?$e['Duration']:"TBD"); 
-        echo "<td colspan=3>" . ($vv?("<a href=VenueShow.php?v=$vv>" . SName($Venues[$vv]) . "</a>"):"TBD") . "\n";
+        echo "<td colspan=3>" . ($vv?("<a href=VenueShow?v=$vv>" . SName($Venues[$vv]) . "</a>"):"TBD") . "\n";
         if ($vv && $Venues[$vv]['Parking']) {
           if (!isset($ParkedLocs[$vv])) {
             if ($HasPark) $HasPark .= ", ";
@@ -629,15 +633,15 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
     if (!isset($Sidey['Contracts'])) $Sidey['Contracts']=0;
     switch ($Sidey['YearState']) {
       case $Book_State['Contract Signed']:
-        echo "<tr class=ContractShow hidden><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR>View Contract</a>";
+        echo "<tr class=ContractShow hidden><td><a href=ViewContract?sidenum=$snum&Y=$YEAR>View Contract</a>";
         if ($Sidey['Contracts'] >= 1) $old = $Sidey['Contracts'];
         break;
       case $Book_State['Contract Ready']:
-        echo "<tr class=ContractShow hidden><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR>View Proposed Contract</a>";
+        echo "<tr class=ContractShow hidden><td><a href=ViewContract?sidenum=$snum&Y=$YEAR>View Proposed Contract</a>";
         if ($Sidey['Contracts'] >= 1) $old = $Sidey['Contracts'];
         break;
       case $Book_State['Booking']:
-        echo "<tr class=ContractShow hidden><td><a href=ViewContract.php?sidenum=$snum&Y=$YEAR>View DRAFT Contract</a>";
+        echo "<tr class=ContractShow hidden><td><a href=ViewContract?sidenum=$snum&Y=$YEAR>View DRAFT Contract</a>";
         if ($Sidey['Contracts'] >= 1) $old = $Sidey['Contracts'];
         break;
       default:
@@ -646,7 +650,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
     if ($old) {
       echo "<td colspan=2>View earlier contract" . ($old>1?'s':'') . ": ";
       for ($i=1;$i<=$old;$i++) {
-        echo "<a href=ViewContract.php?sidenum=$snum&I=$i>#$i</a> ";
+        echo "<a href=ViewContract?sidenum=$snum&I=$i>#$i</a> ";
       } 
     }
     switch ($Sidey['YearState']) {
@@ -710,7 +714,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
           if ($files) {
             $Current = $files[0];
             $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
-            echo " <a href=ShowFile.php?l=Insurance/$YEAR/Sides/$snum.$Cursfx>View</a>";
+            echo " <a href=ShowFile?l=Insurance/$YEAR/Sides/$snum.$Cursfx>View</a>";
           }
         }
       } else {
