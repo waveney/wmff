@@ -21,51 +21,51 @@
 //echo php_ini_loaded_file() . "<P>";
 
   echo "<div class=floatright><h2>";
-  if (isset($Years[$YEAR-1])) echo "<a href=Staff.php?Y=" . ($YEAR-1) .">" . ($YEAR-1) . "</a> &nbsp; ";
-  if (isset($Years[$YEAR+1])) echo "<a href=Staff.php?Y=" . ($YEAR+1) .">" . ($YEAR+1) . "</a>\n";
+  if (isset($Years[$YEAR-1])) echo "<a href=Staff?Y=" . ($YEAR-1) .">" . ($YEAR-1) . "</a> &nbsp; ";
+  if (isset($Years[$YEAR+1])) echo "<a href=Staff?Y=" . ($YEAR+1) .">" . ($YEAR+1) . "</a>\n";
   echo "</h2></div>";
   echo "<h2>Staff Pages - $YEAR</h2>\n";
   echo "<div class=tablecont><table border width=100% class=Staff style='min-width:800px'>\n";
   echo "<tr><td class=Stafftd><h2>Document Storage</h2>\n";
     echo "<ul>\n";
     if (Access('Staff')) {
-      echo "<li><a href=Dir.php>View Document Storage</a>\n";
-      echo "<li><a href=Search.php>Search Document Storage</a>\n";
+      echo "<li><a href=Dir>View Document Storage</a>\n";
+      echo "<li><a href=Search>Search Document Storage</a>\n";
     }
     echo "<p>";
 //    echo "<li><a href=ProgrammeDraft1.pdf>Programme Draft</a>\n";
-    echo "<li><a href=StaffHelp.php>General Help</a>\n";
+    echo "<li><a href=StaffHelp>General Help</a>\n";
 
     if (Access('SysAdmin')) {
       echo "<p>";
-      echo "<li class=smalltext><a href=DirRebuild.php?SC>Scan Directories - Report File/Database discrepancies</a>";    
-//      echo "<li><a href=DirRebuild.php?FI>Rebuild Directorys - Files are YEARDATA</a>";
-//      echo "<li><a href=DirRebuild.php?DB>Rebuild Directorys - Database is YEARDATA</a>";
+      echo "<li class=smalltext><a href=DirRebuild?SC>Scan Directories - Report File/Database discrepancies</a>";    
+//      echo "<li><a href=DirRebuild?FI>Rebuild Directorys - Files are YEARDATA</a>";
+//      echo "<li><a href=DirRebuild?DB>Rebuild Directorys - Database is YEARDATA</a>";
     }
     echo "</ul>\n";
 
 // *********************** TIMELINE ****************************************************
   echo "<td class=Stafftd><h2>Timeline</h2>\n";
     echo "<ul>\n";
-    echo "<li><a href=TimeLine.php?Y=$YEAR>Time Line Management</a>\n<p>";
-    echo "<li><a href=TLHelp.php>Timeline Help</a>\n";
+    echo "<li><a href=TimeLine?Y=$YEAR>Time Line Management</a>\n<p>";
+    echo "<li><a href=TLHelp>Timeline Help</a>\n";
 //    echo "<li>Timeline Stats\n";
     if (Access('SysAdmin')) {
       echo "<p>";
-//      echo "<li class=smalltext><a href=TLImport1.php>Timeline Import 1</a>\n";
+//      echo "<li class=smalltext><a href=TLImport1>Timeline Import 1</a>\n";
     }
     echo "</ul><p>\n";
 
 // *********************** Users  **************************************************************
   echo "<td class=Stafftd><h2>Users</h2>\n";
     echo "<ul>\n";
-    echo "<li><a href=Login.php?ACTION=NEWPASSWD>New Password</a>\n";
+    echo "<li><a href=Login?ACTION=NEWPASSWD>New Password</a>\n";
     if (Access('Committee','Users')) {
-      echo "<li><a href=AddUser.php>Add User</a>";
-      echo "<li><a href=ListUsers.php?FULL>List Committee/Group Users</a>";
-      echo "<li><a href=UserDocs.php>Storage Used</a>";
+      echo "<li><a href=AddUser>Add User</a>";
+      echo "<li><a href=ListUsers?FULL>List Committee/Group Users</a>";
+      echo "<li><a href=UserDocs>Storage Used</a>";
     } else {
-      echo "<li><a href=ListUsers.php>List Committee/Group Users</a>";    
+      echo "<li><a href=ListUsers>List Committee/Group Users</a>";    
     }
     echo "</ul><p>\n";
 
@@ -73,54 +73,54 @@
   echo "<tr>";
     echo "<td class=Stafftd><h2>Music</h2>\n";
     echo "<ul>\n";
-    echo "<li><a href=MusicFAQ.php>Music FAQ</a>\n";
+    echo "<li><a href=MusicFAQ>Music FAQ</a>\n";
     if (Access('Staff')) {
-      echo "<li><a href=ListMusic.php?SEL=ALL&Y=$YEAR&T=M>List All Music Acts in Database</a>\n";
-      echo "<li><a href=ListMusic.php?SEL=Booking&Y=$YEAR&T=M>List Music Acts Booking</a>\n";
-//      echo "<li>Music Acts Summary"; //<a href=MusicSummary.php?Y=$YEAR>Music Acts Summary</a>\n";
+      echo "<li><a href=ListMusic?SEL=ALL&Y=$YEAR&T=M>List All Music Acts in Database</a>\n";
+      echo "<li><a href=ListMusic?SEL=Booking&Y=$YEAR&T=M>List Music Acts Booking</a>\n";
+//      echo "<li>Music Acts Summary"; //<a href=MusicSummary?Y=$YEAR>Music Acts Summary</a>\n";
     }
     if (Access('Staff','Music')) {
 //      echo "<li>Invite Music Acts\n";
-      echo "<li><a href=CreatePerf.php?T=Music&Y=$YEAR>Add Music Act to Database</a>";
+      echo "<li><a href=CreatePerf?T=Music&Y=$YEAR>Add Music Act to Database</a>";
 /*
-//      if ($YEAR == $PLANYEAR) echo "<li><a href=MusicProg.php?>Edit Music Programming</a>";
+//      if ($YEAR == $PLANYEAR) echo "<li><a href=MusicProg?>Edit Music Programming</a>";
 */
 //      echo "<li>Edit Music Programming";
       if (Access('SysAdmin')) {
-        echo "<li><a href=ShowMusicProg.php?Y=$YEAR>View Music Programming\n</a>"; 
+        echo "<li><a href=ShowMusicProg?Y=$YEAR>View Music Programming\n</a>"; 
       } else {
 //        echo "<li>View Music Programming\n"; 
       }
     } else {
-//      echo "<li><a href=ShowMusicProg.php?Y=$YEAR>View Music Programme</a>";
+//      echo "<li><a href=ShowMusicProg?Y=$YEAR>View Music Programme</a>";
     }
     if (Access('SysAdmin')) {
       echo "<p><div class=tablecont><table><tr><td>";
-      echo "<li class=smalltext><a href=ShowMusicProg.php?Pub=1&Y=$YEAR>Public Music Programme</a>";
-      echo "<li class=smalltext><a href=MusicTypes.php>Set Music Types</a>";
-//      echo "<li class=smalltext><a href=ResetImageSizes.php?PERF>Scan and save Image sizes</a>";
-//      echo "<li class=smalltext><a href=CopyActYear.php>Copy all ActYear data to SideYear</a>";
+      echo "<li class=smalltext><a href=ShowMusicProg?Pub=1&Y=$YEAR>Public Music Programme</a>";
+      echo "<li class=smalltext><a href=MusicTypes>Set Music Types</a>";
+//      echo "<li class=smalltext><a href=ResetImageSizes?PERF>Scan and save Image sizes</a>";
+//      echo "<li class=smalltext><a href=CopyActYear>Copy all ActYear data to SideYear</a>";
       echo "</table></div><p>\n";
     }
-    echo "<li><a href=ContractView.php?t=1>Dummy Music Contract</a>";
-    echo "<li><a href=LiveNLoudView.php?Y=$YEAR>Show Live N Loud applications</a>";
-    echo "<li><a href=BuskersBashView.php?Y=$YEAR>Show Buskers Bash applications</a>";
-//    if (Access('SysAdmin')) echo "<li class=smalltext><a href=LiveNLoudEmail.php>Send LNL bulk email</a>";
+    echo "<li><a href=ContractView?t=1>Dummy Music Contract</a>";
+    echo "<li><a href=LiveNLoudView?Y=$YEAR>Show Live N Loud applications</a>";
+    echo "<li><a href=BuskersBashView?Y=$YEAR>Show Buskers Bash applications</a>";
+//    if (Access('SysAdmin')) echo "<li class=smalltext><a href=LiveNLoudEmail>Send LNL bulk email</a>";
     echo "</ul>\n";
 
 // *********************** DANCE ****************************************************
   echo "<td class=Stafftd colspan=2><h2>Dance</h2>\n";
     echo "<ul>\n";
     if (Access('Staff','Dance')) {
-      echo "<li><a href=InviteDance.php?Y=$YEAR>Invite Dance Sides</a>\n";
-      echo "<li><a href=InviteDance.php?Y=$YEAR&INVITED>List Ongoing Dance Sides</a>\n";
+      echo "<li><a href=InviteDance?Y=$YEAR>Invite Dance Sides</a>\n";
+      echo "<li><a href=InviteDance?Y=$YEAR&INVITED>List Ongoing Dance Sides</a>\n";
     }
     if (Access('Staff')) {
 
-      echo "<li><a href=ListDance.php?SEL=Coming&Y=$YEAR>List Dance Sides Coming</a>\n";
-      echo "<li><a href=DanceSummary.php?Y=$YEAR>Dance Sides Summary</a>\n";
+      echo "<li><a href=ListDance?SEL=Coming&Y=$YEAR>List Dance Sides Coming</a>\n";
+      echo "<li><a href=DanceSummary?Y=$YEAR>Dance Sides Summary</a>\n";
     }
-    if (Access('Staff','Dance')) echo "<li><a href=CreatePerf.php?T=Dance&Y=$YEAR>Add Dance Side to Database</a>";
+    if (Access('Staff','Dance')) echo "<li><a href=CreatePerf?T=Dance&Y=$YEAR>Add Dance Side to Database</a>";
 
 //      echo "<li><input class=typeahead type=text placeholder='Find a Side'>\n";
     if (0 && Access('SysAdmin')) {
@@ -136,38 +136,38 @@
 //         echo "<li><input class=typeahead type=text placeholder='Find a Side'>\n";
     }
 
-    if (Access('Staff'))  echo "<li><a href=ListDance.php?SEL=ALL&Y=$YEAR>List All Dance Sides in Database</a>\n";
-    echo "<li><a href=DanceFAQ.php>Dance FAQ</a>\n";
+    if (Access('Staff'))  echo "<li><a href=ListDance?SEL=ALL&Y=$YEAR>List All Dance Sides in Database</a>\n";
+    echo "<li><a href=DanceFAQ>Dance FAQ</a>\n";
     if (Access('Staff','Dance')) {
       if ($YEAR == $PLANYEAR) {
-        /* echo "<li><a href=DanceProg.php?Y=$YEAR>Edit Dance Programme</a>"; */
-        echo "<li><a href=NewDanceProg.php?Y=$YEAR>Edit Dance Programme</a>";
+        /* echo "<li><a href=DanceProg?Y=$YEAR>Edit Dance Programme</a>"; */
+        echo "<li><a href=NewDanceProg?Y=$YEAR>Edit Dance Programme</a>";
       } else {
-        echo "<li><a href=NewDanceProg.php?Y=$YEAR&SAND>Edit $YEAR Dance Programme in Sandbox</a>";
+        echo "<li><a href=NewDanceProg?Y=$YEAR&SAND>Edit $YEAR Dance Programme in Sandbox</a>";
       }
     }
-    echo "<li><a href=ShowDanceProg.php?Y=$YEAR>View Dance Programme</a>";
-    echo "<li><a href=/Map.php?F=3>Dance Location Map</a>";
+    echo "<li><a href=ShowDanceProg?Y=$YEAR>View Dance Programme</a>";
+    echo "<li><a href=/Map?F=3>Dance Location Map</a>";
 
     if (Access('SysAdmin')) {
-//      echo "<li><a href=ShowDanceProg.php?Y=$YEAR>View Dance Programme</a>";
+//      echo "<li><a href=ShowDanceProg?Y=$YEAR>View Dance Programme</a>";
       echo "<p><div class=tablecont><table class=FullWidth><tr><td width=300px>";
-      echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=1&Y=$YEAR>Condensed Dance Programme</a>";
-      echo "<li class=smalltext><a href=DanceCheck.php?Y=$YEAR>Dance Checking</a>";
-      echo "<li class=smalltext><a href=DanceTypes.php>Set Dance Types</a>";
-      echo "<li class=smalltext><a href=LineUpDance.php?MIN&Y=$YEAR>Picture free List of Dance Sides Coming</a>\n";
-//      echo "<li class=smalltext><a href=ModifyDance2.php>Modify Dance Structure #2</a>\n";
-      echo "<li class=smalltext><a href=WhereDance.php?Y=$YEAR>Where did Dance Sides Come from</a>\n";
+      echo "<li class=smalltext><a href=ShowDanceProg?Cond=1&Y=$YEAR>Condensed Dance Programme</a>";
+      echo "<li class=smalltext><a href=DanceCheck?Y=$YEAR>Dance Checking</a>";
+      echo "<li class=smalltext><a href=DanceTypes>Set Dance Types</a>";
+      echo "<li class=smalltext><a href=LineUpDance?MIN&Y=$YEAR>Picture free List of Dance Sides Coming</a>\n";
+//      echo "<li class=smalltext><a href=ModifyDance2>Modify Dance Structure #2</a>\n";
+      echo "<li class=smalltext><a href=WhereDance?Y=$YEAR>Where did Dance Sides Come from</a>\n";
       echo "<td width=300px>";
-      echo "<li class=smalltext><a href=PrintLabels.php?Y=$YEAR>Print Address Labels</a>";
-      echo "<li class=smalltext><a href=CarPark.php?Y=$YEAR>Car Park Tickets</a>";
-      if ($YEAR == $PLANYEAR) echo "<li class=smalltext><a href=WristbandsSent.php>Mark Wristbands Sent</a>";
-      echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=1&Pub=1&Y=$YEAR>Public Dance Programme</a>";
+      echo "<li class=smalltext><a href=PrintLabels?Y=$YEAR>Print Address Labels</a>";
+      echo "<li class=smalltext><a href=CarPark?Y=$YEAR>Car Park Tickets</a>";
+      if ($YEAR == $PLANYEAR) echo "<li class=smalltext><a href=WristbandsSent>Mark Wristbands Sent</a>";
+      echo "<li class=smalltext><a href=ShowDanceProg?Cond=1&Pub=1&Y=$YEAR>Public Dance Programme</a>";
       echo "<td width=300px>";
-      echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=0&Pub=1&Head=0&Day=Sat&Y=$YEAR>Dance Programme - Sat - no headers</a>";
-      echo "<li class=smalltext><a href=ShowDanceProg.php?Cond=0&Pub=1&Head=0&Day=Sun&Y=$YEAR>Dance Programme - Sun - no headers</a>";
-      echo "<li class=smalltext><a href=CheckDuplicates.php?Y=$YEAR>Check for Duplicate Year Tables Entries</a>";      
-//      echo "<li class=smalltext><a href=ImportDance2.php>Import Appalachian List</a>"; // Should never be needed again
+      echo "<li class=smalltext><a href=ShowDanceProg?Cond=0&Pub=1&Head=0&Day=Sat&Y=$YEAR>Dance Programme - Sat - no headers</a>";
+      echo "<li class=smalltext><a href=ShowDanceProg?Cond=0&Pub=1&Head=0&Day=Sun&Y=$YEAR>Dance Programme - Sun - no headers</a>";
+      echo "<li class=smalltext><a href=CheckDuplicates?Y=$YEAR>Check for Duplicate Year Tables Entries</a>";      
+//      echo "<li class=smalltext><a href=ImportDance2>Import Appalachian List</a>"; // Should never be needed again
       echo "</table></div>\n";
     }
     echo "</ul>\n";
@@ -176,31 +176,31 @@
   echo "<td class=Stafftd><h2>Comedy</h2>\n";
     echo "<ul>\n";    
     if (Access('Staff')) {
-      echo "<li><a href=ListMusic.php?SEL=ALL&Y=$YEAR&T=C>List All Comedy Performers in Database</a>\n";
-      echo "<li><a href=ListMusic.php?SEL=Booking&Y=$YEAR&T=C>List Comedy Performers Booking</a>\n";
+      echo "<li><a href=ListMusic?SEL=ALL&Y=$YEAR&T=C>List All Comedy Performers in Database</a>\n";
+      echo "<li><a href=ListMusic?SEL=Booking&Y=$YEAR&T=C>List Comedy Performers Booking</a>\n";
     }
     if (Access('Staff','Comedy')) {
-      echo "<li><a href=CreatePerf.php?T=C&Y=$YEAR>Add Comedy Performer to Database</a>";
+      echo "<li><a href=CreatePerf?T=C&Y=$YEAR>Add Comedy Performer to Database</a>";
     }
     echo "</ul>\n";
   echo "<td class=Stafftd><h2>Children's Entertainers</h2>\n";
     echo "<ul>\n";    
     if (Access('Staff')) {
-      echo "<li><a href=ListMusic.php?SEL=ALL&Y=$YEAR&T=Y>List All Children's Entertainers in Database</a>\n";
-      echo "<li><a href=ListMusic.php?SEL=Booking&Y=$YEAR&T=Y>List Children's Entertainers Booking</a>\n";
+      echo "<li><a href=ListMusic?SEL=ALL&Y=$YEAR&T=Y>List All Children's Entertainers in Database</a>\n";
+      echo "<li><a href=ListMusic?SEL=Booking&Y=$YEAR&T=Y>List Children's Entertainers Booking</a>\n";
     }
     if (Access('Staff','Family')) {
-      echo "<li><a href=CreatePerf.php?T=Y&Y=$YEAR>Add Children's Entertainers to Database</a>";
+      echo "<li><a href=CreatePerf?T=Y&Y=$YEAR>Add Children's Entertainers to Database</a>";
     }
     echo "</ul>\n";
   echo "<td class=Stafftd><h2>Other Performers</h2>\n";
     echo "<ul>\n";    
     if (Access('Staff')) {
-      echo "<li><a href=ListMusic.php?SEL=ALL&Y=$YEAR&T=O>List All Other Performers in Database</a>\n";
-      echo "<li><a href=ListMusic.php?SEL=Booking&Y=$YEAR&T=O>List Other Performers Booking</a>\n";
+      echo "<li><a href=ListMusic?SEL=ALL&Y=$YEAR&T=O>List All Other Performers in Database</a>\n";
+      echo "<li><a href=ListMusic?SEL=Booking&Y=$YEAR&T=O>List Other Performers Booking</a>\n";
     }
     if (Access('Staff','Other')) {
-      echo "<li><a href=CreatePerf.php?T=O&Y=$YEAR>Add Other Performer to Database</a>";
+      echo "<li><a href=CreatePerf?T=O&Y=$YEAR>Add Other Performer to Database</a>";
     }
     echo "</ul>\n";
     
@@ -211,37 +211,37 @@
   echo "<td class=Stafftd><h2>Trade </h2>\n";
     $Tlocs = Get_Trade_Locs(0,"WHERE InUse=1");
     echo "<ul>\n";
-    echo "<li><a href=ListCTrade.php?Y=$YEAR>List Active Traders This Year</a>\n";
-    echo "<li><a href=ListTrade.php?Y=$YEAR>List All Traders</a>\n";
-    echo "<li><a href=TradeFAQ.php>Trade FAQ</a>\n";
-    echo "<li><a href=ListCTrade.php?Y=$YEAR&SUM>Traders Summary</a>\n";
+    echo "<li><a href=ListCTrade?Y=$YEAR>List Active Traders This Year</a>\n";
+    echo "<li><a href=ListTrade?Y=$YEAR>List All Traders</a>\n";
+    echo "<li><a href=TradeFAQ>Trade FAQ</a>\n";
+    echo "<li><a href=ListCTrade?Y=$YEAR&SUM>Traders Summary</a>\n";
 
-    echo "<li><form method=Post action=TradeStandMap.php class=staffform>";
+    echo "<li><form method=Post action=TradeStandMap class=staffform>";
       echo "<input type=submit name=l value='Trade Stand Map' id=staffformid>" . 
                 fm_hidden('Y',$YEAR) .
                 fm_select($Tlocs,0,'l',0," onchange=this.form.submit()") . "</form>\n";
 
-    echo "<li><a href=TradeShow.php>Trade Show</a>\n";
+    echo "<li><a href=TradeShow>Trade Show</a>\n";
     if (Access('Committee','Trade')) {
-      echo "<li><a href=Trade.php?Y=$YEAR>Add Trader</a>\n";
-      echo "<li><form method=Post action=TradeAssign.php class=staffform>";
+      echo "<li><a href=Trade?Y=$YEAR>Add Trader</a>\n";
+      echo "<li><form method=Post action=TradeAssign class=staffform>";
       echo "<input type=submit name=l value='Trade Pitch Assign' id=staffformid>" . 
                 fm_hidden('Y',$YEAR) .
                 fm_select($Tlocs,0,'i',0," onchange=this.form.submit()") . "</form>\n";
 
-      echo "<li><a href=TradeLocs.php>Trade Locations</a>\n";
-//      echo "<li><a href=TradeSetup.php>Trade Pitch Setup</a>\n";
-      if (Access('SysAdmin')) echo "<li><a href=TradeTypes.php>Trade Types and base Prices</a>\n";
-      if (Access('SysAdmin')) echo "<li><a href=EmailTraders.php>Email Groups of Traders</a>\n"; // Old code needs lots of changes
-//      if (Access('SysAdmin')) echo "<li><a href=TradeImport1.php>Convert old Trade Data</a>\n";
-//      if (Access('SysAdmin')) echo "<li><a href=TradeImport2.php>Merge Mandy's Trade Data</a>\n";
-//      if (Access('SysAdmin')) echo "<li><a href=TradeImport3.php>Fix Access Keys</a>\n";
-//      echo "<li><a href=/admin/trade/index.php>Old Trade Stand Section</a>\n";
-      echo "<li><a href=Trade2CSV.php?Y=$YEAR>Traders as CSV</a>\n";
+      echo "<li><a href=TradeLocs>Trade Locations</a>\n";
+//      echo "<li><a href=TradeSetup>Trade Pitch Setup</a>\n";
+      if (Access('SysAdmin')) echo "<li><a href=TradeTypes>Trade Types and base Prices</a>\n";
+      if (Access('SysAdmin')) echo "<li><a href=EmailTraders>Email Groups of Traders</a>\n"; // Old code needs lots of changes
+//      if (Access('SysAdmin')) echo "<li><a href=TradeImport1>Convert old Trade Data</a>\n";
+//      if (Access('SysAdmin')) echo "<li><a href=TradeImport2>Merge Mandy's Trade Data</a>\n";
+//      if (Access('SysAdmin')) echo "<li><a href=TradeImport3>Fix Access Keys</a>\n";
+//      echo "<li><a href=/admin/trade/index>Old Trade Stand Section</a>\n";
+      echo "<li><a href=Trade2CSV?Y=$YEAR>Traders as CSV</a>\n";
     }
     if (Access('SysAdmin')) {
       echo "<p><div class=tablecont><table><tr><td>";
-      echo "<li class=smalltext><a href=ResetImageSizes.php?TRADE>Scan and save Image sizes</a>";
+      echo "<li class=smalltext><a href=ResetImageSizes?TRADE>Scan and save Image sizes</a>";
       echo "</table></div><p>\n";
     }
     echo "</ul>\n";
@@ -251,43 +251,43 @@
   echo "<td class=Stafftd colspan=2><h2>Venues and Events</h2>\n";
     $Vens = Get_AVenues();
     echo "<ul>\n";
-    echo "<li><a href=VenueList.php?Y=$YEAR>List Venues</a>\n";
-    echo "<li><a href=EventList.php?Y=$YEAR>List All Events</a>\n";
-    if (Access('Staff','Venues') && $YEAR==$PLANYEAR) echo "<li><a href=EventAdd.php>Create Event(s)</a>";
+    echo "<li><a href=VenueList?Y=$YEAR>List Venues</a>\n";
+    echo "<li><a href=EventList?Y=$YEAR>List All Events</a>\n";
+    if (Access('Staff','Venues') && $YEAR==$PLANYEAR) echo "<li><a href=EventAdd>Create Event(s)</a>";
     
-    echo "<li><form method=Post action=EventList.php class=staffform>";
+    echo "<li><form method=Post action=EventList class=staffform>";
       echo "<input type=submit name=a value='List Events at' id=staffformid>" . 
                 fm_hidden('Y',$YEAR) .
                 fm_select($Vens,0,'V',0," onchange=this.form.submit()") . "</form>\n";
 
-    echo "<li><form method=Post action=VenueShow.php?Mode=1 class=staffform>";
+    echo "<li><form method=Post action=VenueShow?Mode=1 class=staffform>";
       echo "<input type=submit name=a value='Show Events at' id=staffformid>" . 
                 fm_hidden('Y',$YEAR) .
                 fm_select($Vens,0,'v',0," onchange=this.form.submit()") . " - A public view of events even if they are not public</form>\n";
-    echo "<li><form method=Post action=VenueShow.php?Poster=1 class=staffform>";
+    echo "<li><form method=Post action=VenueShow?Poster=1 class=staffform>";
       echo "<input type=submit name=a value='Poster For' id=Posterid>" . 
                 fm_hidden('Y',$YEAR) .
                 fm_select($Vens,0,'v',0," onchange=this.form.submit()") . 
                 fm_radio('',$Days,$_POST,'DAYS','',0) . fm_checkbox('Pics',$_POST,'Pics') .
                 "</form>\n";
 
-    if (Access('Staff','Venues')) echo "<li><a href=EventTypes.php>Event Types</a>\n";
-    if (Access('Staff','Venues')) echo "<li><a href=VenueComplete.php?Y=$YEAR>Mark Venues as Complete</a>\n";
-    if (Access('SysAdmin')) echo "<li><a href=TicketEvents.php?Y=$YEAR>List Ticketed Events</a>\n";
-    if (Access('Staff')) echo "<li><a href=StewList.php?Y=$YEAR>List Stewarding Events</a>\n";
-    if (Access('Committee','Venues')) echo "<li><a href=MapPoints.php>Additional Map Points</a>\n";
-    if (Access('SysAdmin')) echo "<li><a href=MapPTypes.php>Map Point Types</a>\n";
-    echo "<li><a href=EventSummary.php?Y=$YEAR>Event Summary</a>\n";
-    echo "<li><form method=Post action=PAShow.php class=staffform>";
+    if (Access('Staff','Venues')) echo "<li><a href=EventTypes>Event Types</a>\n";
+    if (Access('Staff','Venues')) echo "<li><a href=VenueComplete?Y=$YEAR>Mark Venues as Complete</a>\n";
+    if (Access('SysAdmin')) echo "<li><a href=TicketEvents?Y=$YEAR>List Ticketed Events</a>\n";
+    if (Access('Staff')) echo "<li><a href=StewList?Y=$YEAR>List Stewarding Events</a>\n";
+    if (Access('Committee','Venues')) echo "<li><a href=MapPoints>Additional Map Points</a>\n";
+    if (Access('SysAdmin')) echo "<li><a href=MapPTypes>Map Point Types</a>\n";
+    echo "<li><a href=EventSummary?Y=$YEAR>Event Summary</a>\n";
+    echo "<li><form method=Post action=PAShow class=staffform>";
       echo "<input type=submit name=a value='PA Requirements for' id=staffformid>" . 
                 fm_hidden('Y',$YEAR) .
                 fm_select($Vens,0,'pa4v',0," onchange=this.form.submit()") . "</form>\n";
 
-//    if (Access('SysAdmin')) echo "<li><a href=BusTimes.php>Fetch and Cache Bus Times</a>\n";
-//    if (Access('SysAdmin')) echo "<li><a href=ConvertEvents.php>Convert Old Format Events to New Format Events</a>\n";
-    if (Access('SysAdmin')) echo "<li><a href=AddVenue.php?NEWACCESS onClick=\"javascript:return confirm('are you sure you update these?');\">Generate New Access Keys for Venues</a>\n";
-    if ($YEAR == $PLANYEAR && Access('Staff')) echo "<li><a href=VenueActive.php>Refresh Active Venue List</a>\n";
-    echo "<li><form method=Post action=/WhatsOnNow.php class=staffform>";
+//    if (Access('SysAdmin')) echo "<li><a href=BusTimes>Fetch and Cache Bus Times</a>\n";
+//    if (Access('SysAdmin')) echo "<li><a href=ConvertEvents>Convert Old Format Events to New Format Events</a>\n";
+    if (Access('SysAdmin')) echo "<li><a href=AddVenue?NEWACCESS onClick=\"javascript:return confirm('are you sure you update these?');\">Generate New Access Keys for Venues</a>\n";
+    if ($YEAR == $PLANYEAR && Access('Staff')) echo "<li><a href=VenueActive>Refresh Active Venue List</a>\n";
+    echo "<li><form method=Post action=/WhatsOnNow class=staffform>";
       echo "<input type=submit name=a value='Whats On At ' id=staffformid>" . 
                 fm_hidden('Y',$YEAR) . fm_text0('',$_POST,'AtTime') .' on ' . fm_text0('',$_POST,'AtDate');
     
@@ -297,49 +297,49 @@
   echo "<tr>";
   echo "<td class=Stafftd><h2>Misc</h2>\n";
     echo "<ul>\n";
-//    echo "<li><a href=StewardView.php>Stewarding Applications (old)</a>\n";
-    echo "<li><a href=Volunteers.php?A=New>Volunteering Application Form</a>\n";
-    echo "<li><a href=Volunteers.php?A=List>Volunteers (new)</a>\n";
+//    echo "<li><a href=StewardView>Stewarding Applications (old)</a>\n";
+    echo "<li><a href=Volunteers?A=New>Volunteering Application Form</a>\n";
+    echo "<li><a href=Volunteers?A=List>Volunteers (new)</a>\n";
     if (Access('Staff','Photos')) {
-      echo "<li><a href=PhotoUpload.php>Photo Upload</a>";
-      echo "<li><a href=PhotoManage.php>Photo Manage</a>";
-      echo "<li><a href=GallManage.php>Gallery Manage</a>";
+      echo "<li><a href=PhotoUpload>Photo Upload</a>";
+      echo "<li><a href=PhotoManage>Photo Manage</a>";
+      echo "<li><a href=GallManage>Gallery Manage</a>";
     }
     echo "<p>";
     
-//    echo "<li><a href=LaughView.php?Y=$YEAR>Show Laugh Out Loud applications</a>";
-    if (Access('Committee')) echo "<li><a href=Campsite.php?Y=$YEAR>Manage Campsite Use</a>\n"; 
-    if (Access('Staff')) echo "<li><a href=CarerTickets.php?Y=$YEAR>Manage Carer / Partner Tickets</a>\n"; 
-    if (Access('Staff','Sponsors')) echo "<li><a href=TaxiCompanies.php>Manage Taxi Company List</a>\n"; 
-//    echo "<li><a href=ContractView.php>Dummy Music Contract</a>";
+//    echo "<li><a href=LaughView?Y=$YEAR>Show Laugh Out Loud applications</a>";
+    if (Access('Committee')) echo "<li><a href=Campsite?Y=$YEAR>Manage Campsite Use</a>\n"; 
+    if (Access('Staff')) echo "<li><a href=CarerTickets?Y=$YEAR>Manage Carer / Partner Tickets</a>\n"; 
+    if (Access('Staff','Sponsors')) echo "<li><a href=TaxiCompanies>Manage Taxi Company List</a>\n"; 
+//    echo "<li><a href=ContractView>Dummy Music Contract</a>";
     echo "</ul>\n";
 
 // *********************** Finance **************************************************************
   echo "<td class=Stafftd><h2>Finance and Sponsors</h2>\n";
     echo "<ul>\n";
     if (Access('Committee','Finance')) {
-      echo "<li><a href=BudgetManage.php?Y=$YEAR>Budget Management</a>\n";
-      echo "<li><a href=InvoiceManage.php?Y=$YEAR>Invoice Management</a>\n";
-      echo "<li><a href=InvoiceManage.php?ACTION=NEW>New Invoice</a>\n";   
-      echo "<li><a href=InvoiceCodes.php?Y=$YEAR>Invoice Codes</a>\n";   
-      echo "<li><a href=InvoiceSummary.php?Y=$YEAR>Invoice Summary</a>\n";   
-      echo "<li><a href=OtherPaymentSummary.php?Y=$YEAR>Other Payment Summary</a>\n";   
-      echo "<li><a href=ListTrade.php?ORGS>Businesses and Organistaions List</a>\n"; 
-      echo "<li><a href=Trade.php?ORGS>New Business or Organistaion</a>\n";  
-      echo "<li><a href=Payments.php?Y=$YEAR>List All Performer Payments</a>\n";  
+      echo "<li><a href=BudgetManage?Y=$YEAR>Budget Management</a>\n";
+      echo "<li><a href=InvoiceManage?Y=$YEAR>Invoice Management</a>\n";
+      echo "<li><a href=InvoiceManage?ACTION=NEW>New Invoice</a>\n";   
+      echo "<li><a href=InvoiceCodes?Y=$YEAR>Invoice Codes</a>\n";   
+      echo "<li><a href=InvoiceSummary?Y=$YEAR>Invoice Summary</a>\n";   
+      echo "<li><a href=OtherPaymentSummary?Y=$YEAR>Other Payment Summary</a>\n";   
+      echo "<li><a href=ListTrade?ORGS>Businesses and Organistaions List</a>\n"; 
+      echo "<li><a href=Trade?ORGS>New Business or Organistaion</a>\n";  
+      echo "<li><a href=Payments?Y=$YEAR>List All Performer Payments</a>\n";  
     } elseif (Access('Committee')) {
-      echo "<li><a href=BudgetManage.php?Y=$YEAR>Budget View</a>\n";
-      echo "<li><a href=InvoiceManage.php?Y=$YEAR>Invoice Management</a>\n";
+      echo "<li><a href=BudgetManage?Y=$YEAR>Budget View</a>\n";
+      echo "<li><a href=InvoiceManage?Y=$YEAR>Invoice Management</a>\n";
     }
     if (Access('SysAdmin')) {
 //      echo "<p>";
-//      echo "<li class=smalltext><a href=ImportDebtorCodes.php>Import Debtor Codes</a>";
-//      echo "<li class=smalltext><a href=ImportProgAds.php>Import Programme ads</a>\n";  
+//      echo "<li class=smalltext><a href=ImportDebtorCodes>Import Debtor Codes</a>";
+//      echo "<li class=smalltext><a href=ImportProgAds>Import Programme ads</a>\n";  
 //      echo "<p>";
-      echo "<li><a href=Sponsors.php>Sponsors</a>\n";
-      echo "<li><a href=WaterManage.php>Water Refills</a>\n";
+      echo "<li><a href=Sponsors>Sponsors</a>\n";
+      echo "<li><a href=WaterManage>Water Refills</a>\n";
 
-//      echo "<li><a href=ImportOldInvoice.php>Import Old Invoices</a>\n";  
+//      echo "<li><a href=ImportOldInvoice>Import Old Invoices</a>\n";  
     }
     echo "</ul>\n";
     
@@ -348,21 +348,21 @@
     echo "<ul>\n";
 
     if (Access('Committee','News')) {
-//      echo "<li><a href=NewsManage.php>News Management</a>";
-      echo "<li><a href=ListArticles.php>Front Page Article Management</a>";
-      echo "<li><a href=LinkManage.php>Manage Other Fest Links</a>\n";
+//      echo "<li><a href=NewsManage>News Management</a>";
+      echo "<li><a href=ListArticles>Front Page Article Management</a>";
+      echo "<li><a href=LinkManage>Manage Other Fest Links</a>\n";
     }
     if (Access('Steward')) {
-      echo "<li><a href=AddBug.php>New Bug/Feature request</a>\n";
-      echo "<li><a href=ListBugs.php>List Bugs/Feature requests</a><p>\n";
+      echo "<li><a href=AddBug>New Bug/Feature request</a>\n";
+      echo "<li><a href=ListBugs>List Bugs/Feature requests</a><p>\n";
     }
 
-    if (Access('Staff')) echo "<li><a href=TEmailProformas.php>EMail Proformas</a>";
-    if (Access('Staff')) echo "<li><a href=AdminGuide.php>Admin Guide</a> \n";
+    if (Access('Staff')) echo "<li><a href=TEmailProformas>EMail Proformas</a>";
+    if (Access('Staff')) echo "<li><a href=AdminGuide>Admin Guide</a> \n";
     if (Access('SysAdmin')) {
-//      echo "<li><a href=BannerManage.php>Manage Banners</a> \n";
-      echo "<li><a href=YearData.php?Y=$YEAR>General Year Settings</a> \n";
-      echo "<li><a href=MasterData.php>Festival System Data Settings</a> \n";
+//      echo "<li><a href=BannerManage>Manage Banners</a> \n";
+      echo "<li><a href=YearData?Y=$YEAR>General Year Settings</a> \n";
+      echo "<li><a href=MasterData>Festival System Data Settings</a> \n";
     }
     echo "</ul>\n";
 

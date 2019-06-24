@@ -345,7 +345,7 @@ function UpperFirstChr($stuff) {
 
 function SAO_Report($i) {
   $OSide = Get_Side( $i ); 
-  $str = "<a href=/int/ShowPerf.php?id=$i>" . $OSide['SN'];
+  $str = "<a href=/int/ShowPerf?id=$i>" . $OSide['SN'];
   if ($OSide['Type']) $str .= " (" . trim($OSide['Type']) . ")";
   return $str . "</a>";
 }

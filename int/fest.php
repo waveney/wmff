@@ -218,7 +218,7 @@ function linkemail(&$data,$type="Side",$xtr='') {
          "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SN']) . 
          "&body=" . urlencode("$name,\n\n" .
                  "You can check your programme times and update your side details at any time by visiting " .
-                 "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=$type&id=$id&key=$key>this link</a>.  " .
+                 "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct?t=$type&id=$id&key=$key>this link</a>.  " .
                 $ProgInfo . "\n\n" .
                  "\n\nRegards " . $USER['SN'] . "\n\n") .
          ">Email</a>";
@@ -277,7 +277,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
 
   $link = "'mailto:$email?from=" . $USER['Email'] .
          "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SN']) . "'";
-  $direct = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=$type&id=$id&key=$key&Y=$YEAR>this link</a>  " ;
+  $direct = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct?t=$type&id=$id&key=$key&Y=$YEAR>this link</a>  " ;
 
   if (isset($data['SideId'])) {
     if ($data['IsASide'] && !$data['TotalFee']) {
@@ -411,8 +411,8 @@ function Show_Prog($type,$id,$all=0,$price=0) { //mode 0 = html, 1 = text for em
 //var_dump($Evs);
     $evc=0;
     $Worst= 99;
-    $EventLink = ($all?'EventAdd.php':'EventShow.php');
-    $VenueLink = ($all?'AddVenue.php':'VenueShow.php');
+    $EventLink = ($all?'EventAdd':'EventShow');
+    $VenueLink = ($all?'AddVenue':'VenueShow');
     $Venues = Get_Real_Venues(1);
     if ($Evs) { // Show IF all or EType state > 1 or (==1 && participant)
       $With = 0;

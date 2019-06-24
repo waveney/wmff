@@ -14,7 +14,6 @@
   if (isset($_REQUEST['SideId'])) { $snum = $_REQUEST['SideId']; }
   elseif (isset($_REQUEST['sidenum'])) { $snum = $_REQUEST['sidenum']; }
   elseif (isset($_REQUEST['id'])) { $snum = $_REQUEST['id'];} 
-  elseif (isset($_GET['id'])) { $snum = $_GET['id'];} 
   else { $snum = 0; }
   switch ($USER['AccessLevel']) {
   case $Access_Type['Participant'] : 
@@ -163,7 +162,7 @@
     $Side = ['SideId'=>$snum]; 
   }
 
-  Show_Part($Side,'Side',Access('Staff'),'AddPerf.php');
+  Show_Part($Side,'Side',Access('Staff'),'AddPerf');
   Show_Perf_Year($snum,$Sidey,$YEAR,Access('Staff'));
 
   if ($snum > 0) {
