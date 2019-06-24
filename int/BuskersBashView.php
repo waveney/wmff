@@ -9,10 +9,10 @@
   $extra = '';
   if (!isset($_REQUEST['ALL'])) $extra = "(State!=3 AND State !=5) AND ";
   echo "Click on Band Name for more info.<p>";
-  if ($extra) echo "<h2><a href=BuskersBashView.php?ALL>Show All including canceled and Declined</a></h2>";
+  if ($extra) echo "<h2><a href=BuskersBashView?ALL>Show All including canceled and Declined</a></h2>";
   
   $coln = 0;  
-//  echo "<form method=post action=BuskersBashView.php>";
+//  echo "<form method=post action=BuskersBashView>";
   echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
 
@@ -30,11 +30,11 @@
     while ($bb = $res->fetch_assoc()) {
       $id = $bb['id'];
       echo "<tr><td>$id";
-      echo "<td><a href=BuskersBashForm.php?i=$id>" . $bb['SN'] . "</a>";
+      echo "<td><a href=BuskersBashForm?i=$id>" . $bb['SN'] . "</a>";
       echo "<td>" . $bb['Contact'];
       echo "<td>" . $bb['Email'];
       echo "<td>" . weblink( $bb['Example'] , "Example");
-      echo "<td style='background:" . $SignupStateColours[$bb['State']] . "'><form method=post action=BuskersBashForm.php>" . 
+      echo "<td style='background:" . $SignupStateColours[$bb['State']] . "'><form method=post action=BuskersBashForm>" . 
            fm_hidden('id',$id) . $SignupStates[$bb['State']] . " " . SignupActions('BB',$bb['State']) . "</form>";
 
     }

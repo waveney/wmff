@@ -34,7 +34,7 @@
       }
       echo "</table></div></div>";
       echo "<input type=submit name=Update value=Update> <span class=Err>$Message</span>";
-      echo "<a href=TradeSetup.php?i=$loc style='font-size:20;'>Setup</a>";
+      echo "<a href=TradeSetup?i=$loc style='font-size:20;'>Setup</a>";
     }
     echo "</div>";
   }

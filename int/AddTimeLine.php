@@ -98,7 +98,7 @@
   if ($Editable || $tl < 0 || $tle['Assigned'] == $USERID || $tle['CreatedBy'] == $USERID) $Editable = true;
   if (1) {
     if ($Editable) {
-      echo "<form method=post action=AddTimeLine.php>\n";
+      echo "<form method=post action=AddTimeLine>\n";
     } else {
       echo "This can only be editted by the creator, the assignee or those responsible for time lines.<p>";
     }
@@ -131,7 +131,7 @@
       }
       echo "<tr><td>Importance:<td>" . fm_select($TL_Importance,$tle,'Importance');
         echo "<td>" . fm_checkbox("Recuring",$tle,'Recuring');
-        if (isset($tle['NextYearId']) && ($tle['NextYearId']>0)) echo "<td><a href=AddTimeLine.php?Y=$YEAR&TLid=" . $tle['NextYearId'] . ">Copied</a>";
+        if (isset($tle['NextYearId']) && ($tle['NextYearId']>0)) echo "<td><a href=AddTimeLine?Y=$YEAR&TLid=" . $tle['NextYearId'] . ">Copied</a>";
 
       echo "<tr>" . fm_textarea("Notes",$tle,'Notes',8,2);
       
@@ -163,7 +163,7 @@
       echo "</form>\n";
     }
   }
-  echo "<h2><a href=TimeLine.php>Back to Time Line Management</a></h2>\n</div>";
+  echo "<h2><a href=TimeLine>Back to Time Line Management</a></h2>\n</div>";
   
   
 

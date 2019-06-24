@@ -9,7 +9,7 @@
 
   $data = Get_Side($s);
   $datay = Get_SideYear($s,$YEAR);
-  $link = "AddPerf.php?sidenum=$s";
+  $link = "AddPerf?sidenum=$s";
 
   $AllSides = Sides_all();
 

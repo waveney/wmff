@@ -390,12 +390,12 @@ function Create_Invoice($Dat=0) { // form to fill in - not for trade
   $InvCodes = Get_InvoiceCodes(0);
 
   echo "<h2 class=Err>DO <b>NOT</b> USE THIS TO CREATE TRADE INVOICES - USE THE TOOLS IN TRADE<p>";
-  echo "<form method=post action=InvoiceManage.php>";
+  echo "<form method=post action=InvoiceManage>";
   if ($Dat) echo fm_hidden('i',$dat);
   echo "<div class=tablecont><table border>";
   echo "<tr>" . fm_radio("Organisation",$Org_Cats,$inv,'OrgType','onchange=InvoiceCatChange(event,###V)');
-  echo "<td class=InvOrg1 $hide1 >" . fm_select($Traders,$inv,'Tid') . "<td class=InvOrg1  $hide1>If the trader, is not in list, then <a href=Trade.php><b>Create them</b></a> first"; 
-  echo "<td class=InvOrg2 $hide2 >" . fm_select($Orgs,$inv,'Oid') . "<td class=InvOrg2  $hide2 >If the organisation, is not in list, then <a href=Trade.php?ORGS><b>Create them</b></a> first";
+  echo "<td class=InvOrg1 $hide1 >" . fm_select($Traders,$inv,'Tid') . "<td class=InvOrg1  $hide1>If the trader, is not in list, then <a href=Trade><b>Create them</b></a> first"; 
+  echo "<td class=InvOrg2 $hide2 >" . fm_select($Orgs,$inv,'Oid') . "<td class=InvOrg2  $hide2 >If the organisation, is not in list, then <a href=Trade?ORGS><b>Create them</b></a> first";
 
   echo "<tr><td colspan=5>Include UPTO 3 items, if the first is positive, and the others negative, the negative ones will be in red";
   echo "<tr><td colspan=2>Description<td>Amount";
@@ -480,7 +480,7 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   $RO = (Access('SysAdmin')?'': ' READONLY ');
   echo "<h2>Details of " . ($inv['Total'] < 0 ? "Credit Note ": "Invoice ") . $id . ($Rev?" Revision $Rev":"") . "</h2>\n";
   if ($InValid) echo "<span class=Err>$InValid</span>\n";
-  echo "<form method=post action=InvoiceManage.php>";  
+  echo "<form method=post action=InvoiceManage>";  
   echo "<div class=tablecont><table border>";
   echo fm_hidden('i',$id);
 // Who
@@ -532,14 +532,14 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   if ($inv['Email'] && !$InValid) {
     echo "<input type=submit name=ACTION value=" . ($inv['EmailDate']?"RESEND":"SEND") . ">";
     if (!$inv['EmailDate'] || $inv['Revision']) {
-      echo "<input type=submit name=ACTION value=BESPOKE>";// formtarget=_blank formaction=SendFinanceProfEmail.php?id=$id>";
+      echo "<input type=submit name=ACTION value=BESPOKE>";// formtarget=_blank formaction=SendFinanceProfEmail?id=$id>";
       echo "<input type=submit name=ACTION value=SENT>";
     }
   } else {
     echo "<input type=submit name=ACTION value=SENT>"; 
   }
 
-  echo "<input type=submit name=ACTION value=DOWNLOAD formaction='ShowFile.php?D=" . Get_Invoice_Pdf($id,'',$inv['Revision']) . "'>";
+  echo "<input type=submit name=ACTION value=DOWNLOAD formaction='ShowFile?D=" . Get_Invoice_Pdf($id,'',$inv['Revision']) . "'>";
   if ($inv['PayDate']) echo "<input type=submit name=ACTION value=UNPAID>";
 
   if ( Access('SysAdmin')) echo "<input type=submit name=ACTION value=PRINTPDF>";
@@ -547,8 +547,8 @@ function Show_Invoice($id,$ViewOnly=0) { // Show details, limited edit
   echo "Click UPDATE to save changes, SEND to send with standard cover note, BESPOKE to have a bespoke cover note, RESEND to re-email the invoice and cover note, " .
        "SENT to record it has been sent by other means, DOWNLOAD to download the invoice to store/send by other means.<p>";
   
-  echo "<h2><a href=InvoiceManage.php?Y=$YEAR>Back to Invoices</a> ";
-  if ($inv['Source'] == 1) echo ", <a href=Trade.php?id=" . $inv['SourceId'] . "&Y=$YEAR>Back to Trader</a>";
+  echo "<h2><a href=InvoiceManage?Y=$YEAR>Back to Invoices</a> ";
+  if ($inv['Source'] == 1) echo ", <a href=Trade?id=" . $inv['SourceId'] . "&Y=$YEAR>Back to Trader</a>";
   echo "</h2>";
   
   // TODO Link to trader info, show email and phone(s)

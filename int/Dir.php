@@ -67,7 +67,7 @@
       break;
     case 'Rename1':
       if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {
-          echo '<form action="Dir.php" method="post">';
+          echo '<form action="Dir" method="post">';
           echo fm_hidden('d', $d);
         echo "<h2>Rename " . htmlspec($dir['SN']) . "</h2>";
           echo fm_simpletext('as new name ',$_POST,'DirName');
@@ -97,7 +97,7 @@
       break;
     case 'Move1':
       if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {
-          echo '<form action="Dir.php" method="post">';
+          echo '<form action="Dir" method="post">';
           echo fm_hidden('d', $d);
         echo "<h2>Move " . htmlspec($dir['SN']) . " to </h2>";
           echo Dir_All_Tree('NewDir',$dir['Parent'],$d);
@@ -129,7 +129,7 @@
       break;
     case 'Chown1':
       if ($d > 0 && Access('Committee','Docs')) {
-          echo '<form action="Dir.php" method="post">';
+          echo '<form action="Dir" method="post">';
           echo fm_hidden('d', $d);
         echo "<h2>Change Ownership of " . htmlspec($dir['SN']) . " to </h2>";
           echo fm_select($AllActive,$dir,'Who');
@@ -150,7 +150,7 @@
       break;
     case 'Restrict1': // Change access restrictions
       if ($d > 0 && (Access('Committee','Docs') || $dir['Who'] == $USERID || $sub['Who'] == $USERID )) {    
-          echo '<form action="Dir.php" method="post">';
+          echo '<form action="Dir" method="post">';
           echo fm_hidden('d', $d);
         echo "<h2>Restrict " . htmlspec($dir['SN']) . " to </h2>";
           $LocalAcc = array_slice($Access_Levels,0,$USER['AccessLevel']+1);
@@ -202,7 +202,7 @@
     switch ($Act) {
       case 'Rename1':
         if (Access('Committee','Docs') || $finf['Who'] == $USERID || $dir['Who'] == $USERID ) {
-            echo '<form action="Dir.php" method="post">';
+            echo '<form action="Dir" method="post">';
             echo fm_hidden('d', $d) . fm_hidden('f', $f);
           echo "<h2>Rename " . htmlspec($finf['SN']) . "</h2>";
             echo fm_simpletext('as new name ',$_POST,'DocName');
@@ -232,7 +232,7 @@
         break;
       case 'Move1':
         if (Access('Committee','Docs') || $finf['Who'] == $USERID || $dir['Who'] == $USERID ) {
-            echo '<form action="Dir.php" method="post">';
+            echo '<form action="Dir" method="post">';
             echo fm_hidden('d', $d) . fm_hidden('f', $f);
           echo "<h2>Move " . htmlspec($finf['SN']) . " to </h2>";
             echo Dir_All_Tree('NewDir',$finf['Dir']);
@@ -263,7 +263,7 @@
         break;
       case 'Chown1':
         if (Access('Committee','Docs')) {
-            echo '<form action="Dir.php" method="post">';
+            echo '<form action="Dir" method="post">';
             echo fm_hidden('d', $d) . fm_hidden('f', $f);
           echo "<h2>Change Ownership of " . htmlspec($finf['SN']) . " to </h2>";
             echo fm_select($AllActive,$finf,'Who');
@@ -338,7 +338,7 @@
   if (!$skip) {
     echo "<button class='floatright FullD' onclick=\"($('.FullD').toggle())\">More Info</button><button class='floatright FullD' hidden onclick=\"($('.FullD').toggle())\">Less Info</button> ";
     echo "<h2>Directory: " . Get_Parent($d) . "</h2>";
-    echo '<form action="Dir.php" method="post" enctype="multipart/form-data" id=Uploads>';
+    echo '<form action="Dir" method="post" enctype="multipart/form-data" id=Uploads>';
     Doc_Table_Head();
  
  // Parent
@@ -372,7 +372,7 @@
     echo '<input type="file" name="uploads[]" multiple onchange=this.form.submit()>';
     echo " &nbsp; &nbsp; Do not upload more than 15M at once, for large files contact <a href=mailto:Richard@wavwebs.com>Richard</a>.\n";
     echo "</form>\n";
-    echo '<form action="Dir.php" method="post">';
+    echo '<form action="Dir" method="post">';
     echo fm_hidden('d', $d);
     echo fm_simpletext('New Directory',$_POST,'DirName');
     echo '<input type="submit" value="Create" name="Action">';

@@ -1,8 +1,8 @@
 <?php
   include_once("fest.php");
 //  A_Check('Staff');
-  include ("DocLib.php");
-  include ("ViewLib.php");
+  include_once ("DocLib.php");
+  include_once ("ViewLib.php");
   global $USERID;
   $read = 1;
 

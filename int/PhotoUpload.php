@@ -46,7 +46,7 @@
     }
   }
   echo "<h2>Upload no more than 6 photos at once or more than 16M of photos</h2>";
-  echo "<form method=post action=PhotoUpload.php enctype='multipart/form-data' id=Photosform>";
+  echo "<form method=post action=PhotoUpload enctype='multipart/form-data' id=Photosform>";
   echo fm_radio("Where to put them",$Pflip,$_POST,'Where','',0) . "<p>";
   echo fm_text("Prefix - if it has a / it will make any necessary directories",$_POST,'Prefix') . "<br>\n";
   echo fm_hidden('Action', 'Upload');

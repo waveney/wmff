@@ -80,10 +80,10 @@ To be a valid entrant for our "Laugh Out Loud" New Act competition you must : <p
 </ul>
 Please don't apply if you don't meet all of the criteria described above.<p>
 
-<h2 class=subtitle><a href=int/LaughForm.php>Application Form</a></h2>
+<h2 class=subtitle><a href=int/LaughForm>Application Form</a></h2>
 
 Please send any queries or questions to <a href=mailto:Comedy@wimbornefolk.co.uk>Comedy@wimbornefolk.co.uk</a>.<p>
 
-<h2 class=subtitle><a href=int/ShowGallery.php?g=3>Gallery from 2017 Laugh Out Loud</a></h2>
+<h2 class=subtitle><a href=int/ShowGallery?g=3>Gallery from 2017 Laugh Out Loud</a></h2>
 
 <?php dotail() ?>

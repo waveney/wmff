@@ -91,7 +91,7 @@
   
   echo "</form><p>\n";
   
-  echo "<h2><a href=ListArticles.php>List Articles</a>, <a href=HomeFuture.php?F=7>Top Page in a Week</a></h2>\n";
+  echo "<h2><a href=ListArticles>List Articles</a>, <a href=HomeFuture?F=7>Top Page in a Week</a></h2>\n";
 
   dotail();
 

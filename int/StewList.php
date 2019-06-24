@@ -36,7 +36,7 @@
     while ($evnt = $res->fetch_assoc()) {
       $i = $evnt['EventId'];
       echo "<tr><td>$i<td>";
-      echo "<a href=EventAdd.php?e=$i>";
+      echo "<a href=EventAdd?e=$i>";
       if (strlen($evnt['SN']) >2) { echo $evnt['SN'] . "</a>"; } else { echo "Nameless</a>"; };
       echo "<td>" . $DayList[$evnt['Day']] . "<td>" . timecolon($evnt['Start']) . "<td>" . timecolon($evnt['End']);
       echo "<td>" . (isset($Venues[$evnt['Venue']]) ? $Venues[$evnt['Venue']] : "Unknown");

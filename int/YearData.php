@@ -17,7 +17,7 @@
     Update_db('General',$Cur,$now);
   }
 
-  echo "<form method=post action='YearData.php'>\n";
+  echo "<form method=post action='YearData'>\n";
   if (isset($_POST['Year'])) { /* Response to update button */
     $ynum = $_POST['Year'];
     Parse_DateInputs($Dates);
@@ -133,12 +133,12 @@
 
     // Last Year, // Current // Next | Create
     echo "<p><h2>Settings for ";
-    if (isset($Gens[$ynum-1])) echo "<a href=YearData.php?yearnum=". ($ynum-1) . ">" . ($ynum-1) . "</a>, ";
+    if (isset($Gens[$ynum-1])) echo "<a href=YearData?yearnum=". ($ynum-1) . ">" . ($ynum-1) . "</a>, ";
     echo $ynum;
     if (isset($Gens[$ynum+1])) {
-      echo ", <a href=YearData.php?yearnum=". ($ynum+1) . ">" . ($ynum+1) . "</a> ";
+      echo ", <a href=YearData?yearnum=". ($ynum+1) . ">" . ($ynum+1) . "</a> ";
     } else {
-      echo ", <a href=YearData.php?Create=". ($ynum+1) . ">Create " . ($ynum+1) . "</a> ";
+      echo ", <a href=YearData?Create=". ($ynum+1) . ">Create " . ($ynum+1) . "</a> ";
     }
     echo "</h2>";
   } else { 

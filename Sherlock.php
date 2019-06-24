@@ -130,12 +130,12 @@
       echo "<tr>";
       echo "<td>"; 
         echo timecolon($E['Start']) . " to " . timecolon($E['End']);
-      echo "<td><strong><a href=/int/EventShow.php?e=$eid>" . $E['SN'] . "</a></strong>"; 
-      echo "<td><a href=/int/VenueShow.php?v=" . $E['Venue'] . ">" . $Vens[$E['Venue']]['SN'] . "</a>";
+      echo "<td><strong><a href=/int/EventShow?e=$eid>" . $E['SN'] . "</a></strong>"; 
+      echo "<td><a href=/int/VenueShow?v=" . $E['Venue'] . ">" . $Vens[$E['Venue']]['SN'] . "</a>";
       if ($E['BigEvent']) {
         $Others = Get_Other_Things_For($eid);
         foreach ($Others as $i=>$o) {
-          if ($o['Type'] == 'Venue') echo ", <a href=/int/VenueShow.php?v=" . $o['Identifier'] . ">" . $Vens[$o['Identifier']]['SN'] . "</a>";
+          if ($o['Type'] == 'Venue') echo ", <a href=/int/VenueShow?v=" . $o['Identifier'] . ">" . $Vens[$o['Identifier']]['SN'] . "</a>";
         }
       }
       echo "<td>";
@@ -155,7 +155,7 @@
   }
   
   if ($YEAR > $BackStop) {
-    echo "<h3><a href=Sherlock.php?t=$Type&Y=" . ($YEAR-1) . "> $Types in " . ($YEAR-1) . "</h3></a>";
+    echo "<h3><a href=Sherlock?t=$Type&Y=" . ($YEAR-1) . "> $Types in " . ($YEAR-1) . "</h3></a>";
   }
   dotail();
 

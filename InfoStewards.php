@@ -48,7 +48,7 @@ Stewarding & Volunteer roles available:<p>
 </ul>
 Schedules will be designed to suit your requirements as much as possible.<p>
 
-<div class=trader-app-link><a href=int/Volunteers.php?A=New>Please Volunteer as a Steward</a></div>
+<div class=trader-app-link><a href=int/Volunteers?A=New>Please Volunteer as a Steward</a></div>
 </div><div class=BorderBox>
 
 <h2>Setup/Cleardown Crew</h2>
@@ -71,7 +71,7 @@ Schedules will be designed to suit your requirements as much as possible.<p>
 </ul>
 
 
-<div class=trader-app-link><a href=int/Volunteers.php?A=New>Please Volunteer for the Setup Crew</a></div>
+<div class=trader-app-link><a href=int/Volunteers?A=New>Please Volunteer for the Setup Crew</a></div>
 </div><div class=BorderBox>
 <!--<h2>Artistic Team</h2>
 <ul>
@@ -80,7 +80,7 @@ Schedules will be designed to suit your requirements as much as possible.<p>
 <li>Assisting creative workshops prior to festival
 </ul>
 
-<div class=trader-app-link><a href=int/Volunteers.php?A=New>Please Volunteer for the Artistic Team</a></div>
+<div class=trader-app-link><a href=int/Volunteers?A=New>Please Volunteer for the Artistic Team</a></div>
 </div><div class=BorderBox>-->
 <h2>Media Team</h2>
 <ul><li>Photographers
@@ -89,7 +89,7 @@ Schedules will be designed to suit your requirements as much as possible.<p>
 
 Applications for this team are closed.<p>
 
-<!--<div class=trader-app-link><a href=int/Volunteers.php?A=New>Please Volunteer for Media</a></div> -->
+<!--<div class=trader-app-link><a href=int/Volunteers?A=New>Please Volunteer for Media</a></div> -->
 </div>
 
 <?php

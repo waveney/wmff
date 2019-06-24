@@ -22,9 +22,9 @@ Coming ...
 */
 
   echo "<div class=floatright><h2>";
-    if (isset($Years[$YEAR-1])) echo "<a href=TimeLine.php?Y=" . ($YEAR-1) .">" . ($YEAR-1) . "</a> &nbsp; ";
-    if (isset($Years[$YEAR+1])) echo "<a href=TimeLine.php?Y=" . ($YEAR+1) .">" . ($YEAR+1) . "</a>\n";
-    if ($YEAR+1 < $PLANYEAR) echo " &nbsp; <a href=TimeLine.php?Y=$PLANYEAR>$PLANYEAR</a>\n";
+    if (isset($Years[$YEAR-1])) echo "<a href=TimeLine?Y=" . ($YEAR-1) .">" . ($YEAR-1) . "</a> &nbsp; ";
+    if (isset($Years[$YEAR+1])) echo "<a href=TimeLine?Y=" . ($YEAR+1) .">" . ($YEAR+1) . "</a>\n";
+    if ($YEAR+1 < $PLANYEAR) echo " &nbsp; <a href=TimeLine?Y=$PLANYEAR>$PLANYEAR</a>\n";
   echo "</div>";
 
   echo "<h2>Timeline Management for $YEAR </h2>"; 
@@ -124,17 +124,17 @@ Coming ...
   }
   echo "</h2>\n";
   echo "<ul id=TLacts>";
-  echo "<li><a href=AddTimeLine.php>Add a Task</a>";
-  echo "<li" . ($V==''?' id=TLactsel':'') . "><a href=TimeLine.php?Y=$YEAR>Your Open Tasks</a> ";
-  echo "<li" . ($V=='MINE'?' id=TLactsel':'') . "><a href=TimeLine.php?Y=$YEAR&V=MINE>All Your Tasks</a> ";
-  echo "<li" . ($V=='OPEN'?' id=TLactsel':'') . "><a href=TimeLine.php?Y=$YEAR&V=OPEN>All Open Tasks</a> ";
-  echo "<li" . ($V=='ALL'?' id=TLactsel':'') . "><a href=TimeLine.php?Y=$YEAR&V=ALL>All Tasks</a> ";
-  echo "<li" . ($V=='MONTH'?' id=TLactsel':'') . "><a href=TimeLine.php?Y=$YEAR&V=MONTH>Tasks Due Next Month</a> ";
-  echo "<li" . ($V=='OVERDUE'?' id=TLactsel':'') . "><a href=TimeLine.php?Y=$YEAR&V=OVERDUE>Overdue Tasks</a>";
+  echo "<li><a href=AddTimeLine>Add a Task</a>";
+  echo "<li" . ($V==''?' id=TLactsel':'') . "><a href=TimeLine?Y=$YEAR>Your Open Tasks</a> ";
+  echo "<li" . ($V=='MINE'?' id=TLactsel':'') . "><a href=TimeLine?Y=$YEAR&V=MINE>All Your Tasks</a> ";
+  echo "<li" . ($V=='OPEN'?' id=TLactsel':'') . "><a href=TimeLine?Y=$YEAR&V=OPEN>All Open Tasks</a> ";
+  echo "<li" . ($V=='ALL'?' id=TLactsel':'') . "><a href=TimeLine?Y=$YEAR&V=ALL>All Tasks</a> ";
+  echo "<li" . ($V=='MONTH'?' id=TLactsel':'') . "><a href=TimeLine?Y=$YEAR&V=MONTH>Tasks Due Next Month</a> ";
+  echo "<li" . ($V=='OVERDUE'?' id=TLactsel':'') . "><a href=TimeLine?Y=$YEAR&V=OVERDUE>Overdue Tasks</a>";
   echo "</ul>\n";
 */
 
-  echo "<div class=tablecont><table style=' width: auto;' border><tr><td><a class=PurpButton href=AddTimeLine.php>Add a Task</a>";
+  echo "<div class=tablecont><table style=' width: auto;' border><tr><td><a class=PurpButton href=AddTimeLine>Add a Task</a>";
   echo "<td><div class=PurpButton id=TasksYou onclick=TLSelect(this.id)>Your Tasks</div><br><div class=PurpSelect id=TasksAll onclick=TLSelect(this.id)>Everyone's</div>";
   echo "<td><div class=PurpButton id=OpenTasks onclick=TLSelect(this.id)>Open Tasks</div>";
   echo     "<div class=PurpSelect id=NextMonth onclick=TLSelect(this.id)>Tasks Due Next Month</div>";
@@ -199,7 +199,7 @@ Coming ...
       echo "<tr class='$classes' " . ($hide?'hidden':'') . ">";
       if (Access('Committee','TLine')) echo "<td><input type=checkbox name=E$tli class=SelectAllAble>";
       if (Access('SysAdmin')) echo "<td class=FullD hidden>" . $tli;
-      echo "<td><a href=AddTimeLine.php?TLid=$tli>" . $tl['Title'] . "</a>";
+      echo "<td><a href=AddTimeLine?TLid=$tli>" . $tl['Title'] . "</a>";
       echo "<td>" . ($tl['Assigned'] ? $All[$tl['Assigned']]['SN'] : "<B>NOBODY</b>"); // . $tl['Assigned'];
       echo "<td>" . $TL_Importance[$tl['Importance']];
       echo "<td>" . TL_State($tl);
@@ -208,7 +208,7 @@ Coming ...
       echo "<td" . ($tl['Due']<$now  && $Open?" style='color:red;'":"") . ">" . date('d/m/Y',$tl['Due']);
       echo "<td class=FullD hidden>" . $tl['Year'];
       echo "<td class=FullD hidden>" . ["","Y"][$tl['Recuring']];
-      echo "<td class=FullD hidden>" . ($tl['NextYearId']? ("<a href=AddTimeLine.php?TLid=" . $tl['NextYearId'] . ">Y</a>" ) : "");
+      echo "<td class=FullD hidden>" . ($tl['NextYearId']? ("<a href=AddTimeLine?TLid=" . $tl['NextYearId'] . ">Y</a>" ) : "");
       echo "<td>" . $tl['Notes'] . "\n";  
     }
     echo "</table></div>\n";

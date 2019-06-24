@@ -90,7 +90,7 @@
   }
 
   echo "<h2>Manage Gallery - $GalName</h2>\n";
-  echo "<form method=post action=GallCManage.php>";
+  echo "<form method=post action=GallCManage>";
     echo fm_hidden('g',$Galid);
     echo "<h3>Import Photos</h3>Give Name of Directory (All Images will be imported) or Full Prefix (Any File with that Prefix will be imported): ";
     echo fm_textinput('FilePrefix',$_POST['FilePrefix']);
@@ -104,7 +104,7 @@
 
   echo "If used Order controls the order of pictures appearing, two pictures of the same Order value may appear in any order.<p>\n";
   $coln = 0;
-  echo "<form method=post action=GallCManage.php>";
+  echo "<form method=post action=GallCManage>";
   echo fm_hidden('g',$Galid);
   echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
@@ -129,7 +129,7 @@
   echo "</table></div>\n";
   echo "<input type=submit name=Update value=Update>\n";
   echo "</form></div>";
-  echo "<h2><a href=GallManage.php>Back to Galleries</a>, <a href=ShowGallery.php?g=$Galid>Show Gallery</a></h2><p>\n";
+  echo "<h2><a href=GallManage>Back to Galleries</a>, <a href=ShowGallery?g=$Galid>Show Gallery</a></h2><p>\n";
 
   dotail();
 

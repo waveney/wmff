@@ -309,7 +309,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
     if ($condense && $VenueInfo[$v]["Minor$DAY"]) {
     } else { 
       echo "<th class=DPGridTH id=Ven$v>";
-      if ($links) echo "<a href=/int/VenueShow.php?v=$v>"; 
+      if ($links) echo "<a href=/int/VenueShow?v=$v>"; 
       echo $VenueNames[$v];
       if ($links) echo "</a>";
     }
@@ -357,7 +357,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
               $rows = $G['d']?intval(ceil($G['d']/30))*4:4;
               $vv = $evs[$G['e']]['Venue']; 
               $OtherLoc = "<td id=XX data-d=X rowspan=$rows class=DPOvName>" ;
-              if ($links) $OtherLoc .= "<a href=/int/VenueShow.php?v=$vv>"; 
+              if ($links) $OtherLoc .= "<a href=/int/VenueShow?v=$vv>"; 
               $OtherLoc .= $VenueNames[$vv];
               if ($links) $OtherLoc .= "</a>";
             } else {
@@ -387,7 +387,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
             $cls = ($G['n']?'class=DPNamed ':'');
             echo "$OtherLoc<td id=$id $WDRAG $dev $cls rowspan=$rows valign=top data-d=W>";
             if ($G['n']) {
-              if ($links) echo "<a href=/int/EventShow.php?e=" . $G['e'] . ">";
+              if ($links) echo "<a href=/int/EventShow?e=" . $G['e'] . ">";
               echo $G['n'];
               if ($links) echo "</a>";
               echo "<br>";
@@ -402,7 +402,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
                 $s = &$Sides[$si];
                 $txt = SName($s) . (($types && $s['Type'])?(" (" . trim($s['Type']) . ") "):"");
                 echo "<span data-d=$si class='DPESide Side$si'>";
-                if ($links) echo "<a href=/int/ShowPerf.php?id=$si>";
+                if ($links) echo "<a href=/int/ShowPerf?id=$si>";
                 echo $txt;
                   if ($links) echo "</a>";
                 echo "<br></span>";
@@ -414,7 +414,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
           }
         } else if ($line == 0 && $G['n']) {
           echo "$OtherLoc<td id=$id $DRAG $dev data-d='N' class=DPNamed>";
-          if ($links) echo "<a href=/int/EventShow.php?e=" . $G['e'] . ">";
+          if ($links) echo "<a href=/int/EventShow?e=" . $G['e'] . ">";
           echo $G['n'];
           if ($links) echo "</a>";
           echo "<br>";
@@ -437,7 +437,7 @@ function Print_Grid($drag=1,$types=1,$condense=0,$format='',$Media='Dance') {
           $class .= " Side$si";
           $rows = ($G['w']?('rowspan=' . (4-$line)):'');
           echo "$OtherLoc<td id=$id $DRAG $dev data-d=$si $rows class='$class'>";
-          if ($links) echo "<a href=/int/ShowPerf.php?id=$si>";
+          if ($links) echo "<a href=/int/ShowPerf?id=$si>";
           echo $txt;
           if ($links) echo "</a>";
           if (!$evs[$G['e']]['ExcludeCount']) $SideCounts[$si]++;
@@ -500,7 +500,7 @@ function Controls($level=0,$condense=0) {
   echo "<button onclick=clearHL()>Clear Highlights</button><br>";
 //  echo "<input type=submit id=smallsubmit value=Refresh>";
   echo "</form>\n";
-  echo "<h2><a href=Staff.php>Staff Tools</a></h2></center>";
+  echo "<h2><a href=Staff>Staff Tools</a></h2></center>";
   echo "</div>\n";
 }
 
@@ -749,7 +749,7 @@ function Prog_MG_Print($drag,$types,$format) {
           echo "$row>";
           if ($s && ($drag || $evs[$eid]['InvisiblePart'] == 0)) {
             if (isset($Sides[$s])) {
-              if ($condense && !$types) echo "<a href=/int/ShowPerf.php?id=$s>";
+              if ($condense && !$types) echo "<a href=/int/ShowPerf?id=$s>";
               echo SName($Sides[$s]);
               if ($types) echo " (" . trim($Sides[$s]['Type']) . ")";;
               if ($condense && !$types) echo "</a>";
@@ -791,7 +791,7 @@ function Prog_MG_Print($drag,$types,$format) {
               echo "$row>";
               if ($s && ($drag || $evs[$eid]['InvisiblePart'] == 0)) {
                 if (isset($Sides[$s])) {
-                  if ($condense && !$types) echo "<a href=/int/ShowPerf.php?id=$s>";
+                  if ($condense && !$types) echo "<a href=/int/ShowPerf?id=$s>";
                   echo SName($Sides[$s]);
                   if ($types) echo " (" . trim($Sides[$s]['Type']) .")";;
                   if ($condense && !$types) echo "</a>";

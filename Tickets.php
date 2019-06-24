@@ -41,9 +41,9 @@
     echo "Camping is not yet open to book<p>";
   }
 
-  echo "<a href=TermsAndConditions.php>Full Terms and Conditions</a>.<p>";
+  echo "<a href=TermsAndConditions>Full Terms and Conditions</a>.<p>";
 
-  echo "<a href=/InfoCamping.php><b>Camping Information and Camping Tickets.</b></a><p>";
+  echo "<a href=/InfoCamping><b>Camping Information and Camping Tickets.</b></a><p>";
 
   echo "<p><div class=tablecont><table class=InfoTable>";
   echo "<tr><th colspan=5>Festival Passes</th>";
@@ -105,11 +105,11 @@
   while ($E = $Evs->fetch_assoc()) {
     DayTable($E['Day'],"Event Tickets",($YEARDATA['PriceComplete' . ($E['Day'] >=0?$E['Day']:"_" . (-$E['Day'])) ]?'':'(More to come)'),'','style=min-width:1000');
     $bl = "<a href=" . ($E['SpecPriceLink']? $E['SpecPriceLink'] : ("https://www.ticketsource.co.uk/date/" . $E['TicketCode'])) . " target=_blank>" ;
-    echo "<tr><td><strong><a href=/int/EventShow.php?e=" . $E['EventId'] . ">" . $E['SN'] . "</a></strong><br>"; 
+    echo "<tr><td><strong><a href=/int/EventShow?e=" . $E['EventId'] . ">" . $E['SN'] . "</a></strong><br>"; 
       echo Price_Show($E);
     echo "<td>" . FestDate($E['Day'],'L') . "<br>";
       if ($E['Venue']) {
-        echo "At: <a href=/int/VenueShow.php?v=" . $E['Venue'] . ">" . VenName($Vens[$E['Venue']]) . "</a><br>";
+        echo "At: <a href=/int/VenueShow?v=" . $E['Venue'] . ">" . VenName($Vens[$E['Venue']]) . "</a><br>";
       } else {
         echo "At: </b>Venue not yet known</b><br>";
       }
@@ -172,7 +172,7 @@
   echo "<p>Child ticket pricing for the festival is 0-4 Free, 5-15 Half Price, 16+ Standard ticket price.</p>";
 
   echo "<h2>Official Campsite</h2><p>";
-  echo "<a href=/InfoCamping.php><b>Camping Information.</b></a><p>";
+  echo "<a href=/InfoCamping><b>Camping Information.</b></a><p>";
 
   echo "Order your festival tickets and camping together, by selecting <strong>Continue Shopping</strong> before you checkout!</p> ";
 

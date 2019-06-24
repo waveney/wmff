@@ -17,7 +17,7 @@
   $Skip = 0;
 
   echo "<div class='content'><h2>Add/Edit Bugs</h2>\n";
-  echo "<form method=post action='AddBug.php'>\n";
+  echo "<form method=post action='AddBug'>\n";
   if (isset($_POST{'BugId'})) { // Response to update button
     $b = $_POST{'BugId'};
     if ($b > 0) $Bug = Get_Bug($b);
@@ -85,7 +85,7 @@
     }
     echo "</form>\n";
   }
-  echo "<h2><a href=ListBugs.php>List Bugs/Feature Requests</a></h2>\n";
+  echo "<h2><a href=ListBugs>List Bugs/Feature Requests</a></h2>\n";
 
   dotail();
 ?>

@@ -19,12 +19,12 @@ Applications are now open for this year’s Live and Loud Competition!
 To register your interest, please click the link below and fill in an
 application form today.<p>
 
-Applicants should fill in the <!--<a href=int/LiveNLoudForm.php>--><b>Application Form</b></a> in by
+Applicants should fill in the <!--<a href=int/LiveNLoudForm>--><b>Application Form</b></a> in by
 no later than Monday 5th March 2019.<p>
 
 <h3>APPLICATION PROCESS</h3>
 
-1. <!--<a href=int/LiveNLoudForm.php>--><b>APLICATION FROM CLOSED</b></a>: Please begin by registering your interest and
+1. <!--<a href=int/LiveNLoudForm>--><b>APLICATION FROM CLOSED</b></a>: Please begin by registering your interest and
 filling out the application form. Applications will
 close on Tuesday 5th March.<p>
 
@@ -112,7 +112,7 @@ This year, the competition was divided into 3 categories, the final was on 24th 
 <li>Still Alive and Loud (45+) - Winners: <b>The Darwins</b>
 </ul><p>
 
-<h3><a href=/int/ShowGallery.php?g=1>Gallery of 2018 Photos</a></h3>
+<h3><a href=/int/ShowGallery?g=1>Gallery of 2018 Photos</a></h3>
 
 <?php
 /* Page for 2018 follows...
@@ -134,7 +134,7 @@ band, duo, choir, a soloist or even orchestra then complete an application form 
 Live and Loud is sponsored by <a href="http://partyinthepaddock.com">Party In The Paddock</a><p>
 
 <!--
-Applicants should fill in the <a href=int/LiveNLoudForm.php>application form</a> in by
+Applicants should fill in the <a href=int/LiveNLoudForm>application form</a> in by
 no later than Monday 12th February 2018.<p> -->
 
 <!-- A &pound;5 sign up fee

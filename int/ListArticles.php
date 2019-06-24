@@ -37,8 +37,8 @@ Click on the title to edit.<p>";
   if ($Arts) foreach($Arts as $t) {
     $i = $t['id'];
     echo "<tr" . (($t['StopDate']> 0 && $t['StopDate'] <$now)?" class=FullD hidden" : "" ) . ">";
-    echo "<td><a href=AddArticle.php?id=$i>" . $t['id'] . "</a>";
-    echo "<td><a href=AddArticle.php?id=$i>" . $t['SN'] . "</a>";
+    echo "<td><a href=AddArticle?id=$i>" . $t['id'] . "</a>";
+    echo "<td><a href=AddArticle?id=$i>" . $t['SN'] . "</a>";
     preg_match('/(.*)[ \n].*?$/',substr($t['Text'],0,80),$mtch);
     
     echo "<td>" . (isset($mtch[1]) ? htmlspec($mtch[1]) : "") ;
@@ -51,7 +51,7 @@ Click on the title to edit.<p>";
 
   echo "</table></div>\n";
   
-  echo "<h2><a href=AddArticle.php>Add An Article</a>, <a href=HomeFuture.php?F=7>Top Page in a Week</a></h2>\n";
+  echo "<h2><a href=AddArticle>Add An Article</a>, <a href=HomeFuture?F=7>Top Page in a Week</a></h2>\n";
 
   dotail();
 

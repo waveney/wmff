@@ -26,7 +26,7 @@
   echo "Set Format to drive EventShow rules 0=All Large, 2=Switch to large at Importance-High, 9+=All Small<p>";
   echo "Set The Map Feat to the MapFeature to enable maps of locations 0 = no map<p>";
   
-  echo "<form method=post action=EventTypes.php>";
+  echo "<form method=post action=EventTypes>";
   echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Event Type</a>\n";

@@ -9,7 +9,7 @@
   Set_User_Help();
 
   echo "<h2>Add/Edit Fest Con Users</h2>\n";
-  echo "<form method=post action='AddUser.php'>\n";
+  echo "<form method=post action='AddUser'>\n";
   if (isset($_POST{'UserId'})) { /* Response to update button */
     $unum = $_POST{'UserId'};
     if ($unum > 0) {                                 // existing User
@@ -88,19 +88,19 @@
   if ($unum > 0) {
     echo "<Center><input type=Submit name='Update' value='Update'>\n";
     echo "</center>\n";
-    echo "</form><form method=post action=AddUser.php>" . fm_hidden('UserId',$unum);
+    echo "</form><form method=post action=AddUser>" . fm_hidden('UserId',$unum);
     echo " <input type=text name=NewPass size=10>";
     echo "<input type=submit name=ACTION value='Set Password'>\n";
 
     echo "<input type=submit name=ACTION value='Remove Access' " .
                   "onClick=\"javascript:return confirm('are you sure you want to remove this user?');\"></form> "; 
-    echo "<h2><a href=Welcome.php?U=$unum>Send Welcome Email with New Password Link</a> , \n";
+    echo "<h2><a href=Welcome?U=$unum>Send Welcome Email with New Password Link</a> , \n";
   } else { 
     echo "<Center><input type=Submit name=Create value='Create'></center>\n";
     echo "</form>\n<h2>";
   }
-  echo "<a href=ListUsers.php?FULL>List Users</a> , \n";
-  if ($unum >0) echo "<a href=AddUser.php>Add Another User</a>\n";
+  echo "<a href=ListUsers?FULL>List Users</a> , \n";
+  if ($unum >0) echo "<a href=AddUser>Add Another User</a>\n";
   echo "</h2>";
 
   dotail();

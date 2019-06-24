@@ -21,7 +21,7 @@
   $coln = 0;
   $InvCodes =  Get_InvoiceCodes();
   
-  echo "<form method=post action=TradeLocs.php>";
+  echo "<form method=post action=TradeLocs>";
   echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Index</a>\n";
@@ -55,8 +55,8 @@
     echo fm_text1('',$t,'MapImage',1,'','',"MapImage$i");
     echo fm_text1('',$t,'Mapscale',0.5,'','',"Mapscale$i");
     echo fm_text1('',$t,'Showscale',0.5,'','',"Showscale$i");
-    echo "<td><a href=TradeSetup.php?i=$i>Setup</a>";
-    echo "<td><a href=TradeAssign.php?i=$i>Assign</a>";
+    echo "<td><a href=TradeSetup?i=$i>Setup</a>";
+    echo "<td><a href=TradeAssign?i=$i>Assign</a>";
     echo "\n";
   }
   echo "<tr><td><td><input type=text name=SN0 >";

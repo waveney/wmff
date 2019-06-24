@@ -25,7 +25,7 @@
         dostaffhead("Add Performer - already exists");
         echo "<h2> The following already exist:</h2><ul>";
         foreach ($similar as $i=>$side) {
-          echo "<li><b><a href=AddPerf.php?sidenum=" . $side['SideId']  . ">" . $side['SN'] . "</b> is: ";
+          echo "<li><b><a href=AddPerf?sidenum=" . $side['SideId']  . ">" . $side['SN'] . "</b> is: ";
           $cnt = 0;
           foreach ($PerfTypes as $p=>$d) if ($side[$d[0]]) {
             if ($cnt++) echo ", ";
@@ -46,7 +46,7 @@
 
         dostaffhead("Add Performer");
         
-        Show_Part($Side,'Side',1,'AddPerf.php');
+        Show_Part($Side,'Side',1,'AddPerf');
         Show_Perf_Year($snum,$Sidey,$YEAR,Access('Staff'));
         echo "<Center><input type=Submit name=Create value='Create' class=Button$BUTTON ></center>\n";
         echo "</form>\n";

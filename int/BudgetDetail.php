@@ -51,14 +51,14 @@
 //    if ($act['IsAnAct']) echo "Act ";
 //    if ($act['IsOther']) echo "Other ";
 //      echo "<td>";
-      echo "<a href=AddPerf.php?sidenum=" . $b[0] . ">" . $act['SN'] . "</a>";
+      echo "<a href=AddPerf?sidenum=" . $b[0] . ">" . $act['SN'] . "</a>";
       echo "<td>";
       echo $b[1];
     }
   }
   echo "</table></div>\n";
   
-  echo "<h2><a href=BudgetManage.php?>Back to Budget Management</a></h2><p>\n";
+  echo "<h2><a href=BudgetManage?>Back to Budget Management</a></h2><p>\n";
   
   dotail();
 

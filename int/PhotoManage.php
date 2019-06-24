@@ -302,7 +302,7 @@ if (isset($_FILES['croppedImage'])) {
 
         var fred = formData.append('croppedImage', blob,'croppedImage');
 
-        $.ajax('/int/PhotoManage.php', {
+        $.ajax('/int/PhotoManage', {
           method: "POST",
           data: formData,
           processData: false,
@@ -360,7 +360,7 @@ if (isset($_FILES['croppedImage'])) {
       $j++;
     }
     echo "<h2>Select Photo to modify</h2><p>\n";
-    echo "<form method=post action=PhotoManage.php>";
+    echo "<form method=post action=PhotoManage>";
     echo fm_radio("Target shape",$Shapes,$_REQUEST,'SHAPE','',0) . "<p>";
     echo fm_radio("Photo For",$PhotoCats,$_REQUEST,'PCAT','onclick=PCatSel(event)',0);
     $i=0;
@@ -420,7 +420,7 @@ if (isset($_FILES['croppedImage'])) {
     }
 
     echo "<h2>Image to Manage</h2>\n";
-    echo "<form id=cropform method=post action=PhotoManage.php enctype='multipart/form-data' >";
+    echo "<form id=cropform method=post action=PhotoManage enctype='multipart/form-data' >";
     echo fm_hidden('PCAT',$Pcat) . fm_hidden("WHO",$Who);
     echo "Type: " . $PhotoCats[$dat['Pcat']] . "<br>";
     echo "For: $Name<br>";

@@ -8,7 +8,7 @@
   include_once("ProgLib.php");
   $venues = ((isset($_GET['ALL'])) ? Get_Venues(1) : Get_AVenues(1));
 
-  if (!isset($_GET['ALL'])) echo "<h2>Click <a href=VenueList.php?ALL>All</a> to see not in use Venues</h2>";
+  if (!isset($_GET['ALL'])) echo "<h2>Click <a href=VenueList?ALL>All</a> to see not in use Venues</h2>";
   $edit = Access('Staff','Venues');
   $coln = 0;
   echo "<div class=tablecont><table id=indextable border>\n";
@@ -40,12 +40,12 @@
     foreach ($venues as $Ven) {
       $i = $Ven['VenueId'];
       echo "<tr><td>$i<td>";
-        if ($edit) echo "<a href=AddVenue.php?v=$i>";
+        if ($edit) echo "<a href=AddVenue?v=$i>";
         echo $Ven['ShortName'];
         if ($edit) echo "</a>";
 
       echo "<td>";
-        if ($edit) echo "<a href=AddVenue.php?v=$i>";
+        if ($edit) echo "<a href=AddVenue?v=$i>";
         echo $Ven['SN'];
         if ($edit) echo "</a>";
 
@@ -64,13 +64,13 @@
       echo "<td>" . $Surfaces[$Ven['SurfaceType1']];
       echo "<td>" . $Surfaces[$Ven['SurfaceType2']] . "\n";
       echo "<td>" . $Ven['MapImp'];
-      echo "<td><a href=VenueShow.php?Y=$YEAR&v=$i>Prog</a>";
+      echo "<td><a href=VenueShow?Y=$YEAR&v=$i>Prog</a>";
     }
   }
   echo "</tbody></table></div>\n";
   
   if (Access('Committee','Venues')) {
-    echo "<h2><a href=AddVenue.php>Add Venue</a></h2>";
+    echo "<h2><a href=AddVenue>Add Venue</a></h2>";
   }
   dotail();
 ?>

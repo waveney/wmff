@@ -226,7 +226,7 @@
     echo "<h2>Manage Invoices - $YEAR</h2>\n";
     $Invs = Get_Invoices();
     $Pays = Get_PayCodes("");
-    echo "<h2><a href=InvoiceManage.php?Y=$YEAR>Show Outstanding Only</a></h2>\n";
+    echo "<h2><a href=InvoiceManage?Y=$YEAR>Show Outstanding Only</a></h2>\n";
     $All = 1;
     if ($All && Access('SysAdmin')) echo "The Paid Special is to re-trigger Paid analysis - input 0 in most cases";
   } elseif (isset($_REQUEST['FOR'])) {
@@ -259,7 +259,7 @@
     echo "<h2>Manage Invoices - $YEAR</h2>\n";
     $Pays = Get_PayCodes("State=0");
     $Invs = Get_Invoices('PayDate=0 AND Total>0');  
-    echo "<h2><a href=InvoiceManage.php?Y=$YEAR&ALL>Show All Invoices and Credit notes</a></h2>\n";
+    echo "<h2><a href=InvoiceManage?Y=$YEAR&ALL>Show All Invoices and Credit notes</a></h2>\n";
     $All = 0;
   }
 
@@ -307,7 +307,7 @@
         $PaidA += $inv['PaidTotal'];
       }
 
-    echo "<tr><td><a href=InvoiceManage.php?Show=$id>$id</a>";
+    echo "<tr><td><a href=InvoiceManage?Show=$id>$id</a>";
     if ($All) echo "<td>" . ($inv['PayDate']>=0 ? 'Invoice' : 'Credit Note') ; 
     echo "<td>" . $inv['BZ']; // Make link soon
     echo "<td>" . $inv['OurRef'] . '/' . $inv['id'];
@@ -362,8 +362,8 @@
     }
     
     $Rev = ($inv['Revision']?"R" .$inv['Revision']:"");
-    echo "<td><a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'',$Rev) . ">View</a>";
-    if ($All && $inv['PayDate']<0) echo ", <a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'CN',$Rev) . ">Credit&nbsp;Note</a>";
+    echo "<td><a href=ShowFile?l=" . Get_Invoice_Pdf($id,'',$Rev) . ">View</a>";
+    if ($All && $inv['PayDate']<0) echo ", <a href=ShowFile?l=" . Get_Invoice_Pdf($id,'CN',$Rev) . ">Credit&nbsp;Note</a>";
     echo "\n";
   }
   
@@ -373,7 +373,7 @@
 
   foreach($Pays as $i=>$pay) {
     $id = $pay['id'];
-    echo "<tr><td><a href=InvoiceManage.php?ACTION=PSHOW&PShow=$id>$id</a>";
+    echo "<tr><td><a href=InvoiceManage?ACTION=PSHOW&PShow=$id>$id</a>";
     if ($All) echo "<td>Payment"; 
     echo "<td>" .$pay['SN']; // . $pay['BZ']; // Make link soon TODO
     echo "<td>" . $pay['Code'];
@@ -404,8 +404,8 @@
     echo "<h3>Total Invoiced: " . Print_Pence($TotInv) . "<br>Total Paid: " . Print_Pence($TotPaid) . "</h3>";
   }
   
-  echo "<h2><a href=InvoiceManage.php?ACTION=NEW$NewXtra>New Invoice $NewXtraTxt</a>";  
-  if (isset($Tname)) echo ", <a href=Trade.php?id=" . $_REQUEST['FOR'] . "&Y=$YEAR>Back to $Tname</a>";
+  echo "<h2><a href=InvoiceManage?ACTION=NEW$NewXtra>New Invoice $NewXtraTxt</a>";  
+  if (isset($Tname)) echo ", <a href=Trade?id=" . $_REQUEST['FOR'] . "&Y=$YEAR>Back to $Tname</a>";
   echo "</h2>";
   
   dotail();

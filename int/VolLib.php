@@ -80,8 +80,8 @@ function Vol_Details($key,&$vol) {
   switch ($key) {
   case 'WHO': return firstword($vol['SN']);
   case 'DETAILS': return Get_Vol_Details($vol);
-  case 'LINK' : return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Access.php?t=v&i=" . $vol['id'] . "&k=" . $vol['AccessKey'] . "'><b>link</b></a>";
-  case 'WMFFLINK' : return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Volunteers.php?A=View&id=" . $vol['id'] . "'><b>link</b></a>";
+  case 'LINK' : return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Access?t=v&i=" . $vol['id'] . "&k=" . $vol['AccessKey'] . "'><b>link</b></a>";
+  case 'WMFFLINK' : return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Volunteers?A=View&id=" . $vol['id'] . "'><b>link</b></a>";
   }
 }
 
@@ -141,7 +141,7 @@ function VolForm(&$Vol,$Err='') {
   global $volClasses,$YEARDATA,$PLANYEAR,$YEAR,$Relations;
   echo "<h2 class=subtitle>Steward / Volunteer Application Form</h2>\n";
   echo "<p class=Err>$Err<p>";
-  echo "<form method=post action=Volunteers.php>";
+  echo "<form method=post action=Volunteers>";
   echo "<div class=tablecont><table border style='table-layout:fixed'>\n";
   echo "<tr><td colspan=5><h3><center>Volunteer</center></h3>";
   if (Access('SysAdmin')) echo "<tr><td>id: " . $Vol['id'] . " VYid: " . $Vol['VYid'];
@@ -209,7 +209,7 @@ function VolForm(&$Vol,$Err='') {
   echo "</table></div>";
 
   echo "</table></div><p>";
-  if (Access('Staff')) echo "<h2><a href=Volunteers.php?A=List>Back to list of Volunteers</a></h2>";
+  if (Access('Staff')) echo "<h2><a href=Volunteers?A=List>Back to list of Volunteers</a></h2>";
   
   echo "<h3>Terms and Conditions</h3>\n";
   echo "<ul><li>I am, or will be over 18 years of age on " . FestDate($YEARDATA['FirstDay'],'L');
@@ -272,7 +272,7 @@ function Vol_Emails(&$Vol,$reason='Submit') {// Allow diff message on reason=upd
     if (isset($Vol["SC_" . $vc]) && $Vol["SC_" . $vc]) Email_Volunteer($Vol,"Vol_Staff_$reason",$vd[3]. "@" . $FESTSYS['HostURL']);
   }
   echo "<h2 class=subtitle>Thankyou for " . (($reason == 'Submit')?"submitting":"updating") . " your application</h2>";
-  if (Access('Staff')) echo "<h2><a href=Volunteers.php?A=List>Back to list of Volunteers</a></h2>";
+  if (Access('Staff')) echo "<h2><a href=Volunteers?A=List>Back to list of Volunteers</a></h2>";
   dotail();
 }
 
@@ -320,7 +320,7 @@ function List_Vols() {
     $id = $Vol['id'];
     $VY = Get_Vol_Year($id);
 //    var_dump($VY);
-    $link = "<a href=Volunteers.php?A=View&id=$id>";
+    $link = "<a href=Volunteers?A=View&id=$id>";
     echo "<tr" . (($VY['Year'] != $PLANYEAR)?" class=FullD hidden" : "" ) . ">";
     echo "<td>$id";
     echo "<td>$link" . $Vol['SN'] . "</a>";
@@ -337,7 +337,7 @@ function List_Vols() {
   }
   echo "</tbody></table></div>\n";
 
-  echo "<h2><a href=Volunteers.php?A=New>Add a Volunteer</a></h2>";
+  echo "<h2><a href=Volunteers?A=New>Add a Volunteer</a></h2>";
   dotail();
 }
 

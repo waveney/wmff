@@ -560,8 +560,8 @@ function Extended_Prog($type,$id,$all=0) {
 //var_dump($Evs);
     $evc=0;
     $Worst= 99;
-    $EventLink = ($all?'EventAdd.php':'EventShow.php');
-    $VenueLink = ($all?'AddVenue.php':'VenueShow.php');
+    $EventLink = ($all?'EventAdd':'EventShow');
+    $VenueLink = ($all?'AddVenue':'VenueShow');
     $host = "https://" . $_SERVER{'HTTP_HOST'};
 
     foreach ($Evs as $ei=>$e) $Evs[$ei]['ActAs'] = $id;
@@ -691,7 +691,7 @@ function Dance_Email_Details($key,&$data,$att=0) {
   $str = '';
   switch ($key) {
   case 'WHO':  return $Side['Contact']? firstword($Side['Contact']) : $Side['SN'];
-  case 'LINK': return "<a href='https://" . $FESTSYS['HostURL'] . "/int/Direct.php?t=Perf&id=$snum&key=" . $Side['AccessKey'] . "&Y=$YEAR'><b>this link</b></a>  " ;
+  case 'LINK': return "<a href='https://" . $FESTSYS['HostURL'] . "/int/Direct?t=Perf&id=$snum&key=" . $Side['AccessKey'] . "&Y=$YEAR'><b>this link</b></a>  " ;
   case 'PROG': return Show_Prog('Perf',$snum,1);
   case 'MISSING': $str = "Please could you <span style='background:pink'><B>click</B> on the *LINK*</span> and add the following:<ol>\n"; 
     $count = 0;
@@ -726,7 +726,7 @@ function Dance_Email_Details($key,&$data,$att=0) {
     $txt = 'Click This';
     if (isset($bits[1])) $box = $bits[1];
     if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
-    return "<a href='https://" . $FESTSYS['HostURL'] . "/int/Access.php?t=s&i=$snum&B=$box&k=" . $Side['AccessKey'] . "&Y=$YEAR'><b>$txt</b></a>\n";
+    return "<a href='https://" . $FESTSYS['HostURL'] . "/int/Access?t=s&i=$snum&B=$box&k=" . $Side['AccessKey'] . "&Y=$YEAR'><b>$txt</b></a>\n";
 
   }
 }

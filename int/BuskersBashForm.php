@@ -56,7 +56,7 @@
   }
 
   echo "<h2 class=subtitle>Buskers Bash $PLANYEAR Application Form</h2>\n";
-  echo "<form method=post action=BuskersBashForm.php>";
+  echo "<form method=post action=BuskersBashForm>";
 
   if (isset($id)) echo fm_hidden('id',$id);
   echo "<div class=tablecont><table border>\n";
@@ -102,7 +102,7 @@ used to introduce you to the audience. You may wish to include:<br>
   }
   echo "</form>";
 
-  echo "<h2><a href=BuskersBashView.php>Back to List of applications</a></h2>";  
+  echo "<h2><a href=BuskersBashView>Back to List of applications</a></h2>";  
   dotail();
 
 ?>

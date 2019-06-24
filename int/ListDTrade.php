@@ -69,7 +69,7 @@
     while ($fetch = $res->fetch_assoc()) {
       $Tid = $fetch['Tid'];
       $str .= "<tr><td>";
-        $str .= "<a href=Trade.php?id=$Tid>";
+        $str .= "<a href=Trade?id=$Tid>";
         $str .= ($fetch['SN']?$fetch['SN']:'No Name Given');
         $str .= "</a>";
       $str .= "<td style='background:" . $Trade_Types[$fetch['TradeType']]['Colour'] . ";'>" . $Trade_Types[$fetch['TradeType']]['SN'];

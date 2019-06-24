@@ -12,6 +12,14 @@
 <div id="flex">
 
 <div class="article">
+<a href="gallery2019.php">
+<h2 class="articlettl">2019 Photo Gallery</h2>
+<img class="articleimg" src="https://wimbornefolk.co.uk/images/gallery/2019/Procession/Helen%20Jones_E25A0726.jpg" alt="Wimborne Minster Folk Festival" /></a>
+<p class="articletxt">A selection of our best official photos and videos from the wonderful 2019 Wimborne Minster Folk Festival!</p>
+</div>
+
+
+<div class="article">
 <a href="gallery2018.php">
 <h2 class="articlettl">2018 Photo Gallery</h2>
 <img class="articleimg" src="/images/gallery/2018/Procession/08_LG5A7994_08-2048-STEPHENAJONES.jpg" alt="Wimborne Minster Folk Festival" /></a>

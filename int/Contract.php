@@ -94,7 +94,7 @@ services, under the following terms and conditions:<p>\n";
       if ($e['Venue']) {
         if (isset($Venues[$e['Venue']])) {
           $v = $Venues[$e['Venue']];
-          $str .= "<a href=http://" . $_SERVER['HTTP_HOST'] . "/int/VenueShow.php?v=" . $v['VenueId'] . ">" . $v['SN'] . "</a><br>";
+          $str .= "<a href=http://" . $_SERVER['HTTP_HOST'] . "/int/VenueShow?v=" . $v['VenueId'] . ">" . $v['SN'] . "</a><br>";
           if ($v['Address']) $str .= $v['Address'] . "<br>" . $v['PostCode'] ."<br>";
           if ($v['MusicRider']) $riders[$v] = 1;
           if ($v['Parking']) {
@@ -131,7 +131,7 @@ services, under the following terms and conditions:<p>\n";
   if ($camp) {
     $str .= "Camping will be provided for ";
     if ($mode < -1) $str .= "<span class=NotSide>";
-    $str .= FormatList($camp) . " at the <a href=/InfoCamping.php>Meadows Campsite</a>.<p>\n"; 
+    $str .= FormatList($camp) . " at the <a href=/InfoCamping>Meadows Campsite</a>.<p>\n"; 
     if ($mode < -1) $str .= "</span>";
   }
 

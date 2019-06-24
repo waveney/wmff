@@ -39,7 +39,7 @@
         echo $mes['SN'];
         $Mess = $mes['Body'];
       } else {
-        echo "<a href=EmailTraders.php?MessNum=" . $mes['id'] . ">" . $mes['SN'] . "</a>";
+        echo "<a href=EmailTraders?MessNum=" . $mes['id'] . ">" . $mes['SN'] . "</a>";
       }
       echo "&nbsp; &nbsp; &nbsp; ";
     }

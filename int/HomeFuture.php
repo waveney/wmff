@@ -5,9 +5,9 @@
   dohead('7,8,9 June 2019', ['/js/WmffAds.js', "/js/HomePage.js"]);
 
   global $FESTSYS;
-  include("int/TradeLib.php");
-  include("int/NewsLib.php");
-  include("int/DispLib.php");
+  include_once("int/TradeLib.php");
+  include_once("int/NewsLib.php");
+  include_once("int/DispLib.php");
   $host= "https://" . $_SERVER['HTTP_HOST'];
   
   $future = $_REQUEST['F'];

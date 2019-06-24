@@ -38,11 +38,11 @@
     $snum= $sidey['SideId'];
     if ($snum == $lastside) {
       $Side = Get_Side($snum);
-      echo "<tr><td><a href=AddSide.php?sidenum=$snum>" . $Side['SN'] . "</a>";
+      echo "<tr><td><a href=AddSide?sidenum=$snum>" . $Side['SN'] . "</a>";
       echo "<td>" . $lastsidey['Year'] . "<td>" . $lastsidey['syId'] . "<td>" . $lastsidey['Coming'] . "<td>" . $lastsidey['YearState'];
       echo "<td>" . $sidey['Year'] . "<td>" . $sidey['syId'] . "<td>" . $sidey['Coming'] . "<td>" . $sidey['YearState'];      
-      echo "<td><a href=CheckDuplicates.php?DELETE=" . $lastsidey['syId'] . ">Delete R1 ";
-      echo "<td><a href=CheckDuplicates.php?DELETE=" . $sidey['syId'] . ">Delete R2 ";
+      echo "<td><a href=CheckDuplicates?DELETE=" . $lastsidey['syId'] . ">Delete R1 ";
+      echo "<td><a href=CheckDuplicates?DELETE=" . $sidey['syId'] . ">Delete R2 ";
     }
     $lastside = $snum;
     $lastsidey = $sidey;

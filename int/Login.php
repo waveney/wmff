@@ -35,7 +35,7 @@ function Logon(&$use=0) {
       Put_User($ans);
       $USER=$ans;
       $USERID = $USER{'UserId'};
-      include ("Staff.php"); // no return wanted
+      include_once ("Staff.php"); // no return wanted
       exit;
     }
     Login("$user no longer has access");
@@ -81,7 +81,7 @@ function Set_Password($user,$msg='') {
  
     if ($msg) echo "<h2 class=ERR>$msg</h2>\n";
     echo "Min length is 6.<p>";
-    echo "<form method=post action=Login.php>";
+    echo "<form method=post action=Login>";
     echo "<div class=tablecont><table>";
     echo "<tr><td>Password:<td><input type=password Name=password>\n";
     echo fm_hidden('UserId',$user) . fm_hidden('AccessKey',$rand_hash);
@@ -91,8 +91,7 @@ function Set_Password($user,$msg='') {
     echo "<input type=submit Name=ACTION value='Set New Password'><p>\n";
     echo "</form></div>\n";
 
-    include_once("files/footer.php");
-    echo " </body> </html>\n";
+    dotail();
     exit;
   }
   return "User $user not known";
@@ -114,13 +113,13 @@ function Limited() {
 function Login($errmsg='', $message='') {
   global $db,$USER,$AccessType;
   Set_User();
-  if (isset($USER)  && $USER && $USER{'AccessLevel'} > $AccessType['Participant']) include_once ("Staff.php");
+  if (isset($USER)  && $USER && $USER{'AccessLevel'} > $AccessType['Participant']) include_once ("Staff");
 
   dostaffhead("Staff Login");
   if ($errmsg) echo "<h2 class=ERR>$errmsg</h2>";
   if ($message) echo "<h2>$message</h2>";
 
-  echo "<form method=post action=Login.php>";
+  echo "<form method=post action=Login>";
   echo "<div class=tablecont><table class=simpletable><tr><td>User Name or Email:<td><input type=text Name=UserName>\n";
   echo "<tr><td>Password:<td><input type=password Name=password>\n";
   $_POST{'RememberMe'} = 1;
@@ -131,8 +130,7 @@ function Login($errmsg='', $message='') {
   echo "<input type=submit Name=ACTION value='Lost your password'>\n";
   echo "</form></div>\n";
 
-  include_once("files/footer.php");
-  echo " </body> </html>\n";
+  dotail();
   exit;
 }
 

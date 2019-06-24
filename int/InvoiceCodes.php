@@ -69,7 +69,7 @@
     if (isset($TotInv[$C['Code']])) {
       echo "<td>" . Print_Pence($TotInv[$C['Code']]);
       echo "<td>" . Print_Pence($TotPaid[$C['Code']]);
-      echo "<td>" . ($TotInv[$C['Code']]?"<a href=InvoiceManage.php?SHOWCODE=" . $C['Code'] . ">Show</a>" :"None Yet");
+      echo "<td>" . ($TotInv[$C['Code']]?"<a href=InvoiceManage?SHOWCODE=" . $C['Code'] . ">Show</a>" :"None Yet");
     } else {
       echo "<td>0<td>0<td>None Yet";    
     }

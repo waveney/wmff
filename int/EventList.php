@@ -90,7 +90,7 @@
   foreach ($AllUsers as $id=>$name) if ($id > 10 && $AllA[$id] >= 2 && $AllA[$id] <= 6) $AllActive[$id]=$name;
 
   $coln = 1;  // Start at 1 because of select all
-  echo "<form method=post action=EventList.php>";
+  echo "<form method=post action=EventList>";
   echo "Click on Id/Name to edit, on Show for public page.<p>\n";
   echo "If the Stewards column has 'Stew' or 'Set' then there are more elaborate Stewarding/Setup Requirements - see the event for more detail.<p>";
   if ($se) echo fm_hidden('se',$se);
@@ -126,7 +126,7 @@
       echo "<tr><td>";
       echo "<input type=checkbox name=E$i class=SelectAllAble>";
       echo "<td>$i<td>";
-      if (Access('Staff','Venues') || $evnt['Owner']==$USERID || $evnt['Owner2']==$USERID) echo "<a href=EventAdd.php?e=$i>";
+      if (Access('Staff','Venues') || $evnt['Owner']==$USERID || $evnt['Owner2']==$USERID) echo "<a href=EventAdd?e=$i>";
       if (strlen($evnt['SN']) >2) { echo $evnt['SN'] . "</a>"; } else { echo "Nameless</a>"; };
       echo "<td>" . $DayList[$evnt['Day']] . "<td>" . timecolon($evnt['Start']) . "<td>";
       if ($se > 0 && $evnt['SubEvent'] < 0) { echo timecolon($evnt['SlotEnd']); } else { echo timecolon($evnt['End']); }; 
@@ -148,7 +148,7 @@
         if ($evnt['SetupTasks']) echo " Set";        
       if ($se == 0) {
         if ($evnt['SubEvent'] == 0) { echo "<td>No\n"; }
-        else { echo "<td><a href=EventList.php?se=$i>Yes</a>\n"; }
+        else { echo "<td><a href=EventList?se=$i>Yes</a>\n"; }
       }
       if ($se != 0) {
         echo "<td>";
@@ -162,7 +162,7 @@
       echo "<td>" . ($evnt['Special']?"Y":"");
       echo "<td>" . $Importance[$evnt['Importance']];
       echo "<td>" . (isset($AllUsers[$evnt['Owner']]) ? $AllUsers[$evnt['Owner']] : "") ;
-      echo "<td><a href=EventShow.php?e=$i>Show</a>\n";
+      echo "<td><a href=EventShow?e=$i>Show</a>\n";
     }
   }
   echo "</tbody></table></div>\n";
@@ -182,7 +182,7 @@
   echo "</form>\n";
 
   if (Access('Committee','Venues')) {
-    echo "<h2><a href=EventAdd.php>Add Event</a></a>";
+    echo "<h2><a href=EventAdd>Add Event</a></a>";
 
     echo "<h2>Checking...</h2>";
     EventCheck();

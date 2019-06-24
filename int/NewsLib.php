@@ -53,11 +53,11 @@ function News_Item(&$news,$tlim=500,$more=0,$class='newsimg') { // if tlim=0 all
   if(!empty($getimage)) {
     $img=$getimage;
     if (!preg_match('/^http(s?):/',$getimage)) $img = "/images/" . $img;
-    echo "<div class=$class><a href=/int/newsitem.php?id=$getid rel=bookmark><img src='$img' alt=\"Wimborne Minster Folk Festival\" class=$class></a>";
+    echo "<div class=$class><a href=/int/newsitem?id=$getid rel=bookmark><img src='$img' alt=\"Wimborne Minster Folk Festival\" class=$class></a>";
     if ($news['caption']) echo "<br>" . $news['caption'];
     echo "</div>";
   }
-  echo "<h2 class=subtitle><a href=/int/newsitem.php?id=$getid rel=bookmark>" . $news['SN'] . "</a></h2>\n";
+  echo "<h2 class=subtitle><a href=/int/newsitem?id=$getid rel=bookmark>" . $news['SN'] . "</a></h2>\n";
   echo "<span class=newsdate>$getdate by $getauthor</span><p>\n";
   echo "<span class=newstext>$getcontent</span>\n";
 
@@ -68,7 +68,7 @@ function News_Item(&$news,$tlim=500,$more=0,$class='newsimg') { // if tlim=0 all
       echo "<p><a href=" . $news['Link'] . ">Link</a><p>";
     }
   }
-  if ($more==1 || ($more ==0 && $More)) echo "<p><a class=button href=/int/newsitem.php?id=$getid rel=bookmark style=\"color:#ffffff;\">Read More</a><p>";
+  if ($more==1 || ($more ==0 && $More)) echo "<p><a class=button href=/int/newsitem?id=$getid rel=bookmark style=\"color:#ffffff;\">Read More</a><p>";
   echo "</div>\n";
 }
 

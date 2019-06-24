@@ -69,7 +69,7 @@ A similar feature will appear eventually for music.<p>
   }
 
   echo "<h2>Add/Edit Events</h2>\n";
-  echo "<form method=post action='EventAdd.php'>\n";
+  echo "<form method=post action='EventAdd'>\n";
   if (isset($_POST{'EventId'})) { // Response to update button
     $eid = $_POST{'EventId'};
     if ($eid > 0) $Event = Get_Event($eid);
@@ -319,8 +319,8 @@ A similar feature will appear eventually for music.<p>
         echo "<td><b>Event Type</b>:" . fm_select($Event_Types,$Event,'Type');
         $se = isset($Event['SubEvent'])? $Event['SubEvent'] : 0;
         if ($se == 0) { echo "<td>No Sub Events"; }
-        elseif ($se < 0) { echo "<td><a href=EventList.php?se=$eid>Has Sub Events</a>"; }
-        else { echo "<td><a href=EventList.php?se=$se>Is a Sub Event</a>"; };
+        elseif ($se < 0) { echo "<td><a href=EventList?se=$eid>Has Sub Events</a>"; }
+        else { echo "<td><a href=EventList?se=$se>Is a Sub Event</a>"; };
         echo "<td>" .fm_checkbox('Needs Stewards',$Event,'NeedSteward');
 
       echo "<tr>" . fm_textarea("Stewarding Detail",$Event,'StewardTasks',1,2) . fm_textarea("Setup Detail",$Event,'SetupTasks',2,2);
@@ -375,7 +375,7 @@ A similar feature will appear eventually for music.<p>
             echo ($SelectPerf[$p]?fm_select($SelectPerf[$p],$Event,"Side$i",1,"id=Perf$pi" . "_Side$i " . ($Event["PerfType$i"]==$pi?'':'hidden'),"Perf$pi" . "_Side$i") :"");
             if ($sid && ($Event["PerfType$i"] == $pi) && !isset($SelectPerf[$p][$sid])) {
               $Side = Get_Side($sid);
-              echo "<del><a href=AddPerf.php?id=$sid>" . $Side['SN'] . "</a></del> ";               
+              echo "<del><a href=AddPerf?id=$sid>" . $Side['SN'] . "</a></del> ";               
             }
             $pi++;
           }
@@ -399,14 +399,14 @@ A similar feature will appear eventually for music.<p>
     if (Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=7 class=NotSide><textarea id=Debug></textarea>";        
     echo "</table></div>\n";
     if (isset($Event['BigEvent']) && $Event['BigEvent']) {
-      echo "Use the <a href=BigEventProg.php?e=$eid>Big Event Programming Tool</a> to add sides, musicians and others to this event. ";
-      echo "Use the <a href=DisplayBE.php?e=$eid>Big Event Display</a> to get a simple display of the event.";
+      echo "Use the <a href=BigEventProg?e=$eid>Big Event Programming Tool</a> to add sides, musicians and others to this event. ";
+      echo "Use the <a href=DisplayBE?e=$eid>Big Event Display</a> to get a simple display of the event.";
     }
   
     if ($eid > 0) {
       echo "<Center><input type=Submit name='Update' value='Update'>\n";
       if (Access('Committee','Venues')) {
-        echo ", <form method=post action='EventAdd.php'>\n";
+        echo ", <form method=post action='EventAdd'>\n";
         echo fm_hidden('EventId',$eid);
         echo fm_smalltext('Divide into ','SlotSize',Feature('DanceDefaultSlot',30),2) . fm_smalltext(' minute slots with ','SlotSetup',0,2) . " minute setup";
         echo "<input type=Submit name=ACTION value=Divide>, \n";
@@ -422,10 +422,10 @@ A similar feature will appear eventually for music.<p>
     if (isset($Event['SubEvent']) && $Event['SubEvent'] > 0) echo "<button onclick=ShowAdv(event) id=ShowMore type=button class=floatright>More features</button>";
     echo "</form>\n";
   }
-  echo "<h2><a href=EventList.php>List Events</a>";
-  if ($eid) echo ", <a href=EventAdd.php>Add another event</a>";
-  if ($eid>0) echo ", <a href=EventAdd.php?COPY=$eid>Copy to another event</a>";
-  if ($eid>0) echo ", <a href=EventShow.php?e=$eid>Show Event</a>";
+  echo "<h2><a href=EventList>List Events</a>";
+  if ($eid) echo ", <a href=EventAdd>Add another event</a>";
+  if ($eid>0) echo ", <a href=EventAdd?COPY=$eid>Copy to another event</a>";
+  if ($eid>0) echo ", <a href=EventShow?e=$eid>Show Event</a>";
   echo "</h2>\n";
 
   dotail();

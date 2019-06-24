@@ -9,9 +9,9 @@
   $extra = '';
   if (!isset($_REQUEST['ALL'])) $extra = "AND State<3 ";
   echo "Click on Band Name for more info.<p>";
-  if ($extra) echo "<h2><a href=LiveNLoudView.php?ALL>Show All including canceled and Declined</a></h2>";
+  if ($extra) echo "<h2><a href=LiveNLoudView?ALL>Show All including canceled and Declined</a></h2>";
   $coln = 0;  
-//  echo "<form method=post action=LiveNLoudView.php>";
+//  echo "<form method=post action=LiveNLoudView>";
   echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
 
@@ -31,8 +31,8 @@
     while ($lnl = $res->fetch_assoc()) {
       $id = $lnl['id'];
       echo "<tr><td>$id";
-//      echo "<td><a href=lnledit.php?id=$id>" . $lnl['SN'] . "</a>";
-      echo "<td><a href=LiveNLoudForm.php?i=$id>" . $lnl['SN'] . "</a>";
+//      echo "<td><a href=lnledit?id=$id>" . $lnl['SN'] . "</a>";
+      echo "<td><a href=LiveNLoudForm?i=$id>" . $lnl['SN'] . "</a>";
       echo "<td>" . $lnl['Style'];
       echo "<td style='background:" . $Colours[$lnl['Activity']] . ";'>" . $lnlclasses[$lnl['Activity']];
       if ($lnl['TotalSize']) {
@@ -44,7 +44,7 @@
       echo "<td>$siz";
       echo "<td>" . $lnl['Contact'];
       echo "<td>" . $lnl['Email'];
-      echo "<td style='background:" . $SignupStateColours[$lnl['State']] . "'><form method=post action=LiveNLoudForm.php>" . 
+      echo "<td style='background:" . $SignupStateColours[$lnl['State']] . "'><form method=post action=LiveNLoudForm>" . 
            fm_hidden('id',$id) . $SignupStates[$lnl['State']] . " " . SignupActions('LNL',$lnl['State']) . "</form>";
 
     }

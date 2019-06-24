@@ -33,8 +33,8 @@
   if (isset($_GET{'LOC'})) $Loc = $_GET{'LOC'};
   $Contact =0;
   if (isset($_GET{'CONT'})) $Contact = $_GET{'CONT'};
-  if ($Loc == 0) echo "<a href=InviteDance.php?LOC=1" . ($Contact?"&CONT=1":"") . "&Y=$YEAR$Invited>Show Location</a> &nbsp; &nbsp; &nbsp; &nbsp;\n";
-  if ($Contact == 0) echo "<a href=InviteDance.php?CONT=1" .($Loc?"&LOC=1":"") . "&Y=$YEAR$Invited>Show Contact</a>\n";
+  if ($Loc == 0) echo "<a href=InviteDance?LOC=1" . ($Contact?"&CONT=1":"") . "&Y=$YEAR$Invited>Show Location</a> &nbsp; &nbsp; &nbsp; &nbsp;\n";
+  if ($Contact == 0) echo "<a href=InviteDance?CONT=1" .($Loc?"&LOC=1":"") . "&Y=$YEAR$Invited>Show Contact</a>\n";
   echo "</h2>";
 
   $LastYear = $YEAR-1;
@@ -91,7 +91,7 @@
       $snum = $fetch['SideId'];
       echo "<tr>";
       echo "<td><input type=checkbox name=E$i class=SelectAllAble>";
-      echo "<td><a href=AddPerf.php?sidenum=$snum&Y=$YEAR id=SideName$snum>" . $fetch['SN'] . "</a>";
+      echo "<td><a href=AddPerf?sidenum=$snum&Y=$YEAR id=SideName$snum>" . $fetch['SN'] . "</a>";
       if ($fetch['SideStatus']) {
         echo "<td>DEAD";
       } else {
@@ -154,14 +154,14 @@
         case 'R':
         case 'P':
           // if invited & less than a month to mid feb show remind 1 month, else remind - not written
-          echo "<button type=button id=Remind$snum class=ProfButton onclick=ProformaSend('Dance_Decide_Month',$snum,'Decide','SendProfEmail.php')" . 
+          echo "<button type=button id=Remind$snum class=ProfButton onclick=ProformaSend('Dance_Decide_Month',$snum,'Decide','SendProfEmail')" . 
                 Proforma_Background('Decide') . ">Decide</button>";         
         
           break;
           
         case '':
         default:
-          if ($fetch['Invited']) echo "<button type=button id=Remind$snum class=ProfButton onclick=ProformaSend('Dance_Decide_Month',$snum,'Decide','SendProfEmail.php')" .
+          if ($fetch['Invited']) echo "<button type=button id=Remind$snum class=ProfButton onclick=ProformaSend('Dance_Decide_Month',$snum,'Decide','SendProfEmail')" .
                                       Proforma_Background('Decide') . ">Decide</button>";         
           break;
         
@@ -172,7 +172,7 @@
                 ((($fetch['Performers'] > 0) && $fetch['Address']) || ($fetch['Performers'] < 0)) && 
                 ($fetch['Sat'] || $fetch['Sun'])) {
           } else {
-            echo "<button type=button id=Detail$snum class=ProfButton onclick=ProformaSend('Dance_Details',$snum,'Details','SendProfEmail.php')" . 
+            echo "<button type=button id=Detail$snum class=ProfButton onclick=ProformaSend('Dance_Details',$snum,'Details','SendProfEmail')" . 
                  Proforma_Background('Details') . ">Details!</button>"; 
           }
           break;

@@ -73,10 +73,10 @@
       echo "<div class=tablecont><table border><tr><td>File Name<td>Size<td>Uploaded<td>Actions";
       foreach ($files as $file) {
         $fname = basename($file);
-        echo "<tr><td><a href=ShowFile.php?l64=" . base64_encode("Store/Performers/$id/$fname") . ">$fname</a>";
+        echo "<tr><td><a href=ShowFile?l64=" . base64_encode("Store/Performers/$id/$fname") . ">$fname</a>";
         echo "<td>" . formatBytes(filesize($file)) . "<td>" . date('j/m/Y H:i:s',filectime($file));
-        echo "<td><a href=ShowFile.php?D=Store/Performers/$id/$fname>download</a>";
-        if ($UpdateValid) echo ", <a href=PerformerData.php?id=$id&ACTION=DELETE&f=" . base64_encode($fname) . ">delete</a>";
+        echo "<td><a href=ShowFile?D=Store/Performers/$id/$fname>download</a>";
+        if ($UpdateValid) echo ", <a href=PerformerData?id=$id&ACTION=DELETE&f=" . base64_encode($fname) . ">delete</a>";
       }
       echo "</table></div><p>";
     } else {
@@ -86,7 +86,7 @@
   
   // Upload && back to edit performer
   if ($UpdateValid) {
-    echo '<form action="PerformerData.php" method="post" enctype="multipart/form-data" id=Uploads>';
+    echo '<form action="PerformerData" method="post" enctype="multipart/form-data" id=Uploads>';
       echo "Select file(s) to upload:";
       echo fm_hidden('id', $id);
       echo fm_hidden('ACTION', 'STORE');
@@ -95,7 +95,7 @@
       echo "</form>\n";
   };
       
-  echo "<h2><a href=AddPerf.php?sidenum=$id>Back to " . $Side['SN'] . "</a></h2>\n";
+  echo "<h2><a href=AddPerf?sidenum=$id>Back to " . $Side['SN'] . "</a></h2>\n";
   
   dotail();
   

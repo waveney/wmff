@@ -9,7 +9,7 @@
   Set_Venue_Help();
 
   echo "<div class='content'><h2>Add/Edit Venues</h2>\n";
-  echo "<form method=post action='AddVenue.php'>\n";
+  echo "<form method=post action='AddVenue'>\n";
   if (isset($_POST{'VenueId'})) { /* Response to update button */
     $vid = $_POST{'VenueId'};
     if ($vid > 0) {                                 // existing Venue
@@ -117,10 +117,10 @@
     echo "<Center><input type=Submit name=Create value='Create'></center>\n";
   }
   echo "</form>\n";
-  echo "<h2><a href=VenueList.php>List Venues</a> , \n";
-    echo "<a href=AddVenue.php>Add Another Venue</a>, \n";
-    echo "<a href=AddVenue.php?Copy=$vid>Copy To Another Venue</a>, \n";
-    echo "<a href=VenueShow.php?v=$vid&Mode=1>Show Venue</a></h2>";
+  echo "<h2><a href=VenueList>List Venues</a> , \n";
+    echo "<a href=AddVenue>Add Another Venue</a>, \n";
+    echo "<a href=AddVenue?Copy=$vid>Copy To Another Venue</a>, \n";
+    echo "<a href=VenueShow?v=$vid&Mode=1>Show Venue</a></h2>";
 
   dotail();
 ?>

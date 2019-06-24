@@ -50,7 +50,7 @@ function Scan_Documents($Act) {
   $FullPs = [];
   
   echo "<h2>Scanning Directories Stage 1</h2>";
-  if ($Act == 0) echo "<form method=post action=DirRebuild.php><div class=tablecont><table>";
+  if ($Act == 0) echo "<form method=post action=DirRebuild><div class=tablecont><table>";
   foreach ($Dirs as $D) {
     $d = $D['DirId'];
     $fullpath = "Store" . Dir_FullPname($d);
@@ -376,7 +376,7 @@ function Scan_Documents($Act) {
   if (isset($_GET['DB'])) Scan_Documents(2);
     
 
-  echo "<h2><a href=DirRebuild.php?SC>Re Scan</h2>\n";
+  echo "<h2><a href=DirRebuild?SC>Re Scan</h2>\n";
   dotail();
   
 ?>
