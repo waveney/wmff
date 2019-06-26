@@ -50,17 +50,17 @@
         
       Get_Imps($e,$imps,1,(Access('Staff')?1:0));
       echo "<tr class=Day$dname hidden><td>" . timecolon($e['Start']) . " - " . timecolon($e['End']); 
-      echo "<td><a href=/int/EventShow.php?e=$eid>" . $e['SN'] . "</a>";
+      echo "<td><a href=/int/EventShow?e=$eid>" . $e['SN'] . "</a>";
 
       if (isset($Vens[$e['Venue']]['SN'])) {
-        echo "<td><a href=/int/VenueShow.php?v=" . $e['Venue'] . ">" . $Vens[$e['Venue']]['SN'] . "</a>";
+        echo "<td><a href=/int/VenueShow?v=" . $e['Venue'] . ">" . $Vens[$e['Venue']]['SN'] . "</a>";
       } else {
         echo "<td>Unknown";
       }
       if ($e['BigEvent']) {
         $Others = Get_Other_Things_For($eid);
         foreach ($Others as $i=>$o) {
-          if ($o['Type'] == 'Venue') echo ", <a href=/int/VenueShow.php?v=" . $o['Identifier'] . ">" . $Vens[$o['Identifier']]['SN'] . "</a>";
+          if ($o['Type'] == 'Venue') echo ", <a href=/int/VenueShow?v=" . $o['Identifier'] . ">" . $Vens[$o['Identifier']]['SN'] . "</a>";
         }
       }
       echo "<td>";
@@ -72,7 +72,7 @@
   }
   
   if ($YEAR > 2018) {
-//    echo "</div><h3><a href=WhatsOnWhen.php?Y=" . ($YEAR-1) . "> Whats on When from " . ($YEAR-1) . "</h3></a>";
+//    echo "</div><h3><a href=WhatsOnWhen?Y=" . ($YEAR-1) . "> Whats on When from " . ($YEAR-1) . "</h3></a>";
   }
 
 

@@ -87,7 +87,7 @@ Ask Richard.  Most will be very quick to implement.<p>
 If something goes wrong, or its not obvious or you wish it could do something extra. <p>
 
 Then either contact Richard (07718 511 432, Email: <a href=mailto:richard@wavwebs.com>Richard@wavwebs.com</a>)
-or <a href=AddBug.php>Raise a bug or Feature request</a>.<p>
+or <a href=AddBug>Raise a bug or Feature request</a>.<p>
 
 <?php 
   dotail()  

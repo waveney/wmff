@@ -33,7 +33,7 @@
 
   
   $coln = 0;
-  if ($Manage) echo "<form method=post action=BudgetManage.php>";
+  if ($Manage) echo "<form method=post action=BudgetManage>";
   echo fm_hidden('Y',$YEAR);
   echo fm_hidden('Year0',$PLANYEAR);
   echo "<div class=tablecont><table id=indextable border>\n";
@@ -58,17 +58,17 @@
         echo "<tr><td>$i";
         echo fm_text1("",$b,'SN',1,'','',"SN$i") . "</a>";
         echo "<td>" . $b['Year'] . fm_hidden("Year$i", $b['Year']);
-        echo "<td><a href=BudgetDetail.php?b=$i>Detail</a>";
+        echo "<td><a href=BudgetDetail?b=$i>Detail</a>";
         echo fm_text1("",$b,'Budget',1,'','',"Budget$i") . "</a>";
         echo "<td>" . $b['CommittedSoFar'];
       } else {
-        echo "<tr><td>" . $b['SN'] . "<td>" . $b['Year'] . "<td><a href=BudgetDetail.php?b=$i>Detail</a><td>" . $b['Budget'] . "<td>" . $b['CommittedSoFar']; 
+        echo "<tr><td>" . $b['SN'] . "<td>" . $b['Year'] . "<td><a href=BudgetDetail?b=$i>Detail</a><td>" . $b['Budget'] . "<td>" . $b['CommittedSoFar']; 
       }
     } else {
       if ($Manage) {
-        echo "<tr><td>-1<td>HOMELESS PERFORMERS<td><td><a href=BudgetDetail.php?b=0>Detail</a><td><td>" . $b['CommittedSoFar'];
+        echo "<tr><td>-1<td>HOMELESS PERFORMERS<td><td><a href=BudgetDetail?b=0>Detail</a><td><td>" . $b['CommittedSoFar'];
       } else {
-        echo "<tr><td>HOMELESS PERFORMERS<td><td><a href=BudgetDetail.php?b=0>Detail</a><td><td>" . $b['CommittedSoFar'];        
+        echo "<tr><td>HOMELESS PERFORMERS<td><td><a href=BudgetDetail?b=0>Detail</a><td><td>" . $b['CommittedSoFar'];        
       }
     }
     echo "\n";
@@ -82,7 +82,7 @@
   if ($Manage) {  
     echo "<input type=submit name=Update value=Update>\n";
     echo "</form>";
-    echo "<h2><a href=BudgetManage.php?VIEW>Budget View</a></h2><p>\n";
+    echo "<h2><a href=BudgetManage?VIEW>Budget View</a></h2><p>\n";
   }
   
   dotail();

@@ -42,7 +42,7 @@
   }
   
   echo "<h2 class=subtitle>Steward / Volunteer Application Form</h2>\n";
-  echo "<form method=post action=StewardForm.php>";
+  echo "<form method=post action=StewardForm>";
   echo "<div class=tablecont><table border>\n";
   echo "<tr>" . fm_text('Name',$_POST,'SN',2);
   echo "<tr>" . fm_text('Email',$_POST,'Email',2);

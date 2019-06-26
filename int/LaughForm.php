@@ -35,7 +35,7 @@
 
   
   echo "<h2 class=subtitle>Laugh Out Load 2018 Application Form</h2>\n";
-  echo "<form method=post action=LaughForm.php>";
+  echo "<form method=post action=LaughForm>";
   echo "<div class=tablecont><table border>\n";
   echo "<tr>" . fm_text("Act Name",$_POST,'SN',2);
   echo "<tr><td colspan=4>Main Contact:\n";

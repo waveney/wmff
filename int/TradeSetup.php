@@ -42,7 +42,7 @@
     echo fm_hidden('Loc0',$loc);
     echo "</table></div></div>";
     echo "<input type=submit name=Update value=Update> ";
-    echo "<a href=TradeAssign.php?i=$loc style='font-size:20;'>Assign</a>";
+    echo "<a href=TradeAssign?i=$loc style='font-size:20;'>Assign</a>";
     echo "</div>";
   }
 

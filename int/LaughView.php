@@ -7,7 +7,7 @@
   include_once("SignupLib.php");
 
   $coln = 0;  
-  echo "<form method=post action=LaughView.php>";
+  echo "<form method=post action=LaughView>";
   echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
 

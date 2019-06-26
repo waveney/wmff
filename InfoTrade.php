@@ -9,9 +9,9 @@
 <p>One of our traders.</p>
 </div>
 <h2>Trade in $PLANYEAR</h2>
-Applications for trading at the festival, which will be held over the weekend of " . FestDate(0,'L') . " to " . FestDate(2,'L') . " are <a href=/int/Trader.php>OPEN</a>.<p>
+Applications for trading at the festival, which will be held over the weekend of " . FestDate(0,'L') . " to " . FestDate(2,'L') . " are <a href=/int/Trader>OPEN</a>.<p>
 
-Prices for $PLANYEAR trade stands are listed below.  See also the <a href=/int/TradeFAQ.php><strong>Trade FAQ</strong></a>.  
+Prices for $PLANYEAR trade stands are listed below.  See also the <a href=/int/TradeFAQ><strong>Trade FAQ</strong></a>.  
 Any queries should be sent to <a href='mailto:trade@wimbornefolk.co.uk'><strong>trade@wimbornefolk.co.uk</strong></a>.<p>
 
 Trade Stands are not allocated on a first come first served basis, each application is assessed on the choice, quality, 
@@ -25,12 +25,12 @@ All food and drink Traders are required to
 indicate which local authority they are registered with.<p>
 
 ";
-  echo "<div class=trader-app-link><a href=/int/Trader.php>Traders application Form</a></div>\n";
+  echo "<div class=trader-app-link><a href=/int/Trader>Traders application Form</a></div>\n";
 
   include_once "int/TradePublic.php";
   Trade_Type_Table('Sattab');
 
-  echo "<div class=trader-app-link><a href=/int/Trader.php>Traders application Form</a></div>\n";
+  echo "<div class=trader-app-link><a href=/int/Trader>Traders application Form</a></div>\n";
 
   dotail();
 ?>

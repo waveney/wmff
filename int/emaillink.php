@@ -41,7 +41,7 @@
                  "If you wish you can record and update your status, " .
                 "provide descriptions for our website and programme, photos and videos and " .
                  "give more precise information and see the most up to date programming by following " .
-                 "<a href=http://wimbornefolk.co.uk/int/Direct.php?t=$type&id=$id&key=$key>this link</a>.<p>  " .
+                 "<a href=http://wimbornefolk.co.uk/int/Direct?t=$type&id=$id&key=$key>this link</a>.<p>  " .
                  "Regards " . $USER['SN'] . "<p>" ;
 
   echo json_encode(array('link' => $link,'paste' => $paste));

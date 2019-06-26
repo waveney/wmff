@@ -16,10 +16,10 @@ function Print_Thing($thing,$right=0) {
   global $YEAR,$SHOWYEAR,$PerfTypes;
   echo "<div class=EventMini id=" . AlphaNumeric($thing['SN']) . ">";
   if (( $thing['Coming'] != 2) && ( $thing['YearState'] < 2) && ($YEAR >= $SHOWYEAR)) {
-    echo "<a href=/int/ShowPerf.php?id=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
+    echo "<a href=/int/ShowPerf?id=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
     echo " are no longer coming";
   } else {
-    echo "<a href=Show" . ($thing['IsAnAct']?"Music":'Dance') . ".php?sidenum=" . $thing['SideId'] . ">";
+    echo "<a href=ShowPerf?id=" . $thing['SideId'] . ">";
     if ($thing['Photo']) echo "<img class=EventMiniimg" . ($right?'right':'') . " src='" . $thing['Photo'] ."'>";
     $iimp = $thing['Importance'];
     if ($thing['DiffImportance']) {
@@ -65,11 +65,11 @@ function Print_Participants($e,$when=0,$thresh=0) {
       $things++;
       echo "<td>";
       if (( $thing['Coming'] != 2) && ($thing['YearState'] < 2)) {
-        echo "<a href=/int/ShowPerf.php?id=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
+        echo "<a href=/int/ShowPerf?id=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
  //       var_dump($thing);
         echo " are no longer coming";
       } else {
-        formatminimax($thing,'ShowPerf.php',$thresh); // 99 should be from Event type
+        formatminimax($thing,'ShowPerf',$thresh); // 99 should be from Event type
       }
     }
   }
@@ -165,7 +165,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
   echo "<tr><td>";
     if (isset($OtherVenues[0])) {
       $OVens = Get_Real_Venues();
-      echo "Starting Location:<td><a href=VenueShow.php?v=" . $Ven['VenueId'] . ">" . VenName($Ven) . "</a>";
+      echo "Starting Location:<td><a href=VenueShow?v=" . $Ven['VenueId'] . ">" . VenName($Ven) . "</a>";
 //      echo "<div class=floatright><a onclick=ShowDirect(" . $Ven['VenueId'] . ")>Directions</a></div>\n";
       if ($Ven['Address']) echo " - " . $Ven['Address'] . $Ven['PostCode'] ."\n";
       if ($Ven['Description']) echo "<br>" . $Ven['Description'] . "\n";
@@ -174,10 +174,10 @@ function Print_Participants($e,$when=0,$thresh=0) {
       foreach ($OtherVenues as $Ov) {
         $OVi = $Ov['Identifier'];
         if ($ct++) echo ", ";
-        echo "<a href=VenueShow.php?v=$OVi>" . $OVens[$OVi] . "</a>";
+        echo "<a href=VenueShow?v=$OVi>" . $OVens[$OVi] . "</a>";
       }
     } else if ($Ven['VenueId']) {
-      echo "Where:<td><a href=VenueShow.php?v=" . $Ven['VenueId'] . ">" . VenName($Ven) . "</a>";
+      echo "Where:<td><a href=VenueShow?v=" . $Ven['VenueId'] . ">" . VenName($Ven) . "</a>";
 //      echo "<div class=floatright><a onclick=ShowDirect(" . $Ven['VenueId'] . ")>Directions</a></div>\n";
       if ($Ven['Address']) echo " - " . $Ven['Address'] . $Ven['PostCode'] ."\n";
       if ($Ven['Description']) echo "<br>" . $Ven['Description'] . "\n";
@@ -221,7 +221,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
               if (feature('EventWithDown')) {
                 echo "<a href=#" . AlphaNumeric($thing['SN']) . " style='font-size:" . (17+$i*2) . "'>" . $thing['SN'] . "</a>";
               } else {
-                echo "<a href=/int/ShowPerf.php?id=" . $thing['SideId'] . " style='font-size:" . (17+$i*2) . "'>" . NoBreak($thing['SN']) . "</a>";              
+                echo "<a href=/int/ShowPerf?id=" . $thing['SideId'] . " style='font-size:" . (17+$i*2) . "'>" . NoBreak($thing['SN']) . "</a>";              
               }
             }
           }

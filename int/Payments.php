@@ -39,7 +39,7 @@
     fputcsv($output, $heads,',','"');
 
   } else {  
-    echo "<h2><a href=Payments.php?Y=$YEAR&F=CSV>Output as CSV</a></h2>";
+    echo "<h2><a href=Payments?Y=$YEAR&F=CSV>Output as CSV</a></h2>";
     $coln = 0;
     echo "<div class=tablecont><table id=indextable border>\n";
     echo "<thead><tr>";
@@ -100,7 +100,7 @@
           if ($files) $file = $files[0];
         }
         if ($file) {
-          echo "<a href='ShowFile.php?l=$file'>View</a>";
+          echo "<a href='ShowFile?l=$file'>View</a>";
         }
       }
       echo "\n";

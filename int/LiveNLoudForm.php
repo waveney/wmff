@@ -62,7 +62,7 @@
 
 
   echo "<h2 class=subtitle>Live And Loud $PLANYEAR Application Form</h2>\n";
-  echo "<form method=post action=LiveNLoudForm.php>";
+  echo "<form method=post action=LiveNLoudForm>";
   if (isset($id) && $id>0) echo fm_hidden('id',$id);
   echo "<div class=tablecont><table border>\n";
   echo "<tr>" . fm_radio('Category',$lnlclasses,$_POST,"LnlCat",'',2) . "<td colspan=2>Choose the category of the majority of the members, in doubt select older\n";
@@ -112,7 +112,7 @@ used to introduce you to the audience. You may wish to include:<br>
   }
   echo "</form>";
  
-  echo "<h2><a href=LiveNLoudView.php>Back to List of applications</a></h2>";
+  echo "<h2><a href=LiveNLoudView>Back to List of applications</a></h2>";
   dotail();
 
 ?>

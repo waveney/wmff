@@ -22,7 +22,7 @@
   Replace_Help();
 
   $coln = 0;
-  echo "<form method=post action=TEmailProformas.php>";
+  echo "<form method=post action=TEmailProformas>";
   echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Index</a>\n";

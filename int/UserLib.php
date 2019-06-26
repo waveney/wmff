@@ -17,7 +17,7 @@ $User_Public_Vis = ['No','Yes','Role Only'];
 function Login_Details($key,&$data,$att=0) {
   $userid = $data['UserId'];
   switch ($key) {
-  case 'LINK' : return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Login.php?ACTION=LIMITED&U=$userid&A=" . $data['AccessKey'] . "'>New Password link</a> "; 
+  case 'LINK' : return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Login?ACTION=LIMITED&U=$userid&A=" . $data['AccessKey'] . "'>New Password link</a> "; 
   case 'USER' : return $data['Login'];
   case 'PWD' : return $data['ActualPwd']; // This is not stored in DB, but will be logged
   case 'WHO' : return firstword($data['SN']);

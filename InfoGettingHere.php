@@ -30,7 +30,7 @@ Jump to: <a href=#Buses class='DaySkipTo sattab'>Public Transport</a> <a href=#T
 
 Wimborne has good road connections with easy access from the A31, B3082 and B3078.<p>
 
-<a href=InfoParking.php>Information on Parking - Car parks and bicycle parking</a>.<p>
+<a href=InfoParking>Information on Parking - Car parks and bicycle parking</a>.<p>
 
 </div><div class=BorderBox>
 <h2>By Public Transport</h2>

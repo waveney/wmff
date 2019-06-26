@@ -306,7 +306,7 @@ function Default_Trade($id) {
 
 }
 
-function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte, 2=Finance
+function Show_Trader($Tid,&$Trad,$Form='Trade',$Mode=0) { // Mode 1 = Ctte, 2=Finance
   global $YEAR,$ADDALL,$Mess,$Action,$Trader_Status,$TradeTypeData,$TradeLocData;
   Set_Trade_Help();
 
@@ -397,7 +397,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade.php',$Mode=0) { // Mode 1 = Ctte, 
         if ($Tid > 0) echo "<td class=NotSide>Id: $Tid";
         echo fm_nontext('Access Key',$Trad,'AccessKey',3,'class=NotSide','class=NotSide'); 
         if (isset($Trad['AccessKey'])) {
-          echo "<td class=NotSide><a href=Direct.php?id=$Tid&t=trade&key=" . $Trad['AccessKey'] . ">Use</a>" . help('Testing');
+          echo "<td class=NotSide><a href=Direct?id=$Tid&t=trade&key=" . $Trad['AccessKey'] . ">Use</a>" . help('Testing');
         }
       echo "  <td class=NotSide><button name=Action value=Delete onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</button>\n";
     }
@@ -516,14 +516,14 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
     if ($Mode) {
       echo "<td class=NotCSide>" . fm_select($TradeLocs,$Trady,"PitchLoc$i",1,'class=NotCSide');
       echo fm_text1("",$Trady,"PitchNum$i",1,'class=NotCSide','class=NotCSide');
-      if (isset($Trady["PitchLoc$i"]) && $Trady["PitchLoc$i"]) echo " <a href=TradeStandMap.php?l=" . $Trady["PitchLoc$i"] . ">Map</a>";
+      if (isset($Trady["PitchLoc$i"]) && $Trady["PitchLoc$i"]) echo " <a href=TradeStandMap?l=" . $Trady["PitchLoc$i"] . ">Map</a>";
     } else {
       echo "<td>";
       if (isset($Trady["PitchLoc$i"])  && $Trady["PitchLoc$i"]) {
         echo $TradeLocs[$Trady["PitchLoc$i"]];
         echo fm_hidden("PitchLoc$i",$Trady["PitchLoc$i"]);
         echo "<td>";
-        if ($Trady["PitchNum$i"]) echo $Trady["PitchNum$i"] . " <a href=TradeStandMap.php?l=" . $Trady["PitchLoc$i"] . ">Map</a>"; // TODO Trade State testing for partial
+        if ($Trady["PitchNum$i"]) echo $Trady["PitchNum$i"] . " <a href=TradeStandMap?l=" . $Trady["PitchLoc$i"] . ">Map</a>"; // TODO Trade State testing for partial
       } else {
         echo "<td>";
       }
@@ -562,7 +562,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
           $files = glob("Insurance/$YEAR/Trade/$Tid.*");
           $Current = $files[0];
           $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
-          echo " <a href=ShowFile.php?l=Insurance/$YEAR/Trade/$Tid.$Cursfx>View</a>";
+          echo " <a href=ShowFile?l=Insurance/$YEAR/Trade/$Tid.$Cursfx>View</a>";
         }
       } else {
         $tmp['Ignored'] = $Trady['Insurance'];
@@ -690,10 +690,10 @@ function Trader_Details($key,&$data,$att=0) {
   $Tid = $Trad['Tid'];
   switch ($key) {
   case 'WHO':  return $Trad['Contact']? UpperFirstChr(firstword($Trad['Contact'])) : $Trad['SN'];
-  case 'LINK': return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Direct.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "'  style='background:lightblue;'><b>link</b></a>";
-  case 'WMFFLINK': return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Trade.php?id=$Tid'><b>link</b></a>";
+  case 'LINK': return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Direct?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "'  style='background:lightblue;'><b>link</b></a>";
+  case 'WMFFLINK': return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Trade?id=$Tid'><b>link</b></a>";
   case 'HERE':
-  case 'REMOVE': return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Remove.php?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "'><b>remove</b></a>";
+  case 'REMOVE': return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Remove?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "'><b>remove</b></a>";
   case 'LOCATION': 
     $Locs = Get_Trade_Locs(1);
     $Location = '';
@@ -736,7 +736,7 @@ function Trader_Details($key,&$data,$att=0) {
         $plural = (strchr(',',$Trady["PitchNum$i"])?"Pitches numbered ":"Pitch number ");
         $MapLinks .= "You have been assigned $plural " . $Trady["PitchNum$i"] . " " . 
                      $Prefixes[$TradeLocData[$Trady["PitchLoc$i"]]['prefix']] . " " . $TradeLocData[$Trady["PitchLoc$i"]]['SN'] . 
-                     " please see this <a href='https://" . $_SERVER['HTTP_HOST'] . "/int/TradeStandMap.php?l=" . $Trady["PitchLoc$i"] . "' style='background:lightblue;'>map</a> " .
+                     " please see this <a href='https://" . $_SERVER['HTTP_HOST'] . "/int/TradeStandMap?l=" . $Trady["PitchLoc$i"] . "' style='background:lightblue;'>map</a> " .
                      "- Note the formatting of the business names on this will be improved soon<p>";
       }
     }
@@ -1087,7 +1087,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
     echo "<Center>";
     echo "<input type=Submit name='Update' value='Save Changes'>";
     if (Access('Committee','Finance')) {
-      echo "<input type=Submit name='NewInvoice' title='Send a NON TRADE Invoice to this trader' value='New Invoice' formaction='InvoiceManage.php?ACTION=NEWFOR&Tid=$Tid'>\n";
+      echo "<input type=Submit name='NewInvoice' title='Send a NON TRADE Invoice to this trader' value='New Invoice' formaction='InvoiceManage?ACTION=NEWFOR&Tid=$Tid'>\n";
     }
 //    if (!isset($Trady['BookingState']) || $Trady['BookingState']== 0) echo "<input type=Submit name=Submit value='Save Changes and Submit Application'>";
 
@@ -1150,9 +1150,9 @@ function Trade_Main($Mode,$Program,$iddd=0) {
 
   if ($Mode==1 && $Tid>0) {
     $Invs = Get_Invoices(" OurRef='" . Sage_Code($Trad) . "'"," IssueDate DESC ");
-    echo "<h2><a href=ListCTrade.php>List Traders Coming</a> ";
+    echo "<h2><a href=ListCTrade>List Traders Coming</a> ";
 //    var_dump($Invs);
-    if ($Invs) echo ", <a href=InvoiceManage.php?FOR=$Tid>Show All Invoices for " . $Trad['SN'] . "</a>";
+    if ($Invs) echo ", <a href=InvoiceManage?FOR=$Tid>Show All Invoices for " . $Trad['SN'] . "</a>";
     echo "</h2>";
   }
 }
@@ -1542,12 +1542,12 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
         echo "<td>" . Print_Pence($inv['Total']);
         if ($inv['PaidTotal'] > 0 && $inv['PaidTotal'] != $inv['Total']) echo " (" . Print_Pence($inv['Total'] - $inv['PaidTotal']) . ")";
         $Rev = ($inv['Revision']?"R" .$inv['Revision']:"");
-        echo "<td><a href=ShowFile.php?l=" . Get_Invoice_Pdf($id,'',$Rev) . ">View</a>";
-        echo "<td><a href=ShowFile.php?D=" . Get_Invoice_Pdf($id,'',$Rev) . ">Download</a>";
+        echo "<td><a href=ShowFile?l=" . Get_Invoice_Pdf($id,'',$Rev) . ">View</a>";
+        echo "<td><a href=ShowFile?D=" . Get_Invoice_Pdf($id,'',$Rev) . ">Download</a>";
         echo "\n";
       }
       echo "</table></div><p>";
-      echo "<h2><a href=TraderPage.php?id=$Tid>Back to Trade Details</a></h2>";
+      echo "<h2><a href=TraderPage?id=$Tid>Back to Trade Details</a></h2>";
       dotail();
     } else {
       echo "<h3>No Invoices Found</h3>";
@@ -1724,7 +1724,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Li
           $Lopen = 1;
         }
       } elseif ($Links == 2) {
-        echo "<a href='TradeShow.php?SEL=" . $Pitch['SN'] . "'>";
+        echo "<a href='TradeShow?SEL=" . $Pitch['SN'] . "'>";
         $Lopen = 1;
       }
     } else {

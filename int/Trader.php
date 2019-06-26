@@ -19,7 +19,7 @@
       echo "<input type=submit name=go value=Go>";
       echo "</form>\n";
       echo "Or<p>";
-      echo "<h3><a href=Trader.php?NEW>Please register as a new trader</a></h3>";
+      echo "<h3><a href=Trader?NEW>Please register as a new trader</a></h3>";
 //      echo "<h3>THIS HAS A BUG AT THE MOMENT PLEASE TRY LATER</h3>";
       dotail();
       exit;
@@ -38,14 +38,14 @@
   }
 
   if (isset($_GET['NEW'])) {
-    Trade_Main(0,'TraderPage.php',-1);
+    Trade_Main(0,'TraderPage',-1);
     dotail();
     exit;
   } 
 
   if ($USER{'AccessLevel'} == $Access_Type['Participant']) {
     $Tid = $USERID;
-    Trade_Main(0,'TraderPage.php',$Tid);
+    Trade_Main(0,'TraderPage',$Tid);
   } else {
     echo "<h3>Have you traded at Wimborne Minster Folk Festival since 2017? Or filled in an application form in the last few years?</h3>";
     echo "<form >";
@@ -54,7 +54,7 @@
     echo "</form>\n";
     echo "And we will email you a link to directly book again and/or edit your details.<p>";
 
-    echo "<h3><a href=Trader.php?NEW>If not please register as a new trader</a></h3>";
+    echo "<h3><a href=Trader?NEW>If not please register as a new trader</a></h3>";
 //    echo "<h3>THIS HAS A BUG AT THE MOMENT PLEASE TRY LATER</h3>";
   }
   dotail();

@@ -27,7 +27,7 @@
 
   if ($Vens) {
     echo "<div id=flex5>\n";
-    foreach ($Vens as $ven) echo "<div class=VenueFlexCont><a href=/int/VenueShow.php?v=" . $ven['VenueId'] . "&Y=$YEAR>" . $ven['SN'] . "</a></div>";
+    foreach ($Vens as $ven) echo "<div class=VenueFlexCont><a href=/int/VenueShow?v=" . $ven['VenueId'] . "&Y=$YEAR>" . $ven['SN'] . "</a></div>";
     echo "</div><br>";
   } else {
     echo "<h3>No venues have published events yet</h3>";

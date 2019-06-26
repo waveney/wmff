@@ -8,7 +8,7 @@
   include_once("DateTime.php"); 
   include_once("InvoiceLib.php");
 
-  Trade_Main((isset($_REQUEST['ORGS'])?2:1),'Trade.php');
+  Trade_Main((isset($_REQUEST['ORGS'])?2:1),'Trade');
 
   dotail();
 ?>

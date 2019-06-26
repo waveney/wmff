@@ -147,7 +147,7 @@ function Gallery($id,$embed=0) {
     $lastP = ceil($ImgCount/$PS);
     if ($Page > $lastP) $Page = $lastP;
     $PStr .= "<div class=gallerypage>Page : ";
-    $bl = "<a href=ShowGallery.php?g=$id";
+    $bl = "<a href=ShowGallery?g=$id";
     if ($PS != 50) $bl .= "&S=$PS";
     $bl .= "&p=";
     $PStr .= $bl . "1>First</a> ";
@@ -179,7 +179,7 @@ function Gallery($id,$embed=0) {
     foreach ($Imgs as $img) {
       if ($count >= $first && $count < $last) {
       
-        echo "<div class=galleryarticle><a href=/int/SlideShow.php?g=$id&s=$count><img class=galleryarticleimg src=\"" . $img['File'] . "\"></a>";
+        echo "<div class=galleryarticle><a href=/int/SlideShow?g=$id&s=$count><img class=galleryarticleimg src=\"" . $img['File'] . "\"></a>";
         if ($img['Caption']) echo "<div class=gallerycaption> " . $img['Caption'] . "</div>";
         echo "</div>\n";
       }
@@ -231,7 +231,7 @@ function Expand_Special(&$Art) {
       $Shown[] = $Dstuff['SideId'];
 
       $Art['SN'] = $Dstuff['SN'];
-      $Art['Link'] = ('/int/ShowPerf.php?id=' . $Dstuff['SideId']);
+      $Art['Link'] = ('/int/ShowPerf?id=' . $Dstuff['SideId']);
       $Art['Text'] = $Dstuff['Description'];
       $Art['Image'] = $Dstuff['Photo'];
       $Art['ImageWidth'] = (isset($Dstuff['ImageWidth'])?$Dstuff['ImageWidth']:100);
@@ -243,7 +243,7 @@ function Expand_Special(&$Art) {
 
   case '@Dance_Many':
     $Art['SN'] = "Dancing in $YEAR";
-    $Art['Link'] = "/LineUpDance.php";
+    $Art['Link'] = "/LineUpDance";
 
     $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . 
            $Coming_Type['Y'] . " AND y.ReleaseDate<$now");
@@ -263,7 +263,7 @@ function Expand_Special(&$Art) {
       if (in_array($DMany['SideId'],$Shown)) continue;
       $Shown[] = $DMany['SideId'];
 
-      $Art['Text'] .= "  Including <a href=/int/ShowPerf.php?id=" . $DMany['SideId'] . ">" . $DMany['SN'] . "</a>";
+      $Art['Text'] .= "  Including <a href=/int/ShowPerf?id=" . $DMany['SideId'] . ">" . $DMany['SN'] . "</a>";
       $Art['Image'] = $DMany['Photo'];
       $Art['ImageWidth'] = (isset($DMany['ImageWidth'])?$DMany['ImageWidth']:100);
       $Art['ImageHeight'] = (isset($DMany['ImageHeight'])?$DMany['ImageHeight']:100);
@@ -281,7 +281,7 @@ function Expand_Special(&$Art) {
       $Shown[] = $Mstuff['SideId'];
 
       $Art['SN'] = $Mstuff['SN'];
-      $Art['Link'] = ('/int/ShowPerf.php?id=' . $Mstuff['SideId']);
+      $Art['Link'] = ('/int/ShowPerf?id=' . $Mstuff['SideId']);
       $Art['Text'] = $Mstuff['Description'];
       $Art['Image'] = $Mstuff['Photo'];
       $Art['ImageWidth'] = (isset($Mstuff['ImageWidth'])?$Mstuff['ImageWidth']:100);
@@ -293,7 +293,7 @@ function Expand_Special(&$Art) {
 
   case '@Music_Many':
     $Art['SN'] = "Music in $YEAR";
-    $Art['Link'] = "/LineUpMusic.php";
+    $Art['Link'] = "/LineUpMusic";
 
     $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.YearState>0 AND y.ReleaseDate<$now");
     $Msc = 0;
@@ -312,7 +312,7 @@ function Expand_Special(&$Art) {
       if (in_array($MMany['SideId'],$Shown)) continue;
       $Shown[] = $MMany['SideId'];
 
-      $Art['Text'] .= "  Including <a href=/int/ShowPerf.php?id=" . $MMany['SideId'] . ">" . $MMany['SN'] . "</a>";
+      $Art['Text'] .= "  Including <a href=/int/ShowPerf?id=" . $MMany['SideId'] . ">" . $MMany['SN'] . "</a>";
       $Art['Image'] = $MMany['Photo'];
       $Art['ImageWidth'] = (isset($MMany['ImageWidth'])?$MMany['ImageWidth']:100);
       $Art['ImageHeight'] = (isset($MMany['ImageHeight'])?$MMany['ImageHeight']:100);
@@ -329,7 +329,7 @@ function Expand_Special(&$Art) {
     $Shown [] = $id;
     $Perf = Get_Side($id);
     $Art['SN'] = $Perf['SN'];
-    $Art['Link'] = '/int/ShowPerf.php?id=' . $Perf['SideId'];
+    $Art['Link'] = '/int/ShowPerf?id=' . $Perf['SideId'];
     $Art['Text'] = $Perf['Description'];
     $Art['Image'] = $Perf['Photo'];
     $Art['ImageWidth'] = (isset($Perf['ImageWidth'])?$Perf['ImageWidth']:100);

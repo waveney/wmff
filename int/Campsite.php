@@ -39,7 +39,7 @@
   if (UpdateMany('CampsiteUse','Put_Campsite',$Camps,0)) $Camps=Get_Campsites(1);
 
   $coln = 0;
-  echo "<form method=post action=Campsite.php>";
+  echo "<form method=post action=Campsite>";
   echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Index</a>\n";

@@ -18,7 +18,7 @@
     if ($DispLim == 'ALL') $DispLim = 1000;
     $DispTyp = 1;
   } else { 
-    echo "<h2><a href=NewsManage.php?S=ALL>Show All News</a> &nbsp;,  &nbsp; <a href=NewsManage.php?S=50>Last 50 Items</a></h2>";
+    echo "<h2><a href=NewsManage?S=ALL>Show All News</a> &nbsp;,  &nbsp; <a href=NewsManage?S=50>Last 50 Items</a></h2>";
   }
   $News = Get_All_News($DispTyp,$DispLim,1);
   if (UpdateMany('News','Put_News',$News,0,'created')) $News=Get_All_News($DispTyp,$DispLim,1);
@@ -38,7 +38,7 @@
   echo "</thead><tbody>";
   if ($News) foreach($News as $t) {
     $i = $t['id'];
-    echo "<tr><td>$i<br><a href=NewsEdit.php?n=$i>Edit</a>" . fm_text1("",$t,'SN',1,'','',"SN$i");
+    echo "<tr><td>$i<br><a href=NewsEdit?n=$i>Edit</a>" . fm_text1("",$t,'SN',1,'','',"SN$i");
     echo "<td>" . fm_textinput("created$i",date('j M Y G:i',$t['created']));
     echo "<td>" . fm_checkbox("",$t,'display','',"display$i");
     echo "<td>" . fm_basictextarea($t,'content',3,3,'',"content$i");

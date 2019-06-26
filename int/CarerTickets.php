@@ -37,7 +37,7 @@
   if (UpdateMany('Tickets','Put_Carer',$Carers,0)) $Carers=Get_Carers(1);
 
   $coln = 0;
-  echo "<form method=post action=CarerTickets.php>";
+  echo "<form method=post action=CarerTickets>";
   echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Index</a>\n";

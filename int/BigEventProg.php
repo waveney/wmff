@@ -126,16 +126,16 @@ function Controls() {
   echo "Big Event Programming Controls<br>";
   echo "For " . $Event['SN'] . " on " . $DayList[$DAY] . "<br>\n"; 
   echo "<div id=EVENT hidden>$Eid</div>";
-  echo "<form method=get action=BigEventProg.php>";
+  echo "<form method=get action=BigEventProg>";
   echo fm_hidden('EV',$Eid);
   echo "<table>";
   echo "<tr>" . fm_radio("Info",$InfoLevels,$_GET,'EInfo',"onchange=UpdateInfo()");
   echo "</table></form>\n";
-  echo "<h2><a href=Staff.php>Main Page</a></h2></center>";
+  echo "<h2><a href=Staff>Main Page</a></h2></center>";
   echo "</div>\n";
 }
 
-include ("CheckDance.php");
+include_once ("CheckDance.php");
 function ErrorPane() {
   echo "<div class=ErrorWrapper><div class=ErrorContainer id=InformationPane>";
   CheckDance($_GET['EInfo']);

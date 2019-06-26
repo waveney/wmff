@@ -14,7 +14,7 @@
 
   $coln = 0;
   echo "<h2>Galleries</h2><p>";
-  echo "<form method=post action=GallManage.php>";
+  echo "<form method=post action=GallManage>";
   echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Id</a>\n";
@@ -31,8 +31,8 @@
 
     echo "<td>" . fm_select($Medias,$g,'Media',0,'',"Media$i");
     echo fm_text1("",$g,'Banner',1,'','',"Banner$i");
-    echo "<td><a href=" . ($g['Media']?'GallVManage':'GallCManage') . ".php?g=" . $g['id'] . ">Edit</a>";
-    echo "<td><a href=ShowGallery.php?g=" . $g['id'] . ">Show</a>";
+    echo "<td><a href=" . ($g['Media']?'GallVManage':'GallCManage') . "?g=" . $g['id'] . ">Edit</a>";
+    echo "<td><a href=ShowGallery?g=" . $g['id'] . ">Show</a>";
 
     echo "\n";
   }

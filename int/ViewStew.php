@@ -62,7 +62,7 @@ function Submit_Steward() {
   }
 
   echo "<h2 class=subtitle>Steward / Volunteer Application Form</h2>\n";
-  echo "<form method=post action=ViewStew.php>";
+  echo "<form method=post action=ViewStew>";
   echo "<div class=tablecont><table border>\n";
   echo "<tr>" . fm_text('SN',$stew,'SN',2);
   echo fm_hidden('id',$id);
@@ -99,6 +99,6 @@ function Submit_Steward() {
   echo "<input type=submit name=submit value='Change Application'><p>\n"; 
   echo "</form>\n";
 
-  echo "<h2><a href=StewardView.php>Back to list of Stewards</a>";
+  echo "<h2><a href=StewardView>Back to list of Stewards</a>";
   dotail();
 ?>

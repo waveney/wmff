@@ -11,7 +11,7 @@
 
   echo "Click on name for full info<p>";
   $coln = 0;  
-  echo "<form method=post action=StewardView.php>";
+  echo "<form method=post action=StewardView>";
   echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
 
@@ -37,7 +37,7 @@
     $id = $stew['id'];
     echo "<tr" . (($stew['Year'] == $YEAR)?" class=FullD hidden" : "" ) . ">";
     echo "<td>$id";
-    echo "<td><a href=ViewStew.php?id=$id>" . $stew['SN'] . "</a>";
+    echo "<td><a href=ViewStew?id=$id>" . $stew['SN'] . "</a>";
     echo "<td>" . $stew['Email'];
     echo "<td>" . $stew['Phone'];
     foreach ($StewClasses as $c=>$exp) echo "<td>" . ['','Y'][$stew["SC_$c"]];

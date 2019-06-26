@@ -21,7 +21,7 @@
 
 <p>Our sponsors play a vital role in helping the festival thrive and continue 'giving back' to Wimborne for years to come.  As a sponsor, your business would be aligned with our family-friendly values and enjoy multiple opportunities to reach thousands of valuable potential customers.  We offer a range of sponsorship packages to suit any budget.</p>
 
-<p>If you are interested in supporting the festival, please contact committee secretary <a href="/contact.php" rel="bookmark"><strong>Graham Brown</strong></a>.</p>
+<p>If you are interested in supporting the festival, please contact committee secretary <a href="/contact" rel="bookmark"><strong>Graham Brown</strong></a>.</p>
 
 <?php 
   global $SHOWYEAR;

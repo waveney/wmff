@@ -28,7 +28,7 @@
 
   echo "<h2>Music Types</h2><p>";
   echo "You do not have to have all Music Types here, these are just the categories brought out in the summary page.<p>";
-  echo "<form method=post action=MusicTypes.php>";
+  echo "<form method=post action=MusicTypes>";
   echo "<div class=tablecont><table border><tr><td>id<td>Name<td>Importance\n";
   foreach($Types as $i=>$t) {
     echo "<tr><td>$i<td><input type=text name=SN$i value='" . $t['SN'] . "'>";

@@ -42,22 +42,22 @@
   }
 
   if (isset($_GET{'INC'})) {
-    if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR>Exclude Declined/Cancelled/Not Submitted</a>, " .
-      "<a href=ListCTrade.php?Y=$YEAR&SUB>Include Submitted</a>, " .
-      "<a href=ListCTrade.php?Y=$YEAR&ONLY>Only Submitted</a>, </h2>";
+    if (!$Sum) echo "<h2><a href=ListCTrade?Y=$YEAR>Exclude Declined/Cancelled/Not Submitted</a>, " .
+      "<a href=ListCTrade?Y=$YEAR&SUB>Include Submitted</a>, " .
+      "<a href=ListCTrade?Y=$YEAR&ONLY>Only Submitted</a>, </h2>";
     $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR ORDER BY SN";
   } else if (isset($_GET['SUB'])) { 
-    if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR&INC>Show All</a>, <a href=ListCTrade.php?Y=$YEAR>Exclude Declined/Cancelled/Submitted</a>, " .
-      "<a href=ListCTrade.php?Y=$YEAR&ONLY>Only Submitted</a> </h2>";
+    if (!$Sum) echo "<h2><a href=ListCTrade?Y=$YEAR&INC>Show All</a>, <a href=ListCTrade?Y=$YEAR>Exclude Declined/Cancelled/Submitted</a>, " .
+      "<a href=ListCTrade?Y=$YEAR&ONLY>Only Submitted</a> </h2>";
     $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Submitted'] .
            " ORDER BY SN";  
   } else if (isset($_GET['ONLY'])) { 
-    if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR&INC>Show All</a>, <a href=ListCTrade.php?Y=$YEAR>Exclude Declined/Cancelled/Submitted</a> </h2>";
+    if (!$Sum) echo "<h2><a href=ListCTrade?Y=$YEAR&INC>Show All</a>, <a href=ListCTrade?Y=$YEAR>Exclude Declined/Cancelled/Submitted</a> </h2>";
     $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState=" . $Trade_State['Submitted'] .
            " ORDER BY SN";  
   } else {  
-    if (!$Sum) echo "<h2><a href=ListCTrade.php?Y=$YEAR&INC>Show All</a>, <a href=ListCTrade.php?Y=$YEAR&SUB>Include Submitted</a>, " .
-      "<a href=ListCTrade.php?Y=$YEAR&ONLY>Only Submitted</a> </h2>";
+    if (!$Sum) echo "<h2><a href=ListCTrade?Y=$YEAR&INC>Show All</a>, <a href=ListCTrade?Y=$YEAR&SUB>Include Submitted</a>, " .
+      "<a href=ListCTrade?Y=$YEAR&ONLY>Only Submitted</a> </h2>";
     $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>" . $Trade_State['Submitted'] . 
       " ORDER BY SN";
   }
@@ -93,7 +93,7 @@
     while ($fetch = $res->fetch_assoc()) {
       $Tid = $fetch['Tid'];
       $str .= "<tr><td>";
-        if ($ActsEnable) $str .= "<a href=Trade.php?id=$Tid>";
+        if ($ActsEnable) $str .= "<a href=Trade?id=$Tid>";
         $str .= ($fetch['SN']?$fetch['SN']:'No Name Given');
         if ($ActsEnable) $str .= "</a>";
       $str .= "<td style='background:" . $Trade_Types[$fetch['TradeType']]['Colour'] . ";'>" . $Trade_Types[$fetch['TradeType']]['SN'];
@@ -249,7 +249,7 @@
       if (isset($TrMon[$t['id']]) && $TrMon[$t['id']]) {
         echo "<tr><td style='background:" . $t['Colour'] . ";'>" . $t['SN'] ;
         echo "<td>" . Print_Pound($TrRec[$t['id']]) . "<td>" . Print_Pound($TrSub[$t['id']]) . "<td>" . Print_Pound($TrMon[$t['id']]);
-        echo "<td><a href=ListDTrade.php?t=" . $t['id'] . ">Details</a>\n";
+        echo "<td><a href=ListDTrade?t=" . $t['id'] . ">Details</a>\n";
       }
     }
     echo "<tr><td>Total Fees<td>" . Print_Pound($totrec) . "<td>" . Print_Pound($totsub) . "<td>" . Print_Pound($totfee) . "<td>\n";
@@ -259,7 +259,7 @@
       if (!isset($TLoc['QuoteTot']) || $TLoc['QuoteTot'] == 0) continue;
       echo "<tr><td>" . $TLoc['SN'];
       echo "<td>" . Print_Pound($TLoc['ReceiveTot']) . "<td>" . Print_Pound($TLoc['AcceptTot']) . "<td>" . Print_Pound($TLoc['QuoteTot']);
-      echo "<td><a href=ListDTrade.php?l=" . $TLoc['TLocId'] . ">Details</a>\n";
+      echo "<td><a href=ListDTrade?l=" . $TLoc['TLocId'] . ">Details</a>\n";
       $TotLRec += $TLoc['ReceiveTot'];
       $TotLAcc += $TLoc['AcceptTot'];
       $TotLQut += $TLoc['QuoteTot'];

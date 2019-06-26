@@ -22,7 +22,7 @@
   $coln = 0;
 
   echo "<h2>Map Point Types</h2><p>";
-  echo "<form method=post action=MapPTypes.php>";
+  echo "<form method=post action=MapPTypes>";
   echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Type</a>\n";

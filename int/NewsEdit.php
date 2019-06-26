@@ -32,7 +32,7 @@
     $n = Get_News($_GET['n']);
   }
 
-  echo "<form method=post action=NewsEdit.php enctype='multipart/form-data' ><div class=tablecont><table border>\n";
+  echo "<form method=post action=NewsEdit enctype='multipart/form-data' ><div class=tablecont><table border>\n";
   echo "<tr hidden><td hidden><input type=submit>\n";
   echo "<tr><td>ID:" . $n['id'] . fm_hidden('id',$n['id']);
     echo "<td>" . fm_checkbox('Display',$n,'display');
@@ -61,7 +61,7 @@
   echo "</table></div><p>";
   echo "<input type=submit></form><p>\n";
 
-  echo "<h2><a href=NewsManage.php>Back to News Management</a></h2><p>\n";
+  echo "<h2><a href=NewsManage>Back to News Management</a></h2><p>\n";
   dotail();
 
 ?>

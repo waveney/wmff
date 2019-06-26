@@ -1,8 +1,8 @@
 <?php
 // Updates to data following on screen drag drops, returns info pane html
-//    $("#Infomation").load("dpupdate.php", "D=" + dstId + "&S=" + srcId + "&Y=" + $("#DayId").text() + "&E=" + 
+//    $("#Infomation").load("dpupdate", "D=" + dstId + "&S=" + srcId + "&Y=" + $("#DayId").text() + "&E=" + 
 //                        $("input[type='radio'][name='EInfo']:checked").val()        );
-//  include_once("minimalfiles/header.php");
+//  include_once("minimalfiles/header");
 /* ids are
         E$CurOrder::        Empty box
         N$CurOrder::        Note id
@@ -13,7 +13,7 @@
         Z0:Side:$id        Side Side
         Z0:Act:$id        Act Side
         Z0:Other:$id        Other Side
-    $("#InformationPane").load("beupdate.php", "D=" + dstId + "&S=" + srcId + "&EV=" + $("#EVENT").text() + "&E=" + 
+    $("#InformationPane").load("beupdate", "D=" + dstId + "&S=" + srcId + "&EV=" + $("#EVENT").text() + "&E=" + 
                         $("input[type='radio'][name='EInfo']:checked").val()        );
 */
 

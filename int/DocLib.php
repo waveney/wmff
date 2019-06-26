@@ -75,11 +75,11 @@ function Put_DirInfo($stuff) {
 }
 
 function Get_Parent($d,$depth=0) {
-  if (!$d) return "<a href=Dir.php>Documents:</a>";
+  if (!$d) return "<a href=Dir>Documents:</a>";
   if ($depth>30) return "";
   $inf = Get_DirInfo($d);
   if (!$inf) return "";
-  return Get_Parent($inf['Parent'], $depth+1) . " / <a href=Dir.php?d=$d>" . htmlspec($inf['SN']) . "</a>";
+  return Get_Parent($inf['Parent'], $depth+1) . " / <a href=Dir?d=$d>" . htmlspec($inf['SN']) . "</a>";
 }
 
 function Dir_FullName($d,$depth=0) {
@@ -296,24 +296,24 @@ function List_dir_ent(&$dir,$type) {
   $parid = $dir['Parent'];
   $Parent = Get_DirInfo($parid);
   
-  echo "<tr><td><a href=Dir.php?d=" . $dir['DirId'] . ">" . htmlspec($dir['SN']) . "</a>";
+  echo "<tr><td><a href=Dir?d=" . $dir['DirId'] . ">" . htmlspec($dir['SN']) . "</a>";
   echo "<td class=FullD hidden>" . (isset($AllU[$dir['Who']])?$AllU[$dir['Who']]: "Unknown");
   echo "<td>$type";
   echo "<td class=FullD hidden>" . date('d/m/y H:i:s',$dir['Created']);
   echo "<td class=FullD hidden>" . ((isset($sub['AccessLevel']) && $dir['AccessLevel']>0) ? ($Access_Levels[$dir['AccessLevel']]  . ": " . $dir['AccessSections']) : "");
   echo "<td>";
   if (Access('Committee','Docs') || $dir['Who'] == $USERID  || ($parid > 0 && $Parent['Who'] == $USERID )) {
-    echo " <a href=Dir.php?d=$pid&Action=Rename1>Rename</a>"; 
+    echo " <a href=Dir?d=$pid&Action=Rename1>Rename</a>"; 
 
-    echo " <a href='Dir.php?d=$pid&Action=Delete' onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a>"; 
+    echo " <a href='Dir?d=$pid&Action=Delete' onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a>"; 
 
     echo "<span class=FullD hidden>";
-    echo " <a href=Dir.php?d=$pid&Action=Move1>Move</a>"; 
+    echo " <a href=Dir?d=$pid&Action=Move1>Move</a>"; 
     if (Access('Committee','Docs')) {
-      echo " <a href=Dir.php?d=$pid&Action=Chown1>Chown</a>"; 
+      echo " <a href=Dir?d=$pid&Action=Chown1>Chown</a>"; 
     }
 
-    echo " <a href=Dir.php?d=$pid&Action=Restrict1>Restrict</a>"; 
+    echo " <a href=Dir?d=$pid&Action=Restrict1>Restrict</a>"; 
     echo "</span>";
   }
 }
@@ -329,23 +329,23 @@ function Doc_List($file,$opts=0) {
   $AllU = Get_AllUsers();
   echo "<tr>";
   if ($opts & 1) echo "<td>" . Get_Parent($d);
-  echo "<td><a href=ShowFile.php?f=$fid>" . $name . "</a>";
+  echo "<td><a href=ShowFile?f=$fid>" . $name . "</a>";
   echo "<td class=FullD hidden>" . $AllU[$file['Who']];
   echo "<td align=right>" . formatBytes($file['filesize'],0);
   echo "<td class=FullD hidden>" . date('d/m/y H:i:s',$file['Created']);
   echo "<td class=FullD hidden>"; // . ($Access_Levels[$file['AccessLevel']
   echo "<td>";
 
-  echo "<a href=ShowFile.php?d=$fid>Download</a> ";
+  echo "<a href=ShowFile?d=$fid>Download</a> ";
   if (Access('Committee','Docs') || $dir['Who'] == $USERID ) {
-    echo "<a href=Dir.php?f=$fid&d=$d&FileAction=Rename1>Rename</a> "; 
+    echo "<a href=Dir?f=$fid&d=$d&FileAction=Rename1>Rename</a> "; 
 
-    echo "<a href='Dir.php?f=$fid&d=$d&FileAction=Delete' " .
+    echo "<a href='Dir?f=$fid&d=$d&FileAction=Delete' " .
                   "onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a> "; 
     echo "<span class=FullD hidden>";
-    echo "<a href=Dir.php?f=$fid&d=$d&FileAction=Move1>Move</a> "; 
+    echo "<a href=Dir?f=$fid&d=$d&FileAction=Move1>Move</a> "; 
     if (Access('Committee','Docs')) {
-      echo "<a href=Dir.php?f=$fid&d=$d&FileAction=Chown1>Chown</a>"; 
+      echo "<a href=Dir?f=$fid&d=$d&FileAction=Chown1>Chown</a>"; 
     }
     echo "</span> ";
   }
@@ -422,7 +422,7 @@ function SearchForm($where=0) {
   $SearchLocs = ['Everywhere','Here'];
   if (!isset($_POST{'Titles'}) && !isset($_POST{'Cont'})) { $_POST{'Titles'} = 1; }
   elseif (!$_POST{'Titles'} && !$_POST{'Cont'}) $_POST{'Titles'} = 1;
-  echo "<form action=Search.php method=post>";
+  echo "<form action=Search method=post>";
   echo fm_hidden('Search_Dir',$where);
   echo "Search " . fm_checkbox("Titles",$_POST,'Titles');
   echo fm_checkbox("Content",$_POST,'Cont');

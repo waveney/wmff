@@ -13,7 +13,7 @@
 
   echo "<h2>Dance Types</h2><p>";
   echo "You do not have to have all Dance Types here, these are just the categories brought out in the summary page.<p>";
-  echo "<form method=post action=DanceTypes.php>";
+  echo "<form method=post action=DanceTypes>";
   echo "<div class=tablecont><table border><tr><td>id<td>Name<td>Importance<td>Colour\n";
   foreach($Types as $i=>$t) {
     echo "<tr><td>$i<td><input type=text name=SN$i value='" . $t['SN'] . "'>";

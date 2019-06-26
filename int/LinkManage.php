@@ -15,7 +15,7 @@
   $coln = 0;
   echo "<h2>Links</h2><p>";
   echo "Heading 'Category' not yet used.<p>";
-  echo "<form method=post action=LinkManage.php>";
+  echo "<form method=post action=LinkManage>";
   echo "<div class=tablecont><table id=indextable border>\n";
   echo "<thead><tr>";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Id</a>\n";

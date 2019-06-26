@@ -10,10 +10,10 @@
   
   if ($Orgs) {
     echo "<h2>List Businesses and Organisions</h2>\n"; 
-    echo "<div class=floatright><h2><a href=ListTrade.php?Y=$YEAR&orgs>List Traders</a></h2></div>";
+    echo "<div class=floatright><h2><a href=ListTrade?Y=$YEAR&orgs>List Traders</a></h2></div>";
   } else {
     echo "<h2>List Traders $YEAR</h2>\n";
-    if (isset($_REQUEST['orgs'])) echo "<div class=floatright><h2><a href=ListTrade.php?Y=$YEAR&ORGS>List Buisnesses and Organisations</a></h2></div>";    
+    if (isset($_REQUEST['orgs'])) echo "<div class=floatright><h2><a href=ListTrade?Y=$YEAR&ORGS>List Buisnesses and Organisations</a></h2></div>";    
   }
 
   echo "Click on column header to sort by column.  Click on Business's name for more detail<p>\n";
@@ -59,7 +59,7 @@
       $tt = $fetch['TradeType'];
       $Tid = $fetch['Tid'];
       if ($tt == 0) $tt=1;
-      echo "<tr><td width=300><a href=Trade.php?id=$Tid" . ($Orgs?"&ORGS":"") . ">" . ($fetch['SN']?$fetch['SN']:'No Name Given') . "</a>";
+      echo "<tr><td width=300><a href=Trade?id=$Tid" . ($Orgs?"&ORGS":"") . ">" . ($fetch['SN']?$fetch['SN']:'No Name Given') . "</a>";
       if (!$Orgs) echo "<td style='background:" . $Trade_Types[$tt]['Colour'] . ";'>" . $Trade_Types[$tt]['SN'];
       if (!$Orgs) echo "<td width=400>" . $fetch['GoodsDesc'];
       echo "<td>" . $fetch['Contact'];
@@ -83,8 +83,8 @@
         echo Disp_CB($fetch['ChamberTrade']);
         echo Disp_CB($fetch['Previous']);
       } else {
-        echo "<td><a href=InvoiceManage.php?FOR=$Tid>Invoices</a>";
-        echo "<td><a href=InvoiceManage.php?ACTION=NEW&Tid=$Tid>New Invoice</a>";
+        echo "<td><a href=InvoiceManage?FOR=$Tid>Invoices</a>";
+        echo "<td><a href=InvoiceManage?ACTION=NEW&Tid=$Tid>New Invoice</a>";
       
       }
     }

@@ -275,12 +275,15 @@ function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$M
   $TimeFlds = explode(',',$Timeflds);
   $indxname = (isset($TableIndexes[$table])?$TableIndexes[$table]:'id');
 
+//var_dump($_POST);
+//return;
   if (isset($_POST{'Update'})) {
     if ($data) foreach($data as $t) {
       $i = $t[$indxname];
       if ($i) {
         if (isset($_POST["$Mstr$i"]) && $_POST["$Mstr$i"] == $MstrNot) {
           if ($Deletes) {
+//          echo "Would delete " . $t[$indxname] . "<br>";
               db_delete($table,$t[$indxname]);
             if ($Deletes == 1) return 1;
           }
@@ -298,6 +301,8 @@ function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$M
               $t[$fld] = 0;
             }
           }
+//          var_dump($t);
+//          return;
           $Putfn($t);
         }
       }

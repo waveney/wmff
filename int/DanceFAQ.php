@@ -26,7 +26,7 @@ team coming to Wimborne (or you have members appearing in our concerts, etc) the
 let us know what the overlaps are and we'll ensure your programming takes account of this.
 
 <dt>Camping<dd>We don't run our own campsite, but highly recommend 'The Meadows' which
-is only a few minutes walk from the town centre.  See <a href=../InfoCamping.php>Camping
+is only a few minutes walk from the town centre.  See <a href=../InfoCamping>Camping
 Information</a>
 
 <dt>Car parking<dd> If you are using the Meadows camp site, then you can leave your
@@ -115,7 +115,7 @@ prefer to do a half hour spot on your own, or to share your half hour spot alter
 
 <dt>Music<dd> All Music on Willow Walk, the Square and in the Microbreweries is free.
 
-<dt>Map<dd>A Map of all festival venues can be found <a href=/Map.php>Here</a> and Map of just the dance locations is <a href=/Map.php?F=3>Here</a>.
+<dt>Map<dd>A Map of all festival venues can be found <a href=/Map>Here</a> and Map of just the dance locations is <a href=/Map?F=3>Here</a>.
 
 </dl>
 

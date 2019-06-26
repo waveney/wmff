@@ -22,12 +22,12 @@
 <tr>
 <td>Trade Stands</td>
 <td style="font-weight:bold; color:orange;">Closed</td>
-<td>For all <a href="/InfoTrade.php"><b>Trade Stand enquiries</b></a> that can not be answered by the <a href=/int/TradeFAQ.php><b>Trade FAQ</b></a>
+<td>For all <a href="/InfoTrade"><b>Trade Stand enquiries</b></a> that can not be answered by the <a href=/int/TradeFAQ><b>Trade FAQ</b></a>
 </tr>
 <tr>
 <td>Volunteers</td>
 <td style="font-weight:bold; color:#00CC00;">Open</td>
-<td>Visit our <a href=/InfoStewards.php><strong>Volunteers</strong></a> page to apply online for stewarding, setup/cleardown crew, technical crew, 
+<td>Visit our <a href=/InfoStewards><strong>Volunteers</strong></a> page to apply online for stewarding, setup/cleardown crew, technical crew, 
 artistic team and media team positions.</td>
 </tr>
 </table></div></p>

@@ -82,7 +82,7 @@
 
 //var_dump($VirtVen);
 
-//  echo "<h2 class=FakeButton><a href=PAShow.php?pa4v=$V>Browsing Format</a>, <a href=PAShow.php?pa4v=$V&FILES=1>Embed Files</a>,  <a href=PAShow.php?pa4v=$V&FILES=2>Header Free for Printing</a></h2>";
+//  echo "<h2 class=FakeButton><a href=PAShow?pa4v=$V>Browsing Format</a>, <a href=PAShow?pa4v=$V&FILES=1>Embed Files</a>,  <a href=PAShow?pa4v=$V&FILES=2>Header Free for Printing</a></h2>";
 
   if ($ShowMode != 'HeaderFree') {
     echo "<form>" . fm_hidden('pa4v',$V);
@@ -124,7 +124,7 @@
                 $AtEnd[$snum] = "PAspecs/$snum.$Cursfx";
                 echo "See Below";
               } else {
-                echo "<a href=ShowFile.php?l=PAspecs/$snum.$Cursfx>View File</a>";
+                echo "<a href=ShowFile?l=PAspecs/$snum.$Cursfx>View File</a>";
               }
             } else {
               echo "None";
@@ -156,7 +156,7 @@
     echo "<br clear=all><div id=qrcode></div>";
     echo '<script type="text/javascript">
       var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "https://' . $FESTSYS['HostURL'] . "/int/Access.php?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'] . '",
+        text: "https://' . $FESTSYS['HostURL'] . "/int/Access?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'] . '",
         width: 205,
         height: 205,
       });
@@ -167,8 +167,8 @@
   
   if (Access('Staff')) {
 
-    echo "<h3>Link to send to Engineer: https://" . $FESTSYS['HostURL'] . "/int/Access.php?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'];
-    if (Access('SysAdmin')) echo "<a href='Access.php?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'] . "'> Use\n";
+    echo "<h3>Link to send to Engineer: https://" . $FESTSYS['HostURL'] . "/int/Access?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'];
+    if (Access('SysAdmin')) echo "<a href='Access?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'] . "'> Use\n";
     echo "</h3>\n";
   }
   dotail();

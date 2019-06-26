@@ -29,10 +29,10 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
 //var_dump($thing);
           if (( $thing['IsASide'] && (!isset($thing['Coming']) || $thing['Coming'] != 2)) && 
               (($thing['IsAnAct'] || $thing['IsFunny'] || $thing['IsFamily'] || $thing['IsOther']) && (!isset($thing['YearState']) || $thing['YearState'] < 2))) {
-            echo "<a href=/int/ShowPerf.php?id=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
+            echo "<a href=/int/ShowPerf?id=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
             echo " are no longer coming";
           } else {
-            echo " <a href=/int/ShowPerf.php?id=" . $thing['SideId'] . ">";
+            echo " <a href=/int/ShowPerf?id=" . $thing['SideId'] . ">";
 //echo "HELLO $Pictures<p>";
             if ($Pictures) {
               if ($SpecialImage) { echo "<img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
@@ -40,7 +40,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
               } elseif ($thing['Photo']) echo "<img style='vertical-align:middle;float:left;border:5;margin:2;max-height:" . 
                     (100+20*$scale) .";' height=" . (100+20*$scale) . " src=" . $thing['Photo'] . ">";
             }
-            echo "<a href=/int/ShowPerf.php?id=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
+            echo "<a href=/int/ShowPerf?id=" . $thing['SideId'] . ">" . NoBreak($thing['SN'],3) . "</a>";
             if (isset($thing['Type']) && (strlen($thing['Type'])>1)) echo " " . NoBreak("(" . $thing['Type'] . ")");
           }
           if ($NotAllFree && ($things == $ll)) echo "<td rowspan=$rows valign=top>$Price";
@@ -308,9 +308,9 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
       $parname = $e['SN']; 
       $lastevent = $ei;
       $rowsp1 = ($ImpC? $rows+1: $rows);
-      echo "<tr><td rowspan=$rowsp1 $colwid valign=top><a href=EventShow.php?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) .  "</a>";
+      echo "<tr><td rowspan=$rowsp1 $colwid valign=top><a href=EventShow?e=$eid>" . timecolon($e['Start']) . " - " . timecolon($e['End']) .  "</a>";
       if ($VirtVen) echo "<br>" . $VenNames[$e['Venue']];
-      echo "<td colspan=" . ($imps?$ll+($e['LongEvent']?0:1):$ll+1) . " valign=top><a href=EventShow.php?e=$eid>" . $parname . "</a>";
+      echo "<td colspan=" . ($imps?$ll+($e['LongEvent']?0:1):$ll+1) . " valign=top><a href=EventShow?e=$eid>" . $parname . "</a>";
       if ($e['Status'] == 1) echo "<br><div class=Cancel>CANCELLED</div>";
       if ($e['Description']) echo "<br>" . $e['Description'];
 
@@ -322,9 +322,9 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
       $lastDay = $e['Day'];
       $parname = $e['SN'];
       if ($Poster) $rows = 1; // Only ever show first row
-      echo "<tr><td rowspan=$rows $colwid valign=top><a href=EventShow.php?e=$eid valign=top>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . "</a>";
+      echo "<tr><td rowspan=$rows $colwid valign=top><a href=EventShow?e=$eid valign=top>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . "</a>";
       if ($VirtVen) echo "<br>" . $VenNames[$e['Venue']];
-      echo "<td rowspan=$rows  valign=top><a href=EventShow.php?e=$eid>" . $parname . "</a>";
+      echo "<td rowspan=$rows  valign=top><a href=EventShow?e=$eid>" . $parname . "</a>";
       if ($e['Status'] == 1) echo "<br><div class=Cancel>CANCELLED</div>";
       if ($e['Description']) echo "<br>" . $e['Description'];
       if ($e['Image']) $SpecialImage = $e['Image'];
@@ -334,16 +334,16 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
         $lastevent = $e['SubEvent'];
         $pare = Get_Event($e['SubEvent']); //&$EVs[$lastevent]; 
         $parname = $pare['SN']; 
-        echo "<tr><td rowspan=$rows $colwid valign=top ><a href=EventShow.php?e=$lastevent>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . "</a>";
+        echo "<tr><td rowspan=$rows $colwid valign=top ><a href=EventShow?e=$lastevent>" . timecolon($e['Start']) . " - " . timecolon($e['End']) . "</a>";
         if ($VirtVen) echo "<br>" . $VenNames[$e['Venue']];
-        echo "<td rowspan=$rows valign=top ><a href=EventShow.php?e=$lastevent>" . $parname . "</a>";
+        echo "<td rowspan=$rows valign=top ><a href=EventShow?e=$lastevent>" . $parname . "</a>";
         if ($e['Status'] == 1) echo "<br><div class=Cancel>CANCELLED</div>";
         if ($pare['Description']) echo "<br>" . $pare['Description'];
         if ($imps) PrintImps($imps,$NotAllFree,Price_show($pare,1),$rows,$ImpC);
       } else if ($imps) {
         echo "<tr><td rowspan=$rows $colwid >&nbsp;<td rowspan=$rows  valign=top>";
         if ($parname != $e['SN']) {
-          echo "<a href=EventShow.php?e=" . $e['SubEvent'] . ">" . $e['SN'] . "</a><br>";
+          echo "<a href=EventShow?e=" . $e['SubEvent'] . ">" . $e['SN'] . "</a><br>";
           $parname = (isset($pare['SN'])? $pare['SN'] : "Unknown"); 
         }
         echo timecolon($e['Start']) . " - " . timecolon($e['End']);
@@ -358,7 +358,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
     echo "<h3> To find out more scan this:<br>to visit wimbornefolk.co.uk</h3>"; // pixels should be multiple of 41
     echo '<script type="text/javascript">
       var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "https://wimbornefolk.co.uk/int/QRVenueShow.php?V=' . $V . '",
+        text: "https://wimbornefolk.co.uk/int/QRVenueShow?V=' . $V . '",
         width: 123,
         height: 123,
       });
