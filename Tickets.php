@@ -36,7 +36,7 @@
   if ($YEARDATA['CampingCost']) {
     echo "Order your festival tickets and camping together, by selecting <strong>Continue Shopping</strong> ";
     echo "before you checkout!<p>  Camping costs <strong>&pound;" . $YEARDATA['CampingPrice1Day'] . "</strong> for the first night and <strong>&pound;" .
-     ($YEARDATA['CampingPrice2Day'] - $YEARDATA['CampingPrice1Day']) . "</strong> for each additional night.<p>";
+     ($YEARDATA['CampingPrice2Day'] - $YEARDATA['CampingPrice1Day']) . "</strong> for each additional night.  Under 8's are free.<p>";
   } else {
     echo "Camping is not yet open to book<p>";
   }

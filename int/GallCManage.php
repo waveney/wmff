@@ -120,6 +120,7 @@
     echo fm_text1("",$g,'File',1,'','',"File$i") . "</a>";
     echo fm_text1("",$g,'Caption',1,'','',"Caption$i") . "</a>";
     echo fm_number1("",$g,'RelOrder','','',"RelOrder$i") . "</a>";
+    echo fm_hidden("Galid$i",$Galid);
     echo "<td><img src=\"" . $g['File'] . "\" height=75>";
     echo "\n";
   }
@@ -128,7 +129,7 @@
   echo "<td><input type=number name=RelOrder0 >";
   echo "</table></div>\n";
   echo "<input type=submit name=Update value=Update>\n";
-  echo "</form></div>";
+  echo "</form>";
   echo "<h2><a href=GallManage>Back to Galleries</a>, <a href=ShowGallery?g=$Galid>Show Gallery</a></h2><p>\n";
 
   dotail();
