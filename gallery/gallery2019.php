@@ -65,21 +65,14 @@
 <img class="articleimg" src="https://wimbornefolk.co.uk/images/gallery/2019/Workshops/Stephen%20Jones_HSJX4095.jpg" ></a>
 <p class="articletxt">
 </div>
-<!--
+
 <div class="article">
-<a href="/int/ShowGallery?g=12">
-<h2 class="articlettl">Comedy Night 2018</h2>
-<img class="articleimg" src="https://wimbornefolk.co.uk/int/images/gallery/2018/Comedy/WMFFFriComedy_JoElkington-5009.jpg" ></a>
+<a href="/int/ShowGallery?g=21">
+<h2 class="articlettl">Comedy Night 2019</h2>
+<img class="articleimg" src="https://wimbornefolk.co.uk/images/gallery/2019/Phoebe/Polly%20Morris%20Band%20(2).jpg" ></a>
 <p class="articletxt">
 </div>
 
-<div class="article">
-<a href="/int/ShowGallery?g=1">
-<h2 class="articlettl">Live and Loud 2018</h2>
-<img class="articleimg" src="https://wimbornefolk.co.uk/images/Lnl2018/5-Stratus.jpg" ></a>
-<p class="articletxt">
-</div>
--->
 <?php
 
   dotail();
