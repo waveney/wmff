@@ -9,12 +9,12 @@
   // Work out pitch locs for a map
   // Map on left locs on right 
   // Need lib for doing trade map - background, svg for plots and text - initially pitch #
-  global $Pitches,$tloc,$loc;
+  global $Pitches,$tloc,$loc,$YEAR,$PLANYEAR;
 
 
 
   function PitchList() {
-    global $Pitches,$tloc,$loc,$TradeMapPoints;
+    global $Pitches,$tloc,$loc,$TradeMapPoints,$YEAR;
     echo "<div class=PitchWrap><div class=PitchCont>";
     echo "<div class=tablecont><table border class=TradeTable><tr><td>#<td>X<td>Y<td>Ang<td>Xsz<td>Ysz<td>Type<td>Txt<td>Col<td>font";
     $posn = 0;
@@ -28,6 +28,7 @@
       echo fm_text1("",$Pitch,'SN',1.2,'','',"SN$i") . fm_text1("",$Pitch,'Colour',0.35,'','',"Colour$i");
       echo fm_text1("",$Pitch,'Font',0.10,'','',"Font$i");
       echo fm_hidden("Loc$i",$loc);
+      echo fm_hidden('Year$i',$Pitch['Year']);
       $posn = max($posn, $Pitch['Posn']);
     }
     $Pitch['Posn'] = $posn+1; 
@@ -40,6 +41,7 @@
     echo "<td>" . fm_select($TradeMapPoints,$Pitch,'Type',0,'',"Type0");
     echo fm_text1("",$Pitch,'SN',1.2,'','',"SN0") . fm_text1("",$Pitch,'Colour',0.35,'','',"Colour0") . fm_text1("",$Pitch,'Font',0.10,'','',"Font0");
     echo fm_hidden('Loc0',$loc);
+    echo fm_hidden('Year0',$YEAR);
     echo "</table></div></div>";
     echo "<input type=submit name=Update value=Update> ";
     echo "<a href=TradeAssign?i=$loc style='font-size:20;'>Assign</a>";
@@ -47,12 +49,22 @@
   }
 
   $loc = $_REQUEST['i'];
-  $Pitches = Get_Trade_Pitches($loc);  
+  $Pitches = Get_Trade_Pitches($loc,$YEAR);  
   // START HERE
   if (isset($_POST['Update'])) {
 //    var_dump($_POST);
-    if (UpdateMany('TradePitch','Put_Trade_Pitch',$Pitches,1,'','','X',0)) $Pitches = Get_Trade_Pitches($loc);
-  }  
+    if (UpdateMany('TradePitch','Put_Trade_Pitch',$Pitches,1,'','','X',0)) $Pitches = Get_Trade_Pitches($loc,$YEAR);
+  }
+  if (isset($_REQUEST['COPY'])) {
+    foreach($Pitches as $Pitch) {
+      $Pitch['Year'] = $PLANYEAR;
+      Insert_db('TradePitch', $Pitch);
+    }
+    echo "Pitches copied";
+    echo "<h2><a href=TradeSetup?i=$loc>Edit/View</a></h2>";
+   
+    dotail();
+  }
 
   $tloc = Get_Trade_Loc($loc);
   
@@ -65,6 +77,13 @@
   
   Pitch_Map($tloc,$Pitches);
   PitchList();
+  
+  if ($YEAR < $PLANYEAR) {
+    echo "<h2><a href=TradeSetup?COPY&i=$loc&Y=$YEAR>Copy to Current</a></h2>";
+  } else {
+    $LYear = $YEAR-1;
+    echo "<h2><a href=TradeSetup?COPY&i=$loc&Y=$LYear>Copy $LYear to Current</a></h2>";
+  }
   dotail();
  
   

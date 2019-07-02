@@ -229,7 +229,7 @@
                 fm_hidden('Y',$YEAR) .
                 fm_select($Tlocs,0,'i',0," onchange=this.form.submit()") . "</form>\n";
 
-      echo "<li><a href=TradeLocs>Trade Locations</a>\n";
+      echo "<li><a href=TradeLocs?Y=$YEAR>Trade Locations</a>\n";
 //      echo "<li><a href=TradeSetup>Trade Pitch Setup</a>\n";
       if (Access('SysAdmin')) echo "<li><a href=TradeTypes>Trade Types and base Prices</a>\n";
       if (Access('SysAdmin')) echo "<li><a href=EmailTraders>Email Groups of Traders</a>\n"; // Old code needs lots of changes

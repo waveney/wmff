@@ -5,7 +5,8 @@ $Dance_TimeFeilds = array('SatArrive','SatDepart','SunArrive','SunDepart');
 $OlapTypes = array('Dancer','Musician','Avoid');
 $OlapDays = array('All','Sat Only','Sun Only','None');
 $OlapCats = array('Side','Act','Comedy','Family','Other');
-$Proforma_Colours = ['Decide'=>'DarkOrange','Details'=>'Magenta','Program'=>'Yellow','ProgChk'=>'lightsalmon','NewProg'=>'yellow','FinalInfo'=>'LawnGreen','FinalInfo2'=>'MediumSeaGreen'];
+$Proforma_Colours = ['Decide'=>'DarkOrange','Details'=>'Magenta','Program'=>'Yellow','ProgChk'=>'lightsalmon','NewProg'=>'yellow','FinalInfo'=>'LawnGreen','FinalInfo2'=>'MediumSeaGreen',
+ 'Invite'=>'Beige','Remind'=>'khaki'];
 $TickBoxes = [['Seen Programme','Invited','YHAS','Program:']]; // Year -> Name',Criteria, test , value
 
 function Proforma_Background($name) {
@@ -336,7 +337,7 @@ function Set_Side_Help() {
         'DataCheck'=>'Not yet working',
         'MorrisAnimal'=>'If the side has a morris animal - what kind is it',
         'Workshops'=>'That the side could run',
-        'Overlaps'=>'Do you overlap with any dance sides or other performers who might be at Wimborne, if so please describe in detail and we will try and prevent clashes',
+        'Overlaps'=>'Do you overlap with any dance sides, musicians or other performers who might be at Wimborne, if so please describe in detail and we will try and prevent clashes',
         'OverlapRules'=>'Dancer - must have break between spots, Musician allowed to play at same spot for two periods - then must break, Avoid - Dont put these together.
 Major - major error, minor avoid if you can',
         'Contact'=>'Main Contact',
@@ -726,7 +727,7 @@ function Dance_Email_Details($key,&$data,$att=0) {
     $txt = 'Click This';
     if (isset($bits[1])) $box = $bits[1];
     if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
-    return "<a href='https://" . $FESTSYS['HostURL'] . "/int/Access?t=s&i=$snum&B=$box&k=" . $Side['AccessKey'] . "&Y=$YEAR'><b>$txt</b></a>\n";
+    return "<a href='https://" . $FESTSYS['HostURL'] . "/int/Access?t=s&i=$snum&TB=$box&k=" . $Side['AccessKey'] . "&Y=$YEAR'><b>$txt</b></a>\n";
 
   }
 }

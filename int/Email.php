@@ -331,7 +331,7 @@ function Replace_Help($Area='',$Right=0) {
   ['*WEB:*/*WEB:URL:TEXT','Website for Festival, URL - to follow website, TEXT - To be displayed (NO SPACES - any _ will appear as spaces)','All'],
   ['*MISSING*','Important information missing from a dance side','Dance'],
   ['*SIDE*','Name of side','Dance'],
-  ['*TICKBOX:b:TEXT*','Direct link to click a box, b=box num(1-4), TEXT to be displayed (NO SPACES - any _ will appear as spaces)','Dance'],
+  ['*TICKBOX:b:TEXT*','Direct link to click a box, b=num(1-4)|Rec(eived)|..., TEXT to be displayed (NO SPACES - any _ will appear as spaces)','Dance'],
   ['*TRADEMAP*','Trade location and Map info','Trade'],
   ['*WEBSITESTUFF*','Traders photo and product description prompt','Trade'],
   ['*READFILE_file*','Read file as body of message - only use for VERY large messages, contact Richard to use','All'],
