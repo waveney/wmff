@@ -76,9 +76,6 @@
     if ($col8) echo "<th style='max-width:200'><a href=javascript:SortTable(" . $coln++ . ",'T')>$col8</a>\n";
     if ($col9) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col9</a>\n";
     if ($col10) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col10</a>\n";
-//    for($i=1;$i<5;$i++) {
-//      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>EM$i</a>\n";
-//    }
 
     echo "</thead><tbody>";
     while ($fetch = $SideQ->fetch_assoc()) {
@@ -135,10 +132,14 @@
         }
         echo "<td>" . fm_select2($Invite_States,$fetch['Invite'],"Invite$snum",0,"id=Invite$snum onchange=ChangeInvite(event)");
       }
-      echo "<td style='max-width:200'>";
-      echo "<button type=button id=Ted$snum onclick=ReportTed(event)>Y</button><span id=Vited$snum>";
+      echo "<td width=250 height=38 style='max-width:200;max-height:38;'>";
+      echo "<div id=Vited$snum class=scrollableY>";
       if (isset($fetch['Invited'])) echo $fetch['Invited'];
-      echo "</span>";
+      echo "</div>";
+
+//      echo "<button type=button id=Ted$snum onclick=ReportTed(event)>Y</button><span id=Vited$snum>";
+//      if (isset($fetch['Invited'])) echo $fetch['Invited'];
+//      echo "</span>";
       
       if (isset($fetch['Coming'])) {
         echo "<td style='background:" . $Coming_Colours[$fetch['Coming']] . "'>";
@@ -148,7 +149,7 @@
       }
 
       echo "<td>";
-      if (isset($fetch['Coming'])) {
+      if (isset($fetch['Coming']) && $fetch['Coming']) {
 //        echo $Coming_idx[$fetch['Coming']];
         switch ($Coming_idx[$fetch['Coming']]) {
         case 'R':
@@ -181,6 +182,12 @@
         case 'NY':
           break;
         }        
+      } else {
+        if (!$fetch['Invited']) echo "<button type=button id=Invie$snum class=ProfButton onclick=ProformaSend('Dance_Invite',$snum,'Invite','SendProfEmail')" . 
+                Proforma_Background('Invite') . ($fetch['Invite']?'':' hidden ') . ">Invite</button>";
+        echo "<button type=button id=Remind$snum class=ProfButton onclick=ProformaSend('Dance_Invite_Remind',$snum,'Remind','SendProfEmail')" . 
+                Proforma_Background('Remind') . ($fetch['Invited']?'':' hidden ') . ">Remind</button>";
+      
       }
 
 //      for($i=1;$i<5;$i++) {

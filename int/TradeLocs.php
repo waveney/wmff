@@ -3,6 +3,7 @@
   A_Check('Committee','Venues');
 
   dostaffhead("Manage Trade Locations");
+  global $YEAR;
 
   include_once("TradeLib.php");
   include_once("InvoiceLib.php");
@@ -55,7 +56,7 @@
     echo fm_text1('',$t,'MapImage',1,'','',"MapImage$i");
     echo fm_text1('',$t,'Mapscale',0.5,'','',"Mapscale$i");
     echo fm_text1('',$t,'Showscale',0.5,'','',"Showscale$i");
-    echo "<td><a href=TradeSetup?i=$i>Setup</a>";
+    echo "<td><a href=TradeSetup?i=$i&Y=$YEAR>Setup</a>";
     echo "<td><a href=TradeAssign?i=$i>Assign</a>";
     echo "\n";
   }

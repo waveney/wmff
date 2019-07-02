@@ -7,13 +7,12 @@
   include_once("PLib.php");
 
 // TODO change for all access types inc participant
-  global $USER,$Access_Type;
-  
+  global $USER,$USERID,$Access_Type;
   // 2D Access check hard coded here -- if needed anywhere else move to fest
-
   if (isset($_REQUEST['SideId'])) { $snum = $_REQUEST['SideId']; }
   elseif (isset($_REQUEST['sidenum'])) { $snum = $_REQUEST['sidenum']; }
   elseif (isset($_REQUEST['id'])) { $snum = $_REQUEST['id'];} 
+  elseif (isset($_REQUEST['i'])) { $snum = $_REQUEST['i'];} 
   else { $snum = 0; }
   switch ($USER['AccessLevel']) {
   case $Access_Type['Participant'] : 
@@ -44,7 +43,6 @@
   echo '<h2>Add/Edit Performer</h2>'; // TODO CHANGE
   global $Mess,$Action,$Dance_TimeFeilds;
   $DateFlds = ['ReleaseDate'];
-
 // var_dump($_POST);
 // TODO Change this to not do changes at a distance and needing global things
   $Action = ''; 
@@ -72,6 +70,7 @@
       } 
       break;
     case 'TICKBOX':
+
       break; // Action is taken later after loading
     
     default:
@@ -149,7 +148,19 @@
       }
       
       if (isset($_POST['TICKBOX'])) {
-        $Sidey["TickBox" . $_POST['TICKBOX']] = 1;
+        switch ($_POST['TICKBOX']) {
+        case 1: case 2: case 3: case 4:
+          $Sidey["TickBox" . $_POST['TICKBOX']] = 1;
+          break;
+          
+        case 'Rec': 
+          if (!isset($Sidey['Coming']) || !$Sidey['Coming'] ) $Sidey['Coming'] = 1;
+          break;
+          
+        default:
+          echo "<h2>Unrecognised Button</h2>";
+          
+        }
         Put_SideYear($Sidey);
         echo "<h2>Thankyou for recording that, your other records are below</h2>";
       }

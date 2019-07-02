@@ -1,6 +1,6 @@
 <?php
   include_once("fest.php");
-  A_Check('Steward');
+  A_Check('Staff');
 
   dostaffhead("List Dance", ["/js/clipboard.min.js","/js/emailclick.js", "/js/InviteThings.js"] );
   global $YEAR,$PLANYEAR,$Dance_Comp,$Dance_Comp_Colours,$Event_Types_Full;
@@ -64,7 +64,11 @@
     $col6 = "Sat";
     $col7 = "Sun";
     $col8 = "Missing";
-    if (Feature('DanceComp')) $col9 = "Dance Comp";
+    if (Feature('DanceComp')) { 
+      $col9 = "Dance Comp";
+    } else { 
+      $col9 = "Wshp";
+    }
     if ($DanceState >= 1) $col9b = "Seen";
     $col9c = "Messages";
     if (Access('Staff','Dance')) $col10 = "Proforma Emails";
@@ -188,6 +192,15 @@
         if (!isset($fetch['DanceComp'])) $fetch['DanceComp'] = 0;
         echo "<td style='background:" . $Dance_Comp_Colours[$fetch['DanceComp']] . "'>" . $Dance_Comp[$fetch['DanceComp']] ;
       }
+      if ($col9 == 'Wshp') {
+        echo "<td>";        
+        if ($fetch['Workshops']) {
+          $Wtext = htmlspecialchars($fetch['Workshops']);
+          echo "<img src=images/icons/LetterW.jpeg width=20 title='$Wtext'>";
+        }
+
+      }
+
 
       if ($col9b == 'Seen') {
         echo "<td>" . ($fetch['TickBox1']?'y':'');

@@ -228,7 +228,7 @@ if (isset($_FILES['croppedImage'])) {
 
   A_Check('Staff','Photos');
 
-  dostaffhead("Manage Photos",['/js/cropper.js',"/css/cropper.css"]);
+  dostaffhead("Manage Photos",['/js/cropper.js',"/css/cropper.css",'/js/Uploads.js']);
 
 
 /* Edit images for Sides, Traders, Sponsors
@@ -280,60 +280,8 @@ if (isset($_FILES['croppedImage'])) {
         'Sponsors'=>Access('Staff','Sponsors'),
         'Venues'=>Access('Staff','Venues'),
         'Venue2'=>Access('Staff','Venues'),
-        ]
+        ];
   
-?>
-<script language=Javascript defer>
-  var CC;
-  $(document).ready(function() {
-    CC = ($('#image').cropper({ 
-<?php echo "aspectRatio: " . $aspect[$Shape] . ',' ?>
-        viewMode:1,
-        autoCropArea:1,
-    }));
-
-    document.getElementById('crop_button').addEventListener('click', function(){
-
-      var DD = $('#image').cropper('getCroppedCanvas');
-
-      DD.toBlob(function (blob) {
-        var form = document.getElementById('cropform');
-        var formData = new FormData(form);
-
-        var fred = formData.append('croppedImage', blob,'croppedImage');
-
-        $.ajax('/int/PhotoManage', {
-          method: "POST",
-          data: formData,
-          processData: false,
-          contentType: false, 
-          success: function (resp) { 
-            //console.log(resp); 
-            //document.getElementById('Feedback').innerHTML = resp; 
-            var src = $('#image').attr('src');
-            src += '?' + Date.now();
-            $('#croptool').hide();
-            $('#cropresult').html('<img src=' + src + '><br><h2>Image cropped and saved</h2>');
-            var finalloc = $('#FinalLoc').html();
-            $('#NewImage').html(finalloc);
-            },
-          error: function (resp) { console.log(resp); document.getElementById('Feedback').innerHTML = resp; },
-          });
-        });
-      });
-    })
-
-  $(document).ready(function() {
-    $(window).keydown(function(event){
-      if(event.keyCode == 13) {
-        event.preventDefault();
-        return false;
-      }
-    });
-  });
-</script>
-<?php
-
   function Archive_Stack($loc) {
 //echo "Arc Stack called $loc<br>";
     if (!file_exists($loc)) return;
@@ -425,6 +373,7 @@ if (isset($_FILES['croppedImage'])) {
     echo "Type: " . $PhotoCats[$dat['Pcat']] . "<br>";
     echo "For: $Name<br>";
     echo "Shape: " . $Shapes[$Shape] . "<p>";
+    echo fm_hidden('aspectRatio',$aspect[$Shape]);
     echo fm_hidden('FinalLoc',$FinalLoc);
     if ($PhotoURL) {
       if ($PhotoURL != "1") {
@@ -540,14 +489,14 @@ Archive Thumbs
 
 */
 
-/*
+
 
 global $Cats,$CatLists,$Mode;
 $Cats = [];
 $CatList = [];
 $Mode = 0;
 
-function Photos_Access($id) { // Multi Images
+function Photos_AccessM($id) { // Multi Images
   global $Cats,$CatList,$USER,$Pcat;
   $Mode = 0;
 
@@ -585,7 +534,7 @@ function Photos_Access($id) { // Multi Images
 
 }
 
-function Photo_Access($id) { // Single image
+function Photo_Access1($P4,$id) { // Single image
   global $Mode,$Pcat,$Who,$PData,$Photo_Data;
   
 }
@@ -628,18 +577,34 @@ function Photo_Actions($Action) {
 
 // Start Here
 $id = 0;
+$P4 = '';
 
-if (isset($_REQUEST['id'])) { $id = $_REQUEST['id'];} 
-Photo_Access($id);
+if (isset($_REQUEST['id'])) $id = $_REQUEST['id'];
+if (isset($_REQUEST['P4'])) $P4 = $_REQUEST['P4'];
 
+if ($P4) {
+  Photo_Access1($P4,$id);
+} else {
+  Photo_AccessMany($id);
+}
 
+if (isset($_REQUEST['Action'])) {
+  Photo_Actions($_REQUEST['Action']);
+} else {
+  Photo_Show();
+}
 
+dotail();
 
+/* 
+Upload/Change Photo button -> PhotoMange (with restrictions if Perf)
+On upload downconvert to 800x536 as first step if needed
+Select File /Drag drop -> Show new phot and crop lines
+Crop and Save -> Back to Perf
+[ Rotate, Change crop format (if staff) ] 
+if !Staff display message it is possible to have a picture that does not conform to the standard crop, but there has to be a very good reason.
+[Staff] Thumbs of older images - click to examine
 
+Need a record of what is being done - large complex hidden value or Temp file(s) based on userid
 
 */
-
-
-
-
-?>

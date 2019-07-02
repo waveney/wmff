@@ -77,10 +77,11 @@ function Put_Trade_Loc(&$now) {
   return Update_db('TradeLocs',$Cur,$now);
 }
 
-function Get_Trade_Pitches($loc='') {
-  global $db;
+function Get_Trade_Pitches($loc='',$Year=0) {
+  global $db,$YEAR;
+  if ($Year == 0) $Year=$YEAR;
   $full = [];
-  $res = $db->query("SELECT * FROM TradePitch " . ($loc?"WHERE Loc=$loc ":"") . " ORDER BY Posn ");
+  $res = $db->query("SELECT * FROM TradePitch " . ($loc?"WHERE Loc=$loc ":"") . " AND Year=$Year ORDER BY Posn ");
   if ($res) {
     while ($ptch = $res->fetch_assoc()) {
       $full[$ptch['Posn']] = $ptch;

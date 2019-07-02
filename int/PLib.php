@@ -91,7 +91,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
         echo fm_text('Website',$Side,'Website');
       };
       if (Feature('NewPhotos')) {
-        echo "<td><button type=submit formaction=PhotoManage?WHO0=$snum&PCAT=0&Edit>" . ($Side['Photo']?'Change Photo':'Store Photo');
+        echo "<td><button type=submit formaction=PhotoManage?id=$snum&P4=Perf>" . ($Side['Photo']?'Change Photo':'Store Photo');
       } else {
         echo fm_text('Recent Photo',$Side,'Photo',1,'style="min-width:145;"'); 
 
