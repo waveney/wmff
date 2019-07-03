@@ -195,7 +195,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
   global $PLANYEAR,$MASTER,$FESTSYS,$USERID;
   static $attnum = 0;
   $Reps = [];
-
+  
   while (preg_match('/\*(\w*)\*/',$Mess)) {
     if (preg_match_all('/\*(\S*)\*/',$Mess,$Matches)) {
       foreach($Matches[1] as $key) {
@@ -265,8 +265,15 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
 //var_dump($qk,$v);
         $Mess = preg_replace("/\*$qk\*/",$v,$Mess);
       }
+
     }
   }
+  
+//echo "<br>Before:<br>";
+//var_dump($Mess);
+  $Mess = preg_replace('/(?<!<p>)\n+/',"<p>\n\n",$Mess);
+//echo "<br>After:<br>";
+//var_dump($Mess);
 }
 
 
