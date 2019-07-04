@@ -12,6 +12,7 @@ function ChangeInvite(ev) {
   var iv = ev.target.value;
   var year = $("#Year").val();
   $("#InformationPane").load("setfields.php", "I=" + snum + "&O=Y&F=Invite&V=" + iv + "&Y=" + year);
+  if (iv != 3) $("#Invie" + snum).show();
 }
 
 function ReportTed(ev) {

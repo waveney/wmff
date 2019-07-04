@@ -42,7 +42,7 @@ if (isset($_POST['PREVIEW'])) {
   echo "<p><h3>Preview...</h2>";
   $MessP = $Mess;
   Parse_Proforma($MessP,$helper='Dance_Email_Details',[$Side,$Sidey],1);
-  echo "<div style='background:white;border:2;border-color:blue;padding:20;margin:20;width:90%;height:50%;overflow:scroll' >$MessP</div>";
+  echo "<div style='background:white;border:2;border-color:blue;padding:20;margin:20;width:90%;max-width:80ch;height:50%;overflow:scroll' >$MessP</div>";
 }
 echo "<h3>Edit the message below, then click Preview, Send or Cancel</h3>";
 echo "Put &lt;p&gt; for paras, &lt;br&gt; for line break, &lt;b&gt;<b>Bold</b>&lt;/b&gt;, &amp;amp; for &amp;, &amp;pound; for &pound; <p> ";
