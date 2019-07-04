@@ -223,7 +223,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
           case (preg_match('/WEB(:.*)/',$key,$mtch)?true:false):
             $bits = preg_split('/:/',$mtch[1],3);
             $url = '';
-            $txt = 'Festival Website';
+            $txt = $FESTSYS['HostURL'];
             if (isset($bits[1])) $url = $bits[1];
             if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
             $rep = "<a href='https://" . $FESTSYS['HostURL'] . ($url? "/$url" : "") . "'>$txt</a>";
@@ -271,7 +271,8 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
   
 //echo "<br>Before:<br>";
 //var_dump($Mess);
-  $Mess = preg_replace('/(?<!<p>)\n+/',"<p>\n\n",$Mess);
+  $Mess = preg_replace('/(?<!<p>)\n\s*\n+\s*/mi',"<p>\n\n",$Mess);
+
 //echo "<br>After:<br>";
 //var_dump($Mess);
 }
