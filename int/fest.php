@@ -84,8 +84,8 @@ function Set_User() {
       $USERID = $USER['UserId'];
       $db->query("UPDATE FestUsers SET LastAccess='" . time() . "' WHERE UserId=$USERID" );
 // Track suspicious things
-      if (($USERID == 35) && (file_exists("LogFiles"))) {
-        $logf = fopen("LogFiles/U35.txt",'a+');
+      if (($USER['LogUse']) && (file_exists("LogFiles"))) {
+        $logf = fopen("LogFiles/U$USERID.txt",'a+');
         if ($logf) {
           fwrite($logf,date('d/m H:j:s '));
           fwrite($logf,$_SERVER['PHP_SELF']);

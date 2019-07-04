@@ -82,6 +82,7 @@
       echo "<tr>" . fm_text('Change Sent',$User,'ChangeSent',1,'','readonly');
       echo "<tr>" . fm_text('Access Key',$User,'AccessKey',1,'','readonly');
       echo "<tr>" . fm_textarea('Prefs',$User,'Prefs',6,2);
+      echo "<tr><td>Log Use" . fm_checkbox('',$User,'LogUse');
     }
     echo "</table></div>\n";
 
