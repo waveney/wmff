@@ -457,4 +457,121 @@ function ChunkSplit($txt,$maxlen,$maxchnks) {
   return $Res;
 }
 
+function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
+  global $YEAR,$USER;
+  if (!Access('Staff')) return 0;
+  include_once("DanceLib.php");
+  $Label = '';
+  if (isset($data['HasAgent']) && ($data['HasAgent'])) {
+    if ($xtr == '') {
+      if (!isset($data["AgentEmail"])) return "";
+      $email = $data['AgentEmail'];
+      $xtr = 'Agent';
+      if (isset($data['AgentName'])) { $name = firstword($data['AgentName']); }
+      else { $name = $data['SN']; }
+    } else if ($xtr == '!!') {
+      if (!isset($data["Email"])) return "";
+      $email = $data['Email'];
+      $xtr = '';
+      $Label = 'Direct ';
+      if (isset($data[$xtr .'Contact'])) { $name = firstword($data[$xtr .'Contact']); }
+      else { $name = $data['SN']; }
+    } else {
+      if (!isset($data[$xtr . "Email"])) return "";
+      $email = $data[$xtr . 'Email'];
+      $Label = $xtr;
+      if (isset($data[$xtr .'Contact'])) { $name = firstword($data[$xtr .'Contact']); }
+      else { $name = $data['SN']; }
+    }
+  } else {
+    if ($xtr == '!!') $xtr = '';
+    if (!isset($data[$xtr . "Email"])) return "";
+    $email = $data[$xtr . 'Email'];
+    $Label = $xtr;
+    if (isset($data[$xtr .'Contact'])) { $name = firstword($data[$xtr .'Contact']); }
+    else { $name = $data['SN']; }
+  }
+  if ($email == '') return "";
+  $email = Clean_Email($email);
+  $key = $data['AccessKey'];
+  if (isset($data['SideId'])) {
+    $id = $data['SideId'];
+  } else if (isset($data['Tid'])) {
+    $id = $data['Tid'];
+  }
+  if (!isset($id)) return "";
+
+  $link = "'mailto:$email?from=" . $USER['Email'] .
+         "&subject=" . urlencode("Wimborne Minster Folk Festival $YEAR and " . $data['SN']) . "'";
+  $direct = "<a href=https://" . $_SERVER['HTTP_HOST'] . "/int/Direct?t=$type&id=$id&key=$key&Y=$YEAR>this link</a>  " ;
+
+  if (isset($data['SideId'])) {
+    if ($data['IsASide'] && !$data['TotalFee']) {
+      $ProgInfo = Show_Prog($type,$id,1);
+      $Content = urlencode("$name,<p>" .
+              "<div id=SideLink$id>" .
+              "Please add/correct details about your side's contact information and your preferences in " .
+              "terms of days coming, number of dance spots, etc. by visiting $direct.</div><p>" .
+              "You can update information at any time, until the programme goes to print. " .
+              "(You'll also be able to view your programme times, once we've done the programme)<p>" .
+              "<div id=SideProg$id>$ProgInfo</div><p>" .
+              "Regards " . $USER['SN'] . "<p>"); 
+    } else {
+      include_once("MusicLib.php");
+      $Content = MusicMail($data,$name,$id,$direct);
+    }
+  } else { // Trade/Invoicing (I think gets here)
+    $Content = urlencode("$name,<p>" . "Regards " . $USER['SN'] . "<p>"); 
+  }
+
+  $lnk = "<button onclick=\"emailclk($link,'Email$id'); $ButtonExtra\" id=Em$id target='_blank' type=button>$Label Email</button>" .
+         "<div hidden><div id=Email$id>$Content</div></div>";
+  return $lnk;
+}
+
+function fm_DragNDrop($id,$Multi=0,$After='',$Othertext='') {
+  echo "<form id=$id class=DD_box method=post enctype='multipart/form-data'>";
+  echo "<div class=DD_box__input>";
+  if ($Multi) {
+    echo "<input class=DD_box__file type=file name=DD_files_$id" . '[]' . " id=DDfile_$id " . ' data-multiple-caption="{count} files selected" multiple >';
+    echo "<label for=DDfile_$id><strong>Choose files<span class=DD_box__dragndrop> or drag them here</span>.</strong> $Othertext</label>";
+  } else {
+    echo "<input class=DD_box__file type=file name=DD_file_$id id=DDfile_$id>";
+    echo "<label for=DDfile_$id><strong>Choose a file<span class=DD_box__dragndrop> or drag it here</span>.</strong> $Othertext</label>";  
+  }
+  echo "<button class=DD_box__button type=submit>Upload</button>";
+  echo "</div>";
+  echo "<div class=DD_box__uploading >Uploading&hellip;</div>";
+  echo "<div class=DD_box__success>Done!</div>";
+  echo "<div class=DD_box__error>Error! <span></span>.</div>";
+  echo "</form>\n";
+}
+
+/*
+</form> Select insurance file to upload:";
+
+        echo "<input type=file $ADDALL name=InsuranceForm id=InsuranceForm onchange=document.getElementById('InsuranceButton').click()>";
+        echo "<input hidden type=submit name=Action value=Insurance id=InsuranceButton>";
+
+        if ($Mode){
+          echo "<td class=NotCSide colspan=2>" . fm_radio('Insurance',$InsuranceStates,$Sidey,'Insurance','',0);
+          if (isset($Sidey['Insurance']) && $Sidey['Insurance']) {
+            $files = glob("Insurance/$YEAR/Sides/$snum.*");
+            if ($files) {
+              $Current = $files[0];
+              $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
+              echo " <a href=ShowFile?l=Insurance/$YEAR/Sides/$snum.$Cursfx>View</a>";
+            }
+          }
+        } else {
+          $tmp['Ignored'] = $Sidey['Insurance'];
+          echo "<td>" . fm_checkbox('Insurance Uploaded',$tmp,'Ignored','disabled');
+          echo fm_hidden('Insurance',$Sidey['Insurance']);
+        }
+        if ($Mess && ($Action == 'Insurance')) echo "<td colspan=2>$Mess\n";
+      }
+
+}
+*/
+
 ?>

@@ -338,7 +338,7 @@
   if (!$skip) {
     echo "<button class='floatright FullD' onclick=\"($('.FullD').toggle())\">More Info</button><button class='floatright FullD' hidden onclick=\"($('.FullD').toggle())\">Less Info</button> ";
     echo "<h2>Directory: " . Get_Parent($d) . "</h2>";
-    echo '<form action="Dir" method="post" enctype="multipart/form-data" id=Uploads>';
+
     Doc_Table_Head();
  
  // Parent
@@ -364,8 +364,13 @@
 
     foreach($list as $file) Doc_List($file);
     
-    echo "</tbody></table></div>\n";
+    echo "</tbody></table></div><p>\n";
 
+//    fm_DragNDrop(0,1,'','- Do not upload more than 15M at once, for large files contact <a href=mailto:Richard@wavwebs.com>Richard</a>');
+    
+    echo "<p>";
+
+    echo '<form action="Dir" method="post" enctype="multipart/form-data" id=Uploads>';
     echo "Select file(s) to upload:";
     echo fm_hidden('d', $d);
     echo fm_hidden('FileAction', 'Upload');
@@ -377,7 +382,6 @@
     echo fm_simpletext('New Directory',$_POST,'DirName');
     echo '<input type="submit" value="Create" name="Action">';
     echo "</form>\n";
-
     SearchForm($d);
   }
 

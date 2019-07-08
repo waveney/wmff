@@ -1,6 +1,6 @@
 <?php
   include_once("int/fest.php");
-
+  include_once("int/festfm.php");
   dohead("Data Privacy",[],1);
 
   if (isset($_POST['CHECK'])) {

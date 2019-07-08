@@ -1,6 +1,22 @@
 <?php
 // Common Dance Library
 
+$Noise_Levels = array("Middling","Quiet","Noisy");
+$Noise_Colours = ['lightgreen','yellow','Orange'];
+$Coming_States = array('','Received','Coming','Not coming','Possibly','Not coming, please ask next year');
+$Coming_Colours = ['white','Yellow','Lime','salmon','lightblue','Orange'];
+$Coming_idx = array('','R','Y','N','P','NY');
+$Coming_Type = array_flip($Coming_idx);
+$Invite_States = array('','Yes','YES!','No','Maybe');
+$Invite_Type = array_flip($Invite_States);
+$Dance_Comp = ['Don\'t Know','Yes','No'];
+$Dance_Comp_Colours = ['white','lime','salmon'];
+$Surfaces = ['','Tarmac','Flagstones','Grass','Stage','Brick','Wood','Carpet','Astroturf'];// Last 3 Sysadmin only
+$Surface_Colours = ['','grey','Khaki','lightgreen','Peru','salmon','Peru','Teal','lime'];
+$Side_Statuses = array("Alive","Dead");
+$Share_Spots = array('Prefered','Always','Never','Sometimes');
+$Share_Type = array_flip($Share_Spots);
+
 $Dance_TimeFeilds = array('SatArrive','SatDepart','SunArrive','SunDepart');
 $OlapTypes = array('Dancer','Musician','Avoid');
 $OlapDays = array('All','Sat Only','Sun Only','None');
@@ -106,6 +122,7 @@ function &Part_Come_All() {
 }
 
 function Show_Side($snum,$Message='',$price=0) {
+  include_once("ProgLib.php");
   global $YEAR, $Coming_Type,$db;
   if (is_numeric($snum) && ($side = Get_Side($snum))) {
     $syear = Get_SideYear($snum,$YEAR);
@@ -686,6 +703,7 @@ function Extended_Prog($type,$id,$all=0) {
 
 function Dance_Email_Details($key,&$data,$att=0) {
   global $Trade_Days,$TradeLocData,$TradeTypeData,$YEAR,$FESTSYS;
+  include_once("ProgLib.php");
   $Side = &$data[0];
   if (isset($data[1])) $Sidey = &$data[1];
   $snum = $Side['SideId'];
