@@ -48,6 +48,7 @@ The setting up of this forwarding is done outside of the festival system on your
 Edit and Report - can make changes, also get an email when others make changes to that area (may no longer work).  See below for list of areas
 <tr><td>Change Sent, Access Key<td>These are for internal workings, dont change
 <tr><td>Prefs<td>This records any user preferences from session to session - it is set normally from elsewhere (use is expanding)
+<tr><td>Log Use<td>Set this to log every action by that user (not normally needed)
 </table><p>
 
 <h3>Control areas</h3>

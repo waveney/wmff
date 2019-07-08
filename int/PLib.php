@@ -696,35 +696,39 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
   $NotD = 0;
   foreach ($PerfTypes as $p=>$d) if (($d[0] != 'IsASide') && $Side[$d[0]]) $NotD = 1;
   
-  echo "<tr>";
+  echo "<tr id=InsRow>";
     if ($NotD || $Mstate || $Mode) {
-      echo "<td colspan=2 $Imp>Select insurance file to upload:";
+      if (Feature('NewPhotos')) {
+        echo fm_Insurance('Sides',$snum,$Sidey,$Mode,$Imp);
+      } else {
+        echo "<td colspan=2 $Imp>Select insurance file to upload:";
 /*
       echo "<input type=file $ADDALL name=InsuranceForm id=InsuranceForm onchange=document.getElementById('InsuranceButton').click() hidden>";
       echo '<button type=submit onclick=document.getElementById("InsuranceForm").click();>Browse...</button>';
       echo "<input hidden type=submit name=Action value=Insurance id=InsuranceButton>";
 */
-      echo "<input type=file $ADDALL name=InsuranceForm id=InsuranceForm onchange=document.getElementById('InsuranceButton').click()>";
-      echo "<input hidden type=submit name=Action value=Insurance id=InsuranceButton>";
+        echo "<input type=file $ADDALL name=InsuranceForm id=InsuranceForm onchange=document.getElementById('InsuranceButton').click()>";
+        echo "<input hidden type=submit name=Action value=Insurance id=InsuranceButton>";
 
-      if ($Mode){
-        echo "<td class=NotCSide colspan=2>" . fm_radio('Insurance',$InsuranceStates,$Sidey,'Insurance','',0);
-        if (isset($Sidey['Insurance']) && $Sidey['Insurance']) {
-          $files = glob("Insurance/$YEAR/Sides/$snum.*");
-          if ($files) {
-            $Current = $files[0];
-            $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
-            echo " <a href=ShowFile?l=Insurance/$YEAR/Sides/$snum.$Cursfx>View</a>";
+        if ($Mode){
+          echo "<td class=NotCSide colspan=2>" . fm_radio('Insurance',$InsuranceStates,$Sidey,'Insurance','',0);
+          if (isset($Sidey['Insurance']) && $Sidey['Insurance']) {
+            $files = glob("Insurance/$YEAR/Sides/$snum.*");
+            if ($files) {
+              $Current = $files[0];
+              $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
+              echo " <a href=ShowFile?l=Insurance/$YEAR/Sides/$snum.$Cursfx>View</a>";
+            }
           }
+        } else {
+          $tmp['Ignored'] = $Sidey['Insurance'];
+          echo "<td>" . fm_checkbox('Insurance Uploaded',$tmp,'Ignored','disabled');
+          echo fm_hidden('Insurance',$Sidey['Insurance']);
         }
-      } else {
-        $tmp['Ignored'] = $Sidey['Insurance'];
-        echo "<td>" . fm_checkbox('Insurance Uploaded',$tmp,'Ignored','disabled');
-        echo fm_hidden('Insurance',$Sidey['Insurance']);
+        if ($Mess && ($Action == 'Insurance')) echo "<td colspan=2>$Mess\n";
       }
-
-      if ($Mess && ($Action == 'Insurance')) echo "<td colspan=2>$Mess\n"; 
-    } else {
+    }
+     else {
       echo "<td>Insurance:<td colspan=3>You will be able to upload your Insurance here in $YEAR\n";
     }
 

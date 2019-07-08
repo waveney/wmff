@@ -664,4 +664,134 @@ function &Get_Active_Venues($All=0) {
   return $ans;
 }
 
+
+function Show_Prog($type,$id,$all=0,$price=0) { //mode 0 = html, 1 = text for email
+    global $DayList,$db;
+    $str = '';
+    include_once("ProgLib.php");
+    include_once("DanceLib.php");
+    $Evs = Get_All_Events_For($type,$id,$all);
+    $ETs = Get_Event_Types(1);
+    $side = Get_Side($id);
+//echo "Type: $type, $id<p>";
+//var_dump($Evs);
+    $evc=0;
+    $Worst= 99;
+    $EventLink = ($all?'EventAdd':'EventShow');
+    $VenueLink = ($all?'AddVenue':'VenueShow');
+    $Venues = Get_Real_Venues(1);
+    if ($Evs) { // Show IF all or EType state > 1 or (==1 && participant)
+      $With = 0;
+      $Price = 0;
+      foreach ($Evs as $e) {
+        if ($e["BigEvent"] || ($e['IsConcert'] && $e['SubEvent']>0)) { $With = 1;  }
+        for ($i = 1; $i<5;$i++) if ($e["Side$i"] && $e["Side$i"] != $id) { $With = 1; break; }
+        if ($price && ( $e['Price1'] || ($e['IsConcert'] && $e['SubEvent']>0))) $Price = 1; // Maybe slightly too likely to set Price, but it probably does not matter
+      }
+
+      $UsedNotPub = 0;
+      foreach ($Evs as $e) {
+        $cls = ($e['Public']<2?'':' class=NotCSide ');
+        if ($all || $ETs[$e['Type']]['State'] > 1 || ($ETs[$e['Type']]['State'] == 1 && Access('Participant',$type,$id))) {
+          if (!$all && $ETs[$e['Type']]['Public'] == 0) continue;
+          $evc++;
+           $Worst = min($ETs[$e['Type']]['State'],$Worst);
+          if ($e['BigEvent']) { // Big Event
+            $Others = Get_Other_Things_For($e['EventId']);
+            $VenC=0;
+            $PrevI=0;
+            $NextI=0;
+            $PrevT=0;
+            $NextT=0;
+            $Found=0;
+            $Position=1;
+            foreach ($Others as $O) {
+              switch ($O['Type']) {
+              case 'Side':
+              case 'Act':
+              case 'Other':
+              case 'Perf':
+                if ($O['Identifier'] == $id) {
+                  $Found = 1; 
+                } else {
+                  if ($Found && $NextI==0) { $NextI=$O['Identifier']; $NextT=$O['Type']; }
+                  if (!$Found) { $PrevI=$O['Identifier']; $PrevT=$O['Type']; $Position++; }
+                }
+                break;
+              case 'Venue':
+                $VenC++;
+              default:
+                break;
+              }
+            }
+            $str .= "<tr><td $cls>" . FestDate($e['Day'],'M') . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
+                        "<td $cls><a href=/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SN'] . "</a><td $cls>";
+            if ($VenC) $str .= " starting from ";
+            $str .= "<a href=/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) ;
+            $str .= "</a><td $cls>";
+            if ($e['NoOrder']==0) {
+              if ( $PrevI || $NextI) $str .= "In position $Position";
+              if ($PrevI) { $str .= ", After " . SAO_Report($PrevI); };
+              if ($NextI) { $str .= ", Before " . SAO_Report($NextI); };
+            }
+            if ($Price) $str .= "<td>" . Price_Show($e,1);
+            $str .= "\n";
+          } else if ($e['IsConcert'] && $e['SubEvent'] > 0) {
+            // Need all other perfs, concert start & end
+            $Parent = $e['SubEvent'];
+            $pe = Get_Event($Parent);
+            $res=$db->query("SELECT * FROM Events WHERE SubEvent=$Parent ORDER BY Day, Start");
+            $with = [];
+            while ($ev = $res->fetch_assoc()) {
+              for ($i=1;$i<5;$i++) {
+                if ($ev["Side$i"] > 0 && $ev["Side$i"] != $id) { 
+                  $with[] = SAO_Report($ev["Side$i"]);
+                }
+              }
+            }
+            $str .= "<tr><td $cls>" . FestDate($e['Day'],'M') . "<td $cls>" . timecolon($pe['Start']) . "-" . timecolon($pe['End'] ) .
+                        "<td $cls><a href=/int/$EventLink?e=$Parent>" . $pe['SN'] . 
+                        "</a><td $cls><a href=/int/$VenueLink?v=" . $pe['Venue'] . ">" . VenName($Venues[$pe['Venue']]) . "</a>" .
+                        "<td>" . implode(', ',$with) . "<br>" . $side['SN'] . " will be performing from " . timecolon($e['Start']) . " to " . timecolon($e['End']);
+            if ($Price) $str .= "<td>" . Price_Show($pe,1);
+          
+          } else { // Normal Event
+            $str .= "<tr><td $cls>" . FestDate($e['Day'],'M') . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
+                        "<td $cls><a href=/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SN'] . 
+                        "</a><td $cls><a href=/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a>";
+            if ($With) {
+              $str .= "<td $cls>";
+              $withc=0;
+              for ($i=1;$i<5;$i++) {
+                if ($e["Side$i"] > 0 && $e["Side$i"] != $id) { 
+                  if ($withc++) $str .= ", "; 
+                  $str .= SAO_Report($e["Side$i"]);
+                }
+              }
+            }
+            if ($Price) $str .= "<td>" . Price_Show($e,1);
+            $str .= "\n";
+          }
+        } else { // Debug Code
+//          echo "State: " . $ETs[$e['Type']]['State'] ."<p>";
+        }
+        if ($cls) $UsedNotPub = 1;
+      }
+      if ($evc) {
+        $Thing = Get_Side($id);
+        $Desc = ($Worst > 2)?"":'Current ';
+        $str = "<h2>$Desc Programme for " . $Thing['SN'] . ":</h2>\n" . ($UsedNotPub?"<span class=NotCSide>These are not currently public<p>\n</span>":"") .
+                "<div class=tablecont><table border class=PerfProg><tr><td>Day<td>time<td>Event<td>Venue" . ($With?'<td>With':'') . ($Price?'<td>':'') . $str;
+      }
+    }
+    if ($evc) {
+      $str .= "</table></div>\n";    
+    }
+
+//var_dump($str);
+
+  return $str;
+}
+
+
 ?>

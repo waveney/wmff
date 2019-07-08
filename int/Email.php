@@ -269,12 +269,8 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
     }
   }
   
-//echo "<br>Before:<br>";
-//var_dump($Mess);
   $Mess = preg_replace('/(?<!<p>)\n\s*\n+\s*/mi',"<p>\n\n",$Mess);
 
-//echo "<br>After:<br>";
-//var_dump($Mess);
 }
 
 

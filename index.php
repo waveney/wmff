@@ -1,16 +1,17 @@
 <?php
   include_once("int/fest.php");
+  set_ShowYear();  
   global $FESTSYS,$YEARDATA,$NEXTYEARDATA,$Months;
   include_once("int/TradeLib.php");
   include_once("int/NewsLib.php");
   include_once("int/DispLib.php");
   
 
-  set_ShowYear();  
+//  set_ShowYear();  
   $DFrom = ($YEARDATA['DateFri']+$YEARDATA['FirstDay']);
   $DTo = ($YEARDATA['DateFri']+$YEARDATA['LastDay']);
   $DMonth = $Months[$YEARDATA['MonthFri']];
-  
+//  var_dump($YEARDATA);
   if ($YEARDATA['Years2Show'] > 0) {
     $NFrom = ($NEXTYEARDATA['DateFri']+$NEXTYEARDATA['FirstDay']);
     $NTo = ($NEXTYEARDATA['DateFri']+$NEXTYEARDATA['LastDay']);

@@ -258,10 +258,12 @@ function Feature($Name,$default='') {  // Return value of feature if set from FE
 }
 
 function set_ShowYear() { // Overrides default above if not set by a Y argument
-  global $YEAR,$SHOWYEAR,$YEARDATA;
+  global $YEAR,$SHOWYEAR,$YEARDATA,$NEXTYEARDATA;
   if (!isset($_POST['Y']) && !isset($_GET['Y'])) {
     $YEAR = $SHOWYEAR;
     $YEARDATA = Get_General($YEAR);
+    if ($YEARDATA['Years2Show'] > 0) $NEXTYEARDATA = Get_General($YEAR+1);
+
   }
 }
 
