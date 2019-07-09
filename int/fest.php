@@ -72,6 +72,8 @@ function Set_User() {
           fwrite($logf,date('d/m H:j:s '));
           fwrite($logf,$_SERVER['PHP_SELF']);
           fwrite($logf,json_encode($_REQUEST));
+          if ($_COOKIE) fwrite($logf,json_encode($_COOKIE));
+          if ($_FILES) fwrite($logf,json_encode($_FILES));
           fwrite($logf,"\n\n");
         }
       }

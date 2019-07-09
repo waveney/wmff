@@ -135,13 +135,13 @@ function Put_Trade_Type(&$now) {
 }
 
 function Get_Sponsors($tup=0) { // 0 Current, 1 all data
-  global $db,$PLANYEAR;
+  global $db,$SHOWYEAR;
   $full = array();
-  $yr = ($tup ?"" :" WHERE Year=$PLANYEAR ");
+  $yr = ($tup ?"" :" WHERE Year=$SHOWYEAR ");
   $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY SN ");
   if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   if ($tup==0 && empty($full)) {
-    $yr = " WHERE Year=" . ($PLANYEAR-1);
+    $yr = " WHERE Year=" . ($SHOWYEAR-1);
     $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY SN ");
     if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   }

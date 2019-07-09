@@ -944,34 +944,9 @@ table {
   width:33%;
 }
 
-.DD_box__dragndrop,
-.DD_box__uploading,
-.DD_box__success,
-.DD_box__error {
-  display: none;
-}
-
-.DD_box.has-advanced-upload {
+.xxdropzone {
   background-color: white;
   outline: 2px dashed black;
   outline-offset: 10px;
 }
-.DD_box.has-advanced-upload .DD_box__dragndrop {
-  display: inline;
-}
 
-.DD_box.has-advanced-upload .DD_box__file,
-.DD_box.has-advanced-upload .DD_box__button {
-  display: none;
-}
-
-.DD_box .is-dragover {
-  background-color: grey;
-}
-
-.DD_box .is-uploading .box__input {
-  visibility: none;
-}
-.DD_box .is-uploading .DD_box__uploading {
-  display: block;
-}

@@ -5,6 +5,7 @@
   include_once("int/TradeLib.php");
   include_once("int/NewsLib.php");
   include_once("int/DispLib.php");
+  include_once("int/festfm.php");
   
 
 //  set_ShowYear();  
@@ -20,8 +21,8 @@
   }
 
   $Banner  = "<div class=WMFFBanner800><img src=" . $FESTSYS['DefaultPageBanner'] . " class=WMFFBannerDefault>";
-  $Banner .= "<div class=BanOverlay><img src=/images/icons/wimborne-folk-festival-logo-white-shadow.png>";
-  $Banner .= "<img src=/images/icons/underline.png>";
+  $Banner .= "<div class=BanOverlay><img src=/images/icons/wimborne-folk-festival-logo-white-shadow.png?1>";
+  $Banner .= "<img src=/images/icons/underline.png?1>";
   $Banner .= "</div>";
 
   if ($YEARDATA['Years2Show'] == 2) {  
