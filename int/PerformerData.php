@@ -2,7 +2,7 @@
   include_once("fest.php");
   A_Check('Staff');
 
-  dostaffhead("Performer Data");
+  dostaffhead("Performer Data",["/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js","js/dropzone.js","css/dropzone.css"]);
   include_once("DanceLib.php");
   include_once("MusicLib.php");
   include_once("DateTime.php");
@@ -86,6 +86,20 @@
   
   // Upload && back to edit performer
   if ($UpdateValid) {
+    echo "<form method=post action=PerformerData enctype='multipart/form-data' class=dropzone id=PerfUpload >";
+      echo fm_hidden('id', $id);
+      echo fm_hidden('ACTION', 'STORE');
+    echo "</form><script>";
+    echo <<<XXX
+    Dropzone.options.PerfUpload = { 
+      paramName: "uploads[]",
+      init: function() {
+        this.on("success", function(e,r) { document.open(); document.write(r); document.close(); });
+      },
+    };
+XXX;
+    echo "</script><p>";
+/*
     echo '<form action="PerformerData" method="post" enctype="multipart/form-data" id=Uploads>';
       echo "Select file(s) to upload:";
       echo fm_hidden('id', $id);
@@ -93,8 +107,9 @@
       echo '<input type="file" name="uploads[]" multiple onchange=this.form.submit()>';
       echo " &nbsp; &nbsp; Do not upload more than 15M at once, for large files contact <a href=mailto:Richard@wavwebs.com>Richard</a>.\n";
       echo "</form>\n";
+      */
   };
-      
+
   echo "<h2><a href=AddPerf?sidenum=$id>Back to " . $Side['SN'] . "</a></h2>\n";
   
   dotail();

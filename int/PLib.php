@@ -240,7 +240,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
 // Members
     if ($Side['IsAnAct']) { // May need for Other
       $Band = Get_Band($snum);      
-      $BandPerRow=7;
+      $BandPerRow=7; 
       $Curband = $Band? count($Band) : 0;
       $Rows = max(1,ceil($Curband/$BandPerRow));
       $colcnt = 0;

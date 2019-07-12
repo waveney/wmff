@@ -530,18 +530,19 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
   return $lnk;
 }
 
-function fm_DragonDropInner($Type,$Cat,$id,&$Data,$Imp='',$Mode=0,$Cond=1,$Mess='') {
+function fm_DragonDropInner($Type,$Cat,$id,&$Data,$Imp='',$Mode=0,$Cond=1,$Mess='',$UseYear=1) {
   global $db,$InsuranceStates,$YEAR;
   $SType = preg_replace('/ */','',$Type);
   $str = "<div id=Result$SType>";
+  $path = ($UseYear?"$SType/$YEAR/$Cat/$id":"$SType/$id");
   if ($Mode) {
     $str .= "<div class=NotCSide colspan=2>" . fm_radio($Type,$InsuranceStates,$Data,$SType,'',0);
     if (isset($Data[$SType]) && $Data[$SType]) {
-      $files = glob("$SType/$YEAR/$Cat/$id.*");
+      $files = glob("$path.*");
       if ($files) {
         $Current = $files[0];
         $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
-        $str .= " <a href=ShowFile?l=$SType/$YEAR/$Cat/$id.$Cursfx>View</a>";
+        $str .= " <a href=ShowFile?l=$path.$Cursfx>View</a>";
       }
     }
     $str .= "</div>";
@@ -556,7 +557,7 @@ function fm_DragonDropInner($Type,$Cat,$id,&$Data,$Imp='',$Mode=0,$Cond=1,$Mess=
 }
 
 
-function fm_DragonDrop($Type,$Cat,$id,&$Data,$Imp='',$Mode=0,$Cond=1,$Mess='') {
+function fm_DragonDrop($Type,$Cat,$id,&$Data,$Imp='',$Mode=0,$Cond=1,$Mess='',$UseYear=1) {
   global $db,$InsuranceStates,$YEAR;
   echo "<tr><td $Imp>$Type:";
   if (!$Cond) {
@@ -583,8 +584,17 @@ function fm_DragonDrop($Type,$Cat,$id,&$Data,$Imp='',$Mode=0,$Cond=1,$Mess='') {
   };
 XXX;
   echo "</script>";
-  echo "<td colspan=3>" . fm_DragonDropInner($Type,$Cat,$id,$Data,$Imp,$Mode,$Cond,$Mess);
+  echo "<td colspan=3>" . fm_DragonDropInner($Type,$Cat,$id,$Data,$Imp,$Mode,$Cond,$Mess,$UseYear);
 }
 
+/* TODO
+--Documents
+--Insurance
+--RiskAccess
+Photos - action after upload
+PS specs - complex behavior, 
+-- Perf Files
+Invoices?  
+*/
 
 ?>
