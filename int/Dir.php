@@ -354,7 +354,7 @@
 
 // Self
     if ($d) {
-      List_dir_ent($dir,'Self');
+      List_dir_ent($dir,'Self',' class=FullD hidden');
     }
 
 
@@ -378,9 +378,8 @@
     Dropzone.options.DirUpload = { 
       paramName: "uploads[]",
       init: function() {
-        this.on("success", function(e,r) { window.location.reload(); });
+        this.on("success", function(e,r) { document.open(); document.write(r); document.close(); });
       },
-//      dictDefaultMessage: '<b>Drop files here to upload</b><br>Do not upload more than 15M at once, for large files contact <a href=mailto:Richard@wavwebs.com>Richard</a>',
     };
 XXX;
     echo "</script><p>";

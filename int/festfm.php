@@ -507,6 +507,7 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
 
   if (isset($data['SideId'])) {
     if ($data['IsASide'] && !$data['TotalFee']) {
+      include_once("ProgLib.php");
       $ProgInfo = Show_Prog($type,$id,1);
       $Content = urlencode("$name,<p>" .
               "<div id=SideLink$id>" .
@@ -529,49 +530,61 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
   return $lnk;
 }
 
-function fm_DragNDrop($id,$Multi=0,$After='',$Othertext='') {
-  echo "<form id=$id class=DD_box method=post enctype='multipart/form-data'>";
-  echo "<div class=DD_box__input>";
-  if ($Multi) {
-    echo "<input class=DD_box__file type=file name=DD_files_$id" . '[]' . " id=DDfile_$id " . ' data-multiple-caption="{count} files selected" multiple >';
-    echo "<label for=DDfile_$id><strong>Choose files<span class=DD_box__dragndrop> or drag them here</span>.</strong> $Othertext</label>";
-  } else {
-    echo "<input class=DD_box__file type=file name=DD_file_$id id=DDfile_$id>";
-    echo "<label for=DDfile_$id><strong>Choose a file<span class=DD_box__dragndrop> or drag it here</span>.</strong> $Othertext</label>";  
-  }
-  echo "<button class=DD_box__button type=submit>Upload</button>";
-  echo "</div>";
-  echo "<div class=DD_box__uploading >Uploading&hellip;</div>";
-  echo "<div class=DD_box__success>Done!</div>";
-  echo "<div class=DD_box__error>Error! <span></span>.</div>";
-  echo "</form>\n";
-}
-
-/*
-</form> Select insurance file to upload:";
-
-        echo "<input type=file $ADDALL name=InsuranceForm id=InsuranceForm onchange=document.getElementById('InsuranceButton').click()>";
-        echo "<input hidden type=submit name=Action value=Insurance id=InsuranceButton>";
-
-        if ($Mode){
-          echo "<td class=NotCSide colspan=2>" . fm_radio('Insurance',$InsuranceStates,$Sidey,'Insurance','',0);
-          if (isset($Sidey['Insurance']) && $Sidey['Insurance']) {
-            $files = glob("Insurance/$YEAR/Sides/$snum.*");
-            if ($files) {
-              $Current = $files[0];
-              $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
-              echo " <a href=ShowFile?l=Insurance/$YEAR/Sides/$snum.$Cursfx>View</a>";
-            }
-          }
-        } else {
-          $tmp['Ignored'] = $Sidey['Insurance'];
-          echo "<td>" . fm_checkbox('Insurance Uploaded',$tmp,'Ignored','disabled');
-          echo fm_hidden('Insurance',$Sidey['Insurance']);
-        }
-        if ($Mess && ($Action == 'Insurance')) echo "<td colspan=2>$Mess\n";
+function fm_DragonDropInner($Type,$Cat,$id,&$Data,$Imp='',$Mode=0,$Cond=1,$Mess='') {
+  global $db,$InsuranceStates,$YEAR;
+  $SType = preg_replace('/ */','',$Type);
+  $str = "<div id=Result$SType>";
+  if ($Mode) {
+    $str .= "<div class=NotCSide colspan=2>" . fm_radio($Type,$InsuranceStates,$Data,$SType,'',0);
+    if (isset($Data[$SType]) && $Data[$SType]) {
+      $files = glob("$SType/$YEAR/$Cat/$id.*");
+      if ($files) {
+        $Current = $files[0];
+        $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
+        $str .= " <a href=ShowFile?l=$SType/$YEAR/$Cat/$id.$Cursfx>View</a>";
       }
-
+    }
+    $str .= "</div>";
+  } else {
+    $tmp['Ignored'] = $Data[$SType];
+    $str .= "<td>" . fm_checkbox("$Type Uploaded",$tmp,'Ignored','disabled');
+    $str .= fm_hidden($SType,$Data[$SType]);   
+  }
+  if ($Mess) $str .= " $Mess";
+  $str .= "</div>";
+  return $str;
 }
-*/
+
+
+function fm_DragonDrop($Type,$Cat,$id,&$Data,$Imp='',$Mode=0,$Cond=1,$Mess='') {
+  global $db,$InsuranceStates,$YEAR;
+  echo "<tr><td $Imp>$Type:";
+  if (!$Cond) {
+    echo "<td colspan=4>You will be able to upload your $Type here in $YEAR\n";
+    return;
+  }
+  $SType = preg_replace('/ */','',$Type);
+  echo "<td ><div class=dropzone id=Upload$SType ></div><script>";
+  echo <<<XXX
+  Dropzone.options.Upload$SType = { 
+    paramName: "Upload",
+    url: 'DragAndDropped.php',
+    maxFiles: 1,
+    init: function() {
+      this.on("success", function(e,r) { $('#Result$SType').replaceWith(r) });
+    },
+    sending: function(file, xhr, formData){
+      formData.append('Cat',"$Cat" );
+      formData.append('Id',"$id" );
+      formData.append('Type',"$Type" );
+      formData.append('Mode',"$Mode" ); 
+    },
+    dictDefaultMessage: "Drop $Type file here to upload"
+  };
+XXX;
+  echo "</script>";
+  echo "<td colspan=3>" . fm_DragonDropInner($Type,$Cat,$id,$Data,$Imp,$Mode,$Cond,$Mess);
+}
+
 
 ?>

@@ -290,13 +290,13 @@ function Doc_Table_Head($withdir=0) {
   echo "</thead><tbody>";
 }
 
-function List_dir_ent(&$dir,$type) {
+function List_dir_ent(&$dir,$type,$xtra='') {
   global $AllU,$USERID,$Access_Levels;
   $pid = $dir['DirId'];
   $parid = $dir['Parent'];
   $Parent = Get_DirInfo($parid);
   
-  echo "<tr><td><a href=Dir?d=" . $dir['DirId'] . ">" . htmlspec($dir['SN']) . "</a>";
+  echo "<tr $xtra><td><a href=Dir?d=" . $dir['DirId'] . ">" . htmlspec($dir['SN']) . "</a>";
   echo "<td class=FullD hidden>" . (isset($AllU[$dir['Who']])?$AllU[$dir['Who']]: "Unknown");
   echo "<td>$type";
   echo "<td class=FullD hidden>" . date('d/m/y H:i:s',$dir['Created']);

@@ -146,7 +146,7 @@ textarea {
 }
 
 .NotCSide {
-  background-color:lightpink;
+  background-color:	#FFd6d1;
 }
 
 input[type=text] {
@@ -944,9 +944,7 @@ table {
   width:33%;
 }
 
-.xxdropzone {
-  background-color: white;
-  outline: 2px dashed black;
-  outline-offset: 10px;
+#UploadInsurance .dz-clickable {
+  margin:1em;
 }
 
