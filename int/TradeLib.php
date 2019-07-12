@@ -135,13 +135,13 @@ function Put_Trade_Type(&$now) {
 }
 
 function Get_Sponsors($tup=0) { // 0 Current, 1 all data
-  global $db,$PLANYEAR;
+  global $db,$SHOWYEAR;
   $full = array();
-  $yr = ($tup ?"" :" WHERE Year=$PLANYEAR ");
+  $yr = ($tup ?"" :" WHERE Year=$SHOWYEAR ");
   $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY SN ");
   if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   if ($tup==0 && empty($full)) {
-    $yr = " WHERE Year=" . ($PLANYEAR-1);
+    $yr = " WHERE Year=" . ($SHOWYEAR-1);
     $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY SN ");
     if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   }
@@ -551,6 +551,10 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
 // Email link, and confamation, have means to request new link (use email address known), import existing dataZZ
 
 // Insurance
+  if (Feature('NewPhotos')) {
+    echo fm_DragonDrop('Insurance','Trade',$Tid,$Trady,'',$Mode,1,"You <b>must</b> have a copy available with you during the festival weekend");
+  } else {
+
   echo "<tr>";
     if ($Tid > 0) {
       echo "<td colspan=1>Select insurance file to upload:";
@@ -575,9 +579,13 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
     } else {
       echo "<td colspan=4>You can upload your insurance once your record has been created\n";
     }
+  }
 // Risc Assessment
-  echo "<tr><td>Risk Assessment<td>Coming soon";
-
+  if (Feature('NewPhotos')) {
+    echo fm_DragonDrop('Risk Assessment','Trade',$Tid,$Trady,'',$Mode,1);
+  } else {
+    echo "<tr><td>Risk Assessment<td>Coming soon";
+  }
 
 // Notes - As Sides
   echo "<tr>" . fm_textarea('Notes/Requests',$Trady,'YNotes',6,2);

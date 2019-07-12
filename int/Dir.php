@@ -2,21 +2,21 @@
   include_once("fest.php");
   A_Check('Staff');
 
-  dostaffhead("Document Storage");
+  dostaffhead("Document Storage",["js/dropzone.js","css/dropzone.css"]);
   echo '<script> function uploaddocs(dir) { location.href="Dir.php?"; } </script>';
 
 //  echo var_dump($_COOKIE) . "<P>";
 // if ($_POST) var_dump($_POST);
 
   include_once("DocLib.php");
-  if (isset($_GET{'d'})) {
-    $d = $_GET{'d'};
-  } elseif (isset($_POST{'d'})) {
-    $d = $_POST{'d'};
+  if (isset($_REQUEST{'d'})) {
+    $d = $_REQUEST{'d'};
   } else {
     $d = 0;
   }
 
+//  $DBG = fopen("LogFiles/XLOG","a+");
+  
   $dir  = Get_DirInfo($d);
   $list = Get_DirList($d);
   $subs = Get_SubDirList($d);
@@ -25,8 +25,7 @@
   $AllActive = array();
   foreach ($AllU as $id=>$name) if ($AllA[$id] >= 2 && $AllA[$id] <= 6) $AllActive[$id]=$name;
 
-  if (isset($_POST{'Action'})) { $Act = $_POST{'Action'}; }
-  elseif (isset($_GET{'Action'})) { $Act = $_GET{'Action'}; }
+  if (isset($_REQUEST{'Action'})) { $Act = $_REQUEST{'Action'}; }
   else { $Act = ''; }
   $skip = 0;
   
@@ -183,15 +182,14 @@
     default:
   }
 
-  if (isset($_POST{'FileAction'})) { $Act = $_POST{'FileAction'}; }
-  elseif (isset($_GET{'FileAction'})) { $Act = $_GET{'FileAction'}; }
+//if ($DBG) fwrite($DBG,"Got here\n");
+
+  if (isset($_REQUEST{'FileAction'})) { $Act = $_REQUEST{'FileAction'}; }
   else { $Act = ''; }
   
   if (!$skip && $Act) {
-    if (isset($_GET{'f'})) {
-      $f = $_GET{'f'};
-    } elseif (isset($_POST{'f'})) {
-      $f = $_POST{'f'};
+    if (isset($_REQUEST{'f'})) {
+      $f = $_REQUEST{'f'};
     } else {
       $f = 0;
     };
@@ -291,16 +289,16 @@
         break;
       case 'Upload Document(s)':
       case 'Upload':
-
+//if ($DBG) fwrite($DBG,"And Got here\n");
         $target_dir = "Store" . Dir_FullPname($d);
         // Count # of uploaded files in array
         $total = count($_FILES['uploads']['name']);
-
+//if ($DBG) fwrite($DBG,"total = $total\n");
         // Loop through each file
         for($i=0; $i<$total; $i++) {
           //Get the temp file path
           $tmpFilePath = $_FILES['uploads']['tmp_name'][$i];
-
+//if ($DBG) fwrite($DBG,"tmppath = $tmpFilePath\n");
           //Make sure we have a filepath
           if ($tmpFilePath != ""){
             //Setup our new file path
@@ -310,8 +308,12 @@
             //Upload the file into the temp dir
             if(move_uploaded_file($tmpFilePath, $target_file)) {
                //Handle other code here
+//if ($DBG) fwrite($DBG,"move worked\n");
               Doc_Create($file,$d,filesize($target_file));
-            } else $ErrMess = "File failed to move to the Store";
+            } else {
+//if ($DBG) fwrite($DBG,"move failed\n");
+              $ErrMess = "File failed to move to the Store";
+            }
           }
         }
 
@@ -352,7 +354,7 @@
 
 // Self
     if ($d) {
-      List_dir_ent($dir,'Self');
+      List_dir_ent($dir,'Self',' class=FullD hidden');
     }
 
 
@@ -368,15 +370,28 @@
 
 //    fm_DragNDrop(0,1,'','- Do not upload more than 15M at once, for large files contact <a href=mailto:Richard@wavwebs.com>Richard</a>');
     
-    echo "<p>";
+    echo "<form method=post action=Dir enctype='multipart/form-data' class=dropzone id=DirUpload >";
+    echo fm_hidden('d', $d);
+    echo fm_hidden('FileAction', 'Upload');
+    echo "</form><script>";
+    echo <<<XXX
+    Dropzone.options.DirUpload = { 
+      paramName: "uploads[]",
+      init: function() {
+        this.on("success", function(e,r) { document.open(); document.write(r); document.close(); });
+      },
+    };
+XXX;
+    echo "</script><p>";
 
+/*
     echo '<form action="Dir" method="post" enctype="multipart/form-data" id=Uploads>';
     echo "Select file(s) to upload:";
     echo fm_hidden('d', $d);
     echo fm_hidden('FileAction', 'Upload');
-    echo '<input type="file" name="uploads[]" multiple onchange=this.form.submit()>';
-    echo " &nbsp; &nbsp; Do not upload more than 15M at once, for large files contact <a href=mailto:Richard@wavwebs.com>Richard</a>.\n";
-    echo "</form>\n";
+    echo '<input type="file" name="uploads[]" multiple onchange=this.form.submit()>'; */
+//    echo " &nbsp; &nbsp; Do not upload more than 15M at once, for large files contact <a href=mailto:Richard@wavwebs.com>Richard</a>.\n";
+//    echo "</form>\n";
     echo '<form action="Dir" method="post">';
     echo fm_hidden('d', $d);
     echo fm_simpletext('New Directory',$_POST,'DirName');
