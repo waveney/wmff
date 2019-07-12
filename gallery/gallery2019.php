@@ -26,6 +26,14 @@
 </div>
 
 <div class="article">
+<a href="/int/ShowGallery?g=22">
+<h2 class="articlettl">More Dance Photos</h2>
+<img class="articleimg" src="https://wimbornefolk.co.uk/images/gallery/2019/MoreDance/E25A9695.jpg" ></a>
+<p class="articletxt">
+</div>
+
+
+<div class="article">
 <a href="/int/ShowGallery?g=18">
 <h2 class="articlettl">Around the Festival Photo Gallery</h2>
 <img class="articleimg" src="https://wimbornefolk.co.uk/images/gallery/2019/Around/WMFF%202019%20Paul%20Raudner-6090505.jpg" ></a>
