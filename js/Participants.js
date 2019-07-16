@@ -131,14 +131,20 @@ function CopyAndSubmit(name) {
 }
 
 function setStagePA(ev) {
+  var yearval = (document.getElementById('Year') ? (document.getElementById('Year').value || 0) : 0);
+  var typeval = document.getElementById('AutoType').value;
+  var refval = document.getElementById('AutoRef').value;
+
   if(ev) { //($("#StagePAtext").is(":checked")) {
     $("#StagePAtextF").show();
-    $("#StagePAFileF").hide();
+    $(".StagePAFileF").hide();
     $("#StagePA").text("");
+    $.post("formfill.php", {'D':typeval, 'F':'StagePA', 'V':'', 'Y':yearval, 'I':refval});
   } else {
     $("#StagePAtextF").hide();
-    $("#StagePAFileF").show();
+    $(".StagePAFileF").show();
     $("#StagePA").text("@@FILE@@");
+    $.post("formfill.php", {'D':typeval, 'F':'StagePA', 'V':'@@FILE@@', 'Y':yearval, 'I':refval});
   }
 }
 

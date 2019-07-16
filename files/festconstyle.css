@@ -944,7 +944,8 @@ table {
   width:33%;
 }
 
-#UploadInsurance .dz-clickable {
-  margin:1em;
+.dz-clickable#UploadInsurance, .dz-clickable#UploadRiskAssessment,  .dz-clickable#UploadStagePA {
+  padding:1em;
+  min-height:80px;
 }
 

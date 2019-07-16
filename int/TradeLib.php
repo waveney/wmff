@@ -501,7 +501,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
   
   echo "<tr><td>Days:<td>" . fm_select($Trade_Days,$Trady,'Days');
   echo "<tr><td>Requested Pitch Sizes, 3x3M is default" . Help('PitchSize');
-  echo "<td>Power Requirements" . Help('Power') . "<br>3 Amps - Lighting, 13 Amps - 1 Kettle...";
+  echo "<td colspan=2>Power Requirements" . Help('Power') . "<br>3 Amps - Lighting, 13 Amps - 1 Kettle...";
   if (isset($Trady['PitchLoc0']) && $Trady['PitchLoc0']) {
     echo "<td>Location<td>Pitch Number";
   } else {
@@ -510,7 +510,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
   for ($i = 0; $i < 3; $i++) {
     $pwr = (isset($Trady["Power$i"])?$Trady["Power$i"]:0);
     echo "<tr>" . fm_text1("",$Trady,"PitchSize$i");
-    echo "<td>None: <input type=radio name=PowerType$i value=0 onclick=PowerChange(0,$i) " . ($pwr==0?"checked ":"") . "> ";
+    echo "<td colspan=2>None: <input type=radio name=PowerType$i value=0 onclick=PowerChange(0,$i) " . ($pwr==0?"checked ":"") . "> ";
     echo "My own Euro 4 Silent Generator: <input type=radio name=PowerType$i value=1 onclick=PowerChange(1,$i) " . ($pwr<0?"checked ":"") . "><br>";
     echo "<input type=radio name=PowerType$i hidden id=PowerTypeRequest$i value=2>Requested: <input type=number id=Power$i name=Power$i onchange=PowerChange(2,$i) " . 
         ($pwr>0?" value=" . $Trady["Power$i"] : "") . " min=0 max=1000>Amps";
@@ -552,7 +552,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
 
 // Insurance
   if (Feature('NewPhotos')) {
-    echo fm_DragonDrop('Insurance','Trade',$Tid,$Trady,'',$Mode,1,"You <b>must</b> have a copy available with you during the festival weekend");
+    echo fm_DragonDrop(1,'Insurance','Trade',$Tid,$Trady,$Mode,"You <b>must</b> have a copy available with you during the festival weekend");
   } else {
 
   echo "<tr>";
@@ -580,9 +580,9 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
       echo "<td colspan=4>You can upload your insurance once your record has been created\n";
     }
   }
-// Risc Assessment
+// Risc Assessment function fm_DragonDrop($Call, $Type,$Cat,$id,&$Data,$Mode=0,$Mess='',$Cond=1,$tddata1='',$tdclass='',$hide=0) {
   if (Feature('NewPhotos')) {
-    echo fm_DragonDrop('Risk Assessment','Trade',$Tid,$Trady,'',$Mode,1);
+    echo fm_DragonDrop(1,'RiskAssessment','Trade',$Tid,$Trady,$Mode);
   } else {
     echo "<tr><td>Risk Assessment<td>Coming soon";
   }
