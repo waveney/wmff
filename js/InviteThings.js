@@ -34,10 +34,14 @@ function ProformaSend(name,snum,label,link) {
   
   if ($('#BespokeM').is(':visible')) {
     $("#DebugPane").load("sendproforma.php", "I=" + snum + "&N=" + name);
+    $("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=J&Y=" + year + "&L=" + label, function() {$("#Vited" + snum).scrollTop(1E6+ProformasSent*100)});
   } else {
-    window.open((link + "?id=" + snum + "&N=" + name + "&L=" + label),"Bespoke Message " + snum);
+    var newwin = window.open((link + "?id=" + snum + "&N=" + name + "&L=" + label),"Bespoke Message " + snum);
+    newwin.onbeforeunload = function(){
+      setTimeout(function(){$("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=R", function() {
+       $("#Vited" + snum).scrollTop(1E6+ProformasSent*100)})
+    },500)}
   }
-  $("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=J&Y=" + year + "&L=" + label, function() {$("#Vited" + snum).scrollTop(1E6+ProformasSent*100)});
 
   ProformasSent++;
 }

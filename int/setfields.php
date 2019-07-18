@@ -21,7 +21,12 @@ case 'J': // Dont Save
   if ($Opt == 'I') Put_SideYear($Sidey);
   echo $Sidey['Invited'];
   break;
-
+  
+case 'R': // Read
+  $Sidey = Get_SideYear($id);
+  echo $Sidey['Invited'];
+  break;  
+  
 case 'Y':
   $Sidey = Get_SideYear($id);
   if (!$Sidey) $Sidey = Default_SY($id);
