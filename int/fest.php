@@ -3,6 +3,7 @@
 /* Various common code across fest con tools */
 
   include_once("festdb.php");
+  include_once("festfm.php");
 
 $BUTTON = 0;
 
@@ -358,7 +359,6 @@ function doheadpart($title,$extras=[]) {
 function dostaffhead($title,$extras=[]) {
   global $head_done,$FESTSYS,$CONF;
   if ($head_done) return;
-  include_once("festfm.php");
   $V=$FESTSYS['V'];
   $pfx="";
   if (isset($CONF['TitlePrefix'])) $pfx = $CONF['TitlePrefix'];
@@ -387,7 +387,6 @@ function dostaffhead($title,$extras=[]) {
 // No Banner
 function dominimalhead($title,$extras=[]) { 
   global $head_done,$FESTSYS,$CONF;
-  include_once("festfm.php");
   $V=$FESTSYS['V'];
   $pfx="";
   if (isset($CONF['TitlePrefix'])) $pfx = $CONF['TitlePrefix'];

@@ -218,21 +218,27 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
       echo "<td><label for=StagePAtext>Text</label> <input type=radio $ADDALL name=StagePAtext value=1 onchange=setStagePA(1) id=StagePAtext " . ($f?"":"checked") . "> " .
            "<label for=StagePAfile>File</label> <input type=radio $ADDALL name=StagePAtext value=2 onchange=setStagePA(0) id=StagePAfile " . ($f?"checked":"") . ">" .
            Help("StagePA");
-      echo "<td id=StagePAtextF colspan=5" . ($f?' hidden':'') . " >" . fm_basictextarea($Side,'StagePA',5,1,'id=StagePA');
-      echo "<td id=StagePAFileF" . ($f?'':' hidden') . " colspan=5>";
-      $files = glob("PAspecs/$snum.*");
-      if ($files) {
-        $Current = $files[0];
-        $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
-        if (file_exists("PAspecs/$snum.$Cursfx")) {
-          echo "Have been uploaded.  <span id=ViewPA> <a href=ShowFile?l=PAspecs/$snum.$Cursfx>View</a></span> &nbsp; &nbsp; &nbsp; ";
-          if (Access('SysAdmin'))  echo "<a href=PASpecCache?i=$snum>Re-Cache</a> &nbsp; &nbsp; &nbsp; ";
+      echo "<td id=StagePAtextF colspan=5" . ($f?' hidden':'') . " >" . fm_basictextarea($Side,'StagePA',5,1);
+
+        $files = glob("PAspecs/$snum.*");
+      if (Feature('NewPhotos')) {
+//        echo "<td class=StagePAFileF" . ($f?'':' hidden') . " colspan=5>";
+        echo fm_DragonDrop(1,'StagePA','Perf',$snum,$Side,$Mode,'',1,'','StagePAFileF',($f?0:1));
+      } else {
+        echo "<td id=StagePAFileF" . ($f?'':' hidden') . " colspan=5>";
+        if ($files) {
+          $Current = $files[0];
+          $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
+          if (file_exists("PAspecs/$snum.$Cursfx")) {
+            echo "Have been uploaded.  <span id=ViewPA> <a href=ShowFile?l=PAspecs/$snum.$Cursfx>View</a></span> &nbsp; &nbsp; &nbsp; ";
+            if (Access('SysAdmin'))  echo "<a href=PASpecCache?i=$snum>Re-Cache</a> &nbsp; &nbsp; &nbsp; ";
+          }
         }
+        echo "Select PA requirements file to upload:";
+        echo "<input type=file name=PASpec id=PASpec onchange=document.getElementById('PASpecButton').click() style='color:transparent;'  title='to upload'>";
+        echo "<input hidden $ADDALL type=submit name=Action value=PASpecUpload id=PASpecButton>";
+        if ($Mess && $Action == 'PASpecUpload') echo "<br>$Mess\n";
       }
-      echo "Select PA requirements file to upload:";
-      echo "<input type=file name=PASpec id=PASpec onchange=document.getElementById('PASpecButton').click() style='color:transparent;'  title='to upload'>";
-      echo "<input hidden $ADDALL type=submit name=Action value=PASpecUpload id=PASpecButton>";
-      if ($Mess && $Action == 'PASpecUpload') echo "<br>$Mess\n";
     if ($NotD) { 
       echo "<td>" . fm_checkbox("Has Agent",$Side,'HasAgent','onchange=AgentChange(event)');
     }
@@ -240,7 +246,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
 // Members
     if ($Side['IsAnAct']) { // May need for Other
       $Band = Get_Band($snum);      
-      $BandPerRow=7;
+      $BandPerRow=7; 
       $Curband = $Band? count($Band) : 0;
       $Rows = max(1,ceil($Curband/$BandPerRow));
       $colcnt = 0;
@@ -697,7 +703,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
   foreach ($PerfTypes as $p=>$d) if (($d[0] != 'IsASide') && $Side[$d[0]]) $NotD = 1;
   
   if (Feature('NewPhotos')) {
-    echo fm_DragonDrop('Insurance','Sides',$snum,$Sidey,$Imp,$Mode,(($NotD || $Mstate || $Mode)));
+    echo fm_DragonDrop(1, 'Insurance','Sides',$snum,$Sidey,$Mode,'',(($NotD || $Mstate || $Mode)),$Imp);
   } else {
     echo "<tr id=InsRow>";
     if ($NotD || $Mstate || $Mode) {

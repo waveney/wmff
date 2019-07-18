@@ -26,6 +26,7 @@ int/Store
 int/OldStore
 int/Insurance
 int/PAspecs
+int/RiskAssessment
 int/Temp
 int/LogFiles
 int/Archive

@@ -360,7 +360,7 @@ function Social_Link(&$data,$site,$mode=0,$text='') { // mode:0 Return Site as t
   $link = $data[$site];
   if (preg_match("/$site/i",$link)) {
     $follow = ($text? $text . $site :'');
-    return " " . weblink($link,($mode? ( "<img src=/images/icons/$site.jpg title='$follow'> $follow") : $site)) . "<br>";
+    return " " . weblink($link,($mode? ( "<img src=/images/icons/$site.jpg title='$follow'> $follow") : $site)) . ($mode?"<br>":"");
   }
   return " <a href=http://$site.com/$link>" . ($mode? ( "<img src=/images/icons/$site.jpg>") : $site) . "</a><br>";
 }
@@ -530,61 +530,111 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
   return $lnk;
 }
 
-function fm_DragonDropInner($Type,$Cat,$id,&$Data,$Imp='',$Mode=0,$Cond=1,$Mess='') {
-  global $db,$InsuranceStates,$YEAR;
-  $SType = preg_replace('/ */','',$Type);
-  $str = "<div id=Result$SType>";
-  if ($Mode) {
-    $str .= "<div class=NotCSide colspan=2>" . fm_radio($Type,$InsuranceStates,$Data,$SType,'',0);
-    if (isset($Data[$SType]) && $Data[$SType]) {
-      $files = glob("$SType/$YEAR/$Cat/$id.*");
-      if ($files) {
-        $Current = $files[0];
-        $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
-        $str .= " <a href=ShowFile?l=$SType/$YEAR/$Cat/$id.$Cursfx>View</a>";
+global $DDdata;
+$DDdata = [
+    'Insurance' => [ 'UseYear'=>1, 'AddState'=>1, 'tr'=>1, 'SetValue'=>1, 'cols'=>[2,2] ],
+    'RiskAssessment' => [ 'UseYear'=>1, 'AddState'=>1, 'Name' => 'Risk Assessment', 'tr'=>1, 'SetValue'=>1, 'cols'=>[2,2] ],
+    'StagePA' => [ 'UseYear'=>0, 'AddState'=>0, 'Name'=>'PA requirements', 'tr'=>0, 'SetValue'=>'@@FILE@@', 'cols'=>[2,2], 'path'=>'PAspecs' ],
+];
+
+
+//var_dump($DDdata); exit;
+function fm_DragonDrop($Call, $Type,$Cat,$id,&$Data,$Mode=0,$Mess='',$Cond=1,$tddata1='',$tdclass='',$hide=0) {
+  global $db,$InsuranceStates,$YEAR,$DDdata;
+
+//var_dump($Call, $Type,$Cat,$id,$Mode,$Mess,$Cond);
+  $str = '';
+  $DDd = &$DDdata[$Type];
+//var_dump($DDd);
+  $Name = $Type;
+  $hid = ($hide?' hidden ':'');
+  if (isset($DDd['Name'])) $Name = $DDd['Name'];
+    
+  if ($Call) {  
+    if ($DDd['tr']) {
+      $str .= "<tr><td $tddata1 $hid>$Name:";
+      if (!$Cond) {
+        $str .= "<td colspan=4>You will be able to upload your $Name here in $YEAR\n";
+        return $str;
       }
     }
-    $str .= "</div>";
-  } else {
-    $tmp['Ignored'] = $Data[$SType];
-    $str .= "<td>" . fm_checkbox("$Type Uploaded",$tmp,'Ignored','disabled');
-    $str .= fm_hidden($SType,$Data[$SType]);   
-  }
-  if ($Mess) $str .= " $Mess";
-  $str .= "</div>";
-  return $str;
-}
-
-
-function fm_DragonDrop($Type,$Cat,$id,&$Data,$Imp='',$Mode=0,$Cond=1,$Mess='') {
-  global $db,$InsuranceStates,$YEAR;
-  echo "<tr><td $Imp>$Type:";
-  if (!$Cond) {
-    echo "<td colspan=4>You will be able to upload your $Type here in $YEAR\n";
-    return;
-  }
-  $SType = preg_replace('/ */','',$Type);
-  echo "<td ><div class=dropzone id=Upload$SType ></div><script>";
-  echo <<<XXX
-  Dropzone.options.Upload$SType = { 
+  
+    $str .= "<td class='Drop$Type $tdclass' $hid><div class=dropzone id=Upload$Type ></div><script>";
+    $str .= <<<XXX
+  Dropzone.options.Upload$Type = { 
     paramName: "Upload",
     url: 'DragAndDropped.php',
-    maxFiles: 1,
+    createImageThumbnails: 0,
     init: function() {
-      this.on("success", function(e,r) { $('#Result$SType').replaceWith(r) });
+      this.on("success", function(e,r) { 
+//        console.log(r);
+        $('.Result$Type').remove(); 
+        $('.Drop$Type').after(r)
+      });
     },
     sending: function(file, xhr, formData){
       formData.append('Cat',"$Cat" );
-      formData.append('Id',"$id" );
+      formData.append('Id', "$id" );
       formData.append('Type',"$Type" );
       formData.append('Mode',"$Mode" ); 
+      formData.append('Class',"$tdclass" );  
     },
-    dictDefaultMessage: "Drop $Type file here to upload"
+    dictDefaultMessage: "Drop $Name file here to upload"
   };
 XXX;
-  echo "</script>";
-  echo "<td colspan=3>" . fm_DragonDropInner($Type,$Cat,$id,$Data,$Imp,$Mode,$Cond,$Mess);
+    $str .= "</script>";
+  }
+
+  if (isset($DDd['path'])) {
+    $pdir = $DDd['path'];
+  } else {
+    $pdir = ($DDd['UseYear']?"$Type/$YEAR/$Cat":$Type);
+  }
+  $path = "$pdir/$id";
+  $files = glob("$path.*"); 
+ 
+  if ($Mode) {
+    if ($DDd['AddState']) {
+      $str .= "<td class='Result$Type $tdclass' $hid colspan=" . $DDd['cols'][0] . ">";
+      $str .= "<div class=NotCSide>" . fm_radio($Type,$InsuranceStates,$Data,$Type,'',0) . "</div>";
+    }
+  } elseif ($DDd['AddState']) {
+    $str .= "<td class='Result$Type $tdclass' $hid colspan=" . $DDd['cols'][0] . ">";
+    $tmp['Ignored'] = $Data[$Type];
+    $str .= fm_checkbox("$Type Uploaded",$tmp,'Ignored','disabled');
+    $str .= fm_hidden($Type,$Data[$Type]);   
+  }
+  
+  if ($files) {
+    $Current = $files[0];
+    $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
+    $str .= "<td class='Result$Type $tdclass' $hid colspan=" . $DDd['cols'][1] . "><a href=ShowFile?l=$path.$Cursfx>View $Name file</a><br>";  
+  }
+  if ($Mess) $str .= $Mess;
+  return $str;
 }
 
+/* TODO
+--Documents
+--Insurance
+--RiskAccess
+Photos - action after upload
+PA specs - complex behavior, 
+-- Perf Files
+Invoices?  
+
+DragonDrop(Call: 1 Page, 0 Update
+  Type: Insurance | RiskAccess | PA | ...
+  Cat: Side | Perf | Trade | ... (Side and Trade give yeardata, Perf give permdata)
+  id, Data: id and data
+  Imp: -> xtr1
+  Mode: 0 user,1 sys
+  Code: ??
+  Mess: Mess to append
+  UseYear: Derrive from Type
+  AddState: Derrive from Type
+
+
+*/
 
 ?>
