@@ -24,7 +24,7 @@
   if (isset($Years[$YEAR-1])) echo "<a href=Staff?Y=" . ($YEAR-1) .">" . ($YEAR-1) . "</a> &nbsp; ";
   if (isset($Years[$YEAR+1])) echo "<a href=Staff?Y=" . ($YEAR+1) .">" . ($YEAR+1) . "</a>\n";
   echo "</h2></div>";
-  echo "<h2>Staff Pages - $YEAR</h2>\n";
+  echo "<h2>Staff Pages - $YEAR <span style='font-size:16;font-weight:normal;'>For other years select &gt;&gt;&gt;</span></h2>\n";
   echo "<div class=tablecont><table border width=100% class=Staff style='min-width:800px'>\n";
   echo "<tr><td class=Stafftd><h2>Document Storage</h2>\n";
     echo "<ul>\n";
@@ -311,6 +311,7 @@
     if (Access('Committee')) echo "<li><a href=Campsite?Y=$YEAR>Manage Campsite Use</a>\n"; 
     if (Access('Staff')) echo "<li><a href=CarerTickets?Y=$YEAR>Manage Carer / Partner Tickets</a>\n"; 
     if (Access('Staff','Sponsors')) echo "<li><a href=TaxiCompanies>Manage Taxi Company List</a>\n"; 
+    if (Access('SysAdmin')) echo "<li><a href=ConvertPhotos>Convert Archive Format</a>";
 //    echo "<li><a href=ContractView>Dummy Music Contract</a>";
     echo "</ul>\n";
 

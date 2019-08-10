@@ -3,8 +3,9 @@
 var CC;
 $(document).ready(function() {
   if (!$('#aspectRatio')) return;
+  var asprat = $('#aspectRatio').val();
   CC = ($('#image').cropper({ 
-        aspectRatio: $('#aspectRatio').value(),
+        aspectRatio: asprat,
         viewMode:1,
         autoCropArea:1,
   }));

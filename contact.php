@@ -7,28 +7,28 @@
 <div class=tablecont>
 <p><table class='FullWidth InfoTable'>
 <tr>
-<th colspan="3">Applications for 2019 Festival</th>
+<th colspan="3">Applications for 2020 Festival</th>
 </tr>
 <tr>
 <td>Music</td>
-<td style="font-weight:bold; color:orange;">Closed</td>
-<td>Music applications are closed for the 2019 festival.</td>
+<td style="font-weight:bold; color:#00CC00;">Open</td>
+<td>Music applications are open for the 2020 festival.  If you or your band would like to perform please send a short description of your act with contact details and video or audio link </td>
 </tr>
 <tr>
 <td>Dance</td>
-<td style="font-weight:bold; color:orange;">Closed</td>
-<td>Dance applications are closed for the 2019 festival.</td>
+<td style="font-weight:bold; color:#00CC00;">Open</td>
+<td>Dance applications are open for the 2020 festival.</td>
 </tr>
 <tr>
 <td>Trade Stands</td>
 <td style="font-weight:bold; color:orange;">Closed</td>
-<td>For all <a href="/InfoTrade"><b>Trade Stand enquiries</b></a> that can not be answered by the <a href=/int/TradeFAQ><b>Trade FAQ</b></a>
+<td>Trade stands will open in October.  For all <a href="/InfoTrade"><b>Trade Stand enquiries</b></a> that can not be answered by the <a href=/int/TradeFAQ><b>Trade FAQ</b></a>
 </tr>
 <tr>
 <td>Volunteers</td>
 <td style="font-weight:bold; color:#00CC00;">Open</td>
-<td>Visit our <a href=/InfoStewards><strong>Volunteers</strong></a> page to apply online for stewarding, setup/cleardown crew, technical crew, 
-artistic team and media team positions.</td>
+<td>Visit our <a href=/InfoStewards><strong>Volunteers</strong></a> page to apply online for stewarding, setup/cleardown crew, technical crew
+and media team positions.</td>
 </tr>
 </table></div></p>
 

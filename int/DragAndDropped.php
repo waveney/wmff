@@ -19,12 +19,12 @@ function Archive_Stack($loc,$pth,$id) {
 $Type = $_REQUEST['Type'];
 $id = $_REQUEST['Id'];
 $Cat = $_REQUEST['Cat'];
-$Mode = $_REQUEST['Mode'];
-$Class = $_REQUEST['Class'];
-  $DDd = $DDdata[$Type];
-  $Name = $Type;
-  if (isset($DDd['Name'])) $Name = $DDd['Name'];
-
+$Mode = (isset($_REQUEST['Mode'])?$_REQUEST['Mode'] :0);
+$Class = (isset($_REQUEST['Class'])?$_REQUEST['Class'] :"");
+$DDd = $DDdata[$Type];
+$Name = $Type;
+if (isset($DDd['Name'])) $Name = $DDd['Name'];
+$PathCat = $Cat;
 
 switch ($Cat) {
 case 'Sides':
@@ -35,12 +35,25 @@ case 'Sides':
 case 'Perf':
   $Data = Get_Side($id);
   $Put = 'Put_Side';
+  $PathCat = "Sides";
   break;
 
 case 'Trade':
-  $Data = Get_Trade_Year($id);
-  $Put = 'Put_Trade_Year';
+  if ($DDd['UseYear']) {
+    $Data = Get_Trade_Year($id);
+    $Put = 'Put_Trade_Year';
+  } else {
+    $Data = Get_Trader($id);
+    $Put = 'Put_Trader';
+  
+  }
   break;
+  
+case 'Venue':
+case 'Venue2':
+case 'Sponsor':
+case 'Event':
+  // TODO
   
 default:
   echo fm_DragonDrop(0,$Type,$Cat,$id,$Data,$Mode,"Unknown Data Category $Cat",1,'',$Class);
@@ -55,11 +68,15 @@ if (!$Data) {
 //TODO paths bellow only work for per year data not fixed eg PA 
 
 // Existing file?
-  if (isset($DDd['path'])) {
-    $pdir = $DDd['path'];
+if (isset($DDd['path'])) {
+  if ($DDd['path'] == 'images')  {
+    $pdir = "images/$PathCat";
   } else {
-    $pdir = ($DDd['UseYear']?"$Type/$YEAR/$Cat":$Type);
+    $pdir = $DDd['path'];
   }
+} else {
+  $pdir = ($DDd['UseYear']?"$Type/$YEAR/$Cat":$Type);
+}
 $path = "$pdir/$id";
 
 $files = glob("$path.*");
@@ -81,7 +98,13 @@ if (!move_uploaded_file($_FILES["Upload"]["tmp_name"], $target_file)) {
   exit;
 }
 
-$Data[$Type] = $DDd['SetValue']; //TODO PAspec fix DDd
+if (is_numeric($DDd['SetValue'])) {
+  $Data[$Type] = $DDd['SetValue']; //TODO PAspec fix DDd
+} elseif ($DDd['SetValue'] == 'URL') {
+  $Data[$Type] = "/" . $target_file . "?" . time();
+} else {
+  $Data[$Type] = $DDd['SetValue'];
+}
 $Put($Data);
 
 if ($files) {
@@ -89,6 +112,7 @@ if ($files) {
 } else {
   $Mess = $_FILES["Upload"]["name"] . " has been stored as the $Name file";
 }
+$Mess .= ".  Refresh the page if you wish to change it.";
 
 echo fm_DragonDrop(0,$Type,$Cat,$id,$Data,$Mode,$Mess,1,'',$Class);
 

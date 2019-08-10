@@ -216,32 +216,33 @@
 
       if ($col10 == "Proforma Emails") {
         echo "<td>"; 
-        if (!$IsComp && ($_GET['SEL'] == 'Coming')) {
-          echo "<button type=button id=Detail$snum class=ProfButton onclick=ProformaSend('Dance_Details',$snum,'Details','SendProfEmail')" . 
-               Proforma_Background('Details') . ">Details!</button>"; 
-        }
+        if ($fetch['Email']) {
+          if (!$IsComp && ($_GET['SEL'] == 'Coming')) {
+            echo "<button type=button id=Detail$snum class=ProfButton onclick=ProformaSend('Dance_Details',$snum,'Details','SendProfEmail')" . 
+                 Proforma_Background('Details') . ">Details!</button>"; 
+          }
         
-        if ($DanceState >= 1 && !$fetch['TotalFee']) {
-          if (strstr($fetch['Invited'],'Program:')) {
-            if (!$fetch['TickBox1']) echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Program_Check',$snum,'ProgChk','SendProfEmail')" . 
-                                           Proforma_Background('ProgChk') . ">Prog Check</button>";
-            echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Program_Revised',$snum,'NewProg','SendProfEmail')" . 
-                 Proforma_Background('NewProg') . ">New Prog</button>";
-          
-          } else {
-            echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Program',$snum,'Program','SendProfEmail')" . 
-                 Proforma_Background('Program') . ">Program</button>";
+          if ($DanceState >= 1 && !$fetch['TotalFee']) {
+            if (strstr($fetch['Invited'],'Program:')) {
+              if (!$fetch['TickBox1']) echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Program_Check',$snum,'ProgChk','SendProfEmail')" . 
+                                             Proforma_Background('ProgChk') . ">Prog Check</button>";
+              echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Program_Revised',$snum,'NewProg','SendProfEmail')" . 
+                   Proforma_Background('NewProg') . ">New Prog</button>";
+            
+            } else {
+              echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Program',$snum,'Program','SendProfEmail')" . 
+                   Proforma_Background('Program') . ">Program</button>";
+            }
+          }
+        
+          if ($DanceState == 4 && $Days2Festival < 20) {
+              echo " <button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Final_Info',$snum,'FinalInfo','SendProfEmail')" . 
+                   Proforma_Background('FinalInfo') . ">Final Info</button>";
+              echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Final_Info2',$snum,'FinalInfo2','SendProfEmail')" . 
+                   Proforma_Background('FinalInfo2') . ">Final Info2</button>";
           }
         }
-        
-        if ($DanceState == 4 && $Days2Festival < 20) {
-            echo " <button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Final_Info',$snum,'FinalInfo','SendProfEmail')" . 
-                 Proforma_Background('FinalInfo') . ">Final Info</button>";
-            echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Final_Info2',$snum,'FinalInfo2','SendProfEmail')" . 
-                 Proforma_Background('FinalInfo2') . ">Final Info2</button>";
-        }
       }
-
       
 //      for($i=1;$i<5;$i++) {
 //        echo "<td>" . ($fetch["SentEmail$i"]?"Y":"");

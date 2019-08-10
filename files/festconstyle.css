@@ -949,3 +949,12 @@ table {
   min-height:80px;
 }
 
+.dz-clickable#UploadPhoto {
+  padding:1em;
+  min-height:60px;
+}
+
+.dz-message#UploadPhoto {
+  padding: 0;
+}
+

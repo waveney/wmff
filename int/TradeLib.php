@@ -311,7 +311,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade',$Mode=0) { // Mode 1 = Ctte, 2=Fi
   global $YEAR,$ADDALL,$Mess,$Action,$Trader_Status,$TradeTypeData,$TradeLocData;
   Set_Trade_Help();
 
-  if (isset($Trad['Photo']) && $Trad['Photo']) echo "<img class=floatright id=TradThumb src=" . $Trad['Photo'] . " height=80>\n";
+//  if (isset($Trad['Photo']) && $Trad['Photo']) echo "<img class=floatright id=TradThumb src=" . $Trad['Photo'] . " height=80>\n";
   if ($Tid > 0) echo "<input  class=floatright type=Submit name='Update' value='Save Changes' form=mainform>";
   if ($Mode && isset($Trad['Email']) && strlen($Trad['Email']) > 5) {
     echo "If you click on the " . linkemailhtml($Trad,'Trade');
@@ -344,13 +344,8 @@ function Show_Trader($Tid,&$Trad,$Form='Trade',$Mode=0) { // Mode 1 = Ctte, 2=Fi
       } else {
         echo fm_text('Website',$Trad,'Website');
       };
-//      if ($Mode != 2) echo "<td colspan=1>" . fm_checkbox('Do you want to appear on<br>the Folk Festival Website?',$Trad,'ListMe');
-      echo fm_text('Image',$Trad,'Photo',1,'style="min-width:145;"'); 
       if ($Tid >0) {
-        echo "<td colspan=3>Select file to upload:";
-        echo "<input type=file $ADDALL name=PhotoForm id=PhotoForm onchange=document.getElementById('PhotoButton').click()>";
-        echo "<input hidden type=submit name=Action value=Photo id=PhotoButton>";
-        if ($Mess && $Action == 'Photo') echo "<br>$Mess\n";
+        echo "<td>Recent Photo:" . fm_DragonDrop(1, 'Photo','Trade',$Tid,$Trad,$Mode); // TODO  <td><a href=PhotoProcess.php?Cat=Perf&id=$snum>Edit/Change</a>";
       } else {
         echo "<td colspan=3>You can upload a photo once you have created your record\n";
       }
@@ -551,41 +546,11 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
 // Email link, and confamation, have means to request new link (use email address known), import existing dataZZ
 
 // Insurance
-  if (Feature('NewPhotos')) {
-    echo fm_DragonDrop(1,'Insurance','Trade',$Tid,$Trady,$Mode,"You <b>must</b> have a copy available with you during the festival weekend");
-  } else {
 
-  echo "<tr>";
-    if ($Tid > 0) {
-      echo "<td colspan=1>Select insurance file to upload:";
-      echo "<input type=file $ADDALL name=InsuranceForm id=InsuranceForm onchange=Trader_Insurance_Upload()>";
-      echo "<input hidden type=submit name=Action value=Insurance id=InsuranceButton>";
+  echo fm_DragonDrop(1,'Insurance','Trade',$Tid,$Trady,$Mode,"You <b>must</b> have a copy available with you during the festival weekend");
 
-      if ($Mode) {
-        echo "<td class=NotCSide colspan=2>" . fm_radio('Insurance',$InsuranceStates,$Trady,'Insurance','',0);
-        if (isset($Trady['Insurance']) && $Trady['Insurance']) {
-          $files = glob("Insurance/$YEAR/Trade/$Tid.*");
-          $Current = $files[0];
-          $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
-          echo " <a href=ShowFile?l=Insurance/$YEAR/Trade/$Tid.$Cursfx>View</a>";
-        }
-      } else {
-        $tmp['Ignored'] = $Trady['Insurance'];
-        echo "<td>" . fm_checkbox('Insurance Uploaded',$tmp,'Ignored','disabled') . fm_hidden('Insurance',$Trady['Insurance']);
-        echo "<td colspan=2>You <b>must</b> have a copy available with you during the festival weekend\n";
-      }
-
-      if ($Mess && $Action == 'Insurance') echo "<td colspan=2>$Mess\n"; 
-    } else {
-      echo "<td colspan=4>You can upload your insurance once your record has been created\n";
-    }
-  }
 // Risc Assessment function fm_DragonDrop($Call, $Type,$Cat,$id,&$Data,$Mode=0,$Mess='',$Cond=1,$tddata1='',$tdclass='',$hide=0) {
-  if (Feature('NewPhotos')) {
-    echo fm_DragonDrop(1,'RiskAssessment','Trade',$Tid,$Trady,$Mode);
-  } else {
-    echo "<tr><td>Risk Assessment<td>Coming soon";
-  }
+  echo fm_DragonDrop(1,'RiskAssessment','Trade',$Tid,$Trady,$Mode);
 
 // Notes - As Sides
   echo "<tr>" . fm_textarea('Notes/Requests',$Trady,'YNotes',6,2);

@@ -200,7 +200,7 @@ function InvoiceCatChange(e,v) {
 // Maintain id D for size siz form fld
 function SetDSize(D,siz,fld) {
   var len = document.getElementById(fld).value.length;
-  document.getElementById(D).innerHTML = "<b>(" + len + "/" + siz + ")</b>";
+  document.getElementById(D).innerHTML = "<br><b>(" + len + "/" + siz + ")</b>";
 }
 
 function getDocHeight(doc) {
