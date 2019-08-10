@@ -23,7 +23,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
     if (($d[0] != 'IsASide') && $Side[$d[0]]) $NotD = 1;
   }
 
-  if ( isset($Side['Photo']) && ($Side['Photo'])) echo "<img class=floatright id=PerfThumb src=" . $Side['Photo'] . " height=80>\n";
+ // if ( isset($Side['Photo']) && ($Side['Photo'])) echo "<img class=floatright id=PerfThumb src=" . $Side['Photo'] . " height=80>\n";
   echo "<input  class=floatright type=Submit name='Update' value='Save Changes' form=mainform>";
   if ($Mode && ((isset($Side['Email']) && strlen($Side['Email']) > 5) || (isset($Side['AltEmail']) && strlen($Side['AltEmail']) > 5)) )  {
     echo "If you click on the ";
@@ -90,22 +90,8 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
       } else {
         echo fm_text('Website',$Side,'Website');
       };
-      if (Feature('NewPhotos')) {
-        echo "<td><button type=submit formaction=PhotoManage?id=$snum&P4=Perf>" . ($Side['Photo']?'Change Photo':'Store Photo');
-      } else {
-        echo fm_text('Recent Photo',$Side,'Photo',1,'style="min-width:145;"'); 
-
-        echo "<td colspan=4>Select Photo file to upload:";
-/*
-      echo "<input type=file $ADDALL name=PhotoForm id=PhotoForm oninput=document.getElementById('PhotoButton').click() >";
-      echo '<button type=submit onclick=document.getElementById("PhotoForm").click();>Browse...</button>';
-      echo "<input hidden type=submit name=Action value=Photo id=PhotoButton>";
-*/
-        echo "<input type=file $ADDALL name=PhotoForm id=PhotoForm onchange=document.getElementById('PhotoButton').click()>";
-        echo "<input hidden type=submit name=Action value=Photo id=PhotoButton>";
-
-        if ($Mess && $Action == 'Photo') echo "<br>$Mess\n";
-      }
+      
+      echo "<td>Recent Photo" . fm_DragonDrop(1, 'Photo','Perf',$snum,$Side,$Mode); // TODO  <td><a href=PhotoProcess.php?Cat=Perf&id=$snum>Edit/Change</a>";
     echo "<tr>";
       if (isset($Side['Video']) && $Side['Video'] != '') {
         echo fm_text("<a href=" . videolink($Side['Video']) . ">Recent Video</a>",$Side,'Video',1,$Adv);
@@ -221,24 +207,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
       echo "<td id=StagePAtextF colspan=5" . ($f?' hidden':'') . " >" . fm_basictextarea($Side,'StagePA',5,1);
 
         $files = glob("PAspecs/$snum.*");
-      if (Feature('NewPhotos')) {
-//        echo "<td class=StagePAFileF" . ($f?'':' hidden') . " colspan=5>";
         echo fm_DragonDrop(1,'StagePA','Perf',$snum,$Side,$Mode,'',1,'','StagePAFileF',($f?0:1));
-      } else {
-        echo "<td id=StagePAFileF" . ($f?'':' hidden') . " colspan=5>";
-        if ($files) {
-          $Current = $files[0];
-          $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
-          if (file_exists("PAspecs/$snum.$Cursfx")) {
-            echo "Have been uploaded.  <span id=ViewPA> <a href=ShowFile?l=PAspecs/$snum.$Cursfx>View</a></span> &nbsp; &nbsp; &nbsp; ";
-            if (Access('SysAdmin'))  echo "<a href=PASpecCache?i=$snum>Re-Cache</a> &nbsp; &nbsp; &nbsp; ";
-          }
-        }
-        echo "Select PA requirements file to upload:";
-        echo "<input type=file name=PASpec id=PASpec onchange=document.getElementById('PASpecButton').click() style='color:transparent;'  title='to upload'>";
-        echo "<input hidden $ADDALL type=submit name=Action value=PASpecUpload id=PASpecButton>";
-        if ($Mess && $Action == 'PASpecUpload') echo "<br>$Mess\n";
-      }
     if ($NotD) { 
       echo "<td>" . fm_checkbox("Has Agent",$Side,'HasAgent','onchange=AgentChange(event)');
     }
@@ -702,40 +671,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
   $NotD = 0;
   foreach ($PerfTypes as $p=>$d) if (($d[0] != 'IsASide') && $Side[$d[0]]) $NotD = 1;
   
-  if (Feature('NewPhotos')) {
-    echo fm_DragonDrop(1, 'Insurance','Sides',$snum,$Sidey,$Mode,'',(($NotD || $Mstate || $Mode)),$Imp);
-  } else {
-    echo "<tr id=InsRow>";
-    if ($NotD || $Mstate || $Mode) {
-      echo "<td colspan=2 $Imp>Select insurance file to upload:";
-/*
-      echo "<input type=file $ADDALL name=InsuranceForm id=InsuranceForm onchange=document.getElementById('InsuranceButton').click() hidden>";
-      echo '<button type=submit onclick=document.getElementById("InsuranceForm").click();>Browse...</button>';
-      echo "<input hidden type=submit name=Action value=Insurance id=InsuranceButton>";
-*/
-        echo "<input type=file $ADDALL name=InsuranceForm id=InsuranceForm onchange=document.getElementById('InsuranceButton').click()>";
-        echo "<input hidden type=submit name=Action value=Insurance id=InsuranceButton>";
-
-        if ($Mode){
-          echo "<td class=NotCSide colspan=2>" . fm_radio('Insurance',$InsuranceStates,$Sidey,'Insurance','',0);
-          if (isset($Sidey['Insurance']) && $Sidey['Insurance']) {
-            $files = glob("Insurance/$YEAR/Sides/$snum.*");
-            if ($files) {
-              $Current = $files[0];
-              $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
-              echo " <a href=ShowFile?l=Insurance/$YEAR/Sides/$snum.$Cursfx>View</a>";
-            }
-          }
-        } else {
-          $tmp['Ignored'] = $Sidey['Insurance'];
-          echo "<td>" . fm_checkbox('Insurance Uploaded',$tmp,'Ignored','disabled');
-          echo fm_hidden('Insurance',$Sidey['Insurance']);
-        }
-        if ($Mess && ($Action == 'Insurance')) echo "<td colspan=2>$Mess\n";
-    } else {
-      echo "<td>Insurance:<td colspan=3>You will be able to upload your Insurance here in $YEAR\n";
-    }
-  }
+  echo fm_DragonDrop(1, 'Insurance','Sides',$snum,$Sidey,$Mode,'',(($NotD || $Mstate || $Mode)),$Imp);
 
   echo "<tr>" . fm_textarea('Notes',$Sidey,'YNotes',8,2);
 

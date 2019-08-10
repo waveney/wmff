@@ -534,7 +534,12 @@ global $DDdata;
 $DDdata = [
     'Insurance' => [ 'UseYear'=>1, 'AddState'=>1, 'tr'=>1, 'SetValue'=>1, 'cols'=>[2,2] ],
     'RiskAssessment' => [ 'UseYear'=>1, 'AddState'=>1, 'Name' => 'Risk Assessment', 'tr'=>1, 'SetValue'=>1, 'cols'=>[2,2] ],
-    'StagePA' => [ 'UseYear'=>0, 'AddState'=>0, 'Name'=>'PA requirements', 'tr'=>0, 'SetValue'=>'@@FILE@@', 'cols'=>[2,2], 'path'=>'PAspecs' ],
+    'StagePA'  => [ 'UseYear'=>0, 'AddState'=>0, 'Name'=>'PA requirements', 'tr'=>0, 'SetValue'=>'@@FILE@@', 'cols'=>[2,2], 'path'=>'PAspecs' ],
+    'Photo'    => [ 'UseYear'=>0, 'AddState'=>0, 'tr'=>0, 'SetValue'=>'URL', 'Extra'=>"acceptedFiles: 'image/*',", 'cols'=>[2,2], 'path'=>'images', 'Show'=>1 ], 
+    'NewPhoto' => [ 'UseYear'=>0, 'AddState'=>0, 'tr'=>0, 'SetValue'=>'URL','cols'=>[1,1], 'URL'=>'PhotoProcess.php', 'Replace'=>1, 
+                 'Extra'=>"acceptedFiles: 'image/*',", 'Show'=>1],
+    'NewImage' => [ 'UseYear'=>0, 'AddState'=>0, 'tr'=>0, 'SetValue'=>'URL','cols'=>[1,1], 'URL'=>'PhotoProcess.php', 'Replace'=>1, 
+                 'Extra'=>"acceptedFiles: 'image/*',"],
 ];
 
 
@@ -550,7 +555,7 @@ function fm_DragonDrop($Call, $Type,$Cat,$id,&$Data,$Mode=0,$Mess='',$Cond=1,$td
   $hid = ($hide?' hidden ':'');
   if (isset($DDd['Name'])) $Name = $DDd['Name'];
     
-  if ($Call) {  
+  if ($Call || isset($DDd['Show'])) {  
     if ($DDd['tr']) {
       $str .= "<tr><td $tddata1 $hid>$Name:";
       if (!$Cond) {
@@ -559,31 +564,55 @@ function fm_DragonDrop($Call, $Type,$Cat,$id,&$Data,$Mode=0,$Mess='',$Cond=1,$td
       }
     }
   
-    $str .= "<td class='Drop$Type $tdclass' $hid><div class=dropzone id=Upload$Type ></div><script>";
+    $Padding = time();  
+    if (isset($DDd['Show'])) {
+      $str .= "<td class=Drop$Type >";
+      if ($Data[$Type]) {
+        $str .= "<img id=Thumb$Type src=" . $Data[$Type] . " height=120>";
+      } else {
+        $str .= "No Photo Yet";
+      }
+      $str .= "<td class='Result$Type $tdclass' $hid><div class=dropzone id=Upload$Type$Padding ></div><script>";
+    } else {
+      $str .= "<td class='Drop$Type $tdclass' $hid><div class=dropzone id=Upload$Type$Padding ></div><script>";
+    }
+
+
+    $url = (isset($DDd['URL'])? $DDd['URL'] : 'DragAndDropped.php');
+    $replace = (isset($DDd['Replace'])? 1 : 0 );
+    $extra = (isset($DDd['Extra'])? $DDd['Extra'] : '');
     $str .= <<<XXX
-  Dropzone.options.Upload$Type = { 
+  Dropzone.options.Upload$Type$Padding = { 
     paramName: "Upload",
-    url: 'DragAndDropped.php',
+    url: '$url',
+    $extra
     createImageThumbnails: 0,
     init: function() {
       this.on("success", function(e,r) { 
-//        console.log(r);
-        $('.Result$Type').remove(); 
-        $('.Drop$Type').after(r)
+        console.log(r);
+        if ($replace) { 
+          document.open(); document.write(r); document.close();
+        } else {
+          $('.Result$Type').remove(); 
+          $('.Drop$Type').replaceWith(r)
+        }
       });
     },
     sending: function(file, xhr, formData){
       formData.append('Cat',"$Cat" );
       formData.append('Id', "$id" );
       formData.append('Type',"$Type" );
-      formData.append('Mode',"$Mode" ); 
-      formData.append('Class',"$tdclass" );  
+      if ($Mode) formData.append('Mode',"$Mode" ); 
+      if ('$tdclass' != '') formData.append('Class',"$tdclass" );  
     },
-    dictDefaultMessage: "Drop $Name file here to upload"
+    dictDefaultMessage: "Drop $Name here to upload"
   };
 XXX;
     $str .= "</script>";
   }
+//      init: function() {
+//        this.on("success", function(e,r) { document.open(); document.write(r); document.close(); });
+//      },
 
   if (isset($DDd['path'])) {
     $pdir = $DDd['path'];
@@ -610,7 +639,7 @@ XXX;
     $Cursfx = pathinfo($Current,PATHINFO_EXTENSION );
     $str .= "<td class='Result$Type $tdclass' $hid colspan=" . $DDd['cols'][1] . "><a href=ShowFile?l=$path.$Cursfx>View $Name file</a><br>";  
   }
-  if ($Mess) $str .= $Mess;
+  if ($Mess) $str .= "<td class='Result$Type $tdclass' $hid>$Mess";
   return $str;
 }
 

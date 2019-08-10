@@ -11,6 +11,7 @@
   set_ShowYear();
   include_once("int/ProgLib.php");
   include_once("int/DispLib.php");
+  include_once("int/DanceLib.php");
   include_once("int/MusicLib.php");
 
   global $db,$Coming_Type,$YEAR,$PLANYEAR,$Book_State,$EType_States;
