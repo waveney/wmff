@@ -25,8 +25,7 @@ function Grab_Data($day='',$Media='Dance') {
   $VenueUse = array();
   $evs = array();
   $Sand = 0;
-  if (isset($_GET{'SAND'})) $Sand = 1;
-  if (isset($_POST{'SAND'})) $Sand = 1;
+  if (isset($_REQUES{'SAND'})) $Sand = 1;
 
   if ($day) { $DAY=$day;
   } else if (isset($_GET{'d'})) { $DAY = $_GET{'d'}; } else { $DAY='Sat'; }

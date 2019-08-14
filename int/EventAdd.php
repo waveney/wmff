@@ -307,8 +307,8 @@ A similar feature will appear eventually for music.<p>
       $hidemday =  (isset($Event['LongEvent']) && $Event['LongEvent'])?'':'hidden ';
       echo "<td class=NotSide>" . fm_checkbox('Big Event',$Event,'BigEvent') . " " . fm_checkbox('No Order',$Event,'NoOrder') . fm_checkbox('Use Notes to fmt',$Event,'UseBEnotes');
       echo "<td>" . fm_checkbox('Also Dance',$Event,'ListDance') . " ". fm_checkbox('Also Music',$Event,'ListMusic');
-      echo "<td>" . fm_checkbox('No Part',$Event,'NoPart');
-      echo "<td>" . fm_checkbox('Concert',$Event,'IsConcert');
+      echo "<td class=NotSide>" . fm_checkbox('No Part',$Event,'NoPart');
+      echo "<td class=NotSide>" . fm_checkbox('Concert',$Event,'IsConcert');
       echo "<tr><td>" . fm_checkbox('Special Event',$Event,'Special');
       echo "<td>" . fm_checkbox('Family Event',$Event,'Family');
       echo "<td>" . fm_checkbox('Non Fest',$Event,'NonFest');
@@ -326,7 +326,7 @@ A similar feature will appear eventually for music.<p>
       echo "<tr>" . fm_textarea("Stewarding Detail",$Event,'StewardTasks',1,2) . fm_textarea("Setup Detail",$Event,'SetupTasks',2,2);
       if ($se <= 0) {
         echo "<tr class=NotSide>";
-        echo "<td  class=NotSide>" . fm_simpletext('Price &pound;',$Event,'Price1');
+        echo "<td class=NotSide>" . fm_simpletext('Price &pound;',$Event,'Price1') . Help("Price");
         if ($YEARDATA['PriceChange1']) echo "<td class=NotSide>" . fm_simpletext('Price after ' . date('j M Y',$YEARDATA['PriceChange1']) . ' (if diff) &pound;',$Event,'Price2');
         if ($YEARDATA['PriceChange2']) echo "<td class=NotSide>" . fm_simpletext('Price after ' . date('j M Y',$YEARDATA['PriceChange2']) . ' (if diff) &pound;',$Event,'Price3');
         echo "<td class=NotSide>" . fm_simpletext('Door Price (if different) &pound;',$Event,'DoorPrice');
@@ -357,7 +357,7 @@ A similar feature will appear eventually for music.<p>
                     fm_text1('Special Price Link',$Event,'SpecPriceLink',1,'class=NotSide','class=NotSide') ;
       echo "<td class=NotSide>" . fm_checkbox('Cancelled',$Event,'Status');
       echo "<tr>" . fm_textarea('Extra PA Requirements',$Event,'StagePA',3,1);
-      echo "<td>" . fm_checkbox('Exclude from PA Reqs',$Event,'ExcludePA');
+      echo "<td class=NotSide>" . fm_checkbox('Exclude from PA Reqs',$Event,'ExcludePA');
 
 
 

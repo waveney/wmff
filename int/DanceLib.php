@@ -1,6 +1,9 @@
 <?php
 // Common Dance Library
 
+global $Noise_Levels, $Noise_Colours, $Coming_States, $Coming_Colours, $Coming_idx, $Coming_Type, $Invite_States, $Invite_Type, $Dance_Comp, $Dance_Comp_Colours;
+global $Surfaces, $Surface_Colours, $Side_Statuses, $Share_Spots, $Share_Type, $Dance_TimeFeilds, $OlapTypes, $OlapDays, $OlapCats, $Proforma_Colours, $TickBoxes;
+
 $Noise_Levels = array("Middling","Quiet","Noisy");
 $Noise_Colours = ['lightgreen','yellow','Orange'];
 $Coming_States = array('','Received','Coming','Not coming','Possibly','Not coming, please ask next year');
@@ -24,6 +27,8 @@ $OlapCats = array('Side','Act','Comedy','Family','Other');
 $Proforma_Colours = ['Decide'=>'DarkOrange','Details'=>'Magenta','Program'=>'Yellow','ProgChk'=>'lightsalmon','NewProg'=>'yellow','FinalInfo'=>'LawnGreen','FinalInfo2'=>'MediumSeaGreen',
  'Invite'=>'Beige','Remind'=>'khaki'];
 $TickBoxes = [['Seen Programme','Invited','YHAS','Program:']]; // Year -> Name',Criteria, test , value
+
+
 
 function Proforma_Background($name) {
   global $Proforma_Colours;

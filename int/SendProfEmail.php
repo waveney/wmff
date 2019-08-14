@@ -16,7 +16,9 @@ $Sidey = Get_SideYear($id);
 $subject = $FESTSYS['FestName'] . " $PLANYEAR and " . $Side['SN'];
 $Mess = (isset($_POST['Message'])?$_POST['Message']:(Get_Email_Proforma($proforma))['Body']);
 $To = $Side['Email'];
-if (isset($_REQUEST['E'])) $To = $Side[$_REQUEST['E']];
+if (isset($_REQUEST['E']) && isset($Side[$_REQUEST['E']]) ) {
+  $To = $Side[$_REQUEST['E']];
+}
 
 if (isset($_POST['CANCEL'])) {  echo "<script>window.close()</script>"; exit; }
 
@@ -52,8 +54,9 @@ echo "Put &lt;p&gt; for paras, &lt;br&gt; for line break, &lt;b&gt;<b>Bold</b>&l
 echo "<form method=post>" . fm_hidden('id',$id) . fm_hidden('L',$label);
 echo "<div style='width:90%;height:70%'><textarea name=Message id=OrigMsg style='background:white;border:2;border-color:blue;padding:20;margin:20;width:100%;height:100%' onchange=UpdateHtml('OrigMsg','ActMsg'))>" .  htmlspec($Mess) . "</textarea></div><p><br><p>\n";
 
-echo " <input type=submit name=PREVIEW value=Preview> <input type=submit name=SEND value=Send> <input type=submit name=CANCEL value=Cancel><p>\n";
+echo " <input type=submit name=PREVIEW value=Preview> <input type=submit name=SEND value=Send> <input type=submit name=CANCEL value=Cancel>\n";
+echo "</form>";
 
-echo "</form><p>";
+//echo fm_DragonDrop(, $Type,$Cat,$id,&$Data,$Mode=0,$Mess='',$Cond=1,$tddata1='',$tdclass='',$hide=0) {
 
 ?>
