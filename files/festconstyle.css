@@ -233,8 +233,8 @@ input[type=password] {
 }
 
 .GridWrapper {
-  width: calc(100% - 370px); /*70vw;*/
-  height: 70vh;
+  width: calc(100% - 385px); /*70vw;*/
+  height: 69vh;
   position: fixed;
   top 0;
   left 0;
