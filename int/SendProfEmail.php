@@ -15,11 +15,13 @@ $Side = Get_Side($id);
 $Sidey = Get_SideYear($id);
 $subject = $FESTSYS['FestName'] . " $PLANYEAR and " . $Side['SN'];
 $Mess = (isset($_POST['Message'])?$_POST['Message']:(Get_Email_Proforma($proforma))['Body']);
+$To = $Side['Email'];
+if (isset($_REQUEST['E'])) $To = $Side[$_REQUEST['E']];
 
 if (isset($_POST['CANCEL'])) {  echo "<script>window.close()</script>"; exit; }
 
 if (isset($_POST['SEND'])) {
-  $too = [['to',$Side['Email'],$Side['Contact']],['from','Dance@' . $FESTSYS['HostURL'],'Wimborne Dance'],['replyto','Dance@' . $FESTSYS['HostURL'],'Wimborne Dance']];
+  $too = [['to',$To,$Side['Contact']],['from','Dance@' . $FESTSYS['HostURL'],'Wimborne Dance'],['replyto','Dance@' . $FESTSYS['HostURL'],'Wimborne Dance']];
   echo Email_Proforma($too,$Mess,$subject,'Dance_Email_Details',[$Side,$Sidey],$logfile='Dance');
   
 // Log to "Invited field"

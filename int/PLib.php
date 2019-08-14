@@ -26,21 +26,30 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
  // if ( isset($Side['Photo']) && ($Side['Photo'])) echo "<img class=floatright id=PerfThumb src=" . $Side['Photo'] . " height=80>\n";
   echo "<input  class=floatright type=Submit name='Update' value='Save Changes' form=mainform>";
   if ($Mode && ((isset($Side['Email']) && strlen($Side['Email']) > 5) || (isset($Side['AltEmail']) && strlen($Side['AltEmail']) > 5)) )  {
-    echo "If you click on the ";
-    if (isset($Side['HasAgent']) && $Side['HasAgent']) {
-      echo linkemailhtml($Side,$CatT,'Agent','Agents');
-      if (isset($Side['Email'])) echo " or contacts " . linkemailhtml($Side,$CatT,'!!');
+    if (Feature('EmailButtons')) {
+      if (isset($Side['HasAgent']) && $Side['HasAgent'] && $Side['AgentEmail']) {
+        echo " <button type=button id=Email$snum onclick=ProformaSend('Dance_Blank',$snum,'Email','SendProfEmail',1,'AgentEmail','Invited')>Email Agent</button>"; 
+      }
+      if ($Side['Email']) echo "<button type=button id=Email$snum onclick=ProformaSend('Dance_Blank',$snum,'Email','SendProfEmail',1,'Email','Invited')>Email</button>"; 
+      if ($Side['AltEmail']) 
+        echo " <button type=button id=Email$snum onclick=ProformaSend('Dance_Blank',$snum,'Email','SendProfEmail',1,'AltEmail','Invited')>Alt Email</button>"; 
     } else {
-      if (isset($Side['Email'])) echo linkemailhtml($Side,$CatT,'!!');
-    }
-    if (isset($Side['AltEmail']) && $Side['AltEmail']) {
-      if ($Side['Email']) echo " or ";
-      echo linkemailhtml($Side,$CatT,'Alt');
-    }
-    echo ", press control-V afterwards to paste the <button type=button onclick=Copy2Div('Email$snum','SideLink$snum')>standard link</button>";
+      echo "If you click on the ";
+      if (isset($Side['HasAgent']) && $Side['HasAgent']) {
+        echo linkemailhtml($Side,$CatT,'Agent','Agents');
+        if (isset($Side['Email'])) echo " or contacts " . linkemailhtml($Side,$CatT,'!!');
+      } else {
+        if (isset($Side['Email'])) echo linkemailhtml($Side,$CatT,'!!');
+      }
+      if (isset($Side['AltEmail']) && $Side['AltEmail']) {
+        if ($Side['Email']) echo " or ";
+        echo linkemailhtml($Side,$CatT,'Alt');
+      }
+      echo ", press control-V afterwards to paste the <button type=button onclick=Copy2Div('Email$snum','SideLink$snum')>standard link</button>";
 
 // ADD CODE TO ONLY PROVIDE PROGRAMME WHEN AVAIL - Dance only?
-    if ($Side['IsASide']) echo " and <button type=button onclick=Copy2Div('Email$snum','SideProg$snum')>programme</button> into message.";
+      if ($Side['IsASide']) echo " and <button type=button onclick=Copy2Div('Email$snum','SideProg$snum')>programme</button> into message.";
+    }
     echo "<p>\n";
   }
 
@@ -82,7 +91,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
                         "maxlength=150 oninput=SetDSize('CostSize',150,'CostumeDesc')"); 
     echo "<tr>" . fm_textarea('Short Blurb <span id=DescSize></span>',$Side,'Description',6,1,
                         "maxlength=150 oninput=SetDSize('DescSize',150,'Description')"); 
-      echo "<td>" . fm_checkbox("Show One Blurb",$Side,'OneBlurb');
+//      echo "<td>" . fm_checkbox("Show One Blurb",$Side,'OneBlurb');
     echo "<tr>" . fm_textarea('Blurb for web',$Side,'Blurb',7,2,'','size=2000' ) . "\n";
     echo "<tr>";
       if (isset($Side['Website']) && strlen($Side['Website'])>1) {
@@ -183,7 +192,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
       echo "<tr $Adv>";
         echo fm_textarea('Workshops',$Side,'Workshops',3,1);
 
-    };
+    }
 
 // TODO if (isset($Side['SortCode']) && $Side['SortCode'] replace needbank with js test of fee/op
 

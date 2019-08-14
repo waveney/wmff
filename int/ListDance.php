@@ -140,7 +140,12 @@
       }
       if ($_GET{'SEL'}) {
         echo "<td>" . $fetch['Contact'];
-        echo "<td>" . linkemailhtml($fetch,'Side',(!$fetch['Email'] && $fetch['AltEmail']? 'Alt' : '' ));
+        echo "<td>";
+          if ($fetch['Email']) {
+            if (Feature("EmailButtons")) {
+               echo "<button type=button id=Email$snum onclick=ProformaSend('Dance_Blank',$snum,'Email','SendProfEmail',1)>Email</button>"; 
+            } else echo linkemailhtml($fetch,'Side',(!$fetch['Email'] && $fetch['AltEmail']? 'Alt' : '' ));
+          }
         echo "<td>";
         if ($fetch['Notes'] || $fetch['YNotes'] || $fetch['PrivNotes']) {
           $Htext = htmlspecialchars($fetch['Notes'] . "\n" . $fetch['YNotes'] . "\n" . $fetch['PrivNotes']);

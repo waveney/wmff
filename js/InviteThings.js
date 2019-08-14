@@ -29,17 +29,18 @@ function ReportTed(ev) {
 
 var ProformasSent = 1;
 
-function ProformaSend(name,snum,label,link) {
+function ProformaSend(name,snum,label,link,AlwaysBespoke=0,AltEmail='',UpdateId='') {
   var year = $("#Year").val();
+  if (UpdateId == '') UpdateId = "Vited" + snum;
   
-  if ($('#BespokeM').is(':visible')) {
-    $("#DebugPane").load("sendproforma.php", "I=" + snum + "&N=" + name);
-    $("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=J&Y=" + year + "&L=" + label, function() {$("#Vited" + snum).scrollTop(1E6+ProformasSent*100)});
+  if ($('#BespokeM').is(':visible') && (AlwaysBespoke == 0)) {
+    $("#DebugPane").load("sendproforma.php", "I=" + snum + "&N=" + name +"&E=" +AltEmail);
+    $("#" + UpdateId).load("setfields.php", "I=" + snum + "&O=J&Y=" + year + "&L=" + label, function() {$("#Vited" + snum).scrollTop(1E6+ProformasSent*100)});
   } else {
-    var newwin = window.open((link + "?id=" + snum + "&N=" + name + "&L=" + label),"Bespoke Message " + snum);
+    var newwin = window.open((link + "?id=" + snum + "&N=" + name + "&L=" + label + "&E=" + AltEmail),"Bespoke Message " + snum);
     newwin.onbeforeunload = function(){
-      setTimeout(function(){$("#Vited" + snum).load("setfields.php", "I=" + snum + "&O=R", function() {
-       $("#Vited" + snum).scrollTop(1E6+ProformasSent*100)})
+      setTimeout(function(){$("#" + UpdateId).load("setfields.php", "I=" + snum + "&O=R", function() {
+       $("#" + UpdateId).scrollTop(1E6+ProformasSent*100)})
     },500)}
   }
 

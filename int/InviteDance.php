@@ -113,7 +113,13 @@
 
       echo "<td>";
         if (strlen($fetch['Website'])>6) echo weblink($fetch['Website'],'Web','target=_blank');
-      echo "<td>" . linkemailhtml($fetch,'Side',(!$fetch['Email'] && $fetch['AltEmail']? 'Alt' : '' ),'ReportTed(event)');
+      echo "<td>";
+        if ($fetch['Email']) {
+          if (Feature("EmailButtons")) {
+             echo "<button type=button id=Email$snum onclick=ProformaSend('Dance_Blank',$snum,'Email','SendProfEmail',1)>Email</button>"; 
+          } else echo linkemailhtml($fetch,'Side',(!$fetch['Email'] && $fetch['AltEmail']? 'Alt' : '' ));
+        }
+//      echo "<td>" . linkemailhtml($fetch,'Side',(!$fetch['Email'] && $fetch['AltEmail']? 'Alt' : '' ),'ReportTed(event)');
       
       echo "<td>";
       if ($fetch['Notes'] || $fetch['YNotes'] || $fetch['PrivNotes']) {
@@ -185,7 +191,7 @@
       } else {
         if (!$fetch['Invited']) echo "<button type=button id=Invie$snum class=ProfButton onclick=ProformaSend('Dance_Invite',$snum,'Invite','SendProfEmail')" . 
                 Proforma_Background('Invite') . ($fetch['Invite']?'':' hidden ') . ">Invite</button>";
-        echo "<button type=button id=Remind$snum class=ProfButton onclick=ProformaSend('Dance_Invite_Remind',$snum,'Remind','SendProfEmail')" . 
+        echo "<button type=button id=Remind$snum class=ProfButton onclick=ProformaSend('Dance_Remind',$snum,'Remind','SendProfEmail')" . 
                 Proforma_Background('Remind') . ($fetch['Invited']?'':' hidden ') . ">Remind</button>";
       
       }
