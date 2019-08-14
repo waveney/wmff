@@ -269,8 +269,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
     }
   }
   
-  $Mess = preg_replace('/(?<!<p>)\n\s*\n+\s*/mi',"<p>\n\n",$Mess);
-
+  $Mess = preg_replace('/(?<!<p>)\n\s*\n+\s*/mi',"\n\n<p>",$Mess);
 }
 
 

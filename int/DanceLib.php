@@ -27,7 +27,8 @@ $TickBoxes = [['Seen Programme','Invited','YHAS','Program:']]; // Year -> Name',
 
 function Proforma_Background($name) {
   global $Proforma_Colours;
-  return " Style=Background:" . $Proforma_Colours[$name] . " ";
+  if (isset($Proforma_Colours[$name])) return " Style=Background:" . $Proforma_Colours[$name] . " ";
+  return "";
 }
 
 function Sides_Name_List() {
@@ -269,7 +270,7 @@ function Get_SideYear($snum,$year=0) {
   if (!$year) $year=$YEAR;
   if (isset($Save_SideYears[$snum][$year])) return $Save_SideYears[$snum][$year];
   $res = $db->query("SELECT * FROM SideYear WHERE SideId='" . $snum . "' AND Year='" . $year . "'");
-  if (!$res || $res->num_rows == 0) return 0;
+  if (!$res || $res->num_rows == 0) return Default_SY($snum);
   $data = $res->fetch_assoc();
   $Save_SideYears[$snum][$year] = $data;
   return $data;
@@ -292,6 +293,7 @@ function Get_SideYears($snum) {
 function Put_SideYear(&$data) {
   global $db;
   global $Save_SideYears,$YEAR;
+  if (!$data) return;
   if (!isset($Save_SideYears[$data['SideId']][$data['Year']])) {
     $Save = &$Save_SideYears[$data['SideId']][$YEAR];
     $Save = Default_SY();
