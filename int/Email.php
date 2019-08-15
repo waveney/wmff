@@ -59,6 +59,7 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0) {
   global $FESTSYS,$CONF;
   
 //  echo "Debug: " .( UserGetPref('EmailDebug')?2:0) . "<p>";
+  $Send = 1;
   if (@ $CONF['testing']){
     if (strstr($CONF['testing'],'@')) { 
       $to = $CONF['testing'];
@@ -84,10 +85,12 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0) {
           echo "Would embed $embeded<p>";       
         }
       }
-
-      return;
+    $Send = 0;
+//      return;
     }
   }
+  $From = $FESTSYS['SMTPuser'];
+  $Atts = [];
   
   $email = new PhpMailer(true);
   try {
@@ -111,6 +114,7 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0) {
           switch ($too[0]) {
             case 'to':
               $email->addAddress($a,$n);
+              $To = "$n <$a>";
               break;
             case 'cc':
               $email->addCC($a,$n);
@@ -123,11 +127,13 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0) {
               break;
             case 'from':
               $email->setFrom($a,$n);
+              $From = "$n <$a>";
               break;
           } 
         }
       } else {
-        $email->addAddress($to[0],(isset($to[1])?$to[1]:''));      
+        $email->addAddress($to[0],(isset($to[1])?$to[1]:''));
+        $To = $to[0];  
       }
     } else {
       $email->addAddress($to);
@@ -141,26 +147,38 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0) {
       if (is_array($attachments)) {
         foreach ($attachments as $i=>$att) {
           $email->addAttachment($att[0],$att[1]);
+          $Atts[] = [$att[0],$att[1]];
         }                 
       } else {
-        $email->addAttachment($attachments);       
+        $email->addAttachment($attachments);
+        $Atts[] = ["",$attachments];
       }
     }
     if ($embeded) {
       if (is_array($embeded)) {
         foreach ($embeded as $i=>$att) {
           $email->addEmbeddedImage($att[0],$att[1]);
+          $Atts[] = [$att[0],$att[1]];
         }                 
       } else {
         $email->addEmbeddedImage($embeded);       
+        $Atts[] = ["",$embeded];
       }
     }
 
-
-    $email->Send();
+    if ($Send) $email->Send();
     
   } catch (Exception $e) {
     echo 'Message could not be sent. Mailer Error: ', $email->ErrorInfo;
+  }
+  
+  $EmLog = ['Subject'=>$sub,'FromAddr'=>$From,'ToAddr'=>$To, 'TextBody'=>$letter,'Date'=>time()];
+  $logid = Insert_db('EmailLog', $EmLog);
+  if ($Atts && $logid) {
+    foreach ($Atts as $at) {
+      $atc = ['EmailId'=>$logid,'AttName'=>$at[0],'AttFileName'=>$at[1]];
+      Insert_db('EmailAttachments',$atc);
+    }
   }
 }
 
