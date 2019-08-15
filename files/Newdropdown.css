@@ -435,7 +435,7 @@
 }
 
 .WMFFbanner800 .BanOverlay {
-  top:260px;
+  top:200px; /* was 260 */
   text-align:center;
   position: absolute;
   max-width:90vw;
@@ -449,8 +449,8 @@
   max-width:90vw;
 }
 
-.WMFFbanner800 .BanDates {
-  top:490px;
+.WMFFbanner800 .BanDates, .WMFFbanner800 .BanDates2 {
+  top:430px; /* Was 490 */
   padding: 10px 20px;
   position: absolute;
   left:50%;
@@ -461,6 +461,11 @@
   text-align:center;
   font-size:18pt;
   font-weight:bold;
+}
+
+.BanDates2 .BanNotice {
+  font-size:16pt;
+  font-weight:normal;
 }
 
 .WMFFbanner800 .BanDates:hover {

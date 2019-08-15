@@ -26,7 +26,11 @@
   $Banner .= "</div>";
 
   if ($YEARDATA['Years2Show'] == 2) {  
-    $Banner .= "<div class=BanDates>Next Year: $NFrom - $NTo $NMonth $NYear</div>";
+    $Banner .= "<div class=BanDates2>Next Year: $NFrom - $NTo $NMonth $NYear<p><div class=BanNotice>" .
+      "Music applications are open for the 2020 festival. If you or your band would like to perform please <a href=mailto:Music@wimbornefolk.co.uk>email us</a> " .
+      " a short description of your act with contact details and video or audio link.<p>" .
+      "Please <a href=InfoStewards.php>Volunteer</a> to be a Steward and/or help the Setup/Cleardown crew." . 
+      "</div></div>";
   } else {
     $Banner .= "<a href=/Tickets class=BanDates>$DFrom - $DTo $DMonth $SHOWYEAR</a><br>Buy Tickets</a>";  
   }
