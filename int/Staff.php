@@ -64,6 +64,7 @@
       echo "<li><a href=AddUser>Add User</a>";
       echo "<li><a href=ListUsers?FULL>List Committee/Group Users</a>";
       echo "<li><a href=UserDocs>Storage Used</a>";
+      echo "<li><a href=ContactCats>Contact Categories</a>";      
     } else {
       echo "<li><a href=ListUsers>List Committee/Group Users</a>";    
     }
