@@ -46,13 +46,13 @@ and media team positions.</td>
   $ans = $db->query("SELECT * FROM FestUsers WHERE Contacts!=0 ORDER BY SN");
   while ($user = $ans->fetch_assoc()) {
     echo "<div class=smallfloatleft><div class=mini>\n";
-    if ($user['WMFFemail']) echo "<a href=mailto:" . $user['WMFFemail'] . "@wimbornefolk.co.uk>";
+    if ($user['WMFFemail']) echo "<a href=mailto:" . $user['WMFFemail'] . '@' . $FESTSYS['HostURL'] . ">";
     if (feature('ShowContactPhotos')) {
       echo "<img alt='Wimborne Minster Folk Festival' style='float:left; max-width:100px;max-height:100px;margin-right:5px' src='";
       echo ($user['Image']?$user['Image']:"/images/WimborneFolkLogo.png") . "'>";
     }
     if ($user['Contacts'] == 1) echo "<h2 class=minittl>" . $user['SN'] . "</h2>";
-    echo "<br><p class=minitxt>" . $user['Roll'] ;
+    echo "<span class=minitxt>" . $user['Roll'] . "</span>";
     if ($user['WMFFemail']) echo "<br>" . $user['WMFFemail'] . '@' . $FESTSYS['HostURL'] . "</a>";
     echo "</div></div>\n";
   }
