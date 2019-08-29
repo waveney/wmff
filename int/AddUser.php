@@ -68,6 +68,7 @@
     echo "<tr>" . fm_text($FESTSYS['ShortName'] . " Email",$User,'WMFFemail',1,'','autocomplete=off');
     echo "<tr>" . fm_text('Login',$User,'Login');
     echo "<tr>" . fm_text('Roll',$User,'Roll',3);
+    echo "<tr>" . fm_text('Relative Order',$User,'RelOrder',3);
     echo "<tr><td>No Tasks (test users only) " . fm_checkbox('',$User,'NoTasks');
     echo "<tr><td>Access Level<td>" . fm_select($Access_Levels,$User,'AccessLevel');
     echo "<tr>" . fm_text('Image', $User,'Image',3);

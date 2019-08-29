@@ -43,7 +43,7 @@ and media team positions.</td>
 </tr>
 */
 
-  $ans = $db->query("SELECT * FROM FestUsers WHERE Contacts!=0 ORDER BY SN");
+  $ans = $db->query("SELECT * FROM FestUsers WHERE Contacts!=0 ORDER BY RelOrder DESC");
   while ($user = $ans->fetch_assoc()) {
     echo "<div class=smallfloatleft><div class=mini>\n";
     if ($user['WMFFemail']) echo "<a href=mailto:" . $user['WMFFemail'] . '@' . $FESTSYS['HostURL'] . ">";
