@@ -36,7 +36,8 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>WMFF Email</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Access Level</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Roll</a>\n";
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Image</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Rel Order</a>\n";
+  if (feature('ShowContactPhotos')) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Image</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Public</a>\n";
   if ($Full) {
     echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Last Access</a>\n";
@@ -53,9 +54,9 @@
     echo "<td>" . $usr['UserId'] . "<td>" . ($Full? ("<a href=AddUser?usernum=" . $usr['UserId'] . ">" . $usr['SN'] . "</a>") : $usr['SN']);
 //    echo "<td>" . $usr['Abrev'];
     echo "<td>" . $usr['Login'] . "<td>" . $usr['Email'] . "<td>" . $usr['Phone'] . "<td>" . $usr['WMFFemail'] . "<td>" . $Access_Levels[$usr['AccessLevel']];
-    echo "<td>" . $usr['Roll'] . "<td>";
-    if ($usr['Image']) echo "<img src='" . $usr['Image'] . "' width=50>";
-    echo "<td>" . $User_Public_Vis[$usr['Contacts']];
+    echo "<td>" . $usr['Roll'] . "<td>" . $usr['RelOrder'] ;
+    if ($usr['Image']) echo "<td><img src='" . $usr['Image'] . "' width=50>";
+    if (feature('ShowContactPhotos')) echo "<td>" . $User_Public_Vis[$usr['Contacts']];
   
     if ($Full) { 
       echo "<td>";
