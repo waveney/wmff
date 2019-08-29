@@ -27,7 +27,8 @@
 
   if ($YEARDATA['Years2Show'] == 2) {  
     $Banner .= "<div class=BanDates2>Next Year: $NFrom - $NTo $NMonth $NYear<p><div class=BanNotice>" .
-      "Music applications are open for the 2020 festival. If you or your band would like to perform please <a href=mailto:Music@wimbornefolk.co.uk>email us</a> " .
+      "Music applications are open for the 2020 festival. If you or your band would like to perform please " .
+      "email us at <a href=mailto:Music@wimbornefolk.co.uk>Music@wimbornefolk.co.uk</a> " .
       " a short description of your act with contact details and video or audio link.<p>" .
       "Please <a href=InfoStewards.php>Volunteer</a> to be a Steward and/or help the Setup/Cleardown crew." . 
       "</div></div>";
