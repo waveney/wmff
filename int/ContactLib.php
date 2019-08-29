@@ -16,7 +16,7 @@ function Get_ContactCat($id) {
 function Get_ContactCats() {
   global $db;
   $full = [];
-  $res = $db->query("SELECT * FROM ContactCats ORDER BY SN ");
+  $res = $db->query("SELECT * FROM ContactCats ORDER BY RelOrder ");
   if ($res) {
     while ($typ = $res->fetch_assoc()) {
       $full[$typ['id']] = $typ;

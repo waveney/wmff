@@ -29,6 +29,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>State</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Email</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Rel Order</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Description</a>\n";
   echo "</thead><tbody>";
   foreach($Teams as $t) {
@@ -36,6 +37,7 @@
     echo "<tr><td>$i" . fm_text1("",$t,'SN',1,'','',"SN$i");
     echo "<td>" . fm_radio('',$ContCatState,$t,"OpenState",'',0,'',"OpenState$i",$ContCatColours);
     echo fm_text1('',$t,'Email',1,'','',"Email$i");
+    echo fm_text1('',$t,'RelOrder',1,'','',"RelOrder$i");
     echo fm_text1('',$t,'Description',4,'','',"Description$i");
     echo "\n";
   }
@@ -43,6 +45,7 @@
   echo "<tr><td><td><input type=text name=SN0 >";
     echo "<td>" . fm_radio('',$ContCatState,$t,"OpenState",'',0,'',"OpenState0",$ContCatColours);
     echo fm_text1('',$t,'Email',1,'','',"Email0");
+    echo fm_text1('',$t,'RelOrder',1,'','',"RelOrder0");
     echo fm_text1('',$t,'Description',4,'','',"Description0");
   echo "</table></div>\n";
   echo "<input type=submit name=Update value=Update>\n";
