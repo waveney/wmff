@@ -50,6 +50,7 @@ $TradeMapPoints = ['Trade','Other'];
 
 function Get_Trade_Locs($tup=0,$Cond='') { // 0 just names, 1 all data
   global $db;
+  $full = $short = [];
   $res = $db->query("SELECT * FROM TradeLocs $Cond ORDER BY SN ");
   if ($res) {
     while ($typ = $res->fetch_assoc()) {

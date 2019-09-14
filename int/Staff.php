@@ -169,6 +169,7 @@
       echo "<li class=smalltext><a href=ShowDanceProg?Cond=0&Pub=1&Head=0&Day=Sun&Y=$YEAR>Dance Programme - Sun - no headers</a>";
       echo "<li class=smalltext><a href=CheckDuplicates?Y=$YEAR>Check for Duplicate Year Tables Entries</a>";      
 //      echo "<li class=smalltext><a href=ImportDance2>Import Appalachian List</a>"; // Should never be needed again
+      echo "<li class=smalltext><a href=CheckAccessKeys>Check and fix Blank Access Keys</a>"; 
       echo "</table></div>\n";
     }
     echo "</ul>\n";
