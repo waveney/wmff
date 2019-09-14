@@ -38,7 +38,8 @@
       } else { // It is new
         foreach ($PerfTypes as $p=>$d) $_POST[$d[0]]=0;
         $_POST[$PerfTypes[$Perf][0]] = 1;
-
+        $_POST{'AccessKey'} = rand_string(40);
+        
         $snum = Insert_db_post('Sides',$Side);
         $Side = Get_Side($snum);
         $_POST['P'] = $_GET['sidenum'] = $snum;
