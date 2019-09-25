@@ -108,6 +108,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
         echo fm_text('Recent Video',$Side,'Video',1,$Adv);
       };
       echo fm_text(Social_Link($Side,'Facebook' ),$Side,'Facebook');
+    echo "<tr>";
       echo fm_text(Social_Link($Side,'Twitter'  ),$Side,'Twitter');
       echo fm_text(Social_Link($Side,'Instagram'),$Side,'Instagram');
 
@@ -128,6 +129,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
         if ($PerfTC > 1) echo " " . fm_checkbox("Diff Imp",$Side,'DiffImportance'); 
 //        echo " " . fm_text0("Rel Order",$Side,'RelOrder',1,'class=NotSide','class=NotSide size=4');  // Unused
         echo fm_text1('Where found',$Side,'Pre2017',1,'class=NotSide','class=NotSide'); 
+      echo "<tr><td class=NotSide>Id:";//<td class=NotSide>";
         echo "<td class=NotSide colspan=3>";
         echo Help('PerfTypes') . " ";
         foreach ($PerfTypes as $t=>$p) echo fm_checkbox($t,$Side,$p[0]) . " ";

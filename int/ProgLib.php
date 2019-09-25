@@ -668,7 +668,6 @@ function &Get_Active_Venues($All=0) {
 function Show_Prog($type,$id,$all=0,$price=0) { //mode 0 = html, 1 = text for email
     global $DayList,$db;
     $str = '';
-    include_once("ProgLib.php");
     include_once("DanceLib.php");
     $Evs = Get_All_Events_For($type,$id,$all);
     $ETs = Get_Event_Types(1);
