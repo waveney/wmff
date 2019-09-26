@@ -54,10 +54,11 @@ function fm_smalltext2($Name,&$data,$field,$chars=4,$extra='') {
   return $str  .">";
 }
 
-function fm_text($Name,&$data,$field,$cols=1,$extra1='',$extra2='',$field2='') {
+function fm_text($Name,&$data,$field,$cols=1,$extra1='',$extra2='',$field2='',$extra3='') {
   global $ADDALL,$AutoADD;
   if ($field2 == '') $field2=$field;
-  $str = "<td $extra1>$Name" . ($Name?':':'') . help($field) . "<td colspan=$cols $extra1><input type=text name=$field2 id=$field2 $extra2 size=" . $cols*16; 
+  if ($extra3 == '') $extra3 = $extra1;
+  $str = "<td $extra3>$Name" . ($Name?':':'') . help($field) . "<td colspan=$cols $extra1><input type=text name=$field2 id=$field2 $extra2 size=" . $cols*16; 
   if (isset($data[$field])) $str .= " value=\"" . htmlspec($data[$field]) ."\"";
   if ($AutoADD) $str .=  " oninput=AutoInput('$field2') ";
   return $str . " $ADDALL>";
