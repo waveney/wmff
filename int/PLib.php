@@ -9,6 +9,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
   }
 
   $Mstate = ($PLANYEAR == $CALYEAR && $PLANYEAR == $YEAR);
+  $Wide = UserGetPref('WideDisp');
 
   Set_Side_Help();
   $snum=$Side['SideId'];
@@ -84,15 +85,17 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
       } else {
         $snx .= ' hidden';
       }
+    if (!$Wide) echo "<tr>";
       echo fm_text('Grid Name', $Side,'ShortName',1,$snx,$snx . " id=ShortName") . "\n";
+    if (!$Wide) echo "<tr>";
       echo fm_text('Type', $Side,'Type') . "\n";
 
-    if ($Side['IsASide']) echo "<tr>" . fm_textarea('Costume Description <span id=CostSize></span>',$Side,'CostumeDesc',7,1,
+    if ($Side['IsASide']) echo "<tr>" . fm_textarea('Costume Description <span id=CostSize></span>',$Side,'CostumeDesc',5,1,
                         "maxlength=150 oninput=SetDSize('CostSize',150,'CostumeDesc')"); 
-    echo "<tr>" . fm_textarea('Short Blurb <span id=DescSize></span>',$Side,'Description',6,1,
+    echo "<tr>" . fm_textarea('Short Blurb <span id=DescSize></span>',$Side,'Description',5,1,
                         "maxlength=150 oninput=SetDSize('DescSize',150,'Description')"); 
 //      echo "<td>" . fm_checkbox("Show One Blurb",$Side,'OneBlurb');
-    echo "<tr>" . fm_textarea('Blurb for web',$Side,'Blurb',7,2,'','size=2000' ) . "\n";
+    echo "<tr>" . fm_textarea('Blurb for web',$Side,'Blurb',5,2,'','size=2000' ) . "\n";
     echo "<tr>";
       if (isset($Side['Website']) && strlen($Side['Website'])>1) {
         echo fm_text(weblink($Side['Website']),$Side,'Website');
@@ -108,6 +111,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
         echo fm_text('Recent Video',$Side,'Video',1,$Adv);
       };
       echo fm_text(Social_Link($Side,'Facebook' ),$Side,'Facebook');
+    if (!$Wide) echo "<tr>";
       echo fm_text(Social_Link($Side,'Twitter'  ),$Side,'Twitter');
       echo fm_text(Social_Link($Side,'Instagram'),$Side,'Instagram');
 
@@ -128,6 +132,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
         if ($PerfTC > 1) echo " " . fm_checkbox("Diff Imp",$Side,'DiffImportance'); 
 //        echo " " . fm_text0("Rel Order",$Side,'RelOrder',1,'class=NotSide','class=NotSide size=4');  // Unused
         echo fm_text1('Where found',$Side,'Pre2017',1,'class=NotSide','class=NotSide'); 
+      if (!$Wide) echo "<tr><td class=NotSide>";//<td class=NotSide>";
         echo "<td class=NotSide colspan=3>";
         echo Help('PerfTypes') . " ";
         foreach ($PerfTypes as $t=>$p) echo fm_checkbox($t,$Side,$p[0]) . " ";
@@ -153,26 +158,37 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
       echo fm_hidden('IsOther',$Side['IsOther']);
     }
 
-    echo "<tr id=AgentDetail " . (isset($Side['HasAgent']) && $Side['HasAgent']?"":"hidden") . ">";
-      echo fm_text('<span id=AgentLabel>Agent</span>',$Side,'AgentName');
+
+    $AgentTxt = (isset($Side['HasAgent']) && $Side['HasAgent']?"":"hidden");
+    if ($NotD) { 
+      echo "<tr><td>" . fm_checkbox("Has Agent",$Side,'HasAgent','onchange=AgentChange(event)');
+    }
+
+    echo "<tr class=AgentDetail $AgentTxt>";
+      echo fm_text('<span id=AgentLabel>Agent</span>',$Side,'AgentName',1,'','','',($Wide?'':' rowspan=2 '));
       echo fm_text1('Email',$Side,'AgentEmail',2);
+    if (!$Wide) echo "<tr class=AgentDetail $AgentTxt>";
       echo fm_text('Phone',$Side,'AgentPhone');
       echo fm_text('Mobile',$Side,'AgentMobile');
 
-    echo "<tr>" . fm_text('<span id=ContactLabel>Contact</span>',$Side,'Contact');
+    echo "<tr>" . fm_text('<span id=ContactLabel>Contact</span>',$Side,'Contact',1,'','','',($Wide?' rowspan=2':' rowspan=4 '));
       echo fm_text1('Email',$Side,'Email',2);
+      if (!$Wide) echo "<tr>";
       echo fm_text('Phone',$Side,'Phone');
       echo fm_text('Mobile',$Side,'Mobile',1,$Imp,'onchange=updateimps()') . "\n";
-    echo "<tr>" . fm_text('Address',$Side,'Address',5,$Imp,'onchange=updateimps()');
+      echo "<tr>" . fm_text('Address',$Side,'Address',3,$Imp,'onchange=updateimps()');
+      if (!$Wide) echo "<tr>";
       echo fm_text('Post Code',$Side,'PostCode')."\n";
-    echo "<tr $Adv>" . fm_text('Alt Contact',$Side,'AltContact');
+    echo "<tr $Adv>" . fm_text('Alt Contact',$Side,'AltContact',1,'','','',($Wide?'':' rowspan=2 '));
       echo fm_text1('Alt Email',$Side,'AltEmail',2);
+      if (!$Wide) echo "<tr>";
       echo fm_text('Alt Phone',$Side,'AltPhone');
       echo fm_text('Alt Mobile',$Side,'AltMobile')."\n";
 //    echo "<tr $Adv>" . fm_text('Alt Address',$Side,'AltAddress',5,$Imp,'onchange=updateimps()');
 //      echo fm_text('Alt Post Code',$Side,'AltPostCode')."\n";
     if ($Side['IsASide']) {
       echo "<tr $Adv>" . fm_textarea('Requests',$Side,'Likes',3,1);
+        if (!$Wide) echo "<tr>";
         echo fm_text('Animal',$Side,'MorrisAnimal');
       echo "<tr><td>Surfaces:" . help('Surfaces') . "<td colspan=3>";
         for($st=1;$st<=8;$st++) {
@@ -180,12 +196,12 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
           if (!Access('SysAdmin') && $st >= 6) {
             echo fm_hidden("Surface_$surf",$Side["Surface_$surf"]);  // Surfaces 6-8 only for Richard at the moment
           } else {
-            if ($st == 6) echo " ... ";          
+            if ($st == 6) echo " ... ";
 
             echo "<span style='Background:" . $Surface_Colours[$st] . ";padding:4; white-space: nowrap;'>" .fm_checkbox($surf,$Side,"Surface_$surf") . "</span>";
           }
         };
-
+        if (!$Wide) echo "<tr>";
         echo "<td>Shared Spots:<td>" . fm_select($Share_Spots,$Side,'Share');
         if (!isset($Side['NoiseLevel'])) $Side['NoiseLevel']=0;
         echo "<td colspan=2 $Adv>" . fm_radio("Music Volume",$Noise_Levels,$Side,'NoiseLevel','',0,'','',$Noise_Colours);
@@ -213,18 +229,15 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
       echo "<td><label for=StagePAtext>Text</label> <input type=radio $ADDALL name=StagePAtext value=1 onchange=setStagePA(1) id=StagePAtext " . ($f?"":"checked") . "> " .
            "<label for=StagePAfile>File</label> <input type=radio $ADDALL name=StagePAtext value=2 onchange=setStagePA(0) id=StagePAfile " . ($f?"checked":"") . ">" .
            Help("StagePA");
-      echo "<td id=StagePAtextF colspan=5" . ($f?' hidden':'') . " >" . fm_basictextarea($Side,'StagePA',5,1);
+      echo "<td id=StagePAtextF colspan=4" . ($f?' hidden':'') . " >" . fm_basictextarea($Side,'StagePA',5,1);
 
         $files = glob("PAspecs/$snum.*");
         echo fm_DragonDrop(1,'StagePA','Perf',$snum,$Side,$Mode,'',1,'','StagePAFileF',($f?0:1));
-    if ($NotD) { 
-      echo "<td>" . fm_checkbox("Has Agent",$Side,'HasAgent','onchange=AgentChange(event)');
-    }
 
 // Members
     if ($Side['IsAnAct']) { // May need for Other
       $Band = Get_Band($snum);      
-      $BandPerRow=7; 
+      $BandPerRow=($Wide?6:4); 
       $Curband = $Band? count($Band) : 0;
       $Rows = max(1,ceil($Curband/$BandPerRow));
       $colcnt = 0;
@@ -251,7 +264,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
     }
 
 // OVERLAPS
-    echo "<tr>" . fm_textarea('Shared Performers',$Side,'Overlaps',7,2);
+    echo "<tr>" . fm_textarea('Shared Performers',$Side,'Overlaps',5,2);
     if ($Mode) { // only ctte can build rule sets
       $olaps = Get_Overlaps_For($snum);
 //var_dump($olaps);
@@ -291,7 +304,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
 //                fm_select($SideList,$O,$Other,1,"id=OlapSide$i " .($O[$OtherCat]>0?'hidden':''),"OlapSide$i") . 
 //                fm_select($ActList,$O,$Other,1,"id=OlapAct$i " .($O[$OtherCat]!=1?'hidden':''),"OlapAct$i") . 
 //                fm_select($OtherList,$O,$Other,1,"id=OlapOther$i " .($O[$OtherCat]!=2?'hidden':''),"OlapOther$i") .
-        echo " On Days: " . fm_select($OlapDays,$O,'Days',0,'',"OlapDays$i") . 
+        echo "&nbsp;On&nbsp;Days: " . fm_select($OlapDays,$O,'Days',0,'',"OlapDays$i") . 
                 fm_checkbox("Rule Active",$O,'Active','',"OlapActive$i") . "\n";
         if ($i != ($rows-1)) echo " <button name=Action value=DeleteOlap$i type=submit>Del</a>"; 
       } 
@@ -301,12 +314,14 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
     if ($Mode) {
       echo "<tr>" . fm_text('Location',$Side,'Location',2,'class=NotSide');
       if (Access('SysAdmin')) {
+        if (!$Wide) echo "<tr>";
         echo fm_nontext('Access Key',$Side,'AccessKey',3,'class=NotSide','class=NotSide'); 
         if (isset($Side['AccessKey'])) {
           echo "<td class=NotSide><a href=Direct?id=$snum&key=" . $Side['AccessKey'] . "&Y=$YEAR>Use</a>" . help('Testing');
         }
       }
       echo "<tr>" . fm_textarea('Notes',$Side,'Notes',5,2,'class=NotSide','class=NotSide');
+      if (!$Wide) echo "<tr>";
       echo "<td class=NotSide colspan=2>";
       if (file_exists("Store/Performers/$snum")) {
         $files = glob("Store/Performers/$snum/*");
@@ -322,7 +337,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
       echo " <button type=submit formaction='PerformerData?id=$snum&ACTION=LIST'>Manage Files</button>" . help('ManageFiles');
       
     }
-  if (Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=7 class=NotSide><textarea id=Debug></textarea>";
+  if (Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=5 class=NotSide><textarea id=Debug></textarea>";
 
   echo "</table></div>\n";
 }
@@ -339,7 +354,8 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
 
   $Side=Get_Side($snum);
   Set_Side_Year_Help();
-
+  $Wide = UserGetPref('WideDisp');
+  
   $Mstate = ($PLANYEAR == $CALYEAR && $PLANYEAR == $YEAR);  // TODO?
 
   if ($year < $PLANYEAR) { // Then it is historical - no changes allowed
@@ -519,7 +535,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
   if ($Mode) {
     include_once("BudgetLib.php");
     echo "<tr>". fm_number1('Fee',$Sidey,'TotalFee','class=NotCSide',' onchange=CheckContract()');
-    echo fm_text('Other payments',$Sidey,'OtherPayment',3,'class=NotCSide',' onchange=CheckContract()');
+    echo fm_text('Other payments',$Sidey,'OtherPayment',2,'class=NotCSide',' onchange=CheckContract()');
     echo fm_number1('Cost of this',$Sidey,'OtherPayCost','class=NotSide colspan=1');
     if (!isset($Sidey['BudgetArea']) || $Sidey['BudgetArea']==0) {
       $area = 0;
@@ -535,6 +551,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
       echo "<td class=NotSide>" . fm_select($Bud,$Sidey,'BudgetArea3') . fm_number1("Value",$Sidey,'BudgetValue3','class=NotSide','class=NotSide');
     }
     echo "<tr class='NotCSide ContractShow' hidden>" . fm_textarea('Additional Riders',$Sidey,'Rider',2,1,'class=NotCSide') ."\n";
+      if (!$Wide) echo "<tr>";
       echo "<td colspan=2 class=NotCSide>On arrival report to: " . fm_select(Report_To(),$Sidey,'ReportTo') .
            "<td class=NotCSide colspan=2 >" . fm_checkbox('Tell about Green Room',$Sidey,'GreenRoom');
 
@@ -563,6 +580,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
       }
     }
     echo "<tr><td>Fee:<td>&pound;" . $Sidey['TotalFee'] . fm_hidden('TotalFee',$Sidey['TotalFee']);
+    if (!$Wide) echo "<tr>";
     if ($Sidey['OtherPayment']) echo fm_text('Other payments',$Sidey,'OtherPayment',1,'disabled readonly');
     if (isset($Sidey['Rider']) && strlen($Sidey['Rider']) > 5)  echo "<tr>" . fm_textarea('Additional Riders',$Sidey,'Rider',2,1,'','disabled') ."\n";
   }
@@ -580,14 +598,14 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
       $ETs = Get_Event_Types();
       echo "<tr class=ContractShow hidden><td colspan=5>Click on the Event Names below for more detailed information.";
       if ($Mode==2) echo "Direct editing of some fields will be possible soon"; //TODO
-      echo "<tr class=ContractShow hidden><td>Event Name<td>Type<td>Date<td>On Stage at<td>Start<td>Duration (mins)<td colspan=3>Where\n";
+      echo "<tr class=ContractShow hidden><td>Event Name<td>Date<td>On Stage at<td>Start<td>Duration (mins)<td colspan=3>Where\n";
       foreach($Evs as $e) {
         $Detail = ($Mode?"EventAdd":"EventShow");
         $vv = $e['Venue'];
         if ($e['SubEvent'] < 0) { $End = $e['SlotEnd']; } else { $End = $e['End']; };
         if (($e['Start'] != 0) && ($End != 0) && ($e['Duration'] == 0)) $e['Duration'] = timeadd2real($End, - $e['Start']);
         echo "<tr class=ContractShow hidden><td><a href=$Detail?e=" . $e['EventId'] . ">" . $e['SN'] . "</a>";
-        echo "<td>" . $ETs[$e['Type']];
+//        echo "<td>" . $ETs[$e['Type']];
         echo "<td>" . FestDate($e['Day'],'L');
         echo "<td>" . ($e['Start']? ( timecolon(timeadd2($e['Start'],- $e['Setup']) )) : "TBD" ) ;
         echo "<td>" . ($e['Start']?timecolon($e['Start']):"TBD");

@@ -95,7 +95,7 @@
 
 .main-header #MenuBars {
   width: 67%; 
-  height: 100%; 
+/*  height: 100%;  - Pollys Fix */
   position: absolute;
   right: 0;
   float: right;

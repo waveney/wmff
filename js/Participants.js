@@ -66,14 +66,14 @@ function updateimps() {
 
 function AgentChange(ev) {
 //  debugger;
-  if ($("#AgentDetail").length) {
+  if ($(".AgentDetail").length) {
     var txt = ( $("[Name=HasAgent]").is(":checked"))? 'Direct Contact': 'Contact';
     document.getElementById('ContactLabel').innerHTML = txt;
     if ($("[Name=HasAgent]").is(":checked")) {
-      $("#AgentDetail").show();
+      $(".AgentDetail").show();
       document.getElementById("Help4Contact").title = "Direct Performer Contact Name";
     } else {
-      $("#AgentDetail").hide();
+      $(".AgentDetail").hide();
       document.getElementById("Help4Contact").title = "Main Contact Name";
     }
   }

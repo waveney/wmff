@@ -5,7 +5,7 @@
   echo "<div class=widthLim>";
   echo "<div class=VersionBy>";
   echo "Website supported by <a href=http://wavwebs.com style=color:white;>Waveney Web Services</a> - Version " . $FESTSYS['V'];
-  if (!isset($_COOKIE{'WMFF2'})) echo "<a href=/int/Login style='color:white; float:right;'>Staff Login</a><p>\n";
+  echo " <a href=/int/Login style='color:white; float:right;'>Staff Login</a><p>\n";
 
   echo "</div><div class=copyright style='text-decoration:none;'>";
   echo "Copyright &copy; <a href='/' style='color:white;'>Wimborne Minster Folk Festival Ltd</a> $CALYEAR All Rights Reserved. Registered Company: 08290423<br>";
