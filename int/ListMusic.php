@@ -33,7 +33,7 @@
 
   if ($_GET{'SEL'} == 'ALL') {
     $flds = "y.*, s.*";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN $YearTab as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE $TypeSel ORDER BY SN");
+    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN $YearTab as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE $TypeSel AND s.SideStatus=0 ORDER BY SN");
     $col5 = "Book State";
     $col6 = "Actions";
   } else if ($_GET{'SEL'} == 'INV') {

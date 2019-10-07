@@ -4,7 +4,7 @@
 
   dostaffhead("List Traders", ["/js/clipboard.min.js", "/js/emailclick.js"]);
 
-  global $YEAR,$PLANYEAR,$Trade_States,$Trade_State_Colours,$Trade_State,$TS_Actions,$ButExtra,$TradeLocData;
+  global $YEAR,$PLANYEAR,$Trade_States,$Trade_State_Colours,$Trade_State,$TS_Actions,$ButAdmin,$AdminExtra,$TradeLocData;
   include_once("TradeLib.php");
 
   $Sum = isset($_GET['SUM']);

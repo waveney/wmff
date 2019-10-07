@@ -4,6 +4,7 @@
   include_once("DanceLib.php");
   include_once("MusicLib.php");
   include_once("TradeLib.php");
+  include_once("InvoiceLib.php");
 
   if ( !isset($_GET{'id'}) || !isset($_GET{'key'})) Error_Page("Invalid link"); // No return
 

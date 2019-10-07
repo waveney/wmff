@@ -17,31 +17,6 @@
     echo "<td>" . $t['Description'];
   }
   echo "</table></div><p>";
-  
-/*
-</tr>
-<tr>
-<td>Music</td>
-<td style="font-weight:bold; color:#00CC00;">Open</td>
-<td>Music applications are open for the 2020 festival.  If you or your band would like to perform please send a short description of your act with contact details and video or audio link </td>
-</tr>
-<tr>
-<td>Dance</td>
-<td style="font-weight:bold; color:#00CC00;">Open</td>
-<td>Dance applications are open for the 2020 festival.</td>
-</tr>
-<tr>
-<td>Trade Stands</td>
-<td style="font-weight:bold; color:orange;">Closed</td>
-<td>Trade stands will open in October.  For all <a href="/InfoTrade"><b>Trade Stand enquiries</b></a> that can not be answered by the <a href=/int/TradeFAQ><b>Trade FAQ</b></a>
-</tr>
-<tr>
-<td>Volunteers</td>
-<td style="font-weight:bold; color:#00CC00;">Open</td>
-<td>Visit our <a href=/InfoStewards><strong>Volunteers</strong></a> page to apply online for stewarding, setup/cleardown crew, technical crew
-and media team positions.</td>
-</tr>
-*/
 
   $ans = $db->query("SELECT * FROM FestUsers WHERE Contacts!=0 ORDER BY RelOrder DESC");
   while ($user = $ans->fetch_assoc()) {
@@ -65,7 +40,7 @@ and media team positions.</td>
 
   echo "<br clear=all>";
   echo "Please note that we may not be able to respond to urgent emails and bear in mind that due to the high number of enquiries we get throughout the year, " .
-       "we may not be able to respond every email.<p>";
+       "we may not be able to respond to every email.<p>";
 
   dotail();
 
