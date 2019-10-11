@@ -359,6 +359,7 @@ function Replace_Help($Area='',$Right=0) {
   ['*IMAGE_file*','Embed image from file - contact Richard to use','All'],
   ['*DEPCODE*/*BALCODE*/*OTHERCODE*','Payment codes for Deposit, Balance(All), Other Payment','Trade'],
   ['*DUEDATE*','Date Invoice/Payment is Due','Trade, Invoices'],
+  ['*PAYCODES*','Details of payment to be made, ammount, account and code to be used','Trade'],
   ];
 
   echo "<span " . ($Right?' class=floatright':'') . " id=largeredsubmit onclick=($('.HelpDiv').toggle()) >Click to toggle Standard Replacements Help</span>";

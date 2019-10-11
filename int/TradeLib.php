@@ -800,7 +800,8 @@ function Trader_Admin_Details($key,&$data,$att=0) {
 function Send_Trader_Email(&$Trad,&$Trady,$messcat='Link',$att='') {
   global $PLANYEAR,$FESTSYS;
   include_once("Email.php");
-  Email_Proforma([$Trad['Email'],$Trad['Contact']],$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att);
+  Email_Proforma([['to',$Trad['Email'],$Trad['Contact']],['bcc',"treasurer@" . $FESTSYS['HostURL']]],
+    $messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att);
 }
 
 function Send_Trader_Simple_Email(&$Trad,$messcat='Link',$att='') {
@@ -1429,7 +1430,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
                           [["Balance payment to secure trade stand at the $PLANYEAR festival",$Fee*100],["Less your deposit payment",-$PaidSoFar*100]],
                            'Trade Stand Balance Charge',
                            $InvCode, 1, ($DueDate?$DueDate:-1),0,0,1 );
-        Send_Trader_Email($Trad,$Trady,'Trade_Balance_Paid_Invoice',$ipdf);
+        Send_Trader_Email($Trad,$Trady,'Trade_Fully_Paid_Invoice',$ipdf);
       } else {
         $ipdf = New_Invoice($Trad,
                           [["Full payment to secure trade stand at the $PLANYEAR festival",$Fee*100]],
