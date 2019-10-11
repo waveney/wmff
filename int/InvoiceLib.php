@@ -292,8 +292,10 @@ function Sage_Code(&$Whose) { // May only work for trade at the moment
 // Create an invoice for whose, details covers the amount(s) note details can be negative
 // Source 1=Trade, 2 = Sponsor/Adverts, 3= Other) returns incoice number - for WMFF I will start invoices at 2000
 // Due date < 365 = days, > 365 taken as actual date
-function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=-1,$InvCode2=0,$InvCode3=0) {
-  global $db,$YEAR,$NewInvoiceId,$NewInv;
+function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=-1,$InvCode2=0,$InvCode3=0,$Paid=0) {
+  global $db,$YEAR,$NewInvoiceId,$NewInv,$USER;
+  
+//var_dump("New_Invoice: ", $Whose, $Details, $Reason, $InvCode, $Source, $DueDate, $InvCode2, $InvCode3, $Paid, "<p>");
   if ($DueDate < 0) $DueDate=Feature('PaymentTerms',30);
   $inv['Source'] = $Source;
   $inv['Year'] = $YEAR;
@@ -343,6 +345,12 @@ function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=-1
     }
   } else {
     $inv['Total'] = 0;
+  }
+  
+  if ($Paid) {
+    $inv['PayDate'] = time();
+    $inv['History'] .= "Fully Paid on " . date('j/n/Y') . " by " . $USER['Login'] . "\n";
+    $inv['PaidTotal'] = $inv['Total'];
   }
   
   $NewInvoiceId = Insert_db("Invoices",$inv,$NewInv);
@@ -564,10 +572,11 @@ function Invoice_Credit_Note(&$inv, $Reason='Credit Note') { // issue credit not
   return Invoice_Print($inv);
 }
 
-function Get_InvoiceCodes($type=0) {  // 0 simple list, 1 full data
+function Get_InvoiceCodes($type=0,$extra='') {  // 0 simple list, 1 full data
   global $YEAR,$db;  
   $full = [];
-  $res = $db->query("SELECT * FROM InvoiceCodes ORDER BY Code ");
+  if ($type==0 && $extra=='') $extra = ' WHERE Hide=0 ';
+  $res = $db->query("SELECT * FROM InvoiceCodes $extra ORDER BY Code ");
   if ($res) while ($inv = $res->fetch_assoc()) $full[$inv['Code']] = ($type?$inv:($inv['Code'] . " " . $inv['SN']));
   return $full;  
 }
@@ -586,37 +595,60 @@ function Put_InvoiceCode(&$now) {
   return Update_db('InvoiceCodes',$Cur,$now);
 }
 
-function Invoice_AssignCode($Code,$Val,$Src=0,$SrcId=0,$Name='',$Reason='') {
+function Invoice_AssignCode($Code,$Val,$Src=0,$SrcId=0,$Name='',$Reason='') { // The Code is externally assigned
   global $db,$PLANYEAR;
   $ent = ['Year'=>$PLANYEAR,'Code'=>$Code,'Amount'=>$Val,'Source'=>$Src,'SourceId'=>$SrcId,'State'=>0,'IssueDate'=>time(),'SN'=>$Name, 'Reason'=>$Reason];
   Insert_db('OtherPayments', $ent);
+}
+
+function Pay_Rec_Gen($Type,$Val,$Src=0,$SrcId=0,$Name='',$Reason='',$PayDays=0) { // Code Generated uniquely
+  global $db,$PLANYEAR;
+  
+  $ent = ['Year'=>$PLANYEAR,'Code'=>$Type,'Amount'=>$Val,'Source'=>$Src,'SourceId'=>$SrcId,'State'=>0,'IssueDate'=>time(),'SN'=>$Name, 'Reason'=>$Reason,
+          'DueDate'=>time()+$PayDays*86400];
+  $PRid = Insert_db('OtherPayments', $ent);
+
+  $digits = (string)($PRid*123) . "000000000000";
+  // 1. Add the values of the digits in the even-numbered positions: 2, 4, 6, etc.
+  $even_sum = ord($Type[0]) + ord($Type[2]) + $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
+  // 2. Multiply this result by 3.
+  $even_sum_three = $even_sum * 3;
+  // 3. Add the values of the digits in the odd-numbered positions: 1, 3, 5, etc.
+  $odd_sum = ord($Type[1]) + $digits{0} + $digits{2} + $digits{4} + $digits{6} + $digits{8} + $digits{10};
+  // 4. Sum the results of steps 2 and 3.
+  $total_sum = $even_sum_three + $odd_sum;
+
+  $check_digit = chr(($total_sum%26) + ord('A'));
+  $ent['Code'] = "$Type$PRid$check_digit";
+  db_update('OtherPayments',"Code='$Type$PRid$check_digit'","id=$PRid");
+  return $ent['Code'];
 }
 
 function Invoice_RemoveCode($Code) {
   db_update('OtherPayments',"State=2","Code='$Code'");
 }
 
-function Call_Invoice_User($user,$uid=0,$action,$val=0) {
+function Call_Payment_User(&$pay,$action,$val=0) {
   global $Invoice_Sources;
   
 // ['Other','Trade','Sponsor/Adverts','Buskers Bash','Live and Loud'];
-  switch ($user) {
+  switch ($pay['Source']) {
   case 0: // Other
     return; // TODO
     
   case 1: // Trade
-    return Trade_F_Action($uid,$action,$val);
+    return Trade_P_Action($pay['SourceId'],$action,$val);
 
   case 2: // Sponsorship / adverts
     return; // TODO
     
   case 3: // BB
-    preg_match('/(\d+)/',$uid,$data);
+    preg_match('/(\d+)/',$pay['Code'],$data);
     $id = $data[1];
     return BB_Action($action,$id,$val);
     
-  case 4: // LNL
-    preg_match('/(\d+)/',$uid,$data);
+  case 4: // LNL - Old fformat
+    preg_match('/(\d+)/',$pay['Code'],$data);
     $id = $data[1];
     return LNL_Action($action,$id,$val);
   }
@@ -645,7 +677,8 @@ function Invoice_Email_Details($key,&$inv,$att=0) {
         } else $det = $dtxt;
       }
     return $det; 
-    
+  case 'DUEDATE' :
+    return date('j/n/Y',$inv['DueDate']);
   }
 }
 
@@ -711,13 +744,13 @@ function Pay_Show($id) {
   $pay = Get_PayCode($id);
   dostaffhead("Payment for other things");
   echo "<h2>Payment for Other things</h2>";
-  echo "Currently just Live N Loud<p>";
+//  echo "Currently just Live N Loud<p>";
   
   echo "<form method=post><div class=tablecont><table border>";
   echo "<tr><td>Id:<td>$id" . fm_text("Code",$pay,"Code") . fm_hidden('PAYCODES',1) .fm_text('Name',$pay,'SN') .fm_hidden('id',$id);
-  echo "<tr>" . fm_number("Amount (pence)",$pay,"Amount") . "<td>issued on:<td>" . date('j/n/y',$pay['IssueDate']);
-  echo "<tr><td>State:<td>" . fm_select($OpayStates,$pay,'State') . "<td>Source:" . fm_select($Invoice_Sources,$pay,'Source',0);
-  echo "<tr>" . fm_text('Reason',$pay,'Reason');
+  echo "<tr>" . fm_number("Amount (pence)",$pay,"Amount") . "<td>issued on:<td>" . date('j/n/y',$pay['IssueDate']) . "<td>Due on:<td>" . date('j/n/y',$pay['DueDate']);
+  echo "<tr><td>State:<td>" . fm_select($OpayStates,$pay,'State') . "<td>Source:" . fm_select($Invoice_Sources,$pay,'Source',0) . fm_text('Source Id',$pay,'SourceId');
+  echo "<tr>" . fm_text('Reason',$pay,'Reason') . fm_text('Paid so far',$pay,'PaidTotal');
   echo "<tr>" . fm_textarea("Notes", $pay,'Notes',5,1);
   echo "</table></div>";
   echo "<input type=submit name=ACTION value=UPDATE>";
@@ -729,6 +762,13 @@ function Pay_Update($id) {
   $Dateflds = ['IssueDate','PayDate'];
   Parse_DateInputs($Dateflds);
   Update_db_post('OtherPayments',$pay);
+}
+
+function Pay_Code_Find($src,$srcid) {
+  global $db;
+  $res=$db->query("SELECT * FROM OtherPayments WHERE Source=$src AND SourceId=$srcid ORDER BY IssueDate DESC");
+  if ($res) return $res->fetch_assoc();
+  return 0;   
 }
 
 ?>

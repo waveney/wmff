@@ -122,6 +122,7 @@ function LNL_Action($action,$id) {
     break;
   
   case 'Paid':
+  case 'PPaid':
     $lnl['State'] = $StatesSignup['Paid'];
     break;
       
@@ -234,6 +235,7 @@ function BB_Action($action,$id) {
     break;
   
   case 'Paid':
+  case 'PPaid':
     $bb['State'] = $StatesSignup['Paid'];
     break;
       

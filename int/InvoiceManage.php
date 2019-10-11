@@ -84,6 +84,29 @@
       if ($inv['Source'] == 1) Trade_F_Action($inv['SourceId'],'Paid',$amt/100); 
       break;
         
+    case 'PDIFF': // If under paid just record, no action, if over paid mark as paid and call.  PPaid for full PDiff for more
+      $pay = Get_PayCode($id);
+      $amt = is_numeric($_REQUEST["amt$id"])?$_REQUEST["amt$id"]:0;
+      $pay['PaidTotal'] += $amt*100;
+      if ($pay['PaidTotal'] < $pay['Amount']) {      
+        $pay['History'] .= "Partially Paid " . Print_Pence($amt*100) . " on " . date('j/n/Y') . " by " . $USER['Login'] . "\n";
+        Put_PayCode($pay);
+        break;
+      }
+      
+      $pay['State'] = array_flip($OpayStates)['Paid'];
+      $pay['PayDate'] = time();
+  
+      if ($pay['PaidTotal'] == $pay['Amount']) {
+        $pay['History'] .= "Fully Paid on " . date('j/n/Y') . " by " . $USER['Login'] . "\n";
+        Call_Payment_User($pay,'PPaid',$pay['Amount']/100);        
+      } else {
+        $pay['History'] .= "Overpaid Paid total of " . Print_Pence($amt*100) . " on " . date('j/n/Y') . " by " . $USER['Login'] . "\n";
+        Call_Payment_User($pay,'PDiff',$pay['PaidTotal']/100);
+      }
+      Put_PayCode($pay);
+      break;        
+
     case 'CREDIT' :
       $Reason = $_REQUEST["reason$id"];
       Invoice_Credit_Note($inv, $Reason);
@@ -147,8 +170,9 @@
       $pay = Get_PayCode($id);
       $pay['State'] = array_flip($OpayStates)['Paid'];
       $pay['PayDate'] = time();
+      $pay['PaidTotal'] = $pay['Amount'];
       Put_PayCode($pay);
-      Call_Invoice_User($pay['Source'],$pay['Code'],'Paid');
+      Call_Payment_User($pay,'PPaid',$pay['Amount']/100);
       break;
     
     case 'PSHOW' :
@@ -314,7 +338,7 @@
     echo "<td>" . date('j/n/Y',$inv['IssueDate']);
     echo "<td>";
     if ($inv['Total'] > 0) {
-      if  ($inv['DueDate'] < $Now && $inv['PaidTotal']<$inv['Total']) {
+      if  ($inv['PayDate'] == 0 && $inv['DueDate'] < $Now && $inv['PaidTotal']<$inv['Total']) {
         echo "<span class=red>" . date('j/n/Y',$inv['DueDate']) . "</span>";
       } else {
         echo date('j/n/Y',$inv['DueDate'] );
@@ -326,27 +350,29 @@
     if ($Tots || $All) echo "<td>" . Print_Pence($PaidA);
     echo "<td>" . $inv['Reason'];
     echo "<td>" ; // Status
-      $stat = 0;
-      if (($inv['Source'] == 2) && ($inv['EmailDate'] == 0)) {
-        if ($stat++) echo ", ";
-        echo "Not Sent Yet";
-      } else {
-      if ($inv['PaidTotal'] == 0) {
-        if ($stat++) echo ", ";
-        echo "Not Paid";               
+      if ($inv['PayDate'] == 0) {
+        $stat = 0;
+        if (($inv['Source'] == 2) && ($inv['EmailDate'] == 0)) {
+          if ($stat++) echo ", ";
+          echo "Not Sent Yet";
+        } else {
+        if ($inv['PaidTotal'] == 0) {
+          if ($stat++) echo ", ";
+          echo "Not Paid";               
+          }
+        elseif ($inv['PaidTotal'] < $inv['Total']) {
+          if ($stat++) echo ", ";
+          echo "Part Paid";
+          }
+        if (($inv['PaidTotal'] < $inv['Total']) && ($inv['DueDate'] < $Now)) {
+          if ($stat++) echo ", ";     
+          echo "<span class=Err>Overdue</span>";
+          }
         }
-      elseif ($inv['PaidTotal'] < $inv['Total']) {
-        if ($stat++) echo ", ";
-        echo "Part Paid";
-        }
-      if (($inv['PaidTotal'] < $inv['Total']) && ($inv['DueDate'] < $Now)) {
-        if ($stat++) echo ", ";     
-        echo "<span class=Err>Overdue</span>";
-        }
+      if ($Tots) {
+        $TotInv += $InvA;
+        $TotPaid += $PaidA;
       }
-    if ($Tots) {
-      $TotInv += $InvA;
-      $TotPaid += $PaidA;
     }
     
     if (!$ViewOnly && !$Tots) { 
@@ -379,19 +405,27 @@
     echo "<td>" . $pay['Code'];
     echo "<td>" . date('j/n/Y',$pay['IssueDate']);
     echo "<td>"; // Due Date
-    if ($All) echo "<td>" . ($pay['State']==1? date('j/n/Y',abs($inv['PayDate'])) : ($inv['PayDate']<0? "NA": ""));
+    if ($All) echo "<td>" . ($pay['State']==1? date('j/n/Y',abs($pay['PayDate'])) : ($pay['PayDate']<0? "NA": ""));
     echo "<td>" . Print_Pence($pay['Amount']);
+    if ($pay['PaidTotal'] > 0 && $pay['State'] == 0) echo " (" . Print_Pence($pay['Amount']-$pay['PaidTotal']) . ")";
     if ($All) echo "<td>";
     echo "<td>" . $pay['Reason'] . "<td>";
+    if ($pay['State']) echo $OpayStates[$pay['State']];
     if (!$ViewOnly) { 
       echo "<td>"; 
       echo "<form method=post>" . fm_hidden('i',$id) . fm_hidden("amt$id",0) . fm_hidden("reason$id",'');
         if ($pay['PayDate'] == 0 && $pay['Amount']>0) {// Pay, pay diff, cancel/credit, change
           echo "<button name=ACTION value=PPAID>Paid</button> "; 
         }
-      if (Access('SysAdmin')) echo "<button name=ACTION value=PCLOSE>Close</button> ";
-//        echo "<button name=ACTION value=DIFF onclick=diffprompt($id) >Paid Different</button> ";
+      if ($pay['State'] == 0) {
+        if (Access('SysAdmin')) echo "<button name=ACTION value=PCLOSE>Close</button> ";
+          echo "<button name=ACTION value=PDIFF onclick=diffprompt($id) >Paid Different</button> ";
 //        echo "<button name=ACTION value=CREDIT onclick=reasonprompt($id) >Cancel/credit</button> ";
+
+        } else {
+          if (Access('SysAdmin') && $All) echo "<button name=ACTION value=PDIFF onclick=diffprompt($id) >Paid Special</button> ";        
+        }
+      
       echo "</form>";
       }
     echo "<td>";

@@ -172,7 +172,7 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0) {
     echo 'Message could not be sent. Mailer Error: ', $email->ErrorInfo;
   }
   
-  $EmLog = ['Subject'=>$sub,'FromAddr'=>$From,'ToAddr'=>$To, 'TextBody'=>$letter,'Date'=>time()];
+  $EmLog = ['Subject'=>$sub,'FromAddr'=>json_encode($From),'ToAddr'=>json_encode($to), 'TextBody'=>$letter,'Date'=>time()];
   $logid = Insert_db('EmailLog', $EmLog);
   if ($Atts && $logid) {
     foreach ($Atts as $at) {
@@ -297,7 +297,7 @@ function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='
   global $PLANYEAR,$MASTER,$FESTSYS;
   if (strlen($mescat) < 30) {
     $Prof = Get_Email_Proforma($mescat);
-    $Mess = ($Prof? $Prof['Body'] : "Unknown message $mescat");
+    $Mess = ($Prof? $Prof['Body'] : "Unknown message $mescat ");
   } else {
     $Mess = $mescat;
   }
@@ -310,16 +310,16 @@ function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='
     fwrite($logf,"\n\nEmail to : " . Pretty_Print_To($to) . "Subject:$subject\n\n$Mess");
     if ($attachments) {
       if (is_array($attachments)) {
-        foreach ($attachments as $i=>$att) fwrite($logf,"With attachment: " . $att[0] . " as " . $att[1] . "\n\n");
+        foreach ($attachments as $i=>$att) fwrite($logf," With attachment: " . $att[0] . " as " . $att[1] . "\n\n");
       } else {
-        fwrite($logf,"With attachment $attachments\n\n");       
+        fwrite($logf," With attachment $attachments\n\n");       
       }
     }
     if ($embeded) {
       if (is_array($embeded)) {
-        foreach ($embeded as $i=>$att) fwrite($logf,"With embeded: " . $att[0] . " as " . $att[1] . "\n\n");
+        foreach ($embeded as $i=>$att) fwrite($logf," With embeded: " . $att[0] . " as " . $att[1] . "\n\n");
       } else {
-        fwrite($logf,"With embeded $embeded\n\n");       
+        fwrite($logf," With embeded $embeded\n\n");       
       }
     }
 
@@ -357,6 +357,9 @@ function Replace_Help($Area='',$Right=0) {
   ['*WEBSITESTUFF*','Traders photo and product description prompt','Trade'],
   ['*READFILE_file*','Read file as body of message - only use for VERY large messages, contact Richard to use','All'],
   ['*IMAGE_file*','Embed image from file - contact Richard to use','All'],
+  ['*DEPCODE*/*BALCODE*/*OTHERCODE*','Payment codes for Deposit, Balance(All), Other Payment','Trade'],
+  ['*DUEDATE*','Date Invoice/Payment is Due','Trade, Invoices'],
+  ['*PAYCODES*','Details of payment to be made, ammount, account and code to be used','Trade'],
   ];
 
   echo "<span " . ($Right?' class=floatright':'') . " id=largeredsubmit onclick=($('.HelpDiv').toggle()) >Click to toggle Standard Replacements Help</span>";

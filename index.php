@@ -1,7 +1,7 @@
 <?php
   include_once("int/fest.php");
   set_ShowYear();  
-  global $FESTSYS,$YEARDATA,$NEXTYEARDATA,$Months;
+  global $FESTSYS,$YEARDATA,$NEXTYEARDATA,$Months,$SHOWYEAR;
   include_once("int/TradeLib.php");
   include_once("int/NewsLib.php");
   include_once("int/DispLib.php");
@@ -27,9 +27,12 @@
 
   if ($YEARDATA['Years2Show'] == 2) {  
     $Banner .= "<div class=BanDates2>Next Year: $NFrom - $NTo $NMonth $NYear<p><div class=BanNotice>" .
-      "Music applications are open for the 2020 festival. If you or your band would like to perform please " .
-      "email us at <a href=mailto:Music@wimbornefolk.co.uk>Music@wimbornefolk.co.uk</a> " .
-      " a short description of your act with contact details and video or audio link.<p>" .
+      "Applications for artists to perform at Wimborne Minster Folk Festival 2020 are now closed.<br>
+A huge thank you to everyone who applied.<br>
+Every application will be considered and will receive a reply in due course.<br>
+If you have missed the deadline to apply, or were unsuccessful at this stage - Don't worry
+There is still a chance to win slots at the festival by applying to \"Busker's Bash\", and also to \"The Wimborne Minster Folk Festival Live and Loud Competition\" next year.<br> 
+Keep an eye on this website for details.<p>" .
       "Please <a href=InfoStewards.php>Volunteer</a> to be a Steward and/or help the Setup/Cleardown crew." . 
       "</div></div>";
   } else {
