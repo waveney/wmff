@@ -339,9 +339,12 @@ function Doc_List($file,$opts=0) {
   echo "<a href=ShowFile?d=$fid>Download</a> ";
   if (Access('Committee','Docs') || $dir['Who'] == $USERID ) {
     echo "<a href=Dir?f=$fid&d=$d&FileAction=Rename1>Rename</a> "; 
-
+    }
+  if (Access('Committee','Docs') || $dir['Who'] == $USERID || $file['Who'] == $USERID ) {
     echo "<a href='Dir?f=$fid&d=$d&FileAction=Delete' " .
                   "onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</a> "; 
+  }
+  if (Access('Committee','Docs') || $dir['Who'] == $USERID ) {
     echo "<span class=FullD hidden>";
     echo "<a href=Dir?f=$fid&d=$d&FileAction=Move1>Move</a> "; 
     if (Access('Committee','Docs')) {
