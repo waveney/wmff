@@ -10,7 +10,7 @@ $TS_Actions = array('Submit,Invite,Invite Better',
                 'Resend,Submit',
                 'Resend',
                 'Resend,Submit',
-                'Resend,Quote,Accept,Decline,Hold,Cancel',
+                'Resend,Quote,Accept,Invite,Decline,Hold,Cancel',
                 'Resend,Quote,Invite,Accept,Decline,UnQuote',
                 'Pitch,Moved,Resend,Cancel',
                 'Pitch,Moved,Resend,Send Bal,Cancel',
@@ -800,7 +800,7 @@ function Trader_Admin_Details($key,&$data,$att=0) {
 function Send_Trader_Email(&$Trad,&$Trady,$messcat='Link',$att='') {
   global $PLANYEAR,$FESTSYS;
   include_once("Email.php");
-  Email_Proforma([['to',$Trad['Email'],$Trad['Contact']],['bcc',"treasurer@" . $FESTSYS['HostURL']]],
+  Email_Proforma([['to',$Trad['Email'],$Trad['Contact']],['bcc',"treasurer@" . $FESTSYS['HostURL'],'Mandy']],
     $messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att);
 }
 
@@ -1134,7 +1134,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
       if ($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && isset($Trady['PitchLoc0']) && $Trady['PitchLoc0'] && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) $Acts[] = 'Artisan Invite';
       foreach($Acts as $ac) {
         if ($Mode==0 && !in_array($ac,$ButTrader)) continue;
-        if (!Access('SysAdmin') && !in_array($ac,$ButAdmin)) continue;
+        if ($Mode==1 && !Access('SysAdmin') && !in_array($ac,$ButAdmin)) continue;
         if (!isset($Trady['Fee'])) $Trady['Fee'] = 0;
         if (Feature('AutoInvoices') && !Access('SysAdmin') && in_array($ac,$RestrictButs)) continue;  // Normal people cant hit Paid have to be through the invoice
         switch ($ac) {

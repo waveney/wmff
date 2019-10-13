@@ -210,7 +210,7 @@ function Put_Email_Proforma(&$now) {
 }
 
 function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments=0,&$embeded=[]) {
-  global $PLANYEAR,$MASTER,$FESTSYS,$USERID;
+  global $PLANYEAR,$YEARDATA,$FESTSYS,$USERID;
   static $attnum = 0;
   $Reps = [];
   
@@ -227,7 +227,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
             $rep = $PLANYEAR+1;
             break;
           case 'DATES':
-            $rep = FestDate($MASTER['FirstDay']) . " to " . FestDate($MASTER['LastDay'],'M') ;
+            $rep = FestDate($YEARDATA['FirstDay']) . " to " . FestDate($YEARDATA['LastDay'],'M') ;
             break;
           case 'FESTIVAL':
             $rep = $FESTSYS['FestName'];
@@ -294,7 +294,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
 // helper is a function that takes (THING,helperdata,atts) to return THING - not needed for generic fields typical THINGs are DETAILS, DEPOSIT...
 // if mescat > 30 chars it is assumed to be the proforma itself
 function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='',&$attachments=0,&$embeded=[]) {
-  global $PLANYEAR,$MASTER,$FESTSYS;
+  global $PLANYEAR,$YEARDATA,$FESTSYS;
   if (strlen($mescat) < 30) {
     $Prof = Get_Email_Proforma($mescat);
     $Mess = ($Prof? $Prof['Body'] : "Unknown message $mescat ");
