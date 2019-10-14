@@ -288,7 +288,7 @@
   }
 
 
-  if ($Invs) {  
+  if ($Invs || $Pays) {  
   $Now = time();
   $TotInv = $TotPaid = 0;
   $coln = 0;
