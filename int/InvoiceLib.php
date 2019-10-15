@@ -215,7 +215,7 @@ function Invoice_Print(&$inv) {
   if (!$CN) {
     $pdf->SetFont('Arial','B',$fs+1);
     if (isset($inv['PayDate']) && $inv['PayDate']) {
-      $pdf->Text($padx+10*$cw,$pady+44*$ch,"PAYMENT TERMS: PAID WITH THANKS " . date('j/n/Y',$inv['PayDate']) );
+      $pdf->Text($padx+10*$cw,$pady+44*$ch,"PAYMENT TERMS: PAID WITH THANKS ");
     } else {
       $pdf->Text($padx+10*$cw,$pady+44*$ch,"PAYMENT TERMS: PAYABLE BY " . date('j/n/Y',$inv['DueDate']) . " PLEASE");
     }
