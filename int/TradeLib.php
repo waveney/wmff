@@ -552,6 +552,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
     }
   }
   
+  include_once("InvoiceLib.php");
   $Pay = Pay_Code_Find(1,$Tid);
   if ($Pay && $Pay['State']==0) {
     echo "<tr><td>Payment due for<td colspan=5><b>" . $Pay['Reason'] . "</b><br>Due " . date('j/n/Y',$Pay['DueDate']) . "<br>Please pay " . Print_Pence($Pay['Amount']) . " to:<br>" . 

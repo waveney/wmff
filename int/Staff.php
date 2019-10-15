@@ -322,7 +322,7 @@
     echo "<ul>\n";
     if (Access('Committee','Finance')) {
       echo "<li><a href=BudgetManage?Y=$YEAR>Budget Management</a>\n";
-      echo "<li><a href=InvoiceManage?Y=$YEAR>Invoice Management</a>\n";
+      echo "<li><a href=InvoiceManage?Y=$YEAR>Invoice/Payment Management</a>\n";
       echo "<li><a href=InvoiceManage?ACTION=NEW>New Invoice</a>\n";   
       echo "<li><a href=InvoiceCodes?Y=$YEAR>Invoice Codes</a>\n";   
       echo "<li><a href=InvoiceSummary?Y=$YEAR>Invoice Summary</a>\n";   
