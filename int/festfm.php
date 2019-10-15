@@ -629,10 +629,11 @@ XXX;
       $str .= "<div class=NotCSide>" . fm_radio($Type,$InsuranceStates,$Data,$Type,'',0) . "</div>";
     }
   } elseif ($DDd['AddState']) {
+    $ddat = (isset($Date[$Type])?$Data[$Type]:'');
     $str .= "<td class='Result$Type $tdclass' $hid colspan=" . $DDd['cols'][0] . ">";
-    $tmp['Ignored'] = $Data[$Type];
+    $tmp['Ignored'] = $ddat;
     $str .= fm_checkbox("$Type Uploaded",$tmp,'Ignored','disabled');
-    $str .= fm_hidden($Type,$Data[$Type]);   
+    $str .= fm_hidden($Type,$ddat);   
   }
   
   if ($files) {
