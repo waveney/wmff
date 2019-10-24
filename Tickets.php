@@ -50,7 +50,7 @@
   foreach(['Weekend','Friday','Saturday','Sunday'] as $day) {
     if ($YEARDATA[$day . "PassCode"]) {
       echo "<tr><td>";
-      if ($YEARDATA['TicketControl'] == 1) echo "<a href='https://www.ticketsource.co.uk/date/" . $YEARDATA[$day . "PassCode"] . "' target=_blank style='font-size:18px'>";
+      if ($YEARDATA['TicketControl'] == 1) echo "<a href='" . $YEARDATA[$day . "PassCode"] . "' target=_blank style='font-size:18px'>";
       echo "<strong>$day Pass</strong></a><br>";
       echo "Adult (16+): <strong>";
       
@@ -88,7 +88,7 @@
 
       switch ($YEARDATA['TicketControl']) {
       case 0: echo "Not Yet"; break;
-      case 1: echo "<a href='https://www.ticketsource.co.uk/date/" . $YEARDATA[$day . "PassCode"] . "' target=_blank ><strong>Buy Now</strong></a>"; break;
+      case 1: echo "<a href='" . $YEARDATA[$day . "PassCode"] . "' target=_blank ><strong>Buy Now</strong></a>"; break;
       case 2: echo "Closed"; break;
       }
     }
@@ -104,7 +104,7 @@
 
   while ($E = $Evs->fetch_assoc()) {
     DayTable($E['Day'],"Event Tickets",($YEARDATA['PriceComplete' . ($E['Day'] >=0?$E['Day']:"_" . (-$E['Day'])) ]?'':'(More to come)'),'','style=min-width:1000');
-    $bl = "<a href=" . ($E['SpecPriceLink']? $E['SpecPriceLink'] : ("https://www.ticketsource.co.uk/date/" . $E['TicketCode'])) . " target=_blank>" ;
+    $bl = "<a href=" . ($E['SpecPriceLink']? $E['SpecPriceLink'] : $E['TicketCode']) . " target=_blank>" ;
     echo "<tr><td><strong><a href=/int/EventShow?e=" . $E['EventId'] . ">" . $E['SN'] . "</a></strong><br>"; 
       echo Price_Show($E);
     echo "<td>" . FestDate($E['Day'],'L') . "<br>";
@@ -158,7 +158,7 @@
        foreach (str_split($dat[0]) as $i=>$c) echo "<td>" . ($c == 'x'?"":$DName[$i]);
        echo "<td>" . Print_Pence($YEARDATA['CampingPrice' . $dat[1] . 'Day']*100) . "<td>";
        if (substr($YEARDATA['CampingCode_' . $dat[0] ],0,1) != '-') {
-         echo "<a href='https://www.ticketsource.co.uk/date/" . $YEARDATA['CampingCode_' . $dat[0] ] . "' target=_blank><b>Buy Now</b></a>";
+         echo "<a href='" . $YEARDATA['CampingCode_' . $dat[0] ] . "' target=_blank><b>Buy Now</b></a>";
        } else {
          echo "Closed";
        } 

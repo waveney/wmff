@@ -154,7 +154,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
       }
     }
     if ($Ev['TicketCode']) {
-      $bl = "<a href=https://www.ticketsource.co.uk/date/" . $Ev['TicketCode'] . " target=_blank>" ;
+      $bl = "<a href=" . $Ev['TicketCode'] . " target=_blank>" ;
       echo " -  <strong>$bl Buy Now</a></strong>\n";
     } else if ($Ev['SpecPriceLink']) {
       echo " -  <strong><a href=" . $Ev['SpecPriceLink'] . " target=_blank>Buy Now</a></strong>\n";

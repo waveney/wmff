@@ -68,7 +68,7 @@ Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use p
      foreach (str_split($dat[0]) as $i=>$c) echo "<td>" . ($c == 'x'?"":$DName[$i]);
      echo "<td>" . Print_Pence($YEARDATA['CampingPrice' . $dat[1] . 'Day']*100) . "<td>";
      if (substr($YEARDATA['CampingCode_' . $dat[0] ],0,1) != '-') {
-       echo "<a href='https://www.ticketsource.co.uk/date/" . $YEARDATA['CampingCode_' . $dat[0] ] . "' target=_blank><b>Buy Now</b></a>";
+       echo "<a href='" . $YEARDATA['CampingCode_' . $dat[0] ] . "' target=_blank><b>Buy Now</b></a>";
      } else {
        echo "Closed";
      }

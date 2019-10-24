@@ -801,7 +801,10 @@ function Trader_Admin_Details($key,&$data,$att=0) {
 function Send_Trader_Email(&$Trad,&$Trady,$messcat='Link',$att='') {
   global $PLANYEAR,$FESTSYS;
   include_once("Email.php");
-  Email_Proforma([['to',$Trad['Email'],$Trad['Contact']],['bcc',"treasurer@" . $FESTSYS['HostURL'],'Mandy']],
+  $bccto = Feature('CopyTradeEmailsTo');
+  $bcc=[];
+  if ($bccto) $bcc = ['bcc' , "$bccto@" . $FESTSYS['HostURL'],Feature('CopyTradeEmailsName')];
+  Email_Proforma([['to',$Trad['Email'],$Trad['Contact']],$bcc],
     $messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att);
 }
 
