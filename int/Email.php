@@ -109,6 +109,7 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0) {
     if (is_array($to)) {
       if (is_array($to[0])) {
         foreach ($to as $i=>$too) {
+          if (!isset($too[0])) continue;
           $a = $too[1];
           $n = (isset($too[2])?$too[2]:'');
           switch ($too[0]) {

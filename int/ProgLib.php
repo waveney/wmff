@@ -590,7 +590,7 @@ function Price_Show(&$Ev,$Buy=0) {
 
   if ($Buy) {
     if ($Ev['TicketCode']) {
-      $str .= "<a href=https://www.ticketsource.co.uk/date/" . $Ev['TicketCode'] . " target=_blank>";
+      $str .= "<a href=" . $Ev['TicketCode'] . " target=_blank>";
     } else if ($Ev['SpecPriceLink']) {
       $str .= "<a href=" . $Ev['SpecPriceLink'] . " target=_blank>";
     }
