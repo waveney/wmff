@@ -11,7 +11,6 @@
   $t = [];
   if (UpdateMany('PerformerTypes','Put_Perf_Type',$Types,0)) $Types=Get_Perf_Types(1);
 
-  echo "<h2>Performer Types</h2><p>";
   echo "<form method=post>";
   echo "<div class=tablecont><table border><tr><td>id<td>Name<td>Status\n";
   foreach($Types as $i=>$t) {

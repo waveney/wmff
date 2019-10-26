@@ -20,7 +20,7 @@
     $NYear = $YEAR+1;
   }
 
-  $Banner  = "<div class=WMFFBanner800><img src=" . $FESTSYS['DefaultPageBanner'] . " class=WMFFBannerDefault>";
+  $Banner  = "<div class=WMFFBanner400><img src=" . $FESTSYS['DefaultPageBanner'] . " class=WMFFBannerDefault>";
   $Banner .= "<div class=BanOverlay><img src=/images/icons/wimborne-folk-festival-logo-white-shadow.png?1>";
   $Banner .= "<img src=/images/icons/underline.png?1>";
   $Banner .= "</div>";
@@ -36,16 +36,18 @@ Keep an eye on this website for details.<p>" .
       "Please <a href=InfoStewards.php>Volunteer</a> to be a Steward and/or help the Setup/Cleardown crew." . 
       "</div></div>";
   } else {
-    $Banner .= "<a href=/Tickets class=BanDates>$DFrom - $DTo $DMonth $SHOWYEAR</a><br>Buy Tickets</a>";  
+    $Banner .= "<a href=/Tickets class=BanDates>$DFrom - $DTo $DMonth $SHOWYEAR<br>Buy Tickets</a>";  
   }
 
-  $Banner .= "<img src=/images/icons/torn-top.png class=TornTopEdge>";
+  $Banner .= "<img align=center src=/images/icons/torn-top.png class=TornTopEdge>";
   $Banner .= "</div>";
 
 
 
   dohead('12 - 14 June 2020', ['/js/WmffAds.js', "/js/HomePage.js"],$Banner );
 
+  echo "<center><a href=/Tickets><img align=center src=/images/stuff/Main_Acts_2020.jpg class=BrianImg></a></center>";
+  echo "<br clear=all>";
   Show_Articles_For("NewTop");
   echo "<div style=margin:10>";
   echo '<center><h2>Sponsors & Supporters</h2></center>';
