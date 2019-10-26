@@ -449,6 +449,7 @@
   max-width:90vw;
 }
 
+
 .WMFFbanner800 .BanDates, .WMFFbanner800 .BanDates2 {
   top:430px; /* Was 490 */
   padding: 10px 20px;
@@ -473,6 +474,79 @@
   color:white;
   transition: all ease-in-out 0.4s;
 }
+
+.WMFFbanner600 .BanOverlay {
+  top:120px; /* was 260 */
+  text-align:center;
+  position: absolute;
+  max-width:90vw;
+  object-fit: contain;
+  left:50%;
+  transform: translateX(-50%); 
+}
+
+.WMFFbanner600 .BanOverlay img {
+  max-height:160px;
+  max-width:90vw;
+}
+
+
+.WMFFbanner600 .BanDates, .WMFFbanner600 .BanDates2 {
+  top:230px; /* Was 490 */
+  padding: 10px 20px;
+  position: absolute;
+  left:50%;
+  transform: translateX(-50%); 
+
+  background:white;
+  color:black;
+  text-align:center;
+  font-size:18pt;
+  font-weight:bold;
+}
+
+.WMFFbanner600 .BanDates:hover {
+  background:rgba(197, 31, 132,1);
+  color:white;
+  transition: all ease-in-out 0.4s;
+}
+
+.WMFFbanner400 .BanOverlay {
+  top:75px; /* was 260 */
+  text-align:center;
+  position: absolute;
+  max-width:90vw;
+  object-fit: contain;
+  left:50%;
+  transform: translateX(-50%); 
+}
+
+.WMFFbanner400 .BanOverlay img {
+  max-height:160px;
+  max-width:90vw;
+}
+
+
+.WMFFbanner400 .BanDates, .WMFFbanner400 .BanDates2 {
+  top:280px; /* Was 490 */
+  padding: 10px 20px;
+  position: absolute;
+  left:50%;
+  transform: translateX(-50%); 
+
+  background:white;
+  color:black;
+  text-align:center;
+  font-size:18pt;
+  font-weight:bold;
+}
+
+.WMFFbanner400 .BanDates:hover {
+  background:rgba(197, 31, 132,1);
+  color:white;
+  transition: all ease-in-out 0.4s;
+}
+
 
 .WMFFBannerDefault {
   width:100%;
@@ -508,3 +582,12 @@
   float: right; 
   padding-right:20px;
 }
+
+.BrianImg {
+  padding:5px;
+  background-color:#00344c ;  
+  max-width:800px;
+  width:100%;
+}
+
+

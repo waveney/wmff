@@ -19,7 +19,21 @@
   $now = time();
   $Sizes = [5,4,3,2,2,1,1];
   $ShortDesc = 1;
-  switch ($T) {
+  
+  $PerfTs = Get_Perf_Types(1);
+  if ($YEAR != $PLANYEAR) {
+    $PState = 1;
+  } else {
+    $PState = 0;
+    foreach ($PerfTs as $pt=>$dat) if ($dat['SN'] == $T) $PState = $dat['ListState'];
+    
+    if ($PState == 0) {
+      echo "The line up is not yet public<p>";
+      $SideQ = '';
+    }
+  }
+  
+  if ($PState) switch ($T) {
   case 'Dance':
     $ET = Get_Event_Type_For("Dancing");
     if ($YEAR < $PLANYEAR) {
@@ -106,8 +120,7 @@
     
   default:
     Error_Page('No line up selected');
-  }
-  
+  }  
 
   $Slist = [];
   if ($SideQ) while($side = $SideQ->fetch_assoc()) $Slist[] = $side;
@@ -115,7 +128,7 @@
   
   echo "<div style='clear:both;'>";
   $Prev = $YEAR-1;
-  if ($Prev >= $ET['FirstYear']) {
+  if (isset($ET) && $Prev >= $ET['FirstYear']) {
     if ($T == 'Dance') echo "<b><a href=/int/ShowDanceProg?Cond=1&Pub=1&Y=$Prev>Complete Dance Programme for $Prev</a>, ";
     echo "<br clear=all><a href=/LineUp?t=$T&Y=$Prev>$T Line Up $Prev</a></b><p>";
   }

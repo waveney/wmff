@@ -7,7 +7,7 @@
   set_ShowYear();
   include_once "int/ProgLib.php";
   
-  if ($YEARDATA['TicketControl'] == 0) {
+  if ($YEARDATA['TicketControl'] == 0 && $YEARDATA['CampingControl'] == 0) {
     echo "<h2>Tickets and Passes are not yet on Sale</h2>";
     dotail();
   }
@@ -27,23 +27,25 @@
 
   echo "Select from the options below to purchase your passes and tickets for Wimborne Minster Folk Festival $YEAR.<p>";
  
-  echo "The weekend Pass is access to everything (apart from the Tivoli on Thursday).  Saturday and Sunday Passes are access to everything on those days.  Event tickets are just access
-  to that individual event.<p>";
+  echo "The weekend Pass is access to everything (apart from events at the Tivoli and events before Friday).  The Saturday Pass gives access to everything on Saturday only.  
+  Event tickets are just access to that individual event.<p>";
 
   if ($YEARDATA['BookingFee']) echo "Please note that there is a booking fee of " . $YEARDATA['BookingFee'] . " when ordering tickets online.<p> ";
   echo "Please <a href='mailto:carers@wimbornefolk.co.uk'>Contact Us</a> if you require a carer ticket.<p>";
 
-  if ($YEARDATA['CampingCost']) {
+  if ($YEARDATA['CampingCost'] && $YEARDATA['CampingControl'] == 1) {
     echo "Order your festival tickets and camping together, by selecting <strong>Continue Shopping</strong> ";
     echo "before you checkout!<p>  Camping costs <strong>&pound;" . $YEARDATA['CampingPrice1Day'] . "</strong> for the first night and <strong>&pound;" .
      ($YEARDATA['CampingPrice2Day'] - $YEARDATA['CampingPrice1Day']) . "</strong> for each additional night.  Under 8's are free.<p>";
   } else {
-    echo "Camping is not yet open to book<p>";
+    echo "Camping is not open to book<p>";
   }
 
   echo "<a href=TermsAndConditions>Full Terms and Conditions</a>.<p>";
 
-  echo "<a href=/InfoCamping><b>Camping Information and Camping Tickets.</b></a><p>";
+  if ($YEARDATA['CampingCost'] && $YEARDATA['CampingControl'] == 1) { 
+    echo "<a href=/InfoCamping><b>Camping Information and Camping Tickets.</b></a><p>";
+  }
 
   echo "<p><div class=tablecont><table class=InfoTable>";
   echo "<tr><th colspan=5>Festival Passes</th>";
@@ -135,7 +137,7 @@
 
   echo "</table></div></div></p>";
 
-  if (($YEARDATA['TicketControl'] == 1) && $YEARDATA['CampingCost']) {
+  if (($YEARDATA['CampingControl'] == 1) && $YEARDATA['CampingCost']) {
     echo "<div class=tablecont><table class='InfoTable CampTable' style='min-width:700px'>";
     echo "<tr><th colspan=7>Camping Tickets";
   
@@ -174,7 +176,9 @@
   echo "<h2>Official Campsite</h2><p>";
   echo "<a href=/InfoCamping><b>Camping Information.</b></a><p>";
 
-  echo "Order your festival tickets and camping together, by selecting <strong>Continue Shopping</strong> before you checkout!</p> ";
+  if ($YEARDATA['CampingCost'] && $YEARDATA['CampingControl'] == 1) { 
+    echo "Order your festival tickets and camping together, by selecting <strong>Continue Shopping</strong> before you checkout!</p> ";
+  }
 
   echo "<h2>* Party In The Paddock</h2><p>";
   echo "If you're looking to combine a weekend of official festival events and a trip to <a href='http://partyinthepaddock.com'>Party In The Paddock</a>, " .
