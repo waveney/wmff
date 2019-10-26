@@ -257,14 +257,18 @@ function Feature($Name,$default='') {  // Return value of feature if set from FE
   return $default;
 }
 
-function set_ShowYear() { // Overrides default above if not set by a Y argument
+function set_ShowYear($last=0) { // Overrides default above if not set by a Y argument
   global $YEAR,$SHOWYEAR,$YEARDATA,$NEXTYEARDATA;
-  if (!isset($_POST['Y']) && !isset($_GET['Y'])) {
+  if ($last == 0 && !isset($_POST['Y']) && !isset($_GET['Y'])) {
     $YEAR = $SHOWYEAR;
     $YEARDATA = Get_General($YEAR);
     if ($YEARDATA['Years2Show'] > 0) $NEXTYEARDATA = Get_General($YEAR+1);
-
+  } else if (!isset($_POST['Y']) && !isset($_GET['Y'])) {
+    $YEAR = $last;
+    $YEARDATA = Get_General($YEAR);
+    if ($YEARDATA['Years2Show'] > 0) $NEXTYEARDATA = Get_General($YEAR+1);
   }
+  
 }
 
 // Works for simple tables
