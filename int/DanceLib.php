@@ -27,7 +27,7 @@ $OlapCats = array('Side','Act','Comedy','Family','Other');
 $Proforma_Colours = ['Decide'=>'DarkOrange','Details'=>'Magenta','Program'=>'Yellow','ProgChk'=>'lightsalmon','NewProg'=>'yellow','FinalInfo'=>'LawnGreen','FinalInfo2'=>'MediumSeaGreen',
  'Invite'=>'Beige','Remind'=>'khaki'];
 $TickBoxes = [['Seen Programme','Invited','YHAS','Program:']]; // Year -> Name',Criteria, test , value
-
+$PerfListStates = ['Not Open','Open'];
 
 
 function Proforma_Background($name) {
@@ -330,6 +330,36 @@ function Put_SideYear(&$data) {
 function isknown($snum,$yr) {
   global $Save_SideYears;
   return isset($Save_SideYears[$snum][$yr]);
+}
+
+function Get_Perf_Types($tup=0,$Cond='') {
+  global $db;
+  $full = $short = [];
+  $res = $db->query("SELECT * FROM PerformerTypes $Cond ORDER BY SN ");
+  if ($res) {
+    while ($typ = $res->fetch_assoc()) {
+      $short[$typ['id']] = $typ['SN'];
+      $full[$typ['id']] = $typ;
+    }
+  }
+  if ($tup) return $full;
+  return $short;
+}
+
+function Get_Perf_Type($id) {
+  global $db;
+  $res=$db->query("SELECT * FROM PerformerTypes WHERE id=$id");
+  if ($res) {
+    $ans = $res->fetch_assoc();
+    return $ans;
+  }
+  return 0; 
+}
+
+function Put_Perf_Type(&$now) {
+  $e=$now['id'];
+  $Cur = Get_Perf_Type($e);
+  return Update_db('PerformerTypes',$Cur,$now);
 }
 
 function Set_Side_Help() {

@@ -21,13 +21,13 @@ Our official campsite is run by Meadows Camping, a picturesque, local, secure, w
 The site is just a 10 minute walk from the town centre over Julian's bridge.<p>
 
 <?php
-if ($YEARDATA['TicketControl'] == 1) {
+if ($YEARDATA['CampingControl'] == 1) {
 
-  if ($YEARDATA['TicketControl'] == 1 && Days2Festival() < 10) {
+  if ($YEARDATA['CampingControl'] == 1 && Days2Festival() < 10) {
     echo "<b>Note</b>: Online ticket sales will close at 6am on " . FestDate(0,'F') . " , after that tickets and passes can be purchased from Festival Information in the Square. " .
          "Camping may be available at the campsite gate if there is space available.<p>";
   }
-
+  
 
 ?>
 Camping at Meadows Campsite this year is <strong>&pound;10</strong> for the first night and <strong>&pound;8</strong> for each additional night.  
@@ -39,7 +39,8 @@ Under 8's are free.<p>
 
 The site has toilets, showers, food and good 24 hour security. Entry to the campsite is by camping wristband only.<p>
 
-Please be aware that access to/from the town on foot is over Julian's bridge, which has no footpath, so please take care when crossing at all times.</p>
+Please be aware that access to/from the town on foot is over Julian's bridge, which has no footpath, so please take care when crossing at all times.  There should be
+traffic lights on the bridge from 8pm Friday until Sunday evening.</p>
 
 This year the campsite will be available from Thursday (5pm onwards).<p>
 
@@ -75,26 +76,23 @@ Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use p
    }
   echo "</table></div><p>";
 
-} else {
-?>
-
-<b>Online booking has now closed</b>  Camping may be available at the campsite gate if there is space available.<p>
+} elseif ($YEARDATA['CampingControl'] > 1) {
+  echo "<b>Online booking has now closed</b>  Camping may be available at the campsite gate if there is space available.<p>
 
 Camping at Meadows Campsite this year is from <strong>&pound;10</strong> per person per night. Under 8's are free.<p>
 
 The site has toilets, showers, food and good 24 hour security. Entry to the campsite is by camping wristband only.<p>
 
-Please be aware that access to/from the town on foot is over Julian's bridge, which has no footpath, so please take care when crossing at all times.<p>
+Please be aware that access to/from the town on foot is over Julian's bridge, which has no footpath, so please take care when crossing at all times.  There should be
+traffic lights on the bridge from 8pm Friday until Sunday evening.</p>
 
-Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use postcode for the farm it over a mile away by road).<p>
+Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use postcode for the farm it over a mile away by road).<p>";
 
-<?php
+} else {
+  echo "Booking for Camping is not yet open<p>";
 }
-?>
 
-For more information about the campsite, visit <a href="http://merleyhallfarm.co.uk/camping" rel="tag">MerleyHallFarm.co.uk</a>, 
-Call 01202 984 879, or email: <a href=mailto:karen@merleyhallfarm.co.uk>karen@merleyhallfarm.co.uk</a> but please book through these links above.<p>
+  echo "For more information about the campsite, visit <a href=http://merleyhallfarm.co.uk/camping>MerleyHallFarm.co.uk</a>, 
+Call 01202 984 879, or email: <a href=mailto:karen@merleyhallfarm.co.uk>karen@merleyhallfarm.co.uk</a> but please book through these links above.<p>";
 
-<?php
   dotail();
-?>

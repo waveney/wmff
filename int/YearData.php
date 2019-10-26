@@ -82,6 +82,7 @@
     echo "<tr>" . fm_date('Date Last Trade Payments',$Gen,'TradeLastDate') . "<td>\n";    
     
     echo "<tr><td>Ticket Control:<td>" . fm_select($TicketStates,$Gen,'TicketControl') . "<td>Master Ticketing control\n";
+    echo "<tr><td>Camping Control:<td>" . fm_select($TicketStates,$Gen,'CampingControl') . "<td>Master Camping Ticket control\n";
     echo "<tr>" . fm_text1("Weekend Pass Code",$Gen,'WeekendPassCode') . fm_number1("Weekend Pass Price",$Gen,'WeekendPass') . 
                   fm_number1("Weekend Pass Price1",$Gen,'WeekendPass1') . fm_number1("Weekend Pass Price2",$Gen,'WeekendPass2');
     echo "<tr>" . fm_textarea("Text for Weekend Pass",$Gen,'WeekendText',6,2);
