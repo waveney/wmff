@@ -3,9 +3,20 @@
 
   set_ShowYear();
   include_once("TradeLib.php");
-  global $db,$YEAR,$SHOWYEAR,$PLANYEAR,$Trade_States,$Trade_State,$YEAR,$Trade_Days,$Prefixes;
+  global $db,$YEAR,$SHOWYEAR,$PLANYEAR,$Trade_States,$Trade_State,$YEAR,$Trade_Days,$Prefixes, $YEARDATA, $EType_States;
 
   dohead("Traders in $YEAR",['files/festconstyle.css'],'https://wimbornefolk.co.uk/int/images/gallery/2018/Around/14_HSJX8086_14-2048-STEPHENAJONES.jpg','T');
+
+
+  $Partial = (array_flip($EType_States))['Partial'];
+  if ($YEARDATA['TradeState'] < $Partial) {
+    echo "Sorry the Traders are not yet listed for $SHOWYEAR<p>";
+    
+    echo "Here is what was here last year<p>";
+    
+    set_ShowYear($YEAR-1);
+//    dotail();
+  }
 
   global $Locs,$LocUsed;
   $Locs = Get_Trade_Locs(1);
