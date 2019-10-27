@@ -215,9 +215,10 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
     $bankhide = 1;
     if ($snum > 0 && ( $Side['SortCode'] || $Side['Account'] || $Side['AccountName'] || $Side['TotalFee'])) $bankhide = 0;
 //    echo $bankhide . "sc:" . $Side['SortCode'] . "ac:" .$Side['Account']. "an:" .$Side['AccountName'] . "tf" . $Side['TotalFee'];
-    echo "<tr" . ($bankhide?" class='ContractShow' hidden":'') . " id=BankDetail><td>Bank Details:" . help('Bank');
+    echo "<tr" . ($bankhide?" class='ContractShow' hidden":'') . " id=BankDetail><td rowspan=2>Bank Details:" . help('Bank');
       echo fm_text('Sort Code',$Side,'SortCode');
       echo fm_text('Bank Account Number',$Side,'Account');
+    echo "<tr" . ($bankhide?" class='ContractShow' hidden":'') . " id=BankDetail2>";
       echo fm_text('Account Name',$Side,'AccountName');
       echo "<td>" . fm_checkbox('Are you VAT registered',$Side,'VATreg');
 
@@ -435,9 +436,10 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
     if ($Mode) {
       echo "<tr><td class=NotSide>Dancing Invite:<td class=NotSide>" . fm_select($Invite_States,$Sidey,'Invite');
         echo fm_text('Invited',$Sidey,'Invited',1,'class=NotSide');
+      $Coming_States[0] = 'None';
     }
     echo "<tr>";
-      echo fm_radio('Status',$Coming_States ,$Sidey,'Coming','',1,'colspan=3 id=Coming_states','',$Coming_Colours,0,'',' onchange=ComeAnyWarning()'); 
+    echo fm_radio('Dancing Status',$Coming_States ,$Sidey,'Coming','',1,'colspan=4 id=Coming_states','',$Coming_Colours,0,'',' onchange=ComeAnyWarning()'); 
   }
 
   // Performers booking states
@@ -448,7 +450,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
       echo "<tr class=ContractShow hidden>";
     }
     if ($Mode || Access('SysAdmin')) {
-      echo fm_radio("Booking State",$Book_States,$Sidey,'YearState','class=NotSide',1,'colspan=3 class=NotSide','',$Book_Colours);
+      echo fm_radio("Contract State",$Book_States,$Sidey,'YearState','class=NotSide',1,'colspan=3 class=NotSide','',$Book_Colours);
     } else {
       echo "<td class=NotSide>Booking State:" . help('YearState') . "<td class=NotSide>" . $Book_States[$Sidey['YearState']];
     }
