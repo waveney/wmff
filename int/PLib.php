@@ -128,7 +128,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
           echo fm_hidden('Id',-1);
         }
         echo "<td class=NotSide colspan=2>";
-        if ($PerfTC < 2 || !$Side['DiffImportance']) echo "Importance:" . fm_select($Importance, $Side,'Importance');
+        if ($PerfTC < 2 || !$Side['DiffImportance']) echo "Importance:" . fm_select($Importance, $Side,'Importance',0,'','',3);
         if ($PerfTC > 1) echo " " . fm_checkbox("Diff Imp",$Side,'DiffImportance'); 
 //        echo " " . fm_text0("Rel Order",$Side,'RelOrder',1,'class=NotSide','class=NotSide size=4');  // Unused
         echo fm_text1('Where found',$Side,'Pre2017',1,'class=NotSide','class=NotSide'); 
@@ -141,7 +141,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
           echo "<tr><td class=NotSide>Importances:" . help('Importance');
           foreach ($PerfTypes as $p=>$d) {
             if ($Side[$d[0]]) {
-              echo "<td class=NotSide>" . $d[2] . ": " . fm_select($Importance, $Side,$d[2] . 'Importance');
+              echo "<td class=NotSide>" . $d[2] . ": " . fm_select($Importance, $Side,$d[2] . 'Importance',0,'','',3);
             }
           }
         }
