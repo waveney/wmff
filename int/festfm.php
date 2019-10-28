@@ -159,7 +159,7 @@ function fm_checkbox($Desc,&$data,$field,$extra='',$field2='',$split=0,$extra2='
           ($AutoADD? " oninput=AutoCheckBoxInput('$field2') " : "") . " Name=$field2 id=$field2 $extra>";
 }
 
-function fm_select2(&$Options,$Curr,$field,$blank=0,$selopt='',$field2='') {
+function fm_select2(&$Options,$Curr,$field,$blank=0,$selopt='',$field2='',$Max) {
   global $ADDALL,$AutoADD;
   if ($field2 == '') $field2=$field;
   $str = "<select name=$field2 $selopt id=$field2 $ADDALL ";
@@ -171,6 +171,7 @@ function fm_select2(&$Options,$Curr,$field,$blank=0,$selopt='',$field2='') {
     $str .= "></option>";
   }
   foreach ($Options as $key => $val) {
+    if ($Max && !Access('SysAdmin') && $key>=$Max && $Curr!=$key) continue;
     $str .= "<option value=$key";
     if ($Curr == $key) $str .= " selected";
     $str .= ">" . htmlspec($val) . "</option>";
@@ -179,9 +180,9 @@ function fm_select2(&$Options,$Curr,$field,$blank=0,$selopt='',$field2='') {
   return $str;
 }
 
-function fm_select(&$Options,$data,$field,$blank=0,$selopt='',$field2='') {
-  if (isset($data[$field])) return fm_select2($Options,$data[$field],$field,$blank,$selopt,$field2);
-  return fm_select2($Options,'@@@@@@',$field,$blank,$selopt,$field2);
+function fm_select(&$Options,$data,$field,$blank=0,$selopt='',$field2='',$Max=0) {
+  if (isset($data[$field])) return fm_select2($Options,$data[$field],$field,$blank,$selopt,$field2,$Max);
+  return fm_select2($Options,'@@@@@@',$field,$blank,$selopt,$field2,$Max);
 }
 
 function fm_radio($Desc,&$defn,&$data,$field,$extra='',$tabs=1,$extra2='',$field2='',$colours=0,$multi=0,$extra3='',$extra4='') {

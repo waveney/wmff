@@ -313,7 +313,7 @@ A similar feature will appear eventually for music.<p>
       echo "<td>" . fm_checkbox('Family Event',$Event,'Family');
       echo "<td>" . fm_checkbox('Non Fest',$Event,'NonFest');
       echo "<td>Alt Edit:" . fm_select($AllActive,$Event,'Owner2',1);
-      echo "<td class=NotSide>Importance: " . fm_select($Importance,$Event,'Importance');
+      echo "<td class=NotSide>Importance: " . fm_select($Importance,$Event,'Importance',0,'','',3);
 
       echo "<tr>" . fm_text('<b>Name</b>', $Event,'SN');
         echo "<td><b>Event Type</b>:" . fm_select($Event_Types,$Event,'Type');
