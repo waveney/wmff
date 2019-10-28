@@ -46,7 +46,7 @@ Keep an eye on this website for details.<p>" .
 
   dohead('12 - 14 June 2020', ['/js/WmffAds.js', "/js/HomePage.js"],$Banner );
 
-  echo "<center><a href=/Tickets><img align=center src=/images/stuff/Main_Acts_2020.jpg class=BrianImg></a></center>";
+  echo "<center><a href=/Tickets><img align=center src=/images/stuff/Main_Acts_2020t2.jpg class=BrianImg></a></center>";
   echo "<br clear=all>";
   Show_Articles_For("NewTop");
   echo "<div style=margin:10>";
