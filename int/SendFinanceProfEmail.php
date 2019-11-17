@@ -32,7 +32,7 @@ if (isset($_POST['SAVE'])) {
   Put_Invoice($inv);
 }
 
-dominimalhead("Email for " . $inv['BZ'],["files/festconstyle.css"]);
+dominimalhead("Email for " . $inv['BZ'],["css/festconstyle.css"]);
 echo "<h2>Email for " . $inv['BZ'] . " - " . $inv['Contact'] . "</h2>";
 if (isset($_POST['PREVIEW'])) {
   echo "<p><h3>Preview...</h2>";

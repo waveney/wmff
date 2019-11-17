@@ -436,18 +436,8 @@ function Show_Trader($Tid,&$Trad,$Form='Trade',$Mode=0) { // Mode 1 = Ctte, 2=Fi
 }
 
 function Trade_TandC() {
-  echo "<h2>Terms and Conditions</h2>\n";
-  echo "<ul>";
-    echo "<li>You, the stallholder, must supply a gazebo and table, we are unable to locate your stand under cover (except for a limited number of Artisan traders).\n";
-    echo "<li>Generators are not permitted unless previously arranged and agreed with the festival organisers.\n";
-    echo "<li>You will be responsible for the health and safety of the general public, yourself and others around you and ";
-        echo "must co-operate with festival organisers and supervisors at all times.\n";
-    echo "<li>The festival organisers reserve the right to refuse trade stand applications and without explanation.\n";
-    echo "<li>The festival organisers accept no liability for lost, damaged or stolen property.\n";
-    echo "<li>All information specified on this form (other than that show as public) is treated as strictly confidential and will be held securely.\n";
-    echo "<li>Any persons sleeping in trade stands will result in removal of the stand immediately.\n";
-    echo "<li>You will be solely responsible for removal of any rubbish and for cleaning your stand area to its original condition or paying for any damage caused.\n";
-  echo "</ul><p>";
+  global $FESTSYS;
+  echo $FESTSYS['TradeTandC'];
 }
 
 function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
@@ -803,15 +793,17 @@ function Send_Trader_Email(&$Trad,&$Trady,$messcat='Link',$att='') {
   include_once("Email.php");
   $bccto = Feature('CopyTradeEmailsTo');
   $bcc=[];
+  $from = Feature('SendTradeEmailFrom');
   if ($bccto) $bcc = ['bcc' , "$bccto@" . $FESTSYS['HostURL'],Feature('CopyTradeEmailsName')];
   Email_Proforma([['to',$Trad['Email'],$Trad['Contact']],$bcc],
-    $messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att);
+    $messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att,$from);
 }
 
 function Send_Trader_Simple_Email(&$Trad,$messcat='Link',$att='') {
   global $PLANYEAR,$FESTSYS;
   include_once("Email.php");
-  Email_Proforma([$Trad['Email'],$Trad['Contact']],$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad],'TradeLog',$att);
+  $from = Feature('SendTradeEmailFrom');
+  Email_Proforma([$Trad['Email'],$Trad['Contact']],$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad],'TradeLog',$att,$from);
 }
 
 function Send_Trade_Finance_Email(&$Trad,&$Trady,$messcat,$att=0) {

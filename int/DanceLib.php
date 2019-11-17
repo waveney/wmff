@@ -367,7 +367,7 @@ function Set_Side_Help() {
         'SN'=>'To appear on website and in the programme',
         'ShortName'=>'IF the name is more than 20 characters, give a short form to appear on the Grids.',
         'Type'=>'For example North West, Border, Folk, Jazz',
-        'Importance'=>'Only raise the importance for those that really need it.  They get front billing and bigger fonts in publicity.  Under normal circumstances at most 3 should be Very High. Higher values are for the late addition of surprise headline acts.',
+        'Importance'=>'Only raise the importance for those that really need it.  They get front billing and bigger fonts in publicity.  Under normal circumstances at most 3 should be Very High. Higher values are for the late addition of surprise headline acts and can only be set by Richard.',
         'OverlapsD'=>'Sides that share Dancers - Where possible, there will be a 30 minute gap between any spot by any of these sides',
         'OverlapsM'=>'Sides that share Musicians - These can perform at the same spot at the same time, or consecutive times',
         'Blurb'=>'Longer description, for the webpage on the festival website about the side/act/performer, only seen when a user clicks a link for more info on them - OPTIONAL',

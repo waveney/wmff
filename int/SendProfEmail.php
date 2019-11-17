@@ -37,7 +37,7 @@ if (isset($_POST['SEND'])) {
 }
 
 
-dominimalhead("Email for " . $Side['SN'],["files/festconstyle.css"]);
+dominimalhead("Email for " . $Side['SN'],["css/festconstyle.css"]);
 
 Replace_Help('Dance',1);
 
