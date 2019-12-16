@@ -295,11 +295,15 @@ function Get_SideYears($snum) {
   return $Save_SideYears[$snum];
 }
 
-function Put_SideYear(&$data) {
+function Put_SideYear(&$data,$Force=0) {
   global $db;
   global $Save_SideYears,$YEAR;
   if (!$data) return;
-  if (!isset($Save_SideYears[$data['SideId']][$data['Year']])) {
+  if ($Force) {
+    $Save = Get_SideYear($data['SideId']);
+    $rec = "UPDATE SideYear SET ";
+    $Up = 1;    
+  } else if (!isset($Save_SideYears[$data['SideId']][$data['Year']])) {
     $Save = &$Save_SideYears[$data['SideId']][$YEAR];
     $Save = Default_SY();
     $data = array_merge($Save,$data);
@@ -445,6 +449,7 @@ Contract Signed - Enables listing to public.',
         'GreenRoom' => 'If ticked, their contract will inform them of the Green Room',
         'ReportTo' => 'For the arrival statement in contract.  Most will report to the Infomation Point, None means no statement in contract, Green Room will say report to Green Room',
         'Coming' => 'Please indicate you have got the invite and then update when you have made a decision',
+        'Messages' => 'To Edit ask Richard (for now)',
 
   );
   Set_Help_Table($t);

@@ -185,6 +185,7 @@
       echo "<li class=smalltext><a href=CarPark?Y=$YEAR>Car Park Tickets</a>";
       if ($YEAR == $PLANYEAR) echo "<li class=smalltext><a href=WristbandsSent>Mark Wristbands Sent</a>";
       echo "<li class=smalltext><a href=ShowDanceProg?Cond=1&Pub=1&Y=$YEAR>Public Dance Programme</a>";
+      echo "<li class=smalltext><a href=FixBug2?Y=$YEAR>Change order of message records</a>";
       echo "<td width=300px>";
       echo "<li class=smalltext><a href=ShowDanceProg?Cond=0&Pub=1&Head=0&Day=Sat&Y=$YEAR>Dance Programme - Sat - no headers</a>";
       echo "<li class=smalltext><a href=ShowDanceProg?Cond=0&Pub=1&Head=0&Day=Sun&Y=$YEAR>Dance Programme - Sun - no headers</a>";
