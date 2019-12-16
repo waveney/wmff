@@ -192,14 +192,20 @@
           
           case 'N':
           case 'NY':
+//            echo "Woof";
             break;
           }        
         } else {
           echo "<button type=button id=Invie$snum class=" . ( $fetch['Invited']?"ProfSmallButton":"ProfButton") . " onclick=ProformaSend('Dance_Invite',$snum,'Invite','SendProfEmail')" . 
                   Proforma_Background('Invite') . ($fetch['Invite']?'':' hidden ') . ">Invite</button>";
-          echo "<button type=button id=Remind$snum class=ProfButton onclick=ProformaSend('Dance_Remind',$snum,'Remind','SendProfEmail')" . 
+          if (!isset($fetch['Coming']) || $Coming_idx[$fetch['Coming']]=='') {
+            echo "<button type=button id=Remind$snum class=ProfButton onclick=ProformaSend('Dance_Remind',$snum,'Remind','SendProfEmail')" . 
                   Proforma_Background('Remind') . ($fetch['Invited']?'':' hidden ') . ">Remind</button>";
+          }
+//          echo "Meow";
         }
+      } else {
+        echo "No Email!";      
       }
 
 //      for($i=1;$i<5;$i++) {
