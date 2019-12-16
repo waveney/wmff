@@ -876,6 +876,11 @@ button {
   border-width:4;
 }
 
+.ProfSmallButton {
+  border-width:2;
+  font-size:10;
+}
+
 .BespokeBorder {
   border-color:red;
 }

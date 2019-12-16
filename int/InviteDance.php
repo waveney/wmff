@@ -169,8 +169,13 @@
           
           case '':
           default:
-            if ($fetch['Invited']) echo "<button type=button id=Remind$snum class=ProfButton onclick=ProformaSend('Dance_Decide_Month',$snum,'Decide','SendProfEmail')" .
-                                      Proforma_Background('Decide') . ">Decide</button>";         
+            if ($fetch['Invited']) {
+              echo "<button type=button id=Remind$snum class=ProfButton onclick=ProformaSend('Dance_Decide_Month',$snum,'Decide','SendProfEmail')" .
+                                      Proforma_Background('Decide') . ">Decide</button>";
+            }
+            echo "<button type=button id=Invie$snum class=ProfSmallButton onclick=ProformaSend('Dance_Invite',$snum,'Invite','SendProfEmail')" . 
+                Proforma_Background('Invite') . ($fetch['Invite']?'':' hidden ') . ">Invite</button>"; 
+                     
             break;
         
           case 'Y':
@@ -190,7 +195,7 @@
             break;
           }        
         } else {
-          if (!$fetch['Invited']) echo "<button type=button id=Invie$snum class=ProfButton onclick=ProformaSend('Dance_Invite',$snum,'Invite','SendProfEmail')" . 
+          echo "<button type=button id=Invie$snum class=" . ( $fetch['Invited']?"ProfSmallButton":"ProfButton") . " onclick=ProformaSend('Dance_Invite',$snum,'Invite','SendProfEmail')" . 
                   Proforma_Background('Invite') . ($fetch['Invite']?'':' hidden ') . ">Invite</button>";
           echo "<button type=button id=Remind$snum class=ProfButton onclick=ProformaSend('Dance_Remind',$snum,'Remind','SendProfEmail')" . 
                   Proforma_Background('Remind') . ($fetch['Invited']?'':' hidden ') . ">Remind</button>";

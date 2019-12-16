@@ -50,6 +50,7 @@ function ProformaSend(name,snum,label,link,AlwaysBespoke=0,AltEmail='',UpdateId=
 
 function Add_Bespoke() {
   $('.ProfButton').addClass('BespokeBorder');
+  $('.ProfSmallButton').addClass('BespokeBorder');
   $('.Bespoke').toggle();
 }
 
