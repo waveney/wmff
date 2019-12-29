@@ -246,6 +246,8 @@
               echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Final_Info2',$snum,'FinalInfo2','SendProfEmail')" . 
                    Proforma_Background('FinalInfo2') . ">Final Info2</button>";
           }
+        } else {
+          echo "No Email!";
         }
       }
       
