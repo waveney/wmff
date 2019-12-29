@@ -395,7 +395,7 @@ function dominimalhead($title,$extras=[]) {
 //  echo "<link href=files/Newstyle.css?V=$V type=text/css rel=stylesheet>";
   echo "<script src=/js/jquery-3.2.1.min.js></script>";
   if ($extras) doextras($extras);
-  echo "<script>" . $FESTSYS['Analytics'] . "</script>";
+  if ($FESTSYS['Analytics']) echo "<script>" . $FESTSYS['Analytics'] . "</script>";
   echo "</head><body>\n";
   $head_done = 2;
 }

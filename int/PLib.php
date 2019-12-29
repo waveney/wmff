@@ -434,8 +434,9 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
   // Dance Invites and States
   if ($Side['IsASide']) {
     if ($Mode) {
-      echo "<tr><td class=NotSide>Dancing Invite:<td class=NotSide>" . fm_select($Invite_States,$Sidey,'Invite');
-        echo fm_text('Invited',$Sidey,'Invited',1,'class=NotSide');
+      echo "<tr><td class=NotSide>Dancing Invite:<td class=NotSide>" . fm_select($Invite_States,$Sidey,'Invite') . 
+           "<td class=NotSide>Messages:" . Help('Messages') . "<td colspan=3>" . $Sidey['Invited'];
+      if (Access('SysAdmin')) echo "<tr>" . fm_textarea('Messages',$Sidey,'Invited',5,2,'class=NotSide','class=NotSide');
       $Coming_States[0] = 'None';
     }
     echo "<tr>";

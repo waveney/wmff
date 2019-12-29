@@ -55,7 +55,7 @@ function ConvertHtmlToText(&$body) {
 //$to can be single address, a [address, name] or [[to,address,name],[cc,addr,name],bcc,addr,name],replyto,addr,name]...]
 //$atts can be simple fie or [[file, name],[file,name]...]
 
-function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0) { 
+function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0,$from='') { 
   global $FESTSYS,$CONF;
   
 //  echo "Debug: " .( UserGetPref('EmailDebug')?2:0) . "<p>";
@@ -64,7 +64,9 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0) {
     if (strstr($CONF['testing'],'@')) { 
       $to = $CONF['testing'];
     } else {    
-      echo "<p>Would send email to " . Pretty_Print_To($to) . " with subject: $sub<p>Content:<p>$letter<p>\n";
+      echo "<p>Would send email to " . Pretty_Print_To($to);
+      if ($from) echo "From: " . Pretty_Print_To($from);
+      echo " with subject: $sub<p>Content:<p>$letter<p>\n";
     
       echo "Text: " . ConvertHtmlToText($letter);
       if ($attachments) {
@@ -105,6 +107,14 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0) {
     $email->SMTPSecure = 'tls';
     $email->Port = 587;
     $email->SMTPOptions = ['ssl' => [ 'verify_peer' => false, 'verify_peer_name' => false, 'allow_self_signed' => true]];
+    
+    if ($from) {
+      if (is_array($from)) {
+        $email->setFrom($from[0],$from[1]);
+      } else {
+        $email->setFrom($from);
+      }
+    }
     
     if (is_array($to)) {
       if (is_array($to[0])) {
@@ -294,7 +304,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
 
 // helper is a function that takes (THING,helperdata,atts) to return THING - not needed for generic fields typical THINGs are DETAILS, DEPOSIT...
 // if mescat > 30 chars it is assumed to be the proforma itself
-function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='',&$attachments=0,&$embeded=[]) {
+function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='',&$attachments=0,&$embeded=[],$from='') {
   global $PLANYEAR,$YEARDATA,$FESTSYS;
   if (strlen($mescat) < 30) {
     $Prof = Get_Email_Proforma($mescat);
@@ -304,11 +314,14 @@ function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='
   }
   Parse_Proforma($Mess,$helper,$helperdata,0,$attachments,$embeded);
   
-  NewSendEmail($to,$subject,$Mess,$attachments,$embeded);
+  NewSendEmail($to,$subject,$Mess,$attachments,$embeded,$from);
   
   if ($logfile) {
     $logf = fopen("LogFiles/$logfile.txt","a");
-    fwrite($logf,"\n\nEmail to : " . Pretty_Print_To($to) . "Subject:$subject\n\n$Mess");
+    fwrite($logf,"\n\nEmail to : " . Pretty_Print_To($to) . "Subject:$subject\n");
+    if ($from) fwrite($logf,"From: " . Pretty_Print_To($from));
+    fwrite($logf,"\n\n$Mess");
+
     if ($attachments) {
       if (is_array($attachments)) {
         foreach ($attachments as $i=>$att) fwrite($logf," With attachment: " . $att[0] . " as " . $att[1] . "\n\n");

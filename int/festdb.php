@@ -257,6 +257,20 @@ function Feature($Name,$default='') {  // Return value of feature if set from FE
   return $default;
 }
 
+function Capability($Name,$default='') {  // Return value of Capability if set from FESTSYS
+  static $Capabilities;
+  global $FESTSYS;
+  if (!$Capabilities) {
+    $Capabilities = [];
+    foreach (explode("\n",$FESTSYS['Capabilities']) as $i=>$Cape) {
+      $Dat = explode(":",$Cape,3);
+      if ($Dat[0])$Capabilities[$Dat[0]] = trim($Dat[1]);
+    }
+  }
+  if (isset($Capabilities[$Name])) return $Capabilities[$Name];
+  return $default;
+}
+
 function set_ShowYear($last=0) { // Overrides default above if not set by a Y argument
   global $YEAR,$SHOWYEAR,$YEARDATA,$NEXTYEARDATA;
   if ($last == 0 && !isset($_POST['Y']) && !isset($_GET['Y'])) {

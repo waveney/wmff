@@ -33,7 +33,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Login</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Email</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Phone</a>\n";  
-  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>WMFF Email</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Fest Email</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Access Level</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Roll</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Rel Order</a>\n";
@@ -51,7 +51,8 @@
   foreach ($Users as $usr) {
     if ($Full == 0 && $usr['NoTasks']) continue;
     echo "<tr" . (($usr['UserId']<11 || $usr['AccessLevel'] == 0)?" class=FullD hidden" : "" ) . ">";
-    echo "<td>" . $usr['UserId'] . "<td>" . ($Full? ("<a href=AddUser?usernum=" . $usr['UserId'] . ">" . $usr['SN'] . "</a>") : $usr['SN']);
+    echo "<td>" . $usr['UserId'] . "<td>";
+    echo  (($Full || Access('SysAdmin') || $USER['AccessLevel'] >= $usr['AccessLevel'])? ("<a href=AddUser?usernum=" . $usr['UserId'] . ">" . $usr['SN'] . "</a>") : $usr['SN']);
 //    echo "<td>" . $usr['Abrev'];
     echo "<td>" . $usr['Login'] . "<td>" . $usr['Email'] . "<td>" . $usr['Phone'] . "<td>" . $usr['WMFFemail'] . "<td>" . $Access_Levels[$usr['AccessLevel']];
     echo "<td>" . $usr['Roll'] . "<td>" . $usr['RelOrder'] ;

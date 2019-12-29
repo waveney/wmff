@@ -1,7 +1,7 @@
 <?php
 
 return <<<XXXXXX
-<h2 class=subtitle>FAQ for Traders at Wimborne in 2019</h2>
+<h2 class=subtitle>FAQ for Traders at Wimborne in 2020</h2>
 
 <dl class=WMFF_FAQ>
 <dt>Cover<dd>You, the stallholder, must supply a gazebo and table, we are unable to locate your stand under cover.  (Apart from a limited number of local Artisans)<p>
@@ -15,7 +15,8 @@ return <<<XXXXXX
 <li>Saturday:<br>
         <ul>
         <li>Food in the square: 9:00am to 1am
-        <li>Willow Walk: 9:00am to 6pm
+        <li>Willow Walk: 9:00am to 9pm ??
+        <li>Microbreweries: 9:00am to 10pm
         <li>All other trading: 9:00am to 7pm
         </ul>
 <li>Sunday:<br>

@@ -16,6 +16,18 @@
   $Years = Get_Years();
   $Days = array('All','Sat','Sun','&lt;Sat','Sat&amp;Sun');
 
+  function StaffTable($Section,$cols=1) {
+    static $ColNum = 3;
+    if ($Section != 'Any' && !Capability("Enable$Section")) return 0;
+    if ($ColNum+$cols > 3) {
+      echo "<tr>";
+      $ColNum =0;
+    }
+    echo "<td class=Stafftd colspan=$cols>";
+    $ColNum+=$cols;
+    return 1;
+  }
+
   if (isset($ErrorMessage)) echo "<h2 class=ERR>$ErrorMessage</h2>";
 
 //echo php_ini_loaded_file() . "<P>";
@@ -26,26 +38,30 @@
   echo "</h2></div>";
   echo "<h2>Staff Pages - $YEAR <span style='font-size:16;font-weight:normal;'>For other years select &gt;&gt;&gt;</span></h2>\n";
   echo "<div class=tablecont><table border width=100% class=Staff style='min-width:800px'>\n";
-  echo "<tr><td class=Stafftd><h2>Document Storage</h2>\n";
-    echo "<ul>\n";
-    if (Access('Staff')) {
-      echo "<li><a href=Dir>View Document Storage</a>\n";
-      echo "<li><a href=Search>Search Document Storage</a>\n";
-    }
-    echo "<p>";
-//    echo "<li><a href=ProgrammeDraft1.pdf>Programme Draft</a>\n";
-    echo "<li><a href=StaffHelp>General Help</a>\n";
-
-    if (Access('SysAdmin')) {
+   
+  if (StaffTable('Docs')) {
+    echo "<h2>Document Storage</h2>\n";
+      echo "<ul>\n";
+      if (Access('Staff')) {
+        echo "<li><a href=Dir>View Document Storage</a>\n";
+        echo "<li><a href=Search>Search Document Storage</a>\n";
+      }
       echo "<p>";
-      echo "<li class=smalltext><a href=DirRebuild?SC>Scan Directories - Report File/Database discrepancies</a>";    
+//      echo "<li><a href=ProgrammeDraft1.pdf>Programme Draft</a>\n";
+      echo "<li><a href=StaffHelp>General Help</a>\n";
+
+      if (Access('SysAdmin')) {
+        echo "<p>";
+        echo "<li class=smalltext><a href=DirRebuild?SC>Scan Directories - Report File/Database discrepancies</a>";    
 //      echo "<li><a href=DirRebuild?FI>Rebuild Directorys - Files are YEARDATA</a>";
 //      echo "<li><a href=DirRebuild?DB>Rebuild Directorys - Database is YEARDATA</a>";
+      }
+      echo "</ul>\n";
     }
-    echo "</ul>\n";
-
+    
 // *********************** TIMELINE ****************************************************
-  echo "<td class=Stafftd><h2>Timeline</h2>\n";
+  if (StaffTable('TLine')) {
+    echo "<h2>Timeline</h2>\n";
     echo "<ul>\n";
     echo "<li><a href=TimeLine?Y=$YEAR>Time Line Management</a>\n<p>";
     echo "<li><a href=TLHelp>Timeline Help</a>\n";
@@ -53,11 +69,13 @@
     if (Access('SysAdmin')) {
       echo "<p>";
 //      echo "<li class=smalltext><a href=TLImport1>Timeline Import 1</a>\n";
-    }
+      }
     echo "</ul><p>\n";
+  }
 
 // *********************** Users  **************************************************************
-  echo "<td class=Stafftd><h2>Users</h2>\n";
+  if (StaffTable('Any')) {
+    echo "<h2>Users</h2>\n";
     echo "<ul>\n";
     echo "<li><a href=Login?ACTION=NEWPASSWD>New Password</a>\n";
     if (Access('Committee','Users')) {
@@ -69,10 +87,11 @@
       echo "<li><a href=ListUsers>List Committee/Group Users</a>";    
     }
     echo "</ul><p>\n";
+  }
 
 // *********************** MUSIC ****************************************************
-  echo "<tr>";
-    echo "<td class=Stafftd><h2>Music</h2>\n";
+  if (StaffTable('Music')) {
+    echo "<h2>Music</h2>\n";
     echo "<ul>\n";
     echo "<li><a href=MusicFAQ>Music FAQ</a>\n";
     if (Access('Staff')) {
@@ -108,9 +127,11 @@
     echo "<li><a href=BuskersBashView?Y=$YEAR>Show Buskers Bash applications</a>";
 //    if (Access('SysAdmin')) echo "<li class=smalltext><a href=LiveNLoudEmail>Send LNL bulk email</a>";
     echo "</ul>\n";
-
+  }
+  
 // *********************** DANCE ****************************************************
-  echo "<td class=Stafftd colspan=2><h2>Dance</h2>\n";
+  if (StaffTable('Dance',2)) {
+    echo "<h2>Dance</h2>\n";
     echo "<ul>\n";
     if (Access('Staff','Dance')) {
       echo "<li><a href=InviteDance?Y=$YEAR>Invite Dance Sides</a>\n";
@@ -164,6 +185,7 @@
       echo "<li class=smalltext><a href=CarPark?Y=$YEAR>Car Park Tickets</a>";
       if ($YEAR == $PLANYEAR) echo "<li class=smalltext><a href=WristbandsSent>Mark Wristbands Sent</a>";
       echo "<li class=smalltext><a href=ShowDanceProg?Cond=1&Pub=1&Y=$YEAR>Public Dance Programme</a>";
+      echo "<li class=smalltext><a href=FixBug2?Y=$YEAR>Change order of message records</a>";
       echo "<td width=300px>";
       echo "<li class=smalltext><a href=ShowDanceProg?Cond=0&Pub=1&Head=0&Day=Sat&Y=$YEAR>Dance Programme - Sat - no headers</a>";
       echo "<li class=smalltext><a href=ShowDanceProg?Cond=0&Pub=1&Head=0&Day=Sun&Y=$YEAR>Dance Programme - Sun - no headers</a>";
@@ -173,9 +195,10 @@
       echo "</table></div>\n";
     }
     echo "</ul>\n";
+  }
 // *********************** Comedy, Childrens Ent, Other Perf
-  echo "<tr>";
-  echo "<td class=Stafftd><h2>Comedy</h2>\n";
+  if (StaffTable('Comedy')) {
+    echo "<h2>Comedy</h2>\n";
     echo "<ul>\n";    
     if (Access('Staff')) {
       echo "<li><a href=ListMusic?SEL=ALL&Y=$YEAR&T=C>List All Comedy Performers in Database</a>\n";
@@ -185,7 +208,9 @@
       echo "<li><a href=CreatePerf?T=C&Y=$YEAR>Add Comedy Performer to Database</a>";
     }
     echo "</ul>\n";
-  echo "<td class=Stafftd><h2>Children's Entertainers</h2>\n";
+  }
+  if (StaffTable('Family')) {
+  echo "<h2>Children's Entertainers</h2>\n";
     echo "<ul>\n";    
     if (Access('Staff')) {
       echo "<li><a href=ListMusic?SEL=ALL&Y=$YEAR&T=Y>List All Children's Entertainers in Database</a>\n";
@@ -195,7 +220,9 @@
       echo "<li><a href=CreatePerf?T=Y&Y=$YEAR>Add Children's Entertainers to Database</a>";
     }
     echo "</ul>\n";
-  echo "<td class=Stafftd><h2>Other Performers</h2>\n";
+  }
+  if (StaffTable('OtherPerf')) {
+    echo "<h2>Other Performers</h2>\n";
     echo "<ul>\n";    
     if (Access('Staff')) {
       echo "<li><a href=ListMusic?SEL=ALL&Y=$YEAR&T=O>List All Other Performers in Database</a>\n";
@@ -205,12 +232,12 @@
       echo "<li><a href=CreatePerf?T=O&Y=$YEAR>Add Other Performer to Database</a>";
     }
     echo "</ul>\n";
-    
+  }
     
 
 // *********************** STALLS   ****************************************************
-  echo "<tr>";
-  echo "<td class=Stafftd><h2>Trade </h2>\n";
+  if (StaffTable('Trade')) {
+  echo "<h2>Trade </h2>\n";
     $Tlocs = Get_Trade_Locs(0,"WHERE InUse=1");
     echo "<ul>\n";
     echo "<li><a href=ListCTrade?Y=$YEAR>List Active Traders This Year</a>\n";
@@ -241,16 +268,19 @@
 //      echo "<li><a href=/admin/trade/index>Old Trade Stand Section</a>\n";
       echo "<li><a href=Trade2CSV?Y=$YEAR>Traders as CSV</a>\n";
     }
+    if (Feature('EnableTrade') && !Feature('EnableFinance')) echo "<li><a href=InvoiceManage?Y=$YEAR>Invoice/Payment Management</a>\n";
     if (Access('SysAdmin')) {
       echo "<p><div class=tablecont><table><tr><td>";
       echo "<li class=smalltext><a href=ResetImageSizes?TRADE>Scan and save Image sizes</a>";
       echo "</table></div><p>\n";
     }
     echo "</ul>\n";
-
+  }
+  
 // *********************** VENUES & EVENTS *******************************************************
   $_POST['DAYS'] = 0; $_POST['Pics'] = 1;
-  echo "<td class=Stafftd colspan=2><h2>Venues and Events</h2>\n";
+  if (StaffTable('Events',2)) {
+    echo "<h2>Events and Venues</h2>\n";
     $Vens = Get_AVenues();
     echo "<ul>\n";
     echo "<li><a href=VenueList?Y=$YEAR>List Venues</a>\n";
@@ -294,10 +324,11 @@
                 fm_hidden('Y',$YEAR) . fm_text0('',$_POST,'AtTime') .' on ' . fm_text0('',$_POST,'AtDate');
     
     echo "</ul>\n";
-
+  }
+  
 // *********************** Misc *****************************************************************
-  echo "<tr>";
-  echo "<td class=Stafftd><h2>Misc</h2>\n";
+  if (StaffTable('Misc')) {
+  echo "<h2>Misc</h2>\n";
     echo "<ul>\n";
 //    echo "<li><a href=StewardView>Stewarding Applications (old)</a>\n";
     echo "<li><a href=Volunteers?A=New>Volunteering Application Form</a>\n";
@@ -316,9 +347,11 @@
     if (Access('SysAdmin')) echo "<li><a href=ConvertPhotos>Convert Archive Format</a>";
 //    echo "<li><a href=ContractView>Dummy Music Contract</a>";
     echo "</ul>\n";
+  }
 
 // *********************** Finance **************************************************************
-  echo "<td class=Stafftd><h2>Finance and Sponsors</h2>\n";
+  if (StaffTable('Finance')) {
+    echo "<h2>Finance and Sponsors</h2>\n";
     echo "<ul>\n";
     if (Access('Committee','Finance')) {
       echo "<li><a href=BudgetManage?Y=$YEAR>Budget Management</a>\n";
@@ -345,9 +378,11 @@
 //      echo "<li><a href=ImportOldInvoice>Import Old Invoices</a>\n";  
     }
     echo "</ul>\n";
+  }
     
 // *********************** GENERAL ADMIN *********************************************************
-  echo "<td class=Stafftd><h2>General Admin</h2>\n";
+  if (StaffTable('Admin')) {
+    echo "<h2>General Admin</h2>\n";
     echo "<ul>\n";
 
     if (Access('Committee','News')) {
@@ -369,7 +404,7 @@
       echo "<li><a href=MasterData>Festival System Data Settings</a> \n";
     }
     echo "</ul>\n";
-
+  }
 
   echo "</table></div>\n";
 

@@ -5,7 +5,7 @@
   include_once("TradeLib.php");
   global $db,$YEAR,$SHOWYEAR,$PLANYEAR,$Trade_States,$Trade_State,$YEAR,$Trade_Days,$Prefixes, $YEARDATA, $EType_States;
 
-  dohead("Traders in $YEAR",['files/festconstyle.css'],'https://wimbornefolk.co.uk/int/images/gallery/2018/Around/14_HSJX8086_14-2048-STEPHENAJONES.jpg','T');
+  dohead("Traders in $YEAR",['css/festconstyle.css'],'https://wimbornefolk.co.uk/int/images/gallery/2018/Around/14_HSJX8086_14-2048-STEPHENAJONES.jpg','T');
 
 
   $Partial = (array_flip($EType_States))['Partial'];

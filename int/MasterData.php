@@ -21,6 +21,7 @@
   echo "<tr>" . fm_text("SMTP user",$FESTSYS,'SMTPuser');
   echo "<tr>" . fm_text("SMTP password",$FESTSYS,'SMTPpwd');
   echo "<tr>" . fm_textarea("Features",$FESTSYS,'Features',4,10);
+  if (Access('Internal')) echo "<tr>" . fm_textarea("Capabilities",$FESTSYS,'Capabilities',4,10);
 /*  echo "<tr>" . fm_text("Left Ad Img",$FESTSYS,'AdvertImgLeft') . fm_text("Left Ad Link",$FESTSYS,'AdvertLinkLeft');
   echo "<tr>" . fm_text("Right Ad Img",$FESTSYS,'AdvertImgRight') . fm_text("Left Ad Right",$FESTSYS,'AdvertLinkRight'); */
   echo "<tr>" . fm_text("Website Coloured Banner",$FESTSYS,'WebSiteBanner',3);
@@ -28,6 +29,9 @@
   echo "<tr>" . fm_text("Default Page Banner",$FESTSYS,'DefaultPageBanner',3);
   echo "<tr>" . fm_textarea("Analytics code",$FESTSYS,'Analytics',3,3);
   echo "<tr>" . fm_text("Directions Google API key",$FESTSYS,'GoogleAPI',3);
+  echo "<tr>" . fm_textarea("Trade Terms and Conditions",$FESTSYS,'TradeTandC',3,3);
+  echo "<tr>" . fm_textarea("Trade Times",$FESTSYS,'TradeTimes',3,3);
+  echo "<tr>" . fm_textarea("Trade FAQ",$FESTSYS,'TradeFAQ',3,3);
   echo "</table></div>\n";
 
   echo "<Center><input type=Submit name='Update' value='Update'></center>\n";

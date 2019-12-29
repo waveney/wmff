@@ -295,11 +295,15 @@ function Get_SideYears($snum) {
   return $Save_SideYears[$snum];
 }
 
-function Put_SideYear(&$data) {
+function Put_SideYear(&$data,$Force=0) {
   global $db;
   global $Save_SideYears,$YEAR;
   if (!$data) return;
-  if (!isset($Save_SideYears[$data['SideId']][$data['Year']])) {
+  if ($Force) {
+    $Save = Get_SideYear($data['SideId']);
+    $rec = "UPDATE SideYear SET ";
+    $Up = 1;    
+  } else if (!isset($Save_SideYears[$data['SideId']][$data['Year']])) {
     $Save = &$Save_SideYears[$data['SideId']][$YEAR];
     $Save = Default_SY();
     $data = array_merge($Save,$data);
@@ -367,7 +371,7 @@ function Set_Side_Help() {
         'SN'=>'To appear on website and in the programme',
         'ShortName'=>'IF the name is more than 20 characters, give a short form to appear on the Grids.',
         'Type'=>'For example North West, Border, Folk, Jazz',
-        'Importance'=>'Only raise the importance for those that really need it.  They get front billing and bigger fonts in publicity.  Under normal circumstances at most 3 should be Very High. Higher values are for the late addition of surprise headline acts.',
+        'Importance'=>'Only raise the importance for those that really need it.  They get front billing and bigger fonts in publicity.  Under normal circumstances at most 3 should be Very High. Higher values are for the late addition of surprise headline acts and can only be set by Richard.',
         'OverlapsD'=>'Sides that share Dancers - Where possible, there will be a 30 minute gap between any spot by any of these sides',
         'OverlapsM'=>'Sides that share Musicians - These can perform at the same spot at the same time, or consecutive times',
         'Blurb'=>'Longer description, for the webpage on the festival website about the side/act/performer, only seen when a user clicks a link for more info on them - OPTIONAL',
@@ -445,6 +449,7 @@ Contract Signed - Enables listing to public.',
         'GreenRoom' => 'If ticked, their contract will inform them of the Green Room',
         'ReportTo' => 'For the arrival statement in contract.  Most will report to the Infomation Point, None means no statement in contract, Green Room will say report to Green Room',
         'Coming' => 'Please indicate you have got the invite and then update when you have made a decision',
+        'Messages' => 'To Edit ask Richard (for now)',
 
   );
   Set_Help_Table($t);

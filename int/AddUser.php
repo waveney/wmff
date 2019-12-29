@@ -70,7 +70,7 @@
     echo "<tr>" . fm_text('Roll',$User,'Roll',3);
     echo "<tr>" . fm_text('Relative Order',$User,'RelOrder',3);
     echo "<tr><td>No Tasks (test users only) " . fm_checkbox('',$User,'NoTasks');
-    echo "<tr><td>Access Level<td>" . fm_select($Access_Levels,$User,'AccessLevel');
+    echo "<tr><td>Access Level<td>" . fm_select($Access_Levels,$User,'AccessLevel',0,'','',$USER['AccessLevel']);
     echo "<tr>" . fm_text('Image', $User,'Image',3);
     echo "<tr>" . fm_radio('Show on Contacts Page',$User_Public_Vis,$User,'Contacts');
     $r = 0;

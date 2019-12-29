@@ -27,17 +27,24 @@ if (isset($_POST['SEND'])) {
   echo Email_Proforma($too,$Mess,$subject,'Dance_Email_Details',[$Side,$Sidey],$logfile='Dance');
   
 // Log to "Invited field"
+  $prefix = '';
+
   if (strlen($Sidey['Invited'])) $Sidey['Invited'] .= ", ";
-  if ($label) $Sidey['Invited'] .= "<span " . Proforma_Background($label) . ">$label:";
-  $Sidey['Invited'] .= date('j/n/y');
-   if ($label) $Sidey['Invited'] .= "</span>";
+  if ($label) $prefix .= "<span " . Proforma_Background($label) . ">$label:";
+  $prefix .= date('j/n/y');
+  if ($label) $prefix .= "</span>";
+  if (strlen($Sidey['Invited'])) {
+    $Sidey['Invited'] = $prefix . ", " . $Sidey['Invited'];
+  } else {
+    $Sidey['Invited'] = $prefix;  
+  }
+
   Put_SideYear($Sidey);
   echo "<script>window.close()</script>"; 
   exit;
 }
 
-
-dominimalhead("Email for " . $Side['SN'],["files/festconstyle.css"]);
+dominimalhead("Email for " . $Side['SN'],["css/festconstyle.css"]);
 
 Replace_Help('Dance',1);
 

@@ -9,7 +9,7 @@
     exit;
   }
 
-  dominimalhead("Print Dance Address Labels",['files/festconstyle.css']);
+  dominimalhead("Print Dance Address Labels",['css/festconstyle.css']);
   include_once("DanceLib.php");
 
   $Lines = 0;
