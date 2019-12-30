@@ -8,6 +8,7 @@ CREATE TABLE `Venues` (
   `AllowMult` tinyint(4) NOT NULL,
   `Dance` tinyint(4) NOT NULL,
   `Music` tinyint(4) NOT NULL,
+  `Comedy` tinyint(4) NOT NULL,
   `Child` tinyint(4) NOT NULL,
   `Craft` tinyint(4) NOT NULL,
   `Other` tinyint(4) NOT NULL,
@@ -45,6 +46,9 @@ CREATE TABLE `Venues` (
   `DontUseIf` int(11) NOT NULL,
   `SupressFree` tinyint(4) NOT NULL,
   `DisabilityStat` text NOT NULL,
+  `AccessKey` text NOT NULL,
+  `Complete` int(11) NOT NULL,
+  `Banner` text NOT NULL,
   PRIMARY KEY (`VenueId`),
   UNIQUE KEY `VenueId` (`VenueId`)
-) ENGINE=MyISAM AUTO_INCREMENT=10  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

@@ -12,9 +12,9 @@ CREATE TABLE `TradeYear` (
   `Power0` int(11) NOT NULL,
   `Power1` int(11) NOT NULL,
   `Power2` int(11) NOT NULL,
-  `PitchNum0` int(11) NOT NULL,
-  `PitchNum1` int(11) NOT NULL,
-  `PitchNum2` int(11) NOT NULL,
+  `PitchNum0` text NOT NULL,
+  `PitchNum1` text NOT NULL,
+  `PitchNum2` text NOT NULL,
   `PitchLoc0` smallint(6) NOT NULL,
   `PitchLoc1` smallint(6) NOT NULL,
   `PitchLoc2` smallint(6) NOT NULL,
@@ -29,5 +29,8 @@ CREATE TABLE `TradeYear` (
   `SentConfirm` int(11) NOT NULL,
   `SentLocation` int(11) NOT NULL,
   `SentArrive` int(11) NOT NULL,
+  `DepositCode` text NOT NULL,
+  `BalanceCode` text NOT NULL,
+  `OtherCode` text NOT NULL,
   PRIMARY KEY (`TYid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

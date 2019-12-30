@@ -679,6 +679,7 @@ function Invoice_Email_Details($key,&$inv,$att=0) {
     return $det; 
   case 'DUEDATE' :
     return date('j/n/Y',$inv['DueDate']);
+  case 'PAYDAYS' : return Feature('PaymentTerms',30);
   }
 }
 

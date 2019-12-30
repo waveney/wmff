@@ -41,7 +41,7 @@ function Create_Config() {
     echo "<form method=post><div class=tablecont><table border>\n";
     echo "<tr>" . fm_text("Host Name - usually localhost",$_POST,'host');
     echo "<tr>" . fm_text("Database Name - must be unique to server",$_POST,'dbase');
-    echo "<tr>" . fm_text("Database User - Must be already setup",$_POST,'user');
+    echo "<tr>" . fm_text("Database User - Must be already setup, and be able to add, drop, update and create databases and tables",$_POST,'user');
     echo "<tr>" . fm_text("Database Password (if any)",$_POST,'passwd');
     echo "<tr>" . fm_text("Testing mode - blank for live, 1 for simple test (no emails), an email address to divert all emails too",$_POST,'testing');
     echo "<tr>" . fm_text("Title Prefix - for test/stage/dev sites only",$_POST,'TitlePrefix');
@@ -214,7 +214,9 @@ function Preload_Data() {
   }
 
 // Email proformas - lots of these read from munged sql dump
-  $file = fopen('files/EmailProformas.sql','r');
+  echo "About to Create Email Proformas<p>";
+  
+  $file = fopen('festfiles/EmailProformas.sql','r');
   while ($line = fgets($file)) {
     $bits = explode(',',$line,2);
     $key = preg_replace('/\'/','',$bits[0]);

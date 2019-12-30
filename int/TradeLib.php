@@ -734,6 +734,7 @@ function Trader_Details($key,&$data,$att=0) {
     preg_match('/(\d*)\.pdf/',$att,$mtch);
     return Sage_Code($Trad) . "/" . (isset($mtch[1]) ? $mtch[1] : '0000' );
   case 'FINANCIAL': return Trade_Finance($Trad,$Trady);
+  case 'PAYDAYS' : return Feature('PaymentTerms',30);
   case 'TRADEMAP': 
     $MapLinks = '';
     for ($i=0; $i<3; $i++) {

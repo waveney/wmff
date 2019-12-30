@@ -14,6 +14,7 @@ CREATE TABLE `MasterData` (
   `PlanYear` int(11) NOT NULL,
   `ShowYear` int(11) NOT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Capabilities` text NOT NULL,
   `Features` text NOT NULL,
   `HostURL` text NOT NULL,
   `SMTPuser` text NOT NULL,
@@ -23,7 +24,12 @@ CREATE TABLE `MasterData` (
   `AdvertImgRight` text NOT NULL,
   `AdvertLinkRight` text NOT NULL,
   `WebSiteBanner` text NOT NULL,
+  `WebsiteBanner2` text NOT NULL,
+  `DefaultPageBanner` text NOT NULL,
   `Analytics` text NOT NULL,
   `GoogleAPI` text NOT NULL,
+  `TradeTandC` text NOT NULL,
+  `TradeTimes` text NOT NULL,
+  `TradeFAQ` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

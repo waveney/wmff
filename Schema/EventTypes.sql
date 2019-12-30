@@ -12,6 +12,9 @@ CREATE TABLE `EventTypes` (
   `State` tinyint(4) NOT NULL,
   `IncType` tinyint(4) NOT NULL,
   `NoPart` tinyint(4) NOT NULL,
+  `DontList` tinyint(4) NOT NULL,
   `FirstYear` int(11) NOT NULL,
+  `Banner` text NOT NULL,
+  `MapFeatNum` int(11) NOT NULL,
   PRIMARY KEY (`ETypeNo`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

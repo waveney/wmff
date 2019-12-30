@@ -9,5 +9,9 @@ CREATE TABLE `TradeLocs` (
   `ArtisanMsgs` tinyint(4) NOT NULL,
   `prefix` tinyint(4) NOT NULL,
   `InvoiceCode` int(11) NOT NULL,
+  `MapImage` text NOT NULL,
+  `Mapscale` float NOT NULL,
+  `Showscale` double NOT NULL,
+  `NoList` tinyint(4) NOT NULL,
   PRIMARY KEY (`TLocId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
