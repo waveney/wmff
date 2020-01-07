@@ -200,6 +200,13 @@ function Get_Email_Proformas() {
   return $full;
 }
 
+function Get_Email_Proformas_By_Name() { 
+  global $db;
+  $res = $db->query("SELECT * FROM EmailProformas ORDER BY SN ");
+  if ($res) while ($typ = $res->fetch_assoc()) $full[$typ['SN']] = $typ;
+  return $full;
+}
+
 function Get_Email_Proforma($id) {
   global $db;
   if (is_numeric($id)) {
@@ -281,6 +288,10 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
             }
             $attnum++;
             break;
+          case (preg_match('/COPY_(.*)/',$key,$mtch)?true:false):
+            $Prof = Get_Email_Proforma($mtch[1]);
+            $rep = ($Prof?$Prof:("Unknown Email Proforma " . $mtch[1] . "<p>"));
+            break;
 
           default:
             $rep = ($helper?$helper($key,$helperdata,$attachments,$embeded):"*$key*");
@@ -351,7 +362,7 @@ function Replace_Help($Area='',$Right=0) {
   ['*PRICE*','Total Price quoted','Trade'],
   ['*LINK*','Personal Link for Participants','Trade, Volunteers, Performers'],
   ['*REMOVE*','Remove Request','Trade'],
-  ['*WMFFLINK*','Link for Committee members direct to that Trader/Volunteer/Performer etc','Trade, Volunteers'],
+  ['*FESTLINK*','Link for Committee members direct to that Trader/Volunteer/Performer etc','Trade, Volunteers'],
   ['*DEPOSIT*','Deposit Required','Trade, LNL, BB'],
   ['*BALANCE*','Balance Required','Trade'],
   ['*DETAILS*','Full details of booking etc','Trade, BB, LOL, LNL, Volunteers, Invoices'],
@@ -374,6 +385,8 @@ function Replace_Help($Area='',$Right=0) {
   ['*DEPCODE*/*BALCODE*/*OTHERCODE*','Payment codes for Deposit, Balance(All), Other Payment','Trade'],
   ['*DUEDATE*','Date Invoice/Payment is Due','Trade, Invoices'],
   ['*PAYCODES*','Details of payment to be made, ammount, account and code to be used','Trade'],
+  ['*COPY_name*','Copy Email Proforma name into the current message','All'],
+  ['*PAYDAYS','Days to pay an Invoice','Trade,Invoices'],
   ];
 
   echo "<span " . ($Right?' class=floatright':'') . " id=largeredsubmit onclick=($('.HelpDiv').toggle()) >Click to toggle Standard Replacements Help</span>";

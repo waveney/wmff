@@ -32,5 +32,8 @@ CREATE TABLE `FestUsers` (
   `WMFFemail` text NOT NULL,
   `Contacts` tinyint(4) NOT NULL,
   `NoTasks` tinyint(4) NOT NULL,
+  `Prefs` text NOT NULL,
+  `LogUse` tinyint(4) NOT NULL,
+  `RelOrder` int(11) NOT NULL,
   PRIMARY KEY (`UserId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

@@ -286,6 +286,7 @@ function Send_SysAdmin_Email($Subject,&$data=0) {
 }
 
 $head_done = 0;
+$AdvancedHeaders = file_exists("files/Newnavigation.php");
 
 function doextras($extras) {
   global $FESTSYS;
@@ -305,17 +306,23 @@ function doextras($extras) {
 
 // If Banner is a simple image then treated as a basic banner image with title overlaid otherwise what is passed is used as is
 function dohead($title,$extras=[],$Banner='',$BannerOptions=' ') {
-  global $head_done,$FESTSYS,$CONF;
+  global $head_done,$FESTSYS,$CONF,$AdvancedHeaders;
   if ($head_done) return;
   $V=$FESTSYS['V'];
   $pfx="";
   if (isset($CONF['TitlePrefix'])) $pfx = $CONF['TitlePrefix'];
   echo "<html><head>";
   echo "<title>$pfx " . $FESTSYS['FestName'] . " | $title</title>\n";
-  include_once("files/Newheader.php");
+  if ($AdvancedHeaders) {
+    include_once("files/Newheader.php");
+  } else {
+    include_once("festfiles/header.php");
+  }  
+  
   if ($extras) doextras($extras);
   echo "</head><body>\n";
 
+  if ($AdvancedHeaders) {
     echo "<div class=contentlim>";  
     include_once("files/Newnavigation.php");
 
@@ -336,35 +343,43 @@ function dohead($title,$extras=[],$Banner='',$BannerOptions=' ') {
     } else {
       echo "<div class='NullBanner'></div>";  // Not shure this is needed
     }
-
-    echo "<div class=mainwrapper><div class=maincontent>";  
+  } else {
+    echo "<div class=contentlim>";  
+    include_once("festfiles/navigation.php");
+  }
+  echo "<div class=mainwrapper><div class=maincontent>";  
   $head_done = 1;
 }
 
 //  No Banner 
 function doheadpart($title,$extras=[]) {
-  global $head_done,$FESTSYS,$CONF;
+  global $head_done,$FESTSYS,$CONF,$AdvancedHeaders;
   if ($head_done) return;
   $V=$FESTSYS['V'];
   $pfx="";
   if (isset($CONF['TitlePrefix'])) $pfx = $CONF['TitlePrefix'];
   echo "<html><head>";
   echo "<title>$pfx " . $FESTSYS['FestName'] . " | $title</title>\n";
-  include_once("files/header.php");
+  if ($AdvancedHeaders) {
+    include_once("files/Newheader.php");
+  } else {
+    include_once("festfiles/header.php");
+  }  
+  
   if ($extras) doextras($extras);
   $head_done = 1;
 }
 
 // No Banner
 function dostaffhead($title,$extras=[]) {
-  global $head_done,$FESTSYS,$CONF;
+  global $head_done,$FESTSYS,$CONF,$AdvancedHeaders;
   if ($head_done) return;
   $V=$FESTSYS['V'];
   $pfx="";
   if (isset($CONF['TitlePrefix'])) $pfx = $CONF['TitlePrefix'];
   echo "<html><head>";
   echo "<title>$pfx " . $FESTSYS['ShortName'] . " | $title</title>\n";
-  if (Feature('NewStyle') && ! UserGetPref('StaffOldFormat')) {
+  if ($AdvancedHeaders && Feature('NewStyle') && ! UserGetPref('StaffOldFormat')) {
     include_once("files/Newheader.php");
     include_once("festcon.php");
     if ($extras) doextras($extras);
@@ -373,12 +388,12 @@ function dostaffhead($title,$extras=[]) {
     include_once("files/Newnavigation.php");
     echo "<div class=content>";  
   } else {
-    include_once("files/header.php");
+    include_once("festfiles/header.php");
     include_once("festcon.php");
     if ($extras) doextras($extras);
     echo "<meta http-equiv='cache-control' content=no-cache>";
     echo "</head><body>\n";
-    include_once("files/navigation.php"); 
+    include_once("festfiles/navigation.php"); 
     echo "<div class=content>";
   }
   $head_done = 1;
@@ -386,7 +401,7 @@ function dostaffhead($title,$extras=[]) {
 
 // No Banner
 function dominimalhead($title,$extras=[]) { 
-  global $head_done,$FESTSYS,$CONF;
+  global $head_done,$FESTSYS,$CONF,$AdvancedHeaders;
   $V=$FESTSYS['V'];
   $pfx="";
   if (isset($CONF['TitlePrefix'])) $pfx = $CONF['TitlePrefix'];
@@ -401,10 +416,16 @@ function dominimalhead($title,$extras=[]) {
 }
 
 function dotail() {
-  global $head_done;
+  global $head_done,$AdvancedHeaders;
 
   echo "</div>";
-  if ($head_done == 1) include_once("files/Newfooter.php"); // Not minimal head
+  if ($head_done == 1) {
+    if ($AdvancedHeaders) {
+      include_once("files/Newfooter.php"); // Not minimal head
+    } else {
+      include_once("festfiles/footer.php"); // Not minimal head
+    }
+  }
   echo "</body></html>\n";
   exit;
 }

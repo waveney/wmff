@@ -268,7 +268,7 @@
 //      echo "<li><a href=/admin/trade/index>Old Trade Stand Section</a>\n";
       echo "<li><a href=Trade2CSV?Y=$YEAR>Traders as CSV</a>\n";
     }
-    if (Feature('EnableTrade') && !Feature('EnableFinance')) echo "<li><a href=InvoiceManage?Y=$YEAR>Invoice/Payment Management</a>\n";
+    if (Capability('EnableTrade') && !Capability('EnableFinance')) echo "<li><a href=InvoiceManage?Y=$YEAR>Invoice/Payment Management</a>\n";
     if (Access('SysAdmin')) {
       echo "<p><div class=tablecont><table><tr><td>";
       echo "<li class=smalltext><a href=ResetImageSizes?TRADE>Scan and save Image sizes</a>";
@@ -381,11 +381,11 @@
   }
     
 // *********************** GENERAL ADMIN *********************************************************
-  if (StaffTable('Admin')) {
+  if (StaffTable('Any')) {
     echo "<h2>General Admin</h2>\n";
     echo "<ul>\n";
 
-    if (Access('Committee','News')) {
+    if (Capability('Admin') && Access('Committee','News')) {
 //      echo "<li><a href=NewsManage>News Management</a>";
       echo "<li><a href=ListArticles>Front Page Article Management</a>";
       echo "<li><a href=LinkManage>Manage Other Fest Links</a>\n";

@@ -1,6 +1,8 @@
 CREATE TABLE `Trade` (
   `Tid` int(11) NOT NULL AUTO_INCREMENT,
   `SN` text,
+  `BizName` text NOT NULL,
+  `IsTrader` tinyint(4) NOT NULL,
   `Status` tinyint(4) NOT NULL,
   `Contact` text NOT NULL,
   `Email` text NOT NULL,

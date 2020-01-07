@@ -14,7 +14,7 @@
   echo "<div class=tablecont><table>";
   echo "<tr>" . fm_text("Festival Name",$FESTSYS,'FestName',3);
   echo "<tr>" . fm_text("Festival Short Name",$FESTSYS,'ShortName');
-  echo "<tr>" . fm_number("Version",$FESTSYS,'Version');
+  echo "<tr>" . fm_number("Version",$FESTSYS,'Version') ;//. "<td>Not used now";
   echo "<tr>" . fm_number("Show Year",$FESTSYS,'ShowYear');
   echo "<tr>" . fm_number("Plan Year",$FESTSYS,'PlanYear');
   echo "<tr>" . fm_text("Host URL",$FESTSYS,'HostURL');

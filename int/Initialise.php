@@ -41,7 +41,7 @@ function Create_Config() {
     echo "<form method=post><div class=tablecont><table border>\n";
     echo "<tr>" . fm_text("Host Name - usually localhost",$_POST,'host');
     echo "<tr>" . fm_text("Database Name - must be unique to server",$_POST,'dbase');
-    echo "<tr>" . fm_text("Database User - Must be already setup",$_POST,'user');
+    echo "<tr>" . fm_text("Database User - Must be already setup, and be able to add, drop, update and create databases and tables",$_POST,'user');
     echo "<tr>" . fm_text("Database Password (if any)",$_POST,'passwd');
     echo "<tr>" . fm_text("Testing mode - blank for live, 1 for simple test (no emails), an email address to divert all emails too",$_POST,'testing');
     echo "<tr>" . fm_text("Title Prefix - for test/stage/dev sites only",$_POST,'TitlePrefix');
@@ -103,7 +103,7 @@ function Create_Directories() {  // Makes all needed directories and adds .htacc
            ['int/Store',1],
            ['int/Temp',0],
           ];
-  $LinkedDirs = ['js','files','cache','images'];
+  $LinkedDirs = ['js','files','cache','images','festfiles'];
   foreach($Dirs as $D) {
     if (!file_exists("../" . $D[0])) {
     
@@ -161,6 +161,7 @@ user=" . $CONF['user'] . "\n";
     file_put_contents("../Schema/.skeema",$skeema);
   }
   
+  chmod("skeema",0755);
   chdir ("..");
   system("int/skeema push"); // push for live
   chdir ("int");
@@ -214,19 +215,61 @@ function Preload_Data() {
   }
 
 // Email proformas - lots of these read from munged sql dump
-  $file = fopen('files/EmailProformas.sql','r');
+  echo "About to Create Email Proformas<p>";
+  
+  include_once("Email.php"); 
+  $Pros=Get_Email_Proformas_By_Name(1);
+  
+  $file = fopen('festfiles/EmailProformas.sql','r');
   while ($line = fgets($file)) {
-    $bits = explode(',',$line,2);
-    $key = preg_replace('/\'/','',$bits[0]);
-    if (!db_get('EmailProformas','SN=' . $bits[0])) {
-      $db->query("INSERT INTO EmailProformas SET SN=" . $bits[0] . ", Body=" . trim($bits[1]));
-      echo "Created Email Proforma: $key<br>\n";
+    [$key,$value] = explode(',',$line,2);
+    if ($key && $value && !isset($Pros[$key])) {
+      $value = str_replace('\r\n',"\n",trim($value));
+      $ent = ['SN'=>$key,'Body'=>$value];
+      insert_db('EmailProformas',$ent);
+      echo "Added Email Proforma - $key<Br>";
     }
   }
 }
 
+function Create_htaccess() {
+  if (file_exists("../.htaccess")) {
+    // Read ht access, if it does not have rewriteengine on append it, do the same with the rule.  If change write file back
+    $htaccess = file_get_contents("../.htaccess");
+    $htac_changed = 0;
+    
+    if (!strstr($htaccess,"RewriteEngine on")) {
+      $htaccess .= "RewriteEngine on\n";
+      $htac_changed = 1;
+    }
+    
+     if (!strstr($htaccess,'RewriteRule ^([^.?]+)$ %{REQUEST_URI}.php [L]')) {
+      $htaccess .= 'RewriteRule ^([^.?]+)$ %{REQUEST_URI}.php [L]' . "\n";
+      $htac_changed = 1;
+    }
+    
+    if ($htac_changed) {
+      if (is_writable("../.htaccess")) {
+        file_put_contents("../.htaccess",$htaccess);
+        echo "htaccess modified<p>";
+      } else {
+        echo "htaccess needs modification but can't be writen to by Initialise<p>";
+        return 0; 
+      }
+    }
+  } else {
+    $htac = 'RewriteEngine on
+RewriteRule ^([^.?]+)$ %{REQUEST_URI}.php [L]
+';
+    file_put_contents("../.htaccess",$htac);
+    echo "htaccess created<p>";
+  }
+  return 1;
+}
+
 // Updating code - not yet written
 function BringUptoDate($oldversion) {
+  
   
   
 }
@@ -255,6 +298,8 @@ function Check_Sysadmin() {
 
 function Setup_Sysadmin() {
   global $Access_Type;
+  include_once("UserLib.php");
+  include_once("DocLib.php");
   
   $Users = Get_AllUsers(2);
   $isasys = 0;
@@ -283,6 +328,11 @@ if (isset($_POST['SETUPSYS'])) {
   Create_Databases();
   Create_Skeema_local();
   Preload_Data();
+  if (!Create_htaccess()) {
+    echo "Please fix and re-run";
+    exit;
+  };
+
   include_once("fest.php");
   Check_Sysadmin();
 }

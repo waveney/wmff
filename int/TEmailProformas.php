@@ -7,10 +7,15 @@
   include_once("Email.php");
   echo "<div class='content'><h2>Manage Email Proformas</h2>\n";
   
+  $prefixes = ['BB'=>Capability("EnableMisc"),'Dance'=>Capability('EnableDance'),'Finance'=>Capability('EnableFinance'),'LNL'=>Capability("EnableMisc"),'Login'=>1,
+               'Trade'=>Capability("EnableTrade"),'lol'=>Capability("EnableMisc"), 'Stew'=>Capability("EnableMisc"),'Vol'=>Capability("EnableMisc"),
+               'Invoice'=>Capability('EnableFinance') || Capability('EnableTrade')];
+  
   if (Access('SysAdmin')) {
     $Edit = 1;
+    echo "The Prefix of a name (the bit before the first _) has to have set values, do not introduce new ones without consulting Richard<p>";
   } else {
-    echo "These are the proforma messages.  You cannot change them, email changes to Richard.<p>";
+    echo "These are the proforma messages.  You cannot change them, email changes to Richard/SysAdmin.<p>";
     fm_addall('disabled readonly');
     $Edit = 0;
   }
@@ -29,7 +34,10 @@
   echo "<th colspan=2><a href=javascript:SortTable(" . $coln++ . ",'T')>Name</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Body of Message</a>\n";
   echo "</thead><tbody>";
-  foreach($Pros as $t) {
+  if ($Pros) foreach($Pros as $t) {
+    $nam = $t['SN'];
+    preg_match('/(.*?)_/',$nam,$res);
+    if (!Access('Internal') && !$prefixes[$res[1]]) continue;
     $i = $t['id'];
     echo "<tr><td>$i" . fm_text1("",$t,'SN',2,'','',"SN$i");
     echo "<td>" . fm_basictextarea($t,'Body',6,8,'',"Body$i");

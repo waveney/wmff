@@ -3,5 +3,6 @@ CREATE TABLE `Galleries` (
   `SN` text NOT NULL,
   `Credits` text NOT NULL,
   `Media` tinyint(4) NOT NULL,
+  `Banner` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
