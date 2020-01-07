@@ -84,7 +84,7 @@ function Get_Trade_Pitches($loc='',$Year=0) {
   global $db,$YEAR;
   if ($Year == 0) $Year=$YEAR;
   $full = [];
-  var_dump("SELECT * FROM TradePitch " . ($loc?"WHERE Loc=$loc ":"") . " AND Year=$Year ORDER BY Posn ");
+//  var_dump("SELECT * FROM TradePitch " . ($loc?"WHERE Loc=$loc ":"") . " AND Year=$Year ORDER BY Posn ");
   
   $res = $db->query("SELECT * FROM TradePitch " . ($loc?"WHERE Loc=$loc ":"") . " AND Year=$Year ORDER BY Posn ");
   if ($res) {

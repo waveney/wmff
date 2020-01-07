@@ -241,7 +241,8 @@ $FESTSYS = Get_FESTSYS();
 $CALYEAR = gmdate('Y');
 $SHOWYEAR = $FESTSYS['ShowYear'];
 $YEAR = $PLANYEAR = $FESTSYS['PlanYear'];  //$YEAR can be overridden
-$FESTSYS['V'] = $CALYEAR . "." . file_get_contents("Version.php");
+include_once("Version.php");
+$FESTSYS['V'] = $CALYEAR . ".$VERSION";
 
 function Feature($Name,$default='') {  // Return value of feature if set from FESTSYS
   static $Features;
@@ -303,8 +304,8 @@ function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$M
       if ($i) {
         if (isset($_POST["$Mstr$i"]) && $_POST["$Mstr$i"] == $MstrNot) {
           if ($Deletes) {
-          echo "Would delete " . $t[$indxname] . "<br>";
-//              db_delete($table,$t[$indxname]);
+//          echo "Would delete " . $t[$indxname] . "<br>";
+              db_delete($table,$t[$indxname]);
             if ($Deletes == 1) return 1;
           }
           continue;
