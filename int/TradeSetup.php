@@ -79,12 +79,14 @@
   Pitch_Map($tloc,$Pitches);
   PitchList();
   
+  echo "<h2>";
   if ($YEAR < $PLANYEAR) {
-    echo "<h2><a href=TradeSetup?COPY&i=$loc&Y=$YEAR>Copy to Current</a></h2>";
+    echo "<a href=TradeSetup?COPY&i=$loc&Y=$YEAR>Copy to Current</a>,";
   } else {
     $LYear = $YEAR-1;
-    echo "<h2><a href=TradeSetup?COPY&i=$loc&Y=$LYear>Copy $LYear to Current</a></h2>";
+    echo "<a href=TradeSetup?COPY&i=$loc&Y=$LYear>Copy $LYear to Current</a>,";
   }
+  echo " <a href=TradeLocs?Y=$YEAR>Trade Locs</a></h2>";
   dotail();
  
   
