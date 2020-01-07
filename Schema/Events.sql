@@ -12,7 +12,7 @@ CREATE TABLE `Events` (
   `Type` int(11) NOT NULL,
   `Family` tinyint(4) NOT NULL,
   `NonFest` tinyint(4) NOT NULL,
-  `SubEvent` int(4) NOT NULL,
+  `SubEvent` int(11) NOT NULL,
   `Public` tinyint(4) NOT NULL,
   `BigEvent` tinyint(4) NOT NULL,
   `Special` tinyint(4) NOT NULL,

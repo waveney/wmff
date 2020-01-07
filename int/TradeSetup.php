@@ -28,7 +28,7 @@
       echo fm_text1("",$Pitch,'SN',1.2,'','',"SN$i") . fm_text1("",$Pitch,'Colour',0.35,'','',"Colour$i");
       echo fm_text1("",$Pitch,'Font',0.10,'','',"Font$i");
       echo fm_hidden("Loc$i",$loc);
-      echo fm_hidden('Year$i',$Pitch['Year']);
+      echo fm_hidden("Year$i",$Pitch['Year']);
       $posn = max($posn, $Pitch['Posn']);
     }
     $Pitch['Posn'] = $posn+1; 
@@ -50,6 +50,7 @@
 
   $loc = $_REQUEST['i'];
   $Pitches = Get_Trade_Pitches($loc,$YEAR);  
+//  var_dump($Pitches);
   // START HERE
   if (isset($_POST['Update'])) {
 //    var_dump($_POST);

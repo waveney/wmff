@@ -84,6 +84,8 @@ function Get_Trade_Pitches($loc='',$Year=0) {
   global $db,$YEAR;
   if ($Year == 0) $Year=$YEAR;
   $full = [];
+  var_dump("SELECT * FROM TradePitch " . ($loc?"WHERE Loc=$loc ":"") . " AND Year=$Year ORDER BY Posn ");
+  
   $res = $db->query("SELECT * FROM TradePitch " . ($loc?"WHERE Loc=$loc ":"") . " AND Year=$Year ORDER BY Posn ");
   if ($res) {
     while ($ptch = $res->fetch_assoc()) {
@@ -299,6 +301,7 @@ Any generator must meet the Euro 4 silent generator standard.',
         'PublicInfo'=>'Information in this section may be used on the public website', 
         'PrivateInfo'=>'Information in this section is only visible to you and the revelent members of the festival, you can amend this at any time',
         'PublicHealth'=>'Please give the NAME of the local authority your registered with',
+        'IsTrader'=>'Used to indicate the business is a trader (useful for finance) do not touch (normally)',
 
   );
   Set_Help_Table($t);
@@ -402,7 +405,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade',$Mode=0) { // Mode 1 = Ctte, 2=Fi
     if ($Mode < 2) {
       echo "<tr class=PublicHealth " . ($TradeTypeData[$Trad['TradeType']]['NeedPublicHealth']?'':'hidden') . ">" ;
         echo fm_text("Registered with which Local Authority ",$Trad,'PublicHealth',2,'colspan=2');
-      echo "<tr><td>Are you a Wimborne<td>" . fm_checkbox('BID Levy Payer',$Trad,'BID') . "<td>" . fm_checkbox('Chamber of Commerce Member',$Trad,'ChamberTrade');
+      echo "<tr><td>Are you a <td>" . fm_checkbox('BID Levy Payer',$Trad,'BID') . "<td>" . fm_checkbox('Chamber of Commerce Member',$Trad,'ChamberTrade');
       if ($Mode) echo "<td>" . fm_checkbox('Previous Festival Trader',$Trad,'Previous');
         echo fm_text('Charity Number',$Trad,'Charity',1,'class=Charity ' . ($TradeTypeData[$Trad['TradeType']]['NeedCharityNum']?'':'hidden'));
         if ($Mode) echo "<td class=NotSide colspan=2>" . fm_radio("",$Trader_Status,$Trad,'Status','',0);
@@ -416,7 +419,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade',$Mode=0) { // Mode 1 = Ctte, 2=Fi
         }
       echo "  <td class=NotSide><button name=Action value=Delete onClick=\"javascript:return confirm('are you sure you want to delete this?');\">Delete</button>\n";
     }
-    if ($Mode) {
+    if ($Mode && Capability("EnableFinance")) {
       echo "<tr><td class=NotSide>" . fm_checkbox("Is a Trader",$Trad,'IsTrader');
     } else { 
       echo fm_hidden('IsTrader',$Trad['IsTrader']);
@@ -573,7 +576,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
 
 // Insurance
 
-  echo fm_DragonDrop(1,'Insurance','Trade',$Tid,$Trady,$Mode,"You <b>must</b> have a copy available with you during the festival weekend");
+  echo fm_DragonDrop(1,'Insurance','Trade',$Tid,$Trady,$Mode,"You <b>must</b> have a copy available with you during the festival");
 
 // Risc Assessment function fm_DragonDrop($Call, $Type,$Cat,$id,&$Data,$Mode=0,$Mess='',$Cond=1,$tddata1='',$tdclass='',$hide=0) {
   echo fm_DragonDrop(1,'RiskAssessment','Trade',$Tid,$Trady,$Mode);
@@ -606,7 +609,6 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
 function Get_Trade_Details(&$Trad,&$Trady) {
   global $Trade_Days,$TradeLocData,$TradeTypeData,$YEARDATA,$EType_States;
 
-//  $Body  = "\nWimborne Minster Folk festival Trading application\n";
   $Body = "\nBusiness: " . $Trad['SN'] . "\n";
   $Body .= "Goods: " . $Trad['GoodsDesc'] . "\n\n";
   $Body .= "Type: " . $TradeTypeData[$Trad['TradeType']]['SN'] . "\n\n";
@@ -696,7 +698,8 @@ function Trader_Details($key,&$data,$att=0) {
   switch ($key) {
   case 'WHO':  return $Trad['Contact']? UpperFirstChr(firstword($Trad['Contact'])) : $Trad['SN'];
   case 'LINK': return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Direct?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "'  style='background:lightblue;'><b>link</b></a>";
-  case 'WMFFLINK': return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Trade?id=$Tid'><b>link</b></a>";
+  case 'WMFFLINK': 
+  case 'FESTLINK' : return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Trade?id=$Tid'><b>link</b></a>";
   case 'HERE':
   case 'REMOVE': return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Remove?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "'><b>remove</b></a>";
   case 'LOCATION': 

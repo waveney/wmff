@@ -200,6 +200,13 @@ function Get_Email_Proformas() {
   return $full;
 }
 
+function Get_Email_Proformas_By_Name() { 
+  global $db;
+  $res = $db->query("SELECT * FROM EmailProformas ORDER BY SN ");
+  if ($res) while ($typ = $res->fetch_assoc()) $full[$typ['SN']] = $typ;
+  return $full;
+}
+
 function Get_Email_Proforma($id) {
   global $db;
   if (is_numeric($id)) {
@@ -355,7 +362,7 @@ function Replace_Help($Area='',$Right=0) {
   ['*PRICE*','Total Price quoted','Trade'],
   ['*LINK*','Personal Link for Participants','Trade, Volunteers, Performers'],
   ['*REMOVE*','Remove Request','Trade'],
-  ['*WMFFLINK*','Link for Committee members direct to that Trader/Volunteer/Performer etc','Trade, Volunteers'],
+  ['*FESTLINK*','Link for Committee members direct to that Trader/Volunteer/Performer etc','Trade, Volunteers'],
   ['*DEPOSIT*','Deposit Required','Trade, LNL, BB'],
   ['*BALANCE*','Balance Required','Trade'],
   ['*DETAILS*','Full details of booking etc','Trade, BB, LOL, LNL, Volunteers, Invoices'],

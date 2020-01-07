@@ -18,11 +18,10 @@
 ?>
 -->
 <div class="mini" style="border-bottom:0; margin-bottom:0;text-decoration:none;">
-Copyright &copy; <a href="/" style="color:#FFFFFF;">Wimborne Minster Folk Festival Ltd</a> <?php echo $CALYEAR ?>; All Rights Reserved. Registered Company: 08290423</p>
 
-<p>Photos remain Copyright of their respective owners and cannot be reproduced or used without permission.</p>
+Photos remain Copyright of their respective owners and cannot be reproduced or used without permission.</p>
 
-<p>Website supported by <a href=http://wavwebs.com style=color:white;>Waveney Web Services</a> - Version 
+<p>Festival Software by <a href=http://wavwebs.com style=color:white;>Waveney Web Services</a> - Version 
 <?php 
   echo $FESTSYS['V'];
   if (!isset($_COOKIE{'WMFF2'})) echo " <a href=/int/Login style='color:white; float:right;'> Staff Login</a><p>\n";

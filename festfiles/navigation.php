@@ -6,15 +6,15 @@
     echo "<div class=Staff><div class=navigation>";
     echo "<a href=/int/Staff.php onmouseover=NoHoverSticky()>Staff Tools</a>";
     if (!isset($USER{'Subtype'})) {
-      echo "<a href=/int/Dir.php onmouseover=NoHoverSticky()>Docs</a>";
-      echo "<a href=/int/TimeLine.php?Y=$YEAR onmouseover=NoHoverSticky()>Time Line</a>";
+      if (Capability("EnableDocs")) echo "<a href=/int/Dir.php onmouseover=NoHoverSticky()>Docs</a>";
+      if (Capability("EnableTLine")) echo "<a href=/int/TimeLine.php?Y=$YEAR onmouseover=NoHoverSticky()>Time Line</a>";
       echo "<a href='/int/Login.php?ACTION=LOGOUT' onmouseover=NoHoverSticky()>Logout " . $USER['Login'] . "</a>\n";
     }
     echo "</div></div>";
   }
   $host= "https://" . $_SERVER['HTTP_HOST'];
 
-  echo "
+  if (0) echo "
 <div class=navigation>
 <a href=$host/ onmouseover=NoHoverSticky()>Home</a>
 <!-- <a href=$host/news.php onmouseover=NoHoverSticky()>News</a> -->

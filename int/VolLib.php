@@ -81,6 +81,7 @@ function Vol_Details($key,&$vol) {
   case 'WHO': return firstword($vol['SN']);
   case 'DETAILS': return Get_Vol_Details($vol);
   case 'LINK' : return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Access?t=v&i=" . $vol['id'] . "&k=" . $vol['AccessKey'] . "'><b>link</b></a>";
+  case 'FESTLINK' :
   case 'WMFFLINK' : return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Volunteers?A=View&id=" . $vol['id'] . "'><b>link</b></a>";
   }
 }
