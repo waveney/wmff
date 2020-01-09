@@ -9,7 +9,7 @@ function Trade_Type_Table($class='') {
   $tts = Get_Trade_Types(1);
 
   echo "<div class=tablecont><table class=$class>\n";
-  echo "<tr><th>Trade Type<th>Description<th>Prices\n";
+  echo "<tr><th>Trade Type<th>Description<th>Prices<td>Status\n";
 
   foreach ($tts as $tt) {
     if ($tt['Addition']) continue;
