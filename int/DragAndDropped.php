@@ -45,7 +45,6 @@ case 'Trade':
   } else {
     $Data = Get_Trader($id);
     $Put = 'Put_Trader';
-  
   }
   break;
   
