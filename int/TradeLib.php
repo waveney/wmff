@@ -939,7 +939,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
 // Mode 0 = Traders, 1 = ctte, 2 = Finance (for other invoices) Program = Trade/Trader $iddd if set starts it up, with that Tid
 
   global $YEAR,$PLANYEAR,$Mess,$Action,$Trade_State,$Trade_States,$USER,$TS_Actions,$ButExtra,$ButTrader,$ButAdmin,$RestrictButs;
-  global $TradeTypeData,$TradeLocData;
+  global $TradeTypeData,$TradeLocData,$FESTSYS;
   include_once("DateTime.php"); 
   echo "<div class=content><h2>Add/Edit " . ($Mode<2?'Trade Stall Booking':'Buisness or Organisation') . "</h2>";
 
@@ -1106,7 +1106,12 @@ function Trade_Main($Mode,$Program,$iddd=0) {
   Show_Trader($Tid,$Trad,$Program,$Mode);
   if ($Mode < 2 && !$Orgs) Show_Trade_Year($Tid,$Trady,$YEAR,$Mode);
 
-  if ($Mode == 0 && !$Orgs) Trade_TandC();
+  if ($Mode == 0 && !$Orgs) {
+    Trade_TandC();
+    echo $FESTSYS['TradeTimes'];
+    echo $FESTSYS['TradeFAQ'];
+  }
+
   if ($Tid > 0) {
     if ($Mode < 2 && !$Orgs) {
       if (!isset($Trady['BookingState'])) { $Trady['BookingState'] = 0; $Trady['Fee'] = 0; }

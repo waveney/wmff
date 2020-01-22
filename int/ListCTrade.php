@@ -98,7 +98,7 @@
         if ($ActsEnable) $str .= "</a>";
       $str .= "<td style='background:" . $Trade_Types[$fetch['TradeType']]['Colour'] . ";'>" . $Trade_Types[$fetch['TradeType']]['SN'];
       $str .= "<td width=300>" . $fetch['GoodsDesc'];
-      $str .= "<td>" . $fetch['Contact'];
+      $str .= "<td>" . $fetch['Contact'] . "<br>" . ($fetch['Phone']? $fetch['Phone'] : $fetch['Mobile']);
       $str .= "<td>" . linkemailhtml($fetch,'Trade');
       $str .= "<td id=TR$Tid";
         $stat = $fetch['BookingState'];

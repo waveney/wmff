@@ -93,6 +93,6 @@ Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use p
 }
 
   echo "For more information about the campsite, visit <a href=http://merleyhallfarm.co.uk/camping>MerleyHallFarm.co.uk</a>, 
-Call 01202 984 879, or email: <a href=mailto:karen@merleyhallfarm.co.uk>karen@merleyhallfarm.co.uk</a> but please book through these links above.<p>";
+Call  07557306219, or email: <a href=mailto:karen@merleyhallfarm.co.uk>karen@merleyhallfarm.co.uk</a> but please book through these links above.<p>";
 
   dotail();

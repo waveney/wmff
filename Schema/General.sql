@@ -16,6 +16,7 @@ CREATE TABLE `General` (
   `MonthFri` int(11) NOT NULL,
   `FirstDay` int(11) NOT NULL,
   `LastDay` int(11) NOT NULL,
+  `TradeDates` text NOT NULL,
   `PriceChange1` int(11) NOT NULL,
   `PriceChange2` int(11) NOT NULL,
   `PriceComplete_4` tinyint(4) NOT NULL,
