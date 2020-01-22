@@ -4,7 +4,7 @@
   dostaffhead("Trader Application",["/js/Participants.js","js/dropzone.js","css/dropzone.css"]);
 
   include_once("TradeLib.php");
-  global $USER,$USERID,$db;
+  global $USER,$USERID,$db,$FESTSYS;
   echo "<div class=content>";
 // If access then edit trader info
 // If not ask are you a previous trader -> give email to give direct edit link, if found otherwise new trader
@@ -47,7 +47,7 @@
     $Tid = $USERID;
     Trade_Main(0,'TraderPage',$Tid);
   } else {
-    echo "<h3>Have you traded at Wimborne Minster Folk Festival since 2017? Or filled in an application form in the last few years?</h3>";
+    echo "<h3>Have you filled in an application form for trading at the " . $FESTSYS['FestName'] . "?</h3>";
     echo "<form >";
     echo "If so please give your email address:" . fm_text1('',$_GET,'Email');
     echo "<input type=submit name=go value=Go>";
