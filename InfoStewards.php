@@ -73,23 +73,23 @@ Schedules will be designed to suit your requirements as much as possible.<p>
 
 <div class=trader-app-link><a href=int/Volunteers?A=New>Please Volunteer for the Setup Crew</a></div>
 </div><div class=BorderBox>
-<!--<h2>Artistic Team</h2>
+<h2>Artistic Team</h2>
 <ul>
-<li>Setup / Packdown of festival art displays
+<li>Setup / Packdown of festival art displays at the Allendale
 <li>Assisting with decorating the town
 <li>Assisting creative workshops prior to festival
+<li>Stewarding the Art displays and workshops.
 </ul>
 
-<div class=trader-app-link><a href=int/Volunteers?A=New>Please Volunteer for the Artistic Team</a></div>
-</div><div class=BorderBox>-->
+<div class=trader-app-link><a href=int/Volunteers?A=New>Please Volunteer for the Art Team</a></div>
+</div><div class=BorderBox>
 <h2>Media Team</h2>
 <ul><li>Photographers
 <li>Videographers
 </ul>
 
-Applications for this team are closed.<p>
 
-<!--<div class=trader-app-link><a href=int/Volunteers?A=New>Please Volunteer for Media</a></div> -->
+<div class=trader-app-link><a href=int/Volunteers?A=New>Please Volunteer for Media</a></div>
 </div>
 
 <?php
