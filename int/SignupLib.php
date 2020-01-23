@@ -24,6 +24,8 @@ $SignupActions = [
            'Cancelled'=>[],
            'Declined'=>[],
           ],
+  'ART' => [
+          ]
   ];
 
 $SignUpActivities = array_merge($lnlclasses,['Buskers Bash','Laugh Out Loud']);
