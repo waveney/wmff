@@ -380,6 +380,15 @@
     echo "</ul>\n";
   }
     
+// *********************** Art & Craft *********************************************************
+  if (StaffTable('Craft')) {
+    echo "<h2>Art and Craft</h2>\n";
+    echo "<ul>\n";
+    echo "<li><a href=ArtForm>Art Application Form</a>\n";
+    echo "<li><a href=ArtView>Show Art Applications</a>\n";
+    echo "</ul>";
+  }
+
 // *********************** GENERAL ADMIN *********************************************************
   if (StaffTable('Any')) {
     echo "<h2>General Admin</h2>\n";

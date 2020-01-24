@@ -2,7 +2,7 @@
 
 global $Reserved_Codes,$Invoice_Sources,$Org_Cats,$OpayStates;
 
-$Invoice_Sources = ['','Trade','Other Finance','Buskers Bash','Live and Loud'];
+$Invoice_Sources = ['','Trade','Other Finance','Buskers Bash','Live and Loud','Art'];
 $Org_Cats = ['Trader','Business or Organistaion'];
 $Reserved_Codes = ['BB','LNL'];
 $OpayStates = ['Open','Paid','Cancelled'];
@@ -303,7 +303,7 @@ function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=-1
   $inv['Contact'] = $Whose['Contact'];
   $inv['Email'] = $Whose['Email'];
   $inv['Phone'] = $Whose['Phone'];
-  $inv['Mobile'] = $Whose['Mobile'];
+  $inv['Mobile'] = (isset($Whose['Mobile'])?$Whose['Mobile']:$Whose['Phone']);
   $inv['Address'] = $Whose['Address'];
   $inv['PostCode'] = $Whose['PostCode'];
   $inv['IssueDate'] = time();
@@ -651,6 +651,10 @@ function Call_Payment_User(&$pay,$action,$val=0) {
     preg_match('/(\d+)/',$pay['Code'],$data);
     $id = $data[1];
     return LNL_Action($action,$id,$val);
+    
+  case 5: // ART
+    return ART_Action($action, $pay['SourceId'],$val);
+    
   }
 }
 

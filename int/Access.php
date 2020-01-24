@@ -17,7 +17,7 @@
   $t = $_GET['t'];
 
 // Hacking prevention
-  if (strlen($id)>6 || strlen($key)!=40 || strlen($t)!=1 || preg_match('/[^A-Z]/',$key) || !is_numeric($id) ) Error_Page("Invalid link");
+  if (strlen($id)>6 || strlen($key)!=40 || strlen($t)>6 || preg_match('/[^A-Z]/',$key) || !is_numeric($id) ) Error_Page("Invalid Access link");
 //var_dump($_REQUEST);
   switch ($t) {
     case 's' : // Side
@@ -54,15 +54,20 @@
       $Data = Get_User($id);
       break;
       
+    case 'ART' :  // ART
+      $Data = Get_SignUp($id);
+      break;
+      
     default:
       Error_Page("Invalid link - type XX $t not recognised");
   }
 
   if ($Data['AccessKey'] != $key) Error_Page("Sorry - This is not the right key");
 
-  $CakeTypes = ['s'=>'Side','a'=>'Act','o'=>'Other','t'=>'Trader','w'=>'Steward','v'=>'Volunteer','u'=>'SignUp','c'=>'Staff','p'=>'Venue'];// Not Sure on staff
-  $includes = ['s'=>'AddPerf.php','a'=>'AddPerf.php','o'=>'AddPerf.php','t'=>'TraderPage.php','w'=>'ViewStew.php','v'=>'Volunteers.php','u'=>'SignUp','c'=>'Staff','p'=>'PAShow.php'];  
-  $DoHead = ['s'=>1,'a'=>1,'o'=>1,'t'=>1,'w'=>1,'v'=>0,'u'=>1,'c'=>1,'p'=>1];
+  $CakeTypes = ['s'=>'Side','a'=>'Act','o'=>'Other','t'=>'Trader','w'=>'Steward','v'=>'Volunteer','u'=>'SignUp','c'=>'Staff','p'=>'Venue','ART'=>'SignUp'];// Not Sure on staff
+  $includes = ['s'=>'AddPerf.php','a'=>'AddPerf.php','o'=>'AddPerf.php','t'=>'TraderPage.php','w'=>'ViewStew.php',
+               'v'=>'Volunteers.php','u'=>'SignUp','c'=>'Staff','p'=>'PAShow.php','ART'=>'ArtForm.php'];  
+  $DoHead = ['s'=>1,'a'=>1,'o'=>1,'t'=>1,'w'=>1,'v'=>0,'u'=>1,'c'=>1,'p'=>1,'ART'=>1];
 
   $Cake = sprintf("%s:%d:%06d",$CakeTypes[$t],$Access_Type['Participant'],$id ); 
   $biscuit = openssl_encrypt($Cake,'aes-128-ctr','Quarterjack',0,'BrianMBispHarris');
