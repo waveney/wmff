@@ -327,7 +327,7 @@ function Get_Art_Details(&$art) {
   $Body .= "Phone: " . $art['Phone'] . "\n";
   $Body .= "Email: <a href=mailto:" . $art['Email'] . ">" . $art['Email'] . "</a>\n";
   $Body .= "Address: " . $art['Address'] . "\n";
-  $Body .= "Age: " . $art['Age'] . "\n";
+  if ($art['Age']) $Body .= "Age: " . $art['Age'] . "\n";
   if ($art['Instr2']) $Body .= "Disability: " . $art['Instr2'] . "\n";
   if (isset($art['Website']) && $art['Website']) $Body .= "Website: " . $art['Website'] . "\n";
   if (isset($art['Social']) && $art['Social']) $Body .= "Social: " . $art['Social'] . "\n";
@@ -404,7 +404,7 @@ function ART_Action($action,$id,$val=0) {
 
     $ipdf = New_Invoice($art,
                           [["Pitch for selling Art @ The Folk Festival",$ARTfee*100]],
-                           /*$InvCode*/ 9999, 1, -1,0,0,1 ); // TODO change 9999 to something programmed
+                            'Art Pitch', 200, 1, -1,0,0,1 ); // TODO make 200 come from data 
     ART_Email_Signup($art,'ART_Payment_Invoice',$art['Email'],$ipdf);                           
     break;
       
