@@ -4,7 +4,7 @@ global $Reserved_Codes,$Invoice_Sources,$Org_Cats,$OpayStates;
 
 $Invoice_Sources = ['','Trade','Other Finance','Buskers Bash','Live and Loud','Art'];
 $Org_Cats = ['Trader','Business or Organistaion'];
-$Reserved_Codes = ['BB','LNL'];
+$Reserved_Codes = ['BB','LNL','ART'];
 $OpayStates = ['Open','Paid','Cancelled'];
 
 /* Invoice Notes 
@@ -290,7 +290,7 @@ function Sage_Code(&$Whose) { // May only work for trade at the moment
 }  
   
 // Create an invoice for whose, details covers the amount(s) note details can be negative
-// Source 1=Trade, 2 = Sponsor/Adverts, 3= Other) returns incoice number - for WMFF I will start invoices at 2000
+// Source 1=Trade, 2 = Sponsor/Adverts, 3= Other, 5=Art) returns incoice number - for WMFF I will start invoices at 2000
 // Due date < 365 = days, > 365 taken as actual date
 function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=-1,$InvCode2=0,$InvCode3=0,$Paid=0) {
   global $db,$YEAR,$NewInvoiceId,$NewInv,$USER;
@@ -309,7 +309,7 @@ function New_Invoice($Whose,$Details,$Reason='',$InvCode=0,$Source=1,$DueDate=-1
   $inv['IssueDate'] = time();
   if ($Source == 1) $inv['EmailDate'] = $inv['IssueDate'];
   $inv['DueDate'] = ($DueDate < 365? time() + $DueDate*24*60*60 : $DueDate);
-  $inv['OurRef'] = Sage_Code($Whose);
+  $inv['OurRef'] = ($Source < 4?Sage_Code($Whose):'ART');
   $inv['InvoiceCode'] = $InvCode;
   $inv['InvoiceCode2'] = $InvCode2;
   $inv['InvoiceCode3'] = $InvCode3;
