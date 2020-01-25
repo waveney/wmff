@@ -27,7 +27,7 @@
     if (!isset($_POST['Tickbox1'])) { echo "<p class=Err>Are you displaying Art, selling Art or both?\n"; $err=1; };
     if (!isset($_POST['Instr1'])) { echo "<p class=Err>Are you a member of any Art Clubs/Societies?\n"; $err=1; };
     if (!isset($_POST['Tickbox2'])) { echo "<p class=Err>Is this a hobby or a profession?\n"; $err=1; };
-    if (!isset($_POST['Style'])) { echo "<p class=Err>Describe your genre of art\n"; $err=1; };
+    if (!isset($_POST['Style']) || strlen($_POST['Style'])<2) { echo "<p class=Err>Describe your genre of art\n"; $err=1; };
     if (!isset($_POST['Tickbox3'])) { echo "<p class=Err>Inside or Outside?\n"; $err=1; };
 
     if (!$err) {

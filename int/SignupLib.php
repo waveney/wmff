@@ -28,7 +28,7 @@ $SignupActions = [
            'Declined'=>[],
           ],
   'ART' => ['Submitted'=>['Accept','Decline','Cancel'],
-           'Accepted not paid' => ['Paid','Resend','Cancel'],
+           'Accepted not paid' => ['Resend','Cancel'],
            'Paid'=>['Cancel'],
            'Cancelled'=>[],
            'Declined'=>[],
@@ -327,16 +327,16 @@ function Get_Art_Details(&$art) {
   $Body .= "Phone: " . $art['Phone'] . "\n";
   $Body .= "Email: <a href=mailto:" . $art['Email'] . ">" . $art['Email'] . "</a>\n";
   $Body .= "Address: " . $art['Address'] . "\n";
-  if ($art['Age']) $Body .= "Age: " . $art['Age'] . "\n";
-  if ($art['Instr2']) $Body .= "Disability: " . $art['Instr2'] . "\n";
+  if (isset($art['Age'])) $Body .= "Age: " . $art['Age'] . "\n";
+  if (isset($art['Instr2']) && $art['Instr2']) $Body .= "Disability: " . $art['Instr2'] . "\n";
   if (isset($art['Website']) && $art['Website']) $Body .= "Website: " . $art['Website'] . "\n";
   if (isset($art['Social']) && $art['Social']) $Body .= "Social: " . $art['Social'] . "\n";
 
-  if ($art['Instr1']) $Body .= "Clubs/Societies: " . $art['Instr1'] . "\n\n";
+  if (isset($art['Instr1']) && $art['Instr1']) $Body .= "Clubs/Societies: " . $art['Instr1'] . "\n\n";
   if ($art['Tickbox1']) $Body .= "Selling or Displaying: " . $ArtClasses[$_POST['Tickbox1']] . "\n\n";
-  if ($art['Instr3']) $Body .= "Want to achieve: " . $art['Instr3'] . "\n\n";
+  if (isset($art['Instr3']) && $art['Instr3']) $Body .= "Want to achieve: " . $art['Instr3'] . "\n\n";
   if ($art['Tickbox2']) $Body .= "This is a " . $ArtValues[$_POST['Tickbox2']] . "\n\n";
-  if ($art['Style']) $Body .= "Genre: " . $art['Style'] . "\n\n";
+  if (isset($art['Style']) && $art['Style']) $Body .= "Genre: " . $art['Style'] . "\n\n";
   if ($art['Tickbox3']) $Body .= "Position: " . $ArtPosition[$_POST['Tickbox3']] . "\n\n"; 
   if (isset($art['Instr4']) && $art['Instr4']) $Body .= "Workshops: " . $art['Instr4'] . "\n\n";  
 
@@ -368,9 +368,9 @@ function ART_Details($key,&$art) {
   }
 }
 
-function ART_Email_Signup(&$art,$messcat,$whoto) {
+function ART_Email_Signup(&$art,$messcat,$whoto,&$att=0) {
   global $PLANYEAR,$USER,$FESTSYS;
-  Email_Proforma($whoto,$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $art['SN'],'ART_Details',$art,'ArtLog.txt');
+  Email_Proforma($whoto,$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $art['SN'],'ART_Details',$art,'ArtLog.txt',$att);
 }
 
 function ART_Action($action,$id,$val=0) {
@@ -395,7 +395,11 @@ function ART_Action($action,$id,$val=0) {
     break;
     
   case 'Resend':
-    ART_Email_Signup($art,'ART_Invite',$art['Email']);
+    if ($art['State'] == $StatesSignup['Accepted not paid']) {
+      ART_Email_Signup($art,'ART_Invite_Pay',$art['Email']);
+    } else {
+      ART_Email_Signup($art,'ART_Invite',$art['Email']);
+    }  
     break;
   
   case 'Paid':
@@ -404,7 +408,8 @@ function ART_Action($action,$id,$val=0) {
 
     $ipdf = New_Invoice($art,
                           [["Pitch for selling Art @ The Folk Festival",$ARTfee*100]],
-                            'Art Pitch', 200, 1, -1,0,0,1 ); // TODO make 200 come from data 
+                            'Art Pitch', 200, 5, -1,0,0,1 ); // TODO make 200 come from data 
+                            
     ART_Email_Signup($art,'ART_Payment_Invoice',$art['Email'],$ipdf);                           
     break;
       
