@@ -25,7 +25,7 @@ Art also needs volunteers to look after the Art displays (if you are doing both 
 
 <div class=trader-app-link><a href=int/Volunteers?A=New>Please Volunteer for the Art Team</a></div>
 
-<img src='images/ArticleImgs/IMG_0138.jpeg' width=300>
+<img src='images/ArticleImgs/Flowers1.jpeg'>
 
 <img src='images/ArticleImgs/IMG_0049.jpeg'>
  
