@@ -7,7 +7,7 @@
 
 <img src='images/ArticleImgs/IMG_0096.jpeg' align=right width=300>
 This year the Folk Festival has decided to focus on Art as well as our other cultural offerings.  This is being managed by Debbie Underhill who is herself a local abstract artist.  
-Debbie is visually impaired and would love to encourage other disabled artists to join in.<p>
+Debbie is visually impaired and would love to encourage other Artists with a disability to join in.<p>
 
 Allendale House will be the central point for Art @ The Folk Festival, with Allendale Centre also featuring Selected work.<p>
 

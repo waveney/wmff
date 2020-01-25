@@ -48,5 +48,7 @@
   }
   echo "</tbody></table></div>\n";
 
+  echo "<h2><a href=ArtForm>New Artist</a></h2>";
+
   dotail();
 ?>

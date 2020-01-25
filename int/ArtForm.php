@@ -24,7 +24,6 @@
     if (strlen($_POST['Email']) < 6) { echo "<p class=Err>Please give your Email\n"; $err=1; };
     if (strlen($_POST['Phone']) < 6) { echo "<p class=Err>Please give your Phone number\n"; $err=1; };
     if (strlen($_POST['Address']) < 20) { echo "<p class=Err>Please give your Address\n"; $err=1; };
-    if (!strlen($_POST['Age'])) { echo "<p class=Err>Please give your Age (roughly)\n"; $err=1; };
     if (!isset($_POST['Tickbox1'])) { echo "<p class=Err>Are you displaying Art, selling Art or both?\n"; $err=1; };
     if (!isset($_POST['Instr1'])) { echo "<p class=Err>Are you a member of any Art Clubs/Societies?\n"; $err=1; };
     if (!isset($_POST['Tickbox2'])) { echo "<p class=Err>Is this a hobby or a profession?\n"; $err=1; };
@@ -79,7 +78,7 @@
   echo "<tr>" . fm_text('Phone',$_POST,'Phone');
   echo "<tr>" . fm_text('Address',$_POST,'Address',4);
   echo "<tr>" . fm_text('Website (if you have one)',$_POST,'Website',2);
-  echo "<tr>" . fm_text('Age',$_POST,'Age');
+  echo "<tr>" . fm_text('Age (if under 18)',$_POST,'Age');
   echo "<tr>" . fm_text('Are you a member of any Art clubs/societies',$_POST,'Instr1',2);
   echo "<tr>" . fm_text('Do you have any disabilities',$_POST,'Instr2',2);
   echo "<tr>" . fm_radio('Are you',$ArtClasses,$_POST,'Tickbox1') . "<td colspan=3>There will be a &pound;25 charge if you are selling";
