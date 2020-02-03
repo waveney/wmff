@@ -30,7 +30,7 @@ $Book_Actions = array('None'=>'Book','Declined'=>'Book,Contract','Booking'=>'Con
                 'Contract Signed'=>'Cancel,Decline');
 $Book_ActionExtras = array('Book'=>'', 'Contract'=>'', 'Decline'=>'', 'Cancel'=>'', 'Confirm'=>'');
 $EType_States = array('Very Early','Draft','Partial','Provisional','Complete');
-$TicketStates = array('Not Yet','Open','Closed','Remove');
+$TicketStates = array('Not Yet','Open','Closed','Remove','Remote');
 $ArticleFormats = ['Large Image','Small Image','Text','Banner Image','Banner Text','Fixed','Left/Right Pairs'];
 $PerfTypes = ['Dance Side'=>['IsASide','Dance','Dance','Dance','D'],
               'Musical Act'=>['IsAnAct','Music','Music','Music','M'],
