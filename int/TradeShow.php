@@ -124,7 +124,7 @@ function ShowForm($Dir='H') {
  
   echo "<div id=flex>\n";
   $Done = [];
-  foreach($List as $ti) {
+  if ($List) foreach($List as $ti) {
     $trad = $Traders[$ti];
     if (isset($Done[$ti])) continue;
     $Doone[$ti]=1;

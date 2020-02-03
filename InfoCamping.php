@@ -75,6 +75,17 @@ Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use p
      }
    }
   echo "</table></div><p>";
+} elseif ($YEARDATA['CampingControl'] == 4) {
+    echo "The camping can not be booked directly through the festival this year from here.  " .
+          "Please visit <a href=http://merleyhallfarm.co.uk/camping target=_blank>MerleyHallFarm.co.uk</a><p>";
+
+    echo "The site has toilets, showers, food and good 24 hour security. Entry to the campsite is by camping wristband only.<p>
+
+Please be aware that access to/from the town on foot is over Julian's bridge, which has no footpath, so please take care when crossing at all times.  There should be
+traffic lights on the bridge from 8pm Friday until Sunday evening.</p>
+
+Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use postcode for the farm it over a mile away by road).<p>";
+
 
 } elseif ($YEARDATA['CampingControl'] > 1) {
   echo "<b>Online booking has now closed</b>  Camping may be available at the campsite gate if there is space available.<p>
@@ -93,6 +104,6 @@ Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use p
 }
 
   echo "For more information about the campsite, visit <a href=http://merleyhallfarm.co.uk/camping>MerleyHallFarm.co.uk</a>, 
-Call  07557306219, or email: <a href=mailto:karen@merleyhallfarm.co.uk>karen@merleyhallfarm.co.uk</a> but please book through these links above.<p>";
+Call  07557306219, or email: <a href=mailto:karen@merleyhallfarm.co.uk>karen@merleyhallfarm.co.uk</a>.<p>";
 
   dotail();
