@@ -4,8 +4,9 @@
 
   dostaffhead("List Traders in Detail", ["/js/clipboard.min.js", "/js/emailclick.js"]);
 
-  global $YEAR,$PLANYEAR,$Trade_States,$Trade_State_Colours,$Trade_State,$TS_Actions,$ButExtra;
   include_once("TradeLib.php");
+  global $YEAR,$PLANYEAR,$Trade_States,$Trade_State_Colours,$Trade_State,$TS_Actions,$ButExtra;
+
 
   $Trade_Types = Get_Trade_Types(1);
   $TradeLocs = Get_Trade_Locs();
@@ -19,7 +20,7 @@
     $Type = $_REQUEST['t'];
 
     $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND (y.BookingState=" . $Trade_State['Deposit Paid'] .
-                " OR y.BookingState=" . $Trade_State['Invoiced'] . 
+                " OR y.BookingState=" . $Trade_State['Balance Requested'] . 
                 " OR y.BookingState=" . $Trade_State['Fully Paid'] . " OR y.BookingState=" . $Trade_State['Accepted'] . ") AND t.TradeType=$Type ORDER BY SN";
   } else if (isset($_REQUEST['l']))  {
     $Loc = $_REQUEST['l'];
@@ -27,14 +28,14 @@
     
     if ($Loc) {
       $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND (y.BookingState=" . $Trade_State['Deposit Paid'] .
-                " OR y.BookingState=" . $Trade_State['Invoiced'] . 
+                " OR y.BookingState=" . $Trade_State['Balance Requested'] . 
                 " OR y.BookingState=" . $Trade_State['Quoted'] . 
                 " OR y.BookingState=" . $Trade_State['Fully Paid'] . 
                 " OR y.BookingState=" . $Trade_State['Accepted'] . ") AND " .
                 "(y.PitchLoc0=$Loc OR y.PitchLoc1=$Loc OR y.PitchLoc2=$Loc ) ORDER BY SN";
     } else {
       $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND (y.BookingState=" . $Trade_State['Deposit Paid'] .
-                " OR y.BookingState=" . $Trade_State['Invoiced'] . 
+                " OR y.BookingState=" . $Trade_State['Balance Requested'] . 
                 " OR y.BookingState=" . $Trade_State['Quoted'] . 
                 " OR y.BookingState=" . $Trade_State['Fully Paid'] .
                 " OR y.BookingState=" . $Trade_State['Accepted'] . ") AND " .
