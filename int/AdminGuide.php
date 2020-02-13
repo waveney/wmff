@@ -112,11 +112,35 @@ anything else will disappear in time:<p>
 
 Format of controls: Control : Value : Comment<p>
 <table border>
+<tr><td>AutoInvoices<td>Normally 1 now
 <tr><td>CampControl<td>0 - no performer camping, 1 Camping can be enabled by festival for this performer but then they fill in how much, 2 Camping entirely controlled by festival
+<tr><td>CopyTradeEmailsName<td>Name of who to copy Trade Emails (if any)
+<tr><td>CopyTradeEmailsTo<td>Email of who to copy Trade Emails (if any) 
+<tr><td>DanceComp<td>Is there a dance competition
+<tr><td>DanceDefaultPerSlot<td>2
 <tr><td>DanceDefaultSlot<td>30 = 30 minute default dance spot, 45 for a 45 minute default.  Gives the default subevent split
-<tr><td>DanceComp<td>Show tick box for the dance competition
+<tr><td>EmailButtons
+<tr><td>FestBankAccountNum
+<tr><td>FestBankAdr
+<tr><td>FestBankSortCode
+<tr><td>FestCompanyNumber<td>Company Number (if any)
+<tr><td>FestLegalAddr1,12 Bramshaw Way"
+<tr><td>FestLegalAddr2,New Milton"
+<tr><td>FestLegalAddr3,Hampshire BH25 7ST"
+<tr><td>FestLegalTitle,Wimborne Minster Folk Festival Ltd"
+<tr><td>FestTresEmail,Email:Treasurer@wimbornefolk.co.uk"
+<tr><td>FestVatNumber<td>Company VAT Number (if any), if zero or not set VAT is not charged
+<tr><td>MultiLim$daynam<td>?
+<tr><td>MusicDefaultPerSlot<td>1 (not used yet)
+<tr><td>MusicWristBands
+<tr><td>NewStyle
 <tr><td>PaymentTerms<td>30 = 30 day default payment terms on invoices
-<tr><td>RestrictFinance<td>If set to 1 it restricts who can see financial information on performers
+<tr><td>RestrictFinance<td>If set to 1 it restricts who can see financial information on performers - may not be used
+<tr><td>SendTradeEmailFrom
+<tr><td>TradeInvoicePay
+<tr><td>TradePower
+<tr><td>UseArticles
+<tr><td>VatRate<td>VAT% (if any)
 <tr><td>VolDBS<td>If set to 1, enable DBS input for Volunteers
 </table><p>
 

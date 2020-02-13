@@ -88,6 +88,9 @@ function Invoice_Print(&$inv) {
   $CN = ((isset($inv['PayDate']) && $inv['PayDate']<0)?'CN':'');
   $Rev = ((isset($inv['Revision']) && $inv['Revision'])?("R" . $inv['Revision'] ):'');
   
+  $Vat = Feature('FestVatNumber');
+  $VatRate = Feature('VatRate')/100;
+  
   // File for printings dddDDD is Invoices/ddd/dddDDD.pdf
   // Credit notes Invoices/ddd/DDDCN.pdf
   include_once('fpdf.php');
@@ -166,18 +169,18 @@ function Invoice_Print(&$inv) {
     } 
   } else {  
     if ($inv['Desc1']) $pdf->Text($padx+$cw,$pady+ 21*$ch,$inv['Desc1']);
-    if ($inv['Amount1']) $pdf->Text($padx+46*$cw,$pady+21*$ch, utf8_decode("£0.00"));
-    if ($inv['Amount1']) $pdf->Text($padx+56*$cw,$pady+21*$ch,Inv_Amt($inv['Amount1']));
+    if ($inv['Amount1']) $pdf->Text($padx+46*$cw,$pady+21*$ch, ($Vat?Inv_Amt($inv['Amount1']*$VatRate):utf8_decode("£0.00")));
+    if ($inv['Amount1']) $pdf->Text($padx+56*$cw,$pady+21*$ch, Inv_Amt($Vat?($inv['Amount1']/(1+$VatRate)):$inv['Amount1']));
   
     if ($inv['Amount1']>0 && ($inv['Amount2'])<0) { $pdf->SetTextColor(255,0,0); } else $pdf->SetTextColor(0,0,0);
     if ($inv['Desc2']) $pdf->Text($padx+$cw,$pady+ 23*$ch,$inv['Desc2']);
-    if ($inv['Amount2']) $pdf->Text($padx+46*$cw,$pady+23*$ch,utf8_decode("£0.00"));
-    if ($inv['Amount2']) $pdf->Text($padx+56*$cw,$pady+23*$ch,Inv_Amt($inv['Amount2']));
+    if ($inv['Amount2']) $pdf->Text($padx+46*$cw,$pady+23*$ch,($Vat?Inv_Amt($inv['Amount2']*$VatRate):utf8_decode("£0.00")));
+    if ($inv['Amount2']) $pdf->Text($padx+56*$cw,$pady+23*$ch, Inv_Amt($Vat?($inv['Amount2']/(1+$VatRate)):$inv['Amount2']));
   
     if ($inv['Amount1']>0 && ($inv['Amount3'])<0) { $pdf->SetTextColor(255,0,0); } else $pdf->SetTextColor(0,0,0);
     if ($inv['Desc3']) $pdf->Text($padx+$cw, $pady+25*$ch,$inv['Desc3']);
-    if ($inv['Amount3']) $pdf->Text($padx+46*$cw,$pady+25*$ch,utf8_decode("£0.00"));
-    if ($inv['Amount3']) $pdf->Text($padx+56*$cw,$pady+25*$ch,Inv_Amt($inv['Amount3']));
+    if ($inv['Amount3']) $pdf->Text($padx+46*$cw,$pady+25*$ch,($Vat?Inv_Amt($inv['Amount3']*$VatRate):utf8_decode("£0.00")));
+    if ($inv['Amount3']) $pdf->Text($padx+56*$cw,$pady+25*$ch, Inv_Amt($Vat?($inv['Amount3']/(1+$VatRate)):$inv['Amount3']));
   }
   $pdf->SetTextColor(0,0,0);
       // TODO put the Bank info into FESTSYS
@@ -201,10 +204,17 @@ function Invoice_Print(&$inv) {
   $pdf->SetLineWidth(0.25);
   $pdf->Rect($padx+44*$cw,$pady+37*$ch,19.35*$cw,2*$ch);
   $pdf->Text($padx+36*$cw,$pady+36.5*$ch,"Net");
-  $pdf->Text($padx+56*$cw,$pady+36.5*$ch,Inv_Amt($CN?$inv['PaidTotal']-$inv['Total']:$inv['Total']));
   $pdf->Text($padx+36*$cw,$pady+38.5*$ch,"VAT");
-  $pdf->Text($padx+48*$cw,$pady+38.5*$ch,'"T0"');
-  $pdf->Text($padx+56*$cw,$pady+38.5*$ch,utf8_decode(" £0.00"));
+  if ($Vat) {
+// ?    $pdf->Text($padx+48*$cw,$pady+36.5*$ch,Inv_Amt(($CN?$inv['PaidTotal']-$inv['Total']:$inv['Total'])*$VatRate));
+    $pdf->Text($padx+56*$cw,$pady+36.5*$ch,Inv_Amt(($CN?$inv['PaidTotal']-$inv['Total']:$inv['Total'])/(1+$VatRate)));
+    $pdf->Text($padx+48*$cw,$pady+38.5*$ch,Feature('VatRate') . "%");
+    $pdf->Text($padx+56*$cw,$pady+38.5*$ch,Inv_Amt(($CN?$inv['PaidTotal']-$inv['Total']:$inv['Total'])/(1+$VatRate)));  
+  } else {
+    $pdf->Text($padx+56*$cw,$pady+36.5*$ch,Inv_Amt($CN?$inv['PaidTotal']-$inv['Total']:$inv['Total']));
+    $pdf->Text($padx+48*$cw,$pady+38.5*$ch,'"T0"');
+    $pdf->Text($padx+56*$cw,$pady+38.5*$ch,utf8_decode(" £0.00"));  
+  }
   $pdf->Text($padx+36*$cw,$pady+40.5*$ch,"Gross");
   $pdf->SetFont('Arial','B',$fs);
   $pdf->Text($padx+56*$cw,$pady+40.5*$ch,Inv_Amt($CN?$inv['PaidTotal']-$inv['Total']:$inv['Total']));
@@ -224,15 +234,19 @@ function Invoice_Print(&$inv) {
 
   // footer
   $pdf->Text($padx+1*$cw,$pady+48*$ch,"Registered Office:");
-  $pdf->Text($padx+15*$cw,$pady+48*$ch,"Wimborne Minster Folk Festival Ltd");
-  $pdf->Text($padx+15*$cw,$pady+49*$ch,"12 Bramshaw Way");
-  $pdf->Text($padx+15*$cw,$pady+50*$ch,"New Milton");
-  $pdf->Text($padx+15*$cw,$pady+51*$ch,"Hampshire BH25 7ST");
+  $pdf->Text($padx+15*$cw,$pady+48*$ch,Feature('FestLegalTitle',"Wimborne Minster Folk Festival Ltd"));
+  $pdf->Text($padx+15*$cw,$pady+49*$ch,Feature('FestLegalAddr1',"12 Bramshaw Way"));
+  $pdf->Text($padx+15*$cw,$pady+50*$ch,Feature('FestLegalAddr2',"New Milton");
+  $pdf->Text($padx+15*$cw,$pady+51*$ch,Feature('FestLegalAddr3',"Hampshire BH25 7ST");
   
-  $pdf->Text($padx+1*$cw,$pady+53*$ch,"Email:Treasurer@wimbornefolk.co.uk");
+  $pdf->Text($padx+1*$cw,$pady+53*$ch,Feature('FestTresEmail',"Email:Treasurer@wimbornefolk.co.uk"));
 
-  $pdf->Text($padx+36*$cw,$pady+53*$ch,"Registered in England 08290423");
-  $pdf->Text($padx+36*$cw,$pady+54*$ch,"Non-VAT Registered");
+  if (Feature('FestCompanyNumber')) $pdf->Text($padx+36*$cw,$pady+53*$ch,"Registered in England: " . Feature('FestCompanyNumber'));
+  if (Feature('FestVatNumber')) {
+    $pdf->Text($padx+36*$cw,$pady+54*$ch,"VAT Number: " . Feature('FestVatNumber'));
+  } else {
+    $pdf->Text($padx+36*$cw,$pady+54*$ch,"Non-VAT Registered");
+  }
 
   $id = $inv['id'];
   $dir = "Invoices/" . substr($id,0,-3 ) . "000";

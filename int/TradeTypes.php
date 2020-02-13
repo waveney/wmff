@@ -20,6 +20,7 @@
   echo "Artisan Messages trigger local Artisan related emails<p>Invoice Coode can be overridden by the location";
   $coln = 0;
   $InvCodes =  Get_InvoiceCodes();
+  $t = [];
   
   echo "<form method=post>";
   echo "<div class=tablecont><table id=indextable border>\n";

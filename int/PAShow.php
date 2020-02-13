@@ -10,7 +10,8 @@
   global $YEAR,$FESTSYS;
     
   $Ven = Get_Venue($V);
-
+  $host = "https://" . $_SERVER{'HTTP_HOST'};
+  
   $ShowMode = '';
   $AtEnd = [];
   if (isset($_REQUEST['Embed'])) $ShowMode = 'Embed';
@@ -156,7 +157,7 @@
     echo "<br clear=all><div id=qrcode></div>";
     echo '<script type="text/javascript">
       var qrcode = new QRCode(document.getElementById("qrcode"), {
-        text: "https://' . $FESTSYS['HostURL'] . "/int/Access?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'] . '",
+        text: ' . $host . "/int/Access?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'] . '",
         width: 205,
         height: 205,
       });
@@ -167,7 +168,7 @@
   
   if (Access('Staff')) {
 
-    echo "<h3>Link to send to Engineer: https://" . $FESTSYS['HostURL'] . "/int/Access?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'];
+    echo "<h3>Link to send to Engineer: $host/int/Access?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'];
     if (Access('SysAdmin')) echo "<a href='Access?Y=$YEAR&t=p&i=$V&k=" . $Ven['AccessKey'] . "'> Use\n";
     echo "</h3>\n";
   }

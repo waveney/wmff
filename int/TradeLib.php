@@ -12,7 +12,7 @@ $TS_Actions = array('Submit,Invite,Invite Better',
                 'Resend,Submit',
                 'Resend,Quote,Accept,Invite,Decline,Hold,Cancel,Invite Better',
                 'Resend,Quote,Invite,Accept,Decline,UnQuote,LastWeek',
-                'Pitch,Moved,Resend,Cancel',
+                'Resend,Cancel',
                 'Pitch,Moved,Resend,Send Bal,Cancel',
                 'Pitch,Moved,Resend,Chase,Cancel',
                 'Pitch,Moved,Resend,Cancel',
@@ -771,6 +771,11 @@ function Trader_Details($key,&$data,$att=0) {
           $Pay['Code'] . "<p>";
     };
     return "";
+  case 'VAT': if (Feature('FestVatNumber')) {
+      return "Prices include VAT at " . Feature('VatRate') . "%<p>";
+    } else {
+      return "";
+    }
 
 /* TODO DUFF
   case 'DUEDATE' return 

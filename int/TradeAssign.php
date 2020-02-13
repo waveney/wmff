@@ -104,6 +104,7 @@
   
   Pitch_Map($tloc,$Pitches,$Traders);
   TraderList($Message);
+  echo " <a href=TradeLocs?Y=$YEAR>Trade Locs</a></h2>";
   dotail();
  
   

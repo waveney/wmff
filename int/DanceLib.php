@@ -744,15 +744,16 @@ function Extended_Prog($type,$id,$all=0) {
 
 
 function Dance_Email_Details($key,&$data,$att=0) {
-  global $Trade_Days,$TradeLocData,$TradeTypeData,$YEAR,$FESTSYS;
+  global $Trade_Days,$TradeLocData,$TradeTypeData,$YEAR;
   include_once("ProgLib.php");
   $Side = &$data[0];
   if (isset($data[1])) $Sidey = &$data[1];
   $snum = $Side['SideId'];
   $str = '';
+  $host = "https://" . $_SERVER{'HTTP_HOST'};
   switch ($key) {
   case 'WHO':  return $Side['Contact']? firstword($Side['Contact']) : $Side['SN'];
-  case 'LINK': return "<a href='https://" . $FESTSYS['HostURL'] . "/int/Direct?t=Perf&id=$snum&key=" . $Side['AccessKey'] . "&Y=$YEAR'><b>this link</b></a>  " ;
+  case 'LINK': return "<a href='$host/int/Direct?t=Perf&id=$snum&key=" . $Side['AccessKey'] . "&Y=$YEAR'><b>this link</b></a>  " ;
   case 'PROG': return Show_Prog('Perf',$snum,1);
   case 'MISSING': $str = "Please could you <span style='background:pink'><B>click</B> on the *LINK*</span> and add the following:<ol>\n"; 
     $count = 0;
@@ -787,7 +788,7 @@ function Dance_Email_Details($key,&$data,$att=0) {
     $txt = 'Click This';
     if (isset($bits[1])) $box = $bits[1];
     if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
-    return "<a href='https://" . $FESTSYS['HostURL'] . "/int/Access?t=s&i=$snum&TB=$box&k=" . $Side['AccessKey'] . "&Y=$YEAR'><b>$txt</b></a>\n";
+    return "<a href='$host/int/Access?t=s&i=$snum&TB=$box&k=" . $Side['AccessKey'] . "&Y=$YEAR'><b>$txt</b></a>\n";
 
   }
 }
