@@ -104,7 +104,7 @@ function Invoice_Print(&$inv) {
   $pdf->AddPage();
   $pdf->SetFont('Arial','',$fs);
   $pdf->SetMargins(1,1,1,1);
-  $pdf->Image('images/icons/Long-Banner-Logo.png',$padx,$pady,40*$cw);
+  $pdf->Image(Feature('InvoiceLogo','images/icons/Long-Banner-Logo.png'),$padx,$pady,40*$cw);
   $pdf->SetLineWidth(0.5);
 
   $pdf->Text($padx+$cw,$pady+7*$ch,$inv['BZ']); // Who box
@@ -169,17 +169,17 @@ function Invoice_Print(&$inv) {
     } 
   } else {  
     if ($inv['Desc1']) $pdf->Text($padx+$cw,$pady+ 21*$ch,$inv['Desc1']);
-    if ($inv['Amount1']) $pdf->Text($padx+46*$cw,$pady+21*$ch, ($Vat?Inv_Amt($inv['Amount1']*$VatRate):utf8_decode("£0.00")));
+    if ($inv['Amount1']) $pdf->Text($padx+46*$cw,$pady+21*$ch, ($Vat?Inv_Amt($inv['Amount1']*$VatRate/(1+$VatRate)):utf8_decode("£0.00")));
     if ($inv['Amount1']) $pdf->Text($padx+56*$cw,$pady+21*$ch, Inv_Amt($Vat?($inv['Amount1']/(1+$VatRate)):$inv['Amount1']));
   
     if ($inv['Amount1']>0 && ($inv['Amount2'])<0) { $pdf->SetTextColor(255,0,0); } else $pdf->SetTextColor(0,0,0);
     if ($inv['Desc2']) $pdf->Text($padx+$cw,$pady+ 23*$ch,$inv['Desc2']);
-    if ($inv['Amount2']) $pdf->Text($padx+46*$cw,$pady+23*$ch,($Vat?Inv_Amt($inv['Amount2']*$VatRate):utf8_decode("£0.00")));
+    if ($inv['Amount2']) $pdf->Text($padx+46*$cw,$pady+23*$ch,($Vat?Inv_Amt($inv['Amount2']*$VatRate/(1+$VatRate)):utf8_decode("£0.00")));
     if ($inv['Amount2']) $pdf->Text($padx+56*$cw,$pady+23*$ch, Inv_Amt($Vat?($inv['Amount2']/(1+$VatRate)):$inv['Amount2']));
   
     if ($inv['Amount1']>0 && ($inv['Amount3'])<0) { $pdf->SetTextColor(255,0,0); } else $pdf->SetTextColor(0,0,0);
     if ($inv['Desc3']) $pdf->Text($padx+$cw, $pady+25*$ch,$inv['Desc3']);
-    if ($inv['Amount3']) $pdf->Text($padx+46*$cw,$pady+25*$ch,($Vat?Inv_Amt($inv['Amount3']*$VatRate):utf8_decode("£0.00")));
+    if ($inv['Amount3']) $pdf->Text($padx+46*$cw,$pady+25*$ch,($Vat?Inv_Amt($inv['Amount3']*$VatRate/(1+$VatRate)):utf8_decode("£0.00")));
     if ($inv['Amount3']) $pdf->Text($padx+56*$cw,$pady+25*$ch, Inv_Amt($Vat?($inv['Amount3']/(1+$VatRate)):$inv['Amount3']));
   }
   $pdf->SetTextColor(0,0,0);
@@ -209,7 +209,7 @@ function Invoice_Print(&$inv) {
 // ?    $pdf->Text($padx+48*$cw,$pady+36.5*$ch,Inv_Amt(($CN?$inv['PaidTotal']-$inv['Total']:$inv['Total'])*$VatRate));
     $pdf->Text($padx+56*$cw,$pady+36.5*$ch,Inv_Amt(($CN?$inv['PaidTotal']-$inv['Total']:$inv['Total'])/(1+$VatRate)));
     $pdf->Text($padx+48*$cw,$pady+38.5*$ch,Feature('VatRate') . "%");
-    $pdf->Text($padx+56*$cw,$pady+38.5*$ch,Inv_Amt(($CN?$inv['PaidTotal']-$inv['Total']:$inv['Total'])/(1+$VatRate)));  
+    $pdf->Text($padx+56*$cw,$pady+38.5*$ch,Inv_Amt(($CN?$inv['PaidTotal']-$inv['Total']:$inv['Total'])*$VatRate/(1+$VatRate)));  
   } else {
     $pdf->Text($padx+56*$cw,$pady+36.5*$ch,Inv_Amt($CN?$inv['PaidTotal']-$inv['Total']:$inv['Total']));
     $pdf->Text($padx+48*$cw,$pady+38.5*$ch,'"T0"');
@@ -789,5 +789,15 @@ function Pay_Code_Find($src,$srcid) {
   if ($res) return $res->fetch_assoc();
   return 0;   
 }
+
+function Pay_Code_Remove($src,$srcid) {
+  global $db;
+  while ($pay = Pay_Code_Find($src,$srcid)) {
+    $pay['Year'] = - $pay['Year'];
+    Put_PayCode($pay);
+  };
+  return 0;   
+}
+
 
 ?>

@@ -1383,6 +1383,8 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
       return;
     }
 
+    Pay_Code_Remove(1,$Tid);
+    
     $NewState = $Trade_State['Declined'];
     $att = 0;
     if ($InvPay) {
@@ -1569,6 +1571,8 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
 
     $att = 0;
 
+    Pay_Code_Remove(1,$Tid);
+    
     // Is there an invoice ? If so credit it and attach credit note
     $Invs = Get_Invoices(" PayDate=0 AND OurRef='" . Sage_Code($Trad) . "'"," IssueDate DESC ");
     if ($Invs) $att = Invoice_Credit_Note($Invs[0],$data);  // TODO BUG
@@ -1688,6 +1692,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     break;
     
   case 'UnQuote' :
+    Pay_Code_Remove(1,$Tid);
     $NewState = $Trade_State['Declined'];
     Send_Trader_Email($Trad,$Trady,'Trade_UnQuote');
     break;  

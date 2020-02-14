@@ -12,25 +12,29 @@ function Pretty_Print_To($to) {
   if (is_array($to)) {
     if (is_array($to[0])) {
       foreach ($to as $i=>$too) {
-        $a = $too[1];
-        $n = ((isset($too[2]) && $too[2])?("&lt;" . $too[2] . "&gt;"):'');
-        switch ($too[0]) {
-          case 'to':
-            $str .= " to: $a $n, ";
-            break;
-          case 'cc':
-            $str .= " cc: $a $n, ";
-            break;
-          case 'bcc':
-            $str .= " bcc: $a $n, ";
-            break;
-          case 'replyto':
-            $str .= " replyto: $a $n, ";
-            break;
-          case 'from':
-            $str .= " from: $a $n, ";
-            break;
-        } 
+        if (is_array($too)) {
+          $a = $too[1];
+          $n = ((isset($too[2]) && $too[2])?("&lt;" . $too[2] . "&gt;"):'');
+          switch ($too[0]) {
+            case 'to':
+              $str .= " to: $a $n, ";
+              break;
+            case 'cc':
+              $str .= " cc: $a $n, ";
+              break;
+            case 'bcc':
+              $str .= " bcc: $a $n, ";
+              break;
+            case 'replyto':
+              $str .= " replyto: $a $n, ";
+              break;
+            case 'from':
+              $str .= " from: $a $n, ";
+              break;
+          }
+        } else {
+          $str .= "to: $too";
+        }
       }
     } else {
       $str .= "to: " . $to[0] . (isset($to[1])? " &lt;" . $to[1] . "&gt; ":'');      
