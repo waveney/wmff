@@ -696,14 +696,15 @@ function Trader_Details($key,&$data,$att=0) {
   global $Trade_Days,$TradeLocData,$TradeTypeData,$Prefixes;
   $Trad = &$data[0];
   if (isset($data[1])) $Trady = &$data[1];
+  $host = "https://" . $_SERVER{'HTTP_HOST'};
   $Tid = $Trad['Tid'];
   switch ($key) {
   case 'WHO':  return $Trad['Contact']? UpperFirstChr(firstword($Trad['Contact'])) : $Trad['SN'];
-  case 'LINK': return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Direct?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "'  style='background:lightblue;'><b>link</b></a>";
+  case 'LINK': return "<a href='$host/int/Direct?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "'  style='background:lightblue;'><b>link</b></a>";
   case 'WMFFLINK': 
-  case 'FESTLINK' : return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Trade?id=$Tid'><b>link</b></a>";
+  case 'FESTLINK' : return "<a href='$host/int/Trade?id=$Tid'><b>link</b></a>";
   case 'HERE':
-  case 'REMOVE': return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Remove?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "'><b>remove</b></a>";
+  case 'REMOVE': return "<a href='$host/int/Remove?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "'><b>remove</b></a>";
   case 'LOCATION': 
     $Locs = Get_Trade_Locs(1);
     $Location = '';
@@ -747,7 +748,7 @@ function Trader_Details($key,&$data,$att=0) {
         $plural = (strchr(',',$Trady["PitchNum$i"])?"Pitches numbered ":"Pitch number ");
         $MapLinks .= "You have been assigned $plural " . $Trady["PitchNum$i"] . " " . 
                      $Prefixes[$TradeLocData[$Trady["PitchLoc$i"]]['prefix']] . " " . $TradeLocData[$Trady["PitchLoc$i"]]['SN'] . 
-                     " please see this <a href='https://" . $_SERVER['HTTP_HOST'] . "/int/TradeStandMap?l=" . $Trady["PitchLoc$i"] . "' style='background:lightblue;'>map</a> " .
+                     " please see this <a href='$host/int/TradeStandMap?l=" . $Trady["PitchLoc$i"] . "' style='background:lightblue;'>map</a> " .
                      "- Note the formatting of the business names on this will be improved soon<p>";
       }
     }

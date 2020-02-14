@@ -236,8 +236,8 @@ function Invoice_Print(&$inv) {
   $pdf->Text($padx+1*$cw,$pady+48*$ch,"Registered Office:");
   $pdf->Text($padx+15*$cw,$pady+48*$ch,Feature('FestLegalTitle',"Wimborne Minster Folk Festival Ltd"));
   $pdf->Text($padx+15*$cw,$pady+49*$ch,Feature('FestLegalAddr1',"12 Bramshaw Way"));
-  $pdf->Text($padx+15*$cw,$pady+50*$ch,Feature('FestLegalAddr2',"New Milton");
-  $pdf->Text($padx+15*$cw,$pady+51*$ch,Feature('FestLegalAddr3',"Hampshire BH25 7ST");
+  $pdf->Text($padx+15*$cw,$pady+50*$ch,Feature('FestLegalAddr2',"New Milton"));
+  $pdf->Text($padx+15*$cw,$pady+51*$ch,Feature('FestLegalAddr3',"Hampshire BH25 7ST"));
   
   $pdf->Text($padx+1*$cw,$pady+53*$ch,Feature('FestTresEmail',"Email:Treasurer@wimbornefolk.co.uk"));
 

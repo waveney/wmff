@@ -88,7 +88,7 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0,$from='') {
         }
       }
     $Send = 0;
-//      return;
+    return;
     }
   }
   $From = $FESTSYS['SMTPuser'];
@@ -262,7 +262,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
             $txt = $FESTSYS['HostURL'];
             if (isset($bits[1])) $url = $bits[1];
             if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
-            $rep = "<a href='https://" . $FESTSYS['HostURL'] . ($url? "/$url" : "") . "'>$txt</a>";
+            $rep = "<a href='https://" . $_SERVER{'HTTP_HOST'} . ($url? "/$url" : "") . "'>$txt</a>";
             break;
           case (preg_match('/READFILE_(.*)/',$key,$mtch)?true:false):
             $file = file_get_contents($mtch[1]);

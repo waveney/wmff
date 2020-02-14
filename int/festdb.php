@@ -310,21 +310,25 @@ function UpdateMany($table,$Putfn,&$data,$Deletes=1,$Dateflds='',$Timeflds='',$M
           }
           continue;
         } else {
+          $recpres = 0;
           foreach ($Flds as $fld=>$ftyp) {
             if ($fld == $indxname) continue;
             if (in_array($fld,$DateFlds)) {
               $t[$fld] = Date_BestGuess($_POST["$fld$i"]);
+              $recpres = 1;
             } else if (in_array($fld,$TimeFlds)) {
               $t[$fld] = Time_BestGuess($_POST["$fld$i"]);
+              $recpres = 1;
             } else if (isset($_POST["$fld$i"])) {
               $t[$fld] = $_POST["$fld$i"];
+              $recpres = 1;
             } else {
               $t[$fld] = 0;
             }
           }
 //          var_dump($t);
 //          return;
-          $Putfn($t);
+          if ($recpres) $Putfn($t);
         }
       }
     }
