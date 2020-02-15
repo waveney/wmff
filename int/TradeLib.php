@@ -614,18 +614,18 @@ function Get_Trade_Details(&$Trad,&$Trady) {
   $Body = "\nBusiness: " . $Trad['SN'] . "\n";
   $Body .= "Goods: " . $Trad['GoodsDesc'] . "\n\n";
   $Body .= "Type: " . $TradeTypeData[$Trad['TradeType']]['SN'] . "\n\n";
-  if ($Trad['Website']) $Body .= "Website: " . weblink($Trad['Website'],$Trad['Website']) . "\n\n";
+  if (isset($Trad['Website']) && $Trad['Website']) $Body .= "Website: " . weblink($Trad['Website'],$Trad['Website']) . "\n\n";
   $Body .= "Contact: " . $Trad['Contact'] . "\n";
-  if ($Trad['Phone']) $Body .= "Phone: " . $Trad['Phone'] . "\n";
-  if ($Trad['Mobile']) $Body .= "Mobile: " . $Trad['Mobile'] . "\n";
+  if (isset($Trad['Phone']) && $Trad['Phone']) $Body .= "Phone: " . $Trad['Phone'] . "\n";
+  if (isset($Trad['Mobile']) && $Trad['Mobile']) $Body .= "Mobile: " . $Trad['Mobile'] . "\n";
   $Body .= "Email: <a href=mailto:" . $Trad['Email'] . ">" . $Trad['Email'] . "</a>\n";
   $Body .= "Address: " . $Trad['Address'] . "\n";
   $Body .= "PostCode: " . $Trad['PostCode'] . "\n\n";
-  if ($Trad['Charity']) $Body .= "Charity: " . $Trad['Charity'] . "\n";
-  if ($Trad['PublicHealth']) $Body .= "Local Authority: " . $Trad['PublicHealth'] . "\n";
-  if ($Trad['BID']) $Body .= "BID Member: Yes\n";
-  if ($Trad['ChamberTrade']) $Body .= "Chamber of Trade Member: Yes\n";
-  if ($Trad['Previous']) $Body .= "Previous Trader: Yes\n";
+  if (isset($Trad['Charity']) && $Trad['Charity']) $Body .= "Charity: " . $Trad['Charity'] . "\n";
+  if (isset($Trad['PublicHealth']) && $Trad['PublicHealth']) $Body .= "Local Authority: " . $Trad['PublicHealth'] . "\n";
+  if (isset($Trad['BID']) && $Trad['BID']) $Body .= "BID Member: Yes\n";
+  if (isset($Trad['ChamberTrade']) && $Trad['ChamberTrade']) $Body .= "Chamber of Trade Member: Yes\n";
+  if (isset($Trad['Previous']) && $Trad['Previous']) $Body .= "Previous Trader: Yes\n";
   $Body .= "\n\n";
 
   $Body .= "For " . $Trady['Year'] .":\n";
@@ -806,16 +806,18 @@ function Send_Trader_Email(&$Trad,&$Trady,$messcat='Link',$att='') {
   $bccto = Feature('CopyTradeEmailsTo');
   $bcc=[];
   $from = Feature('SendTradeEmailFrom');
+  if ($from) $from .= "@" . $FESTSYS['HostURL'];
   if ($bccto) $bcc = ['bcc' , "$bccto@" . $FESTSYS['HostURL'],Feature('CopyTradeEmailsName')];
   Email_Proforma([['to',$Trad['Email'],$Trad['Contact']],$bcc],
-    $messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att,$from);
+    $messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att,0,$from);
 }
 
 function Send_Trader_Simple_Email(&$Trad,$messcat='Link',$att='') {
   global $PLANYEAR,$FESTSYS;
   include_once("Email.php");
   $from = Feature('SendTradeEmailFrom');
-  Email_Proforma([$Trad['Email'],$Trad['Contact']],$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad],'TradeLog',$att,$from);
+  if ($from) $from .= "@" . $FESTSYS['HostURL'];
+  Email_Proforma([$Trad['Email'],$Trad['Contact']],$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad],'TradeLog',$att,0,$from);
 }
 
 function Send_Trade_Finance_Email(&$Trad,&$Trady,$messcat,$att=0) {

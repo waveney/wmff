@@ -130,6 +130,9 @@ Format of controls: Control : Value : Comment<p>
 <tr><td>FestLegalTitle,Wimborne Minster Folk Festival Ltd"
 <tr><td>FestTresEmail,Email:Treasurer@wimbornefolk.co.uk"
 <tr><td>FestVatNumber<td>Company VAT Number (if any), if zero or not set VAT is not charged
+<tr><td>FooterBit<td>If present displayed in footer before copyright etc - Old Style only
+<tr><td>HeaderPreTools<td>If present displayed before tools - Old Style only
+<tr><td>HeaderPostTools<td>If present displayed after tools - Old Style only
 <tr><td>MultiLim$daynam<td>?
 <tr><td>MusicDefaultPerSlot<td>1 (not used yet)
 <tr><td>MusicWristBands

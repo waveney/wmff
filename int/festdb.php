@@ -250,8 +250,12 @@ function Feature($Name,$default='') {  // Return value of feature if set from FE
   if (!$Features) {
     $Features = [];
     foreach (explode("\n",$FESTSYS['Features']) as $i=>$feat) {
-      $Dat = explode(":",$feat,3);
-      if ($Dat[0] && isset($Dat[1])) $Features[$Dat[0]] = trim($Dat[1]);
+      $Dat = explode(":",$feat,4);
+      if ($Dat[0] && isset($Dat[1])) {
+        $Features[$Dat[0]] = trim($Dat[1]);
+      } elseif ($Dat[0] && isset($Dat[4])) {
+        $Features[$Dat[0]] = trim($Dat[4]);
+      }
     }
   }
   if (isset($Features[$Name])) return $Features[$Name];

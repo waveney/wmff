@@ -176,7 +176,7 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0,$from='') {
           $Atts[] = [$att[0],$att[1]];
         }                 
       } else {
-        $email->addEmbeddedImage($embeded);       
+        $email->addEmbeddedImage($embeded,0);       
         $Atts[] = ["",$embeded];
       }
     }
@@ -319,7 +319,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
 
 // helper is a function that takes (THING,helperdata,atts) to return THING - not needed for generic fields typical THINGs are DETAILS, DEPOSIT...
 // if mescat > 30 chars it is assumed to be the proforma itself
-function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='',&$attachments=0,&$embeded=[],$from='') {
+function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='',&$attachments=0,$embeded=0,$from='') {
   global $PLANYEAR,$YEARDATA,$FESTSYS;
   if (strlen($mescat) < 30) {
     $Prof = Get_Email_Proforma($mescat);
