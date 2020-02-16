@@ -3,6 +3,7 @@
 global $Reserved_Codes,$Invoice_Sources,$Org_Cats,$OpayStates;
 
 $Invoice_Sources = ['','Trade','Other Finance','Buskers Bash','Live and Loud','Art'];
+$Source_Links = [0,'Trade?id=','Trade?ORGS&id=','BuskersBashForm?i=','LiveNLoudForm?i=','ArtForm?i='];
 $Org_Cats = ['Trader','Business or Organistaion'];
 $Reserved_Codes = ['BB','LNL','ART'];
 $OpayStates = ['Open','Paid','Cancelled'];

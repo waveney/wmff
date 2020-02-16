@@ -47,7 +47,7 @@
       break;
     case 'Trader':
       echo "<a href=$host/int/TraderPage.php?id=$USERID onmouseover=NoHoverSticky()>Edit Trader Info</a>";
-      echo "<a href=$host/int/ShowTrade.php?id=$USERID onmouseover=NoHoverSticky()>Public view of Trader</a>";
+//      echo "<a href=$host/int/ShowTrade.php?id=$USERID onmouseover=NoHoverSticky()>Public view of Trader</a>";
       echo "<a href=$host/int/TradeFAQ.php onmouseover=NoHoverSticky()>Trade FAQ</a>";
       break;
     }

@@ -853,6 +853,8 @@ function Submit_Application(&$Trad,&$Trady,$Mode=0) {
   Send_Trade_Admin_Email($Trad,$Trady,'Trade_NewSubmit');
 
   echo "<h3>Your application has been submitted</h3>\nAn email has been sent to you with a summary of your submission and a link to enable you to update it.\n<p>";
+  
+  echo "<b>IF</b> you do not see the email, Please check your SPAM folder and mark the message as <b>Not SPAM</b>, otherwise you will not see any subsequent message from us.<p>";
 }
 
 function Validate_Trade($Mode=0) { // Mode 1 for Staff Submit, less stringent
@@ -1858,10 +1860,12 @@ function Trade_P_Action($Tid,$action,$xtra='') { // Call From Payment
   Trade_Action($action,$Trad,$Trady,1,'', $xtra);
 }
 
-function Get_Traders_For($loc) {
+function Get_Traders_For($loc,$All=0 ) {
   global $db, $Trade_State,$YEAR;
-  $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE (y.BookingState=" . $Trade_State['Deposit Paid'] . " OR y.BookingState=" . $Trade_State['Balance Requested'] . 
-         " OR y.BookingState=" . $Trade_State['Fully Paid'] . ") AND t.Tid = y.Tid AND y.Year=$YEAR AND (y.PitchLoc0=$loc OR y.PitchLoc1=$loc OR y.PitchLoc2=$loc ) ORDER BY SN";
+  $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE " . 
+        ($All? ("y.BookingState>= " . $Trade_State['Submitted'] ) : 
+          ( "(y.BookingState=" . $Trade_State['Deposit Paid'] . " OR y.BookingState=" . $Trade_State['Balance Requested'] . " OR y.BookingState=" . $Trade_State['Fully Paid'] . ")" ) ) . 
+         " AND t.Tid = y.Tid AND y.Year=$YEAR AND (y.PitchLoc0=$loc OR y.PitchLoc1=$loc OR y.PitchLoc2=$loc ) ORDER BY SN";
 
   $res = $db->query($qry);
   $Traders = [];
@@ -1878,7 +1882,7 @@ function Get_Traders_For($loc) {
    */
 
 function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Links 0:none, 1:traders, 2:Trade areas
-  global $TradeTypeData;
+  global $TradeTypeData,$Trade_State;
   
   if (!$loc['MapImage']) return;
   $scale=$Scale*$loc['Showscale'];
@@ -1897,7 +1901,11 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Li
           $list = explode(',',$Trad["PitchNum$i"]);
           foreach ($list as $p) {
             $Usage[$p] = (isset($Usage[$p])?"CLASH!":$Trad['SN']);
-            $TT[$p] = $Trad['TradeType'];
+            if ( $Trad['BookingState'] == $Trade_State['Deposit Paid'] || $Trad['BookingState'] == $Trade_State['Balance Requested'] || $Trad['BookingState'] == $Trade_State['Fully Paid'] ) {
+              $TT[$p] = $Trad['TradeType'];
+            } else {
+              $TT[$p] = 0;
+            }
             $TNum[$p] = $Trad['Tid'];
           }
         }
@@ -1938,7 +1946,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Li
       $Lopen = 1;
     }
     echo "<rect x=" . ($Pitch['X'] * $Factor) . " y=" . ($Pitch['Y'] * $Factor) . " width=" . ($Pitch['Xsize'] * $Factor) . " height=" . ($Pitch['Ysize'] * $Factor);
-    echo " style='fill:" . ($Pitch['Type']?$Pitch['Colour']:($Name?$TradeTypeData[$TT[$Posn]]['Colour']  : "yellow")) . ";stroke:black;";
+    echo " style='fill:" . ($Pitch['Type']?$Pitch['Colour']:($TT[$Posn]?($Name?$TradeTypeData[$TT[$Posn]]['Colour']  : "yellow"):"white")) . ";stroke:black;";
     if ($Pitch['Angle']) echo "transform: rotate(" . $Pitch['Angle'] . "Deg);" ;
 
     echo "' id=Posn$Posn ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event) />"; // Not used at present

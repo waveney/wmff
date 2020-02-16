@@ -102,7 +102,9 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0,$from='') {
   try {
     $email->SMTPDebug = ((Access('SysAdmin') && UserGetPref('EmailDebug'))?2:0);  // 2 general testing, 4 problems...
     $email->isSMTP();
-    $email->Host = $FESTSYS['HostURL'];
+    $mailserv = $FESTSYS['HostURL'];
+    if (Feature('SMTPsubdomain')) $mailserv = Feature('SMTPsubdomain') . "." . $mailserv;
+    $email->Host = $mailserv;
     $email->SMTPAuth = true;
     $email->AuthType = 'LOGIN';
     $email->From = $email->Username = $FESTSYS['SMTPuser'] . "@" . $FESTSYS['HostURL'];
