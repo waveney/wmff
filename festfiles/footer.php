@@ -18,7 +18,10 @@
 ?>
 -->
 <div class="mini" style="border-bottom:0; margin-bottom:0;text-decoration:none;">
-
+<?php
+  $htail = Feature('FooterBit');
+  if ($htail) echo $htail;
+?>
 Photos remain Copyright of their respective owners and cannot be reproduced or used without permission.</p>
 
 <p>Festival Software by <a href=http://wavwebs.com style=color:white;>Waveney Web Services</a> - Version 

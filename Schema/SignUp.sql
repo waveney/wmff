@@ -39,5 +39,13 @@ CREATE TABLE `SignUp` (
   `Bio` text NOT NULL,
   `Started` text NOT NULL,
   `Social` text NOT NULL,
+  `Website` text NOT NULL,
+  `Tickbox1` tinyint(4) NOT NULL,
+  `Tickbox2` tinyint(4) NOT NULL,
+  `Tickbox3` tinyint(4) NOT NULL,
+  `Tickbox4` tinyint(4) NOT NULL,
+  `Tickbox5` tinyint(4) NOT NULL,
+  `Tickbox6` tinyint(4) NOT NULL,
+  `Age` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

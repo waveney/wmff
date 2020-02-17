@@ -12,7 +12,7 @@ $TS_Actions = array('Submit,Invite,Invite Better',
                 'Resend,Submit',
                 'Resend,Quote,Accept,Invite,Decline,Hold,Cancel,Invite Better',
                 'Resend,Quote,Invite,Accept,Decline,UnQuote,LastWeek',
-                'Pitch,Moved,Resend,Cancel',
+                'Resend,Cancel',
                 'Pitch,Moved,Resend,Send Bal,Cancel',
                 'Pitch,Moved,Resend,Chase,Cancel',
                 'Pitch,Moved,Resend,Cancel',
@@ -614,18 +614,18 @@ function Get_Trade_Details(&$Trad,&$Trady) {
   $Body = "\nBusiness: " . $Trad['SN'] . "\n";
   $Body .= "Goods: " . $Trad['GoodsDesc'] . "\n\n";
   $Body .= "Type: " . $TradeTypeData[$Trad['TradeType']]['SN'] . "\n\n";
-  if ($Trad['Website']) $Body .= "Website: " . weblink($Trad['Website'],$Trad['Website']) . "\n\n";
+  if (isset($Trad['Website']) && $Trad['Website']) $Body .= "Website: " . weblink($Trad['Website'],$Trad['Website']) . "\n\n";
   $Body .= "Contact: " . $Trad['Contact'] . "\n";
-  if ($Trad['Phone']) $Body .= "Phone: " . $Trad['Phone'] . "\n";
-  if ($Trad['Mobile']) $Body .= "Mobile: " . $Trad['Mobile'] . "\n";
+  if (isset($Trad['Phone']) && $Trad['Phone']) $Body .= "Phone: " . $Trad['Phone'] . "\n";
+  if (isset($Trad['Mobile']) && $Trad['Mobile']) $Body .= "Mobile: " . $Trad['Mobile'] . "\n";
   $Body .= "Email: <a href=mailto:" . $Trad['Email'] . ">" . $Trad['Email'] . "</a>\n";
   $Body .= "Address: " . $Trad['Address'] . "\n";
   $Body .= "PostCode: " . $Trad['PostCode'] . "\n\n";
-  if ($Trad['Charity']) $Body .= "Charity: " . $Trad['Charity'] . "\n";
-  if ($Trad['PublicHealth']) $Body .= "Local Authority: " . $Trad['PublicHealth'] . "\n";
-  if ($Trad['BID']) $Body .= "BID Member: Yes\n";
-  if ($Trad['ChamberTrade']) $Body .= "Chamber of Trade Member: Yes\n";
-  if ($Trad['Previous']) $Body .= "Previous Trader: Yes\n";
+  if (isset($Trad['Charity']) && $Trad['Charity']) $Body .= "Charity: " . $Trad['Charity'] . "\n";
+  if (isset($Trad['PublicHealth']) && $Trad['PublicHealth']) $Body .= "Local Authority: " . $Trad['PublicHealth'] . "\n";
+  if (isset($Trad['BID']) && $Trad['BID']) $Body .= "BID Member: Yes\n";
+  if (isset($Trad['ChamberTrade']) && $Trad['ChamberTrade']) $Body .= "Chamber of Trade Member: Yes\n";
+  if (isset($Trad['Previous']) && $Trad['Previous']) $Body .= "Previous Trader: Yes\n";
   $Body .= "\n\n";
 
   $Body .= "For " . $Trady['Year'] .":\n";
@@ -696,14 +696,15 @@ function Trader_Details($key,&$data,$att=0) {
   global $Trade_Days,$TradeLocData,$TradeTypeData,$Prefixes;
   $Trad = &$data[0];
   if (isset($data[1])) $Trady = &$data[1];
+  $host = "https://" . $_SERVER{'HTTP_HOST'};
   $Tid = $Trad['Tid'];
   switch ($key) {
   case 'WHO':  return $Trad['Contact']? UpperFirstChr(firstword($Trad['Contact'])) : $Trad['SN'];
-  case 'LINK': return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Direct?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "'  style='background:lightblue;'><b>link</b></a>";
+  case 'LINK': return "<a href='$host/int/Direct?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "'  style='background:lightblue;'><b>link</b></a>";
   case 'WMFFLINK': 
-  case 'FESTLINK' : return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Trade?id=$Tid'><b>link</b></a>";
+  case 'FESTLINK' : return "<a href='$host/int/Trade?id=$Tid'><b>link</b></a>";
   case 'HERE':
-  case 'REMOVE': return "<a href='https://" . $_SERVER['HTTP_HOST'] . "/int/Remove?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "'><b>remove</b></a>";
+  case 'REMOVE': return "<a href='$host/int/Remove?t=Trade&id=$Tid&key=" . $Trad['AccessKey'] . "'><b>remove</b></a>";
   case 'LOCATION': 
     $Locs = Get_Trade_Locs(1);
     $Location = '';
@@ -747,7 +748,7 @@ function Trader_Details($key,&$data,$att=0) {
         $plural = (strchr(',',$Trady["PitchNum$i"])?"Pitches numbered ":"Pitch number ");
         $MapLinks .= "You have been assigned $plural " . $Trady["PitchNum$i"] . " " . 
                      $Prefixes[$TradeLocData[$Trady["PitchLoc$i"]]['prefix']] . " " . $TradeLocData[$Trady["PitchLoc$i"]]['SN'] . 
-                     " please see this <a href='https://" . $_SERVER['HTTP_HOST'] . "/int/TradeStandMap?l=" . $Trady["PitchLoc$i"] . "' style='background:lightblue;'>map</a> " .
+                     " please see this <a href='$host/int/TradeStandMap?l=" . $Trady["PitchLoc$i"] . "' style='background:lightblue;'>map</a> " .
                      "- Note the formatting of the business names on this will be improved soon<p>";
       }
     }
@@ -771,6 +772,11 @@ function Trader_Details($key,&$data,$att=0) {
           $Pay['Code'] . "<p>";
     };
     return "";
+  case 'VAT': if (Feature('FestVatNumber')) {
+      return "Prices include VAT at " . Feature('VatRate') . "%<p>";
+    } else {
+      return "";
+    }
 
 /* TODO DUFF
   case 'DUEDATE' return 
@@ -800,16 +806,18 @@ function Send_Trader_Email(&$Trad,&$Trady,$messcat='Link',$att='') {
   $bccto = Feature('CopyTradeEmailsTo');
   $bcc=[];
   $from = Feature('SendTradeEmailFrom');
+  if ($from) $from .= "@" . $FESTSYS['HostURL'];
   if ($bccto) $bcc = ['bcc' , "$bccto@" . $FESTSYS['HostURL'],Feature('CopyTradeEmailsName')];
   Email_Proforma([['to',$Trad['Email'],$Trad['Contact']],$bcc],
-    $messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att,$from);
+    $messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att,0,$from);
 }
 
 function Send_Trader_Simple_Email(&$Trad,$messcat='Link',$att='') {
   global $PLANYEAR,$FESTSYS;
   include_once("Email.php");
   $from = Feature('SendTradeEmailFrom');
-  Email_Proforma([$Trad['Email'],$Trad['Contact']],$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad],'TradeLog',$att,$from);
+  if ($from) $from .= "@" . $FESTSYS['HostURL'];
+  Email_Proforma([$Trad['Email'],$Trad['Contact']],$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad],'TradeLog',$att,0,$from);
 }
 
 function Send_Trade_Finance_Email(&$Trad,&$Trady,$messcat,$att=0) {
@@ -845,6 +853,8 @@ function Submit_Application(&$Trad,&$Trady,$Mode=0) {
   Send_Trade_Admin_Email($Trad,$Trady,'Trade_NewSubmit');
 
   echo "<h3>Your application has been submitted</h3>\nAn email has been sent to you with a summary of your submission and a link to enable you to update it.\n<p>";
+  
+  echo "<b>IF</b> you do not see the email, Please check your SPAM folder and mark the message as <b>Not SPAM</b>, otherwise you will not see any subsequent message from us.<p>";
 }
 
 function Validate_Trade($Mode=0) { // Mode 1 for Staff Submit, less stringent
@@ -1377,6 +1387,8 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
       return;
     }
 
+    Pay_Code_Remove(1,$Tid);
+    
     $NewState = $Trade_State['Declined'];
     $att = 0;
     if ($InvPay) {
@@ -1563,6 +1575,8 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
 
     $att = 0;
 
+    Pay_Code_Remove(1,$Tid);
+    
     // Is there an invoice ? If so credit it and attach credit note
     $Invs = Get_Invoices(" PayDate=0 AND OurRef='" . Sage_Code($Trad) . "'"," IssueDate DESC ");
     if ($Invs) $att = Invoice_Credit_Note($Invs[0],$data);  // TODO BUG
@@ -1682,6 +1696,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     break;
     
   case 'UnQuote' :
+    Pay_Code_Remove(1,$Tid);
     $NewState = $Trade_State['Declined'];
     Send_Trader_Email($Trad,$Trady,'Trade_UnQuote');
     break;  
@@ -1845,10 +1860,12 @@ function Trade_P_Action($Tid,$action,$xtra='') { // Call From Payment
   Trade_Action($action,$Trad,$Trady,1,'', $xtra);
 }
 
-function Get_Traders_For($loc) {
+function Get_Traders_For($loc,$All=0 ) {
   global $db, $Trade_State,$YEAR;
-  $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE (y.BookingState=" . $Trade_State['Deposit Paid'] . " OR y.BookingState=" . $Trade_State['Balance Requested'] . 
-         " OR y.BookingState=" . $Trade_State['Fully Paid'] . ") AND t.Tid = y.Tid AND y.Year=$YEAR AND (y.PitchLoc0=$loc OR y.PitchLoc1=$loc OR y.PitchLoc2=$loc ) ORDER BY SN";
+  $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE " . 
+        ($All? ("y.BookingState>= " . $Trade_State['Submitted'] ) : 
+          ( "(y.BookingState=" . $Trade_State['Deposit Paid'] . " OR y.BookingState=" . $Trade_State['Balance Requested'] . " OR y.BookingState=" . $Trade_State['Fully Paid'] . ")" ) ) . 
+         " AND t.Tid = y.Tid AND y.Year=$YEAR AND (y.PitchLoc0=$loc OR y.PitchLoc1=$loc OR y.PitchLoc2=$loc ) ORDER BY SN";
 
   $res = $db->query($qry);
   $Traders = [];
@@ -1865,7 +1882,7 @@ function Get_Traders_For($loc) {
    */
 
 function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Links 0:none, 1:traders, 2:Trade areas
-  global $TradeTypeData;
+  global $TradeTypeData,$Trade_State;
   
   if (!$loc['MapImage']) return;
   $scale=$Scale*$loc['Showscale'];
@@ -1884,7 +1901,11 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Li
           $list = explode(',',$Trad["PitchNum$i"]);
           foreach ($list as $p) {
             $Usage[$p] = (isset($Usage[$p])?"CLASH!":$Trad['SN']);
-            $TT[$p] = $Trad['TradeType'];
+            if ( $Trad['BookingState'] == $Trade_State['Deposit Paid'] || $Trad['BookingState'] == $Trade_State['Balance Requested'] || $Trad['BookingState'] == $Trade_State['Fully Paid'] ) {
+              $TT[$p] = $Trad['TradeType'];
+            } else {
+              $TT[$p] = 0;
+            }
             $TNum[$p] = $Trad['Tid'];
           }
         }
@@ -1925,7 +1946,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Li
       $Lopen = 1;
     }
     echo "<rect x=" . ($Pitch['X'] * $Factor) . " y=" . ($Pitch['Y'] * $Factor) . " width=" . ($Pitch['Xsize'] * $Factor) . " height=" . ($Pitch['Ysize'] * $Factor);
-    echo " style='fill:" . ($Pitch['Type']?$Pitch['Colour']:($Name?$TradeTypeData[$TT[$Posn]]['Colour']  : "yellow")) . ";stroke:black;";
+    echo " style='fill:" . ($Pitch['Type']?$Pitch['Colour']:($TT[$Posn]?($Name?$TradeTypeData[$TT[$Posn]]['Colour']  : "yellow"):"white")) . ";stroke:black;";
     if ($Pitch['Angle']) echo "transform: rotate(" . $Pitch['Angle'] . "Deg);" ;
 
     echo "' id=Posn$Posn ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event) />"; // Not used at present

@@ -24,7 +24,7 @@
   include_once("InvoiceLib.php");
   include_once("TradeLib.php");
 
-  global $YEAR,$PLANYEAR,$BUDGET,$USER,$OpayStates,$NewInvoiceId,$NewInv;
+  global $YEAR,$PLANYEAR,$BUDGET,$USER,$OpayStates,$NewInvoiceId,$NewInv,$Source_Links;
 
   Set_Invoice_Help();
 //var_dump($_REQUEST);
@@ -287,6 +287,7 @@
     $All = 0;
   }
 
+  echo "Click on the id# to see the invoice infomation, click on the Name to see the Trader/Business<p>";
 
   if ($Invs || $Pays) {  
   $Now = time();
@@ -333,7 +334,10 @@
 
     echo "<tr><td><a href=InvoiceManage?Show=$id>$id</a>";
     if ($All) echo "<td>" . ($inv['PayDate']>=0 ? 'Invoice' : 'Credit Note') ; 
-    echo "<td>" . $inv['BZ']; // Make link soon
+    echo "<td>";
+    if ($inv['Source'] > 0) echo "<a href=" . $Source_Links[$inv['Source']] . $inv['SourceId'] . ">";
+    echo $inv['BZ']; // Make link soon
+    if ($inv['Source'] > 0) echo "</a>";
     echo "<td>" . $inv['OurRef'] . '/' . $inv['id'];
     echo "<td>" . date('j/n/Y',$inv['IssueDate']);
     echo "<td>";
@@ -401,7 +405,12 @@
     $id = $pay['id'];
     echo "<tr><td><a href=InvoiceManage?ACTION=PSHOW&PShow=$id>$id</a>";
     if ($All) echo "<td>Payment"; 
-    echo "<td>" .$pay['SN']; // . $pay['BZ']; // Make link soon TODO
+    echo "<td>";
+    if ($pay['Source'] > 0) echo "<a href=" . $Source_Links[$pay['Source']] . $pay['SourceId'] . ">";
+    echo $pay['SN']; // Make link soon
+    if ($pay['Source'] > 0) echo "</a>";
+
+//    echo "<td>" .$pay['SN']; // . $pay['BZ']; // Make link soon TODO
     echo "<td>" . $pay['Code'];
     echo "<td>" . date('j/n/Y',$pay['IssueDate']);
     echo "<td>"; // Due Date

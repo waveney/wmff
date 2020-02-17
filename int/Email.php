@@ -12,25 +12,29 @@ function Pretty_Print_To($to) {
   if (is_array($to)) {
     if (is_array($to[0])) {
       foreach ($to as $i=>$too) {
-        $a = $too[1];
-        $n = ((isset($too[2]) && $too[2])?("&lt;" . $too[2] . "&gt;"):'');
-        switch ($too[0]) {
-          case 'to':
-            $str .= " to: $a $n, ";
-            break;
-          case 'cc':
-            $str .= " cc: $a $n, ";
-            break;
-          case 'bcc':
-            $str .= " bcc: $a $n, ";
-            break;
-          case 'replyto':
-            $str .= " replyto: $a $n, ";
-            break;
-          case 'from':
-            $str .= " from: $a $n, ";
-            break;
-        } 
+        if (is_array($too) && isset($too[1])) {
+          $a = $too[1];
+          $n = ((isset($too[2]) && $too[2])?("&lt;" . $too[2] . "&gt;"):'');
+          switch ($too[0]) {
+            case 'to':
+              $str .= " to: $a $n, ";
+              break;
+            case 'cc':
+              $str .= " cc: $a $n, ";
+              break;
+            case 'bcc':
+              $str .= " bcc: $a $n, ";
+              break;
+            case 'replyto':
+              $str .= " replyto: $a $n, ";
+              break;
+            case 'from':
+              $str .= " from: $a $n, ";
+              break;
+          }
+        } else {
+          $str .= "to: $too";
+        }
       }
     } else {
       $str .= "to: " . $to[0] . (isset($to[1])? " &lt;" . $to[1] . "&gt; ":'');      
@@ -88,7 +92,7 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0,$from='') {
         }
       }
     $Send = 0;
-//      return;
+    return;
     }
   }
   $From = $FESTSYS['SMTPuser'];
@@ -98,7 +102,9 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0,$from='') {
   try {
     $email->SMTPDebug = ((Access('SysAdmin') && UserGetPref('EmailDebug'))?2:0);  // 2 general testing, 4 problems...
     $email->isSMTP();
-    $email->Host = $FESTSYS['HostURL'];
+    $mailserv = $FESTSYS['HostURL'];
+    if (Feature('SMTPsubdomain')) $mailserv = Feature('SMTPsubdomain') . "." . $mailserv;
+    $email->Host = $mailserv;
     $email->SMTPAuth = true;
     $email->AuthType = 'LOGIN';
     $email->From = $email->Username = $FESTSYS['SMTPuser'] . "@" . $FESTSYS['HostURL'];
@@ -172,7 +178,7 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0,$from='') {
           $Atts[] = [$att[0],$att[1]];
         }                 
       } else {
-        $email->addEmbeddedImage($embeded);       
+        $email->addEmbeddedImage($embeded,0);       
         $Atts[] = ["",$embeded];
       }
     }
@@ -256,6 +262,13 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
           case (preg_match('/MAILTO_(.*)/',$key,$mtch)?true:false):
             $rep = "<a href='mailto:" . $mtch[1] . "@" . $FESTSYS['HostURL'] . "'>" . $mtch[1] . "@" . $FESTSYS['HostURL'] . "</a>";
             break;
+          case (preg_match('/WEBINT(:.*)/',$key,$mtch)?true:false):
+            $bits = preg_split('/:/',$mtch[1],3);
+            $url = '';
+            if (isset($bits[1])) $url = $bits[1];
+            if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
+            $rep = "<a href='https://" . $_SERVER{'HTTP_HOST'} . ($url? "/$url" : "") . "'>$txt</a>";
+            break;
           case (preg_match('/WEB(:.*)/',$key,$mtch)?true:false):
             $bits = preg_split('/:/',$mtch[1],3);
             $url = '';
@@ -315,7 +328,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
 
 // helper is a function that takes (THING,helperdata,atts) to return THING - not needed for generic fields typical THINGs are DETAILS, DEPOSIT...
 // if mescat > 30 chars it is assumed to be the proforma itself
-function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='',&$attachments=0,&$embeded=[],$from='') {
+function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='',&$attachments=0,$embeded=0,$from='') {
   global $PLANYEAR,$YEARDATA,$FESTSYS;
   if (strlen($mescat) < 30) {
     $Prof = Get_Email_Proforma($mescat);
@@ -374,7 +387,8 @@ function Replace_Help($Area='',$Right=0) {
   ['*MAILTO_name*','Inserts a mailto link to name@festival.org','All'],
   ['*BBREF*/*LNLREF*','Unique reference for payments','BB, LNL'],
   ['*PROG*','Programme for performer','Dance (will be all performers)'],
-  ['*WEB:*/*WEB:URL:TEXT','Website for Festival, URL - to follow website, TEXT - To be displayed (NO SPACES - any _ will appear as spaces)','All'],
+  ['*WEB:*/*WEB:URL:TEXT*','Website for Festival, URL - to follow website, TEXT - To be displayed (NO SPACES - any _ will appear as spaces)','All'],
+  ['*WEBINT:URL:TEXT*','Website for the festival back end, URL/TEXT as above.  WEB is the same when they are part of the same server','All'],
   ['*MISSING*','Important information missing from a dance side','Dance'],
   ['*SIDE*','Name of side','Dance'],
   ['*TICKBOX:b:TEXT*','Direct link to click a box, b=num(1-4)|Rec(eived)|..., TEXT to be displayed (NO SPACES - any _ will appear as spaces)','Dance'],

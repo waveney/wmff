@@ -5,7 +5,7 @@
   echo "<meta name=keywords content=''>\n";
 
   $V = $FESTSYS['V'];
-  echo "<script>" . $FESTSYS['Analytics'] . "</script>";
+  if (isset($FESTSYS['Analytics'])) echo "<script>" . $FESTSYS['Analytics'] . "</script>";
   echo "<link href=/festfiles/style.css?V=$V type=text/css rel=stylesheet />";
   echo "<link href=/festfiles/dropdown.css?V=$V type=text/css rel=stylesheet />\n";
 

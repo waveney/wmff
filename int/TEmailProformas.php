@@ -37,7 +37,7 @@
   if ($Pros) foreach($Pros as $t) {
     $nam = $t['SN'];
     preg_match('/(.*?)_/',$nam,$res);
-    if (!Access('Internal') && !$prefixes[$res[1]]) continue;
+    if (!Access('Internal') && (!isset($res[1]) || !$prefixes[$res[1]])) continue;
     $i = $t['id'];
     echo "<tr><td>$i" . fm_text1("",$t,'SN',2,'','',"SN$i");
     echo "<td>" . fm_basictextarea($t,'Body',6,8,'',"Body$i");

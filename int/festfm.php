@@ -569,7 +569,7 @@ function fm_DragonDrop($Call, $Type,$Cat,$id,&$Data,$Mode=0,$Mess='',$Cond=1,$td
     $Padding = time();  
     if (isset($DDd['Show'])) {
       $str .= "<td class=Drop$Type >";
-      if ($Data[$Type]) {
+      if (isset($Data[$Type]) && $Data[$Type]) {
         $str .= "<img id=Thumb$Type src=" . $Data[$Type] . " height=120>";
       } else {
         $str .= "No Photo Yet";

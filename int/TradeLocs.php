@@ -21,6 +21,7 @@
 
   $coln = 0;
   $InvCodes =  Get_InvoiceCodes();
+  $t = [];
   
   echo "<form method=post action=TradeLocs>";
   echo "<div class=tablecont><table id=indextable border>\n";

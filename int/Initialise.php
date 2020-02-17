@@ -25,7 +25,8 @@ function Check_PHP_Config() {
 
 function Get_Config() {
   global $CONF;
-  if (@ !$CONF = parse_ini_file("Configuration.ini")) {
+  $CONF = parse_ini_file("Configuration.ini");
+  if ( !$CONF ) {
     $CONF = ['host'=>'localhost','user'=>'wmff','passwd'=>'','dbase'=>'wmff','testing'=>''];
     return 0;
   }
@@ -66,7 +67,7 @@ host=" . $_POST['host'] . "
 user=" . $_POST['user'] . "
 
 ; password for the database
-passwd=" . $_POST['passwd'] . "
+passwd='" . $_POST['passwd'] . "'
 
 ; database to be used
 dbase=" . $_POST['dbase'] . "
@@ -74,7 +75,7 @@ dbase=" . $_POST['dbase'] . "
 ; testing - if not set the system will send emails normally
 ; if it contains an @ it is treated as an email address to send all emails to
 ; otherwise no emails are sent
-testing=" . $_POST['testing'] . "
+testing='" . $_POST['testing'] . "'
 
 ; Title Prefix - prepended to Title string - useful for test environments
 TitlePrefix=" . $_POST['TitlePrefix'] . "
@@ -124,7 +125,7 @@ function Create_Databases() {
   global $CONF;
   //  Does the database exist?
   try {
-    $db = new mysqli($CONF['Host'], $CONF['user'], $CONF['passwd']);
+    $db = new mysqli($CONF['host'], $CONF['user'], $CONF['passwd']);
   } catch (\Exception $e) {
     echo $e->getMessage(), PHP_EOL;
     echo "Can't access mysql - aborting for now - you can retry once corrected<p>";
@@ -157,7 +158,7 @@ default-collation=utf8mb4_general_ci
 host=127.0.0.1
 port=3306 
 user=" . $CONF['user'] . "\n";
-    if ($CONF['passwd']) $schema .= "password=" . $CONF['passwd'] . "\n"; 
+    if ($CONF['passwd']) $skeema .= "password='" . $CONF['passwd'] . "'\n"; 
     file_put_contents("../Schema/.skeema",$skeema);
   }
   
@@ -304,7 +305,7 @@ function Setup_Sysadmin() {
   $Users = Get_AllUsers(2);
   $isasys = 0;
   
-  foreach($Users as $U) if ($U['AccessLevel'] == $Access_Type['SysAdmin']) $isasys = 1;
+  if ($Users) foreach($Users as $U) if ($U['AccessLevel'] == $Access_Type['SysAdmin']) $isasys = 1;
   if ($isasys) return;  // There is a sysadmin setup - skip
 
   $user = ['Login'=>$_POST['login'], 'AccessLevel'=> $Access_Type['SysAdmin'], 'password'=> crypt($_POST['password'],"WM"), 'SN'=>$_POST['SN']];
@@ -348,6 +349,16 @@ include ("Staff.php"); // no return wanted
   run any neededscripts to mod data from old to new
 
   php include path $_SYSTEM['DOCUMENT_ROOT'] get_include_path
+  
+TODO
+  chmod
+  improve skemea paths
+  sql.mode = ""
+  php.ini
+  check errors on create entries in db
+  .php handling
+  
+  
 */
 
 ?>
