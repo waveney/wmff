@@ -10,7 +10,7 @@
   $Trade_Types = Get_Trade_Types(1);
 
   function TraderList($Message='') {
-    global $Pitches,$tloc,$loc,$Traders,$Trade_Types;
+    global $Pitches,$tloc,$loc,$Traders,$Trade_Types,$Trade_State;
     echo "<div class=PitchWrap><div class=PitchCont>";
     if (!$Traders) {
       echo "No Traders Here Yet";
