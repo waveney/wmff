@@ -70,11 +70,11 @@
     $NotAssign = '';
     $TLocId = $tloc['TLocId'];
     if ($Traders) {
-      foreach ($Traders as $i=>$Trad) {
+      foreach ($Traders as $idx=>$Trad) {
         if ( $Trad['BookingState'] == $Trade_State['Deposit Paid'] || $Trad['BookingState'] == $Trade_State['Balance Requested'] || $Trad['BookingState'] == $Trade_State['Fully Paid'] ) {
-          $Traders[$i]['PAID'] = 1;
+          $Traders[$idx]['PAID'] = 1;
         } else {
-          $Traders[$i]['PAID'] = 0;
+          $Traders[$idx]['PAID'] = 0;
         } 
         for ($i=0; $i<3; $i++) {
           if ($Trad["PitchLoc$i"] == $TLocId) {
@@ -82,7 +82,7 @@
             $list = explode(',',$Trad["PitchNum$i"]);
             foreach ($list as $p) {
               if (!$p) continue;
-              if (!$Traders[$i]['PAID']) continue;
+              if (!$Traders[$idx]['PAID']) continue;
               if (!isset($Pitches[$p])) return $Trad['SN'] . " assigned to an invalid pitch number $p";
               if (isset($Usage[$p])) return "Clash on pitch $p - " . $Usage[$p] . " and " . $Trad['SN'];
               if ($Pitches[$p]['Type']) return $Trad['SN'] . " assigned to a non pitch";
@@ -90,7 +90,7 @@
               $TT[$p] = $Trad['TradeType'];
               $Found = $p;
             }
-            if ($Traders[$i]['PAID'] && !$Found) $NotAssign = "No pitch for " . $Trad['SN'];
+            if ($Traders[$idx]['PAID'] && !$Found) $NotAssign = "No pitch for " . $Trad['SN'];
           }
         }
       }
