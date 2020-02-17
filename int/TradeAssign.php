@@ -21,7 +21,7 @@
         echo "<tr><td draggable=true class='TradeName Trader$tid' id=TradeN$tid ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event) " .
              "style='background:" . ($Trad['PAID'] ? $Trade_Types[$Trad['TradeType']]['Colour'] : 'white' ) . "'>" . $Trad['SN'];
         if (!$Trad['PAID']) {
-          echo " <span class=err>NOT PAID</span>";
+          echo " <span class=err>" . ($Trad['BookingState'] == $Trade_State['Quoted'] ?"NOT ACCEPTED": "NOT PAID") .  "</span>";
         }
         echo "<td><img src=/images/icons/information.png width=20 title='" . $Trad['GoodsDesc'] . "'><td>";          
         $pitched = 0;
@@ -90,7 +90,7 @@
               $TT[$p] = $Trad['TradeType'];
               $Found = $p;
             }
-            if (!$Found) $NotAssign = "No pitch for " . $Trad['SN'];
+            if ($Traders[$i]['PAID'] && !$Found) $NotAssign = "No pitch for " . $Trad['SN'];
           }
         }
       }

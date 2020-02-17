@@ -12,7 +12,7 @@ function Pretty_Print_To($to) {
   if (is_array($to)) {
     if (is_array($to[0])) {
       foreach ($to as $i=>$too) {
-        if (is_array($too)) {
+        if (is_array($too) && isset($too[1])) {
           $a = $too[1];
           $n = ((isset($too[2]) && $too[2])?("&lt;" . $too[2] . "&gt;"):'');
           switch ($too[0]) {
@@ -262,13 +262,20 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
           case (preg_match('/MAILTO_(.*)/',$key,$mtch)?true:false):
             $rep = "<a href='mailto:" . $mtch[1] . "@" . $FESTSYS['HostURL'] . "'>" . $mtch[1] . "@" . $FESTSYS['HostURL'] . "</a>";
             break;
+          case (preg_match('/WEBINT(:.*)/',$key,$mtch)?true:false):
+            $bits = preg_split('/:/',$mtch[1],3);
+            $url = '';
+            if (isset($bits[1])) $url = $bits[1];
+            if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
+            $rep = "<a href='https://" . $_SERVER{'HTTP_HOST'} . ($url? "/$url" : "") . "'>$txt</a>";
+            break;
           case (preg_match('/WEB(:.*)/',$key,$mtch)?true:false):
             $bits = preg_split('/:/',$mtch[1],3);
             $url = '';
             $txt = $FESTSYS['HostURL'];
             if (isset($bits[1])) $url = $bits[1];
             if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
-            $rep = "<a href='https://" . $_SERVER{'HTTP_HOST'} . ($url? "/$url" : "") . "'>$txt</a>";
+            $rep = "<a href='https://" . $FESTSYS['HostURL'] . ($url? "/$url" : "") . "'>$txt</a>";
             break;
           case (preg_match('/READFILE_(.*)/',$key,$mtch)?true:false):
             $file = file_get_contents($mtch[1]);
@@ -380,7 +387,8 @@ function Replace_Help($Area='',$Right=0) {
   ['*MAILTO_name*','Inserts a mailto link to name@festival.org','All'],
   ['*BBREF*/*LNLREF*','Unique reference for payments','BB, LNL'],
   ['*PROG*','Programme for performer','Dance (will be all performers)'],
-  ['*WEB:*/*WEB:URL:TEXT','Website for Festival, URL - to follow website, TEXT - To be displayed (NO SPACES - any _ will appear as spaces)','All'],
+  ['*WEB:*/*WEB:URL:TEXT*','Website for Festival, URL - to follow website, TEXT - To be displayed (NO SPACES - any _ will appear as spaces)','All'],
+  ['*WEBINT:URL:TEXT*','Website for the festival back end, URL/TEXT as above.  WEB is the same when they are part of the same server','All'],
   ['*MISSING*','Important information missing from a dance side','Dance'],
   ['*SIDE*','Name of side','Dance'],
   ['*TICKBOX:b:TEXT*','Direct link to click a box, b=num(1-4)|Rec(eived)|..., TEXT to be displayed (NO SPACES - any _ will appear as spaces)','Dance'],
