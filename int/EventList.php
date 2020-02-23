@@ -182,8 +182,12 @@
   echo "</form>\n";
 
   if (Access('Committee','Venues')) {
-    echo "<h2><a href=EventAdd>Add Event</a></a>";
+    echo "<h2><a href=EventAdd>Add Event</a>";
 
+    if ($se) echo ", <a href=EventList>List Events</a>";
+
+    echo "</h2>";
+    
     echo "<h2>Checking...</h2>";
     EventCheck();
 

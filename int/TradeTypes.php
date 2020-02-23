@@ -17,7 +17,9 @@
 
   echo "The Order is for display, Index 1 MUST be for the default however, list this first.<p>\n";
 
-  echo "Artisan Messages trigger local Artisan related emails<p>Invoice Coode can be overridden by the location";
+  echo "Artisan Messages trigger local Artisan related emails<p>Invoice Coode can be overridden by the location<p>";
+  
+  echo "Set Default Size to override general default<p>";
   $coln = 0;
   $InvCodes =  Get_InvoiceCodes();
   $t = [];
@@ -40,6 +42,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Artisan Msgs</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Open</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Invoice Code</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Default Size</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Description</a>\n";
   echo "</thead><tbody>";
   if ($Trads) foreach($Trads as $t) {
@@ -58,6 +61,7 @@
     echo "<td>" . fm_checkbox("",$t,'ArtisanMsgs','',"ArtisanMsgs$i");
     echo "<td>" . fm_checkbox("",$t,'TOpen','',"TOpen$i");
     echo "<td>" . fm_select($InvCodes,$t,'SalesCode',1,'',"SalesCode$i");
+    echo fm_text1('',$t,'DefaultSize',0.5,'','',"DefaultSize$i");
     echo "<td>" . fm_basictextarea($t,'Description',2,1,'',"Description$i");
     echo "\n";
   }
@@ -75,6 +79,7 @@
   echo "<td><input type=checkbox name=ArtisanMsgs0>";
   echo "<td><input type=checkbox name=TOpen0>";
   echo "<td>" . fm_select($InvCodes,$t,'InvoiceCode',1,'',"SalesCode0");
+  echo "<td><input type=text size=8 name=DefaultSize0>";
   echo "<td><textarea name=Description0 cols=40></textarea>";
   echo "</table></div>\n";
   echo "<input type=submit name=Update value=Update>\n";

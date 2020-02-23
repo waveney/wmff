@@ -172,12 +172,14 @@ function AddBandRow(BPerR) {
 function BandChange(ev) { 
 }
 
-function SetTradeType(p,c,i,r,d,dc) {
+function SetTradeType(p,c,i,r,d,dc,ps) {
 //  debugger;
   if (p) { $('.PublicHealth').show() } else { $('.PublicHealth').hide() };
   if (c) { $('.Charity').show() } else { $('.Charity').hide() };
   $('#TTDescription').text(d);
   $('#TTDescription').css('background',dc);
+  $('.DefaultPitch').text(ps);
+  $('#PitchSize0').val(ps);
 }
       
 function PowerChange(t,i) {

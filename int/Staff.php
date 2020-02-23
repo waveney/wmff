@@ -408,7 +408,7 @@
     if (Access('Staff')) echo "<li><a href=AdminGuide>Admin Guide</a> \n";
     if (Access('SysAdmin')) {
 //      echo "<li><a href=BannerManage>Manage Banners</a> \n";
-      echo "<li><a href=PerformerTypes?Y=$YEAR>Performer Types</a> \n";
+      if ( Capability("EnableMusic") || Capability("EnableMusic")) echo "<li><a href=PerformerTypes?Y=$YEAR>Performer Types</a> \n";
       echo "<li><a href=YearData?Y=$YEAR>General Year Settings</a> \n";
       echo "<li><a href=MasterData>Festival System Data Settings</a> \n";
     }

@@ -309,10 +309,16 @@ Any generator must meet the Euro 4 silent generator standard.',
   Set_Help_Table($t);
 }
 
-function Default_Trade($id) {
-  global $YEAR;
-  return array('Year'=>$YEAR,'Tid'=>$id,'PitchSize0'=>'3Mx3M','Power0'=>0,'BookingState'=>0);
+function Pitch_Size_Def($type) {
+  global $YEAR,$TradeTypeData;
+  $DefPtch = (isset($TradeTypeData[$type]['DefaultSize'])?$TradeTypeData[$type]['DefaultSize']:'');
+  if (!$DefPtch) $DefPtch = Feature('DefaultPitch','3Mx3M');
+  return $DefPtch;
+}
 
+function Default_Trade($id,$type=1) {
+  global $YEAR;
+  return array('Year'=>$YEAR,'Tid'=>$id,'PitchSize0'=>Pitch_Size_Def($type),'Power0'=>0,'BookingState'=>0);
 }
 
 // OLD CODE DELETE
@@ -389,7 +395,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade',$Mode=0) { // Mode 1 = Ctte, 2=Fi
           if ($Trad['TradeType'] == $i) echo " checked";
           echo " onclick='SetTradeType(" . $d['NeedPublicHealth'] . "," . $d['NeedCharityNum'] . "," .
                                           $d['NeedInsurance'] . "," . $d['NeedRiskAssess'] . ',"' . $d['Description'] . '","' . 
-                                          $d['Colour'] . "\")'"; // not fm-Radio because of this line
+                                          $d['Colour'] . '","' . Pitch_Size_Def($i) . '")\''; // not fm-Radio because of this line
           echo " id=TradeType$i oninput=AutoRadioInput('TradeType',$i) ";
           echo ">&nbsp;</div>\n ";
         }
@@ -447,6 +453,7 @@ function Trade_TandC() {
 
 function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
   global $YEAR,$PLANYEAR,$YEARDATA,$Trade_States,$Mess,$Action,$ADDALL,$Trade_State_Colours,$InsuranceStates,$Trade_State,$Trade_Days,$EType_States;
+  $Trad = Get_Trader($Tid);
   if ($year==0) $year=$YEAR;
   $CurYear = date("Y");
   if ($year < $PLANYEAR) { // Then it is historical - no changes allowed
@@ -514,7 +521,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
 //  }
   
   echo "<tr><td>Days:<td>" . fm_select($Trade_Days,$Trady,'Days');
-  echo "<tr><td>Requested Pitch Sizes, 3x3M is default" . Help('PitchSize');
+  echo "<tr><td>Requested Pitch Sizes, <span class=DefaultPitch>" . Pitch_Size_Def($Trad['TradeType']) . "</span> is default" . Help('PitchSize');
   if (Feature("TradePower")) echo "<td colspan=2>Power Requirements" . Help('Power') . "<br>3 Amps - Lighting, 13 Amps - 1 Kettle...";
   if (isset($Trady['PitchLoc0']) && $Trady['PitchLoc0']) {
     echo "<td>Location<td>Pitch Number";
@@ -1101,7 +1108,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
       if (isset($Tradyrs[$YEAR])) {
         $Trady = $Tradyrs[$YEAR];
       } else {
-        $Trady = Default_Trade($Tid);
+        $Trady = Default_Trade($Tid,$Trad['TradeType']);
       }
     } elseif (!$Trad) {
       echo "<h2 class=ERR>Could not find Trader $Tid</h2>\n";
@@ -1113,7 +1120,7 @@ function Trade_Main($Mode,$Program,$iddd=0) {
     $Tid = -1;
     $Trad = ['TradeType' => 1, 'IsTrader' => 0];  
   }
-  if (!isset($Trady)) $Trady = Default_Trade($Tid);
+  if (!isset($Trady)) $Trady = Default_Trade($Tid,$Trad['TradeType']);
 
   Show_Trader($Tid,$Trad,$Program,$Mode);
   if ($Mode < 2 && !$Orgs) Show_Trade_Year($Tid,$Trady,$YEAR,$Mode);
@@ -1904,7 +1911,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Li
             if ( $Trad['BookingState'] == $Trade_State['Deposit Paid'] || $Trad['BookingState'] == $Trade_State['Balance Requested'] || $Trad['BookingState'] == $Trade_State['Fully Paid'] ) {
               $TT[$p] = $Trad['TradeType'];
             } else {
-              $TT[$p] = 0;
+              $TT[$p] = -1;
             }
             $TNum[$p] = $Trad['Tid'];
           }
@@ -1946,7 +1953,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Li
       $Lopen = 1;
     }
     echo "<rect x=" . ($Pitch['X'] * $Factor) . " y=" . ($Pitch['Y'] * $Factor) . " width=" . ($Pitch['Xsize'] * $Factor) . " height=" . ($Pitch['Ysize'] * $Factor);
-    echo " style='fill:" . ($Pitch['Type']?$Pitch['Colour']:($TT[$Posn]?($Name?$TradeTypeData[$TT[$Posn]]['Colour']  : "yellow"):"white")) . ";stroke:black;";
+    echo " style='fill:" . ($Pitch['Type']?$Pitch['Colour']:($TT[$Posn]>=0?($Name?$TradeTypeData[$TT[$Posn]]['Colour']  : "yellow"):"white")) . ";stroke:black;";
     if ($Pitch['Angle']) echo "transform: rotate(" . $Pitch['Angle'] . "Deg);" ;
 
     echo "' id=Posn$Posn ondragstart=drag(event) ondragover=allow(event) ondrop=drop(event) />"; // Not used at present
@@ -1978,7 +1985,7 @@ function Pitch_Map(&$loc,&$Pitches,$Traders=0,$Pub=0,$Scale=1,$Links=0) {  // Li
  //       $Chunk = substr($Name,0,$ChSize);
         echo "<tspan x=" . (($Pitch['X']+0.2) * $Factor)  . " y=" . (($Pitch['Y']+$Ystart/$Mapscale) * $Factor) . 
              " style='font-size:" . (($Pitch['Type']?$FSize*2:$FSize)+$Pitch['Font']) . "px;'>$Chunk</tspan>";
-        $Ystart += ($Pitch['Type']?1.2:0.6);
+        $Ystart += ($Pitch['Type']?1.2:0.6)*(10+$Pitch['Font']*2.1)/10;
       }
     }
     echo "</text>";
