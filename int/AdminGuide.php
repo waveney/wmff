@@ -119,16 +119,15 @@ Format of controls: Control : Value : Comment<p>
 <tr><td>DanceComp<td>Is there a dance competition
 <tr><td>DanceDefaultPerSlot<td>2
 <tr><td>DanceDefaultSlot<td>30 = 30 minute default dance spot, 45 for a 45 minute default.  Gives the default subevent split
+<tr><td>DefaultPitch<td>Trade Deafult Size
 <tr><td>EmailButtons
 <tr><td>FestBankAccountNum
 <tr><td>FestBankAdr
 <tr><td>FestBankSortCode
 <tr><td>FestCompanyNumber<td>Company Number (if any)
-<tr><td>FestLegalAddr1,12 Bramshaw Way"
-<tr><td>FestLegalAddr2,New Milton"
-<tr><td>FestLegalAddr3,Hampshire BH25 7ST"
-<tr><td>FestLegalTitle,Wimborne Minster Folk Festival Ltd"
-<tr><td>FestTresEmail,Email:Treasurer@wimbornefolk.co.uk"
+<tr><td>FestLegalAddr1,2,3<td>Company Address
+<tr><td>FestLegalTitle<td>Legal name of company running festival
+<tr><td>FestTresEmail<td>Text to appear on Invoices WRT tresurer
 <tr><td>FestVatNumber<td>Company VAT Number (if any), if zero or not set VAT is not charged
 <tr><td>FooterBit<td>If present displayed in footer before copyright etc - Old Style only
 <tr><td>HeaderPreTools<td>If present displayed before tools - Old Style only
