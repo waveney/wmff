@@ -286,7 +286,7 @@ function Send_SysAdmin_Email($Subject,&$data=0) {
 }
 
 $head_done = 0;
-$AdvancedHeaders = file_exists("files/Newnavigation.php");
+$AdvancedHeaders = file_exists(dirname(__FILE__) . "/files/Newnavigation.php");
 
 function doextras($extras) {
   global $FESTSYS;
@@ -307,6 +307,7 @@ function doextras($extras) {
 // If Banner is a simple image then treated as a basic banner image with title overlaid otherwise what is passed is used as is
 function dohead($title,$extras=[],$Banner='',$BannerOptions=' ') {
   global $head_done,$FESTSYS,$CONF,$AdvancedHeaders;
+
   if ($head_done) return;
   $V=$FESTSYS['V'];
   $pfx="";
@@ -318,7 +319,6 @@ function dohead($title,$extras=[],$Banner='',$BannerOptions=' ') {
   } else {
     include_once("festfiles/header.php");
   }  
-  
   if ($extras) doextras($extras);
   echo "</head><body>\n";
 

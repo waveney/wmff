@@ -51,11 +51,11 @@ please upload a copy of your <?php $PLANYEAR ?> public liability insurance to yo
 and we'll see if we can arrange a suitable time and place.
 
 <dt>Collecting<dd>Please pick up a collecting tin from the Festival Information in the Square before your first 
-dance spot and return it there when you've finished dancing.  There will be a cash prize for the team with the best collection.
+dance spot and return it there when you've finished dancing.  
 
 <dt>If you have any problems at the festival<dd>Ask anyone with a radio (festival
-information,etc.) to call Judith or Richard Proctor.  You can try our mobiles
-07759 784901 or 07718 511432, but remember we'll be spending most of our time
+information,etc.) to call Caitlin (), Judith (07759 784901) or Richard (07718 511432).  
+You can try our mobiles or , but remember we'll be spending most of our time
 next to loud morris bands and may not hear a mobile ringing. Radios should reach
 us when phones fail.  You can contact Festival Information (who will have radios)
 in the Square.
@@ -85,17 +85,13 @@ in the procession will appear in your dance side record on the web.
 order to avoid the problem of dancing past stalls encroaching on the route. 
 The proposed new route is longer, but less cluttered. -->
 
-<dt>Rapper Dancers<dd>We're only expecting rapper teams to do one street spot
-per day. The rest of the time you can free range in the town's pubs. The programme
-book will have a list of pubs and local businesses that are supporting the festival.
+<dt>Rapper Dancers<dd>When you are not doing a street spot, you are welcome to free range in the town's pubs.
 
 <dt>Appalachian dancers<dd>Please arrive a few minutes early so you can sort out any specific needs with the sound engineer, 
 and allow 5 mins for band set up in your dance programme. 
 Bring your own jack leads to plug into our equipment and your own anti-slip agent.
 
-<dt>Wet Weather<dd>If it rains and you want to carry on dancing, head for the
-Town Hall/Council Chambers where space has been reserved for dancing. Or if
-you can find a friendly pub/church/tea room with enough space, just ask
+<dt>Wet Weather<dd>If it rains and you want to carry on dancing, find a friendly pub/church/tea room with enough space, just ask
 their permission and dance anywhere you like.
 
 <dt>Photograph<dd>If you have a good recent photograph of your side (and we

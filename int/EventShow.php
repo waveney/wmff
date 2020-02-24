@@ -98,13 +98,15 @@ function Print_Participants($e,$when=0,$thresh=0) {
   $Se = $Ev['SubEvent'];
   $Subs = array();
   if ($Se < 0 ) {// Has Sub Events - Treat as Root
-    $res=$db->query("SELECT * FROM Events WHERE SubEvent=$Eid ORDER BY Day, Start, Type");
-    while($sev = $res->fetch_assoc()) $Subs[] = $sev;
+    $Subs = Get_All_Public_Subevents_For($Eid);
+//    $res=$db->query("SELECT * FROM Events WHERE SubEvent=$Eid ORDER BY Day, Start, Type");
+//    while($sev = $res->fetch_assoc()) $Subs[] = $sev;
   } else if ($Se > 0) { // Is Sub Event - Find Root
     $Eid = $Se;
-    $Ev = Get_Event($Eid);  
-    $res=$db->query("SELECT * FROM Events WHERE SubEvent=$Eid ORDER BY Day, Start, Type");
-    while($sev = $res->fetch_assoc()) $Subs[] = $sev;
+    $Subs = Get_All_Public_Subevents_For($Eid);
+//    $Ev = Get_Event($Eid);  
+//    $res=$db->query("SELECT * FROM Events WHERE SubEvent=$Eid ORDER BY Day, Start, Type");
+//    while($sev = $res->fetch_assoc()) $Subs[] = $sev;
   } else if ($Ev['BigEvent']) {
     $Others = Get_Other_Things_For($Eid);
     foreach ($Others as $o) {
@@ -254,7 +256,7 @@ function Print_Participants($e,$when=0,$thresh=0) {
     }
   } else { // Sub Events
     Print_Participants($Ev,1,$ETs[$Ev['Type']]['Format']-1);
-    foreach($Subs as $sub) if (Event_Has_Parts($sub)) Print_Participants($sub,1,$ETs[$Ev['Type']]['Format']-1);
+    foreach($Subs as $sub) if (Event_Has_Parts($sub) && $sub['EventId'] != $Ev['EventId']) Print_Participants($sub,1,$ETs[$Ev['Type']]['Format']-1);
   }
   if ($lemons) echo "</table></div>";
   if ($Ev['LongEvent']) {
