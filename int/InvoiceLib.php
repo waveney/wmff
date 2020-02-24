@@ -612,7 +612,7 @@ function Put_InvoiceCode(&$now) {
 
 function Invoice_AssignCode($Code,$Val,$Src=0,$SrcId=0,$Name='',$Reason='') { // The Code is externally assigned
   global $db,$PLANYEAR;
-  $ent = ['Year'=>$PLANYEAR,'Code'=>$Code,'Amount'=>$Val,'Source'=>$Src,'SourceId'=>$SrcId,'State'=>0,'IssueDate'=>time(),'SN'=>$Name, 'Reason'=>$Reason];
+  $ent = ['Year'=>$PLANYEAR,'Code'=>$Code,'Amount'=>$Val,'Source'=>$Src,'SourceId'=>$SrcId,'State'=>0,'IssueDate'=>time(),'SN'=>$Name, 'Reason'=>$Reason,'DueDate'=>time()+Feature('PaymentTerms')*86400];
   Insert_db('OtherPayments', $ent);
 }
 
