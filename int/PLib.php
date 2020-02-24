@@ -702,8 +702,16 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
   foreach ($PerfTypes as $p=>$d) if (($d[0] != 'IsASide') && $Side[$d[0]]) $NotD = 1;
   
   echo fm_DragonDrop(1, 'Insurance','Sides',$snum,$Sidey,$Mode,'',(($NotD || $Mstate || $Mode)),$Imp);
+  
+  $ntxt = 'Notes (Do <b>NOT</b> use this for questions.<br>if not answered by the ';
+  if ($Side['IsASide']) {
+    $ntxt .= "<a href=DanceFAQ>Dance FAQ</a>";
+    if ($NotD) $ntxt .= "<br> or the ";
+  }
+  if ($NotD) $ntxt .= "<a href=MusicFAQ>Music FAQ</a>";
+  $ntxt .= '<br>please send in an email)';
 
-  echo "<tr>" . fm_textarea('Notes',$Sidey,'YNotes',8,2);
+  echo "<tr>" . fm_textarea($ntxt,$Sidey,'YNotes',8,2);
 
   if ($Mode) echo "<tr>" . fm_textarea('Private Notes',$Sidey,'PrivNotes',8,2,'class=NotSide','class=NotSide');
 

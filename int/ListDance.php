@@ -147,9 +147,9 @@
             } else echo linkemailhtml($fetch,'Side',(!$fetch['Email'] && $fetch['AltEmail']? 'Alt' : '' ));
           }
         echo "<td>";
-        if ($fetch['Notes'] || $fetch['YNotes'] || $fetch['PrivNotes']) {
-          $Htext = htmlspecialchars($fetch['Notes'] . "\n" . $fetch['YNotes'] . "\n" . $fetch['PrivNotes']);
-          echo "<img src=images/icons/LetterN.jpeg width=20 title='$Htext'>";
+        if ($fetch['Notes'] || $fetch['YNotes'] || $fetch['PrivNotes'] || $fetch['Likes']) {
+          $Htext = htmlspec($fetch['Notes'] . "\n" . $fetch['YNotes'] . "\n" . $fetch['PrivNotes'] . "\n" . $fetch['Likes']	);
+          echo "<img src=images/icons/LetterN.jpeg width=20 title=\"$Htext\">";
         }
 
       } 
