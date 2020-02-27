@@ -7,7 +7,7 @@
   include_once("DispLib.php");
   include_once("MusicLib.php");
   include_once("DanceLib.php");
-  global $YEARDATA,$Importance,$DayLongList,$YEAR,$PerfTypes;
+  global $YEARDATA,$Importance,$DayLongList,$YEAR,$PerfTypes,$Event_Types_Full;
 /*
   Have different formats for different types of events, concerts, ceidihs, workshop
 */
@@ -237,15 +237,17 @@ function Print_Participants($e,$when=0,$thresh=0) {
   if ($Ev['Blurb']) echo "<div style='width:800px;'>" . $Ev['Blurb'] . "</div><P>";
   if ($Ev['Website']) echo "<h3>" . weblink($Ev['Website'],'Website for this event') . "</h3><p>\n";
 
-  if ($Ev['IsConcert'] || ($Event_Types_Full[$ev['Type']]['IsConcert']) ) { // Concert Formating
-
+  if ($Ev['IsConcert'] || ($Event_Types_Full[$Ev['Type']]['IsConcert']) ) { // Concert Formating
+    echo "<div class=tablecont><table class=lemontab border>\n";
     foreach(array_reverse($ks) as $i) {
       if (isset($imps[$i])) {
         foreach ($imps[$i] as $thing) {
+          echo "<tr>td>";
           Print_Thing($thing);
         }
       }
     }
+    echo "</table></div>";
   } else {
     if (!$Se) { 
       if ($Ev['BigEvent']) {

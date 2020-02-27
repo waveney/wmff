@@ -61,6 +61,8 @@
         'Volunteer'=>'InfoStewards',
         'Sponsorship'=>'InfoSponsors',
         'Trade Stand Applications'=>'InfoTrade', 
+        'Live and Loud'=>'LiveNLoud',
+        'Buskers Bash'=>'BuskersBash',
          ],
       '-Gallery'=>[
         '2019 Photos'=>'gallery/gallery2019',

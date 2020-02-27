@@ -7,7 +7,7 @@
   include_once("InvoiceLib.php");
   global $USER,$USERID,$db,$PLANYEAR,$SignupStates,$SignupStateColours;
 
-  if (!Access('Staff')) {
+  if (0 && !Access('Staff')) {
     echo "<h2>Applications are closed</h2>";
     dotail();
   }
