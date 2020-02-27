@@ -25,6 +25,7 @@
   echo "Set the <b>Use Imp</b> flag to bring headline particpants to top of an event, they still get bigger fonts.<p>";
   echo "Set Format to drive EventShow rules 0=All Large, 2=Switch to large at Importance-High, 9+=All Small<p>";
   echo "Set The Map Feat to the MapFeature to enable maps of locations 0 = no map<p>";
+  echo "Set Concert to surpress publication of indivdual act times<p>";
   
   echo "<form method=post action=EventTypes>";
   echo "<div class=tablecont><table id=indextable border>\n";
@@ -46,6 +47,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>First Year</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Banner</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Map Feat</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Concert</a>\n";
   echo "</thead><tbody>";
   foreach($Types as $t) {
     $i = $t['ETypeNo'];
@@ -65,6 +67,7 @@
     echo fm_number1('',$t,'FirstYear','','size=5',"FirstYear$i");
     echo          fm_text1("",$t,'Banner',1,'','',"Banner$i");
     echo fm_number1('',$t,'MapFeatNum','','min=0 max=20',"MapFeatNum$i");
+    echo "<td>" . fm_checkbox('',$t,'IsConcert','',"IsConcert$i");
     echo "\n";
   }
   echo "<tr><td><td><input type=text name=SN0 >";
@@ -83,6 +86,7 @@
   echo "<td><input type=number name=FirstYear0 value=$PLANYEAR size=5>";
   echo "<td><input type=text name=Banner0 >";
   echo "<td><input type=number name=MapFeatNum0 min=0 max=20>";
+  echo "<td><input type=checkbox name=IsConcert0>";
   echo "</table></div>\n";
   echo "<input type=submit name=Update value=Update >\n";
   echo "</form></div>";
