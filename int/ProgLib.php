@@ -294,7 +294,7 @@ function Get_All_Public_Subevents_For($Eid) {
   $res=$db->query("SELECT * FROM Events WHERE SubEvent=$Eid ORDER BY Day, Start, Type");  
   if ($res) {
     while($ev = $res->fetch_assoc()) {
-      if (( $Event_Types_Full[$ev['Type']]['Public']) && ($Event_Types_Full[$ev['Type']]['State'] > 2) && ($ev['Public'] < 2)) {
+      if (( $Event_Types_Full[$ev['Type']]['Public']) && ($Event_Types_Full[$ev['Type']]['State'] >= 2) && ($ev['Public'] < 2)) {
         $evs[$ev['EventId']] = $ev;
       }
     }
