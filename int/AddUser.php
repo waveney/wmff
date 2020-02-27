@@ -78,7 +78,7 @@
       if ((($r++)&1) == 0) echo "<tr>";
       echo fm_radio("Change " . $sec ,$Area_Levels,$User,$sec,0);
     }
-    if (isset($User['LastAccess'])) echo "<tr><td>Last Login:<td>" . date('d/m/y H:i:s',$User['LastAccess']);
+    if (isset($User['LastAccess'])) echo "<tr><td>Last Login:<td>" . ($User['LastAccess']? date('d/m/y H:i:s',$User['LastAccess']):'Never');
     if (Access('SysAdmin')) {
       echo "<tr>" . fm_text('Change Sent',$User,'ChangeSent',1,'','readonly');
       echo "<tr>" . fm_text('Access Key',$User,'AccessKey',1,'','readonly');
