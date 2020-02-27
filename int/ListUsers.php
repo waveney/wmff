@@ -56,8 +56,11 @@
 //    echo "<td>" . $usr['Abrev'];
     echo "<td>" . $usr['Login'] . "<td>" . $usr['Email'] . "<td>" . $usr['Phone'] . "<td>" . $usr['WMFFemail'] . "<td>" . $Access_Levels[$usr['AccessLevel']];
     echo "<td>" . $usr['Roll'] . "<td>" . $usr['RelOrder'] ;
-    if ($usr['Image']) echo "<td><img src='" . $usr['Image'] . "' width=50>";
-    if (feature('ShowContactPhotos')) echo "<td>" . $User_Public_Vis[$usr['Contacts']];
+    if (feature('ShowContactPhotos')) {
+      echo "<td>"; 
+      if ($usr['Image']) echo "<img src='" . $usr['Image'] . "' width=50>";
+      }
+    echo "<td>" . $User_Public_Vis[$usr['Contacts']];
   
     if ($Full) { 
       echo "<td>";
