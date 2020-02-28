@@ -27,6 +27,7 @@ function Parse_Perf_Selection() {
   $Skip = 0;
 
   echo "<span class=floatright id=largeredsubmit onclick=($('.HelpDiv').toggle()) >Click to toggle HELP</span>";
+
   echo "<div class=content>";
   echo "<div class=HelpDiv hidden>";
 ?>
@@ -63,7 +64,7 @@ A similar feature will appear eventually for music.<p>
   
   $FestDays = [];
   if ($YEARDATA['LastDay']-$YEARDATA['FirstDay'] < 6) {
-    for ($day= $YEARDATA['FirstDay']; $day <=$YEARDATA['LastDay']; $day++) $FestDays[$day] = $DayList[$day];
+    for ($day= $YEARDATA['FirstDay']; $day <=$YEARDATA['LastDay']; $day++) $FestDays[$day] = DayList($day);
   } else {
     for ($day= $YEARDATA['FirstDay']; $day <=$YEARDATA['LastDay']; $day++) $FestDays[$day] = FestDate($day,'S');
   }
@@ -277,6 +278,10 @@ A similar feature will appear eventually for music.<p>
   if (isset($Event['Year'])) $YEAR = $Event['Year'];
   foreach ($PerfTypes as $p=>$d) $SelectPerf[$p] = ($d[0] == 'IsASide'? Select_Come(): Select_Perf_Come($d[0]));
 
+  if (isset($Event['WeirdStuff']) && $Event['WeirdStuff']) {
+    $FestDays = [];  
+    for ($day= -4; $day <= 10; $day++) $FestDays[$day] = FestDate($day,'S');
+  }
 //var_dump($Event);
   if (isset($Err)) echo "<h2 class=ERR>$Err</h2>\n";
   echo "<span class=NotSide>Fields marked should be only set by Richard</span>";
@@ -295,6 +300,7 @@ A similar feature will appear eventually for music.<p>
       echo "<td class=NotSide>Public:" . fm_select($Public_Event_Types,$Event,'Public');
 //      echo "<td class=NotSide>Participant Visibility:" . fm_select($VisParts,$Event,'InvisiblePart');
       echo "<td class=NotSide>Originator:" . fm_select($AllActive,$Event,'Owner',1);
+      echo "<td class=NotSide>" . fm_checkbox('Enable Weird Stuff',$Event,'WeirdStuff');
       echo "<tr>";
       echo "<td class=NotSide>" . fm_checkbox('Exclude From Spot Counts',$Event,'ExcludeCount');
       echo "<td class=NotSide>" . fm_checkbox('Ignore Clashes',$Event,'IgnoreClash');

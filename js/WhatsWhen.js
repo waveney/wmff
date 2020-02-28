@@ -10,7 +10,7 @@ function ShowDay(d) {
 
 // No sub event expansion yet
 function ShowAll() {
-  var days=['Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  var days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
   if ($('#ShowAll').text() == 'Expand All') {
     for (d in days) {
       $('.Day'+days[d]).show();

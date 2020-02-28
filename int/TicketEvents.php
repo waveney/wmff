@@ -29,7 +29,7 @@
 
   while ($E = $Evs->fetch_assoc()) {
     echo "<tr>";
-    echo "<td>" . $DayList[$E['Day']];
+    echo "<td>" . DayList($E['Day']);
     echo "<td>" . $E['Start'];
     echo "<td>" . $E['End'];
     echo "<td><a href=EventAdd?e=" . $E['EventId'] . ">" . $E['SN'] . "</a>";

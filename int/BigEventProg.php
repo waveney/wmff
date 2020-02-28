@@ -14,7 +14,7 @@
   $Event = Get_Event($Eid);
   if (!$Event['BigEvent']) Error_Page('Not A Big Event');
   $DAY = $Event['Day'];
-  $Day = $DayList[$DAY];
+  $Day = DayList($DAY);
   $YEAR = $Event['Year'];
 
   if (!isset($_GET{'EInfo'})) $_GET{'EInfo'} = 0;
@@ -121,10 +121,10 @@ function Side_List($extra='',$extra2='') {
 }
 
 function Controls() {
-  global $InfoLevels,$Eid,$Event,$DAY,$DayList;
+  global $InfoLevels,$Eid,$Event,$DAY;
   echo "<div class=DPControls><center>";
   echo "Big Event Programming Controls<br>";
-  echo "For " . $Event['SN'] . " on " . $DayList[$DAY] . "<br>\n"; 
+  echo "For " . $Event['SN'] . " on " . DayList($DAY) . "<br>\n"; 
   echo "<div id=EVENT hidden>$Eid</div>";
   echo "<form method=get action=BigEventProg>";
   echo fm_hidden('EV',$Eid);

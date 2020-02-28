@@ -20,13 +20,13 @@ To register your interest, please click the link below and fill in an
 application form today.<p>
 
 Applicants should fill in the <a href=int/LiveNLoudForm><b>Application Form</b></a> in by
-no later than Monday 13th April 2020.<p>
+no later than Monday 6th April 2020.<p>
 
 <h3>APPLICATION PROCESS</h3>
 
 1. <a href=int/LiveNLoudForm><b>APLICATION FROM</b></a>: Please begin by registering your interest and
 filling out the application form. Applications will
-close on Tuesday 5th March.<p>
+close on Friday 3rd April.<p>
 
 2. VIDEO LINK: All applicants will be asked to provide a video link that
 will be reviewed following the application deadline. You will not be
@@ -58,12 +58,12 @@ perform 2 songs for our panel of judges and live audience.<p>
 
 <h3>COMPETITON DETAILS</h3>
 Auditions:<br>
-Sunday 24th April<br>
+Sunday 26th April<br>
 1. 11am – 2pm - Live and Louder – Under 16s Auditions<br>
 2. 2:30pm – 5:30pm – Live and Loud – 17+ Auditions<p>
 
 Live Final:<br>
-Sunday 14th April<br>
+Sunday 26th April<br>
 Doors: 7pm Event: 7:30pm<p>
 
 This year, the competition will be divided into 2 categories:<p>
@@ -74,7 +74,7 @@ Live and Loud – For performers aged 17 and over<br>
 A winner and runner up will be selected from each category by our panel
 of judges and each will receive a cash prize (&pound;100 Winner and &pound;50
 Runner Up) along with a performance slot at this year’s festival on the
-Willow Walk stage!<p>
+Willow Walk stage or Stage in the Square!<p>
 
 You can support all of our performers on Sunday 24th April at the Live
 Final. Doors will open at 7pm and battle commences at 7.30pm. Tickets

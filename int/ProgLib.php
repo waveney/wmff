@@ -1,20 +1,27 @@
 <?php
 // Common Venue/Event/Programming Library
 
-global $Venue_Status,$DayList,$InfoLevels,$VisParts,$Thing_Types,$Public_Event_Types,$Day_Type,$DayLongList,$Info_Type,$Public_Event_Type;
+global $Venue_Status,$InfoLevels,$VisParts,$Thing_Types,$Public_Event_Types,$Day_Type,$DayLongList,$Info_Type,$Public_Event_Type;
 $Venue_Status = array('In Use','Not in Use');
-$DayList = array(-3=>'Tue',-2=>'Wed',-1=>'Thur',0=>'Fri',1=>'Sat',2=>'Sun',3=>'Mon');
-$DayLongList = array(-3=>'Tuesday',-2=>'Wednesday',-1=>'Thursday',0=>'Friday',1=>'Saturday',2=>'Sunday',3=>'Monday');
+$DayLongList = array(-4=>'Monday',-3=>'Tuesday',-2=>'Wednesday',-1=>'Thursday',0=>'Friday',1=>'Saturday',2=>'Sunday',3=>'Monday',
+                     4=>'Tuesday',5=>'Wednesday',6=>'Thursday',7=>'Friday',8=>'Saturday',9=>'Sunday',10=>'Monday');
 $InfoLevels = array('None','Major','Minor','All');
 $VisParts = array('All','None'); // Add subcats when needed
 $Thing_Types = array('Sides','Acts','Others');
 $Public_Event_Types = array('As Global','Yes', 'Not yet','Never');
 
-$Day_Type = array_flip($DayList);
+$Day_Type = ['Fri'=>0,'Sat'=>1,'Sun'=>2]; // TODO wrong needs generalising
 $Info_Type = array_flip($InfoLevels);
 $Public_Event_Type = array_flip($Public_Event_Types);
 include_once("DateTime.php");
 
+function DayList($d) {
+  $DayList = array(-4=>'Mon',-3=>'Tue',-2=>'Wed',-1=>'Thur',0=>'Fri',1=>'Sat',2=>'Sun',3=>'Mon',4=>'Tue',5=>'Wed',6=>'Thur',7=>'Fri',8=>'Sat',9=>'Sun',10=>'Mon');
+  global $YEARDATA;
+  
+  if ($d < $YEARDATA['FirstDay'] || $d > $YEARDATA['LastDay'] || ($YEARDATA['LastDay']-$YEARDATA['FirstDay']) < 6) return $DayList[$d];
+  return FestDate($day,'S');
+}
 
 function Set_Venue_Help() {
   static $t = array(
@@ -200,6 +207,7 @@ Set Use Notes to fmt to use the Big Event programming Notes to describe types of
         'IgnoreMultiUse'=>'Set to prevent warning that same performer has been at this location on this day',
         'ShowSubevent'=>'Set this in the rare case when a sub event should be show on top level listings',
         'Concert'=>'Select this if it has a ticketed entry to a whole - multi act event - used in formatting event descriptions',
+        'WeirdStuff'=>'Set this to have events before the start and after the end.  After setting save and reload',
         
   );
   Set_Help_Table($t);
@@ -650,12 +658,12 @@ function VenName(&$V) {
 }
 
 function DayTable($d,$Types,$xtr='',$xtra2='',$xtra3='') {
-  global $DayList,$DayLongList,$YEAR,$YEARDATA;
+  global $DayLongList,$YEAR,$YEARDATA;
   static $lastday = -99;
   if ($d != $lastday) {
     if ($lastday != -99) echo "</table></div><p>\n";
     $lastday = $d;
-    echo '<p><div class=tablecont><table class=' . $DayList[$d] . "tab $xtra3>";
+    echo '<p><div class=tablecont><table class=' . DayList($d) . "tab $xtra3>";
     echo "<tr><th colspan=99 $xtra2>$Types on " . FestDate($d,'L') . " $xtr</th>\n";
     return 1;
   }
@@ -680,7 +688,7 @@ function &Get_Active_Venues($All=0) {
 
 
 function Show_Prog($type,$id,$all=0,$price=0) { //mode 0 = html, 1 = text for email
-    global $DayList,$db;
+    global $db;
     $str = '';
     include_once("DanceLib.php");
     $Evs = Get_All_Events_For($type,$id,$all);

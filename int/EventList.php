@@ -128,7 +128,7 @@
       echo "<td>$i<td>";
       if (Access('Staff','Venues') || $evnt['Owner']==$USERID || $evnt['Owner2']==$USERID) echo "<a href=EventAdd?e=$i>";
       if (strlen($evnt['SN']) >2) { echo $evnt['SN'] . "</a>"; } else { echo "Nameless</a>"; };
-      echo "<td>" . $DayList[$evnt['Day']] . "<td>" . timecolon($evnt['Start']) . "<td>";
+      echo "<td>" . DayList($evnt['Day']) . "<td>" . timecolon($evnt['Start']) . "<td>";
       if ($se > 0 && $evnt['SubEvent'] < 0) { echo timecolon($evnt['SlotEnd']); } else { echo timecolon($evnt['End']); }; 
       echo "<td>" . (isset($Venues[$evnt['Venue']]) ? $Venues[$evnt['Venue']] : "Unknown");
       echo "<td>" . ($evnt['Status'] == 1 ? "<div class=Cancel>Cancelled</div> " : "") . (isset($Event_Types[$evnt['Type']]) ? $Event_Types[$evnt['Type']] : "?" );

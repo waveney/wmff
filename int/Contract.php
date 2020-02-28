@@ -6,7 +6,7 @@
   include_once("InnerMusicFAQ.php"); 
 
 function Show_Contract($snum,$mode=0,$ctype=1) { // mode=-2 dummy-1 Draft,0 proposed, 1 freeze reason - see contractConfirm, ctype 0=Side,1=act,2=other
-  global $Mess,$Action,$YEARDATA,$Cat_Type,$YEAR,$PLANYEAR,$DayList,$DayLongList, $Event_Types,$ContractMethods,$USERID,$ReportTo;
+  global $Mess,$Action,$YEARDATA,$Cat_Type,$YEAR,$PLANYEAR,$DayLongList, $Event_Types,$ContractMethods,$USERID,$ReportTo;
 
   $str = "<div class=content900>\n";
   $Venues = Get_Real_Venues(1);
@@ -125,7 +125,7 @@ services, under the following terms and conditions:<p>\n";
   // Extra for supplied camping
   $camp = [];
   for ($day = 0; $day<3; $day++) {
-    $dy = "Camp" . $DayList[$day];
+    $dy = "Camp" . DayList($day);
     if ($Sidey[$dy]) $camp[] = $Sidey[$dy] . (($Sidey[$dy]) == 1 ?" person":" people") . " on " . FestDate($day,'L');
   }
   if ($camp) {

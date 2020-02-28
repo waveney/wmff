@@ -100,7 +100,7 @@
   }
   echo "</table></div><p>";
 
-  global $YEAR,$db,$DayList,$YEARDATA;
+  global $YEAR,$db,$YEARDATA;
 
   echo "<div class='FullWidth TicketTable'>";
   $Vens = Get_Venues(1);

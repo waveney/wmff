@@ -38,7 +38,7 @@
       echo "<tr><td>$i<td>";
       echo "<a href=EventAdd?e=$i>";
       if (strlen($evnt['SN']) >2) { echo $evnt['SN'] . "</a>"; } else { echo "Nameless</a>"; };
-      echo "<td>" . $DayList[$evnt['Day']] . "<td>" . timecolon($evnt['Start']) . "<td>" . timecolon($evnt['End']);
+      echo "<td>" . DayList($evnt['Day']) . "<td>" . timecolon($evnt['Start']) . "<td>" . timecolon($evnt['End']);
       echo "<td>" . (isset($Venues[$evnt['Venue']]) ? $Venues[$evnt['Venue']] : "Unknown");
       echo "<td>" .($evnt['NeedSteward'] ? "Y" : "" );
       echo "<td>" . $evnt['StewardTasks'];

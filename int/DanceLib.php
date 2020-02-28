@@ -607,7 +607,7 @@ function EventCmp($a,$b) {
 /  otherwise get programmes for all overlaps and merge together and list as a timetable
 / */
 function Extended_Prog($type,$id,$all=0) { 
-    global $DayList,$YEARDATA,$OlapCats;
+    global $YEARDATA,$OlapCats;
     $Olaps = Get_Active_Overlaps_For($id,1);
     if (!$Olaps) return "";
 
@@ -684,7 +684,7 @@ function Extended_Prog($type,$id,$all=0) {
                 break;
               }
             }
-            $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
+            $str .= "<tr><td $cls>" . DayList($e['Day']) . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
                         "<td>" . SAO_Report($e['ActAs']) .
                         "<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SN'] . "</a><td $cls>";
             if ($VenC) $str .= " starting from ";
@@ -695,7 +695,7 @@ function Extended_Prog($type,$id,$all=0) {
             if ($NextI) { $str .= ", Before " . SAO_Report($NextI); };
             $str .= "\n";
           } else { // Normal Event
-            $str .= "<tr><td $cls>" . $DayList[$e['Day']] . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
+            $str .= "<tr><td $cls>" . DayList($e['Day']) . "<td $cls>" . timecolon($e['Start']) . "-" . timecolon(($e['SubEvent'] < 0 ? $e['SlotEnd'] : $e['End'] )) .
                         "<td>" . SAO_Report($e['ActAs']) .
                         "<td $cls><a href=$host/int/$EventLink?e=" . $e['EventId'] . ">" . $e['SN'] . 
                         "</a><td $cls><a href=$host/int/$VenueLink?v=" . $e['Venue'] . ">" . VenName($Venues[$e['Venue']]) . "</a>";
