@@ -44,6 +44,10 @@
       Update_db_post('Articles',$Art);
       $Art['StopDate'] = time() - 60;
       Put_Article($Art);
+    } elseif ($_REQUEST['ACTION'] == 'DELETE') {
+      $id = $_REQUEST['id'];
+      db_delete('Articles',$id);
+      include('ListArticles.php');    
     } elseif ($_REQUEST['ACTION'] == 'CREATE') {
       $id = Insert_db_post('Articles',$Art);
     } 
@@ -85,6 +89,7 @@
   if ($id > 0) {
     echo "<input type=submit name=ACTION value=UPDATE>";
     echo "<input type=submit name=ACTION value=STOP>";
+    echo "<input type=submit name=ACTION value=DELETE>";
   } else {
     echo "<input type=submit name=ACTION value=CREATE>";
   }
