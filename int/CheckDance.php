@@ -21,7 +21,7 @@
 include_once("DanceLib.php");
 
 function CheckDance($level) { // 0 = None, 1 =Major, 2= All
-  global $db,$YEAR, $DayList, $Surfaces, $Share_Type,$Procession,$Event_Types_Full;
+  global $db,$YEAR, $Surfaces, $Share_Type,$Procession,$Event_Types_Full;
 
 // GRAB LOTS OF DATA
   echo "<div id=ChechedDance>";
@@ -47,19 +47,19 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
       for($i=1;$i<5;$i++) {
         if ($s = $e["Side$i"]) {
           $dancing[$s][] = $eid;
-          if (isset($Sides[$s]) && ($Sides[$s][$DayList[$e['Day']]])) {
+          if (isset($Sides[$s]) && ($Sides[$s][DayList($e['Day'])])) {
                 // No Action
           } else if (!isset($Sides[$s])) {
             $NotSide = Get_Side($s);
 // var_dump($NotSide);
             echo "<a href=AddPerf?sidenum=$s>" . $NotSide['SN'] . "</a>: ";
             echo "<span class=red>Is listed doing an <a href=EventAdd?e=" . $e['EventId'] . ">event</a> at " . $e['Start'] . " in " . SName($Venues[$e['Venue']]) .
-              " on " . $DayList[$e['Day']] . ", but is <b>NOT</b> there that day</span><br>\n";
+              " on " . DayList($e['Day']) . ", but is <b>NOT</b> there that day</span><br>\n";
             $ErrC++;            
           } else if ($Sides[$s]['IsASide']) { 
             echo "<a href=AddPerf?sidenum=$s>" . $sidenames[$s] . "</a>: ";
             echo "<span class=red>Is listed doing an <a href=EventAdd?e=" . $e['EventId'] . ">event</a> at " . $e['Start'] . " in " . SName($Venues[$e['Venue']]) .
-              " on " . $DayList[$e['Day']] . ", but is <b>NOT</b> there that day</span><br>\n";
+              " on " . DayList($e['Day']) . ", but is <b>NOT</b> there that day</span><br>\n";
             $ErrC++;
           }
         }
@@ -70,7 +70,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
           } else if ($Sides[$s]['IsASide']) { // Should never get here, wont work anyway
             echo "<a href=AddPerf?sidenum=$s>" . $sidenames[$s] . "</a>: ";
             echo "<span class=red>Is listed doing an event at " . $e['Start'] . " in " . SName($Venues[$e['Venue']]) .
-                " on " . $DayList[$e['Day']] . ", but is <b>NOT</b> there that day</span><br>\n";
+                " on " . DayList($e['Day']) . ", but is <b>NOT</b> there that day</span><br>\n";
           }
         }
         if ($s = $e["Other$i"]) {
@@ -79,7 +79,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
           } else if ($Sides[$s]['IsASide']) {
             echo "<a href=AddPerf?sidenum=$s>" . $sidenames[$s] . "</a>: ";
             echo "<span class=red>Is listed doing an event at " . $e['Start'] . " in " . SName($Venues[$e['Venue']]) .
-                 " on " . $DayList[$e['Day']] . ", but is <b>NOT</b> there that day</span><br>\n";
+                 " on " . DayList($e['Day']) . ", but is <b>NOT</b> there that day</span><br>\n";
           }
         }
 */
@@ -98,7 +98,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
             } else {
               echo "<a href=AddPerf?sidenum=$s>" . $sidenames[$s] . "</a>: ";
               echo "<span class=red>Is listed doing an event at " . $e['Start'] . " in " . SName($Venues[$e['Venue']]) .
-                   " on " . $DayList[$e['Day']] . ", but is <b>NOT</b> there that day</span>";
+                   " on " . DayList($e['Day']) . ", but is <b>NOT</b> there that day</span>";
               $ErrC++;
             }
           }
@@ -139,7 +139,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
       foreach ($dancing[$si] as $dd=>$e) { // Checking for ~30 minute gaps
         $Ven = $Events[$e]['Venue'];
         $daynum = $Events[$e]['Day']; 
-        $daynam = $DayList[$daynum];
+        $daynam = DayList($daynum);
         $start = $Events[$e]['Start'];
         if ($Events[$e]['EventId'] == $last_e) {
           $Err[] = "Doing the same event on $daynam at $start in " . SName($Venues[$Ven]);  
@@ -345,8 +345,8 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
                 if ($Ev['BigEvent'] && ($Ev['OtherPos'][$si] <= $Ev['OtherCount']/2)) $End = timeadd($End, -30);
                 $Ven = $Ev['Venue'];
               
-                if ($LastD == $Ev['Day'] && $start < ($LastET + 20) && $side[$DayList[$Ev['Day']]]) {
-                  $daynam = $DayList[$LastD];
+                if ($LastD == $Ev['Day'] && $start < ($LastET + 20) && $side[DayList($Ev['Day'])]) {
+                  $daynam = DayList($LastD);
                   if ($Ven == $LastVen) {
                     $Consec += ($End - $LastET);
                     if ($Consec > 65) {
@@ -387,7 +387,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
           if ($res) {
             while ($e = $res->fetch_assoc()) {
               if ($Rule['Days'] > 0 && $e['Day'] != $Rule['Days'] ) continue;
-              $Err[] = "Want to avoid dancing with " . $sidenames[$o] . " both are at " . SName($Venues[$e['Venue']]) . " at " . $e['Start'] . " on " . $DayList[$e['Day']];
+              $Err[] = "Want to avoid dancing with " . $sidenames[$o] . " both are at " . SName($Venues[$e['Venue']]) . " at " . $e['Start'] . " on " . DayList($e['Day']);
               $ErrC++;
             }
           }

@@ -8,7 +8,7 @@
 
   include_once("int/ProgLib.php");
   include_once("int/DateTime.php");
-  global $db,$YEAR,$PLANYEAR,$SHOWYEAR,$YEARDATA,$DayList,$DayLongList;
+  global $db,$YEAR,$PLANYEAR,$SHOWYEAR,$YEARDATA,$DayLongList;
 
   $Ets = Get_Event_Types(1);
   $Vens = Get_Venues(1);
@@ -110,7 +110,7 @@
       echo "<p>Jump to: ";
       for ($i=-4;$i<10; $i++) {
         if (!$DaysUsed[$i]) continue;
-        echo "<a href=#SkipTo" . ($i+10) . " class='DaySkipTo " . $DayList[$i] . "Tab'>" . $DayLongList[$i] . "</a> ";
+        echo "<a href=#SkipTo" . ($i+10) . " class='DaySkipTo " . DayList($i) . "Tab'>" . $DayLongList[$i] . "</a> ";
       }
     }
     

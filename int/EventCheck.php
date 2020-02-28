@@ -8,7 +8,7 @@
  */
 
 function EventCheck($checkid=0) {
-  global $db, $YEAR, $DayList;
+  global $db, $YEAR;
   $Venues = Get_Venues(1); // All info not just names
 
   $EVENT_Types = Get_Event_Types(1);
@@ -36,7 +36,7 @@ function EventCheck($checkid=0) {
             if ($end <= $ev['Start'] && $EVENT_Types[$LastEvent['Type']]['HasDance'] ) { // No error
             } else if ($checkid==0 || $checkid==$ev['EventId'] || $checkid==$LastEvent['EventId']) {
               echo "The <a href=EventAdd?e=" . $ev['EventId'] . ">Event (" . $ev['SN'] . ")</a> at " . SName($Venues[$ev['Venue']]) . " starting at " .
-                   $ev['Start'] . " on " . $DayList[$ev['Day']] . " clashes with <a href=EventAdd?e=" . 
+                   $ev['Start'] . " on " . DayList($ev['Day']) . " clashes with <a href=EventAdd?e=" . 
                    $LastEvent['EventId'] . ">this event (" . $LastEvent['SN'] . ")</a><p>\n";
               $errors++;
             }
@@ -44,7 +44,7 @@ function EventCheck($checkid=0) {
             if ($ev['SubEvent'] == $LastEvent['EventId'] && $LastEventEmpty) { // No Error
             } else if ($checkid==0 || $checkid==$ev['EventId'] || $checkid==$LastEvent['EventId']) {
               echo "The <a href=EventAdd?e=" . $ev['EventId'] . ">Event (" . $ev['SN'] . ")</a> at " . SName($Venues[$ev['Venue']]) . " starting at " .
-                   $ev['Start'] . " on " . $DayList[$ev['Day']] . " clashes with <a href=EventAdd?e=" . 
+                   $ev['Start'] . " on " . DayList($ev['Day']) . " clashes with <a href=EventAdd?e=" . 
                    $LastEvent['EventId'] . ">this event (" . $LastEvent['SN'] . ")</a><p>\n";
               $errors++;
             }
@@ -73,7 +73,7 @@ function EventCheck($checkid=0) {
                   if (($chkstart >= $realstart && $chkstart < $realend) || ($chkend > $realstart && $chkend <= $realend)) {
                     if ($checkid==0 || $checkid==$ev['EventId'] || $checkid==$ce['EventId']) {
                       echo "The <a href=EventAdd?e=" . $ev['EventId'] . ">Big Event (" . $ev['SN'] . ")</a> at " . $Venues[$ce['Venue']]['SN'] . " starting at " .
-                           $ev['Start'] . " on " . $DayList[$ev['Day']] . " clashes with <a href=EventAdd?e=" . 
+                           $ev['Start'] . " on " . DayList($ev['Day']) . " clashes with <a href=EventAdd?e=" . 
                            $ce['EventId'] . ">this event (" . $ce['SN'] . ")</a><p>\n";
                       $errors++;
                     }
@@ -96,7 +96,7 @@ function EventCheck($checkid=0) {
                     if ($oe['Type'] == 'Venue' && $coe['Identifier'] == $oe['Identifier']) { // Clash
                       if ($checkid==0 || $checkid==$ev['EventId'] || $checkid==$ce['EventId']) {
                         echo "The <a href=EventAdd?e=" . $ev['EventId'] . ">Big Event (" . $ev['SN'] . ")</a>  starting at " .
-                             $ev['Start'] . " on " . $DayList[$ev['Day']] . " clashes with <a href=EventAdd?e=" . 
+                             $ev['Start'] . " on " . DayList($ev['Day']) . " clashes with <a href=EventAdd?e=" . 
                              $ce['EventId'] . ">this big event (" . $ce['SN'] . ")</a> on use of " . SName($Venues[$oe['Identifier']]) . "<p>\n";
                         $errors++;
                       }

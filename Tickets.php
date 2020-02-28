@@ -100,7 +100,7 @@
   }
   echo "</table></div><p>";
 
-  global $YEAR,$db,$DayList,$YEARDATA;
+  global $YEAR,$db,$YEARDATA;
 
   echo "<div class='FullWidth TicketTable'>";
   $Vens = Get_Venues(1);
@@ -108,7 +108,18 @@
   $Evs = $db->query($qry);
 
   while ($E = $Evs->fetch_assoc()) {
-    DayTable($E['Day'],"Event Tickets",($YEARDATA['PriceComplete' . ($E['Day'] >=0?$E['Day']:"_" . (-$E['Day'])) ]?'':'(More to come)'),'','style=min-width:1000');
+    $PC=0;
+    if ($E['Day'] < $YEARDATA['FirstDay'] || $E['Day'] > $YEARDATA['LastDay']) {
+      $PC = 1;
+    } else {
+      $pcf = 'PriceComplete' . ($E['Day'] >=0?$E['Day']:"_" . (-$E['Day']));
+      if (!isset($YEARDATA[$pcf])) {
+        $PC = 1;
+      } elseif ($YEARDATA[$pcf]) {
+        $PC = 1;
+      }
+    }
+    DayTable($E['Day'],"Event Tickets",($PC?'':'(More to come)'),'','style=min-width:1000');
     $bl = "<a href=" . ($E['SpecPriceLink']? $E['SpecPriceLink'] : $E['TicketCode']) . " target=_blank>" ;
     echo "<tr><td><strong><a href=/int/EventShow?e=" . $E['EventId'] . ">" . $E['SN'] . "</a></strong><br>"; 
       echo Price_Show($E);

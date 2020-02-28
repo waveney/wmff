@@ -45,7 +45,7 @@ Square.<p>
 
 
 <h3>COMPETITION DETAILS</h3>
-Saturday 23rd April 2020<br>
+Saturday 25th April 2020<br>
 10:30am - 4pm<p>
 
 Each year, buskers from around the country travel to Wimborne to

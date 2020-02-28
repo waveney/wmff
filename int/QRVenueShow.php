@@ -7,7 +7,7 @@
   include_once("MusicLib.php");
   include_once("DispLib.php");
   
-  global $db, $YEAR,$ll,$SpecialImage,$Pictures,$PerfTypes,$DayList,$DayLongList;
+  global $db, $YEAR,$ll,$SpecialImage,$Pictures,$PerfTypes,$DayLongList;
 
 function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
   global $ll,$SpecialImage,$Pictures;
@@ -268,7 +268,7 @@ function PrintImps(&$imps,$NotAllFree,$Price,$rows,$ImpC,$maxwith=100) {
       echo "<p>Jump to: ";
       for ($i=-4;$i<10; $i++) {
         if (!$DaysUsed[$i]) continue;
-        echo "<a href=#SkipTo" . ($i+10) . " class='DaySkipTo " . $DayList[$i] . "Tab'>" . $DayLongList[$i] . "</a> ";
+        echo "<a href=#SkipTo" . ($i+10) . " class='DaySkipTo " . DayList($i) . "Tab'>" . $DayLongList[$i] . "</a> ";
       }
     }
   }
