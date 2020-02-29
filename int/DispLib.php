@@ -216,14 +216,16 @@ function Count_Perf_Type($type,$Year=0) {
 function Expand_Special(&$Art) {
   global $db,$YEAR,$Coming_Type;
   static $Shown = [];
+  static $EShown = [];
   $now = time();
   
   $words = explode(' ',$Art['SN']);
 
   switch ($words[0]) {
   case '@Dance_Imp':
+    $lvl = (isset($words[1])?$words[1]:0);
     $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.IsASide=1 AND s.SideId=y.SideId AND y.Year=$YEAR AND s.Photo!='' AND y.Coming=" . $Coming_Type['Y'] .
-                        " AND ((s.DiffImportance=0 AND s.Importance!=0) OR (s.DiffImportance=1 AND s.DanceImportance!=0)) AND y.ReleaseDate<$now ORDER BY RAND() LIMIT 5");
+                        " AND ((s.DiffImportance=0 AND s.Importance>$lvl) OR (s.DiffImportance=1 AND s.DanceImportance>$lvl)) AND y.ReleaseDate<$now ORDER BY RAND() LIMIT 5");
     if (!$ans) { $Art = []; return; }  
   
     while ( $Dstuff = $ans->fetch_assoc()) {
@@ -271,9 +273,10 @@ function Expand_Special(&$Art) {
     }
     break;
 
-  case '@Music_Imp':  
+  case '@Music_Imp': 
+    $lvl = (isset($words[1])?$words[1]:0);
     $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$YEAR AND s.Photo!='' AND y.YearState>0 " . 
-                        " AND ((s.DiffImportance=0 AND s.Importance!=0) OR (s.DiffImportance=1 AND s.MusicImportance!=0)) AND y.ReleaseDate<$now ORDER BY RAND() LIMIT 5");
+                        " AND ((s.DiffImportance=0 AND s.Importance>$lvl) OR (s.DiffImportance=1 AND s.MusicImportance>$lvl)) AND y.ReleaseDate<$now ORDER BY RAND() LIMIT 5");
     if (!$ans) { echo "EEK"; $Art = []; return; }  
   
     while ( $Mstuff = $ans->fetch_assoc()) {
@@ -337,6 +340,17 @@ function Expand_Special(&$Art) {
     break;
     
   case '@Event' : // Just this Event
+    $id = $words[1];
+    if (in_array($id,$EShown)) {
+      $Art = [];
+      return;
+    }
+    $EShown [] = $id;
+    $E = Get_Event($id);
+    $Art['SN'] = $E['SN'];
+    $Art['Link'] = '/int/EventShow?e=' . $id;
+    $Art['Text'] = $E['Description'];
+    break;
   
     break;
     
