@@ -61,16 +61,9 @@
     $Banner .= "</div>";
   }
 
-
   dohead('12 - 14 June 2020', ['/js/WmffAds.js', "/js/HomePage.js"],$Banner );
 
-  if ($future) {
-    echo "<form method=post>";
-    echo fm_text("Days in Future", $_REQUEST,'F');
-    echo "<input type=submit name=Show value=Show><p></form>\n";
-  }
-
-  if ( !Show_Articles_For("Top")) {
+  if ( !Show_Articles_For("Top",$future)) {
     echo "<center><a href=/Tickets><img align=center src=/images/stuff/Main_Acts_2020t2.jpg class=BrianImg></a></center>";
   }
   echo "<br clear=all>";
@@ -91,6 +84,12 @@
   }
   echo "</div>\n";
   echo "<center><table style='table-layout: fixed;width:100%' id=SponDisplay><tr id=SponsorRow></table></center>";
+
+  if ($future) {
+    echo "<form method=post>";
+    echo fm_text("Days in Future", $_REQUEST,'F');
+    echo "<input type=submit name=Show value=Show><p></form>\n";
+  }
 
   dotail();
 ?>
