@@ -7,7 +7,8 @@
   include_once("int/DispLib.php");
   include_once("int/festfm.php");
   
-
+  $future = (isset($_REQUEST['F'])?$_REQUEST['F']:0);
+  
 //  set_ShowYear();  
   $DFrom = ($YEARDATA['DateFri']+$YEARDATA['FirstDay']);
   $DTo = ($YEARDATA['DateFri']+$YEARDATA['LastDay']);
@@ -20,35 +21,60 @@
     $NYear = $YEAR+1;
   }
 
-  $Banner  = "<div class=WMFFBanner400><img src=" . $FESTSYS['DefaultPageBanner'] . " class=WMFFBannerDefault>";
-  $Banner .= "<div class=BanOverlay><img src=/images/icons/wimborne-folk-festival-logo-white-shadow.png?1>";
-  $Banner .= "<img src=/images/icons/underline.png?1>";
-  $Banner .= "</div>";
+  $TopBans = Get_All_Articles(0,'TopPageBanner',$future);
 
-  if ($YEARDATA['Years2Show'] == 2) {  
-    $Banner .= "<div class=BanDates2>Next Year: $NFrom - $NTo $NMonth $NYear<p><div class=BanNotice>" .
-      "Applications for artists to perform at Wimborne Minster Folk Festival 2020 are now closed.<br>
-A huge thank you to everyone who applied.<br>
-Every application will be considered and will receive a reply in due course.<br>
-If you have missed the deadline to apply, or were unsuccessful at this stage - Don't worry
-There is still a chance to win slots at the festival by applying to \"Busker's Bash\", and also to \"The Wimborne Minster Folk Festival Live and Loud Competition\" next year.<br> 
-Keep an eye on this website for details.<p>" .
-      "Please <a href=InfoStewards.php>Volunteer</a> to be a Steward and/or help the Setup/Cleardown crew." . 
-      "</div></div>";
+  if ($TopBans) {
+    $Imgs = explode("\n",$TopBans[0]['Text']);
+    
+    $Banner  = "<div class=WMFFBanner400>";
+    $Banner .= '<div class="rslides_container" style="margin:0;"><ul class="rslides" id="slider1">';
+    
+    foreach ($Imgs as $img) {
+      $Banner .= "<li><img src='$img' class=WMFFBannerDefault>";
+    }
+    $Banner .= '</ul></div><script>$(function() { $(".rslides").responsiveSlides(); });</script>';
+    $Banner .= "<div class=BanOverlay><img src=/images/icons/wimborne-folk-festival-logo-white-shadow.png?1>";
+    $Banner .= "<img src=/images/icons/underline.png?1>";
+    $Banner .= "</div>";
+
+    if ($YEARDATA['Years2Show'] == 2) {  
+      $Banner .= "<div class=BanDates2>Next Year: $NFrom - $NTo $NMonth $NYear<p><div class=BanNotice></div></div>";
+    } else {
+      $Banner .= "<a href=/Tickets class=BanDates>$DFrom - $DTo $DMonth $SHOWYEAR<br>Buy Tickets</a>";  
+    }
+
+    $Banner .= "<img align=center src=/images/icons/torn-top.png class=TornTopEdge>";
+    $Banner .= "</div>";
   } else {
-    $Banner .= "<a href=/Tickets class=BanDates>$DFrom - $DTo $DMonth $SHOWYEAR<br>Buy Tickets</a>";  
+    $Banner  = "<div class=WMFFBanner400><img src=" . $FESTSYS['DefaultPageBanner'] . " class=WMFFBannerDefault>";
+    $Banner .= "<div class=BanOverlay><img src=/images/icons/wimborne-folk-festival-logo-white-shadow.png?1>";
+    $Banner .= "<img src=/images/icons/underline.png?1>";
+    $Banner .= "</div>";
+
+    if ($YEARDATA['Years2Show'] == 2) {  
+      $Banner .= "<div class=BanDates2>Next Year: $NFrom - $NTo $NMonth $NYear<p><div class=BanNotice></div></div>";
+    } else {
+      $Banner .= "<a href=/Tickets class=BanDates>$DFrom - $DTo $DMonth $SHOWYEAR<br>Buy Tickets</a>";  
+    }
+
+    $Banner .= "<img align=center src=/images/icons/torn-top.png class=TornTopEdge>";
+    $Banner .= "</div>";
   }
-
-  $Banner .= "<img align=center src=/images/icons/torn-top.png class=TornTopEdge>";
-  $Banner .= "</div>";
-
 
 
   dohead('12 - 14 June 2020', ['/js/WmffAds.js', "/js/HomePage.js"],$Banner );
 
-  echo "<center><a href=/Tickets><img align=center src=/images/stuff/Main_Acts_2020t2.jpg class=BrianImg></a></center>";
+  if ($future) {
+    echo "<form method=post>";
+    echo fm_text("Days in Future", $_REQUEST,'F');
+    echo "<input type=submit name=Show value=Show><p></form>\n";
+  }
+
+  if ( !Show_Articles_For("Top")) {
+    echo "<center><a href=/Tickets><img align=center src=/images/stuff/Main_Acts_2020t2.jpg class=BrianImg></a></center>";
+  }
   echo "<br clear=all>";
-  Show_Articles_For("NewTop");
+
   echo "<div style=margin:10>";
   echo '<center><h2>Sponsors & Supporters</h2></center>';
   echo "<center>Wimborne Minster Folk Festival would not be possible without the amazing help and generosity of the following companies and organisations:<p>";

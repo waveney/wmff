@@ -74,6 +74,8 @@
           $stuff = getimagesize($mtch[1]);
         } else if (preg_match('/^\/(.*)/',$Photo,$mtch)) {
           $stuff = getimagesize($mtch[1]);
+        } else if (preg_match('/(.*)\?.*/',$Photo,$mtch)) {
+          $stuff = getimagesize($mtch[1]);
         } else {
           $stuff = getimagesize($Photo);
         }

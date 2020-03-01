@@ -521,6 +521,10 @@
   transform: translateX(-50%); 
 }
 
+.BanOverlay, .BanDates {
+  z-index: 900;
+}
+
 .WMFFbanner400 .BanOverlay img {
   max-height:160px;
   max-width:90vw;

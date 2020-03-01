@@ -199,6 +199,7 @@
       $txt .= "<li class=smalltext><a href=CheckDuplicates?Y=$YEAR>Check for Duplicate Year Tables Entries</a>";      
 //      $txt .= "<li class=smalltext><a href=ImportDance2>Import Appalachian List</a>"; // Should never be needed again
       $txt .= "<li class=smalltext><a href=CheckAccessKeys>Check and fix Blank Access Keys</a>"; 
+      $txt .= "<li class=smalltext><a href=ResetImageSizes>Scan and save all Perf Image sizes</a>";
       $txt .= "</table></div>\n";
     }
     $txt .= "</ul>\n";
