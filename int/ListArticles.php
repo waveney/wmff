@@ -51,7 +51,7 @@ Click on the title to edit.<p>";
 
   echo "</table></div>\n";
   
-  echo "<h2><a href=AddArticle>Add An Article</a>, <a href=HomeFuture?F=7>Top Page in a Week</a></h2>\n";
+  echo "<h2><a href=AddArticle>Add An Article</a>, <a href=/index?F=7>Top Page in a Week</a></h2>\n";
 
   dotail();
 

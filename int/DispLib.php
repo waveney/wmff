@@ -340,6 +340,7 @@ function Expand_Special(&$Art) {
     break;
     
   case '@Event' : // Just this Event
+    include_once("ProgLib.php");
     $id = $words[1];
     if (in_array($id,$EShown)) {
       $Art = [];
@@ -360,10 +361,12 @@ function Expand_Special(&$Art) {
 }
 
 function Show_Articles_For($page='',$future=0,$datas='400,700,20,3') {
-  if ($future == 0 && !Feature('UseArticles')) return;
+  if ($future == 0 && !Feature('UseArticles')) return 0;
   include_once("DanceLib.php");
   
   $Arts = Get_All_Articles(0,$page,$future);
+  
+  if (!$Arts) return 0;
 //  var_dump($Arts);
   echo "<div id=ShowArt data-settings='$datas'></div><p>";
   echo "<div id=OrigArt hidden>";
@@ -431,6 +434,7 @@ function Show_Articles_For($page='',$future=0,$datas='400,700,20,3') {
   }
   echo "</div>";
   echo "\n";
+  return 1;
 }
 
 
