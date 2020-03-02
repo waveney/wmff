@@ -16,14 +16,14 @@ To register your interest, please click the link below and fill in an
 application form today.<p>
 
 Applicants should fill in the <a href=int/BuskersBashForm><b>Application Form</b></a> in by
-no later than Monday 13th April 2020.<p>
+no later than Friday 10th April 2020.<p>
 
 
 <h3>APPLICATION PROCESS</h3>
 
 1. <a href=int/BuskersBashForm><b>APPLICATION FORM</b></a>: Please begin by registering your interest and
 filling out the application form. Applications will
-close on Monday 13th April.<p>
+close at 5pm on Friday 10th April April.<p>
 
 2. VIDEO LINK: All applicants will be asked to provide a video link that
 will be reviewed following the application deadline. You will not be
@@ -34,14 +34,13 @@ to provide us with something that shows you in the best possible light.<p>
 and select up to 14 acts play at this years Buskers Bash.<p>
 
 4. NOTIFICATION: Successful applicants will receive an email by Tuesday
-13th April inviting them to perform at this year’s event. Confirmation of
-your attendance must be received by Tuesday 14th March or your place
+14th April inviting them to perform at this year’s event. Confirmation of
+your attendance must be received by Wednesday 14th April or your place
 will be offered to another applicant.<p>
 
 5. EVENT: Performers will play at various locations around Wimborne on
-Saturday 23rd April. Audience members will vote for their favourites
-using tokens and each act will perform for our judging panel in the
-Square.<p>
+Saturday 25th April. Audience members will vote for their favourites
+using tokens and each act will perform for our judging panel.<p>
 
 
 <h3>COMPETITION DETAILS</h3>
@@ -51,8 +50,7 @@ Saturday 25th April 2020<br>
 Each year, buskers from around the country travel to Wimborne to
 compete in the annual Buskers Bash. Organised by the committee of
 Wimborne Minster Folk Festival, you can find the sound of traditional
-street entertainment at various venues throughout the town including
-The Square, The Cornmarket, The Library and The Oddfellows Arms.<p>
+street entertainment at various venues throughout the town.<p>
 
 Members of the public can purchase tokens on the day (at a cost of &pound;1
 for 10) to show their support for their favourite artists and all of these
@@ -61,7 +59,7 @@ winner.<p>
 
 Participants will compete this year for a cash prize (&pound;100 Winner and
 &pound;50 to the Runner Up) and the winner will be invited to perform on the
-Stage in the Square during the 2020 Folk Festival. It promises to be a
+Stage in the Square at Willow Walk during the 2020 Folk Festival. It promises to be a
 thrilling competition.<p>
 
 <?php 
