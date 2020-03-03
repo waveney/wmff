@@ -36,7 +36,7 @@ The principle long term car parks are:<p>
 <tr><td>Leigh Road <td> <button onclick=ShowDirect(1000022)>Directions</button>
 <tr><td>Poole Road<td> <button onclick=ShowDirect(1000025)>Directions</button>
 <tr><td>Old Town Road (Near the Green Man)<td> <button onclick=ShowDirect(1000017)>Directions</button>
-<tr><td>At the Market<td>
+<tr><td>At the Market<td> <button onclick=ShowDirect(1000030)>Directions</button>
 
 </table></div>
 </div><div id=Blob2>
@@ -47,6 +47,7 @@ The principle short term car parks are:
 <li>Waitrose
 <li>Allenview South (Beside the Allendale Centre)
 <li>Crownmead (Co Op)
+<li>Hanham Road South (Co Op)
 </ul>
 
 </div><div id=Blob3>
@@ -56,11 +57,9 @@ There will be extensive Bicycle parking provided in what is normally the Hanham 
 Please don't use the limited cycle racks on the High Street and by the Minster.<p>
 -->
 <h2>Closed Car Parks</h2>
-The High Street carpark will be restricted most of Thursday and fully closed from 6pm to be transformed into a festival venue.  
-(its inaccessible for cars anyway during the festival).<p>
+The High Street carpark will be inaccessable from 5pm on Friday until Sunday evening.<p>
 
-The Hanham Road south car park will not be a public car park during the festival. <!-- Part will be used for Bicycle parking (see above), 
-part used for the main taxi rank.--><p>
+The inner part of King Street Carpark will be closed from Thursday Evening until Monday morning.  For setting up the Microbreweries.
 
 </div></div><div class=OneCol id=TwoCols2></div></div>
 <?php
