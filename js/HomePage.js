@@ -19,7 +19,7 @@ $(document).ready(function() {
     SponUse = [];
     SponPos = [];
     var wid = $('#SponDisplay').width();
-    for(var i=0;i*200<wid;i++) {
+    for(var i=0;(i+1)*170<wid;i++) {
       var elem = Math.floor(Math.random() * Spons.length);
       var tries=1;
       while (SponUse[elem] && tries++ <10) elem = Math.floor(Math.random() * Spons.length);
