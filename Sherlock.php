@@ -85,7 +85,7 @@
   $DaysUsed = [];
   for ($i=-4;$i<10; $i++) $DaysUsed[$i] = 0;
   foreach($Evs as $e) {
-    if ($e['Price1']) $NotAllFree = 1;
+    if ($e['Price1'] || $e['SpecPrice']) $NotAllFree = 1;
     $DaysUsed[$e['Day']] = 1;
   }
   $TotalDays = array_sum($DaysUsed);
