@@ -1510,7 +1510,7 @@ button {
   grid-template-columns: repeat(auto-fit,minmax(300px, 1fr)); 
 }
 
-.ArtBulList1 li { text-align:left; }
+.ArtBulList1 li { text-align:left;}
 .ArtBulList1 li:nth-child(odd) { list-style-image: url('/images/icons/FlowerCerise.png'); }
 .ArtBulList1 li:nth-child(even) { list-style-image: url('/images/icons/FlowerDarkBlue.png'); }
 
