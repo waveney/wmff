@@ -12,7 +12,7 @@
   echo "<div id=DirPaneWrap><div id=DirPane><div id=DirPaneTop></div><div id=Directions></div></div></div>";
   echo "<p><div id=map></div></div>";
   echo "</div>\n";
-  Init_Map(-1,0,10);
+  Init_Map(-1,0,10,1);
 //  echo "</div></div>";
 ?>
 <script language=Javascript defer>
