@@ -13,7 +13,7 @@
   $Ets = Get_Event_Types(1);
   $Vens = Get_Venues(1);
 
-  $Extras = array('Music'=>' OR e.ListMusic=1'); // Need Dance Equiv
+  $Extras = ['Music'=>' OR e.ListMusic=1 ', 'Dance'=>' OR e.ListDance=1 ', 'Comedy'=>' OR e.ListComedy=1 ']; // Need Dance Equiv
 
 //  var_dump($Type);
 //  var_dump($Ets);
