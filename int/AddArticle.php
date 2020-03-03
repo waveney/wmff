@@ -10,7 +10,7 @@
   include_once("DateTime.php");
    
 //var_dump($_POST);
-  $Dates = array('StartDate','StopDate');
+  $Dates = array('StartDate','StopDate','RestartDate');
   
   if (isset($_REQUEST['ACTION'])) { /* Response to create/update button */
     Parse_DateInputs($Dates);
@@ -48,6 +48,13 @@
       $id = $_REQUEST['id'];
       db_delete('Articles',$id);
       include('ListArticles.php');    
+    } elseif ($_REQUEST['ACTION'] == 'REOPEN') {
+      $id = $_REQUEST['id'];
+      $Art = Get_Article($id);
+      Update_db_post('Articles',$Art);
+      $Art['StopDate'] = 0;
+      $Art['StartDate'] = (isset($_POST['RestartDate'])?$_POST['RestartDate']:0);
+      Put_Article($Art);
     } elseif ($_REQUEST['ACTION'] == 'CREATE') {
       $id = Insert_db_post('Articles',$Art);
     } 
@@ -90,6 +97,10 @@
     echo "<input type=submit name=ACTION value=UPDATE>";
     echo "<input type=submit name=ACTION value=STOP>";
     echo "<input type=submit name=ACTION value=DELETE>";
+    
+    if ($Art['StopDate']) {
+      echo "<input type=submit name=ACTION value=REOPEN>" . fm_text1('on',$Art,'RestartDate');
+    }
   } else {
     echo "<input type=submit name=ACTION value=CREATE>";
   }
