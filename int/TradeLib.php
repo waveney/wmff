@@ -815,7 +815,7 @@ function Send_Trader_Email(&$Trad,&$Trady,$messcat='Link',$att='') {
   $from = Feature('SendTradeEmailFrom');
   if ($from) $from .= "@" . $FESTSYS['HostURL'];
   if ($bccto) $bcc = ['bcc' , "$bccto@" . $FESTSYS['HostURL'],Feature('CopyTradeEmailsName')];
-  Email_Proforma([['to',$Trad['Email'],$Trad['Contact']],$bcc],
+  Email_Proforma(2,$Trad['Tid'],[['to',$Trad['Email'],$Trad['Contact']],$bcc],
     $messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att,0,$from);
 }
 
@@ -824,14 +824,14 @@ function Send_Trader_Simple_Email(&$Trad,$messcat='Link',$att='') {
   include_once("Email.php");
   $from = Feature('SendTradeEmailFrom');
   if ($from) $from .= "@" . $FESTSYS['HostURL'];
-  Email_Proforma([$Trad['Email'],$Trad['Contact']],$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad],'TradeLog',$att,0,$from);
+  Email_Proforma(2,$Trad['Tid'],[$Trad['Email'],$Trad['Contact']],$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad],'TradeLog',$att,0,$from);
 }
 
 function Send_Trade_Finance_Email(&$Trad,&$Trady,$messcat,$att=0) {
   global $PLANYEAR,$FESTSYS;
   include_once("Email.php");
 
-  Email_Proforma("treasurer@" . $FESTSYS['HostURL'],$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att);
+  Email_Proforma(2,$Trad['Tid'],"treasurer@" . $FESTSYS['HostURL'],$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Details',[&$Trad,&$Trady],'TradeLog',$att);
 }
 
 function Send_Trade_Admin_Email(&$Trad,&$Trady,$messcat,$att=0) {
@@ -839,7 +839,7 @@ function Send_Trade_Admin_Email(&$Trad,&$Trady,$messcat,$att=0) {
   global $PLANYEAR,$FESTSYS;
   include_once("Email.php");
 
-  Email_Proforma("trade@" . $FESTSYS['HostURL'],$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Admin_Details',[&$Trad,&$Trady],'TradeLog',$att);
+  Email_Proforma(2,$Trad['Tid'],"trade@" . $FESTSYS['HostURL'],$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $Trad['SN'],'Trader_Admin_Details',[&$Trad,&$Trady],'TradeLog',$att);
 }
 
 //  Mark as submitted, email fest and trader, record data of submission

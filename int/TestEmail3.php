@@ -3,7 +3,7 @@
   A_Check('Committee','Users');
 
   dostaffhead("Email Test");
-  NewSendEmail("richardjproctor42@gmail.com","Test Email",'Test Message');
+  NewSendEmail(0,0,"richardjproctor42@gmail.com","Test Email",'Test Message');
 
   dotail();
 ?>

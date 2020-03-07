@@ -244,8 +244,8 @@ function Expand_Special(&$Art) {
     break;
 
   case '@Dance_Many':
-    $Art['SN'] = "Dancing in $YEAR";
-    $Art['Link'] = "/LineUpDance";
+    $Art['SN'] = "Dancing";
+    $Art['Link'] = "/LineUp?T=Dance";
 
     $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . 
            $Coming_Type['Y'] . " AND y.ReleaseDate<$now");
@@ -296,7 +296,7 @@ function Expand_Special(&$Art) {
 
   case '@Music_Many':
     $Art['SN'] = "Music in $YEAR";
-    $Art['Link'] = "/LineUpMusic";
+    $Art['Link'] = "/LineUp?T=Music";
 
     $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.YearState>0 AND y.ReleaseDate<$now");
     $Msc = 0;

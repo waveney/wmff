@@ -18,6 +18,6 @@ if (isset($_REQUEST['E']) && isset($Side[$_REQUEST['E']]) ) {
 //var_dump($_REQUEST);
 $too = [['to',$To,$Side['Contact']],['from','Dance@' . $FESTSYS['HostURL'],'Wimborne Dance'],['replyto','Dance@' . $FESTSYS['HostURL'],'Wimborne Dance']];
 //$to = $Side['Email']; // Temp value
-echo Email_Proforma($too,$proforma,$subject,'Dance_Email_Details',[$Side,$Sidey],$logfile='Dance');
+echo Email_Proforma(1,$id, $too,$proforma,$subject,'Dance_Email_Details',[$Side,$Sidey],$logfile='Dance');
 
 ?>

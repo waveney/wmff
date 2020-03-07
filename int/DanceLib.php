@@ -148,7 +148,8 @@ function Show_Side($snum,$Message='',$price=0) {
     
     echo "<div id=Blob0>";
     if ($side['Description']) {
-      if ($side['OneBlurb']==0 || strlen($side['Description']) > strlen($side['Blurb'])) echo $side['Description'] . "<p>";
+//      if ($side['OneBlurb']==0 || 
+      if (strlen($side['Description']) > strlen($side['Blurb'])) echo $side['Description'] . "<p>";
     }
 
     if (isset($syear)) {
@@ -415,6 +416,7 @@ Major - major error, minor avoid if you can',
 IF you wish to remove a performer type tell Richard - there are many small changes that may be needed that are not yet automated',
         'OneBlurb'=>'Select this to surpress showing the Short Blurb and the Long Blurb at the same time',
         'DiffImportance'=>'IF needs to have different Importances for performer types, select this and SAVE CHANGES',
+        'EmailLog'=>'View the system email log to (and from) this performer - if there is one',
   );
   Set_Help_Table($t);
 }

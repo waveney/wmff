@@ -64,24 +64,30 @@ function Report_Log($roll) {
       case 'Side':
         $Side = Get_Side($USERID);
         $who = $Side['SN'];
+        $Src = 1;
+        $SrcId = $USERID;
         break;
         
       case 'Trade':
         $Trad = Get_Trader($USERID);
         $who = $Trad['SN'];
+        $Src = 2;
+        $SrcId = $USERID;
         break;
         
       default :
-        
+        $Src = 0;
+        $SrcId = 0;        
         return;
       }
     } else {
       $who = $USER['Login'];
+      $Src = 0;
     }
 
     $emails = Get_Emails($roll);
     if ($emails) {
-      NewSendEmail($emails,$FESTSYS['ShortName'] . " update by $who",$UpdateLog);
+      NewSendEmail($Src,$SrcId, $emails,$FESTSYS['ShortName'] . " update by $who",$UpdateLog);
     }
     Logg($FESTSYS['ShortName'] . " update by $who\n" . $UpdateLog);
     $UpdateLog = '';
