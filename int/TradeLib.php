@@ -1703,7 +1703,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     break;
     
   case 'UnQuote' :
-    Pay_Code_Remove(1,$Tid);
+    Pay_Code_Remove(1,$Trad['Tid']);
     $NewState = $Trade_State['Declined'];
     Send_Trader_Email($Trad,$Trady,'Trade_UnQuote');
     break;  
