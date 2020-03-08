@@ -114,7 +114,7 @@ function Links_Email($Addr,&$list) {
     }
   }
 
-  NewSendEmail($Addr,$FESTSYS['ShortName'] . " data records of $Addr",$Mess);
+  NewSendEmail(0,0,$Addr,$FESTSYS['ShortName'] . " data records of $Addr",$Mess);
 
   $logf = fopen("LogFiles/DataCheck.txt","a");
   if( $logf) {

@@ -337,6 +337,8 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
       
       echo " <button type=submit formaction='PerformerData?id=$snum&ACTION=LIST'>Manage Files</button>" . help('ManageFiles');
       
+      echo "<td class=NotSide><button type=submit formaction='ViewEmailLog?Src=1&id=$snum'>View Email Log</button>" . help('EmailLog');
+      
     }
   if (Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=5 class=NotSide><textarea id=Debug></textarea>";
 

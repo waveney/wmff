@@ -22,7 +22,7 @@
     $User['ActualPwd'] = $newpwd; // Not stored
  
     $subject = "Welcome " . firstword($User['SN']) . " to " . $FESTSYS['ShortName'] . " Staff pages";
-    $letter = Email_Proforma($User['Email'],'Login_Welcome',$subject,'Login_Details',$User,'LoginLog.txt');
+    $letter = Email_Proforma(4,$uid,$User['Email'],'Login_Welcome',$subject,'Login_Details',$User,'LoginLog.txt');
     echo "Email sent:<p>$letter";
   } else {
     echo "No user..."; 

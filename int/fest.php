@@ -38,6 +38,7 @@ $PerfTypes = ['Dance Side'=>['IsASide','Dance','Dance','Dance','D'],
               'Child Ent'=>['IsFamily','Children','Family','Youth','Y'],
               'Other'=>['IsOther','Info','Other','','O']];
 $PerfIdx = ['Side'=>0,'Act'=>1,'Comic'=>2,'ChEnt'=>3,'Other'=>4];
+$SourceTypes = ['None','Perf','Trade','Finance','User','SignUp'];
 
 // Perfname => [field to test, email address for,Capability name,budget,shortCode]
 $Months = ['','Jan','Feb','Mar','Apr','May','June','July','Aug','Sep','Oct','Nov','Dec'];
@@ -282,7 +283,7 @@ function munge_array(&$thing) {
 function Send_SysAdmin_Email($Subject,&$data=0) {
   include_once("Email.php");
   $dat = json_encode($data);
-  NewSendEmail('richard@wavwebs.com',$Subject,$dat);  
+  NewSendEmail(0,0,'richard@wavwebs.com',$Subject,$dat);  
 }
 
 $head_done = 0;

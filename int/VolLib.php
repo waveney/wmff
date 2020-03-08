@@ -88,7 +88,7 @@ function Vol_Details($key,&$vol) {
 
 function Email_Volunteer(&$vol,$messcat,$whoto) {
   global $PLANYEAR,$USER,$FESTSYS;
-  Email_Proforma($whoto,$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $vol['SN'],'Vol_Details',$vol,'Volunteer.txt');
+  Email_Proforma(5,$vol['id'],$whoto,$messcat,$FESTSYS['FestName'] . " $PLANYEAR and " . $vol['SN'],'Vol_Details',$vol,'Volunteer.txt');
 }
 
 function Get_Volunteer($id) {

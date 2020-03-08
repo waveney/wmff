@@ -42,7 +42,7 @@
     if (!$USER['Bugs'] && $ReportSevs[$Bug['Severity']]) {
       $je = json_encode($Bug);
       $em = Get_Emails('Bugs');
-      if ($em) NewSendEmail($em,"WMFF Bug report by " .$USER['SN'],$je);
+      if ($em) NewSendEmail(0,0,$em,"WMFF Bug report by " .$USER['SN'],$je);
     }
   } elseif (isset($_GET{'b'})) {
     $b = $_GET{'b'};

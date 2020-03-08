@@ -59,7 +59,7 @@ function ConvertHtmlToText(&$body) {
 //$to can be single address, a [address, name] or [[to,address,name],[cc,addr,name],bcc,addr,name],replyto,addr,name]...]
 //$atts can be simple fie or [[file, name],[file,name]...]
 
-function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0,$from='') { 
+function NewSendEmail($SrcType,$SrcId,$to,$sub,&$letter,&$attachments=0,&$embeded=0,$from='') { 
   global $FESTSYS,$CONF;
   
 //  echo "Debug: " .( UserGetPref('EmailDebug')?2:0) . "<p>";
@@ -76,7 +76,15 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0,$from='') {
       if ($attachments) {
         if (is_array($attachments)) {
           foreach ($attachments as $i=>$att) {
-            echo "Would attachment " . $att[0] . " as " . $att[1] . "<p>";
+            if (is_array($att)) {
+              if (isset($att[0])) {
+                echo "Would attach " . $att[0] . " as " . $att[1] . "<p>";
+              } else {
+                echo "Would attach " . $att['AttFileName'] . "<p>";              
+              }
+            } else {
+              echo "Would Attach " . $att . "<p>";
+            }
           }                 
         } else {
           echo "Would attach $attachments<p>";       
@@ -85,14 +93,23 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0,$from='') {
       if ($embeded) {
         if (is_array($embeded)) {
           foreach ($embeded as $i=>$att) {
-            echo "Would embed attachment " . $att[0] . " as " . $att[1] . "<p>";
+            if (is_array($att)) {
+              if (isset($att[0])) {
+                echo "Would embed " . $att[0] . " as " . $att[1] . "<p>";
+              } else {
+                echo "Would embed " . $att['AttFileName'] . "<p>";
+              }
+            } else {
+                echo "Would embed " . $att . "<p>";            
+            }
           }                 
         } else {
           echo "Would embed $embeded<p>";       
         }
       }
     $Send = 0;
-    return;
+//    exit;  // Uncomment to test in depth
+//    return;  // Under test this will then log, and not send
     }
   }
   $From = $FESTSYS['SMTPuser'];
@@ -163,23 +180,43 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0,$from='') {
     if ($attachments) {
       if (is_array($attachments)) {
         foreach ($attachments as $i=>$att) {
-          $email->addAttachment($att[0],$att[1]);
-          $Atts[] = [$att[0],$att[1]];
+          if (is_array($att)) {
+            if (isset($att[0])) {
+              $email->addAttachment($att[0],$att[1]);
+              $Atts[] = [$att[0],$att[1],0];
+            } else {
+              $email->addAttachment($att['AttFileName']);
+              $Atts[] = ["",$att['AttFileName'],0];
+            }
+          } else {  
+            $email->addAttachment($att);
+            $Atts[] = ["",$att,0];
+          }
         }                 
       } else {
         $email->addAttachment($attachments);
-        $Atts[] = ["",$attachments];
+        $Atts[] = ["",$attachments,0];
       }
     }
     if ($embeded) {
       if (is_array($embeded)) {
-        foreach ($embeded as $i=>$att) {
-          $email->addEmbeddedImage($att[0],$att[1]);
-          $Atts[] = [$att[0],$att[1]];
-        }                 
+        foreach ($embeded as $i=>$att) {  
+          if (is_array($att)) {
+            if (isset($att[0])) {
+              $email->addEmbeddedImage($att[0],$att[1]);
+              $Atts[] = [$att[0],$att[1],1];
+            } else {
+              $email->addEmbeddedImage($att['AttFileName']);
+              $Atts[] = ["",$att['AttFileName'],1];
+            }
+          } else {
+            $email->addEmbeddedImage($att);
+            $Atts[] = ["",$att,1];
+          }
+        }
       } else {
         $email->addEmbeddedImage($embeded,0);       
-        $Atts[] = ["",$embeded];
+        $Atts[] = ["",$embeded,1];
       }
     }
 
@@ -188,12 +225,12 @@ function NewSendEmail($to,$sub,&$letter,&$attachments=0,&$embeded=0,$from='') {
   } catch (Exception $e) {
     echo 'Message could not be sent. Mailer Error: ', $email->ErrorInfo;
   }
-  
-  $EmLog = ['Subject'=>$sub,'FromAddr'=>json_encode($From),'ToAddr'=>json_encode($to), 'TextBody'=>$letter,'Date'=>time()];
+
+  $EmLog = ['Type'=>$SrcType,'TypeId'=>$SrcId,'Subject'=>$sub,'FromAddr'=>json_encode($From),'ToAddr'=>json_encode($to), 'TextBody'=>$letter,'Date'=>time()];
   $logid = Insert_db('EmailLog', $EmLog);
   if ($Atts && $logid) {
     foreach ($Atts as $at) {
-      $atc = ['EmailId'=>$logid,'AttName'=>$at[0],'AttFileName'=>$at[1]];
+      $atc = ['EmailId'=>$logid,'AttName'=>$at[0],'AttFileName'=>$at[1],'AttType'=>$at[2]];
       Insert_db('EmailAttachments',$atc);
     }
   }
@@ -328,7 +365,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
 
 // helper is a function that takes (THING,helperdata,atts) to return THING - not needed for generic fields typical THINGs are DETAILS, DEPOSIT...
 // if mescat > 30 chars it is assumed to be the proforma itself
-function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='',&$attachments=0,$embeded=0,$from='') {
+function Email_Proforma($Src,$SrcId,$to,$mescat,$subject,$helper='',$helperdata=0,$logfile='',&$attachments=0,$embeded=0,$from='') {
   global $PLANYEAR,$YEARDATA,$FESTSYS;
   if (strlen($mescat) < 30) {
     $Prof = Get_Email_Proforma($mescat);
@@ -338,7 +375,7 @@ function Email_Proforma($to,$mescat,$subject,$helper='',$helperdata=0,$logfile='
   }
   Parse_Proforma($Mess,$helper,$helperdata,0,$attachments,$embeded);
   
-  NewSendEmail($to,$subject,$Mess,$attachments,$embeded,$from);
+  NewSendEmail($Src,$SrcId,$to,$subject,$Mess,$attachments,$embeded,$from);
   
   if ($logfile) {
     $logf = fopen("LogFiles/$logfile.txt","a");
@@ -413,6 +450,30 @@ function Replace_Help($Area='',$Right=0) {
     if ($Area =='' || preg_match("/(All)|($Area)/",$r[2])) echo "<tr><td>" . $r[0] . "<td>" . $r[1] . "<td>" . $r[2] . "\n";
   }
   echo "</table></div></div>\n";
+}
+
+function Get_Email_Logs($src,$srcid) {
+  global $db;
+  $Log = [];
+  $Qry = "SELECT * FROM EmailLog WHERE Type=$src AND TypeId=$srcid ORDER BY Date DESC";
+//  var_dump($Qry);
+  $Recs = $db->query($Qry);
+  if ($Recs) while ($Msgs = $Recs->fetch_assoc()) $Log[] = $Msgs;
+  return $Log;
+}
+
+function Get_Email_Attachments($id) {
+  global $db;
+  $Atts = [];
+  $Qry = "SELECT * FROM EmailAttachments WHERE EmailId=$id";
+//  var_dump($Qry);
+  $ans = $db->query($Qry);
+  if ($ans) while ($Att = $ans->fetch_assoc()) $Atts[] = $Att;
+  return $Atts;
+}
+  
+function Get_Email_Log($id) {
+  return db_get("EmailLog","id=$id");
 }
 
 ?>

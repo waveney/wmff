@@ -77,11 +77,12 @@ function initMap() {
   var MapZoom = +$('#MapZoom').val();
   MapFeatures = +$('#MapFeat').val();
   MapDataDate = +$('#MapDataDate').val();
+  var Mapf = MapFeatures;
   var customStyled = [{
     featureType: "all",
     elementType: "labels",
     stylers: [
-      { visibility: "off" }
+      { visibility: ((Mapf == 1)?"on":"off") }
     ]
   }];
   var Center = ((MapLat == 0 && MapLong == 0)?Wimb:{lat: MapLat, lng: MapLong});

@@ -56,7 +56,7 @@ function Forgot() {
         $ans['AccessKey'] = $rand_hash;
         Put_User($ans);
 
-        Email_Proforma($ans['Email'],'Login_Forgot_Password', $FESTSYS['FestName'] . " Staff Access for " . $ans['SN'],'Login_Details',$ans,'LoginLog.txt');
+        Email_Proforma(4,$ans['UserId'],$ans['Email'],'Login_Forgot_Password', $FESTSYS['FestName'] . " Staff Access for " . $ans['SN'],'Login_Details',$ans,'LoginLog.txt');
         return "A limited use link has been emailed to you";
       }
     }
