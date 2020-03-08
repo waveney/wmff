@@ -78,9 +78,9 @@ function NewSendEmail($SrcType,$SrcId,$to,$sub,&$letter,&$attachments=0,&$embede
           foreach ($attachments as $i=>$att) {
             if (is_array($att)) {
               if (isset($att[0])) {
-                echo "Would attachment " . $att[0] . " as " . $att[1] . "<p>";
+                echo "Would attach " . $att[0] . " as " . $att[1] . "<p>";
               } else {
-                echo "Would attachment " . $att['AttFileName'] . "<p>";              
+                echo "Would attach " . $att['AttFileName'] . "<p>";              
               }
             } else {
               echo "Would Attach " . $att . "<p>";
@@ -93,8 +93,15 @@ function NewSendEmail($SrcType,$SrcId,$to,$sub,&$letter,&$attachments=0,&$embede
       if ($embeded) {
         if (is_array($embeded)) {
           foreach ($embeded as $i=>$att) {
-// TODO as for attchments above
-            echo "Would embed attachment " . $att[0] . " as " . $att[1] . "<p>";
+            if (is_array($att)) {
+              if (isset($att[0])) {
+                echo "Would embed " . $att[0] . " as " . $att[1] . "<p>";
+              } else {
+                echo "Would embed " . $att['AttFileName'] . "<p>";
+              }
+            } else {
+                echo "Would embed " . $att . "<p>";            
+            }
           }                 
         } else {
           echo "Would embed $embeded<p>";       
@@ -179,7 +186,7 @@ function NewSendEmail($SrcType,$SrcId,$to,$sub,&$letter,&$attachments=0,&$embede
               $Atts[] = [$att[0],$att[1],0];
             } else {
               $email->addAttachment($att['AttFileName']);
-              $Atts[] = ["",$att['AttFileName'],0];            
+              $Atts[] = ["",$att['AttFileName'],0];
             }
           } else {  
             $email->addAttachment($att);
@@ -193,10 +200,20 @@ function NewSendEmail($SrcType,$SrcId,$to,$sub,&$letter,&$attachments=0,&$embede
     }
     if ($embeded) {
       if (is_array($embeded)) {
-        foreach ($embeded as $i=>$att) {  // TODO as above
-          $email->addEmbeddedImage($att[0],$att[1]);
-          $Atts[] = [$att[0],$att[1],1];
-        }                 
+        foreach ($embeded as $i=>$att) {  
+          if (is_array($att)) {
+            if (isset($att[0])) {
+              $email->addEmbeddedImage($att[0],$att[1]);
+              $Atts[] = [$att[0],$att[1],1];
+            } else {
+              $email->addEmbeddedImage($att['AttFileName']);
+              $Atts[] = ["",$att['AttFileName'],1];
+            }
+          } else {
+            $email->addEmbeddedImage($att);
+            $Atts[] = ["",$att,1];
+          }
+        }
       } else {
         $email->addEmbeddedImage($embeded,0);       
         $Atts[] = ["",$embeded,1];

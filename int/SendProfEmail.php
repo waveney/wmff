@@ -3,12 +3,13 @@
 include_once("fest.php");
 include_once("DanceLib.php");
 include_once("Email.php");
-global $FESTSYS,$PLANYEAR;
+global $FESTSYS,$PLANYEAR,$USERID;
 
 A_Check("Staff","Dance");
 
 
 if (isset($_REQUEST['REEDIT'])) {
+  system("rm Temp/$USERID.*");
   $LogId = $_REQUEST['LogId'];
   $Log = Get_Email_Log($LogId);
   
@@ -25,8 +26,12 @@ if (isset($_REQUEST['REEDIT'])) {
   $Atts = Get_Email_Attachments($LogId);
   foreach ($Atts as $Att) {
     if ($Att['AttType'] == 1) {
-    // TODO
-    }
+      $sfx = pathinfo($Att['AttFileName'],PATHINFO_EXTENSION );
+      $attnum = $Att['AttName'];
+      $tf = $USERID . "." . $attnum . "." . time() . ".$sfx";
+      copy($Att['AttFileName'],"Temp/$tf");    
+      $Mess = preg_replace("/<img src=cid:img_$attnum.$sfx>/","<img src='Temp/$tf'>",$Mess);
+    } // This is fine to display but not for editting - need to replace with something else 
   }
 
   
