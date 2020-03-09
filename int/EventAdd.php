@@ -26,6 +26,7 @@ function Parse_Perf_Selection() {
   $Venues = Get_Real_Venues(0);
   $Skip = 0;
 
+  echo "<button class='floatright FullD' onclick=\"($('.FullD').toggle())\">All Features</button><button class='floatright FullD' hidden onclick=\"($('.FullD').toggle())\">Simple</button> ";
   echo "<span class=floatright id=largeredsubmit onclick=($('.HelpDiv').toggle()) >Click to toggle HELP</span>";
 
   echo "<div class=content>";
@@ -287,21 +288,22 @@ A similar feature will appear eventually for music.<p>
   echo "<span class=NotSide>Fields marked should be only set by Richard</span>";
   Register_AutoUpdate('Event',$eid);
   if (!$Skip) {
-    $adv = (isset($Event['SubEvent']) ?(($Event['SubEvent']>0?"class=Adv":"")) : ""); 
-    echo "<div class=tablecont><table width=90% border>\n";
+//    $adv = (isset($Event['SubEvent']) ?(($Event['SubEvent']>0?"class=Adv":"")) : ""); 
+    echo "<div class=tablecont><table width=90% border><tr class=FullD hidden>\n";
       if (isset($eid) && $eid > 0) {
-        echo "<tr><td>Event Id:" . $eid . fm_hidden('EventId',$eid);
+        echo "<td>Event Id:" . $eid . fm_hidden('EventId',$eid);
         Register_AutoUpdate('Event',$eid);
       } else {
         echo fm_hidden('EventId',-1);
         if (!isset($_GET['COPY'])) $Event['Day'] = 1;
       }
+      $se = isset($Event['SubEvent'])? $Event['SubEvent'] : 0;
 //      echo fm_text('SE',$Event,'SubEvent');
       echo "<td class=NotSide>Public:" . fm_select($Public_Event_Types,$Event,'Public');
 //      echo "<td class=NotSide>Participant Visibility:" . fm_select($VisParts,$Event,'InvisiblePart');
       echo "<td class=NotSide>Originator:" . fm_select($AllActive,$Event,'Owner',1);
       echo "<td class=NotSide>" . fm_checkbox('Enable Weird Stuff',$Event,'WeirdStuff');
-      echo "<tr>";
+      echo "<tr class=FullD hidden>";
       echo "<td class=NotSide>" . fm_checkbox('Exclude From Spot Counts',$Event,'ExcludeCount');
       echo "<td class=NotSide>" . fm_checkbox('Ignore Clashes',$Event,'IgnoreClash');
       echo "<td class=NotSide>" . fm_checkbox('Show even if subevent',$Event,'ShowSubevent');
@@ -309,29 +311,28 @@ A similar feature will appear eventually for music.<p>
       echo "<td class=NotSide>" .fm_checkbox('Exclude from Weekend Pass',$Event,'ExcludePass');
       echo "<td class=NotSide>" .fm_checkbox('Exclude from Day Tickets',$Event,'ExcludeDay');
 
-      echo "<tr><td class=NotSide>" . fm_checkbox('Multiday Event',$Event,'LongEvent','onchange=$(".mday").show()');
+      echo "<tr class=FullD hidden><td class=NotSide>" . fm_checkbox('Multiday Event',$Event,'LongEvent','onchange=$(".mday").show()');
       $hidemday =  (isset($Event['LongEvent']) && $Event['LongEvent'])?'':'hidden ';
       echo "<td class=NotSide>" . fm_checkbox('Big Event',$Event,'BigEvent') . " " . fm_checkbox('No Order',$Event,'NoOrder') . fm_checkbox('Use Notes to fmt',$Event,'UseBEnotes');
       echo "<td>" . fm_checkbox('Also Dance',$Event,'ListDance') . " ". fm_checkbox('Also Music',$Event,'ListMusic') . " ". fm_checkbox('Also Comedy',$Event,'ListComedy');
       echo "<td class=NotSide>" . fm_checkbox('No Part',$Event,'NoPart');
       echo "<td class=NotSide>" . fm_checkbox('Concert',$Event,'IsConcert');
-      echo "<tr><td>" . fm_checkbox('Special Event',$Event,'Special');
+      echo "<tr" . ($se>0?" class=FullD hidden":"") . "><td class=FullD hidden>" . fm_checkbox('Special Event',$Event,'Special');
       echo "<td>" . fm_checkbox('Family Event',$Event,'Family');
-      echo "<td>" . fm_checkbox('Non Fest',$Event,'NonFest');
-      echo "<td>Alt Edit:" . fm_select($AllActive,$Event,'Owner2',1);
-      echo "<td class=NotSide>Importance: " . fm_select($Importance,$Event,'Importance',0,'','',3);
+      echo "<td class=FullD hidden>" . fm_checkbox('Non Fest',$Event,'NonFest');
+      echo "<td class=FullD hidden>Alt Edit:" . fm_select($AllActive,$Event,'Owner2',1);
+      echo "<td class='NotSide FullD' hidden>Importance: " . fm_select($Importance,$Event,'Importance',0,'','',3);
 
-      echo "<tr>" . fm_text('<b>Name</b>', $Event,'SN');
+      echo "<tr>" . fm_text('<b>Name</b>', $Event,'SN',1,($se>0?" class=FullD hidden":"") );
         echo "<td><b>Event Type</b>:" . fm_select($Event_Types,$Event,'Type');
-        $se = isset($Event['SubEvent'])? $Event['SubEvent'] : 0;
         if ($se == 0) { echo "<td>No Sub Events"; }
         elseif ($se < 0) { echo "<td><a href=EventList?se=$eid>Has Sub Events</a>"; }
         else { echo "<td><a href=EventList?se=$se>Is a Sub Event</a>"; };
-        echo "<td>" .fm_checkbox('Needs Stewards',$Event,'NeedSteward');
+        echo "<td" . ($se>0?" class=FullD hidden":"") . ">" .fm_checkbox('Needs Stewards',$Event,'NeedSteward');
 
-      echo "<tr>" . fm_textarea("Stewarding Detail",$Event,'StewardTasks',1,2) . fm_textarea("Setup Detail",$Event,'SetupTasks',2,2);
+      echo "<tr" . ($se>0?" class=FullD hidden":"") . ">" . fm_textarea("Stewarding Detail",$Event,'StewardTasks',1,2) . fm_textarea("Setup Detail",$Event,'SetupTasks',2,2);
       if ($se <= 0) {
-        echo "<tr class=NotSide>";
+        echo "<tr class='NotSide FullD' hidden>";
         echo "<td class=NotSide>" . fm_simpletext('Price &pound;',$Event,'Price1') . Help("Price");
         if ($YEARDATA['PriceChange1']) echo "<td class=NotSide>" . fm_simpletext('Price after ' . date('j M Y',$YEARDATA['PriceChange1']) . ' (if diff) &pound;',$Event,'Price2');
         if ($YEARDATA['PriceChange2']) echo "<td class=NotSide>" . fm_simpletext('Price after ' . date('j M Y',$YEARDATA['PriceChange2']) . ' (if diff) &pound;',$Event,'Price3');
@@ -339,30 +340,30 @@ A similar feature will appear eventually for music.<p>
         echo "<td class=NotSide>" . fm_simpletext('Ticket Code',$Event,'TicketCode');
       }
 
-      echo "<tr>" . fm_radio("<b><span class=mday $hidemday>Start </span>Day</b>",$FestDays,$Event,'Day');
+      echo "<tr>" . fm_radio("<b><span class=mday $hidemday>Start </span>Day</b>",$FestDays,$Event,'Day',($se > 0?'class=FullD hidden':''),1,($se > 0?'class=FullD hidden':''));
       echo "<td colspan=3><b>Times</b>: " . fm_smalltext2('Start:',$Event,'Start');
         echo fm_smalltext2(', End:',$Event,'End');
         echo fm_smalltext2(', Setup Time (mins):',$Event,'Setup') ;
-        echo fm_smalltext2(', Duration:',$Event,'Duration') . "&nbsp;(mins)";
+        echo "<div class=FullD hidden>" . fm_smalltext2(', Duration:',$Event,'Duration') . "&nbsp;(mins)";
         if ($se < 0) echo fm_smalltext2(', Slot End:',$Event,'SlotEnd');
-        echo fm_smalltext2(', Doors:',$Event,'DoorsOpen');
+        echo fm_smalltext2(', Doors:',$Event,'DoorsOpen') . "</div>";
       if ($se <= 0) echo "<tr class=mday $hidemday>" . fm_radio('End Day',$FestDays,$Event,'EndDay') . 
                 "<td colspan=3>Set up a sub event for each day after first, times are for first day";
-      echo "<tr><td><b>Venue</b>:<td>" . fm_select($Venues,$Event,'Venue',1);
+      echo "<tr" . ($se>0?" class=FullD hidden":"") . "><td><b>Venue</b>:<td>" . fm_select($Venues,$Event,'Venue',1);
         echo fm_textarea('Notes', $Event,'Notes',4,2);
       $et = 'Mixed';
       if (isset($Event['Type'])) $et = $Event_Types[$Event['Type']];
-      echo "<tr $adv>" . fm_textarea('Description <span id=DescSize></span>',$Event,'Description',5,2,'',
+      echo "<tr class='FullD' hidden>" . fm_textarea('Description <span id=DescSize></span>',$Event,'Description',5,2,'',
                         'maxlength=150 oninput=SetDSize("DescSize",150,"ShortBlurb") id=ShortBlurb'); 
-      echo "<tr $adv>" . fm_textarea('Blurb',$Event,'Blurb',5,2,'','maxlength=2000');
-      echo "<tr><td>If the Venue doesn't normally have a Bar or Food<td>" . fm_checkbox('Bar',$Event,'Bar') . 
+      echo "<tr class='FullD' hidden>" . fm_textarea('Blurb',$Event,'Blurb',5,2,'','maxlength=2000');
+      echo "<tr class='FullD' hidden><td>If the Venue doesn't normally have a Bar or Food<td>" . fm_checkbox('Bar',$Event,'Bar') . 
                 "<td>" . fm_checkbox('Food',$Event,'Food') . fm_text('Food/Bar text',$Event,'BarFoodText') . "\n";
-      echo "<tr>" . fm_text1('Image',$Event,'Image',1,'class=NotSide','class=NotSide') .
+      echo "<tr class='FullD' hidden>" . fm_text1('Image',$Event,'Image',1,'class=NotSide','class=NotSide') .
                     fm_text1('Website',$Event,'Website',1,'class=NotSide','class=NotSide') ;
       echo          fm_text1('Special Price Text',$Event,'SpecPrice',1,'class=NotSide','class=NotSide') .
                     fm_text1('Special Price Link',$Event,'SpecPriceLink',1,'class=NotSide','class=NotSide') ;
       echo "<td class=NotSide>" . fm_checkbox('Cancelled',$Event,'Status');
-      echo "<tr>" . fm_textarea('Extra PA Requirements',$Event,'StagePA',3,1);
+      echo "<tr class='FullD' hidden>" . fm_textarea('Extra PA Requirements',$Event,'StagePA',3,1);
       echo "<td class=NotSide>" . fm_checkbox('Exclude from PA Reqs',$Event,'ExcludePA');
 
 
@@ -399,7 +400,7 @@ A similar feature will appear eventually for music.<p>
             }
           }
         }
-          echo "<td>" . fm_select2($Venues,0,"NEWVEN",1);
+        echo "<td>" . fm_select2($Venues,0,"NEWVEN",1);
       }
 
     if (Access('SysAdmin')) echo "<tr><td class=NotSide>Debug<td colspan=7 class=NotSide><textarea id=Debug></textarea>";        
@@ -414,8 +415,10 @@ A similar feature will appear eventually for music.<p>
       if (Access('Committee','Venues')) {
         echo ", <form method=post action='EventAdd'>\n";
         echo fm_hidden('EventId',$eid);
-        echo fm_smalltext('Divide into ','SlotSize',Feature('DanceDefaultSlot',30),2) . fm_smalltext(' minute slots with ','SlotSetup',0,2) . " minute setup";
-        echo "<input type=Submit name=ACTION value=Divide>, \n";
+        if ($se <= 0) {
+          echo fm_smalltext('Divide into ','SlotSize',Feature('DanceDefaultSlot',30),2) . fm_smalltext(' minute slots with ','SlotSetup',0,2) . " minute setup";
+          echo "<input type=Submit name=ACTION value=Divide>, \n";
+        }
         echo "<input type=Submit name=ACTION value=Delete onClick=\"javascript:return confirm('are you sure you want to delete this?');\">, \n";
         echo "<input type=Submit name=ACTION value=Add>" . fm_smalltext('','Slots',1,2) . " sub events";
         if (Access('SysAdmin') && $se != 0 ) echo ", <input type=Submit name=ACTION value=Promote>";
@@ -425,7 +428,7 @@ A similar feature will appear eventually for music.<p>
     } else { 
       echo "<Center><input type=Submit name=Create value='Create'></center>\n";
     }
-    if (isset($Event['SubEvent']) && $Event['SubEvent'] > 0) echo "<button onclick=ShowAdv(event) id=ShowMore type=button class=floatright>More features</button>";
+//    if (isset($Event['SubEvent']) && $Event['SubEvent'] > 0) echo "<button onclick=ShowAdv(event) id=ShowMore type=button class=floatright>More features</button>";
     echo "</form>\n";
   }
   echo "<h2><a href=EventList>List Events</a>";
