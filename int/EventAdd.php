@@ -35,13 +35,15 @@ function Parse_Perf_Selection() {
 <h3>Help for Adding/Creating/Modifying an Event (the form is still on this page lower down)</h3>
 For most events you only need:<p>
 <ul><li>A Name (Can be pretty generic eg Dancing, Saturday Night Concert)
-<li>A Type (A Broad categorization as to what lists it appears in)<li>A Venue<li>A Day<li>A Start and End Time</ul>
-If you need to block off the venue before the event, give a setup time in minutes, eg 30, if the doors open significantly before the start given the opening time.<p>
+<li>A Type (A Broad categorization as to what lists it appears in)<li>A Venue<li>A Day<li>Start and End Time</ul>
+
+The system can handle many more complicated cases (click 'All Features' to see a lot more).<p>
+
 If you would like to give a small description, this will appear in the programme book and in lists of events.<p>
-You may if you wish have a longer blurb, this will only appear on the webpage for this event.<p>
-If it should be listed as a Family event, click the relevant box.  A children's Workshop would be type workshop and have Family selected.<p>
-For a concert type event - with ticketed entry to the whole event tick Concert.<p>
-You do not normally need to set Duration, Bar/Food, Special, Alt Edit, Prices, PA Requirements and Non Fest.  For all complex cases contact Richard (07718 511432)<p>
+
+You do not normally need to set any of the other options.  Such as Blurb, Duration, Bar/Food, Special, Alt Edit, Prices, PA Requirements and Non Fest.  
+For all complex cases contact Richard (07718 511432)<p>
+
 Then click on <b>Create</b>.<p>
 See if any errors are reported at the top of the event - they currently are a bit cryptic but any event clashes involving this event will be listed 
 - resolve them please.<p>
@@ -49,11 +51,12 @@ If it a simple event, with up to 4 particpants do the following (this can be don
 Select the Side, Act or Other participants from the drop down lists.
 
 <h3>Music, Concerts and similar events</h3>
-Each act in the concert needs a sub event.<p>
-On the right near the bottom it will say Add 1 sub events.  Change the 1 to the number of acts and click on <b>Add</b> (further acts can be added later if needed)<p>
+Each act in the concert needs a sub event, each sound check (that is not imeadiately before the act) needs another sub event.<p>
+On the right near the bottom it will say Add 1 sub events.  Change the 1 to the number needed and click on <b>Add</b> (further acts can be added later if needed)<p>
 In the body of the event, it will now say <b>Has Sub Events</b>, click on that link.<p>
 You will see a list of sub events - the first is the entire event (Concert), you will need to change each of the others in turn for each act.<p>
 Click on one of them, change the start and end times and select who is performing that spot.<p>
+If they have 10 minutes of setup prior to performing put 10 in the "Setup time".<p>
 To go back to the list of sub events click on <b>Is a Sub Event</b>
 <h3>Dancing</h3>
 For example, setting up dancing in the cornmarket, create a single event that runs from 10am to 5pm, then divide it up into 30 minute sub events.<p>
