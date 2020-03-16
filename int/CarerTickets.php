@@ -7,7 +7,7 @@
   function Get_Carers() {
     global $db,$YEAR;
     $cs = array();
-    $res = $db->query("SELECT * FROM Tickets WHERE Year=$YEAR");
+    $res = $db->query("SELECT * FROM Tickets WHERE Year='$YEAR'");
     if ($res) while($c = $res->fetch_assoc()) $cs[] = $c;
     return $cs;
   }

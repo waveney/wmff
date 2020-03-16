@@ -77,7 +77,7 @@ function TL_Select($V) {
     break;
   }*/
   
-  $q = "SELECT * FROM TimeLine WHERE Year=$YEAR ORDER BY Due";
+  $q = "SELECT * FROM TimeLine WHERE Year='$YEAR' ORDER BY Due";
   $res = $db->query($q);
   if ($res) {
     while ($tle = $res->fetch_assoc()) {

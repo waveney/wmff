@@ -5,7 +5,7 @@
   dostaffhead("Invite Dance", ["/js/clipboard.min.js", "/js/emailclick.js", "/js/InviteThings.js"]);
 
   include_once("DanceLib.php"); 
-  global $YEAR,$PLANYEAR,$Coming_Colours,$Coming_idx,$Bespoke;
+  global $YEAR,$PLANYEAR,$Coming_Colours,$Coming_idx,$Bespoke,$YEARDATA;
   $Invited = (isset($_REQUEST['INVITED'])? "&INVITED" :"");
 
   echo "<h2>" . ($Invited?"Ongoing":"Invite") . " Dance Sides $YEAR</h2>\n";
@@ -37,7 +37,7 @@
   if ($Contact == 0) echo "<a href=InviteDance?CONT=1" .($Loc?"&LOC=1":"") . "&Y=$YEAR$Invited>Show Contact</a>\n";
   echo "</h2>";
 
-  $LastYear = $YEAR-1;
+  $LastYear = $YEARDATA['PrevFest'];
   $flds = "ly.Invite AS LyInvite, ly.Coming AS LyComing, y.*, s.*";
   $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$YEAR " .
                         "LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year=$LastYear WHERE s.IsASide=1 AND s.SideStatus=0 ORDER BY SN");
@@ -164,7 +164,8 @@
             // if invited & less than a month to mid feb show remind 1 month, else remind - not written
             echo "<button type=button id=Remind$snum class=ProfButton onclick=ProformaSend('Dance_Decide_Month',$snum,'Decide','SendProfEmail')" . 
                   Proforma_Background('Decide') . ">Decide</button>";         
-        
+            if ($YEAR=='2020') echo "<button type=button id=Change$snum class=ProfButton onclick=ProformaSend('Dance_Change_Dates',$snum,'Change','SendProfEmail')" .
+                                      Proforma_Background('Change') . ">Change</button>";        
             break;
           
           case '':
@@ -176,6 +177,9 @@
             echo "<button type=button id=Invie$snum class=ProfSmallButton onclick=ProformaSend('Dance_Invite',$snum,'Invite','SendProfEmail')" . 
                 Proforma_Background('Invite') . ($fetch['Invite']?'':' hidden ') . ">Invite</button>"; 
                      
+            if ($YEAR=='2020') echo "<button type=button id=Change$snum class=ProfButton onclick=ProformaSend('Dance_Change_Dates',$snum,'Change','SendProfEmail')" .
+                                      Proforma_Background('Change') . ">Change</button>";
+
             break;
         
           case 'Y':
@@ -188,10 +192,16 @@
               echo "<button type=button id=Detail$snum class=ProfButton onclick=ProformaSend('Dance_Details',$snum,'Details','SendProfEmail')" . 
                    Proforma_Background('Details') . ">Details!</button>"; 
             }
+            if ($YEAR=='2020') echo "<button type=button id=Change$snum class=ProfButton onclick=ProformaSend('Dance_Change_Dates',$snum,'Change','SendProfEmail')" .
+                                      Proforma_Background('Change') . ">Change</button>";
+            
             break;
           
           case 'N':
           case 'NY':
+            if ($YEAR=='2020') echo "<button type=button id=Change$snum class=ProfButton onclick=ProformaSend('Dance_Reinvite_Change_Dates',$snum,'Reinvite','SendProfEmail')" .
+                                      Proforma_Background('Reinvite') . ">Reinvite</button>";
+
 //            echo "Woof";
             break;
           }        
@@ -201,7 +211,11 @@
           if (!isset($fetch['Coming']) || $Coming_idx[$fetch['Coming']]=='') {
             echo "<button type=button id=Remind$snum class=ProfButton onclick=ProformaSend('Dance_Remind',$snum,'Remind','SendProfEmail')" . 
                   Proforma_Background('Remind') . ($fetch['Invited']?'':' hidden ') . ">Remind</button>";
+
           }
+          if ($YEAR=='2020') echo "<button type=button id=Change$snum class=ProfButton onclick=ProformaSend('Dance_Reinvite_Change_Dates',$snum,'Reinvite','SendProfEmail')" .
+                                      Proforma_Background('Reinvite') . ">Reinvite</button>";
+
 //          echo "Meow";
         }
       } else {

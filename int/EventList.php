@@ -63,12 +63,12 @@
     $se = 0;
     $V = $_POST['V'];
     $Ven = Get_Venue($V);
-    $SubE = " SubEvent<=0 AND Year=$YEAR AND Venue=$V";
+    $SubE = " SubEvent<=0 AND Year='$YEAR' AND Venue=$V";
     echo "<h2>List Events at " . $Ven['SN'] . "</h2>";
 
   } else if (isset($_POST{'LIST'})) {
     $se = 0;
-    $SubE = " Year=$YEAR ";
+    $SubE = " Year='$YEAR' ";
     echo "<h2>List All Events</h2>";
   } else if (isset($_GET{'se'})) {
     $se = $_GET{'se'};
@@ -80,7 +80,7 @@
     echo "<h2>List Sub Events</h2>";
   } else {
     $se = 0;
-    $SubE = " SubEvent<=0 AND Year=$YEAR";
+    $SubE = " SubEvent<=0 AND Year='$YEAR'";
     echo "<h2>List Events</h2>";
   }
 

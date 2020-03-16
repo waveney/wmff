@@ -10,7 +10,7 @@
 
   dostaffhead("Staff Pages", ["/js/jquery.typeahead.min.js", "/css/jquery.typeahead.min.css", "/js/Staff.js"]);
 
-  global $YEAR,$PLANYEAR;
+  global $YEAR,$PLANYEAR,$YEARDATA;
   include_once("ProgLib.php");
   include_once("TradeLib.php");
   $Years = Get_Years();
@@ -39,8 +39,8 @@
 //echo php_ini_loaded_file() . "<P>";
 
   echo "<div class=floatright><h2>";
-  if (isset($Years[$YEAR-1])) echo "<a href=Staff?Y=" . ($YEAR-1) .">" . ($YEAR-1) . "</a> &nbsp; ";
-  if (isset($Years[$YEAR+1])) echo "<a href=Staff?Y=" . ($YEAR+1) .">" . ($YEAR+1) . "</a>\n";
+  if (isset($Years[$YEARDATA['PrevFest']])) echo "<a href=Staff?Y=" . $YEARDATA['PrevFest'] .">" . $YEARDATA['PrevFest'] . "</a> &nbsp; ";
+  if (isset($Years[$YEARDATA['NextFest']])) echo "<a href=Staff?Y=" . $YEARDATA['NextFest'] .">" . $YEARDATA['NextFest'] . "</a>\n";
   echo "</h2></div>";
   echo "<h2>Staff Pages - $YEAR <span style='font-size:16;font-weight:normal;'>For other years select &gt;&gt;&gt;</span></h2>\n";
   

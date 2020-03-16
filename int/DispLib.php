@@ -202,7 +202,7 @@ function Count_Perf_Type($type,$Year=0) {
   global $YEAR,$db,$Coming_Type;
   $now = time();
   if ($Year == 0) $Year=$YEAR;
-  $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$Year AND s.$type=1 AND ( y.Coming=" . $Coming_Type['Y'] . 
+  $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year='$Year' AND s.$type=1 AND ( y.Coming=" . $Coming_Type['Y'] . 
                     " OR y.YearState>2 ) AND y.ReleaseDate<$now");
   $Dsc = 0;
   if ($ans) {
@@ -224,7 +224,7 @@ function Expand_Special(&$Art) {
   switch ($words[0]) {
   case '@Dance_Imp':
     $lvl = (isset($words[1])?$words[1]:0);
-    $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.IsASide=1 AND s.SideId=y.SideId AND y.Year=$YEAR AND s.Photo!='' AND y.Coming=" . $Coming_Type['Y'] .
+    $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.IsASide=1 AND s.SideId=y.SideId AND y.Year='$YEAR' AND s.Photo!='' AND y.Coming=" . $Coming_Type['Y'] .
                         " AND ((s.DiffImportance=0 AND s.Importance>$lvl) OR (s.DiffImportance=1 AND s.DanceImportance>$lvl)) AND y.ReleaseDate<$now ORDER BY RAND() LIMIT 5");
     if (!$ans) { $Art = []; return; }  
   
@@ -247,7 +247,7 @@ function Expand_Special(&$Art) {
     $Art['SN'] = "Dancing";
     $Art['Link'] = "/LineUp?T=Dance";
 
-    $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . 
+    $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year='$YEAR' AND y.Coming=" . 
            $Coming_Type['Y'] . " AND y.ReleaseDate<$now");
     $Dsc = 0;
     if ($ans) {
@@ -257,7 +257,7 @@ function Expand_Special(&$Art) {
     
     $Art['Text'] = "$Dsc Dance team" . ($Dsc == 1?" has":"s have") . " already confirmed for $YEAR.  Many of your favourite teams and some new faces.";
 
-    $ans = $db->query("SELECT s.Photo,s.SideId,s.ImageHeight,s.ImageWidth,s.SN FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND s.Photo!='' AND y.Coming=" . 
+    $ans = $db->query("SELECT s.Photo,s.SideId,s.ImageHeight,s.ImageWidth,s.SN FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year='$YEAR' AND s.Photo!='' AND y.Coming=" . 
                     $Coming_Type['Y'] . " AND y.ReleaseDate<$now ORDER BY RAND() LIMIT 10");
 
     if (!$ans) return; 
@@ -275,7 +275,7 @@ function Expand_Special(&$Art) {
 
   case '@Music_Imp': 
     $lvl = (isset($words[1])?$words[1]:0);
-    $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$YEAR AND s.Photo!='' AND y.YearState>0 " . 
+    $ans = $db->query("SELECT s.* FROM Sides s, SideYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year='$YEAR' AND s.Photo!='' AND y.YearState>0 " . 
                         " AND ((s.DiffImportance=0 AND s.Importance>$lvl) OR (s.DiffImportance=1 AND s.MusicImportance>$lvl)) AND y.ReleaseDate<$now ORDER BY RAND() LIMIT 5");
     if (!$ans) { echo "EEK"; $Art = []; return; }  
   
@@ -298,7 +298,7 @@ function Expand_Special(&$Art) {
     $Art['SN'] = "Music in $YEAR";
     $Art['Link'] = "/LineUp?T=Music";
 
-    $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.YearState>0 AND y.ReleaseDate<$now");
+    $ans = $db->query("SELECT count(*) AS Total FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year='$YEAR' AND y.YearState>0 AND y.ReleaseDate<$now");
     $Msc = 0;
     if ($ans) {
       $res = $ans->fetch_assoc();
@@ -307,7 +307,7 @@ function Expand_Special(&$Art) {
 
     $Art['Text'] = "$Msc Music act" . ($Msc == 1?" has":"s have") . " already confirmed for $YEAR.";
     
-    $ans = $db->query("SELECT s.Photo,s.SideId,s.ImageHeight,s.ImageWidth,s.SN FROM Sides s, SideYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year=$YEAR AND " . 
+    $ans = $db->query("SELECT s.Photo,s.SideId,s.ImageHeight,s.ImageWidth,s.SN FROM Sides s, SideYear y WHERE s.IsAnAct=1 AND s.SideId=y.SideId AND y.Year='$YEAR' AND " . 
                         "s.Photo!='' AND y.YearState>0 AND y.ReleaseDate<$now ORDER BY RAND() LIMIT 10");
     if (!$ans) return;
       

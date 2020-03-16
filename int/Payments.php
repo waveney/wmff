@@ -22,7 +22,7 @@
   
   global $db,$YEAR;
   
-  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE y.Year=$YEAR AND y.TotalFee>0 AND s.SideId=y.SideId AND (y.Coming=2 OR y.Yearstate>=2 ) ORDER BY s.SN";
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE y.Year='$YEAR' AND y.TotalFee>0 AND s.SideId=y.SideId AND (y.Coming=2 OR y.Yearstate>=2 ) ORDER BY s.SN";
   $pays = $db->query($qry);
   if (!$pays) { 
     echo "Nothing to pay";

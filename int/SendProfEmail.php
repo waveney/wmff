@@ -81,6 +81,10 @@ if (isset($_REQUEST['REEDIT'])) {
     }
 
     Put_SideYear($Sidey);
+    // Special Change Notice Code
+    if ($label == 'Change' || $label == 'Reinvite') {
+      Dance_Record_Change($id, $prefix);
+    }
     echo "<script>window.close()</script>"; 
     exit;
   }

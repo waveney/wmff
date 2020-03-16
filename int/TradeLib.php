@@ -85,9 +85,9 @@ function Get_Trade_Pitches($loc='',$Year=0) {
   global $db,$YEAR;
   if ($Year == 0) $Year=$YEAR;
   $full = [];
-//  var_dump("SELECT * FROM TradePitch " . ($loc?"WHERE Loc=$loc ":"") . " AND Year=$Year ORDER BY Posn ");
+//  var_dump("SELECT * FROM TradePitch " . ($loc?"WHERE Loc=$loc ":"") . " AND Year='Year' ORDER BY Posn ");
   
-  $res = $db->query("SELECT * FROM TradePitch " . ($loc?"WHERE Loc=$loc ":"") . " AND Year=$Year ORDER BY Posn ");
+  $res = $db->query("SELECT * FROM TradePitch " . ($loc?"WHERE Loc=$loc ":"") . " AND Year='$Year' ORDER BY Posn ");
   if ($res) {
     while ($ptch = $res->fetch_assoc()) {
       $full[$ptch['Posn']] = $ptch;
@@ -143,11 +143,11 @@ function Put_Trade_Type(&$now) {
 function Get_Sponsors($tup=0) { // 0 Current, 1 all data
   global $db,$SHOWYEAR;
   $full = array();
-  $yr = ($tup ?"" :" WHERE Year=$SHOWYEAR ");
+  $yr = ($tup ?"" :" WHERE Year='$SHOWYEAR' ");
   $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY SN ");
   if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   if ($tup==0 && empty($full)) {
-    $yr = " WHERE Year=" . ($SHOWYEAR-1);
+    $yr = " WHERE Year='" . ($SHOWYEAR-1) . "'";
     $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY SN ");
     if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   }
@@ -176,11 +176,11 @@ function Put_Sponsor(&$now) {
 function Get_WaterRefills($tup=0) { // 0 Current, 1 all data
   global $db,$PLANYEAR;
   $full = array();
-  $yr = ($tup ?"" :" WHERE Year=$PLANYEAR ");
+  $yr = ($tup ?"" :" WHERE Year='$PLANYEAR' ");
   $res = $db->query("SELECT * FROM Water $yr ORDER BY SN ");
   if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   if ($tup==0 && empty($full)) {
-    $yr = " WHERE Year=" . ($PLANYEAR-1);
+    $yr = " WHERE Year='" . ($PLANYEAR-1) . "'";
     $res = $db->query("SELECT * FROM Water $yr ORDER BY SN ");
     if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   }
@@ -219,7 +219,7 @@ function Get_TraderByName($who) {
 function Get_Traders_Coming($type=0,$SortBy='SN') { // 0=names, 1=all
   global $db,$YEAR,$Trade_State;
   $data = array();
-  $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Deposit Paid'] .
+  $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year='$YEAR' AND y.BookingState>=" . $Trade_State['Deposit Paid'] .
                 " ORDER BY $SortBy";
   $res = $db->query($qry);
   if (!$res || $res->num_rows == 0) return 0;
@@ -939,7 +939,7 @@ function Validate_Pitches(&$CurDat) {
           } else {
             $DayTest = " AND ( Days!=1 ) ";
           }
-          $qry = "SELECT * FROM TradeYear WHERE Year=$PLANYEAR AND (( PitchLoc0=$pl AND PitchNum0=$ln ) || (PitchLoc1=$pl AND PitchNum1=$ln) " .
+          $qry = "SELECT * FROM TradeYear WHERE Year='$PLANYEAR' AND (( PitchLoc0=$pl AND PitchNum0=$ln ) || (PitchLoc1=$pl AND PitchNum1=$ln) " .
                  " || (PitchLoc2=$pl AND PitchNum2=$ln)) $Daytest";
           $res = $db->query($qry);
           if ($res->num_rows != 0) {
@@ -1872,7 +1872,7 @@ function Get_Traders_For($loc,$All=0 ) {
   $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE " . 
         ($All? ("y.BookingState>= " . $Trade_State['Submitted'] ) : 
           ( "(y.BookingState=" . $Trade_State['Deposit Paid'] . " OR y.BookingState=" . $Trade_State['Balance Requested'] . " OR y.BookingState=" . $Trade_State['Fully Paid'] . ")" ) ) . 
-         " AND t.Tid = y.Tid AND y.Year=$YEAR AND (y.PitchLoc0=$loc OR y.PitchLoc1=$loc OR y.PitchLoc2=$loc ) ORDER BY SN";
+         " AND t.Tid = y.Tid AND y.Year='$YEAR' AND (y.PitchLoc0=$loc OR y.PitchLoc1=$loc OR y.PitchLoc2=$loc ) ORDER BY SN";
 
   $res = $db->query($qry);
   $Traders = [];

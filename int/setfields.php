@@ -15,16 +15,23 @@ case 'J': // Dont Save
   $Sidey = Get_SideYear($id);
   if (!$Sidey) $Sidey = Default_SY($id);
   $prefix = '';
-  if (isset($_GET['L'])) $prefix .= "<span " . Proforma_Background($_GET['L']) . ">"  . $_GET['L'] . ":";
+  $label = (isset($_GET['L'])?$_GET['L']:'');
+  
+  if ($label) $prefix .= "<span " . Proforma_Background($label) . ">$label:";
   $prefix .= date('j/n/y');
-  if (isset($_GET['L'])) $prefix .= "</span>";
+  if ($label) $prefix .= "</span>";
   if (strlen($Sidey['Invited'])) {
     $Sidey['Invited'] = $prefix . ", " . $Sidey['Invited'];
   } else {
     $Sidey['Invited'] = $prefix;  
   }
   
-  if ($Opt == 'I') Put_SideYear($Sidey);
+  if ($Opt == 'I') {
+    Put_SideYear($Sidey);
+    if ($label == 'Change' || $label == 'Reinvite') {
+      Dance_Record_Change($id, $prefix);
+    }
+  }
   echo $Sidey['Invited'];
   break;
   

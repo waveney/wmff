@@ -28,7 +28,7 @@ function Parse_MoneyInputs(&$feilds) {
 function Get_Invoices($cond = '',$order='id') {
   global $YEAR,$db;  
   $full = [];
-  $res = $db->query("SELECT * FROM Invoices WHERE Year=$YEAR " . ($cond ? " AND ( $cond )" : "" ) . " ORDER BY $order ");
+  $res = $db->query("SELECT * FROM Invoices WHERE Year='$YEAR' " . ($cond ? " AND ( $cond )" : "" ) . " ORDER BY $order ");
   if ($res) while ($inv = $res->fetch_assoc()) $full[] = $inv;
   return $full;  
 }
@@ -57,7 +57,7 @@ function Put_Invoice(&$now) {
 function Get_PayCodes($cond = '',$order='id') {
   global $YEAR,$db;  
   $full = [];
-  $res = $db->query("SELECT * FROM OtherPayments WHERE Year=$YEAR " . ($cond ? " AND ( $cond )" : "" ) . " ORDER BY $order ");
+  $res = $db->query("SELECT * FROM OtherPayments WHERE Year='$YEAR' " . ($cond ? " AND ( $cond )" : "" ) . " ORDER BY $order ");
   if ($res) while ($inv = $res->fetch_assoc()) $full[] = $inv;
   return $full;  
 }

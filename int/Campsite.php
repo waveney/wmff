@@ -7,7 +7,7 @@
   function Get_Campsites() {
     global $db,$YEAR;
     $cs = array();
-    $res = $db->query("SELECT * FROM CampsiteUse WHERE Year=$YEAR ORDER BY PRIORITY ASC");
+    $res = $db->query("SELECT * FROM CampsiteUse WHERE Year='$YEAR' ORDER BY PRIORITY ASC");
     if ($res) while($c = $res->fetch_assoc()) $cs[] = $c;
     return $cs;
   }

@@ -16,7 +16,7 @@ function EventCheck($checkid=0) {
   $LastVenue = -1;
   $LastEventEmpty = 1;
   $errors = 0;
-  $res=$db->query("SELECT * FROM Events WHERE Year=$YEAR AND Status=0 ORDER BY Venue, Day, Start");
+  $res=$db->query("SELECT * FROM Events WHERE Year='$YEAR' AND Status=0 ORDER BY Venue, Day, Start");
   if ($res) {
     while($ev = $res->fetch_assoc()) { // Basic Events against basic events check
       if ($ev['IgnoreClash']) continue;

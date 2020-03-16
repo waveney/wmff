@@ -11,9 +11,7 @@ if (isset($_REQUEST{'Y'})) $YEAR = $_REQUEST{'Y'};
 if (isset($_REQUEST{'B'})) $BUTTON = ($_REQUEST{'B'}+1) % 4;
 
 if (isset($YEAR)) {
-  if (!is_numeric($YEAR)) exit("Invalid Year");
-} else {
-  $YEAR = $CALYEAR;
+  if (strlen($YEAR)>10) exit("Invalid Year");
 }
 
 $Access_Levels = ['','Participant','Upload','Steward','Staff','Committee','SysAdmin','Internal'];// Sound Engineers will be Stewards, Upload not used yet
@@ -253,7 +251,7 @@ function Error_Page ($message) {
 function Get_General($y=0) {
   global $db,$YEAR;
   if (!$y) $y=$YEAR;
-  $res = $db->query("SELECT * FROM General WHERE Year=$y");
+  $res = $db->query("SELECT * FROM General WHERE Year='$y'");
   if ($res) return $res->fetch_assoc();
 }
 
@@ -268,7 +266,7 @@ function Get_Years() {
 }
 
 $YEARDATA = Get_General();
-if ($YEARDATA['Years2Show'] > 0) $NEXTYEARDATA = Get_General($YEAR+1);
+if ($YEARDATA['Years2Show'] > 0) $NEXTYEARDATA = Get_General($YEARDATA['NextFest']);
 
 function First_Sent($stuff) {
   $onefifty=substr($stuff,0,150);

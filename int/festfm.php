@@ -415,8 +415,19 @@ function Register_AutoUpdate($type,$ref) {
 
 function FestDate($day,$format='M',$Year=0) {
   global $YEARDATA,$YEAR;
+  static $Years;
   if ($Year == 0) $Year=$YEAR;
-  $date = mktime(0,0,0,$YEARDATA['MonthFri'],$YEARDATA['DateFri']+$day,$Year);
+  if ($Year != $YEARDATA['Year']) {
+    $Years = Get_Years;
+    if (isset($Years[$Year])) {
+      $YD = $Years[$Year];
+      $date = mktime(0,0,0,$YD['MonthFri'],$YD['DateFri']+$day,$Year);
+    } else {
+      return "Unknown yet";
+    }
+  } else {
+    $date = mktime(0,0,0,$YEARDATA['MonthFri'],$YEARDATA['DateFri']+$day,$Year);
+  }
   
   switch (strtoupper($format)) {
     default:

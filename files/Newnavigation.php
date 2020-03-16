@@ -220,11 +220,13 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
     $MainBar .= "</div>";
   }
   
+//   var_dump($YEARDATA); 
   echo "<div class=main-header>"; 
   $DFrom = ($YEARDATA['DateFri']+$YEARDATA['FirstDay']);
   $DTo = ($YEARDATA['DateFri']+$YEARDATA['LastDay']);
   $DMonth = $Months[$YEARDATA['MonthFri']];
-  
+ 
+
   if ($YEARDATA['Years2Show'] > 0) {
     $NFrom = ($NEXTYEARDATA['DateFri']+$NEXTYEARDATA['FirstDay']);
     $NTo = ($NEXTYEARDATA['DateFri']+$NEXTYEARDATA['LastDay']);

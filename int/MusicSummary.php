@@ -36,14 +36,14 @@
 
   foreach ($Category as $cat=>$srch) {
     if ($cat == 'Blank') { echo "<tr height=15>"; continue; }
-    $qtxt = "SELECT y.SideId FROM SideYear y WHERE y.Year=$YEAR AND $srch";
+    $qtxt = "SELECT y.SideId FROM SideYear y WHERE y.Year='$YEAR' AND $srch";
     $qry = $db->query($qtxt);
     $catcount = $qry->num_rows;
     echo "<tr><td>$cat<td>$catcount";
     $runtotal=0;
     foreach($Types as $typ) {
       $lctyp = strtolower($typ);
-      $qtxt = "SELECT y.SideId, s.Type FROM SideYear y, Sides s WHERE y.SideId=s.SideId AND y.Year=$YEAR AND $srch " .
+      $qtxt = "SELECT y.SideId, s.Type FROM SideYear y, Sides s WHERE y.SideId=s.SideId AND y.Year='$YEAR' AND $srch " .
                 "AND LOWER(s.Type) LIKE '%$lctyp%'";
       $qry = $db->query($qtxt);
       $tcount = $qry->num_rows;

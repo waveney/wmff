@@ -75,7 +75,7 @@
     foreach ($Trade_Loc_Names as $i=>$n) if (isset($_POST["Tr_Loc$i"] )) $lt[] = $i;
     foreach ($TradeTypeData as $i=>$td) if (isset($_POST["Tr_Type$i"] )) $ttt[] = $i;
       
-    $qry = "SELECT t.*, y.* FROM Trade t LEFT JOIN TradeYear y ON t.Tid=y.Tid AND y.Year=$YEAR";   
+    $qry = "SELECT t.*, y.* FROM Trade t LEFT JOIN TradeYear y ON t.Tid=y.Tid AND y.Year='$YEAR'";   
     $Mess = $_POST['Mess'];
 
     $res = $db->query($qry);

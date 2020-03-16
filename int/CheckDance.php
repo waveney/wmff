@@ -39,7 +39,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
   if (!isset($sidenames[$s])) echo "Side $s <a href=AddPerf?sidenum=$s>" . $Sides['SN'] . "</a> not in names<br>";
 } */
 
-  $res = $db->query("SELECT e.* FROM Events e WHERE Year=$YEAR AND Status=0 ORDER BY Day, Start" );
+  $res = $db->query("SELECT e.* FROM Events e WHERE Year='$YEAR' AND Status=0 ORDER BY Day, Start" );
   if ($res) {
     while ($e = $res->fetch_assoc()) {
       $eid = $e['EventId'];
@@ -382,7 +382,7 @@ function CheckDance($level) { // 0 = None, 1 =Major, 2= All
         } else if ($Rule['OType'] == 2) { // Avoids
           $Other = ($Rule['Sid1'] == $side['SideId'])?'Sid2':'Sid1';                     
           $o = $Rule[$Other];
-          $res = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND (Side1=$si OR Side2=$si OR Side3=$si OR Side4=$si) AND (Side1=$o OR Side2=$o OR Side3=$o OR Side4=$o)");
+          $res = $db->query("SELECT * FROM Events WHERE Year='$YEAR' AND (Side1=$si OR Side2=$si OR Side3=$si OR Side4=$si) AND (Side1=$o OR Side2=$o OR Side3=$o OR Side4=$o)");
            
           if ($res) {
             while ($e = $res->fetch_assoc()) {

@@ -139,7 +139,7 @@ function Put_Venue(&$now) {
 function Get_VenueYear($vid,$y=0) {
   global $db,$YEAR;
   if (!$y) $y = $YEAR;
-  $res = $db->query("SELECT * FROM VenueYear WHERE VenueId=$vid AND Year=$y");
+  $res = $db->query("SELECT * FROM VenueYear WHERE VenueId=$vid AND Year='$y'");
   if ($res) {
     $vy = $res->fetch_assoc();
     return $vy;
@@ -154,7 +154,7 @@ function Put_VenueYear(&$now) {
 function Get_VenueYears($y=0) {
   global $db,$YEAR;
   if (!$y) $y = $YEAR;
-  $res = $db->query("SELECT * FROM VenueYear WHERE Year=$y ORDER BY VenueId");
+  $res = $db->query("SELECT * FROM VenueYear WHERE Year='$y' ORDER BY VenueId");
   $VenY = [];
   if ($res) {
     while ($vy = $res->fetch_assoc()) $VenY[$vy['VenueId']] = $vy;
@@ -228,13 +228,13 @@ function Get_Event($eid,$new=0) {
 
 function Get_Event_VT($v,$t,$d) {
   global $db,$YEAR;
-  $res=$db->query("SELECT * FROM Events WHERE Year=$YEAR AND Venue=$v AND Start=$t AND Day=$d AND Status=0");
+  $res=$db->query("SELECT * FROM Events WHERE Year='$YEAR' AND Venue=$v AND Start=$t AND Day=$d AND Status=0");
   if ($res) return $res->fetch_assoc();
 }
 
 function Get_Event_VTs($v,$t,$d) { // As above returns many
   global $db,$YEAR;
-  $res=$db->query("SELECT * FROM Events WHERE Year=$YEAR AND Venue=$v AND Start=$t AND Day=$d AND Status=0 ORDER BY EventId");
+  $res=$db->query("SELECT * FROM Events WHERE Year='$YEAR' AND Venue=$v AND Start=$t AND Day=$d AND Status=0 ORDER BY EventId");
 
   if (!$res) return 0;
   $evs = [];
@@ -274,7 +274,7 @@ function Get_Events_For($what,$Day) {
   global $db,$YEAR,$Day_Type;
   $evs = [];
   $xtra = ($what=='Dance'?' OR e.ListDance=1 ':($what=='Music'?' OR e.ListMusic=1':''));
-  $res=$db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND Status=0 AND (( e.Type=t.ETypeNo AND t.Has$what=1) $xtra ) AND e.Day=" . 
+  $res=$db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year='$YEAR' AND Status=0 AND (( e.Type=t.ETypeNo AND t.Has$what=1) $xtra ) AND e.Day=" . 
                 $Day_Type[$Day] );
   if ($res) {
     while($ev = $res->fetch_assoc()) $evs[$ev['EventId']] = $ev;
@@ -284,7 +284,7 @@ function Get_Events_For($what,$Day) {
 
 function Get_All_Events_For($what,$wnum,$All=0) {// what is not used
   global $db,$YEAR;
-  $qry="SELECT DISTINCT e.* FROM Events e, BigEvent b WHERE Year=$YEAR " . ($All?'':"AND Public<2") . " AND ( " .
+  $qry="SELECT DISTINCT e.* FROM Events e, BigEvent b WHERE Year='$YEAR' " . ($All?'':"AND Public<2") . " AND ( " .
                 "Side1=$wnum OR Side2=$wnum OR Side3=$wnum OR Side4=$wnum" .
                 " OR ( BigEvent=1 AND e.EventId=b.Event AND ( b.Type='Side' OR b.Type='Perf') AND b.Identifier=$wnum ) ) " .
                 " ORDER BY Day,Start";
@@ -673,12 +673,12 @@ function DayTable($d,$Types,$xtr='',$xtra2='',$xtra3='') {
 function &Get_Active_Venues($All=0) {
   global $db,$YEAR;
   $res = $db->query("SELECT DISTINCT v.* FROM Venues v, Events e, EventTypes t WHERE ( v.VenueId=e.Venue AND (e.Public=1 OR ( e.Public=0 AND e.Type=t.ETypeNo AND t.State>1 ) AND " .
-                    " e.Year=$YEAR AND v.PartVirt=0)) OR ( v.IsVirtual=1 ) ORDER BY v.SN"); // v.IsVirtual needs to work for virt venues TODO
+                    " e.Year='$YEAR' AND v.PartVirt=0)) OR ( v.IsVirtual=1 ) ORDER BY v.SN"); // v.IsVirtual needs to work for virt venues TODO
   if ($res) while($ven = $res->fetch_assoc()) {
     if ($ven['IsVirtual']) {
       $vid = $ven['VenueId'];
       $r2 = $db->query("SELECT t.* FROM Events e, Venues v, EventTypes t WHERE e.Venue=v.VenueId AND v.PartVirt=$vid AND " .
-                    "(e.Public=1 OR ( e.Public=0 AND e.Type=t.ETypeNo AND t.State>1 )) AND e.Year=$YEAR");
+                    "(e.Public=1 OR ( e.Public=0 AND e.Type=t.ETypeNo AND t.State>1 )) AND e.Year='$YEAR'");
       if ($r2->num_rows == 0) continue;
     }
     $ans[] = $ven;

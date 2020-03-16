@@ -375,10 +375,18 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
     if ($Mstate) $Imp = 'class=imp';
   }
 //echo "HERE";
-
-//var_dump($Sidey);var_dump($Invite_Type);
   $Self = ($Mode ? $_SERVER{'PHP_SELF'} : "AddPerf"); // TODO
-  echo "<div class=floatright><h2>";
+  
+// Get_SideYears, OLIst is YEar fields from the years
+  $OList = [];
+  $years = Get_SideYears($snum);
+
+  if ($years) {
+    foreach ($years as $yr) {
+      $OList[] = $yr['Year'];
+    }
+    sort($OList);
+/* old code
   $OList = [];
   for ($y = 5;$y>0; $y--) {
     if (isknown($snum,$year-$y)) $OList[] = $year-$y;
@@ -387,16 +395,18 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
   if ($year != $PLANYEAR) $OList[] = $PLANYEAR;
     
   sort($OList);
-  if (count($OList)) {
-    $last = -1;
-    foreach ($OList as $dv) {
-      if ($dv == $last) continue;
-      echo " <a href=$Self?sidenum=$snum&Y=$dv>$dv</a> ";
-      $last = $dv;
+*/
+    if (count($OList)) {
+      echo "<div class=floatright><h2>";
+      $last = -1;
+      foreach ($OList as $dv) {
+        if ($dv == $last) continue;
+        echo " <a href=$Self?sidenum=$snum&Y=$dv>$dv</a> ";
+        $last = $dv;
+      }
+      echo "</h2></div>";
     }
   }
-
-  echo "</h2></div>";
 
   if ($year < $PLANYEAR && $Sidey['syId'] < 0) {
     echo "<h2>" . $Side['SN'] . "did not perform in $YEAR</h2>";

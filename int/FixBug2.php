@@ -8,7 +8,7 @@
 
   global $db,$YEAR;
   
-    $ans = $db->query("SELECT * FROM SideYear WHERE Invited!='' AND Year=$YEAR");
+    $ans = $db->query("SELECT * FROM SideYear WHERE Invited!='' AND Year='$YEAR'");
     while ($sidey = $ans->fetch_assoc()) {
       $Messages = explode(', ',$sidey['Invited']);
       if (!isset($Messages[1])) continue;

@@ -25,7 +25,7 @@
   if ($Orgs) {
     $qry = "SELECT t.* FROM Trade AS t WHERE t.IsTrader=0 ORDER BY SN";  
   } else {
-    $qry = "SELECT y.*, t.* FROM Trade AS t LEFT JOIN TradeYear AS y ON t.Tid = y.Tid AND y.Year=$YEAR WHERE t.IsTrader=1 ORDER BY SN";
+    $qry = "SELECT y.*, t.* FROM Trade AS t LEFT JOIN TradeYear AS y ON t.Tid = y.Tid AND y.Year='$YEAR' WHERE t.IsTrader=1 ORDER BY SN";
   }
   
   $res = $db->query($qry);

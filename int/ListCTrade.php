@@ -45,20 +45,20 @@
     if (!$Sum) echo "<h2><a href=ListCTrade?Y=$YEAR>Exclude Declined/Cancelled/Not Submitted</a>, " .
       "<a href=ListCTrade?Y=$YEAR&SUB>Include Submitted</a>, " .
       "<a href=ListCTrade?Y=$YEAR&ONLY>Only Submitted</a>, </h2>";
-    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR ORDER BY SN";
+    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year='$YEAR' ORDER BY SN";
   } else if (isset($_GET['SUB'])) { 
     if (!$Sum) echo "<h2><a href=ListCTrade?Y=$YEAR&INC>Show All</a>, <a href=ListCTrade?Y=$YEAR>Exclude Declined/Cancelled/Submitted</a>, " .
       "<a href=ListCTrade?Y=$YEAR&ONLY>Only Submitted</a> </h2>";
-    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>=" . $Trade_State['Submitted'] .
+    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year='$YEAR' AND y.BookingState>=" . $Trade_State['Submitted'] .
            " ORDER BY SN";  
   } else if (isset($_GET['ONLY'])) { 
     if (!$Sum) echo "<h2><a href=ListCTrade?Y=$YEAR&INC>Show All</a>, <a href=ListCTrade?Y=$YEAR>Exclude Declined/Cancelled/Submitted</a> </h2>";
-    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState=" . $Trade_State['Submitted'] .
+    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year='$YEAR' AND y.BookingState=" . $Trade_State['Submitted'] .
            " ORDER BY SN";  
   } else {  
     if (!$Sum) echo "<h2><a href=ListCTrade?Y=$YEAR&INC>Show All</a>, <a href=ListCTrade?Y=$YEAR&SUB>Include Submitted</a>, " .
       "<a href=ListCTrade?Y=$YEAR&ONLY>Only Submitted</a> </h2>";
-    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>" . $Trade_State['Submitted'] . 
+    $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Status!=2 AND t.Tid = y.Tid AND y.Year='$YEAR' AND y.BookingState>" . $Trade_State['Submitted'] . 
       " ORDER BY SN";
   }
 

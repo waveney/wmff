@@ -26,7 +26,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>May 1</a>\n";
   echo "</thead><tbody>";
 
-  $res=$db->query("SELECT * FROM SignUp WHERE Year=$PLANYEAR AND State<2 AND Activity=5 ORDER BY SN");
+  $res=$db->query("SELECT * FROM SignUp WHERE Year='$PLANYEAR' AND State<2 AND Activity=5 ORDER BY SN");
   
   if ($res) {
     while ($lol = $res->fetch_assoc()) {

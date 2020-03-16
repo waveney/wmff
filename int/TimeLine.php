@@ -52,7 +52,7 @@ Coming ...
 
   if (isset($_POST['ACTION'])) {
     if ($_POST['ACTION'] == "Copy Recuring to $PLANYEAR") {
-      $res = $db->query("SELECT * FROM TimeLine WHERE Recuring=1 AND NextYearId=0 AND Year=$YEAR AND Progress>=0 ");
+      $res = $db->query("SELECT * FROM TimeLine WHERE Recuring=1 AND NextYearId=0 AND Year='$YEAR' AND Progress>=0 ");
       if ($res) while ($tl = $res->fetch_assoc()) {
         $Ntl = $tl;
         $Ntl['TLid'] = -1;

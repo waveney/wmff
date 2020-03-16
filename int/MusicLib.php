@@ -170,7 +170,7 @@ function Actisknown($snum,$yr) {
 function Get_Events4Act($snum,$yr=0) {
   global $db,$YEAR;
   if ($yr==0) $yr=$YEAR;
-  $res = $db->query("SELECT DISTINCT e.* FROM Events e, BigEvent b WHERE e.Year=$yr AND ( e.Side1=$snum OR e.Side2=$snum OR e.Side3=$snum OR e.Side4=$snum " .
+  $res = $db->query("SELECT DISTINCT e.* FROM Events e, BigEvent b WHERE e.Year='$yr' AND ( e.Side1=$snum OR e.Side2=$snum OR e.Side3=$snum OR e.Side4=$snum " .
                 " OR ( e.BigEvent=1 AND e.EventId=b.Event AND ( b.type='Side' OR b.Type='Act' OR b.Type='Other' OR b.Type='Perf' ) AND b.Identifier=$snum ) ) " .
                 " ORDER BY Day, Start");
   $evs = array();
@@ -220,7 +220,7 @@ function Select_Act_Come($type=0,$extra='') {
   static $Come_Loaded = 0;
   static $Coming = array('');
   if ($Come_Loaded) return $Coming;
-  $qry = "SELECT s.SideId, s.SN, s.Type FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND s.IsAnAct=1 " . $extra . " ORDER BY s.SN";
+  $qry = "SELECT s.SideId, s.SN, s.Type FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year='$YEAR' AND s.IsAnAct=1 " . $extra . " ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
@@ -237,7 +237,7 @@ function Select_Other_Come($type=0,$extra='') {
   static $Come_Loaded = 0;
   static $Coming = array('');
   if ($Come_Loaded) return $Coming;
-  $qry = "SELECT s.SideId, s.SN, s.Type FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND s.IsOther=1 " . $extra . " ORDER BY s.SN";
+  $qry = "SELECT s.SideId, s.SN, s.Type FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year='$YEAR' AND s.IsOther=1 " . $extra . " ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
@@ -255,7 +255,7 @@ function Select_Perf_Come($Perf,$type=0,$extra='') {
   global $db,$YEAR;
   static $Coming;
   if (isset($Coming[$Perf])) return $Coming[$Perf];
-  $qry = "SELECT s.SideId, s.SN, s.Type FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
+  $qry = "SELECT s.SideId, s.SN, s.Type FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year='$YEAR' " . 
         " AND s.$Perf=1 AND y.YearState>=2 " . $extra . " ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) {
@@ -272,7 +272,7 @@ function Select_Perf_Come_All($Perf,$extra='') {
   global $db,$YEAR;
   static $Coming;
   if (isset($Coming[$Perf])) return $Coming[$Perf];
-  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . 
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year='$YEAR' " . 
         " AND s.$Perf=1 AND y.YearState>=2 " . $extra . " ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) {
@@ -291,7 +291,7 @@ function Select_Perf_Come_All($Perf,$extra='') {
 function &Select_Act_Full() {
   global $db,$YEAR;
   $Coming = [];
-  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND s.IsAnAct=1 ORDER BY s.SN";
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year='$YEAR' AND s.IsAnAct=1 ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
   return $Coming;
@@ -300,7 +300,7 @@ function &Select_Act_Full() {
 function &Select_Other_Full() {
   global $db,$YEAR;
   $Coming = [];
-  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND s.IsOther=1 ORDER BY s.SN";
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year='$YEAR' AND s.IsOther=1 ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
   return $Coming;
@@ -317,7 +317,7 @@ function &Select_Perf_Full() {
 
 function Select_Act_Come_Day($Day,$xtr='') { // This wont work - currently unused (I hope)
   global $db,$YEAR,$Coming_Type;
-  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR " . " AND y.$Day=1 $xtr ORDER BY s.SN";
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year='$YEAR' " . " AND y.$Day=1 $xtr ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
@@ -332,7 +332,7 @@ function &Select_Act_Come_All() {
   static $Come_Loaded = 0;
   static $Coming;
   if ($Coming) return $Coming;
-  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR ORDER BY s.SN";
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year='$YEAR' ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
   return $Coming;
@@ -343,7 +343,7 @@ function &Select_Act_Come_Full() {
   static $Come_Loaded = 0;
   static $Coming;
   if ($Coming) return $Coming;
-  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND s.IsAnAct=1 AND y.Year=$YEAR ORDER BY s.SN";
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND s.IsAnAct=1 AND y.Year='$YEAR' ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
   return $Coming;
@@ -354,7 +354,7 @@ function &Select_Other_Come_Full() {
   static $Come_Loaded = 0;
   static $Coming;
   if ($Coming) return $Coming;
-  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND s.IsOther=1 AND y.Year=$YEAR ORDER BY s.SN";
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND s.IsOther=1 AND y.Year='$YEAR' ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
   return $Coming;
