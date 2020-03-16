@@ -798,6 +798,12 @@ function Dance_Email_Details($key,&$data,$att=0) {
 function Dance_Record_Change($id,$prefix) { // Mark Change on old record if not set, create new record if needed, add message and set invited appropriately
   global $YEAR,$SHOWYEAR,$PLANYEAR,$YEARDATA;
   
+//  echo "Called DRC<p>";
+  
+// var_dump($YEAR,$PLANYEAR);
+  
+//  exit;
+  
   if ($YEAR == $PLANYEAR) {
     $SideLY = Get_SideYear($id,$YEARDATA['PrevFest']);
     if (!strstr($SideLY['Invited'],$prefix)) {

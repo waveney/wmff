@@ -61,7 +61,7 @@
   $xtr = isset($_GET['Mode'])?'':"AND ( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 ))";
   $today = ($Now['mday']-$YEARDATA['DateFri']);
 
-  $res = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND Day=$today AND t.Public=1 $xtr ORDER BY Start");
+  $res = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year='$YEAR' AND Day=$today AND t.Public=1 $xtr ORDER BY Start");
   if ($Poster) {
     $StartLim = $Now['hours']*100 + $Now['minutes'] + 100;
     $EndLim = $StartLim;

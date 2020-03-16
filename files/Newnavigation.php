@@ -231,15 +231,17 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
     $NFrom = ($NEXTYEARDATA['DateFri']+$NEXTYEARDATA['FirstDay']);
     $NTo = ($NEXTYEARDATA['DateFri']+$NEXTYEARDATA['LastDay']);
     $NMonth = $Months[$NEXTYEARDATA['MonthFri']];
-    $NYear = $YEAR+1;
+    $NYear = $YEARDATA['NextFest'];
   }
   echo "<a href=/>";
     echo "<img src=" . $FESTSYS['WebsiteBanner2'] . "?V=$V class='header-logo head-white-logo'>";
     echo "<img src=" . $FESTSYS['WebSiteBanner'] . "?V=$V class='header-logo head-coloured-logo'>";
     if ($YEARDATA['Years2Show'] < 2) { // TODO Handle Both
-      echo "<div class=SmallDates>$DFrom - $DTo $DMonth $YEAR</div>";
-      echo "<div class=FestDates>$DFrom - $DTo<br>$DMonth<br>$YEAR</div>";
+      $Yr = substr($YEAR,0,4);
+      echo "<div class=SmallDates>$DFrom - $DTo $DMonth $Yr</div>";
+      echo "<div class=FestDates>$DFrom - $DTo<br>$DMonth<br>$Yr</div>";
     } else {
+      $NYear = substr($NYear,0,4);
       echo "<div class=SmallDates>$NFrom - $NTo $NMonth $NYear</div>";
       echo "<div class=FestDates>$NFrom - $NTo<br>$NMonth<br>$NYear</div>";    
     }

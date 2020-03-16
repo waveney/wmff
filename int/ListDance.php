@@ -48,7 +48,7 @@
   } else if ($_GET{'SEL'} == 'INV') {
 
     $flds = "s.*, ly.Invite, ly.Coming, y.Invite, y.Invited, y.Coming";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year=$PLANYEAR " .
+    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN SideYear as y ON s.SideId=y.SideId AND y.year='$PLANYEAR' " .
                         "LEFT JOIN SideYear as ly ON s.SideId=ly.SideId AND ly.year='$LastYear' WHERE s.IsASide=1 AND s.SideStatus=0 ORDER BY SN");
     $col5 = "Invited $LastYear";
     $col6 = "Coming $LastYear";
@@ -75,7 +75,7 @@
     $Comp = $stot = $Seen = 0;
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s, SideYear as y WHERE s.IsASide=1 AND s.SideId=y.SideId AND y.year=$YEAR AND y.Coming=" . 
+    $SideQ = $db->query("SELECT $flds FROM Sides AS s, SideYear as y WHERE s.IsASide=1 AND s.SideId=y.SideId AND y.year='$YEAR' AND y.Coming=" . 
                 $Coming_Type['Y'] . " ORDER BY SN");
     $col5 = "Fri";
     $col6 = "Sat";

@@ -36,7 +36,7 @@
   $MapFeat = 0;
   $Banner = 1;
   if ($Ett >= 0) { 
-    $qry = "SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND ( e.Type=$Ett $xtr ) AND ( e.SubEvent<1 OR e.ShowSubevent=1 ) AND e.Venue!=0 " .
+    $qry = "SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year='$YEAR' AND ( e.Type=$Ett $xtr ) AND ( e.SubEvent<1 OR e.ShowSubevent=1 ) AND e.Venue!=0 " .
                 "$restrict ORDER BY e.Day, e.Start";
 //    echo "$qry<p>";
     $ans = $db->query($qry); 
@@ -49,7 +49,7 @@
   } else { // Handle other Sherlock calls
     switch ($Type) {
       case 'Family':
-        $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND e.Family=1 AND e.SubEvent<1 AND e.Venue!=0 " .
+        $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year='$YEAR' AND e.Family=1 AND e.SubEvent<1 AND e.Venue!=0 " .
                 "$restrict ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
         $Types = "Family Event";
@@ -58,7 +58,7 @@
         $MapFeat = 7;
         break;
       case 'Special':
-        $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND e.Special=1 AND (e.SubEvent<1 OR e.LongEvent=1) AND e.Venue!=0 " .
+        $ans = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year='$YEAR' AND e.Special=1 AND (e.SubEvent<1 OR e.LongEvent=1) AND e.Venue!=0 " .
                 "$restrict ORDER BY e.Day, e.Start"); 
         if ($ans) while ($e = $ans->fetch_assoc()) $Evs[] = $e;
         $Types = "Special Event";
@@ -74,10 +74,11 @@
 
   dohead("Timetable: $Types",[],$Banner);
   
+  $yr = substr($YEAR,0,4);
   $Titles = array("", // Not used
-                "Currently known $Types for $YEAR, there will be more", // Draft
-                "Currently known $Types for $YEAR, there will be more", // Partial
-                "Currently known $Types for $YEAR, there may be more", // Provisional
+                "Currently known $Types for $yr, there will be more", // Draft
+                "Currently known $Types for $yr, there will be more", // Partial
+                "Currently known $Types for $yr, there may be more", // Provisional
                 "$Types for $YEAR", // Complete
                 );
 

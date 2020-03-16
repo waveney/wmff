@@ -25,12 +25,12 @@
   if ($YEARDATA['SpecialState'] != 4) $More++;
   if ($YEAR < $PLANYEAR) $More = 0;
 
-  if ($YEAR != $SHOWYEAR) echo "<h2>What is on When in $YEAR?</h2>";
+  if ($YEAR != $SHOWYEAR) echo "<h2>What is on When in " . substr($YEAR,0,4) . "?</h2>";
   echo "<div class='FullWidth WhenTable'>";
   echo "<script src=/js/WhatsWhen.js></script>";
   $xtr = (isset($_GET['Mode']) || $YEAR<$PLANYEAR)?'':"AND ( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 ))";
 
-  $res = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND (e.SubEvent<=0 OR e.LongEvent=1) AND t.Public=1 $xtr ORDER BY Day, Start");
+  $res = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year='$YEAR' AND (e.SubEvent<=0 OR e.LongEvent=1) AND t.Public=1 $xtr ORDER BY Day, Start");
 
   if (!$res || $res->num_rows==0) {
     echo "<h3>There are currently no publicised events</h3>\n";

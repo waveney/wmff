@@ -33,13 +33,13 @@
 
   if ($_GET{'SEL'} == 'ALL') {
     $flds = "y.*, s.*";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN $YearTab as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE $TypeSel AND s.SideStatus=0 ORDER BY SN");
+    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN $YearTab as y ON s.SideId=y.SideId AND y.year='$YEAR' WHERE $TypeSel AND s.SideStatus=0 ORDER BY SN");
     $col5 = "Book State";
     $col6 = "Actions";
   } else if ($_GET{'SEL'} == 'INV') {
     $LastYear = $PLANYEAR-1;
     $flds = "s.*, ly.YearState, y.YearState, y.ContractConfirm";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN $YearTab as y ON s.SideId=y.SideId AND y.year=$PLANYEAR WHERE $TypeSel AND s.SideStatus=0 ORDER BY SN");
+    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN $YearTab as y ON s.SideId=y.SideId AND y.year='$PLANYEAR' WHERE $TypeSel AND s.SideStatus=0 ORDER BY SN");
     $col5 = "Invited $LastYear";
     $col6 = "Coming $LastYear";
     $col7 = "Invite $PLANYEAR";
@@ -47,7 +47,7 @@
     $col9 = "Coming $PLANYEAR";
   } else if ($_GET{'SEL'} == 'Coming') {
     $SideQ = $db->query("SELECT s.*, y.*, IF(s.DiffImportance=1,s.$DiffFld,s.Importance) AS EffectiveImportance FROM Sides AS s, $YearTab as y " .
-                "WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
+                "WHERE $TypeSel AND s.SideId=y.SideId AND y.year='$YEAR' AND y.YearState=" . 
                 $Book_State['Contract Signed'] . " ORDER BY EffectiveImportance DESC, SN"); 
     $col5 = "Complete?";
   } else if ($_GET{'SEL'} == 'Booking') {
@@ -64,7 +64,7 @@
   } else { // general public list
     $flds = "s.*, y.Sat, y.Sun";
     $SideQ = $db->query("SELECT $flds, IF(s.DiffImportance=1,s.$DiffFld,s.Importance) AS EffectiveImportance  FROM Sides AS s, $YearTab as y " .
-                "WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
+                "WHERE $TypeSel AND s.SideId=y.SideId AND y.year='$YEAR' AND y.YearState=" . 
                 $Book_State['Contract Signed'] . " ORDER BY EffectiveImportance DESC SN");
   }
 
