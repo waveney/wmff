@@ -79,12 +79,13 @@
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Contact</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Email</a>\n";
     $str .= "<th style='min-width:350'><a href=javascript:SortTable(" . $coln++ . ",'T')>State</a>\n";
+    if (Feature('TradeDateChange')) $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Change</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Fee</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Sa</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Su</a>\n";
 //    $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Ref</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Pitches</a>\n";
-    $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Power</a>\n";
+//    $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Power</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Location</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Ins</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Risk</a>\n";
@@ -139,6 +140,9 @@
         } else {
           $str .= $Trade_States[$stat];
         }
+      if (Feature('TradeDateChange')) {
+        $str .= "<td>" . ['Not Sent','Sent','Ack','Happy','Unhappy'][$fetch['DateChange']];
+      }
       $str .= "<td>";
         $Dep = T_Deposit($fetch);
         $fee = $fetch['Fee'];

@@ -1,23 +1,27 @@
 <?php
 
 // For Book -> Confirm -> Deposit ->Pay , if class begins with a - then not used/don't list
-$Trade_States = array('Not Submitted','Declined','Refunded','Cancelled','Submitted','Quoted','Accepted','Deposit Paid','Balance Requested','Fully Paid','Wait List','Requote');
+$Trade_States = array('Not Submitted','Declined','Refunded','Cancelled','Submitted','Quoted','Accepted','Deposit Paid','Balance Requested','Fully Paid',
+  'Wait List','Requote','Change Aware','Refund Needed');
 $Trade_State = array_flip($Trade_States);
 //$Trade_StateClasses = array('TSNotSub','TSDecline','-TSRefunded','TSCancel','TSSubmit','TSInvite','TSConf','TSDeposit','TSInvoice','TSPaid','TSWaitList','TSRequote');
-$Trade_State_Colours = ['white','red','-grey','grey','yellow','lightyellow','cyan','lightblue','darkseagreen','LightGreen','#ffb380','#e6d9b2'];
+$Trade_State_Colours = ['white','red','-grey','grey','yellow','lightyellow','cyan','lightblue','darkseagreen','LightGreen','#ffb380','#e6d9b2','Coral','Gold'];
 
 $TS_Actions = array('Submit,Invite,Invite Better',
                 'Resend,Submit',
                 'Resend',
                 'Resend,Submit',
-                'Resend,Quote,Accept,Invite,Decline,Hold,Cancel,Invite Better',
-                'Resend,Quote,Invite,Accept,Decline,UnQuote,LastWeek',
-                'Resend,Cancel',
-                'Pitch,Moved,Resend,Send Bal,Cancel',
-                'Pitch,Moved,Resend,Chase,Cancel',
-                'Pitch,Moved,Resend,Cancel',
+                'Resend,Quote,Accept,Invite,Decline,Hold,Cancel,Invite Better,Dates',
+                'Resend,Quote,Invite,Accept,Decline,UnQuote,LastWeek,Dates',
+                'Resend,Cancel,Dates',
+                'Pitch,Moved,Resend,Send Bal,Cancel,Dates',
+                'Pitch,Moved,Resend,Chase,Cancel,Dates',
+                'Pitch,Moved,Resend,Cancel,Dates',
                 'Resend,Accept,Decline,Cancel',
-                'Resend,Quote,Cancel');
+                'Resend,Quote,Cancel,Dates',
+                'Resend,Accept,Decline,Cancel',
+                'Resend,Cancel',
+                );
 
 $Trader_Status = array('Alive','Banned','Not trading');
 $Trader_State = array_flip($Trader_Status);
@@ -42,6 +46,7 @@ $ButExtra = array(
         'Moved'=>'title="Pitch Moved"',
         'Balance'=>'title="Send Balance Payment Request',
         'LastWeek'=>'title="Last week of Quote"',
+        'Dates'=>'Festival Changed Dates',
         ); 
 $ButTrader = array('Submit','Accept','Decline','Cancel','Resend'); // Actions Traders can do
 $ButAdmin = array('Paid','Dep Paid');
@@ -141,13 +146,13 @@ function Put_Trade_Type(&$now) {
 }
 
 function Get_Sponsors($tup=0) { // 0 Current, 1 all data
-  global $db,$SHOWYEAR;
+  global $db,$SHOWYEAR,$YEARDATA;
   $full = array();
-  $yr = ($tup ?"" :" WHERE Year='$SHOWYEAR' ");
+  $yr = ($tup ?"" :" WHERE Year='" . substr($SHOWYEAR,0,4) . "' ");
   $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY SN ");
   if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   if ($tup==0 && empty($full)) {
-    $yr = " WHERE Year='" . ($SHOWYEAR-1) . "'";
+    $yr = " WHERE Year='" . substr($YEARDATA['PrevFest'],0,4) . "'";
     $res = $db->query("SELECT * FROM Sponsors $yr ORDER BY SN ");
     if ($res) while ($spon = $res->fetch_assoc()) $full[] = $spon;
   }
@@ -700,7 +705,7 @@ function Trade_Finance(&$Trad,&$Trady) { // Finance statement as part of stateme
 }
 
 function Trader_Details($key,&$data,$att=0) {
-  global $Trade_Days,$TradeLocData,$TradeTypeData,$Prefixes;
+  global $Trade_Days,$TradeLocData,$TradeTypeData,$Prefixes,$YEAR;
   $Trad = &$data[0];
   if (isset($data[1])) $Trady = &$data[1];
   $host = "https://" . $_SERVER{'HTTP_HOST'};
@@ -771,6 +776,7 @@ function Trader_Details($key,&$data,$att=0) {
   case 'DEPCODE': return $Trady['DepositCode'];
   case 'BALCODE': return $Trady['BalanceCode'];  
   case 'OTHERCODE': return $Trady['OtherCode'];
+  case 'PAIDSOFAR': return $Trady['TotalPaid'];
   case 'PAYCODES':
     $Pay = Pay_Code_Find(1,$Tid);
     if ($Pay && $Pay['State']==0) {
@@ -784,6 +790,14 @@ function Trader_Details($key,&$data,$att=0) {
     } else {
       return "";
     }
+  case (preg_match('/TICKBOX(.*)/',$key,$mtch)?true:false):
+    $bits = preg_split('/:/',$mtch[1],3);
+    $box = 1;
+    $txt = 'Click This';
+    if (isset($bits[1])) $box = $bits[1];
+    if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
+    return "<a href='$host/int/Access?t=t&i=$Tid&TB=$box&k=" . $Trad['AccessKey'] . "&Y=$YEAR'><b>$txt</b></a>\n";
+
 
 /* TODO DUFF
   case 'DUEDATE' return 
@@ -954,6 +968,26 @@ function Validate_Pitches(&$CurDat) {
   return '';   
 }
 
+function Trade_TickBox($Tid,&$Trad,&$Trady,$TB) {
+  $Mode = 0;
+  if (Access('Committee')) $Mode = 1;
+
+  switch ($TB) {
+  case '1': // Happy with new dates
+    Trade_Action('DateHappy',$Trad,$Trady,$Mode);
+    break;
+    
+  case '2': // Unable to do new dates
+    Trade_Action('DateUnHappy',$Trad,$Trady,$Mode);
+    break;
+  
+  case '3': //Recieved
+    Trade_Action('DateAck',$Trad,$Trady,$Mode);
+    break;
+
+  }
+}
+
 function Trade_Main($Mode,$Program,$iddd=0) {
 // Mode 0 = Traders, 1 = ctte, 2 = Finance (for other invoices) Program = Trade/Trader $iddd if set starts it up, with that Tid
 
@@ -1121,6 +1155,8 @@ function Trade_Main($Mode,$Program,$iddd=0) {
     $Trad = ['TradeType' => 1, 'IsTrader' => 0];  
   }
   if (!isset($Trady)) $Trady = Default_Trade($Tid,$Trad['TradeType']);
+
+  if (isset($_REQUEST['TB'])) Trade_TickBox($Tid,$Trad,$Trady,$_REQUEST['TB']);
 
   Show_Trader($Tid,$Trad,$Program,$Mode);
   if ($Mode < 2 && !$Orgs) Show_Trade_Year($Tid,$Trady,$YEAR,$Mode);
@@ -1301,6 +1337,11 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     break;
 
   case 'Accept' :
+    if ($CurState == $Trade_States['Change_Aware']) {
+      Trade_Action('DateHappy',$Trad,$Trady,"$Hist $Action");
+      return;
+    }
+     
     if ($CurState >= $Trade_State['Accepted'] && $CurState < $Trade_State['Wait List']) {
       echo "<h3>This has already been accepted</h3>";
       return;
@@ -1334,6 +1375,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
         Send_Trade_Finance_Email($Trad,$Trady,'Trade_RequestDeposit');
       }
     }
+    if ($Trady['DateChange']) $Trady['DateChange'] = 3;
     break;
     
   case 'Invoice':
@@ -1389,12 +1431,17 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     break;
 
   case 'Decline' :
+    if ($CurState == $Trade_States['Change_Aware']) {
+      Trade_Action('DateUnHappy',$Trad,$Trady,"$Hist $Action");
+      return;
+    }
+
     if ($CurState == $Trade_State['Declined']) {
       echo "<h3>This has already been Declined</h3>";
       return;
     }
 
-    Pay_Code_Remove(1,$Tid);
+    Pay_Code_Remove(1,$Trad['Tid']);
     
     $NewState = $Trade_State['Declined'];
     $att = 0;
@@ -1575,6 +1622,11 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     break;
 
   case 'Cancel' : // If invoiced - credit note, free up fee and locations if set email moe need a reason field
+    if ($CurState == $Trade_States['Change_Aware']) {
+      Trade_Action('DateUnHappy',$Trad,$Trady,"$Hist $Action");
+      return;
+    }
+
     if ($CurState == $Trade_State['Cancelled']) {
       echo "<h3>This has already been Cancelled</h3>";
       return;
@@ -1783,6 +1835,43 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     Send_Trader_Email($Trad,$Trady,'Trade_PitchMoved'); 
     break;
   
+  case 'Dates':
+    Send_Trader_Email($Trad,$Trady,'Trade_Change_Dates'); 
+    $NewState = $Trade_State['Change Aware'];
+    $Trady['DateChange'] = 1;
+    break;
+
+  case 'DateHappy' :
+    $Trady['DateChange'] = 3;
+    $Dep = T_Deposit($Trad);
+    if ($Dep <= $PaidSoFar) {
+      if ($PaidSoFar >= $Trady['Fee']) {
+        $NewState = $Trade_State['Fully Paid'];
+      } else {
+        $NewState = $Trade_State['Deposit Paid'];
+      }
+    } else {
+      $NewState = $Trade_State['Accepted'];
+      // TODO Resend Deposit Message
+    }
+    break;
+    
+  case 'DateUnHappy' :
+    $Trady['DateChange'] = 4;  
+    if ($PaidSoFar) {
+      $NewState = $Trade_State['Refund Needed'];
+      $att = 0;
+      $Invs = Get_Invoices(" OurRef='" . Sage_Code($Trad) . "'"," IssueDate DESC ");
+      if ($Invs) $att = Get_Invoice_Pdf($Invs[0]['id']);
+      Send_Trade_Finance_Email($Trad,$Trady,'Trade_DC_Refund',$att);
+      Send_Trader_Email($Trad,$Trady,'Trade_DC_Refund_Ack');
+    }
+    break;
+    
+  case 'DateAck' :
+    $Trady['DateChange'] = 2; 
+    Send_Trader_Email($Trad,$Trady,'Trade_DC_Ack');
+    break;
 
   default:
     break;

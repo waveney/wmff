@@ -14,7 +14,7 @@
     
     echo "Here is what was here last year<p>";
     
-    set_ShowYear($YEAR-1);
+    set_ShowYear($YEARDATA['PrevFest']);
 //    dotail();
   }
 

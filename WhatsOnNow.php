@@ -45,8 +45,8 @@
 //  $Now['mon'] = 6;
 //  $Now['mday']= 9;
  
-  $StartTime = mktime(0,0,0,$YEARDATA['MonthFri'],$YEARDATA['DateFri']+$YEARDATA['FirstDay'],$PLANYEAR);
-  $EndTime = mktime(23,59,59,$YEARDATA['MonthFri'],$YEARDATA['DateFri']+$YEARDATA['LastDay'],$PLANYEAR);
+  $StartTime = mktime(0,0,0,$YEARDATA['MonthFri'],$YEARDATA['DateFri']+$YEARDATA['FirstDay'],substr($PLANYEAR,0,4));
+  $EndTime = mktime(23,59,59,$YEARDATA['MonthFri'],$YEARDATA['DateFri']+$YEARDATA['LastDay'],substr($PLANYEAR,0,4));
  
 //var_dump($now,$StartTime,$EndTime);
   if ($now < $StartTime || $now > $EndTime) {
