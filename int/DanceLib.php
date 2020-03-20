@@ -299,14 +299,17 @@ function Get_SideYears($snum) {
 function Put_SideYear(&$data,$Force=0) {
   global $db;
   global $Save_SideYears,$YEAR;
+  
+//echo "<P>" . $data['SideId'] . " - " . $data['Year'] . "<p>";
   if (!$data) return;
   if ($Force) {
     $Save = Get_SideYear($data['SideId']);
     $rec = "UPDATE SideYear SET ";
     $Up = 1;    
-  } else if (!isset($Save_SideYears[$data['SideId']][$data['Year']])) {
+  } else {
+   if (!isset($Save_SideYears[$data['SideId']][$data['Year']])) {
     $Save = &$Save_SideYears[$data['SideId']][$YEAR];
-    $Save = Default_SY();
+    $Save = Default_SY($data['SideId']);
     $data = array_merge($Save,$data);
     $rec = "INSERT INTO SideYear SET ";
     $Up = 0;
@@ -315,7 +318,7 @@ function Put_SideYear(&$data,$Force=0) {
     $rec = "UPDATE SideYear SET ";
     $Up = 1;
   }
-
+   }
   $fcnt = 0;
   foreach ($data as $fld=>$val) {
     if ($Up == 0 || (isset($Save[$fld]) && $val != $Save[$fld])) {
@@ -459,7 +462,7 @@ Contract Signed - Enables listing to public.',
 
 function Default_SY($id=0) { 
   global $YEAR,$USERID;
-  $ans = array('SatDance'=>3,'SunDance'=>4,'Year'=>$YEAR,'Procession'=>1,'Invited'=>'','BookedBy'=>$USERID);
+  $ans = array('SatDance'=>3,'SunDance'=>4,'Year'=>$YEAR,'Procession'=>1,'Invited'=>'','BookedBy'=>$USERID,'YearState'=>0);
   if ($id) $ans['SideId'] = $id;
   return $ans;
 }

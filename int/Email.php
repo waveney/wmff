@@ -344,6 +344,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
             break;
 
           default:
+ //var_dump($helper,$helperdata,$attachments,$embeded);
             $rep = ($helper?$helper($key,$helperdata,$attachments,$embeded):"*$key*");
             break;
           }

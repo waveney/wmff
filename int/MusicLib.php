@@ -138,7 +138,6 @@ function Put_ActYear(&$data) {
   global $Save_ActYears,$YEAR;
   if (!isset($Save_ActYears[$data['SideId']][$data['Year']])) {
     $Save = &$Save_ActYears[$data['SideId']][$YEAR];
-//    $Save = Default_AY();
     $data = array_merge($Save,$data);
     $rec = "INSERT INTO ActYear SET ";
     $Up = 0;
@@ -535,21 +534,22 @@ function ActYear_Check4_Change(&$Cur,&$now) {
 }
 
 function Music_Actions($Act,&$side,&$Sidey) { // Note Sidey MAY have other records in it >= Side
-  global $Book_State,$Book_States;
+  global $Book_State,$Book_States,$YEAR,$PLANYEAR,$FESTSYS;
   $NewState = $OldState = $Sidey['YearState'];
+  $Change = 0;
   if (!isset($NewState)) $NewState = 0;
 
   switch ($Act) {
     case 'Book':
-      $NewState = $Book_State['Booking'];
+      if ($YEAR == $PLANYEAR) $NewState = $Book_State['Booking'];
       break;
 
     case 'Cancel':
-      $NewState = $Book_State['None'];
+      if ($YEAR == $PLANYEAR) $NewState = $Book_State['None'];
       break;
 
     case 'Decline':
-      $NewState = $Book_State['Declined'];
+      if ($YEAR == $PLANYEAR) $NewState = $Book_State['Declined'];
       break;
 
     case 'Accept':
@@ -557,16 +557,25 @@ function Music_Actions($Act,&$side,&$Sidey) { // Note Sidey MAY have other recor
       break;
 
     case 'Contract':
-      $Valid = (!Contract_Check($side['SideId'],0));
-      if ($Valid) $NewState = $Book_State['Contract Ready'];
+      if ($YEAR == $PLANYEAR) {
+        $Valid = (!Contract_Check($side['SideId'],0));
+        if ($Valid) $NewState = $Book_State['Contract Ready'];
+      }
+      break;
+      
+    case 'Dates':
+      $subject = $FESTSYS['FestName'] . " $PLANYEAR and " . $side['SN'];
+      $too = Music_Email_Too($side);
+      if ($too) echo Email_Proforma(1,$side['SideId'],$too,'Music_Change_Dates',$subject,'Dance_Email_Details',[$side,$Sidey],$logfile='Music');
+      $Sidey['TickBox4'] = 1;
+      $Change = 1;
       break;
 
     default:
       break;
-
   }
 
-  if ($OldState != $NewState) {
+  if ($OldState != $NewState || $Change) {
 //echo "Newstate $NewState<p>";
     $Sidey['YearState'] = $NewState;
     Put_SideYear($Sidey);
@@ -617,6 +626,31 @@ function MusicMail($data,$name,$id,$direct) {
   if ($AddC) $Content .= "<div id=SideProg$id>" . Show_Contract($id,$p) . "</div><p>\n";
 
   return urlencode($Content);
+}
+
+function Music_Email_Too(&$data) {
+  global $FESTSYS,$YEAR;
+  $em = $name = '';
+  
+  if (isset($data['HasAgent']) && ($data['HasAgent']) && isset($data["AgentEmail"])) {
+    $em = $data['AgentEmail'];
+    $name = firstword($data['AgentName']);
+  } else if ($data['Email']) {
+    $em = $data['Email'];
+    $name = firstword($data['Contact']); 
+  } else if ($data['AltEmail']) {
+    $em = $data['AltEmail'];
+    $name = firstword($data['AltContact']);      
+  } else {
+    return "";
+  }
+
+  if (!$em) return "";
+  
+  if (!$name) $name = $data['SN'];
+      
+  $too = [['to',$em,$name],['from','Music@' . $FESTSYS['HostURL'],'Wimborne Music'],['replyto','Music@' . $FESTSYS['HostURL'],'Wimborne Music']];
+  return $too;
 }
 ?>
 

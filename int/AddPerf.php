@@ -38,10 +38,11 @@
   }  
 
   dostaffhead("Add/Change Performer", ["/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js","js/dropzone.js","css/dropzone.css", "js/InviteThings.js"]);
-  global $YEAR,$PLANYEAR,$Mess,$BUTTON;  // TODO Take Mess local
+  global $YEAR,$PLANYEAR,$Mess,$BUTTON,$YEARDATA;  // TODO Take Mess local
+  $ShowAvailOnly = 0;
 
   echo '<h2>Add/Edit Performer</h2>'; // TODO CHANGE
-  global $Mess,$Action,$Dance_TimeFeilds;
+  global $Mess,$Action,$Dance_TimeFeilds,$ShowAvailOnly;
   $DateFlds = ['ReleaseDate'];
 // var_dump($_POST);
 // TODO Change this to not do changes at a distance and needing global things
@@ -144,7 +145,7 @@
       if (isset($Sideyrs[$YEAR])) {
         $Sidey = $Sideyrs[$YEAR];
       } else {
-        $Sidey = Default_SY();
+        $Sidey = Default_SY($snum);
       }
       
       if (isset($_POST['TICKBOX'])) {
@@ -156,6 +157,15 @@
         case 'Rec': 
           if (!isset($Sidey['Coming']) || !$Sidey['Coming'] ) $Sidey['Coming'] = 1;
           break;
+          
+        case 'DCMRec' :
+          $Lasty = $Sideyrs[$YEARDATA['PrevFest']];
+          $Lasty['TickBox1'] = 1; 
+          $Lasty['TickBox4'] = 2; 
+          Put_SideYear($Lasty);
+          $ShowAvailOnly = 1;
+          $Sidey['TickBox1'] = 1; 
+          break;         
           
         default:
           echo "<h2>Unrecognised Button</h2>";

@@ -173,12 +173,15 @@ services, under the following terms and conditions:<p>\n";
   } else {
     $str .= "Please upload your Insurance before the festival.<p>\n";
   }
-  
+
+/*  
   if ($Sidey['ReportTo'] != 2 && $Sidey['GreenRoom']) {
     $str .= "There is a Green Room, in <a href='https://" .  $_SERVER['HTTP_HOST'] . "/int/VenueShow?v=79'><b>Church House</b></a> " .
             "(In the High Street opposite the Minster Church - click for map and directions).<p> ";
   }
   
+  
+*/
   
   switch ($ctype) {
   case 0:

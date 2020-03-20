@@ -3,7 +3,7 @@
 
 function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank look at data to determine type.  Mode=0 for public, 1 for ctte
   global $YEARDATA,$Side_Statuses,$Importance,$Surfaces,$Surface_Colours,$Noise_Levels,$Noise_Colours,$Share_Spots,$Mess,$Action,$ADDALL,$CALYEAR,$PLANYEAR,$YEAR;
-  global $OlapTypes,$OlapCats,$OlapDays,$PerfTypes;
+  global $OlapTypes,$OlapCats,$OlapDays,$PerfTypes,$ShowAvailOnly;
   if ($CatT == '') {
     $CatT = ($Side['IsASide'] ? 'Side' : $Side['IsAnAct'] ? 'Act' : 'Other');
   }
