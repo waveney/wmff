@@ -103,6 +103,7 @@ function Access($level,$subtype=0,$thing=0) {
   switch  ($USER{'AccessLevel'}) {
 
   case $Access_Type['Participant'] : 
+    if (!$subtype) return 1;
     if ($USER['Subtype'] == 'Other' && $subtype == 'Act') {}
     elseif ($USER{'Subtype'} != $subtype) return 0;
     return $thing == $USERID;

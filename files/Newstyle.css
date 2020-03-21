@@ -1514,3 +1514,7 @@ button {
 .ArtBulList1 li:nth-child(odd) { list-style-image: url('/images/icons/FlowerCerise.png'); }
 .ArtBulList1 li:nth-child(even) { list-style-image: url('/images/icons/FlowerDarkBlue.png'); }
 
+.smaller {
+  font-size: 80%;
+}
+

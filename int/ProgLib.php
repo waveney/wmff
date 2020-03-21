@@ -88,14 +88,14 @@ function &Report_To() { // List of report to locs
   static $List;
   if (isset($List)) return $List;
   $List = ['Information Point','None'];
-  $Vens = Get_AVenues();
+  $Vens = Get_Real_Venues(0);
   $List = array_merge($List,$Vens);
   return $List;
 }
 
 
 function Get_Real_Venues($type=0) { // 0 =short, 1 =full
-  $Vens = Get_Venues(1);
+  $Vens = Get_Venues(1,' WHERE Status=0 ');
   $real = array();
   foreach ($Vens as $vi=>$v) if (!$v['IsVirtual']) $real[$v['VenueId']] = ($type?$v:SName($v));
   return $real;

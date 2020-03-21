@@ -287,11 +287,10 @@
   
 // *********************** VENUES & EVENTS *******************************************************
   $_POST['DAYS'] = 0; $_POST['Pics'] = 1;
-  if ($x = StaffTable('Events','Events and Venues',2)) {
+  if ($x = StaffTable('Events','Events',2)) {
     $txt .= $x;
     $Vens = Get_AVenues();
     $txt .= "<ul>\n";
-    $txt .= "<li><a href=VenueList?Y=$YEAR>List Venues</a>\n";
     $txt .= "<li><a href=EventList?Y=$YEAR>List All Events</a>\n";
     if (Access('Staff','Venues') && $YEAR==$PLANYEAR) $txt .= "<li><a href=EventAdd>Create Event(s)</a>";
     
@@ -312,11 +311,8 @@
                 "</form>\n";
 
     if (Access('Staff','Venues')) $txt .= "<li><a href=EventTypes>Event Types</a>\n";
-    if (Access('Staff','Venues')) $txt .= "<li><a href=VenueComplete?Y=$YEAR>Mark Venues as Complete</a>\n";
     if (Access('SysAdmin')) $txt .= "<li><a href=TicketEvents?Y=$YEAR>List Ticketed Events</a>\n";
     if (Access('Staff')) $txt .= "<li><a href=StewList?Y=$YEAR>List Stewarding Events</a>\n";
-    if (Access('Committee','Venues')) $txt .= "<li><a href=MapPoints>Additional Map Points</a>\n";
-    if (Access('SysAdmin')) $txt .= "<li><a href=MapPTypes>Map Point Types</a>\n";
     $txt .= "<li><a href=EventSummary?Y=$YEAR>Event Summary</a>\n";
     $txt .= "<li><form method=Post action=PAShow class=staffform>";
       $txt .= "<input type=submit name=a value='PA Requirements for' id=staffformid>" . 
@@ -325,15 +321,28 @@
 
 //    if (Access('SysAdmin')) $txt .= "<li><a href=BusTimes>Fetch and Cache Bus Times</a>\n";
 //    if (Access('SysAdmin')) $txt .= "<li><a href=ConvertEvents>Convert Old Format Events to New Format Events</a>\n";
-    if (Access('SysAdmin')) $txt .= "<li><a href=AddVenue?NEWACCESS onClick=\"javascript:return confirm('are you sure you update these?');\">Generate New Access Keys for Venues</a>\n";
-    if ($YEAR == $PLANYEAR && Access('Staff')) $txt .= "<li><a href=VenueActive>Refresh Active Venue List</a>\n";
     $txt .= "<li><form method=Post action=/WhatsOnNow class=staffform>";
       $txt .= "<input type=submit name=a value='Whats On At ' id=staffformid>" . 
                 fm_hidden('Y',$YEAR) . fm_text0('',$_POST,'AtTime') .' on ' . fm_text0('',$_POST,'AtDate');
     
     $txt .= "</ul>\n";
   }
-  
+// *********************** Venues *****************************************************************
+  $_POST['DAYS'] = 0; $_POST['Pics'] = 1;
+  if ($x = StaffTable('Events','Venues')) {
+    $txt .= $x;
+    $Vens = Get_AVenues();
+    $txt .= "<ul>\n";
+    $txt .= "<li><a href=VenueList?Y=$YEAR>List Venues</a>\n";
+    if (Access('Staff','Venues')) $txt .= "<li><a href=VenueComplete?Y=$YEAR>Mark Venues as Complete</a>\n";
+    if (Access('Committee','Venues')) $txt .= "<li><a href=MapPoints>Additional Map Points</a>\n";
+    if (Access('SysAdmin')) $txt .= "<li><a href=MapPTypes>Map Point Types</a>\n";
+    if (Access('SysAdmin')) $txt .= "<li><a href=AddVenue?NEWACCESS onClick=\"javascript:return confirm('are you sure you update these?');\">Generate New Access Keys for Venues</a>\n";
+    if ($YEAR == $PLANYEAR && Access('Staff')) $txt .= "<li><a href=VenueActive>Refresh Active Venue List</a>\n";
+    
+    $txt .= "</ul>\n";
+  }
+
 // *********************** Misc *****************************************************************
   if ($x = StaffTable('Misc','Misc')) {
     $txt .= $x;

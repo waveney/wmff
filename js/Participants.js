@@ -107,6 +107,9 @@ $(document).ready(function() {
   if(! $("[Name=Fri]").is(":checked")) $('.ComeFri').hide();
   if(! $("[Name=Sat]").is(":checked")) $('.ComeSat').hide();
   if(! $("[Name=Sun]").is(":checked")) $('.ComeSun').hide();
+  if(! $("[Name=MFri]").is(":checked")) $('.ComeMFri').hide();
+  if(! $("[Name=MSat]").is(":checked")) $('.ComeMSat').hide();
+  if(! $("[Name=MSun]").is(":checked")) $('.ComeMSun').hide();
 
   AgentChange();
   CheckContract();

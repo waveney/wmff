@@ -165,6 +165,7 @@
           Put_SideYear($Lasty);
           $ShowAvailOnly = 1;
           $Sidey['TickBox1'] = 1; 
+          echo "<script>$(document).ready(function() {var elmnt = document.getElementById('Availability');elmnt.scrollIntoView(true);})</script>";
           break;         
           
         default:
