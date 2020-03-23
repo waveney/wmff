@@ -51,7 +51,7 @@
                 $Book_State['Contract Signed'] . " ORDER BY EffectiveImportance DESC, SN"); 
     $col5 = "Complete?";
   } else if ($_GET{'SEL'} == 'Booking') {
-    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, $YearTab as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>0" . 
+    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, $YearTab as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year='$YEAR' AND y.YearState>0" . 
                 " ORDER BY SN");
     $col5 = "Book State";
     $col6 = "Actions";
@@ -61,7 +61,13 @@
     if (substr($YEAR,0,4) == '2020') $col10 = 'Change';
     echo "Under <b>Actions</b> various errors are reported, the most significant error is indicated.  Please fix these before issuing the contracts.<p>\n";
     echo "Missing: P - Needs Phone, E Needs Email, T Needs Tech Spec, B Needs Bank (Only if fees), I Insurance.<p>";
-    
+  } else if ($_GET{'SEL'} == 'Avail') {
+    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, $YearTab as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year='$YEAR' ORDER BY SN");
+    $col5 = "Book State";
+    $col6 = "Actions";
+    $col7 = "Importance";
+    $col8 = "Availability";
+ 
   } else { // general public list
     $SideQ = $db->query("SELECT y.*, s.*, IF(s.DiffImportance=1,s.$DiffFld,s.Importance) AS EffectiveImportance  FROM Sides AS s, $YearTab as y " .
                 "WHERE $TypeSel AND s.SideId=y.SideId AND y.year='$YEAR' AND y.YearState=" . 
@@ -163,7 +169,22 @@
         case 'Change':
           echo "<td>" . (isset($fetch['TickBox4']) ? ['','Sent','Ack'][$fetch['TickBox4']] : "");
           break;
-        
+        case 'Availability' :
+          echo "<td>";
+          if ($fetch['MFri']) { 
+            echo "F";
+            if ($fetch['FriAvail']) echo "*";
+          }
+          if ($fetch['MSat']) {
+            echo " Sa";
+            if ($fetch['SatAvail']) echo "*";           
+          }
+          if ($fetch['MSun']) {
+            echo " Su";
+            if ($fetch['SunAvail']) echo "*";          
+          }    
+          break;
+          
         default:
           break;
 

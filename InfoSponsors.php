@@ -26,7 +26,7 @@
 <?php 
   global $SHOWYEAR;
   set_ShowYear();
-  echo "<h2>Our Sponsors in $SHOWYEAR</h2>";
+  echo "<h2>Our Sponsors in " . substr($SHOWYEAR,0,4) . "</h2>";
 
   echo "<div class=sponflexwrap>\n";
 

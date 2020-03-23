@@ -425,12 +425,13 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
     return;
   }
 
+/* TODO this is duff
   if (($Mode == 0) && (($Side['IsASide'] && (!isset($Sidey['Coming']) || $Sidey['Coming'] == 0) && (!isset($Sidey['Invite']) || $Sidey['Invite'] >= $Invite_Type['No'])) ||
-                       ($Side['IsASide'] == 0 && $Sidey['YearState'] == 0))) {
+                       ($Side['IsASide'] == 0 && $Sidey['YearState'] == 0 && !$ShowAvailOnly))) {
     echo "<h2><a href=DanceRequest?sidenum=$snum&Y=$YEAR>Request Invite for " . substr($YEAR,0,4) . "</a></h2>";
     return;
   }
-
+*/
 
 // Start here
   echo "<h2>Performing in " . substr($year,0,4) . "</h2>";
@@ -735,10 +736,8 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
   }
 
   // INsurance
-  $NotD = 0;
-  foreach ($PerfTypes as $p=>$d) if (($d[0] != 'IsASide') && $Side[$d[0]]) $NotD = 1;
   
-  echo fm_DragonDrop(1, 'Insurance','Sides',$snum,$Sidey,$Mode,'',(($NotD || $Mstate || $Mode)),$Imp);
+  if (!$ShowAvailOnly) echo fm_DragonDrop(1, 'Insurance','Sides',$snum,$Sidey,$Mode,'',(($NotD || $Mstate || $Mode)),$Imp);
   
   $ntxt = 'Notes (Do <b>NOT</b> use this for questions.<br>if not answered by the ';
   if ($Side['IsASide']) {

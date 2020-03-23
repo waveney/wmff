@@ -268,6 +268,24 @@ function Feature($Name,$default='') {  // Return value of feature if set from FE
   return $default;
 }
 
+function FestFeature($Name,$default='') {  // Return value of feature if set from FESTSYS
+  static $Features;
+  global $YEARDATA;
+  if (!$Features) {
+    $Features = [];
+    foreach (explode("\n",$YEARDATA['FestFeatures']) as $i=>$feat) {
+      $Dat = explode(":",$feat,4);
+      if ($Dat[0] && isset($Dat[1])) {
+        $Features[$Dat[0]] = trim($Dat[1]);
+      } elseif ($Dat[0] && isset($Dat[4])) {
+        $Features[$Dat[0]] = trim($Dat[4]);
+      }
+    }
+  }
+  if (isset($Features[$Name])) return $Features[$Name];
+  return $default;
+}
+
 function Capability($Name,$default='') {  // Return value of Capability if set from FESTSYS
   static $Capabilities;
   global $FESTSYS;

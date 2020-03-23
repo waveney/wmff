@@ -102,8 +102,10 @@
     $txt .= "<ul>\n";
     $txt .= "<li><a href=MusicFAQ>Music FAQ</a>\n";
     if (Access('Staff')) {
-      $txt .= "<li><a href=ListMusic?SEL=ALL&Y=$YEAR&T=M>List All Music Acts in Database</a>\n";
+      $txt .= "<li><a href=ListMusic?SEL=Avail&Y=$YEAR&T=M>List Music Acts Available</a>\n";
       $txt .= "<li><a href=ListMusic?SEL=Booking&Y=$YEAR&T=M>List Music Acts Booking</a>\n";
+      $txt .= "<li><a href=ListMusic?SEL=ALL&Y=$YEAR&T=M>List All Music Acts in Database</a>\n";
+
 //      $txt .= "<li>Music Acts Summary"; //<a href=MusicSummary?Y=$YEAR>Music Acts Summary</a>\n";
     }
     if (Access('Staff','Music')) {

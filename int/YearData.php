@@ -90,7 +90,8 @@
 
     echo "<tr>" . fm_text('Previous Festival',$Gen,'PrevFest') . "<td>Previous Festival in Calender Order (as in its Year see above)";
     echo "<tr>" . fm_text('Next Festival',$Gen,'NextFest') . "<td>Next Festival in Calender Order";
-    
+    echo "<tr>" . fm_textarea("Features",$Gen,'FestFeatures',4,4);
+        
     echo "<tr><td>Ticket Control:<td>" . fm_select($TicketStates,$Gen,'TicketControl') . "<td>Master Ticketing control\n";
     echo "<tr><td>Camping Control:<td>" . fm_select($TicketStates,$Gen,'CampingControl') . "<td>Master Camping Ticket control\n";
     echo "<tr>" . fm_text1("Weekend Pass Code",$Gen,'WeekendPassCode') . fm_number1("Weekend Pass Price",$Gen,'WeekendPass') . 
