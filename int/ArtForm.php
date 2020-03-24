@@ -62,7 +62,7 @@
 
   }
 
-  echo "<h2 class=subtitle>Art $PLANYEAR Application Form</h2>\n";
+  echo "<h2 class=subtitle>Art " . substrt($PLANYEAR,0,4) . " Application Form</h2>\n";
   echo "<form method=post action=ArtForm>";
   if (isset($id) && $id>0) echo fm_hidden('id',$id);
   echo "<div class=tablecont><table border>\n";

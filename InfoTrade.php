@@ -8,7 +8,7 @@
 <img src=/images/Chutney-Trader-2016.jpg alt='Wimborne Minster Folk Festival' class=bioimg>
 <p>One of our traders.</p>
 </div>
-<h2>Trade in $PLANYEAR</h2>
+<h2>Trade in " . substr($PLANYEAR,0,4) . " </h2>
 Applications for trading at the festival, which will be held over the weekend of " . FestDate(0,'L') . " to " . FestDate(2,'L') . " are <a href=/int/Trader>OPEN</a>.<p>
 
 Prices for $PLANYEAR trade stands are listed below.  See also the <a href=/int/TradeFAQ><strong>Trade FAQ</strong></a>.  

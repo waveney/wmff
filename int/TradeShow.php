@@ -10,11 +10,11 @@
 
   $Partial = (array_flip($EType_States))['Partial'];
   if ($YEARDATA['TradeState'] < $Partial) {
-    echo "Sorry the Traders are not yet listed for $SHOWYEAR<p>";
+    echo "Sorry the Traders are not yet listed for " . substr($SHOWYEAR,0,4) . "<p>";
     
     echo "Here is what was here last year<p>";
     
-    set_ShowYear($YEARDATA['PrevFest']);
+    set_ShowYear(FestFeature('PrevRealFest',$YEARDATA['PrevFest']));
 //    dotail();
   }
 
@@ -113,7 +113,7 @@ function ShowForm($Dir='H') {
 
   if (!isset($_REQUEST['SEL'])) dotail();  
    
-  if ($YEAR < $PLANYEAR) {
+  if ($YEAR != $PLANYEAR) {
     echo "These traders where at the Folk Festival.<p>";
   } else {
     echo "These traders will be at the Folk Festival.<p>";

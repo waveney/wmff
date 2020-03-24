@@ -461,7 +461,7 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
   $Trad = Get_Trader($Tid);
   if ($year==0) $year=$YEAR;
   $CurYear = date("Y");
-  if ($year < $PLANYEAR) { // Then it is historical - no changes allowed
+  if ($year != $PLANYEAR) { // Then it is historical - no changes allowed
     fm_addall('disabled readonly');
   }
 
