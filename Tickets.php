@@ -25,7 +25,7 @@
          "Camping may be purchased at the campsite gate if space is available.<p>";
   }
 
-  echo "Select from the options below to purchase your passes and tickets for Wimborne Minster Folk Festival $YEAR.<p>";
+  echo "Select from the options below to purchase your passes and tickets for Wimborne Minster Folk Festival " . substr($YEAR,0,4) . ".<p>";
  
   echo "The weekend Pass is access to everything (apart from events at the Tivoli and events before Friday).  The Saturday Pass gives access to everything on Saturday only.  
   Event tickets are just access to that individual event.<p>";
@@ -195,7 +195,10 @@
   }
 
   echo "<h2>* Party In The Paddock</h2><p>";
-  echo "If you're looking to combine a weekend of official festival events and a trip to <a href='http://partyinthepaddock.com'>Party In The Paddock</a>, " .
+
+  echo "There will not be a Party in the Paddock this year.<p>";
+  
+  if (0) echo "If you're looking to combine a weekend of official festival events and a trip to <a href='http://partyinthepaddock.com'>Party In The Paddock</a>, " .
        "then book your tickets with us!</p>";
 
   if ($YEARDATA['TicketControl'] == 1) {
