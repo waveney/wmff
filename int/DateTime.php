@@ -13,21 +13,24 @@ function Date_BestGuess($txt) {
   if (!$txt) return 0;
   $Months = array('jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec');
   $daysOfM = array(31,28,31,30,31,30,31,31,30,31,30,31);
+  $ts = '';
   $yr = $day = $mnth = 0;
-  if (preg_match('/(\d+)\/(\d+)\/?(\d+)?/',$txt,$mtch)) {
+
+  if (preg_match('/(\d+)\/(\d+)\/?(\d+)?( +.*)?/',$txt,$mtch)) {
     $day = $mtch[1];
     $mnth = $mtch[2];
     if (isset($mtch[3]) && $mtch[3])$yr = $mtch[3];
-  } else if (preg_match('/(\d+)-(\d+)-(\d+)/',$txt,$mtch)) {
-
+    if (isset($mtch[4]) && $mtch[4])$ts = $mtch[3];
+  } else if (preg_match('/(\d+)-(\d+)-(\d+)( +.*)?/',$txt,$mtch)) {
     $day = $mtch[3];
     $mnth = $mtch[2];
     $yr = $mtch[1];
+    if (isset($mtch[4]) && $mtch[4])$ts = $mtch[3];
   } else if (preg_match('/(\d+) +(\a+) +(\d+)/',$txt,$mtch)) {
-//  var_dump($mtch);
     $day = $mtch[1];
     $mnth = array_search(substr(strtolower($mtch[2]),0,3),$Months)+1;
     $yr = $mtch[3];
+    if (isset($mtch[4]) && $mtch[4])$ts = $mtch[3];
   } else {
     $day = -1;
     if (preg_match('/(\d+)/',$txt,$mtch)) $day = $mtch[1];
@@ -36,14 +39,24 @@ function Date_BestGuess($txt) {
     for ($i = 0; $i < 12; $i++) if (preg_match("/" . $Months[$i] . "/",$lctxt)) $mnth = $i+1;
     if (!$mnth) return 0;
     if ($day < 0) $day = $daysOfM[$mnth-1];
+    if (preg_match('/ (\d*:\d*)/',$lctxt,$mtch)) {
+      $ts = $mtch[1];
+    }
   } 
+
+  $Toff=0;
+  if ($ts) {
+    $Toff = Time_BestGuess($ts,1)*60;
+  }
+
 
   if ($yr) {
     if (strlen($yr)<4) $yr+=2000;
-    return mktime(0,0,0,$mnth,$day,$yr);
+    return mktime(0,0,0,$mnth,$day,$yr) + $Toff;
   }
-  if ($mnth <= 6) return mktime(0,0,0,$mnth,$day,$PLANYEAR);
-  return mktime(0,0,0,$mnth,$day,$PLANYEAR-1);
+  $PYear = substr($PLANYEAR,0,4);
+  if ($mnth <= 6) return mktime(0,0,0,$mnth,$day,$PYear) + $Toff;
+  return mktime(0,0,0,$mnth,$day,$PYear-1) + $Toff;
 }
 
 //        12:27, 1227, 12, 2, 2PM, Midday, 5 to 3, 2pm, 11am, 10 mins (just 10), 2 hours, 2 hrs, 1 hour 20 mins
