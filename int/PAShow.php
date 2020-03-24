@@ -26,12 +26,12 @@
 
  $VenList[] = $V;
   if ($Ven['IsVirtual']) {
-    $res = $db->query("SELECT DISTINCT e.* FROM Events e, Venues v, EventTypes t WHERE e.Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1 OR " .
+    $res = $db->query("SELECT DISTINCT e.* FROM Events e, Venues v, EventTypes t WHERE e.Year='$YEAR' AND (e.Venue=$V OR e.BigEvent=1 OR " .
                 "( e.Venue=v.VenueId AND v.PartVirt=$V )) ORDER BY Day, Start");
     $parts = $db->query("SELECT VenueId FROM Venues v WHERE v.PartVirt=$V");
     while ($part = $parts->fetch_assoc()) $VenList[] = $part['VenueId'];
   } else {
-    $res = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND (e.Venue=$V OR e.BigEvent=1) " .
+    $res = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year='$YEAR' AND (e.Venue=$V OR e.BigEvent=1) " .
                 " ORDER BY Day, Start");
   }
 

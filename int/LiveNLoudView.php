@@ -25,7 +25,7 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>State/Actions</a>\n";
   echo "</thead><tbody>";
 
-  $res=$db->query("SELECT * FROM SignUp WHERE Year=$PLANYEAR $extra AND Activity<4 ORDER BY SN");
+  $res=$db->query("SELECT * FROM SignUp WHERE Year='$PLANYEAR' $extra AND Activity<4 ORDER BY SN");
   
   if ($res) {
     while ($lnl = $res->fetch_assoc()) {

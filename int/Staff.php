@@ -10,7 +10,7 @@
 
   dostaffhead("Staff Pages", ["/js/jquery.typeahead.min.js", "/css/jquery.typeahead.min.css", "/js/Staff.js"]);
 
-  global $YEAR,$PLANYEAR;
+  global $YEAR,$PLANYEAR,$YEARDATA;
   include_once("ProgLib.php");
   include_once("TradeLib.php");
   $Years = Get_Years();
@@ -39,8 +39,8 @@
 //echo php_ini_loaded_file() . "<P>";
 
   echo "<div class=floatright><h2>";
-  if (isset($Years[$YEAR-1])) echo "<a href=Staff?Y=" . ($YEAR-1) .">" . ($YEAR-1) . "</a> &nbsp; ";
-  if (isset($Years[$YEAR+1])) echo "<a href=Staff?Y=" . ($YEAR+1) .">" . ($YEAR+1) . "</a>\n";
+  if (isset($Years[$YEARDATA['PrevFest']])) echo "<a href=Staff?Y=" . $YEARDATA['PrevFest'] .">" . $YEARDATA['PrevFest'] . "</a> &nbsp; ";
+  if (isset($Years[$YEARDATA['NextFest']])) echo "<a href=Staff?Y=" . $YEARDATA['NextFest'] .">" . $YEARDATA['NextFest'] . "</a>\n";
   echo "</h2></div>";
   echo "<h2>Staff Pages - $YEAR <span style='font-size:16;font-weight:normal;'>For other years select &gt;&gt;&gt;</span></h2>\n";
   
@@ -102,8 +102,10 @@
     $txt .= "<ul>\n";
     $txt .= "<li><a href=MusicFAQ>Music FAQ</a>\n";
     if (Access('Staff')) {
-      $txt .= "<li><a href=ListMusic?SEL=ALL&Y=$YEAR&T=M>List All Music Acts in Database</a>\n";
+      $txt .= "<li><a href=ListMusic?SEL=Avail&Y=$YEAR&T=M>List Music Acts Available</a>\n";
       $txt .= "<li><a href=ListMusic?SEL=Booking&Y=$YEAR&T=M>List Music Acts Booking</a>\n";
+      $txt .= "<li><a href=ListMusic?SEL=ALL&Y=$YEAR&T=M>List All Music Acts in Database</a>\n";
+
 //      $txt .= "<li>Music Acts Summary"; //<a href=MusicSummary?Y=$YEAR>Music Acts Summary</a>\n";
     }
     if (Access('Staff','Music')) {
@@ -270,7 +272,7 @@
 //      $txt .= "<li><a href=TradeSetup>Trade Pitch Setup</a>\n";
       if (Access('SysAdmin')) $txt .= "<li><a href=TradeTypes>Trade Types and base Prices</a>\n";
       if (Access('SysAdmin')) $txt .= "<li><a href=EmailTraders>Email Groups of Traders</a>\n"; // Old code needs lots of changes
-//      if (Access('SysAdmin')) $txt .= "<li><a href=TradeImport1>Convert old Trade Data</a>\n";
+      if (Access('SysAdmin')) $txt .= "<li><a href=TradeDateChange>Bump Trade Year Data to new dates</a>\n";
 //      if (Access('SysAdmin')) $txt .= "<li><a href=TradeImport2>Merge Mandy's Trade Data</a>\n";
 //      if (Access('SysAdmin')) $txt .= "<li><a href=TradeImport3>Fix Access Keys</a>\n";
 //      $txt .= "<li><a href=/admin/trade/index>Old Trade Stand Section</a>\n";
@@ -287,11 +289,10 @@
   
 // *********************** VENUES & EVENTS *******************************************************
   $_POST['DAYS'] = 0; $_POST['Pics'] = 1;
-  if ($x = StaffTable('Events','Events and Venues',2)) {
+  if ($x = StaffTable('Events','Events',2)) {
     $txt .= $x;
     $Vens = Get_AVenues();
     $txt .= "<ul>\n";
-    $txt .= "<li><a href=VenueList?Y=$YEAR>List Venues</a>\n";
     $txt .= "<li><a href=EventList?Y=$YEAR>List All Events</a>\n";
     if (Access('Staff','Venues') && $YEAR==$PLANYEAR) $txt .= "<li><a href=EventAdd>Create Event(s)</a>";
     
@@ -312,11 +313,8 @@
                 "</form>\n";
 
     if (Access('Staff','Venues')) $txt .= "<li><a href=EventTypes>Event Types</a>\n";
-    if (Access('Staff','Venues')) $txt .= "<li><a href=VenueComplete?Y=$YEAR>Mark Venues as Complete</a>\n";
     if (Access('SysAdmin')) $txt .= "<li><a href=TicketEvents?Y=$YEAR>List Ticketed Events</a>\n";
     if (Access('Staff')) $txt .= "<li><a href=StewList?Y=$YEAR>List Stewarding Events</a>\n";
-    if (Access('Committee','Venues')) $txt .= "<li><a href=MapPoints>Additional Map Points</a>\n";
-    if (Access('SysAdmin')) $txt .= "<li><a href=MapPTypes>Map Point Types</a>\n";
     $txt .= "<li><a href=EventSummary?Y=$YEAR>Event Summary</a>\n";
     $txt .= "<li><form method=Post action=PAShow class=staffform>";
       $txt .= "<input type=submit name=a value='PA Requirements for' id=staffformid>" . 
@@ -325,15 +323,28 @@
 
 //    if (Access('SysAdmin')) $txt .= "<li><a href=BusTimes>Fetch and Cache Bus Times</a>\n";
 //    if (Access('SysAdmin')) $txt .= "<li><a href=ConvertEvents>Convert Old Format Events to New Format Events</a>\n";
-    if (Access('SysAdmin')) $txt .= "<li><a href=AddVenue?NEWACCESS onClick=\"javascript:return confirm('are you sure you update these?');\">Generate New Access Keys for Venues</a>\n";
-    if ($YEAR == $PLANYEAR && Access('Staff')) $txt .= "<li><a href=VenueActive>Refresh Active Venue List</a>\n";
     $txt .= "<li><form method=Post action=/WhatsOnNow class=staffform>";
       $txt .= "<input type=submit name=a value='Whats On At ' id=staffformid>" . 
                 fm_hidden('Y',$YEAR) . fm_text0('',$_POST,'AtTime') .' on ' . fm_text0('',$_POST,'AtDate');
     
     $txt .= "</ul>\n";
   }
-  
+// *********************** Venues *****************************************************************
+  $_POST['DAYS'] = 0; $_POST['Pics'] = 1;
+  if ($x = StaffTable('Events','Venues')) {
+    $txt .= $x;
+    $Vens = Get_AVenues();
+    $txt .= "<ul>\n";
+    $txt .= "<li><a href=VenueList?Y=$YEAR>List Venues</a>\n";
+    if (Access('Staff','Venues')) $txt .= "<li><a href=VenueComplete?Y=$YEAR>Mark Venues as Complete</a>\n";
+    if (Access('Committee','Venues')) $txt .= "<li><a href=MapPoints>Additional Map Points</a>\n";
+    if (Access('SysAdmin')) $txt .= "<li><a href=MapPTypes>Map Point Types</a>\n";
+    if (Access('SysAdmin')) $txt .= "<li><a href=AddVenue?NEWACCESS onClick=\"javascript:return confirm('are you sure you update these?');\">Generate New Access Keys for Venues</a>\n";
+    if ($YEAR == $PLANYEAR && Access('Staff')) $txt .= "<li><a href=VenueActive>Refresh Active Venue List</a>\n";
+    
+    $txt .= "</ul>\n";
+  }
+
 // *********************** Misc *****************************************************************
   if ($x = StaffTable('Misc','Misc')) {
     $txt .= $x;

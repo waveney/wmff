@@ -11,9 +11,7 @@ if (isset($_REQUEST{'Y'})) $YEAR = $_REQUEST{'Y'};
 if (isset($_REQUEST{'B'})) $BUTTON = ($_REQUEST{'B'}+1) % 4;
 
 if (isset($YEAR)) {
-  if (!is_numeric($YEAR)) exit("Invalid Year");
-} else {
-  $YEAR = $CALYEAR;
+  if (strlen($YEAR)>10) exit("Invalid Year");
 }
 
 $Access_Levels = ['','Participant','Upload','Steward','Staff','Committee','SysAdmin','Internal'];// Sound Engineers will be Stewards, Upload not used yet
@@ -26,9 +24,9 @@ $Book_States = array('None','Declined','Booking','Contract Ready','Contract Sign
 $Book_Colours = ['white','salmon','yellow','orange','lime'];
 $Book_State = array_flip($Book_States);
 $InsuranceStates = array('None','Uploaded','Checked');
-$Book_Actions = array('None'=>'Book','Declined'=>'Book,Contract','Booking'=>'Contract,Decline,Cancel','Contract Ready'=>'Confirm,Decline,Cancel',
-                'Contract Signed'=>'Cancel,Decline');
-$Book_ActionExtras = array('Book'=>'', 'Contract'=>'', 'Decline'=>'', 'Cancel'=>'', 'Confirm'=>'');
+$Book_Actions = array('None'=>'Book','Declined'=>'Book,Contract','Booking'=>'Contract,Decline,Cancel,Dates','Contract Ready'=>'Confirm,Decline,Cancel,Dates',
+                'Contract Signed'=>'Cancel,Decline,Dates');
+$Book_ActionExtras = array('Book'=>'', 'Contract'=>'', 'Decline'=>'', 'Cancel'=>'', 'Confirm'=>'', 'Dates'=>'');
 $EType_States = array('Very Early','Draft','Partial','Provisional','Complete');
 $TicketStates = array('Not Yet','Open','Closed','Remove','Remote');
 $ArticleFormats = ['Large Image','Small Image','Text','Banner Image','Banner Text','Fixed','Left/Right Pairs'];
@@ -105,6 +103,7 @@ function Access($level,$subtype=0,$thing=0) {
   switch  ($USER{'AccessLevel'}) {
 
   case $Access_Type['Participant'] : 
+    if (!$subtype) return 1;
     if ($USER['Subtype'] == 'Other' && $subtype == 'Act') {}
     elseif ($USER{'Subtype'} != $subtype) return 0;
     return $thing == $USERID;
@@ -253,7 +252,7 @@ function Error_Page ($message) {
 function Get_General($y=0) {
   global $db,$YEAR;
   if (!$y) $y=$YEAR;
-  $res = $db->query("SELECT * FROM General WHERE Year=$y");
+  $res = $db->query("SELECT * FROM General WHERE Year='$y'");
   if ($res) return $res->fetch_assoc();
 }
 
@@ -268,7 +267,7 @@ function Get_Years() {
 }
 
 $YEARDATA = Get_General();
-if ($YEARDATA['Years2Show'] > 0) $NEXTYEARDATA = Get_General($YEAR+1);
+if ($YEARDATA['Years2Show'] > 0) $NEXTYEARDATA = Get_General($YEARDATA['NextFest']);
 
 function First_Sent($stuff) {
   $onefifty=substr($stuff,0,150);

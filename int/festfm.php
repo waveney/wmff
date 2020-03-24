@@ -415,12 +415,26 @@ function Register_AutoUpdate($type,$ref) {
 
 function FestDate($day,$format='M',$Year=0) {
   global $YEARDATA,$YEAR;
+  static $Years;
+
   if ($Year == 0) $Year=$YEAR;
-  $date = mktime(0,0,0,$YEARDATA['MonthFri'],$YEARDATA['DateFri']+$day,$Year);
+  $ShortYear = substr($Year,0,4);
+  if ($Year != $YEARDATA['Year']) {
+    $Years = Get_Years();
+    if (isset($Years[$Year])) {
+      $YD = $Years[$Year];
+      $date = mktime(0,0,0,$YD['MonthFri'],$YD['DateFri']+$day,$ShortYear);
+    } else {
+      return "Unknown yet";
+    }
+  } else {
+    $date = mktime(0,0,0,$YEARDATA['MonthFri'],$YEARDATA['DateFri']+$day,$ShortYear);
+  }
   
   switch (strtoupper($format)) {
     default:
     case 'S': return date('D j M',$date);
+    case 'Y': return date('l jS M',$date);
     case 'M': return date('D jS M Y',$date);
     case 'L': return date('l jS F Y',$date);
     case 'F': return date('l jS F',$date);

@@ -15,6 +15,7 @@
   $id = $_GET['i'];
   $key = $_GET['k'];
   $t = $_GET['t'];
+  if (isset($_REQUEST['TB'])) $_POST['TICKBOX'] = $_REQUEST['TB'];
 
 // Hacking prevention
   if (strlen($id)>6 || strlen($key)!=40 || strlen($t)>6 || preg_match('/[^A-Z]/',$key) || !is_numeric($id) ) Error_Page("Invalid Access link");
@@ -24,7 +25,6 @@
     case 'a' : // Act
     case 'o' : // Other
       $Data = Get_Side($id);
-      if (isset($_REQUEST['TB'])) $_POST['TICKBOX'] = $_REQUEST['TB'];
       break;
 
     case 't' : // Trader
@@ -78,7 +78,7 @@
   $USER{'UserId'} = $USERID = $id;
 
   $_GET['id'] = $id;
-  if ($DoHead[$t]) dostaffhead($CakeTypes[$t],["/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js"]);
+  if ($DoHead[$t]) dostaffhead($CakeTypes[$t],["/js/clipboard.min.js", "/js/emailclick.js", "/js/Participants.js","js/dropzone.js","css/dropzone.css"]);
   include_once($includes[$t]); // Should not return
   dotail();
 ?>

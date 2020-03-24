@@ -247,6 +247,7 @@ A similar feature will appear eventually for music.<p>
     $Event = Get_Event($oeid);
     $eid = -1;
     $Event['EventId'] = 0;
+    $Event['SubEvent'] = 0;
     if (Access('Staff','Venues') || $Event['Owner'] == $USERID || $Event['Owner2'] == $USERID) { // Proceed
     } else {
       Error_Page("Insufficient Privilages");

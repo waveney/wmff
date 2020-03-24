@@ -344,6 +344,7 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
             break;
 
           default:
+ //var_dump($helper,$helperdata,$attachments,$embeded);
             $rep = ($helper?$helper($key,$helperdata,$attachments,$embeded):"*$key*");
             break;
           }
@@ -437,7 +438,8 @@ function Replace_Help($Area='',$Right=0) {
   ['*DUEDATE*','Date Invoice/Payment is Due','Trade, Invoices'],
   ['*PAYCODES*','Details of payment to be made, ammount, account and code to be used','Trade'],
   ['*COPY_name*','Copy Email Proforma name into the current message','All'],
-  ['*PAYDAYS','Days to pay an Invoice','Trade,Invoices'],
+  ['*PAYDAYS*','Days to pay an Invoice','Trade,Invoices'],
+  ['*PAIDSOFAR*','Total Money Actually paid so far: Deposit and Balance'],
   ];
 
   echo "<span " . ($Right?' class=floatright':'') . " id=largeredsubmit onclick=($('.HelpDiv').toggle()) >Click to toggle Standard Replacements Help</span>";

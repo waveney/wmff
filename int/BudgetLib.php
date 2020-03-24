@@ -7,7 +7,7 @@
 function Get_Budget() {
   global $YEAR,$db;  
   $full = [];
-  $res = $db->query("SELECT * FROM BudgetAreas WHERE Year=$YEAR ORDER BY id ");
+  $res = $db->query("SELECT * FROM BudgetAreas WHERE Year='$YEAR' ORDER BY id ");
   if ($res) while ($spon = $res->fetch_assoc()) $full[$spon['id']] = $spon;
   $full[0] = ['id'=>0,'SN'=>'','Year'=>$YEAR,'CommittedSoFar'=>0];
   return $full;  
@@ -36,7 +36,7 @@ function Budget_Scan($Detail=0) {
   foreach ($BUDGET as $B) $B['CommittedSoFar'] = 0;
 
   include_once("DanceLib.php");
-  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND (y.Coming=2 OR y.YearState>=2) AND " .
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year='$YEAR' AND (y.Coming=2 OR y.YearState>=2) AND " .
          " ( TotalFee>0 OR OtherPayCost>0 OR (CampFri>0 OR CampSat>0 OR CampSun>0))";
   $res = $db->query($qry);
   if ($res) while ($sy = $res->fetch_assoc()) {

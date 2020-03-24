@@ -18,9 +18,10 @@
     $NFrom = ($NEXTYEARDATA['DateFri']+$NEXTYEARDATA['FirstDay']);
     $NTo = ($NEXTYEARDATA['DateFri']+$NEXTYEARDATA['LastDay']);
     $NMonth = $Months[$NEXTYEARDATA['MonthFri']];
-    $NYear = $YEAR+1;
+    $NYear = substr($YEARDATA['NextFest'],0,4);
   }
 
+  $Sy = substr($SHOWYEAR,0,4);
   $TopBans = Get_All_Articles(0,'TopPageBanner',$future);
 
   if ($TopBans) {
@@ -40,7 +41,7 @@
     if ($YEARDATA['Years2Show'] == 2) {  
       $Banner .= "<div class=BanDates2>Next Year: $NFrom - $NTo $NMonth $NYear<p><div class=BanNotice></div></div>";
     } else {
-      $Banner .= "<a href=/Tickets class=BanDates>$DFrom - $DTo $DMonth $SHOWYEAR<br>Buy Tickets</a>";  
+      $Banner .= "<a href=/Tickets class=BanDates>$DFrom - $DTo $DMonth $Sy<br>Buy Tickets</a>";  
     }
 
     $Banner .= "<img align=center src=/images/icons/torn-top.png class=TornTopEdge>";
@@ -54,14 +55,14 @@
     if ($YEARDATA['Years2Show'] == 2) {  
       $Banner .= "<div class=BanDates2>Next Year: $NFrom - $NTo $NMonth $NYear<p><div class=BanNotice></div></div>";
     } else {
-      $Banner .= "<a href=/Tickets class=BanDates>$DFrom - $DTo $DMonth $SHOWYEAR<br>Buy Tickets</a>";  
+      $Banner .= "<a href=/Tickets class=BanDates>$DFrom - $DTo $DMonth $Sy<br>Buy Tickets</a>";  
     }
 
     $Banner .= "<img align=center src=/images/icons/torn-top.png class=TornTopEdge>";
     $Banner .= "</div>";
   }
 
-  dohead('12 - 14 June 2020', ['/js/WmffAds.js', "/js/HomePage.js"],$Banner );
+  dohead("$DFrom - $DTo $DMonth $Sy", ['/js/WmffAds.js', "/js/HomePage.js"],$Banner );
 
   if ( !Show_Articles_For("Top",$future)) {
     echo "<center><a href=/Tickets><img align=center src=/images/stuff/Main_Acts_2020t2.jpg class=BrianImg></a></center>";

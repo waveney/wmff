@@ -7,6 +7,7 @@
   global $YEAR,$PLANYEAR,$Book_Colours,$Book_States,$Book_Actions,$Book_ActionExtras,$Importance,$InsuranceStates,$PerfTypes;
   include_once("DanceLib.php"); 
   include_once("MusicLib.php"); 
+  include_once("Email.php"); 
   
   $YearTab = 'SideYear';
 
@@ -22,7 +23,7 @@
   echo "Click on column header to sort by column.  Click on Acts's name for more detail and programme when available,<p>\n";
 
   echo "If you click on the email link, press control-V afterwards to paste the standard link into message.<p>";
-  $col5 = $col6 = $col7 = $col8 = $col9 = '';
+  $col5 = $col6 = $col7 = $col8 = $col9 = $col10 = $col11 = '';
 
   if (isset($_GET['ACTION'])) {
     $sid = $_GET['SideId'];
@@ -32,14 +33,13 @@
   }
 
   if ($_GET{'SEL'} == 'ALL') {
-    $flds = "y.*, s.*";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN $YearTab as y ON s.SideId=y.SideId AND y.year=$YEAR WHERE $TypeSel AND s.SideStatus=0 ORDER BY SN");
+    $SideQ = $db->query("SELECT y.*, s.* FROM Sides AS s LEFT JOIN $YearTab as y ON s.SideId=y.SideId AND y.year='$YEAR' WHERE $TypeSel AND s.SideStatus=0 ORDER BY SN");
     $col5 = "Book State";
     $col6 = "Actions";
+    if (substr($YEAR,0,4) == '2020') $col10 = 'Change';
   } else if ($_GET{'SEL'} == 'INV') {
     $LastYear = $PLANYEAR-1;
-    $flds = "s.*, ly.YearState, y.YearState, y.ContractConfirm";
-    $SideQ = $db->query("SELECT $flds FROM Sides AS s LEFT JOIN $YearTab as y ON s.SideId=y.SideId AND y.year=$PLANYEAR WHERE $TypeSel AND s.SideStatus=0 ORDER BY SN");
+    $SideQ = $db->query("SELECT y.*, s.* FROM Sides AS s LEFT JOIN $YearTab as y ON s.SideId=y.SideId AND y.year='$PLANYEAR' WHERE $TypeSel AND s.SideStatus=0 ORDER BY SN");
     $col5 = "Invited $LastYear";
     $col6 = "Coming $LastYear";
     $col7 = "Invite $PLANYEAR";
@@ -47,24 +47,30 @@
     $col9 = "Coming $PLANYEAR";
   } else if ($_GET{'SEL'} == 'Coming') {
     $SideQ = $db->query("SELECT s.*, y.*, IF(s.DiffImportance=1,s.$DiffFld,s.Importance) AS EffectiveImportance FROM Sides AS s, $YearTab as y " .
-                "WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
+                "WHERE $TypeSel AND s.SideId=y.SideId AND y.year='$YEAR' AND y.YearState=" . 
                 $Book_State['Contract Signed'] . " ORDER BY EffectiveImportance DESC, SN"); 
     $col5 = "Complete?";
   } else if ($_GET{'SEL'} == 'Booking') {
-    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, $YearTab as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState>0" . 
+    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, $YearTab as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year='$YEAR' AND y.YearState>0" . 
                 " ORDER BY SN");
     $col5 = "Book State";
     $col6 = "Actions";
     $col7 = "Importance";
     $col8 = "Insurance";
     $col9 = "Missing";
+    if (substr($YEAR,0,4) == '2020') $col10 = 'Change';
     echo "Under <b>Actions</b> various errors are reported, the most significant error is indicated.  Please fix these before issuing the contracts.<p>\n";
     echo "Missing: P - Needs Phone, E Needs Email, T Needs Tech Spec, B Needs Bank (Only if fees), I Insurance.<p>";
-    
+  } else if ($_GET{'SEL'} == 'Avail') {
+    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, $YearTab as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year='$YEAR' ORDER BY SN");
+    $col5 = "Book State";
+    $col6 = "Actions";
+    $col7 = "Importance";
+    $col8 = "Availability";
+ 
   } else { // general public list
-    $flds = "s.*, y.Sat, y.Sun";
-    $SideQ = $db->query("SELECT $flds, IF(s.DiffImportance=1,s.$DiffFld,s.Importance) AS EffectiveImportance  FROM Sides AS s, $YearTab as y " .
-                "WHERE $TypeSel AND s.SideId=y.SideId AND y.year=$YEAR AND y.YearState=" . 
+    $SideQ = $db->query("SELECT y.*, s.*, IF(s.DiffImportance=1,s.$DiffFld,s.Importance) AS EffectiveImportance  FROM Sides AS s, $YearTab as y " .
+                "WHERE $TypeSel AND s.SideId=y.SideId AND y.year='$YEAR' AND y.YearState=" . 
                 $Book_State['Contract Signed'] . " ORDER BY EffectiveImportance DESC SN");
   }
 
@@ -86,6 +92,7 @@
     if ($col7) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col7</a>\n";
     if ($col8) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col8</a>\n";
     if ($col9) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col9</a>\n";
+    if ($col10) echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>$col10</a>\n";
 //    for($i=1;$i<5;$i++) {
 //      echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>EM$i</a>\n";
 //    }
@@ -110,7 +117,7 @@
       } else {
         $state = 0;
       }
-      for ($fld=5; $fld<10; $fld++) {
+      for ($fld=5; $fld<11; $fld++) {
         $ff = "col$fld";
         switch ($$ff) {
 
@@ -128,7 +135,7 @@
           $acts = $Book_Actions[$Book_States[$State]];
           if ($acts) {
             $acts = preg_split('/,/',$acts); 
-            echo "<form>" . fm_Hidden('SEL',$_GET['SEL']) . fm_hidden('SideId',$fetch['SideId']) . (isset($_GET['t'])? fm_hidden('t',$_GET['t']) : '') ;
+            echo "<form>" . fm_Hidden('SEL',$_GET['SEL']) . fm_hidden('SideId',$fetch['SideId']) . (isset($_GET['t'])? fm_hidden('t',$_GET['t']) : '') . fm_hidden('Y',$YEAR);;
             foreach($acts as $ac) {
               if ($ac == 'Contract') {
                 $NValid = Contract_Check($fetch['SideId'],0);
@@ -137,6 +144,7 @@
                   continue;
                 }
               }
+              if ($ac == 'Dates' && $YEAR!='2020' && !Access('SysAdmin')) { echo "EE"; continue; }
               echo "<button class=floatright name=ACTION value='$ac' type=submit " . $Book_ActionExtras[$ac] . " >$ac</button>";
             }
             echo "</form>";
@@ -158,6 +166,25 @@
           if ($fetch['Insurance'] == 0) $keys .= 'I';
           echo "<td>$keys";
           break;
+        case 'Change':
+          echo "<td>" . (isset($fetch['TickBox4']) ? ['','Sent','Ack'][$fetch['TickBox4']] : "");
+          break;
+        case 'Availability' :
+          echo "<td>";
+          if ($fetch['MFri']) { 
+            echo "F";
+            if ($fetch['FriAvail']) echo "*";
+          }
+          if ($fetch['MSat']) {
+            echo " Sa";
+            if ($fetch['SatAvail']) echo "*";           
+          }
+          if ($fetch['MSun']) {
+            echo " Su";
+            if ($fetch['SunAvail']) echo "*";          
+          }    
+          break;
+          
         default:
           break;
 

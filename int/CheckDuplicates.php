@@ -13,7 +13,7 @@
     $db->query("UPDATE SideYear SET SideId=-SideId WHERE syId=$syid");
   }
   
-  $qry = "SELECT * FROM SideYear WHERE Year=$YEAR AND SideId>0 ORDER BY SideId";
+  $qry = "SELECT * FROM SideYear WHERE Year='$YEAR' AND SideId>0 ORDER BY SideId";
   $coln = 0;
   
   echo "<div class=tablecont><table id=indextable border>\n";

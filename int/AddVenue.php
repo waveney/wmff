@@ -5,7 +5,8 @@
   dostaffhead("Add/Change Venue");
   include_once("ProgLib.php");
   include_once("MapLib.php");
-
+  include_once("DanceLib.php");
+  
   Set_Venue_Help();
 
   echo "<div class='content'><h2>Add/Edit Venues</h2>\n";

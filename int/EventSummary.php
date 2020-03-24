@@ -17,7 +17,7 @@
     $c = 0;
     $Ett = $t['ETypeNo'];
     if ($Event_Types_Full[$Ett]['DontList']) continue;
-    $ans = $db->query("SELECT * FROM Events WHERE Year=$YEAR AND Type=$Ett");
+    $ans = $db->query("SELECT * FROM Events WHERE Year='$YEAR' AND Type=$Ett");
     if ($ans) while ($e = $ans->fetch_assoc()) { 
       $Evs[] = $e; 
       $c++;

@@ -111,7 +111,7 @@ function Get_Vol_Year($id,$year=0) {  //
     if ($YEAR != $PLANYEAR) return null;
     return ['VYid'=>-1,'Year'=>$year, 'id'=>$id];
   } 
-  $res = $db->query("SELECT * FROM VolYear WHERE Volid=$id AND Year=$Year");
+  $res = $db->query("SELECT * FROM VolYear WHERE Volid=$id AND Year='$Year'");
   if ($res && $res->num_rows) return $res->fetch_assoc();
   return null;
 }

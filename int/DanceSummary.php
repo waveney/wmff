@@ -29,14 +29,14 @@
 
   foreach ($Category as $cat=>$srch) {
     if ($srch == 'Blank') { echo "<tr height=15>"; continue; }
-    $qtxt = "SELECT y.SideId FROM SideYear y WHERE y.Year=$YEAR AND y.SideId>0 AND $srch";
+    $qtxt = "SELECT y.SideId FROM SideYear y WHERE y.Year='$YEAR' AND y.SideId>0 AND $srch";
     $qry = $db->query($qtxt);
     $catcount = $qry->num_rows;
     echo "<tr><td>$cat<td align=right>$catcount";
     $runtotal=0;
     foreach($Types as $typ) {
       $lctyp = strtolower($typ['SN']);
-      $qtxt = "SELECT y.SideId, s.Type FROM SideYear y, Sides s WHERE y.SideId=s.SideId AND y.SideId>0 AND y.Year=$YEAR AND $srch " .
+      $qtxt = "SELECT y.SideId, s.Type FROM SideYear y, Sides s WHERE y.SideId=s.SideId AND y.SideId>0 AND y.Year='$YEAR' AND $srch " .
                 "AND LOWER(s.Type) LIKE '%$lctyp%'";
 //var_dump($qtxt);
       $qry = $db->query($qtxt);

@@ -45,8 +45,8 @@
 //  $Now['mon'] = 6;
 //  $Now['mday']= 9;
  
-  $StartTime = mktime(0,0,0,$YEARDATA['MonthFri'],$YEARDATA['DateFri']+$YEARDATA['FirstDay'],$PLANYEAR);
-  $EndTime = mktime(23,59,59,$YEARDATA['MonthFri'],$YEARDATA['DateFri']+$YEARDATA['LastDay'],$PLANYEAR);
+  $StartTime = mktime(0,0,0,$YEARDATA['MonthFri'],$YEARDATA['DateFri']+$YEARDATA['FirstDay'],substr($PLANYEAR,0,4));
+  $EndTime = mktime(23,59,59,$YEARDATA['MonthFri'],$YEARDATA['DateFri']+$YEARDATA['LastDay'],substr($PLANYEAR,0,4));
  
 //var_dump($now,$StartTime,$EndTime);
   if ($now < $StartTime || $now > $EndTime) {
@@ -61,7 +61,7 @@
   $xtr = isset($_GET['Mode'])?'':"AND ( e.Public=1 OR (e.Type=t.ETypeNo AND t.State>1 AND e.Public<2 ))";
   $today = ($Now['mday']-$YEARDATA['DateFri']);
 
-  $res = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year=$YEAR AND Day=$today AND t.Public=1 $xtr ORDER BY Start");
+  $res = $db->query("SELECT DISTINCT e.* FROM Events e, EventTypes t WHERE e.Year='$YEAR' AND Day=$today AND t.Public=1 $xtr ORDER BY Start");
   if ($Poster) {
     $StartLim = $Now['hours']*100 + $Now['minutes'] + 100;
     $EndLim = $StartLim;

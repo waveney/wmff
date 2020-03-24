@@ -55,7 +55,7 @@
 //var_dump($_POST);
   }
 
-  echo "<h2 class=subtitle>Buskers Bash $PLANYEAR Application Form</h2>\n";
+  echo "<h2 class=subtitle>Buskers Bash " . substr($PLANYEAR,0,4) . " Application Form</h2>\n";
   echo "<form method=post action=BuskersBashForm>";
 
   if (isset($id)) echo fm_hidden('id',$id);

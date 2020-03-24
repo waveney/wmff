@@ -16,7 +16,7 @@
   echo "Only those traders who have paid their deposits and have asked to be listed are shown here.<p>";
 
   $Locs = Get_Trade_Locs(1);
-  $res = $db->query("SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE y.Year=$YEAR AND t.Tid=y.Tid AND ( y.BookingState=" . $Trade_State['Deposit Paid'] .
+  $res = $db->query("SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE y.Year='$YEAR' AND t.Tid=y.Tid AND ( y.BookingState=" . $Trade_State['Deposit Paid'] .
 		" OR y.BookingState=" . $Trade_State['Fully Paid'] . ") AND t.ListMe=1 ORDER BY t.SN" );
 
 

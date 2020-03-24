@@ -61,7 +61,7 @@
   }
 
 
-  echo "<h2 class=subtitle>Live And Loud $PLANYEAR Application Form</h2>\n";
+  echo "<h2 class=subtitle>Live And Loud " . substr($PLANYEAR,0,4) . " Application Form</h2>\n";
   echo "<form method=post action=LiveNLoudForm>";
   if (isset($id) && $id>0) echo fm_hidden('id',$id);
   echo "<div class=tablecont><table border>\n";

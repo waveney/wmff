@@ -14,7 +14,7 @@
   fputcsv($output, array('SN','Type','Goods','Contact','Email','Web','Booking State','Where','PublicHealth'));
   
   
-  $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year=$YEAR AND y.BookingState>" . $Trade_State['Submitted'] .
+  $qry = "SELECT t.*, y.* FROM Trade AS t, TradeYear AS y WHERE t.Tid = y.Tid AND y.Year='$YEAR' AND y.BookingState>" . $Trade_State['Submitted'] .
                 " ORDER BY SN";
 
   $res = $db->query($qry);

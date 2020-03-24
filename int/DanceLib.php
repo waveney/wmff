@@ -24,8 +24,8 @@ $Dance_TimeFeilds = array('SatArrive','SatDepart','SunArrive','SunDepart');
 $OlapTypes = array('Dancer','Musician','Avoid');
 $OlapDays = array('All','Sat Only','Sun Only','None');
 $OlapCats = array('Side','Act','Comedy','Family','Other');
-$Proforma_Colours = ['Decide'=>'DarkOrange','Details'=>'Magenta','Program'=>'Yellow','ProgChk'=>'lightsalmon','NewProg'=>'yellow','FinalInfo'=>'LawnGreen','FinalInfo2'=>'MediumSeaGreen',
- 'Invite'=>'Beige','Remind'=>'khaki'];
+$Proforma_Colours = ['Decide'=>'DarkOrange','Details'=>'Magenta','Program'=>'Yellow','ProgChk'=>'lightsalmon','NewProg'=>'yellow','FinalInfo'=>'LawnGreen',
+'FinalInfo2'=>'MediumSeaGreen', 'Invite'=>'Beige','Remind'=>'khaki', 'Change'=>'DarkOrange', 'Reinvite'=>'Beige'];
 $TickBoxes = [['Seen Programme','Invited','YHAS','Program:']]; // Year -> Name',Criteria, test , value
 $PerfListStates = ['Not Open','Open'];
 
@@ -76,7 +76,7 @@ function Select_Come($type=0,$extra='') {
   static $Come_Loaded = 0;
   static $Coming = array('');
   if ($Come_Loaded) return $Coming;
-  $qry = "SELECT s.SideId, s.SN, s.Type FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . 
+  $qry = "SELECT s.SideId, s.SN, s.Type FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year='$YEAR' AND y.Coming=" . 
         $Coming_Type['Y'] . " AND s.IsASide=1 " . $extra . " ORDER BY s.SN";
 //  echo "<!-- " . var_dump($qry) . " -->\n";
   $res = $db->query($qry);
@@ -94,7 +94,7 @@ function Select_Come($type=0,$extra='') {
 function Select_Come_Day($Day,$xtr='') {
   global $db,$YEAR,$Coming_Type;
   $qry = "SELECT s.*, y.* FROM Sides s, SideYear y " .
-         "WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] . " AND y.$Day=1 AND s.IsASide=1 $xtr ORDER BY s.SN";
+         "WHERE s.SideId=y.SideId AND y.Year='$YEAR' AND y.Coming=" . $Coming_Type['Y'] . " AND y.$Day=1 AND s.IsASide=1 $xtr ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) {
     while ($row = $res->fetch_assoc()) {
@@ -109,7 +109,7 @@ function &Select_Come_All($extra='') {
   static $Come_Loaded = 0;
   static $Coming;
   if ($Coming) return $Coming;
-  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year=$YEAR AND y.Coming=" . $Coming_Type['Y'] .
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideId=y.SideId AND y.Year='$YEAR' AND y.Coming=" . $Coming_Type['Y'] .
         " $extra ORDER BY s.SN";
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row;
@@ -121,7 +121,7 @@ function &Part_Come_All() {
   global $db,$YEAR,$Coming_Type;
   $Coming = [];
 
-  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideStatus=0 AND s.SideId=y.SideId AND y.Year=$YEAR AND ( y.Coming=" . $Coming_Type['Y'] . " OR y.YearState>1 ) ORDER BY s.SN" ;
+  $qry = "SELECT s.*, y.* FROM Sides s, SideYear y WHERE s.SideStatus=0 AND s.SideId=y.SideId AND y.Year='$YEAR' AND ( y.Coming=" . $Coming_Type['Y'] . " OR y.YearState>1 ) ORDER BY s.SN" ;
   $res = $db->query($qry);
   if ($res) while ($row = $res->fetch_assoc()) $Coming[$row['SideId']] = $row; // All Sides, now acts
   return $Coming;  
@@ -299,14 +299,17 @@ function Get_SideYears($snum) {
 function Put_SideYear(&$data,$Force=0) {
   global $db;
   global $Save_SideYears,$YEAR;
+  
+//echo "<P>" . $data['SideId'] . " - " . $data['Year'] . "<p>";
   if (!$data) return;
   if ($Force) {
     $Save = Get_SideYear($data['SideId']);
     $rec = "UPDATE SideYear SET ";
     $Up = 1;    
-  } else if (!isset($Save_SideYears[$data['SideId']][$data['Year']])) {
+  } else {
+   if (!isset($Save_SideYears[$data['SideId']][$data['Year']])) {
     $Save = &$Save_SideYears[$data['SideId']][$YEAR];
-    $Save = Default_SY();
+    $Save = Default_SY($data['SideId']);
     $data = array_merge($Save,$data);
     $rec = "INSERT INTO SideYear SET ";
     $Up = 0;
@@ -315,7 +318,7 @@ function Put_SideYear(&$data,$Force=0) {
     $rec = "UPDATE SideYear SET ";
     $Up = 1;
   }
-
+   }
   $fcnt = 0;
   foreach ($data as $fld=>$val) {
     if ($Up == 0 || (isset($Save[$fld]) && $val != $Save[$fld])) {
@@ -459,7 +462,7 @@ Contract Signed - Enables listing to public.',
 
 function Default_SY($id=0) { 
   global $YEAR,$USERID;
-  $ans = array('SatDance'=>3,'SunDance'=>4,'Year'=>$YEAR,'Procession'=>1,'Invited'=>'','BookedBy'=>$USERID);
+  $ans = array('SatDance'=>3,'SunDance'=>4,'Year'=>$YEAR,'Procession'=>1,'Invited'=>'','BookedBy'=>$USERID,'YearState'=>0);
   if ($id) $ans['SideId'] = $id;
   return $ans;
 }
@@ -746,7 +749,7 @@ function Extended_Prog($type,$id,$all=0) {
 
 
 function Dance_Email_Details($key,&$data,$att=0) {
-  global $Trade_Days,$TradeLocData,$TradeTypeData,$YEAR;
+  global $Trade_Days,$TradeLocData,$TradeTypeData,$YEAR,$PLANYEAR;
   include_once("ProgLib.php");
   $Side = &$data[0];
   if (isset($data[1])) $Sidey = &$data[1];
@@ -790,8 +793,62 @@ function Dance_Email_Details($key,&$data,$att=0) {
     $txt = 'Click This';
     if (isset($bits[1])) $box = $bits[1];
     if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
-    return "<a href='$host/int/Access?t=s&i=$snum&TB=$box&k=" . $Side['AccessKey'] . "&Y=$YEAR'><b>$txt</b></a>\n";
+    return "<a href='$host/int/Access?t=s&i=$snum&TB=$box&k=" . $Side['AccessKey'] . "&Y=$PLANYEAR'><b>$txt</b></a>\n";
 
+  }
+}
+
+function Dance_Record_Change($id,$prefix) { // Mark Change on old record if not set, create new record if needed, add message and set invited appropriately
+  global $YEAR,$SHOWYEAR,$PLANYEAR,$YEARDATA;
+  
+//  echo "Called DRC<p>";
+  
+// var_dump($YEAR,$PLANYEAR);
+  
+//  exit;
+  
+  if ($YEAR == $PLANYEAR) {
+    $SideLY = Get_SideYear($id,$YEARDATA['PrevFest']);
+    if (!strstr($SideLY['Invited'],$prefix)) {
+      if (strlen($SideLY['Invited'])) {
+        $SideLY['Invited'] = $prefix . ", " . $SideLY['Invited'];
+      } else {
+        $SideLY['Invited'] = $prefix;  
+      }
+      Put_SideYear($SideLY);
+    }
+    
+    $Sidey = Get_SideYear($id);
+    $Sidey['Invite'] = $SideLY['Invite'];
+    if (!strstr($Sidey['Invited'],$prefix)) {
+      if (strlen($Sidey['Invited'])) {
+        $Sidey['Invited'] = $prefix . ", " . $Sidey['Invited'];
+      } else {
+        $Sidey['Invited'] = $prefix;  
+      }
+    }
+    Put_SideYear($Sidey);
+  } else {
+    $Sidey = Get_SideYear($id);
+    if (!strstr($Sidey['Invited'],$prefix)) {
+      if (strlen($Sidey['Invited'])) {
+        $Sidey['Invited'] = $prefix . ", " . $Sidey['Invited'];
+      } else {
+        $Sidey['Invited'] = $prefix;  
+      }
+      Put_SideYear($Sidey);
+    }
+    
+    $SideNY = Get_SideYear($id,$YEARDATA['NextFest']);
+    $SideNY['Invite'] = $Sidey['Invite'];
+    if (!strstr($SideNY['Invited'],$prefix)) {
+      if (strlen($SideNY['Invited'])) {
+        $SideNY['Invited'] = $prefix . ", " . $SideNY['Invited'];
+      } else {
+        $SideNY['Invited'] = $prefix;  
+      }
+    }
+    Put_SideYear($SideNY);
   }
 }
 

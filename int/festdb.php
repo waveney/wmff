@@ -2,7 +2,7 @@
 
 // If table's index is 'id' it does not need to be listed here
 $TableIndexes = array(  'Sides'=>'SideId', 'SideYear'=>'syId', 'FestUsers'=>'UserId', 'Venues'=>'VenueId', 'Events'=>'EventId', 
-                        'General'=>'Year', 'Bugs'=>'BugId', 'BigEvent'=>'BigEid', 'DanceTypes'=>'TypeId', 
+                        'Bugs'=>'BugId', 'BigEvent'=>'BigEid', 'DanceTypes'=>'TypeId', 
                         'Directory'=>'DirId', 'Documents'=>'DocId', 'EventTypes'=>'ETypeNo',
                         'MusicTypes'=>'TypeId','TimeLine'=>'TLid', 'BandMembers'=>'BandMemId', 'ActYear'=>'ActId',
                         'TradeLocs'=>'TLocId','Trade'=>'Tid','TradeYear'=>'TYid','VolYear'=>'VYid'
@@ -268,6 +268,24 @@ function Feature($Name,$default='') {  // Return value of feature if set from FE
   return $default;
 }
 
+function FestFeature($Name,$default='') {  // Return value of feature if set from FESTSYS
+  static $Features;
+  global $YEARDATA;
+  if (!$Features) {
+    $Features = [];
+    foreach (explode("\n",$YEARDATA['FestFeatures']) as $i=>$feat) {
+      $Dat = explode(":",$feat,4);
+      if ($Dat[0] && isset($Dat[1])) {
+        $Features[$Dat[0]] = trim($Dat[1]);
+      } elseif ($Dat[0] && isset($Dat[4])) {
+        $Features[$Dat[0]] = trim($Dat[4]);
+      }
+    }
+  }
+  if (isset($Features[$Name])) return $Features[$Name];
+  return $default;
+}
+
 function Capability($Name,$default='') {  // Return value of Capability if set from FESTSYS
   static $Capabilities;
   global $FESTSYS;
@@ -284,16 +302,16 @@ function Capability($Name,$default='') {  // Return value of Capability if set f
 
 function set_ShowYear($last=0) { // Overrides default above if not set by a Y argument
   global $YEAR,$SHOWYEAR,$YEARDATA,$NEXTYEARDATA;
-  if ($last == 0 && !isset($_POST['Y']) && !isset($_GET['Y'])) {
+  if ($last == 0 && !isset($_REQUEST['Y'])) {
     $YEAR = $SHOWYEAR;
     $YEARDATA = Get_General($YEAR);
-    if ($YEARDATA['Years2Show'] > 0) $NEXTYEARDATA = Get_General($YEAR+1);
   } else if (!isset($_POST['Y']) && !isset($_GET['Y'])) {
     $YEAR = $last;
     $YEARDATA = Get_General($YEAR);
-    if ($YEARDATA['Years2Show'] > 0) $NEXTYEARDATA = Get_General($YEAR+1);
   }
-  
+  if ($YEARDATA['Years2Show'] > 0) {
+    $NEXTYEARDATA = Get_General($YEARDATA['NextFest']);
+  }
 }
 
 // Works for simple tables
