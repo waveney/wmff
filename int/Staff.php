@@ -194,7 +194,8 @@
       $txt .= "<li class=smalltext><a href=CarPark?Y=$YEAR>Car Park Tickets</a>";
       if ($YEAR == $PLANYEAR) $txt .= "<li class=smalltext><a href=WristbandsSent>Mark Wristbands Sent</a>";
       $txt .= "<li class=smalltext><a href=ShowDanceProg?Cond=1&Pub=1&Y=$YEAR>Public Dance Programme</a>";
-      $txt .= "<li class=smalltext><a href=FixBug2?Y=$YEAR>Change order of message records</a>";
+      $txt .= "<li class=smalltext><a href=FixBug3?Y=$YEAR>Create/Copy missing SideYear records after Date Change</a>";
+//      $txt .= "<li class=smalltext><a href=FixBug2?Y=$YEAR>Change order of message records</a>";
       $txt .= "<td width=300px>";
       $txt .= "<li class=smalltext><a href=ShowDanceProg?Cond=0&Pub=1&Head=0&Day=Sat&Y=$YEAR>Dance Programme - Sat - no headers</a>";
       $txt .= "<li class=smalltext><a href=ShowDanceProg?Cond=0&Pub=1&Head=0&Day=Sun&Y=$YEAR>Dance Programme - Sun - no headers</a>";

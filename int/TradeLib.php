@@ -434,13 +434,16 @@ function Show_Trader($Tid,&$Trad,$Form='Trade',$Mode=0) { // Mode 1 = Ctte, 2=Fi
     }
     if ($Mode && Capability("EnableFinance")) {
       echo "<tr><td class=NotSide>" . fm_checkbox("Is a Trader",$Trad,'IsTrader');
+      if ($Tid > 0 && Access('Committee',"Finance")) {
+        include_once("InvoiceLib.php");
+        if (isset($Trad['SN'])) $Scode = Sage_Code($Trad);
+        echo fm_text("Sage Code",$Trad,'SageCode',1,'class=NotSide','class=NotSide');
+      }
     } else { 
       echo fm_hidden('IsTrader',$Trad['IsTrader']);
     }
-    if ($Tid > 0 && Access('Committee',"Finance")) {
-      include_once("InvoiceLib.php");
-      if (isset($Trad['SN'])) $Scode = Sage_Code($Trad);
-      echo fm_text("Sage Code",$Trad,'SageCode',1,'class=NotSide','class=NotSide');
+    if ($Mode || (isset($Trad['SortCode']) && $Trad['SortCode'])) {
+      echo "<tr><td>Bank Details" . fm_text('Sort Code',$Trad,'SortCode') . fm_text('Account No',$Trad,'Account') . fm_text('Account Name',$Trad,'AccountName');
     }
     echo fm_hidden("Tid", $Tid);
     echo fm_hidden("Id", $Tid);
@@ -1856,7 +1859,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     }
     break;
     
-  case 'DateUnHappy' :
+  case 'DateUnHappy' : // MANDY
     $Trady['DateChange'] = 4;  
     if ($PaidSoFar) {
       $NewState = $Trade_State['Refund Needed'];
