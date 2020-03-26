@@ -51,7 +51,7 @@
                 $Book_State['Contract Signed'] . " ORDER BY EffectiveImportance DESC, SN"); 
     $col5 = "Complete?";
   } else if ($_GET{'SEL'} == 'Booking') {
-    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, $YearTab as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year='$YEAR' AND y.YearState>0" . 
+    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, $YearTab as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year='$YEAR' AND ( y.YearState>0 || y.TickBox4>0)" . 
                 " ORDER BY SN");
     $col5 = "Book State";
     $col6 = "Actions";
