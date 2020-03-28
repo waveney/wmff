@@ -1310,7 +1310,7 @@ function Trade_Deposit_Invoice(&$Trad,&$Trady,$Full='Full',$extra='',$Paid=0) {
 
 // Highly recursive set of actions - some trigger others amt = paid amount (0 = all)
 function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0) {
-  global $Trade_State,$TradeTypeData,$USER,$TradeLocData,$PLANYEAR;
+  global $Trade_State,$TradeTypeData,$USER,$TradeLocData,$PLANYEAR,$Trade_States;
   include_once("InvoiceLib.php");
   $Tchng = $Ychng = 0;
   $PaidSoFar = (isset($Trady['TotalPaid']) ? $Trady['TotalPaid'] : 0);

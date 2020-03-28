@@ -85,7 +85,7 @@
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Su</a>\n";
 //    $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Ref</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Pitches</a>\n";
-//    $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Power</a>\n";
+        if (Feature("TradePower")) $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Power</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Location</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Ins</a>\n";
     $str .= "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Risk</a>\n";
@@ -128,7 +128,7 @@
                 break;
               default:
               }
-            if ($butcount++ == 4) $str .= "<br>";
+            if ($butcount++ == 3) $str .= "<br>";
             $str .= "<button name=ACTION value='$ac' type=submit " . (isset($ButExtra[$ac])?$ButExtra[$ac]:"") . " >$ac</button>";
           }
           $str .= "</form></div>";
@@ -167,7 +167,8 @@
       $str .= "<td>" . $fetch['PitchSize0'];
         if ($fetch['PitchSize1']) $str .= "<br>" . $fetch['PitchSize1'];
         if ($fetch['PitchSize2']) $str .= "<br>" . $fetch['PitchSize2'];
-      $str .= "<td>" . $fetch['Power0'];
+      if (Feature("TradePower")) {
+        $str .= "<td>" . $fetch['Power0'];
         if ($fetch['PitchSize1']) {
           $str .= "<br>";
           $str .= $fetch['Power1'];
@@ -176,6 +177,7 @@
           $str .= "<br>";
           $str .= $fetch['Power2'];
         }
+      }
       $str .= "<td>";
         for ($i = 0; $i<3; $i++) {
           if ($fetch["PitchSize$i"]) {

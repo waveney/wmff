@@ -90,7 +90,7 @@ function Invoice_Print(&$inv) {
   $Rev = ((isset($inv['Revision']) && $inv['Revision'])?("R" . $inv['Revision'] ):'');
   
   $Vat = Feature('FestVatNumber');
-  $VatRate = Feature('VatRate')/100;
+  $VatRate = Feature('VatRate',0)/100;
   
   // File for printings dddDDD is Invoices/ddd/dddDDD.pdf
   // Credit notes Invoices/ddd/DDDCN.pdf
