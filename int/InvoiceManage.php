@@ -252,7 +252,7 @@
     $Pays = Get_PayCodes("");
     echo "<h2><a href=InvoiceManage?Y=$YEAR>Show Outstanding Only</a></h2>\n";
     $All = 1;
-    if ($All && Access('SysAdmin')) echo "The Paid Special is to re-trigger Paid analysis - input 0 in most cases";
+    if ($All && Access('SysAdmin')) echo "The Paid Special is to re-trigger Paid analysis - input 0 in most cases.<p>";
   } elseif (isset($_REQUEST['FOR'])) {
     $Trad = Get_Trader($_REQUEST['FOR']);
     $Tname = $Trad['SN'];
