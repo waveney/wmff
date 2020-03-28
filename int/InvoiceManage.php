@@ -181,7 +181,7 @@
       
     case 'SEND' :
       // Get cover note and send out and record
-      $subject = $FESTSYS['FestName'] . " $PLANYEAR and " . $inv['BZ'];
+      $subject = $FESTSYS['FestName'] . " " . substr($PLANYEAR,0,4) . " and " . $inv['BZ'];
       $too = [['to',$inv['Email'],$inv['Contact']],['from','Finance@' . $FESTSYS['HostURL'],'Wimborne Finance'],['replyto','Finance@' . $FESTSYS['HostURL'],'Wimborne Finance']];
       $pdf = Get_Invoice_Pdf($id,'',$inv['Revision']);
       echo Email_Proforma(3,$inv['SourceId'],$too,$inv['CoverNote'],$subject,'Invoice_Email_Details',$inv,$logfile='Invoices',$pdf);
@@ -198,7 +198,7 @@
     
     case 'RESEND' :
       // Resend current cover note
-      $subject = $FESTSYS['FestName'] . " $PLANYEAR and " . $inv['BZ'];
+      $subject = $FESTSYS['FestName'] . " " . substr($PLANYEAR,0,4) . " and " . $inv['BZ'];
       $too = [['to',$inv['Email'],$inv['Contact']],['from','Finance@' . $FESTSYS['HostURL'],'Wimborne Finance'],['replyto','Finance@' . $FESTSYS['HostURL'],'Wimborne Finance']];
       $pdf = Get_Invoice_Pdf($id,'',$inv['Revision']);
       echo Email_Proforma(3,$inv['SourceId'],$too,$inv['CoverNote'],$subject,'Invoice_Email_Details',$inv,$logfile='Invoices',$pdf);
