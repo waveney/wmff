@@ -57,7 +57,8 @@ function Put_Invoice(&$now) {
 function Get_PayCodes($cond = '',$order='id') {
   global $YEAR,$db;  
   $full = [];
-  $res = $db->query("SELECT * FROM OtherPayments WHERE Year='$YEAR' " . ($cond ? " AND ( $cond )" : "" ) . " ORDER BY $order ");
+  $PY = substr($YEAR,0,4);
+  $res = $db->query("SELECT * FROM OtherPayments WHERE Year LIKE '$PY%' " . ($cond ? " AND ( $cond )" : "" ) . " ORDER BY $order ");
   if ($res) while ($inv = $res->fetch_assoc()) $full[] = $inv;
   return $full;  
 }
