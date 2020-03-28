@@ -28,7 +28,8 @@ function Parse_MoneyInputs(&$feilds) {
 function Get_Invoices($cond = '',$order='id') {
   global $YEAR,$db;  
   $full = [];
-  $res = $db->query("SELECT * FROM Invoices WHERE Year='$YEAR' " . ($cond ? " AND ( $cond )" : "" ) . " ORDER BY $order ");
+  $PY = substr($YEAR,0,4);
+  $res = $db->query("SELECT * FROM Invoices WHERE Year LIKE '$PY%' " . ($cond ? " AND ( $cond )" : "" ) . " ORDER BY $order ");
   if ($res) while ($inv = $res->fetch_assoc()) $full[] = $inv;
   return $full;  
 }
@@ -155,7 +156,7 @@ function Invoice_Print(&$inv) {
   $pdf->Text($padx+55.5*$cw,$pady+17.3*$ch,"AMOUNT");
 
   $pdf->SetFont('Arial','BU',14);  
-  $pdf->Text($padx+$cw,$pady+19.5*$ch,"Re: " . $FESTSYS['FestName'] . " " . $PLANYEAR);
+  $pdf->Text($padx+$cw,$pady+19.5*$ch,"Re: " . $FESTSYS['FestName'] . " " . substr($PLANYEAR,0,4));
   $pdf->SetFont('Arial','',$fs);
 
   if ($CN) {
@@ -726,7 +727,7 @@ function Bespoke_Inv_CoverNote($id,&$inv) {
   dostaffhead("Cover Note for" . $inv['BZ']);
 
    
-  $subject = $FESTSYS['FestName'] . " $PLANYEAR and " . $inv['BZ'];
+  $subject = $FESTSYS['FestName'] . " " . substr($PLANYEAR,0,4) . " and " . $inv['BZ'];
   $inv['CoverNote'] = $Mess = (isset($_POST['Message'])?$_POST['Message']:$inv['CoverNote']);
 
   if (isset($_POST['SEND'])) {

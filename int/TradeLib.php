@@ -1294,11 +1294,11 @@ function Trade_Deposit_Invoice(&$Trad,&$Trady,$Full='Full',$extra='',$Paid=0) {
   if ($DueDate == 0 || $InvPay ) {
 //      if (Now < Main invoice date, Due = 30, else invoice full amount (if Now < 30 before cut date, Due = 30, else Due = CutDate - now
     $ipdf = New_Invoice($Trad,
-                        ["Deposit for trade stand at the $PLANYEAR festival",$Dep*100],
+                        ["Deposit for trade stand at the " . substr($PLANYEAR,0,4) . " festival",$Dep*100],
                         'Trade Stand Deposit',
                         $InvCode,1,-1,0,0,$Paid);
   } else {
-    $details = ["$Full fees for trade stand at the $PLANYEAR festival",$Trady['Fee']*100];
+    $details = ["$Full fees for trade stand at the " . substr($PLANYEAR,0,4) . " festival",$Trady['Fee']*100];
     if ($extra) $details = [$details,$extra];
     $ipdf = New_Invoice($Trad,
                         $details,
@@ -1399,7 +1399,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
       $InvCode = Trade_Invoice_Code($Trad,$Trady);
       $DueDate = Trade_Date_Cutoff();
       $ipdf = New_Invoice($Trad,
-                          [["Balance payment to secure trade stand at the $PLANYEAR festival",$Fee*100],["Less your deposit payment",-$PaidSoFar*100]],
+                          [["Balance payment to secure trade stand at the " . substr($PLANYEAR,0,4) . " festival",$Fee*100],["Less your deposit payment",-$PaidSoFar*100]],
                            'Trade Stand Balance Charge',
                            $InvCode, 1, ($DueDate?$DueDate:30) );
       Send_Trader_Email($Trad,$Trady,$ProformaName,$ipdf);
@@ -1507,13 +1507,13 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
       $DueDate = Trade_Date_Cutoff();      
       if ($PaidSoFar) {
         $ipdf = New_Invoice($Trad,
-                          [["Balance payment to secure trade stand at the $PLANYEAR festival",$Fee*100],["Less your deposit payment",-$PaidSoFar*100]],
+                          [["Balance payment to secure trade stand at the " . substr($PLANYEAR,0,4) . " festival",$Fee*100],["Less your deposit payment",-$PaidSoFar*100]],
                            'Trade Stand Balance Charge',
                            $InvCode, 1, ($DueDate?$DueDate:-1),0,0,1 );
         Send_Trader_Email($Trad,$Trady,'Trade_Fully_Paid_Invoice',$ipdf);
       } else {
         $ipdf = New_Invoice($Trad,
-                          [["Full payment to secure trade stand at the $PLANYEAR festival",$Fee*100]],
+                          [["Full payment to secure trade stand at the " . substr($PLANYEAR,0,4) . " festival",$Fee*100]],
                            'Trade Stand Full Charge',
                            $InvCode, 1, ($DueDate?$DueDate:-1),0,0,1 );
         Send_Trader_Email($Trad,$Trady,'Trade_Fully_Paid_Invoice',$ipdf);
@@ -1566,14 +1566,14 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
       if ($CurState == $Trade_State['Accepted']) {
         $NewState = $Trade_State['Fully Paid'];
         $ipdf = New_Invoice($Trad,
-                          [["Full payment to secure trade stand at the $PLANYEAR festival",$Fee*100]],
+                          [["Full payment to secure trade stand at the " . substr($PLANYEAR,0,4) . " festival",$Fee*100]],
                            'Trade Stand Full Charge',
                            $InvCode, 1,-1,0,0,1 );
         Send_Trader_Email($Trad,$Trady,'Trade_Fully_Paid_Invoice',$ipdf);
       } elseif ($CurState == $Trade_State['Balance Requested']) {                    
         $NewState = $Trade_State['Fully Paid'];
         $ipdf = New_Invoice($Trad,
-                          [["Balance payment to secure trade stand at the $PLANYEAR festival",$Fee*100],["Less your deposit payment",-$PaidBefore*100]],
+                          [["Balance payment to secure trade stand at the " . substr($PLANYEAR,0,4) . " festival",$Fee*100],["Less your deposit payment",-$PaidBefore*100]],
                            'Trade Stand Balance Charge',
                            $InvCode, 1,-1,0,0,1 );
         Send_Trader_Email($Trad,$Trady,'Trade_Balance_Paid_Invoice',$ipdf);
@@ -1598,7 +1598,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     if ($Trady['TotalPaid'] >= $fee) { 
       $NewState = $Trade_State['Fully Paid'];  // if paid > invoiced amend invoice to full 
       if ($invid) {
-        Update_Invoice($invid,["Balance of Fees for trade stand at the $PLANYEAR festival",($fee-$Dep)*100],0);
+        Update_Invoice($invid,["Balance of Fees for trade stand at the " . substr($PLANYEAR,0,4) . " festival",($fee-$Dep)*100],0);
         $inv = Get_Invoice($invid);
         $att = Get_Invoice_Pdf($invid,'',$inv['Revision']);
         Send_Trader_Email($Trad,$Trady,'Trade_Statement',$att);
@@ -1728,7 +1728,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
           $ProformaName = (($TradeTypeData[$Trad['TradeType']]['ArtisanMsgs'] && $TradeLocData[$Trady['PitchLoc0']]['ArtisanMsgs']) ? 
                             "Trade_Artisan_Final_Invoice" : "Trade_Final_Invoice");
           $InvCode = Trade_Invoice_Code($Trad,$Trady);
-          $details = [["Full payment to secure your trade stand at the $PLANYEAR festival",$Fee*100]];
+          $details = [["Full payment to secure your trade stand at the " . substr($PLANYEAR,0,4) . " festival",$Fee*100]];
           if ($InvoicedTotal) $details[] = ["Less previous invoice(s)",$InvoicedTotal];
           $type = "Full";
           if ($InvoicedTotal > $Dep) $type = "Change ";
