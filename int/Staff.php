@@ -283,6 +283,7 @@
     if (Access('SysAdmin')) {
       $txt .= "<p><div class=tablecont><table><tr><td>";
       $txt .= "<li class=smalltext><a href=ResetImageSizes?TRADE>Scan and save Image sizes</a>";
+      $txt .= "<li class=smalltext><a href=FixBug4>Fix unsaved states</a>";
       $txt .= "</table></div><p>\n";
     }
     $txt .= "</ul>\n";

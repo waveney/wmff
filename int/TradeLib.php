@@ -1861,6 +1861,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     
   case 'DateUnHappy' : // MANDY
     $Trady['DateChange'] = 4;  
+    $Ychng = 1;
     if ($PaidSoFar) {
       $NewState = $Trade_State['Refund Needed'];
       $att = 0;
@@ -1873,6 +1874,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     
   case 'DateAck' :
     $Trady['DateChange'] = 2; 
+    $Ychng = 1;
     Send_Trader_Email($Trad,$Trady,'Trade_DC_Ack');
     break;
 
