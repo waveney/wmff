@@ -5,7 +5,8 @@ $Trade_States = array('Not Submitted','Declined','Refunded','Cancelled','Submitt
   'Wait List','Requote','Change Aware','Refund Needed');
 $Trade_State = array_flip($Trade_States);
 //$Trade_StateClasses = array('TSNotSub','TSDecline','-TSRefunded','TSCancel','TSSubmit','TSInvite','TSConf','TSDeposit','TSInvoice','TSPaid','TSWaitList','TSRequote');
-$Trade_State_Colours = ['white','red','-grey','grey','yellow','lightyellow','cyan','lightblue','darkseagreen','LightGreen','#ffb380','#e6d9b2','Coral','Gold'];
+// Put a - in front of colour to surpress it
+$Trade_State_Colours = ['white','red','grey','grey','yellow','lightyellow','cyan','lightblue','darkseagreen','LightGreen','#ffb380','#e6d9b2','Coral','Gold'];
 
 $TS_Actions = array('Submit,Invite,Invite Better',
                 'Resend,Submit',

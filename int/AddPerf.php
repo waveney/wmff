@@ -160,11 +160,11 @@
           
         case 'DCMRec' :
           $Lasty = $Sideyrs[$YEARDATA['PrevFest']];
-          $Lasty['TickBox1'] = 1; 
+          $Lasty['TickBox3'] = 1;  // May not be used
           $Lasty['TickBox4'] = 2; 
           Put_SideYear($Lasty);
           $ShowAvailOnly = 1;
-          $Sidey['TickBox1'] = 1; 
+          $Sidey['TickBox3'] = 1;  // May not be used
           echo "<script>$(document).ready(function() {var elmnt = document.getElementById('Availability');elmnt.scrollIntoView(true);})</script>";
           break;         
           

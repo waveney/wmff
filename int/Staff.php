@@ -129,6 +129,7 @@
       $txt .= "<li class=smalltext><a href=MusicTypes>Set Music Types</a>";
 //      $txt .= "<li class=smalltext><a href=ResetImageSizes?PERF>Scan and save Image sizes</a>";
 //      $txt .= "<li class=smalltext><a href=CopyActYear>Copy all ActYear data to SideYear</a>";
+      $txt .= "<li class=smalltext><a href=FixBug5?Y=$YEAR>Create/Copy missing Music SideYear records after Date Change</a>";
       $txt .= "</table></div><p>\n";
     }
     $txt .= "<li><a href=ContractView?t=1>Dummy Music Contract</a>";
