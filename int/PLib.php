@@ -530,23 +530,46 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
   }
 
   // Tickboxes 
-  if ($Side['IsASide']) { // Tickboxes only dance currently 
+//  if ($Side['IsASide']) {
     $str = '';
+    $hstr = '';
     foreach ($TickBoxes as $bi=>$box) {
-      $bxtxt = $box[0];
-      $bxfld = $box[1];
-      $bxtst = $box[2];
-      $bxval = $box[3];
+      if (!is_array($box)) continue;
+      list($bxtxt,$bxfld,$bxtst,$bxval,$bxuse,$bxSiz) = $box;
+      $Doit = 0;
+      foreach (str_split($bxuse) as $let) {
+        switch ($let) {
+        case 'D': if ($Side['IsASide']) $Doit = 1; break;
+        case 'M': if ($Side['IsAnAct']) $Doit = 1; break;
+        case 'C': if ($Side['IsFunny']) $Doit = 1; break;
+        case 'F': if ($Side['IsFamily']) $Doit = 1; break;
+        case 'O': if ($Side['IsOther']) $Doit = 1; break;
+        }
+      }
+      if (!$Doit) continue;
+      
       $show = 0;
       switch ($bxtst) {
       case 'YHAS':
         if (strstr($Sidey[$bxfld],$bxval)) $show =1;
         break;
+      case 'NVAL':
+        if ($Sidey[$bxfld] != $bxval) $show = 1;
+      
       }
-      if ($show || Access('Staff','Dance')) $str .= "<td>" . fm_checkbox($bxtxt,$Sidey,"TickBox" . ($bi+1));
+      if (Access('Staff')) { 
+        if ($bxSiz < 3) {
+          $str .= "<td class=NotSide>" . fm_checkbox($bxtxt,$Sidey,"TickBox" . ($bi+1));
+        } else {
+          $str .= fm_text($bxtxt,$Sidey,"TickBox" . ($bi+1),1,'class=NotSide');
+        }
+      } else {
+        $hstr .= fm_hidden("TickBox" . ($bi+1),$Sidey['TickBox' . ($bi+1)]);
+      }
     }
-    if ($str) echo "<tr>$str\n";
-  }
+    if ($str) echo "<tr class=NotSide>$str\n";
+    if ($hstr) echo $hstr;
+//  }
       
   // Wristbands
 //  if ( $Side['IsASide'] || $Side['IsAnAct']==0 || Feature('MusicWristBands')) {

@@ -428,7 +428,7 @@
         }
       if ($pay['State'] == 0) {
         if (Access('SysAdmin')) echo "<button name=ACTION value=PCLOSE>Close</button> ";
-          echo "<button name=ACTION value=PDIFF onclick=diffprompt($id) >Paid Different</button> ";
+        echo "<button name=ACTION value=PDIFF onclick=diffprompt($id) >Paid Different</button> ";
 //        echo "<button name=ACTION value=CREDIT onclick=reasonprompt($id) >Cancel/credit</button> ";
 
         } else {
