@@ -41,7 +41,7 @@
     if ($YEARDATA['Years2Show'] == 2) {  
       $Banner .= "<div class=BanDates2>Next Year: $NFrom - $NTo $NMonth $NYear<p><div class=BanNotice></div></div>";
     } else {
-      $Banner .= "<a href=/Tickets class=BanDates>$DFrom - $DTo $DMonth $Sy<br>Buy Tickets</a>";  
+      $Banner .= "<a href=/Tickets class=BanDates>$DFrom - $DTo $DMonth $Sy</a>"; //<br>Buy Tickets</a>";  
     }
 
     $Banner .= "<img align=center src=/images/icons/torn-top.png class=TornTopEdge>";
@@ -55,7 +55,7 @@
     if ($YEARDATA['Years2Show'] == 2) {  
       $Banner .= "<div class=BanDates2>Next Year: $NFrom - $NTo $NMonth $NYear<p><div class=BanNotice></div></div>";
     } else {
-      $Banner .= "<a href=/Tickets class=BanDates>$DFrom - $DTo $DMonth $Sy<br>Buy Tickets</a>";  
+      $Banner .= "<a href=/Tickets class=BanDates>$DFrom - $DTo $DMonth $Sy</a>"; //<br>Buy Tickets</a>";  
     }
 
     $Banner .= "<img align=center src=/images/icons/torn-top.png class=TornTopEdge>";
