@@ -39,6 +39,7 @@ function Date_BestGuess($txt) {
     for ($i = 0; $i < 12; $i++) if (preg_match("/" . $Months[$i] . "/",$lctxt)) $mnth = $i+1;
     if (!$mnth) return 0;
     if ($day < 0) $day = $daysOfM[$mnth-1];
+    if (preg_match('/ (\d\d\d\d) /',$lctxt,$mtch)) $yr = $mtch[1];
     if (preg_match('/ (\d*:\d*)/',$lctxt,$mtch)) {
       $ts = $mtch[1];
     }
