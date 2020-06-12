@@ -571,6 +571,14 @@ function Music_Actions($Act,&$side,&$Sidey) { // Note Sidey MAY have other recor
       $Change = 1;
       break;
 
+    case 'FestC':
+      $subject = $FESTSYS['FestName'] . " $PLANYEAR and " . $side['SN'];
+      $too = Music_Email_Too($side);
+      if ($too) echo Email_Proforma(1,$side['SideId'],$too,'Music_Festival_Cancel',$subject,'Dance_Email_Details',[$side,$Sidey],$logfile='Music');
+      $Sidey['TickBox4'] = 1;
+      $Change = 1;
+      break;
+
     default:
       break;
   }
