@@ -301,7 +301,7 @@ function Capability($Name,$default='') {  // Return value of Capability if set f
 }
 
 function set_ShowYear($last=0) { // Overrides default above if not set by a Y argument
-  global $YEAR,$SHOWYEAR,$YEARDATA,$NEXTYEARDATA;
+  global $YEAR,$SHOWYEAR,$YEARDATA,$NEXTYEARDATA,$PLANYEAR;
   if ($last == 0 && !isset($_REQUEST['Y'])) {
     $YEAR = $SHOWYEAR;
     $YEARDATA = Get_General($YEAR);

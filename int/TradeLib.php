@@ -12,15 +12,15 @@ $TS_Actions = array('Submit,Invite,Invite Better',
                 'Resend,Submit',
                 'Resend',
                 'Resend,Submit',
-                'Resend,Quote,Accept,Invite,Decline,Hold,Cancel,Invite Better,Dates',
-                'Resend,Quote,Invite,Accept,Decline,UnQuote,LastWeek,Dates',
-                'Resend,Cancel,Dates',
-                'Pitch,Moved,Resend,Send Bal,Cancel,Dates',
-                'Pitch,Moved,Resend,Chase,Cancel,Dates',
-                'Pitch,Moved,Resend,Cancel,Dates',
-                'Resend,Accept,Decline,Cancel',
-                'Resend,Quote,Cancel,Dates',
-                'Resend,Accept,Decline,Cancel',
+                'Resend,Quote,Accept,Invite,Decline,Hold,Cancel,Invite Better,Dates,FestC',
+                'Resend,Quote,Invite,Accept,Decline,UnQuote,LastWeek,Dates,FestC',
+                'Resend,Cancel,Dates,FestC',
+                'Pitch,Moved,Resend,Send Bal,Cancel,Dates,FestC',
+                'Pitch,Moved,Resend,Chase,Cancel,Dates,FestC',
+                'Pitch,Moved,Resend,Cancel,Dates,FestC',
+                'Resend,Accept,Decline,Cancel,FestC',
+                'Resend,Quote,Cancel,Dates,FestC',
+                'Resend,Accept,Decline,Cancel,FestC',
                 'Resend,Cancel',
                 );
 
@@ -48,13 +48,14 @@ $ButExtra = array(
         'Balance'=>'title="Send Balance Payment Request',
         'LastWeek'=>'title="Last week of Quote"',
         'Dates'=>'Festival Changed Dates',
+        'FestC'=>'Festival Cancelled this year',
         ); 
 $ButTrader = array('Submit','Accept','Decline','Cancel','Resend'); // Actions Traders can do
 $ButAdmin = array('Paid','Dep Paid');
 $RestrictButs = array('Paid','Dep Paid'); // If !AutoInvoice or SysAdmin
 $Trade_Days = array('Both','Saturday only','Sunday only');
 $Prefixes = array ('in','in the','by the');
-$TaxiAuthorities = array('East Dorset','Poole','Bournemouth');
+$TaxiAuthorities = array('East Dorset','Poole','Bournemouth','BCP','Dorset');
 $TradeMapPoints = ['Trade','Other'];
 
 function Get_Trade_Locs($tup=0,$Cond='') { // 0 just names, 1 all data
@@ -509,9 +510,9 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
     if (!$stat) $stat = 0;
     echo fm_hidden('BookingState',$stat);
     if ($stat == $Trade_State['Fully Paid'] && ($Trady['Insurance'] == 0 || $Trady['RiskAssessment'] == 0)) {
-      echo "<td>Booking State:" . help('BookingState') . "<td class=TSNoInsRA>";
-      if ($Trady['Insurance'] ==0) echo "No Insurance";
-      if ($Trady['RiskAssessment'] ==0) echo " No Risk Assessment";
+      echo "<td>Booking State:" . help('BookingState') . "<td class=TSNoInsRA>Fully Paid";
+      if ($Trady['Insurance'] ==0) echo ", no Insurance";
+      if ($Trady['RiskAssessment'] ==0) echo ", no Risk Assessment";
     } else {
         echo "<td>Booking State:" . help('BookingState') . "<td ";
         if ($stat == $Trade_State['Fully Paid'] && ($Trady['Insurance'] == 0 || $Trady['RiskAssessment'] == 0)) {
@@ -800,7 +801,7 @@ function Trader_Details($key,&$data,$att=0) {
     $txt = 'Click This';
     if (isset($bits[1])) $box = $bits[1];
     if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
-    return "<a href='$host/int/Access?t=t&i=$Tid&TB=$box&k=" . $Trad['AccessKey'] . "&Y=$YEAR'><b>$txt</b></a>\n";
+    return "<a href='$host/int/Access?t=t&i=$Tid&TB=$box&k=" . $Trad['AccessKey'] . "&Y=$YEAR'><b>$txt</b></a>\n"; // NOT Y=YEAR?
 
 
 /* TODO DUFF
@@ -973,23 +974,50 @@ function Validate_Pitches(&$CurDat) {
 }
 
 function Trade_TickBox($Tid,&$Trad,&$Trady,$TB) {
+  global $YEARDATA,$PLANYEAR;
   $Mode = 0;
   if (Access('Committee')) $Mode = 1;
 
   switch ($TB) {
-  case '1': // Happy with new dates
+  case '1': // Move - Happy with new dates
     Trade_Action('DateHappy',$Trad,$Trady,$Mode);
     break;
     
-  case '2': // Unable to do new dates
+  case '2': // Move - Unable to do new dates
     Trade_Action('DateUnHappy',$Trad,$Trady,$Mode);
     break;
   
-  case '3': //Recieved
+  case '3': // move - Recieved
     Trade_Action('DateAck',$Trad,$Trady,$Mode);
     break;
 
+  case '4': // Cancel - Happy on new year
+    Trade_Action('CancelHappy1',$Trad,$Trady,$Mode);
+    
+    $NextY = $PLANYEAR; //$YEARDATA['NextFest'];
+// echo "Next year is $NextY <p>"; exit;
+    $NTrady = Get_Trade_Year($Tid,$NextY);
+    if (!$NTrady) $NTrady = $Trady;
+    $NTrady['Year'] = $NextY;
+    $NTrady['DateChange'] = 0;
+    $NTrady['TYid'] = 0;
+//var_dump($NTrady); exit;
+    Put_Trade_Year($NTrady);
+    
+    Trade_Action('CancelHappy2',$Trad,$NTrady,$Mode);
+//var_dump($NTrady); exit;
+    return $NTrady;
+    
+  case '5': // Cancel - Unable to do new dates
+    Trade_Action('CancelUnHappy',$Trad,$Trady,$Mode);
+    break;
+  
+  case '6': // Cancel - Recieved
+    Trade_Action('CancelAck',$Trad,$Trady,$Mode);
+    break;
+
   }
+  return 0;
 }
 
 function Trade_Main($Mode,$Program,$iddd=0) {
@@ -1160,10 +1188,16 @@ function Trade_Main($Mode,$Program,$iddd=0) {
   }
   if (!isset($Trady)) $Trady = Default_Trade($Tid,$Trad['TradeType']);
 
-  if (isset($_REQUEST['TB'])) Trade_TickBox($Tid,$Trad,$Trady,$_REQUEST['TB']);
+  if (isset($_REQUEST['TB'])) {
+    $Ans = Trade_TickBox($Tid,$Trad,$Trady,$_REQUEST['TB']);
+    if ($Ans) $Trady = $Ans;
+    $DYear = $Trady['Year'];
+  } else {
+    $DYear = $YEAR;
+  }
 
   Show_Trader($Tid,$Trad,$Program,$Mode);
-  if ($Mode < 2 && !$Orgs) Show_Trade_Year($Tid,$Trady,$YEAR,$Mode);
+  if ($Mode < 2 && !$Orgs) Show_Trade_Year($Tid,$Trady,$DYear,$Mode);
 
   if ($Mode == 0 && !$Orgs) {
     Trade_TandC();
@@ -1311,7 +1345,7 @@ function Trade_Deposit_Invoice(&$Trad,&$Trady,$Full='Full',$extra='',$Paid=0) {
 
 // Highly recursive set of actions - some trigger others amt = paid amount (0 = all)
 function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0) {
-  global $Trade_State,$TradeTypeData,$USER,$TradeLocData,$PLANYEAR,$Trade_States;
+  global $Trade_State,$TradeTypeData,$USER,$TradeLocData,$PLANYEAR,$Trade_States,$YEARDATA;
   include_once("InvoiceLib.php");
   $Tchng = $Ychng = 0;
   $PaidSoFar = (isset($Trady['TotalPaid']) ? $Trady['TotalPaid'] : 0);
@@ -1341,7 +1375,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     break;
 
   case 'Accept' :
-    if ($CurState == $Trade_States['Change_Aware']) {
+    if ($CurState == $Trade_State['Change Aware']) {
       Trade_Action('DateHappy',$Trad,$Trady,"$Hist $Action");
       return;
     }
@@ -1845,9 +1879,18 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     $Trady['DateChange'] = 1;
     break;
 
+  case 'FestC':
+    Send_Trader_Email($Trad,$Trady,($PaidSoFar?'Trade_Cancel_Fest_Paid':'Trade_Cancel_Fest_NotPaid')); 
+    $NewState = $Trade_State['Change Aware'];
+    $Trady['DateChange'] = 11;
+    break;
+
+
+
   case 'DateHappy' :
     $Trady['DateChange'] = 3;
     $Dep = T_Deposit($Trad);
+    $Ychng = 1;
     if ($Dep <= $PaidSoFar) {
       if ($PaidSoFar >= $Trady['Fee']) {
         $NewState = $Trade_State['Fully Paid'];
@@ -1878,6 +1921,46 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     $Ychng = 1;
     Send_Trader_Email($Trad,$Trady,'Trade_DC_Ack');
     break;
+
+  case 'CancelHappy1' : // Actions on old year
+    $Trady['DateChange'] = 13;
+    $Ychng = 1;
+    break;
+    
+  case 'CancelHappy2' : // Actions on new year
+    $Dep = T_Deposit($Trad);
+    if ($Dep <= $PaidSoFar) {
+      if ($PaidSoFar >= $Trady['Fee']) {
+        $NewState = $Trade_State['Fully Paid'];
+      } else {
+        $NewState = $Trade_State['Deposit Paid'];
+      }
+    } else {
+      $NewState = $Trade_State['Accepted'];
+    }
+   
+    Send_Trader_Email($Trad,$NTrady,'Trade_Cancel_Happy');
+    break;
+  
+  case 'CancelUnHappy' :
+    $Trady['DateChange'] = 14;  
+    $Ychng = 1;
+    if ($PaidSoFar) {
+      $NewState = $Trade_State['Refund Needed'];
+      $att = 0;
+      $Invs = Get_Invoices(" OurRef='" . Sage_Code($Trad) . "'"," IssueDate DESC ");
+      if ($Invs) $att = Get_Invoice_Pdf($Invs[0]['id']);
+      Send_Trade_Finance_Email($Trad,$Trady,'Trade_DC_Refund',$att); // These work for both move and cancel
+      Send_Trader_Email($Trad,$Trady,'Trade_DC_Refund_Ack');
+    }
+  
+  case 'CancelAck' :
+    $Trady['DateChange'] = 12; 
+    $Ychng = 1;
+    Send_Trader_Email($Trad,$Trady,'Trade_Cancel_Ack');
+    break;
+
+
 
   default:
     break;

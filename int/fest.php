@@ -267,7 +267,8 @@ function Get_Years() {
 }
 
 $YEARDATA = Get_General();
-if ($YEARDATA['Years2Show'] > 0) $NEXTYEARDATA = Get_General($YEARDATA['NextFest']);
+$PLANYEARDATA = Get_General($PLANYEAR);
+if ($PLANYEARDATA['Years2Show'] > 0) $NEXTYEARDATA = Get_General($PLANYEARDATA['NextFest']);
 
 function First_Sent($stuff) {
   $onefifty=substr($stuff,0,150);

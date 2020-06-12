@@ -429,7 +429,7 @@ function Replace_Help($Area='',$Right=0) {
   ['*WEBINT:URL:TEXT*','Website for the festival back end, URL/TEXT as above.  WEB is the same when they are part of the same server','All'],
   ['*MISSING*','Important information missing from a dance side','Dance'],
   ['*SIDE*','Name of side','Dance'],
-  ['*TICKBOX:b:TEXT*','Direct link to click a box, b=num(1-4)|Rec(eived)|..., TEXT to be displayed (NO SPACES - any _ will appear as spaces)','Dance'],
+  ['*TICKBOX:b:TEXT*','Direct link to click a box, b=num(1-4)|Rec(eived)|..., TEXT to be displayed (NO SPACES - any _ will appear as spaces)','Dance,Music,Trade'],
   ['*TRADEMAP*','Trade location and Map info','Trade'],
   ['*WEBSITESTUFF*','Traders photo and product description prompt','Trade'],
   ['*READFILE_file*','Read file as body of message - only use for VERY large messages, contact Richard to use','All'],
@@ -439,7 +439,7 @@ function Replace_Help($Area='',$Right=0) {
   ['*PAYCODES*','Details of payment to be made, ammount, account and code to be used','Trade'],
   ['*COPY_name*','Copy Email Proforma name into the current message','All'],
   ['*PAYDAYS*','Days to pay an Invoice','Trade,Invoices'],
-  ['*PAIDSOFAR*','Total Money Actually paid so far: Deposit and Balance'],
+  ['*PAIDSOFAR*','Total Money Actually paid so far: Deposit and Balance','Trade'],
   ];
 
   echo "<span " . ($Right?' class=floatright':'') . " id=largeredsubmit onclick=($('.HelpDiv').toggle()) >Click to toggle Standard Replacements Help</span>";
