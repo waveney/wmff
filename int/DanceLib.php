@@ -25,7 +25,7 @@ $OlapTypes = array('Dancer','Musician','Avoid');
 $OlapDays = array('All','Sat Only','Sun Only','None');
 $OlapCats = array('Side','Act','Comedy','Family','Other');
 $Proforma_Colours = ['Decide'=>'DarkOrange','Details'=>'Magenta','Program'=>'Yellow','ProgChk'=>'lightsalmon','NewProg'=>'yellow','FinalInfo'=>'LawnGreen',
-'FinalInfo2'=>'MediumSeaGreen', 'Invite'=>'Beige','Remind'=>'khaki', 'Change'=>'DarkOrange', 'Reinvite'=>'Beige'];
+'FinalInfo2'=>'MediumSeaGreen', 'Invite'=>'Beige','Remind'=>'khaki', 'Change'=>'DarkOrange', 'Reinvite'=>'Beige','Cancel'=>'lightgrey'];
 $TickBoxes = [['Seen Programme','Invited','YHAS','Program:','D',2],NULL,NULL,['Date Change','TickBox4','NVAL',0,'MCFO',5]]; // Year -> Name',Criteria, test , value, Usage [DMCFO],size=2
 $PerfListStates = ['Not Open','Open'];
 

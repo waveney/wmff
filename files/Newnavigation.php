@@ -1,5 +1,5 @@
 <?php
-  global $Access_Type,$USER,$USERID,$YEAR,$FESTSYS,$YEARDATA,$NEXTYEARDATA,$Months;
+  global $Access_Type,$USER,$USERID,$YEAR,$FESTSYS,$YEARDATA,$NEXTYEARDATA,$Months,$PLANYEARDATA,$PLANYEAR;
   Set_User();
   
   // Header bar  
@@ -54,6 +54,7 @@
         'Mailing List'=>'InfoMailingList',
         'Contact Us'=>'contact',
         'Road Closures'=>'RoadClosure',
+//        'Allendale Centre and Cafe'=>'InfoAllendale',
         'Data Privacy'=>'InfoData',
         'Festival Software'=>'InfoSoftware',
         ],
@@ -61,17 +62,18 @@
         'Volunteer'=>'InfoStewards',
         'Sponsorship'=>'InfoSponsors',
         'Trade Stand Applications'=>'InfoTrade', 
-        'Live and Loud'=>'LiveNLoud',
-        'Buskers Bash'=>'BuskersBash',
+        '*Live and Loud'=>'LiveNLoud',
+        '*Buskers Bash'=>'BuskersBash',
+        'Donate'=>'Donate',
          ],
       '-Gallery'=>[
         '2019 Photos'=>'gallery/gallery2019',
         '2018 Photos'=>'gallery/gallery2018',
         '2017 Photos'=>'int/ShowGallery?g=2',
-        '2016 Photos'=>'gallery/2016',
-        '2015 Photos'=>'gallery/2015',
-        '2014 Photos'=>'gallery/2014',
-        '2013 Photos'=>'gallery/2013',
+        '2016 Photos'=>'gallery/2016/index',
+        '2015 Photos'=>'gallery/2015/index',
+        '2014 Photos'=>'gallery/2014/index',
+        '2013 Photos'=>'gallery/2013/index',
         '2017 Laugh out Loud Photos'=>'int/ShowGallery?g=3',
        ],
       '!/images/icons/Facebook.png'=>'!http://facebook.com/WimborneFolk',
@@ -222,26 +224,27 @@ function Show_Bar(&$Bar,$level=0,$Pval=1) {
   
 //   var_dump($YEARDATA); 
   echo "<div class=main-header>"; 
-  $DFrom = ($YEARDATA['DateFri']+$YEARDATA['FirstDay']);
-  $DTo = ($YEARDATA['DateFri']+$YEARDATA['LastDay']);
-  $DMonth = $Months[$YEARDATA['MonthFri']];
- 
+  $NFrom = $DFrom = ($PLANYEARDATA['DateFri']+$PLANYEARDATA['FirstDay']);
+  $NTo = $DTo = ($PLANYEARDATA['DateFri']+$PLANYEARDATA['LastDay']);
+  $NMonth = $DMonth = $Months[$PLANYEARDATA['MonthFri']];
+  $NYear = $PLANYEARDATA['NextFest']; 
 
-  if ($YEARDATA['Years2Show'] > 0) {
+  if ($PLANYEARDATA['Years2Show'] > 0) {
     $NFrom = ($NEXTYEARDATA['DateFri']+$NEXTYEARDATA['FirstDay']);
     $NTo = ($NEXTYEARDATA['DateFri']+$NEXTYEARDATA['LastDay']);
     $NMonth = $Months[$NEXTYEARDATA['MonthFri']];
     $NYear = $YEARDATA['NextFest'];
-  }
+  }   
+
   echo "<a href=/>";
     echo "<img src=" . $FESTSYS['WebsiteBanner2'] . "?V=$V class='header-logo head-white-logo'>";
     echo "<img src=" . $FESTSYS['WebSiteBanner'] . "?V=$V class='header-logo head-coloured-logo'>";
-    if ($YEARDATA['Years2Show'] < 2) { // TODO Handle Both
-      $Yr = substr($YEAR,0,4);
+    if ($PLANYEARDATA['Years2Show'] < 2) { // TODO Handle Both
+      $Yr = substr($PLANYEAR,0,4);
       echo "<div class=SmallDates>$DFrom - $DTo $DMonth $Yr</div>";
       echo "<div class=FestDates>$DFrom - $DTo<br>$DMonth<br>$Yr</div>";
     } else {
-      $NYear = substr($NYear,0,4);
+      $NYear = substr($NYear,0,4) ;
       echo "<div class=SmallDates>$NFrom - $NTo $NMonth $NYear</div>";
       echo "<div class=FestDates>$NFrom - $NTo<br>$NMonth<br>$NYear</div>";    
     }

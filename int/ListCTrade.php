@@ -113,7 +113,7 @@
         $Act = $TS_Actions[$stat];
         if ($ActsEnable && $Act ) {
           $Acts = preg_split('/,/',$Act); 
-          $str .= "<div class=floatright style='max-width:250'><form>" . fm_Hidden('id',$Tid);
+          $str .= "<div class=floatright style='max-width:250'><form>" . fm_hidden('id',$Tid) . fm_hidden('Y',$YEAR);
           $butcount = 0;
           foreach($Acts as $ac) {
             switch ($ac) {
@@ -126,6 +126,13 @@
               case 'Paid':
                 if ($fetch['Fee'] == 0) continue 2;
                 break;
+              case 'Dates':
+                if (!FestFeature('EnableDateChange')) continue 2;
+                break;
+              case 'FestC':
+                if (!FestFeature('EnableCancelMsg')) continue 2;
+                break;
+              
               default:
               }
             if ($butcount++ == 3) $str .= "<br>";
@@ -140,8 +147,13 @@
         } else {
           $str .= $Trade_States[$stat];
         }
-      if (Feature('TradeDateChange')) {
-        $str .= "<td>" . ['Not Sent','Sent','Ack','Happy','Unhappy'][$fetch['DateChange']];
+      if (FestFeature('EnableDateChange') || FestFeature('EnableCancelMsg') ) {
+        $str .= "<td>";
+        if ($fetch['DateChange'] < 10) {
+          $str .= "DC: " . ['Not Sent','Sent','Ack','Happy','Unhappy'][$fetch['DateChange']];
+        } else {
+          $str .= "CAN: " . ['Not Sent','Sent','Ack','Happy','Unhappy'][$fetch['DateChange']-10];        
+        }
       }
       $str .= "<td>";
         $Dep = T_Deposit($fetch);
@@ -199,7 +211,7 @@
         if ($fetch['PublicHealth']) {
             if ($fetch['BookingState'] >= $Trade_State['Submitted']) {
             $str .= "<td"  . ($fetch['HealthChecked']?'':' style="background:red;"') . ">";
-              $str .= "<form>" . fm_Hidden('id',$Tid);
+              $str .= "<form>" . fm_hidden('id',$Tid) . fm_hidden('Y',$YEAR);
             if ($Acts && !$fetch['HealthChecked']) $str .= "<button class=floatright name=ACTION value=Checked type=submit >Checked</button>";
             $str .= "</form>";
           } else {
