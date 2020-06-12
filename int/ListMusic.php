@@ -137,14 +137,21 @@
             $acts = preg_split('/,/',$acts); 
             echo "<form>" . fm_Hidden('SEL',$_GET['SEL']) . fm_hidden('SideId',$fetch['SideId']) . (isset($_GET['t'])? fm_hidden('t',$_GET['t']) : '') . fm_hidden('Y',$YEAR);;
             foreach($acts as $ac) {
-              if ($ac == 'Contract') {
-                $NValid = Contract_Check($fetch['SideId'],0);
-                if ($NValid) {
-                  echo $NValid;
-                  continue;
-                }
+              switch ($ac) {
+                case 'Contract':
+                  $NValid = Contract_Check($fetch['SideId'],0);
+                  if ($NValid) {
+                    echo $NValid;
+                    continue 2;
+                  }
+                  break;
+                case 'Dates':
+                  if (!FestFeature('EnableDateChange')) continue 2;
+                  break;
+                case 'FestC':
+                  if (!FestFeature('EnableCancelMsg')) continue 2;
+                  break;
               }
-              if ($ac == 'Dates' && $YEAR!='2020' && !Access('SysAdmin')) { echo "EE"; continue; }
               echo "<button class=floatright name=ACTION value='$ac' type=submit " . $Book_ActionExtras[$ac] . " >$ac</button>";
             }
             echo "</form>";

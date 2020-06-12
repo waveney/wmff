@@ -551,10 +551,10 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
       $show = 0;
       switch ($bxtst) {
       case 'YHAS':
-        if (strstr($Sidey[$bxfld],$bxval)) $show =1;
+        if (isset($Sidey[$bxfld]) && strstr($Sidey[$bxfld],$bxval)) $show =1;
         break;
       case 'NVAL':
-        if ($Sidey[$bxfld] != $bxval) $show = 1;
+        if (isset($Sidey[$bxfld]) && $Sidey[$bxfld] != $bxval) $show = 1;
       
       }
       if (Access('Staff')) { 
@@ -564,7 +564,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
           $str .= fm_text($bxtxt,$Sidey,"TickBox" . ($bi+1),1,'class=NotSide');
         }
       } else {
-        $hstr .= fm_hidden("TickBox" . ($bi+1),$Sidey['TickBox' . ($bi+1)]);
+        if (isset($Sidey['TickBox' . ($bi+1)])) $hstr .= fm_hidden("TickBox" . ($bi+1),$Sidey['TickBox' . ($bi+1)]);
       }
     }
     if ($str) echo "<tr class=NotSide>$str\n";
@@ -579,7 +579,7 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
         if ($Mode) {
           if (isset($Sidey['WristbandsSent'])) echo fm_checkbox("Sent",$Sidey,"WristbandsSent"); 
         } else {
-          if ($Sidey['WristbandsSent']) {
+          if (isset($Sidey['WristbandsSent']) && $Sidey['WristbandsSent']) {
             $tmp['Ignored2'] = 1;
             echo fm_checkbox('Sent',$tmp,'Ignored2','disabled');
           }
