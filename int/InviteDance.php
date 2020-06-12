@@ -212,15 +212,14 @@
             echo "<button type=button id=Remind$snum class=ProfButton onclick=ProformaSend('Dance_Remind',$snum,'Remind','SendProfEmail')" . 
                   Proforma_Background('Remind') . ($fetch['Invited']?'':' hidden ') . ">Remind</button>";
 
-          }
-          if ($YEAR=='2020') echo "<button type=button id=Change$snum class=ProfButton onclick=ProformaSend('Dance_Reinvite_Change_Dates',$snum,'Reinvite','SendProfEmail')" .
+        }
+        if (FestFeature('EnableDateChange')) echo "<button type=button id=Change$snum class=ProfButton onclick=ProformaSend('Dance_Reinvite_Change_Dates',$snum,'Change','SendProfEmail')" .
                                       Proforma_Background('Reinvite') . ">Reinvite</button>";
-          if ($YEAR=='2020A') echo "<button type=button id=Cancel$snum class=ProfButton onclick=ProformaSend('Dance_Cancel_Fest',$snum,'Cancel','SendProfEmail')" .
+        if (FestFeature('EnableCancelMsg')) echo "<button type=button id=Cancel$snum class=ProfButton onclick=ProformaSend('Dance_Cancel_Fest',$snum,'Cancel','SendProfEmail')" .
                                       Proforma_Background('Cancel') . ">Cancel</button>";
 
 
 //          echo "Meow";
-        }
       } else {
         echo "No Email!";      
       }
