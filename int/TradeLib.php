@@ -1191,17 +1191,20 @@ function Trade_Main($Mode,$Program,$iddd=0) {
     $Ans = Trade_TickBox($Tid,$Trad,$Trady,$_REQUEST['TB']);
     if ($Ans) $Trady = $Ans;
     $DYear = $Trady['Year'];
-echo "<p>CCC $YEAR $DYear";
+// echo "<p>CCC $YEAR $DYear";
   } else {
     $DYear = $YEAR;
   }
 
-echo "<p>Trady " . $Trady['Year'] . "<p>";
+// echo "<p>Trady " . $Trady['Year'] . "<p>";
 
   Show_Trader($Tid,$Trad,$Program,$Mode);
   if ($Mode < 2 && !$Orgs) Show_Trade_Year($Tid,$Trady,$DYear,$Mode);
 
   if ($Mode == 0 && !$Orgs) {
+    echo "<Center>";
+    echo "<input type=Submit name='Update' value='Save Changes'>";
+    echo "</Center>";    
     Trade_TandC();
     echo $FESTSYS['TradeTimes'];
     echo $FESTSYS['TradeFAQ'];
@@ -1946,7 +1949,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     break;
   
   case 'CancelUnHappy' :
-    $Trady['DateChange'] = 14;  
+    $Trady['DateChange'] = 14;  /
     $Ychng = 1;
     if ($PaidSoFar) {
       $NewState = $Trade_State['Refund Needed'];
