@@ -21,6 +21,8 @@
   echo "Click on column header to sort by column.  Click on Side's name for more detail and programme when available,<p>";
 
   echo "If you click on the email link, press control-V afterwards to paste the standard link into message.<p>";
+  
+  if ($YEAR != $PLANYEAR) echo "No messages can be sent unless you are Richard...";
 
   echo "<div id=InformationPane></div><p>\n";
   echo fm_hidden('Year',$YEAR);
@@ -155,7 +157,7 @@
       }
 
       echo "<td>";
-      if (isset($fetch['Email']) && $fetch['Email']) {
+      if (isset($fetch['Email']) && $fetch['Email'] && ($YEAR==$PLANYEAR || Access('SysAdmin'))) {
         if (isset($fetch['Coming']) && $fetch['Coming']) {
 //        echo $Coming_idx[$fetch['Coming']];
           switch ($Coming_idx[$fetch['Coming']]) {
@@ -213,9 +215,10 @@
                   Proforma_Background('Remind') . ($fetch['Invited']?'':' hidden ') . ">Remind</button>";
 
         }
-        if (FestFeature('EnableDateChange')) echo "<button type=button id=Change$snum class=ProfButton onclick=ProformaSend('Dance_Reinvite_Change_Dates',$snum,'Change','SendProfEmail')" .
+      }
+      if (FestFeature('EnableDateChange')) echo "<button type=button id=Change$snum class=ProfButton onclick=ProformaSend('Dance_Reinvite_Change_Dates',$snum,'Change','SendProfEmail')" .
                                       Proforma_Background('Reinvite') . ">Reinvite</button>";
-        if (FestFeature('EnableCancelMsg')) echo "<button type=button id=Cancel$snum class=ProfButton onclick=ProformaSend('Dance_Cancel_Fest',$snum,'Cancel','SendProfEmail')" .
+      if (FestFeature('EnableCancelMsg')) echo "<button type=button id=Cancel$snum class=ProfButton onclick=ProformaSend('Dance_Cancel_Fest',$snum,'Cancel','SendProfEmail')" .
                                       Proforma_Background('Cancel') . ">Cancel</button>";
 
 
