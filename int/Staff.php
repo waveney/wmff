@@ -285,7 +285,7 @@
       $txt .= "<p><div class=tablecont><table><tr><td>";
       $txt .= "<li class=smalltext><a href=ResetImageSizes?TRADE>Scan and save Image sizes</a>";
       $txt .= "<li class=smalltext><a href=FixBug4>Fix unsaved states</a>";
-      if (FestFeature('EnableCancelMsg')) $txt .= "<li class=smalltext><a href=CopyTradeYear>Copy Trade Year to New Years</a>";
+      if (FestFeature('EnableCancelMsg')) $txt .= "<li class=smalltext><a href=CopyTradeYear?Y=$YEAR>Copy Trade Year to New Years</a>";
       $txt .= "</table></div><p>\n";
     }
     $txt .= "</ul>\n";
