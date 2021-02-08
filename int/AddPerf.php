@@ -166,7 +166,16 @@
           $ShowAvailOnly = 1;
           $Sidey['TickBox3'] = 1;  // May not be used
           echo "<script>$(document).ready(function() {var elmnt = document.getElementById('Availability');elmnt.scrollIntoView(true);})</script>";
-          break;         
+          break;  
+          
+        case (preg_match('/FCV(.)/',$_POST['TICKBOX'],$mtch)?true:false):
+          $Lasty = $Sideyrs[$YEARDATA['PrevFest']];
+          $Sidey['TickBox3'] = $Lasty['TickBox3'] = $mtch[1];  // May not be used
+          Put_SideYear($Lasty);
+          $ShowAvailOnly = 1;
+          echo "<script>$(document).ready(function() {var elmnt = document.getElementById('Availability');elmnt.scrollIntoView(true);})</script>";
+          break;  
+               
           
         default:
           echo "<h2>Unrecognised Button</h2>";

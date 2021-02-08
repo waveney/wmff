@@ -645,9 +645,9 @@ function Get_Trade_Details(&$Trad,&$Trady) {
   if (isset($Trad['Previous']) && $Trad['Previous']) $Body .= "Previous Trader: Yes\n";
   $Body .= "\n\n";
 
-  $Body .= "For " . $Trady['Year'] .":\n";
-  $Body .= "Days: " . $Trade_Days[$Trady['Days']] . "\n";
-  $Body .= "Pitch:" . $Trady['PitchSize0'];
+  if (isset($Trady['Year'] ) ) $Body .= "For " . $Trady['Year'] .":\n";
+  if (isset($Trade_Days[$Trady['Days']] ) ) $Body .= "Days: " . $Trade_Days[$Trady['Days']] . "\n";
+  if (isset($Trady['PitchSize0'] ) ) $Body .= "Pitch:" . $Trady['PitchSize0'];
   $Partial = (array_flip($EType_States))['Partial'];
   if ($Trady['PitchLoc0']) $Body .= " at " . $TradeLocData[$Trady['PitchLoc0']]['SN'];
   if ($YEARDATA['TradeState']>= $Partial && $Trady['PitchNum0']) $Body .= "Pitch Number "  . $Trady['PitchNum0'];
@@ -1034,7 +1034,6 @@ function Trade_Main($Mode,$Program,$iddd=0) {
   fclose($file);
 */
 
-
   $Orgs = isset($_REQUEST['ORGS']);
   
   $Action = 0; 
@@ -1192,9 +1191,12 @@ function Trade_Main($Mode,$Program,$iddd=0) {
     $Ans = Trade_TickBox($Tid,$Trad,$Trady,$_REQUEST['TB']);
     if ($Ans) $Trady = $Ans;
     $DYear = $Trady['Year'];
+echo "<p>CCC $YEAR $DYear";
   } else {
     $DYear = $YEAR;
   }
+
+echo "<p>Trady " . $Trady['Year'] . "<p>";
 
   Show_Trader($Tid,$Trad,$Program,$Mode);
   if ($Mode < 2 && !$Orgs) Show_Trade_Year($Tid,$Trady,$DYear,$Mode);
@@ -1939,6 +1941,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
       $NewState = $Trade_State['Accepted'];
     }
    
+    $Ychng = 1;
     Send_Trader_Email($Trad,$NTrady,'Trade_Cancel_Happy');
     break;
   
@@ -1955,7 +1958,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     }
   
   case 'CancelAck' :
-    $Trady['DateChange'] = 12; 
+    $Trady['DateChange'] = 12;
     $Ychng = 1;
     Send_Trader_Email($Trad,$Trady,'Trade_Cancel_Ack');
     break;
