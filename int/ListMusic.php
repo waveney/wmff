@@ -174,7 +174,9 @@
           echo "<td>$keys";
           break;
         case 'Change':
-          echo "<td>" . (isset($fetch['TickBox4']) ? ['','Sent','Ack'][$fetch['TickBox4']] : "");
+          echo "<td>";
+          
+          echo (isset($fetch['TickBox4']) ? ['','Sent','Ack'][$fetch['TickBox4']] : "");
           break;
         case 'Availability' :
           echo "<td>";
