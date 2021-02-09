@@ -1949,7 +1949,7 @@ function Trade_Action($Action,&$Trad,&$Trady,$Mode=0,$Hist='',$data='', $invid=0
     break;
   
   case 'CancelUnHappy' :
-    $Trady['DateChange'] = 14;  /
+    $Trady['DateChange'] = 14;
     $Ychng = 1;
     if ($PaidSoFar) {
       $NewState = $Trade_State['Refund Needed'];
