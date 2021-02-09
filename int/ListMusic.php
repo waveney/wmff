@@ -4,7 +4,7 @@
 
   dostaffhead("List Music", ["/js/clipboard.min.js", "/js/emailclick.js"]);
 
-  global $YEAR,$PLANYEAR,$Book_Colours,$Book_States,$Book_Actions,$Book_ActionExtras,$Importance,$InsuranceStates,$PerfTypes;
+  global $YEAR,$PLANYEAR,$Book_Colours,$Book_States,$Book_Actions,$Book_ActionExtras,$Importance,$InsuranceStates,$PerfTypes,$Cancel_Colours,$Cancel_States;
   include_once("DanceLib.php"); 
   include_once("MusicLib.php"); 
   include_once("Email.php"); 
@@ -14,7 +14,7 @@
   $Type = (isset($_GET['T'])? $_GET['T'] : 'M' );
   $Perf = 0; 
   foreach ($PerfTypes as $p=>$d) if ($d[4] == $Type) { $Perf = $p; $PerfD = $d; };
-
+  $PrevYear = '2021'; // Quick Fudge TODO 
   $TypeSel = $PerfD[0] . "=1 ";
   $DiffFld = $PerfD[2] . "Importance";
   echo "<div class=content><h2>List $Perf $YEAR</h2>\n";
@@ -67,7 +67,18 @@
     $col6 = "Actions";
     $col7 = "Importance";
     $col8 = "Availability";
+//    $col9 = "Prev Fest State";
  
+  } else if ($_GET{'SEL'} == 'BookingLastYear') {
+    $PrevYear = '2021'; // TODO fix fudge
+    $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, $YearTab as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year='$PrevYear' AND ( y.YearState>0 || y.TickBox4>0)" . 
+                " AND s.SideStatus=0 ORDER BY SN");
+    $col5 = "Book State";
+    $col6 = "Actions";
+    $col7 = "Importance";
+    $col8 = "Insurance";
+    $col9 = "Missing";
+    if (substr($YEAR,0,4) == '2020') $col10 = 'Change';
   } else { // general public list
     $SideQ = $db->query("SELECT y.*, s.*, IF(s.DiffImportance=1,s.$DiffFld,s.Importance) AS EffectiveImportance  FROM Sides AS s, $YearTab as y " .
                 "WHERE $TypeSel AND s.SideId=y.SideId AND y.year='$YEAR' AND y.YearState=" . 
@@ -123,7 +134,12 @@
 
         case 'Book State': 
           if (!isset($State)) $State = 0;
-          echo "<td style='background-color:" . $Book_Colours[$State] . "'>" . $Book_States[$State];
+          if ($fetch['TickBox4']) {
+            $CState = $fetch['TickBox4'];
+            echo "<td style='background-color:" . $Cancel_Colours[$CState] . "'>" . $Cancel_States[$CState];
+          } else {
+            echo "<td style='background-color:" . $Book_Colours[$State] . "'>" . $Book_States[$State];
+          }
           break;
 
         case 'Confirmed':
@@ -193,6 +209,18 @@
             if ($fetch['SunAvail']) echo "*";          
           }    
           break;
+        case 'Prev Fest State':
+          if (!isset($State)) $State = 0;
+          $Prevy = Get_SideYear($fetch['SideId'],$PrevYear);
+          if ($fetch['TickBox4']) {
+            $CState = $Prevy['TickBox4'];
+            echo "<td style='background-color:" . $Cancel_Colours[$CState] . "'>" . $Cancel_States[$CState];
+          } else {
+            $LState = $Prevy['YearState'];
+            echo "<td style='background-color:" . $Book_Colours[$LState] . "'>" . $Book_States[$LState];
+          }
+          break;
+        
           
         default:
           break;

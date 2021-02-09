@@ -169,11 +169,12 @@
           break;  
           
         case (preg_match('/FCV(.)/',$_POST['TICKBOX'],$mtch)?true:false):
-          $Lasty = $Sideyrs[$YEARDATA['PrevFest']];
-          $Sidey['TickBox3'] = $Lasty['TickBox3'] = $mtch[1];  // May not be used
+          $Sidey['TickBox4'] = $mtch[1]+1;
           Put_SideYear($Lasty);
+          // Swap to current info
+          $Sidey = (isset($Sideyrs[$PLANYEAR])?$Sideyrs[$PLANYEAR]:Default_SY($snum));
           $ShowAvailOnly = 1;
-          echo "<script>$(document).ready(function() {var elmnt = document.getElementById('Availability');elmnt.scrollIntoView(true);})</script>";
+//          echo "<script>$(document).ready(function() {var elmnt = document.getElementById('Availability');elmnt.scrollIntoView(true);})</script>";
           break;  
                
           

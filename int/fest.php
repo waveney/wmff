@@ -24,9 +24,11 @@ $Book_States = array('None','Declined','Booking','Contract Ready','Contract Sign
 $Book_Colours = ['white','salmon','yellow','orange','lime'];
 $Book_State = array_flip($Book_States);
 $InsuranceStates = array('None','Uploaded','Checked');
-$Book_Actions = array('None'=>'Book','Declined'=>'Book,Contract','Booking'=>'Contract,Decline,Cancel,Dates','Contract Ready'=>'Confirm,Decline,Cancel,Dates',
-                'Contract Signed'=>'Cancel,Decline,Dates');
-$Book_ActionExtras = array('Book'=>'', 'Contract'=>'', 'Decline'=>'', 'Cancel'=>'', 'Confirm'=>'', 'Dates'=>'');
+$Book_Actions = array('None'=>'Book','Declined'=>'Book,Contract','Booking'=>'Contract,Decline,Cancel,Dates,FestC','Contract Ready'=>'Confirm,Decline,Cancel,Dates,FestC',
+                'Contract Signed'=>'Cancel,Decline,Dates,FestC');
+$Book_ActionExtras = array('Book'=>'', 'Contract'=>'', 'Decline'=>'', 'Cancel'=>'', 'Confirm'=>'', 'Dates'=>'', 'FestC'=>'');
+$Cancel_States = ['','Cancel: Sent','Cancel: Avail','Cancel: Not Avail','Cancel: Dont Know'];
+$Cancel_Colours = ['white','orange','green','red','yellow'];
 $EType_States = array('Very Early','Draft','Partial','Provisional','Complete');
 $TicketStates = array('Not Yet','Open','Closed','Remove','Remote');
 $ArticleFormats = ['Large Image','Small Image','Text','Banner Image','Banner Text','Fixed','Left/Right Pairs'];
