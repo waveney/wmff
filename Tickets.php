@@ -194,9 +194,9 @@
     echo "Order your festival tickets and camping together, by selecting <strong>Continue Shopping</strong> before you checkout!</p> ";
   }
 
-  echo "<h2>* Party In The Paddock</h2><p>";
+//  echo "<h2>* Party In The Paddock</h2><p>";
 
-  echo "There will not be a Party in the Paddock this year.<p>";
+//  echo "There will not be a Party in the Paddock this year.<p>";
   
   if (0) echo "If you're looking to combine a weekend of official festival events and a trip to <a href='http://partyinthepaddock.com'>Party In The Paddock</a>, " .
        "then book your tickets with us!</p>";

@@ -12,7 +12,7 @@
   $YearTab = 'SideYear';
 
   $Type = (isset($_GET['T'])? $_GET['T'] : 'M' );
-  $Perf = 0; 
+  $Perf = ""; 
   foreach ($PerfTypes as $p=>$d) if ($d[4] == $Type) { $Perf = $p; $PerfD = $d; };
   $PrevYear = '2021'; // Quick Fudge TODO 
   $TypeSel = $PerfD[0] . "=1 ";
@@ -70,14 +70,15 @@
 //    $col9 = "Prev Fest State";
  
   } else if ($_GET{'SEL'} == 'BookingLastYear') {
+
     $PrevYear = '2021'; // TODO fix fudge
+    echo "<div class=content><h2>List $Perf $PrevYear</h2>\n";
     $SideQ = $db->query("SELECT s.*, y.* FROM Sides AS s, $YearTab as y WHERE $TypeSel AND s.SideId=y.SideId AND y.year='$PrevYear' AND ( y.YearState>0 || y.TickBox4>0)" . 
                 " AND s.SideStatus=0 ORDER BY SN");
     $col5 = "Book State";
     $col6 = "Actions";
     $col7 = "Importance";
-    $col8 = "Insurance";
-    $col9 = "Missing";
+    $col8 = "Next Year Avail";
     if (substr($YEAR,0,4) == '2020') $col10 = 'Change';
   } else { // general public list
     $SideQ = $db->query("SELECT y.*, s.*, IF(s.DiffImportance=1,s.$DiffFld,s.Importance) AS EffectiveImportance  FROM Sides AS s, $YearTab as y " .
@@ -221,6 +222,26 @@
           }
           break;
         
+        case 'Next Year Avail' :
+          $thisyear = Get_SideYear($fetch['SideId'],$PLANYEAR);
+          echo "<td>";
+          echo (isset($thisyear['TickBox4']) ? ['','Sent','Ack'][$thisyear['TickBox4']] : "");
+          if (isset($thisyear['MFri'])) {
+            if ($thisyear['MFri']) { 
+              echo "F";
+              if ($thisyear['FriAvail']) echo "*";
+            }
+            if ($thisyear['MSat']) {
+              echo " Sa";
+              if ($thisyear['SatAvail']) echo "*";           
+            }
+            if ($thisyear['MSun']) {
+              echo " Su";
+              if ($thisyear['SunAvail']) echo "*";          
+            }  
+          }  
+                    
+          break;
           
         default:
           break;
