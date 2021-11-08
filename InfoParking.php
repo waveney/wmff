@@ -13,9 +13,6 @@
 <strong>Allenbourne School</strong> will have daytime parking on their school fields for <strong>&pound;5.00</strong> per vehicle on Saturday &amp; Sunday only, 
 with no overnight parking. Access is from East Borough, just off the B3078, Cranborne Road. <button onclick=ShowDirect(1000009)>Directions</button><p>
 
-<strong>Meadows Camping</strong> offer all day parking for <strong>&pound;5.00</strong> per vehicle per day, which is available for non-camping visitors. 
-Vehicles left on site overnight will not be subsequently charged unless taken off site and re-entering. <button onclick=ShowDirect(1000002)>Directions</button><p>
-
 </div><div id=Blob1><div id=BlobMap>
 <div id=MapWrap>
 <div id=DirPaneWrap>
@@ -36,7 +33,6 @@ The principle long term car parks are:<p>
 <tr><td>Leigh Road <td> <button onclick=ShowDirect(1000022)>Directions</button>
 <tr><td>Poole Road<td> <button onclick=ShowDirect(1000025)>Directions</button>
 <tr><td>Old Town Road (Near the Green Man)<td> <button onclick=ShowDirect(1000017)>Directions</button>
-<tr><td>At the Market<td> <button onclick=ShowDirect(1000030)>Directions</button>
 
 </table></div>
 </div><div id=Blob2>
@@ -59,7 +55,7 @@ Please don't use the limited cycle racks on the High Street and by the Minster.<
 <h2>Closed Car Parks</h2>
 The High Street carpark will be inaccessable from 5pm on Friday until Sunday evening.<p>
 
-The inner part of King Street Carpark will be closed from Thursday Evening until Monday morning.  For setting up the Microbreweries.
+The part of Allenview North Carpark will be closed from Thursday Evening until Monday morning.  For setting up the Microbreweries.
 
 </div></div><div class=OneCol id=TwoCols2></div></div>
 <?php

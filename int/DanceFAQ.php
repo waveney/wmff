@@ -5,7 +5,7 @@
 ?>
 
 
-<div class=content><h2>FAQ for Dance Teams at Wimborne in 2019</h2>
+<div class=content><h2>FAQ for Dance Teams at Wimborne in 2022</h2>
 
 <dl class=WMFF_FAQ>
 <dt>Partner wristbands<dd>will be available at half price.  We're still working on the best way to pay for them, but let us know if you'll need any.
@@ -25,12 +25,10 @@ welcome to request extra spots by changing the number in the box in their dance 
 team coming to Wimborne (or you have members appearing in our concerts, etc) then
 let us know what the overlaps are and we'll ensure your programming takes account of this.
 
-<dt>Camping<dd>We don't run our own campsite, but highly recommend 'The Meadows' which
-is only a few minutes walk from the town centre.  See <a href=../InfoCamping>Camping
+<dt>Camping<dd>We don't run our own campsite, See <a href=../InfoCamping>Camping
 Information</a>
 
-<dt>Car parking<dd> If you are using the Meadows camp site, then you can leave your
-car there, as it's a very short walk into the town centre. There are many car parks
+<dt>Car parking<dd> There are many car parks
 around town, including a popular one run by Allenbourne School. 
 
 <dt>Wristbands<dd> We will mail out performers'  wristbands shortly before the
@@ -40,7 +38,7 @@ space available.  They may also get you into the Party in the Paddock.
 Make sure you have a postal address on your dance side record, for us to mail your wristbands to.<p>
 
 Performers wristbands are not transferable.  If your team have to cancel, please post all wristbands
-back to: Judith Proctor, 28 Diprose rd, Corfe Mullen, Wimborne, Dorset BH21 3QY.
+back to: Richard Proctor, 28 Diprose rd, Corfe Mullen, Wimborne, Dorset BH21 3QY.
 
 <dt>Insurance<dd> In the New Year, when you new insurance certificates arrive, 
 please upload a copy of your <?php $PLANYEAR ?> public liability insurance to your dance side record.
@@ -54,15 +52,15 @@ and we'll see if we can arrange a suitable time and place.
 dance spot and return it there when you've finished dancing.  
 
 <dt>If you have any problems at the festival<dd>Ask anyone with a radio (festival
-information,etc.) to call Caitlin (), Judith (07759 784901) or Richard (07718 511432).  
-You can try our mobiles or , but remember we'll be spending most of our time
+information,etc.) to call Richard (07718 511432).  
+You can try our mobiles, but remember we'll be spending most of our time
 next to loud morris bands and may not hear a mobile ringing. Radios should reach
 us when phones fail.  You can contact Festival Information (who will have radios)
-in the Square.
+in the Square, Willow walk or at the Allendale Center.
 
 <dt>Timekeeping<dd> Don't run past the end of your timeslot, even if something caused it to start late.  
 Running late is unfair to the team after you (even if the late start was not your fault).  
-If you feel you've missed out, please contact Richard or Judith and we'll see if I can find you an extra spot somwewhere.
+If you feel you've missed out, please contact Richard and I'll see if I can find you an extra spot somwewhere.
 
 
 <dt>Emergency Number<dd> We need an emergency mobile number so that we can contact
@@ -80,10 +78,6 @@ beyond the Cricketers and the Rising Sun and ends just beyond the Square. Start
 lining up for the procession along Park Lane at 2pm. The procession will begin
 moving at 2:30.  When you reach the end, please salute the mayor.  Your position
 in the procession will appear in your dance side record on the web.
-
-<!--<dt>Procession Route.<dd>We may be changing the procession route this year, in
-order to avoid the problem of dancing past stalls encroaching on the route. 
-The proposed new route is longer, but less cluttered. -->
 
 <dt>Rapper Dancers<dd>When you are not doing a street spot, you are welcome to free range in the town's pubs.
 

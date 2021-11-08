@@ -6,6 +6,18 @@
 
   include_once("int/MapLib.php");
 ?>
+The festival does not itself run a campsite, but normally provides links here for booking camping.<p>
+
+The farm we have used for the last 10 years has decided not to do it for 2022.<p>
+
+We are investigating other alternatives.<p>
+
+We will provide information here for campsites as soon as we can.
+
+<?php
+
+  dotail();
+/*
 <div class=rightdiv style='margin-bottom:50'>
 <div class="biodiv">
 <img src="http://wimbornefolk.co.uk/images/Wimborne-Folk-Festival-Campsite.jpg" alt="Wimborne Minster Folk Festival" class="bioimg" />
@@ -106,4 +118,4 @@ Note: for SatNav, the nearest postcode to the campsite is BH21 1EF (do not use p
   echo "For more information about the campsite, visit <a href=http://merleyhallfarm.co.uk/camping>MerleyHallFarm.co.uk</a>, 
 Call  07557306219, or email: <a href=mailto:karen@merleyhallfarm.co.uk>karen@merleyhallfarm.co.uk</a>.<p>";
 
-  dotail();
+  dotail();*/
