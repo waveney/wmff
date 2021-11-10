@@ -394,8 +394,11 @@ function Show_Perf_Year($snum,$Sidey,$year=0,$Mode=0) { // if Cat blank look at 
   $years = Get_SideYears($snum);
 
   if ($years) {
+ 
+//echo var_dump($years);
+
     foreach ($years as $yr) {
-      $OList[] = $yr['Year'];
+      if (isset($yr['Year'])) $OList[] = $yr['Year'];
     }
     sort($OList);
 /* old code

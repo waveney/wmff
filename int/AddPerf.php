@@ -14,6 +14,8 @@
   elseif (isset($_REQUEST['id'])) { $snum = $_REQUEST['id'];} 
   elseif (isset($_REQUEST['i'])) { $snum = $_REQUEST['i'];} 
   else { $snum = 0; }
+  
+  Set_User();
   switch ($USER['AccessLevel']) {
   case $Access_Type['Participant'] : 
     if ($USER['Subtype'] != 'Perf' && $USER['Subtype'] != 'Side'  && $USER['Subtype'] != 'Act' && $USER['Subtype'] != 'Other') Error_Page("Not accessable to you");  // TODO Side-Other can be deleted in time
