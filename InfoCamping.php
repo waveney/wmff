@@ -6,13 +6,10 @@
 
   include_once("int/MapLib.php");
 ?>
-The festival does not itself run a campsite, but normally provides links here for booking camping.<p>
 
-The farm we have used for the last 10 years has decided not to do it for 2022.<p>
+The farm we have used for the last 10 years is only providing limited camping at £100 for 4 nights.<p>
 
-We are investigating other alternatives.<p>
-
-We will provide information here for campsites as soon as we can.
+We will run a small campsite for performers.  Details and booking through your performer pages when ready.<P>.
 
 <?php
 

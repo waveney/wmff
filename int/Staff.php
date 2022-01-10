@@ -18,7 +18,7 @@
   $Heads = [];
 
   function StaffTable($Section,$Heading,$cols=1) {
-    global $Heads;
+    global $Heads; 
     static $ColNum = 3;
     $txt = '';
     if ($Section != 'Any' && !Capability("Enable$Section")) return '';
@@ -31,6 +31,7 @@
     $txt .= "<td class=Stafftd colspan=$cols >";
     $txt .= "<h2 id='Staff$hnam'>$Heading</h2>";
     $ColNum+=$cols;
+//var_dump($Heads);
     return $txt;
   }
 
@@ -131,6 +132,7 @@
 //      $txt .= "<li class=smalltext><a href=ResetImageSizes?PERF>Scan and save Image sizes</a>";
 //      $txt .= "<li class=smalltext><a href=CopyActYear>Copy all ActYear data to SideYear</a>";
       $txt .= "<li class=smalltext><a href=FixBug5?Y=$YEAR>Create/Copy missing Music SideYear records after Date Change</a>";
+      $txt .= "<li class=smalltext><a href=CopyLast2This&Y=$YEAR>Create/Copy Last years music acts to this year</a>";
       $txt .= "</table></div><p>\n";
     }
     $txt .= "<li><a href=ContractView?t=1>Dummy Music Contract</a>";
@@ -333,7 +335,7 @@
     $txt .= "<li><form method=Post action=/WhatsOnNow class=staffform>";
       $txt .= "<input type=submit name=a value='Whats On At ' id=staffformid>" . 
                 fm_hidden('Y',$YEAR) . fm_text0('',$_POST,'AtTime') .' on ' . fm_text0('',$_POST,'AtDate');
-    
+    if (Access('SysAdmin')) $txt .= "<li class=smalltext><a href=CopyEvent2This&Y=$YEAR>Create/Copy Last years music Events to this year</a>";    
     $txt .= "</ul>\n";
   }
 // *********************** Venues *****************************************************************

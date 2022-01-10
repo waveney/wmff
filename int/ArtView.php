@@ -24,10 +24,11 @@
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Where</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'N')>Phone</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Email</a>\n";
+  echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>Discount</a>\n";
   echo "<th><a href=javascript:SortTable(" . $coln++ . ",'T')>State/Actions</a>\n";
   echo "</thead><tbody>";
 
-  $res=$db->query("SELECT * FROM SignUp WHERE Year='$PLANYEAR' $extra AND Activity=5 ORDER BY SN");
+  $res=$db->query("SELECT * FROM SignUp WHERE Year='$YEAR' $extra AND Activity=5 ORDER BY SN");
   
   if ($res) {
     while ($art = $res->fetch_assoc()) {
@@ -41,6 +42,7 @@
       echo "<td>" . $ArtPosition[isset($art['Tickbox2'])?$art['Tickbox2']:0];
       echo "<td>" . $art['Phone'];
       echo "<td>" . $art['Email'];
+      echo "<td>" . $art['Discount'];
       echo "<td style='background:" . $SignupStateColours[$art['State']] . "'><form method=post action=ArtForm>" . 
            fm_hidden('id',$id) . $SignupStates[$art['State']] . " " . SignupActions('ART',$art['State']) . "</form>";
 

@@ -62,6 +62,7 @@
         'Volunteer'=>'InfoStewards',
         'Sponsorship'=>'InfoSponsors',
         'Trade Stand Applications'=>'InfoTrade', 
+        'Art Show Application' => 'int/ArtForm',
         '*Live and Loud'=>'LiveNLoud',
         '*Buskers Bash'=>'BuskersBash',
         'Donate'=>'Donate',

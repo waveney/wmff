@@ -35,6 +35,7 @@
       $_POST['AccessKey'] = rand_string(40);
       $_POST['Year'] = $PLANYEAR;
       $_POST['Activity'] = 5;
+      $_POST['State'] = 0;
       $id = Insert_db_post('SignUp',$art);
     
       ART_Email_Signup($art,'ART_Application',$art['Email']);
@@ -62,7 +63,7 @@
 
   }
 
-  echo "<h2 class=subtitle>Art " . substrt($PLANYEAR,0,4) . " Application Form</h2>\n";
+  echo "<h2 class=subtitle>Art " . substr($PLANYEAR,0,4) . " Application Form</h2>\n";
   echo "<form method=post action=ArtForm>";
   if (isset($id) && $id>0) echo fm_hidden('id',$id);
   echo "<div class=tablecont><table border>\n";

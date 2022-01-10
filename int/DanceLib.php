@@ -16,7 +16,7 @@ $Dance_Comp = ['Don\'t Know','Yes','No'];
 $Dance_Comp_Colours = ['white','lime','salmon'];
 $Surfaces = ['','Tarmac','Flagstones','Grass','Stage','Brick','Wood','Carpet','Astroturf'];// Last 3 Sysadmin only
 $Surface_Colours = ['','grey','Khaki','lightgreen','Peru','salmon','Peru','Teal','lime'];
-$Side_Statuses = array("Alive","Dead");
+$Side_Statuses = array("Alive","Folded");
 $Share_Spots = array('Prefered','Always','Never','Sometimes');
 $Share_Type = array_flip($Share_Spots);
 

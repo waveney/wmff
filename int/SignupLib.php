@@ -27,7 +27,7 @@ $SignupActions = [
            'Cancelled'=>[],
            'Declined'=>[],
           ],
-  'ART' => ['Submitted'=>['Accept','Decline','Cancel'],
+  'ART' => ['Submitted'=>['Accept', 'Accept -5', 'Accept -10','Decline','Cancel'],
            'Accepted not paid' => ['Resend','Cancel'],
            'Paid'=>['Cancel'],
            'Cancelled'=>[],
@@ -127,7 +127,7 @@ function LNL_Action($action,$id) {
     Email_Signup($lnl,'LNL_Invite',$lnl['Email']);
     $lnl['State'] = $StatesSignup['Accepted not paid'];
     break;
-    
+  
   case 'Resend':
     Email_Signup($lnl,'LNL_Invite',$lnl['Email']);
     break;
@@ -393,6 +393,34 @@ function ART_Action($action,$id,$val=0) {
       $art['State'] = $StatesSignup['Accepted'];
     }
     break;
+
+  case 'Accept -5':
+    if ($ARTfee && $art['Tickbox1'] > 0) {
+      Invoice_AssignCode("ART$id",$ARTfee*100 -500,5,$id,$art['SN'],"Art");
+      $art['State'] = $StatesSignup['Accepted not paid'];
+      $art['Discount'] = 5;
+      ART_Email_Signup($art,'ART_Invite_Pay',$art['Email']);
+
+    } else {
+      ART_Email_Signup($art,'ART_Invite',$art['Email']);
+      $art['State'] = $StatesSignup['Accepted'];
+    }
+    break;  
+
+  case 'Accept -10':
+    if ($ARTfee && $art['Tickbox1'] > 0) {
+      Invoice_AssignCode("ART$id",$ARTfee*100 -1000,5,$id,$art['SN'],"Art");
+      $art['State'] = $StatesSignup['Accepted not paid'];
+      $art['Discount'] = 10;
+      ART_Email_Signup($art,'ART_Invite_Pay',$art['Email']);
+
+    } else {
+      ART_Email_Signup($art,'ART_Invite',$art['Email']);
+      $art['State'] = $StatesSignup['Accepted'];
+    }
+    break;
+
+
     
   case 'Resend':
     if ($art['State'] == $StatesSignup['Accepted not paid']) {
