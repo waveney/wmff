@@ -7,9 +7,9 @@
   include_once("int/MapLib.php");
 ?>
 
-The farm we have used for the last 10 years is only providing limited camping at £100 for 4 nights.<p>
+Camping is available from the beautiful <a href=http://merleyhallfarm.co.uk/camping target=_blank>Meadows Campsite</a>, which is within walking distance of the town.<p>
 
-We will run a small campsite for performers.  Details and booking through your performer pages when ready.<P>.
+Additionally, we will run a small campsite for performers.  Details and booking through your performer pages when ready.<P>.
 
 <?php
 
