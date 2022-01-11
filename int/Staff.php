@@ -335,7 +335,7 @@
     $txt .= "<li><form method=Post action=/WhatsOnNow class=staffform>";
       $txt .= "<input type=submit name=a value='Whats On At ' id=staffformid>" . 
                 fm_hidden('Y',$YEAR) . fm_text0('',$_POST,'AtTime') .' on ' . fm_text0('',$_POST,'AtDate');
-    if (Access('SysAdmin')) $txt .= "<li class=smalltext><a href=CopyEvent2This&Y=$YEAR>Create/Copy Last years music Events to this year</a>";    
+    if (Access('SysAdmin')) $txt .= "<li class=smalltext><a href=CopyEvent2This?Y=$YEAR>Create/Copy Last years music Events to this year</a>";    
     $txt .= "</ul>\n";
   }
 // *********************** Venues *****************************************************************
