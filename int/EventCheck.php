@@ -20,6 +20,9 @@ function EventCheck($checkid=0) {
   if ($res) {
     while($ev = $res->fetch_assoc()) { // Basic Events against basic events check
       if ($ev['IgnoreClash']) continue;
+      $ThisEventEmpty = 1;
+      for ($i=1;$i<5;$i++) if ($ev["Side$i"] || $ev["Act$i"] || $ev["Other$i"]) $ThisEventEmpty = 0;
+
       $evlist[] = $ev;
       if ($ev['Venue'] != $LastVenue) { // New Venue
         $LastVenue = $ev['Venue'];
@@ -42,9 +45,12 @@ function EventCheck($checkid=0) {
             }
           } else {
             if ($ev['SubEvent'] == $LastEvent['EventId'] && $LastEventEmpty) { // No Error
+            } else if ($ev['EventId'] == $LastEvent['SubEvent'] && $ThisEventEmpty) { // No Error
             } else if ($checkid==0 || $checkid==$ev['EventId'] || $checkid==$LastEvent['EventId']) {
+ var_dump($ev['SubEvent'], $LastEvent['EventId'],$LastEventEmpty);           
+ var_dump($ev['EventId'], $LastEvent['SubEvent'],$ThisEventEmpty);           
               echo "The <a href=EventAdd?e=" . $ev['EventId'] . ">Event (" . $ev['SN'] . ")</a> at " . SName($Venues[$ev['Venue']]) . " starting at " .
-                   $ev['Start'] . " on " . DayList($ev['Day']) . " clashes with <a href=EventAdd?e=" . 
+                   $ev['Start'] . " on BBB " . DayList($ev['Day']) . " clashes with <a href=EventAdd?e=" . 
                    $LastEvent['EventId'] . ">this event (" . $LastEvent['SN'] . ")</a><p>\n";
               $errors++;
             }
