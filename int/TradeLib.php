@@ -1267,6 +1267,12 @@ function Trade_Main($Mode,$Program,$iddd=0) {
           case 'Bal Request':
             if ($Trady['PitchLoc0'] == 0 || $Trady['Fee'] == 0) continue 2;
             break;
+          case 'FestC' :
+            if (!FestFeature('EnableCancelMsg')) continue 2;
+            break;
+          case 'Dates' :
+            if (!FestFeature('EnableDateChange')) continue 2;
+            break;
           default:
         }
         echo "<input type=submit name=ACTION value='$ac' " . $ButExtra[$ac] . " >";
