@@ -352,7 +352,7 @@ function Show_Trader($Tid,&$Trad,$Form='Trade',$Mode=0) { // Mode 1 = Ctte, 2=Fi
   if ($Tid > 0) echo "<input  class=floatright type=Submit name='Update' value='Save Changes' form=mainform>";
   if ($Mode && isset($Trad['Email']) && strlen($Trad['Email']) > 5) {
     echo "If you click on the " . linkemailhtml($Trad,'Email');
-    echo ", press control-V afterwards to paste the <button type=button onclick=Copy2Div('Email$Tid','SideLink$Tid')>standard link</button>";
+    echo ", press control-V afterwards to paste the standard link." ;// <button type=button onclick=Copy2Div('Email$Tid','SideLink$Tid')>standard link</button>";
     echo "<p>\n";
   }
 
@@ -462,7 +462,7 @@ function Trade_TandC() {
 }
 
 function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
-  global $YEAR,$PLANYEAR,$YEARDATA,$Trade_States,$Mess,$Action,$ADDALL,$Trade_State_Colours,$InsuranceStates,$Trade_State,$Trade_Days,$EType_States;
+  global $YEAR,$PLANYEAR,$YEARDATA,$Trade_States,$Mess,$Action,$ADDALL,$Trade_State_Colours,$InsuranceStates,$Trade_State,$Trade_Days,$EType_States,$YEARDATA;
   $Trad = Get_Trader($Tid);
   if ($year==0) $year=$YEAR;
   $CurYear = date("Y");
@@ -471,13 +471,14 @@ function Show_Trade_Year($Tid,&$Trady,$year=0,$Mode=0) {
   }
 
   $Self = $_SERVER{'PHP_SELF'};
-  if ($year > $CurYear) {
+  if ($year != $CurYear) {
     if ($Mode && Get_Trade_Year($Tid,$CurYear)) 
       echo "<div class=floatright><h2><a href=$Self?id=$Tid&Y=$CurYear>$CurYear</a></h2></div>";  
     echo "<h2>Trading in $year</h2>";
   } else if ($year == $PLANYEAR) {
-    if ($Mode && Get_Trade_Year($Tid,$CurYear-1)) 
-      echo "<div class=floatright><h2><a href=$Self?id=$Tid&Y=" . ($CurYear-1) . ">" . ($CurYear-1) . "</a></h2></div>";  
+    $Prev = $YEARDATA['PrevFest'];
+    if ($Mode && Get_Trade_Year($Tid,$Prev)) 
+      echo "<div class=floatright><h2><a href=$Self?id=$Tid&Y=$Prev>$Prev</a></h2></div>";  
     echo "<h2>Trading in $year</h2>";
   } else {
     if ($Mode) echo "<div class=floatright><h2><a href=$Self?id=$Tid>$PLANYEAR</a></h2></div>"; 

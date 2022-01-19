@@ -23,7 +23,6 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
     if ($Side[$d[0]]) $PerfTC++;
     if (($d[0] != 'IsASide') && $Side[$d[0]]) $NotD = 1;
   }
-
  // if ( isset($Side['Photo']) && ($Side['Photo'])) echo "<img class=floatright id=PerfThumb src=" . $Side['Photo'] . " height=80>\n";
   echo "<input  class=floatright type=Submit name='Update' value='Save Changes' form=mainform>";
   if ($Mode && ((isset($Side['Email']) && strlen($Side['Email']) > 5) || (isset($Side['AltEmail']) && strlen($Side['AltEmail']) > 5)) )  {
@@ -35,6 +34,7 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
       if ($Side['AltEmail']) 
         echo " <button type=button id=Email$snum onclick=ProformaSend('Dance_Blank',$snum,'Email','SendProfEmail',1,'AltEmail','Invited')>Alt Email</button>"; 
     } else {
+//echo "XX5";  
       echo "If you click on the ";
       if (isset($Side['HasAgent']) && $Side['HasAgent']) {
         echo linkemailhtml($Side,$CatT,'Agent','Agents');
@@ -46,14 +46,14 @@ function Show_Part($Side,$CatT='',$Mode=0,$Form='AddPerf') { // if Cat blank loo
         if ($Side['Email']) echo " or ";
         echo linkemailhtml($Side,$CatT,'Alt');
       }
-      echo ", press control-V afterwards to paste the <button type=button onclick=Copy2Div('Email$snum','SideLink$snum')>standard link</button>";
+      echo ", press control-V afterwards to paste the standard link"; //<button type=button onclick=Copy2Div('Email$snum','SideLink$snum')>standard link</button>";
 
 // ADD CODE TO ONLY PROVIDE PROGRAMME WHEN AVAIL - Dance only?
-      if ($Side['IsASide']) echo " and <button type=button onclick=Copy2Div('Email$snum','SideProg$snum')>programme</button> into message.";
+      if ($Side['IsASide']) echo " and programme"; // <button type=button onclick=Copy2Div('Email$snum','SideProg$snum')>programme</button> into message.";
     }
     echo "<p>\n";
   }
-
+///echo "XX6";  
   $Adv = '';
   $Imp = '';
   if ($Mode) {

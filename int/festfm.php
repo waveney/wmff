@@ -538,7 +538,8 @@ function linkemailhtml(&$data,$type="Side",$xtr='',$ButtonExtra='') {
       $Content = MusicMail($data,$name,$id,$direct);
     }
   } else { // Trade/Invoicing (I think gets here)
-    $Content = urlencode("$name,<p>" . "Regards " . $USER['SN'] . "<p>"); 
+    $Content = urlencode("$name,<p>" . "<div id=SideLink$id>To update, correct, and administer your booking please visit $direct.</div></p>" .
+               "Regards " . $USER['SN'] . "<p>"); 
   }
 
   $lnk = "<button onclick=\"emailclk($link,'Email$id'); $ButtonExtra\" id=Em$id target='_blank' type=button>$Label Email</button>" .
