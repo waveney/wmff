@@ -98,8 +98,8 @@
                 break;
               default:
               }
-            if ($Act == 'FestC' && !FestFeature('EnableCancelMsg')) continue;
-            if ($Act == 'Dates' && !FestFeature('EnableDateChange')) continue;
+            if ($Act == 'FestC' && !FestFeature('EnableCancelMsg')) continue 2;
+            if ($Act == 'Dates' && !FestFeature('EnableDateChange')) continue 2;
             $str .= "<button class=floatright name=ACTION value='$ac' type=submit " . $ButExtra[$ac] . " >$ac</button>";
           }
           $str .= "</form>";
