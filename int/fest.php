@@ -97,6 +97,7 @@ function Access($level,$subtype=0,$thing=0) {
   global $Access_Type,$USER,$USERID;
   $want = $Access_Type[$level];
   Set_User();
+//if ($level == 'Committee') echo "In Access 1<br>";
   if (!isset($USER{'AccessLevel'})) return 0;
   if ($USER{'AccessLevel'} < $want) return 0;
   
@@ -119,6 +120,7 @@ function Access($level,$subtype=0,$thing=0) {
 
 
   case $Access_Type['Committee'] :
+//if ($level == 'Committee') echo "In Access 2<br>";
     if (!$subtype) return 1;
     if (isset($USER[$subtype]) && $USER[$subtype]) return 1;
     return 0;

@@ -1,6 +1,6 @@
 <?php
   include_once("fest.php");
-  A_Check('Committee','Venues');
+  A_Check('Committee','Trade');
 
   dostaffhead("Manage Trade Pitches");
 

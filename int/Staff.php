@@ -277,11 +277,11 @@
 //      $txt .= "<li><a href=TradeSetup>Trade Pitch Setup</a>\n";
       if (Access('SysAdmin')) $txt .= "<li><a href=TradeTypes>Trade Types and base Prices</a>\n";
       if (Access('SysAdmin')) $txt .= "<li><a href=EmailTraders>Email Groups of Traders</a>\n"; // Old code needs lots of changes
-      if (Access('SysAdmin')) $txt .= "<li><a href=TradeDateChange>Bump Trade Year Data to new dates</a>\n";
+//      if (Access('SysAdmin')) $txt .= "<li><a href=TradeDateChange>Bump Trade Year Data to new dates</a>\n";
 //      if (Access('SysAdmin')) $txt .= "<li><a href=TradeImport2>Merge Mandy's Trade Data</a>\n";
 //      if (Access('SysAdmin')) $txt .= "<li><a href=TradeImport3>Fix Access Keys</a>\n";
 //      $txt .= "<li><a href=/admin/trade/index>Old Trade Stand Section</a>\n";
-      $txt .= "<li><a href=Trade2CSV?Y=$YEAR>Traders as CSV</a>\n";
+      if (Access('SysAdmin')) $txt .= "<li><a href=Trade2CSV?Y=$YEAR>Traders as CSV</a>\n";
     }
     if (Capability('EnableTrade') && !Capability('EnableFinance')) $txt .= "<li><a href=InvoiceManage?Y=$YEAR>Invoice/Payment Management</a>\n";
     if (Access('SysAdmin')) {
