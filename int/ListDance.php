@@ -226,7 +226,13 @@
             echo "<button type=button id=Detail$snum class=ProfButton onclick=ProformaSend('Dance_Details',$snum,'Details','SendProfEmail')" . 
                  Proforma_Background('Details') . ">Details!</button>"; 
           }
-        
+       
+       
+        echo "<button type=button id=Camping$snum class=ProfButton onclick=ProformaSend('Dance_Camping',$snum,'Camping','SendProfEmail')" . 
+                 Proforma_Background('ProgChk') . ">Camping!</button>"; 
+      
+       
+       
           if ($DanceState >= 1 && !$fetch['TotalFee']) {
             if (strstr($fetch['Invited'],'Program:')) {
               if (!$fetch['TickBox1']) echo "<button type=button id=Prog$snum class=ProfButton onclick=ProformaSend('Dance_Program_Check',$snum,'ProgChk','SendProfEmail')" . 

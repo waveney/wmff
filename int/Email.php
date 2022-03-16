@@ -314,6 +314,13 @@ function Parse_Proforma(&$Mess,$helper='',$helperdata=0,$Preview=0,&$attachments
             if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
             $rep = "<a href='https://" . $FESTSYS['HostURL'] . ($url? "/$url" : "") . "'>$txt</a>";
             break;
+          case (preg_match('/URL(:.*)/',$key,$mtch)?true:false):
+            $bits = preg_split('/:/',$mtch[1],3);
+            $url = '';
+            if (isset($bits[1])) $url = $bits[1];
+            if (isset($bits[2])) { $txt = $bits[2]; $txt = preg_replace('/_/',' ',$txt); }
+            $rep = "<a href='https://$url>'$txt</a>";
+            break;
           case (preg_match('/READFILE_(.*)/',$key,$mtch)?true:false):
             $file = file_get_contents($mtch[1]);
             if ($file) {
@@ -440,6 +447,7 @@ function Replace_Help($Area='',$Right=0) {
   ['*COPY_name*','Copy Email Proforma name into the current message','All'],
   ['*PAYDAYS*','Days to pay an Invoice','Trade,Invoices'],
   ['*PAIDSOFAR*','Total Money Actually paid so far: Deposit and Balance','Trade'],
+  ['*URL:URL:Text*','URL (https:// is prepended, TEXT - To be displayed (NO SPACES - any _ will appear as spaces)','All'],
   ];
 
   echo "<span " . ($Right?' class=floatright':'') . " id=largeredsubmit onclick=($('.HelpDiv').toggle()) >Click to toggle Standard Replacements Help</span>";

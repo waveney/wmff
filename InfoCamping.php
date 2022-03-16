@@ -7,9 +7,7 @@
   include_once("int/MapLib.php");
 ?>
 
-Camping is available from the beautiful <a href=http://merleyhallfarm.co.uk/camping target=_blank>Meadows Campsite</a>, which is within walking distance of the town.<p>
-
-Additionally, we will run a small campsite for performers.  Details and booking through your performer pages when ready.<P>.
+There will be no festival provided campsites this year.  There are some around that may have space.<p>
 
 <?php
 
